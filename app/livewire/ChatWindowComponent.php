@@ -8,6 +8,7 @@ class ChatWindowComponent extends Component
 {
     public function render()
     {
-        return view('livewire.chat-window');
+        return view('livewire.chat-window')
+        ->layout('layouts.app');
     }
 }

@@ -8,7 +8,8 @@ class ImageUploadComponent extends Component
 {
     public function render()
     {
-        return view('livewire.image-upload');
+        return view('livewire.image-upload')
+        ->layout('layouts.app');
     }
 
     public $images = [];

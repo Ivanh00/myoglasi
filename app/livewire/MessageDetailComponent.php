@@ -8,6 +8,7 @@ class MessageDetailComponent extends Component
 {
     public function render()
     {
-        return view('livewire.message-detail-component');
+        return view('livewire.message-detail-component')
+        ->layout('layouts.app');
     }
 }

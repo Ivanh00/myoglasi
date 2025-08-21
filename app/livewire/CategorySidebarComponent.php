@@ -8,6 +8,7 @@ class CategorySidebarComponent extends Component
 {
     public function render()
     {
-        return view('livewire.category-sidebar');
+        return view('livewire.category-sidebar')
+        ->layout('layouts.app');
     }
 }

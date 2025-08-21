@@ -8,6 +8,7 @@ class BalanceManagerComponent extends Component
 {
     public function render()
     {
-        return view('livewire.balance-manager');
+        return view('livewire.balance-manager')
+        ->layout('layouts.app');
     }
 }

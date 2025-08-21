@@ -8,6 +8,7 @@ class MessagesListComponent extends Component
 {
     public function render()
     {
-        return view('livewire.messages-list');
+        return view('livewire.messages-list')
+        ->layout('layouts.app');
     }
 }

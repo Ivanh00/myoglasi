@@ -8,6 +8,7 @@ class MessageFormComponent extends Component
 {
     public function render()
     {
-        return view('livewire.message-form');
+        return view('livewire.message-form')
+        ->layout('layouts.app');
     }
 }

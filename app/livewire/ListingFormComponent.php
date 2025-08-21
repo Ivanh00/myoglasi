@@ -8,6 +8,7 @@ class ListingFormComponent extends Component
 {
     public function render()
     {
-        return view('livewire.listing-form');
+        return view('livewire.listing-form')
+        ->layout('layouts.app');
     }
 }

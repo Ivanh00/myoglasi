@@ -10,7 +10,8 @@ class MessagesComponent extends Component
 {
     public function render()
     {
-        return view('livewire.messages-component');
+        return view('livewire.messages-component')
+        ->layout('layouts.app');
     }
 
     public $conversations = [];

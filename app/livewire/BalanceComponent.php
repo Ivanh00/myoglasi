@@ -8,7 +8,8 @@ class BalanceComponent extends Component
 {
     public function render()
     {
-        return view('livewire.balance-component');
+        return view('livewire.balance-component')
+        ->layout('layouts.app');
     }
 
     public $amount = 0;

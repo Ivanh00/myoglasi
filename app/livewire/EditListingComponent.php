@@ -8,6 +8,7 @@ class EditListingComponent extends Component
 {
     public function render()
     {
-        return view('livewire.edit-listing-component');
+        return view('livewire.edit-listing-component')
+        ->layout('layouts.app');
     }
 }

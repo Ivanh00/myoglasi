@@ -9,7 +9,8 @@ class ListingDetailComponent extends Component
 {
     public function render()
     {
-        return view('livewire.listing-detail');
+        return view('livewire.listing-detail')
+        ->layout('layouts.app');
     }
 
     public $listing;
