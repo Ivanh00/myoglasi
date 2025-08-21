@@ -45,4 +45,47 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function listings()
+    {
+        return $this->hasMany(Listing::class);
+    }
+    
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+    
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+    
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+    
+    public function deductBalance($amount)
+    {
+        if ($this->balance >= $amount) {
+            $this->decrement('balance', $amount);
+            return true;
+        }
+        return false;
+    }
+
+    public function getVisiblePhoneAttribute()
+    {
+        return $this->phone_visible && $this->phone ? $this->phone : null;
+    }
+    
+    public function canViewPhone(?User $viewer)
+    {
+        // Phone je vidljiv ako:
+        // 1. Korisnik je označio da bude vidljiv
+        // 2. I viewer je registrovan
+        return $this->phone_visible && $this->phone && $viewer !== null;
+    }
+
 }
