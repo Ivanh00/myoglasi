@@ -35,6 +35,7 @@ use App\Livewire\Messages\Index as MessagesIndex;
 use App\Livewire\Messages\Show as MessageShow;
 use App\Livewire\Favorites\Index as FavoritesIndex;
 use App\Livewire\Transactions\Balance as BalanceIndex;
+use App\Livewire\Categories\Index as CategoriesIndex;
 
 // Javne rute (svima dostupne)
 Route::get('/', HomeComponent::class)->name('home');
@@ -93,3 +94,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/listings/create', ListingCreate::class)->name('listings.create');
     Route::get('/listings/{listing}/edit', ListingEdit::class)->name('listings.edit');
 });
+Route::get('/search', \App\Livewire\Search\Index::class)->name('search.index');
+Route::get('/categories', CategoriesIndex::class)->name('categories.index');
