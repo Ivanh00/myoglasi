@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->decimal('price', 12, 2)->nullable();
-            $table->enum('condition', ['novo', 'polovno', 'ne_korisceno']);
+            $table->unsignedBigInteger('condition_id')->nullable();
+            $table->foreign('condition_id')->references('id')->on('listing_conditions');
             $table->enum('status', ['active', 'sold', 'expired'])->default('active');
             $table->string('location')->nullable();
             $table->boolean('is_featured')->default(false);

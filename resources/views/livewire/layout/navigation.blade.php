@@ -57,21 +57,26 @@ $logout = function (Logout $logout) {
                             </x-dropdown-link>
 
                             <!-- Authentication -->
-                            <button wire:click="logout" class="w-full text-start">
-                                <x-dropdown-link>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <x-dropdown-link href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                    this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
-                            </button>
+                            </form>
                         </x-slot>
                     </x-dropdown>
                 @else
                     <div class="space-x-4">
                         <a href="{{ route('login') }}"
-                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
-                            {{ __('Log in') }}
+                            class="text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
+                            wire:navigate>
+                            {{ __('Login') }}
                         </a>
                         <a href="{{ route('register') }}"
-                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                            class="text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
+                            wire:navigate>
                             {{ __('Register') }}
                         </a>
                     </div>
@@ -104,35 +109,38 @@ $logout = function (Logout $logout) {
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-            <div class="px-4">
-                @auth
+            @auth
+                <div class="px-4">
                     <div class="font-medium text-base text-gray-800 dark:text-gray-200" x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
                         x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
                     <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
-                @endauth
-            </div>
+                </div>
 
-            <div class="mt-3 space-y-1">
-                @auth
+                <div class="mt-3 space-y-1">
                     <x-responsive-nav-link :href="route('profile')" wire:navigate>
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 
                     <!-- Authentication -->
-                    <button wire:click="logout" class="w-full text-start">
-                        <x-responsive-nav-link>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-responsive-nav-link href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                            this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
-                    </button>
-                @else
-                    <x-responsive-nav-link :href="route('login')">
-                        {{ __('Log in') }}
+                    </form>
+                </div>
+            @else
+                <div class="px-4 py-2 space-y-1">
+                    <x-responsive-nav-link :href="route('login')" wire:navigate>
+                        {{ __('Login') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('register')">
+                    <x-responsive-nav-link :href="route('register')" wire:navigate>
                         {{ __('Register') }}
                     </x-responsive-nav-link>
-                @endauth
-            </div>
+                </div>
+            @endauth
         </div>
     </div>
 </nav>

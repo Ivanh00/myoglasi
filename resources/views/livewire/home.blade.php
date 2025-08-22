@@ -34,7 +34,7 @@
     <div class="max-w-7xl mx-auto px-4 py-8">
         <h2 class="text-2xl font-bold mb-6">Kategorije</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            @foreach ($categories as $category)
+            @foreach (App\Models\Category::all() as $category)
                 <a href="{{ route('category.show', $category) }}"
                     class="bg-white p-4 rounded-lg shadow hover:shadow-md transition text-center">
                     <div class="text-2xl mb-2">{{ $category->icon ?? '📦' }}</div>
@@ -46,7 +46,7 @@
     </div>
 
     <!-- Featured Listings -->
-    @if ($featuredListings->count() > 0)
+    @if (isset($featuredListings) && $featuredListings->count() > 0)
         <div class="bg-gray-50 py-8">
             <div class="max-w-7xl mx-auto px-4">
                 <h2 class="text-2xl font-bold mb-6">Izdvojeni oglasi</h2>
@@ -63,12 +63,12 @@
     <div class="max-w-7xl mx-auto px-4 py-8">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">Najnoviji oglasi</h2>
-            <a href="{{ route('search') }}" class="text-blue-600 hover:text-blue-800">
+            <a href="{{ route('listings.index') }}" class="text-blue-600 hover:text-blue-800">
                 Vidi sve →
             </a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            @foreach ($latestListings as $listing)
+            @foreach (App\Models\Listing::latest()->take(8)->get() as $listing)
                 @include('components.listing-card', compact('listing'))
             @endforeach
         </div>

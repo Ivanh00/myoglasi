@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+
 use App\Models\Category;
 use Illuminate\Support\Facades\Cache;
 
@@ -15,5 +16,15 @@ class CategoryService
                 ->take(10)
                 ->get();
         });
+    }
+
+    public function getAllCategories()
+    {
+        return Category::with('children')->whereNull('parent_id')->get();
+    }
+
+    public function getCategoriesWithListingCount()
+    {
+        return Category::withCount('listings')->get();
     }
 }

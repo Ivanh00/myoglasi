@@ -18,6 +18,6 @@ class HomeController extends Controller
     {
         $popularCategories = $this->categoryService->getPopularCategories();
 
-        return view('home', compact('popularCategories'));
+        return view('livewire.home', compact('popularCategories'));
     }
 }

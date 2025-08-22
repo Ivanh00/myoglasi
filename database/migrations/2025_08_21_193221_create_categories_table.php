@@ -15,9 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');
+            $table->text('description')->nullable();
             $table->string('icon')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->integer('sort_order')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->index(['parent_id', 'is_active']);
         });
     }
 

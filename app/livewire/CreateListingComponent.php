@@ -9,7 +9,8 @@ class CreateListingComponent extends Component
 {
     public function render()
     {
-        return view('livewire.create-listing-component');
+        return view('livewire.create-listing-component')
+        ->layout('layouts.app');
     }
 
     public $title, $description, $price, $category_id;

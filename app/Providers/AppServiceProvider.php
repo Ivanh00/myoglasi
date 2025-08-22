@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\CategoryService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -12,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // $this->app->singleton(\App\Services\CategoryService::class, function ($app) {
+        //     return new \App\Services\CategoryService();
+        // });
+        $this->app->bind(\App\Services\CategoryService::class, function ($app) {
+            return new \App\Services\CategoryService();
+        });
+    
     }
 
     /**
