@@ -18,21 +18,22 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             ListingConditionSeeder::class,
+            FakeDataSeeder::class,
         ]);
 
-        // Kreiraj kategorije
-        $categories = [
-            ['name' => 'Automobili', 'slug' => 'automobili', 'icon' => '🚗'],
-            ['name' => 'Nekretnine', 'slug' => 'nekretnine', 'icon' => '🏠'], 
-            ['name' => 'Elektronika', 'slug' => 'elektronika', 'icon' => '📱'],
-            ['name' => 'Odeća', 'slug' => 'odeca', 'icon' => '👕'],
-            ['name' => 'Sport', 'slug' => 'sport', 'icon' => '⚽'],
-            ['name' => 'Knjige', 'slug' => 'knjige', 'icon' => '📚'],
-        ];
+        // // Kreiraj kategorije
+        // $categories = [
+        //     ['name' => 'Automobili', 'slug' => 'automobili', 'icon' => '🚗'],
+        //     ['name' => 'Nekretnine', 'slug' => 'nekretnine', 'icon' => '🏠'], 
+        //     ['name' => 'Elektronika', 'slug' => 'elektronika', 'icon' => '📱'],
+        //     ['name' => 'Odeća', 'slug' => 'odeca', 'icon' => '👕'],
+        //     ['name' => 'Sport', 'slug' => 'sport', 'icon' => '⚽'],
+        //     ['name' => 'Knjige', 'slug' => 'knjige', 'icon' => '📚'],
+        // ];
         
-        foreach ($categories as $category) {
-            Category::create($category);
-        }
+        // foreach ($categories as $category) {
+        //     Category::create($category);
+        // }
         
         // Kreiraj test korisnike
         User::factory(10)->create()->each(function ($user) {

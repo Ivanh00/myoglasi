@@ -3,9 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Transaction;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -87,5 +88,18 @@ class User extends Authenticatable
         // 2. I viewer je registrovan
         return $this->phone_visible && $this->phone && $viewer !== null;
     }
+    
+
+    public function chargeFee($amount)
+{
+    $this->decrement('balance', $amount);
+    
+    Transaction::create([
+        'user_id' => $this->id,
+        'amount' => -$amount,
+        'type' => 'fee',
+        'description' => 'Naplaćena taxa za objavljivanje oglasa'
+    ]);
+}
 
 }

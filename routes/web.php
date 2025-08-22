@@ -1,23 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Livewire\Listings\Create;
 
 // Livewire Components
-use App\Livewire\Home\Index as HomeIndex;
-use App\Livewire\Listings\Index as ListingsIndex;
-use App\Livewire\Listings\Show as ListingShow;
-use App\Livewire\Listings\Create as ListingCreate;
-use App\Livewire\Listings\Edit as ListingEdit;
 use App\Livewire\Listings\MyListings;
-use App\Livewire\Categories\Index as CategoriesIndex;
-use App\Livewire\Categories\Show as CategoryShow;
+use Illuminate\Support\Facades\Route;
+use App\Livewire\Home\Index as HomeIndex;
 use App\Livewire\Search\Index as SearchIndex;
-use App\Livewire\Messages\Index as MessagesIndex;
+use App\Livewire\Listings\Edit as ListingEdit;
+use App\Livewire\Listings\Show as ListingShow;
 use App\Livewire\Messages\Show as MessageShow;
-use App\Livewire\Favorites\Index as FavoritesIndex;
-use App\Livewire\Transactions\Balance as BalanceIndex;
-use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\Profile\Index as ProfileIndex;
+use App\Livewire\Categories\Show as CategoryShow;
+use App\Livewire\Listings\Index as ListingsIndex;
+use App\Livewire\Messages\Index as MessagesIndex;
+use App\Livewire\Listings\Create as ListingCreate;
+use App\Livewire\Dashboard\Index as DashboardIndex;
+use App\Livewire\Favorites\Index as FavoritesIndex;
+use App\Livewire\Categories\Index as CategoriesIndex;
+use App\Livewire\Transactions\Balance as BalanceIndex;
 
 // Public Routes
 Route::get('/', HomeIndex::class)->name('home');
@@ -57,3 +58,7 @@ Route::middleware(['auth'])->group(function () {
         return redirect('/');
     })->name('logout');
 });
+
+Route::get('/listings/create', Create::class)
+    ->middleware('auth')
+    ->name('listings.create');
