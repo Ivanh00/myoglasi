@@ -65,15 +65,16 @@
                     </select>
 
                     <!-- Subcategory -->
-                    @if (count($subcategories) > 0)
-                        <select wire:model="category_id"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mt-2">
-                            <option value="">Odaberite podkategoriju</option>
-                            @foreach ($subcategories as $subcategory)
-                                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                    <select wire:model.live="category_id"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('category_id') border-red-500 @enderror">
+                        <option value="">Odaberite glavnu kategoriju</option>
+                        @if ($categories)
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
-                        </select>
-                    @endif
+                        @endif
+                    </select>
+
 
                     @error('category_id')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -88,9 +89,13 @@
                     <select wire:model="condition_id"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('condition_id') border-red-500 @enderror">
                         <option value="">Odaberite stanje</option>
-                        @foreach ($conditions as $condition)
-                            <option value="{{ $condition->id }}">{{ $condition->name }}</option>
-                        @endforeach
+                        <select wire:model.live="condition_id"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('condition_id') border-red-500 @enderror">
+                            <option value="">Odaberite stanje</option>
+                            @foreach ($conditions as $condition)
+                                <option value="{{ $condition->id }}">{{ $condition->name }}</option>
+                            @endforeach
+                        </select>
                     </select>
                     @error('condition_id')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
