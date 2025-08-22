@@ -155,9 +155,12 @@
                             </div>
                         </div>
                     </div>
-
+                    <a href="{{ route('profile') }}"
+                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        Moj profil
+                    </a>
                     <a href="{{ route('listings.create') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium>
+                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Postavi oglas
                     </a>
                     <a href="{{ route('listings.my') }}"
