@@ -79,13 +79,13 @@ class CategorySeeder extends Seeder
             // Kreiraj glavnu kategoriju
             $parent = Category::create($categoryData);
         
-            // Dodaj "Svi oglasi" podkategoriju sa jedinstvenim slug-om
-            Category::create([
-                'name' => 'Svi oglasi',
-                'slug' => 'svi-oglasi-' . Str::slug($parent->name) . '-' . $parent->id,
-                'parent_id' => $parent->id,
-                'sort_order' => 0,
-            ]);
+            // // Dodaj "Svi oglasi" podkategoriju sa jedinstvenim slug-om
+            // Category::create([
+            //     'name' => 'Svi oglasi',
+            //     'slug' => 'svi-oglasi-' . Str::slug($parent->name) . '-' . $parent->id,
+            //     'parent_id' => $parent->id,
+            //     'sort_order' => 0,
+            // ]);
         
             // Dodaj ostale podkategorije
             foreach ($children as $index => $childName) {
