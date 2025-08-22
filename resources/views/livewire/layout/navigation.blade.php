@@ -94,11 +94,11 @@
                     <!-- Login/Register links -->
                     <div class="flex space-x-2">
                         <a href="{{ route('login') }}"
-                            class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">
+                            class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">
                             Prijavi se
                         </a>
                         <a href="{{ route('register') }}"
-                            class="bg-indigo-600 text-white hover:bg-indigo-700 px-4 py-2 rounded-md text-sm font-medium">
+                            class="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium">
                             Registruj se
                         </a>
                     </div>
