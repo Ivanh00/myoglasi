@@ -67,10 +67,18 @@
             </header>
         @endif
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+        <!-- Main Content with Sidebar -->
+        <div class="flex">
+            <!-- Sidebar -->
+            <aside class="w-64 bg-white shadow-md h-screen sticky top-0">
+                <livewire:category-sidebar />
+            </aside>
+
+            <!-- Page Content -->
+            <main class="flex-1 p-6">
+                {{ $slot }}
+            </main>
+        </div>
     </div>
 
     <!-- Footer -->
