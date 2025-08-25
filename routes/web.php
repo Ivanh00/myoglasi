@@ -4,6 +4,7 @@ use App\Livewire\Home;
 
 // Livewire komponente
 use App\Livewire\HomeComponent;
+use App\Livewire\Listings\Show;
 use App\Livewire\UserDashboard;
 use App\Livewire\SearchComponent;
 use App\Livewire\BalanceComponent;
@@ -16,6 +17,7 @@ use App\Livewire\ListingDetailComponent;
 use App\Livewire\MessageDetailComponent;
 use App\Livewire\Home\Index as HomeIndex;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Categories\ShowCategories;
 use App\Livewire\CategoryListingsComponent;
 use App\Livewire\Search\Index as SearchIndex;
 use App\Livewire\Listings\Edit as ListingEdit;
@@ -41,7 +43,7 @@ Route::get('/listings/create', ListingCreate::class)
 // Route::get('/listings/{listing}', ListingShow::class)->name('listings.show');
 
 Route::get('/categories', CategoriesIndex::class)->name('categories.index');
-Route::get('/category/{category}', CategoryShow::class)->name('category.show');
+// Route::get('/category/{category}', CategoryShow::class)->name('category.show');
 Route::get('/search', SearchIndex::class)->name('search.index');
 
 // Authenticated routes
@@ -49,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
     // Route::get('/profile', ProfileIndex::class)->name('profile');
 
-    Route::get('/my-listings', MyListings::class)->name('listings.my');
+    // Route::get('/my-listings', MyListings::class)->name('listings.my');
     Route::get('/listings/{listing}/edit', ListingEdit::class)->name('listings.edit');
 
     Route::get('/messages', MessagesIndex::class)->name('messages.index');
@@ -83,18 +85,22 @@ Route::post('logout', function () {
 require __DIR__.'/auth.php';
 
 
-// Za kategorije
-Route::get('/category/{category}', \App\Livewire\Categories\Show::class)->name('category.show');
+Route::get('/category/{category}', ShowCategories::class)->name('category.show');
+Route::get('/category/{category}/{subcategory}', ShowCategories::class)->name('category.show.subcategory');
 
-// Za pregled oglasa
-Route::get('/listings/{listing}', \App\Livewire\Listings\Show::class)->name('listings.show');
+// Za kategorije
+Route::get('/category/{category}', ShowCategories::class)->name('category.show');
+Route::get('/category/{category}/{subcategory}', ShowCategories::class)->name('category.show.subcategory');
+
+// Za pojedinačne oglase
+Route::get('/listings/{listing}', Show::class)->name('listings.show');
 
 // Za moje oglase
-Route::get('/my-listings', \App\Livewire\Listings\MyListings::class)
+Route::get('/my-listings', MyListings::class)
     ->middleware('auth')
     ->name('listings.my');
 
-// Za editovanje oglasa
+// Za editovanje oglasa (ako vam treba)
 Route::get('/listings/{listing}/edit', \App\Livewire\Listings\Edit::class)
     ->middleware('auth')
     ->name('listings.edit');

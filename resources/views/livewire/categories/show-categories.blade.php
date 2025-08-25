@@ -17,13 +17,31 @@
                 <span class="mx-2 text-gray-400">/</span>
                 <span class="text-gray-700 font-medium">{{ $category->name }}</span>
             </li>
+            @if ($subcategory)
+                <li class="flex items-center">
+                    <span class="mx-2 text-gray-400">/</span>
+                    <span class="text-gray-700 font-medium">{{ $subcategory->name }}</span>
+                </li>
+            @endif
         </ol>
     </nav>
 
     <!-- Naslov -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">{{ $category->name }} - Oglasi</h1>
-        <p class="text-gray-600 mt-2">Pronađite najbolje ponude iz kategorije {{ $category->name }}</p>
+        <h1 class="text-3xl font-bold text-gray-900">
+            @if ($subcategory)
+                {{ $subcategory->name }} - Oglasi
+            @else
+                {{ $category->name }} - Oglasi
+            @endif
+        </h1>
+        <p class="text-gray-600 mt-2">
+            @if ($subcategory)
+                Pronađite najbolje ponude iz kategorije {{ $subcategory->name }}
+            @else
+                Pronađite najbolje ponude iz kategorije {{ $category->name }}
+            @endif
+        </p>
     </div>
 
     <!-- Lista oglasa -->
@@ -32,7 +50,7 @@
             @foreach ($listings as $listing)
                 <div
                     class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <a href="{{ route('listings.show', $listing) }}">
+                    <div>
                         @if ($listing->images->count() > 0)
                             <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
                                 class="w-full h-48 object-cover">
@@ -41,14 +59,12 @@
                                 <i class="fas fa-image text-gray-400 text-3xl"></i>
                             </div>
                         @endif
-                    </a>
+                    </div>
 
                     <div class="p-4">
-                        <a href="{{ route('listings.show', $listing) }}">
-                            <h3 class="font-semibold text-lg text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-                                {{ Str::limit($listing->title, 40) }}
-                            </h3>
-                        </a>
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2">
+                            {{ Str::limit($listing->title, 40) }}
+                        </h3>
 
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-blue-600 font-bold text-xl">{{ number_format($listing->price, 2) }}
@@ -85,6 +101,25 @@
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 Pogledaj sve kategorije
             </a>
+        </div>
+    @endif
+
+    <!-- Podkategorije (ako postoje) -->
+    @if ($subcategories->count() > 0 && !$subcategory)
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Podkategorije</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                @foreach ($subcategories as $subcat)
+                    <a href="{{ route('category.show', ['category' => $category->slug, 'subcategory' => $subcat->slug]) }}"
+                        class="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-shadow">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-folder text-blue-500"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-900">{{ $subcat->name }}</h3>
+                        <p class="text-gray-500 text-sm mt-1">{{ $subcat->listings_count }} oglasa</p>
+                    </a>
+                @endforeach
+            </div>
         </div>
     @endif
 </div>
