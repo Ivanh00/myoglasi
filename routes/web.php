@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
         session()->regenerateToken();
         return redirect('/');
     })->name('logout');
-
+});
     Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
@@ -80,5 +80,6 @@ Route::post('logout', function () {
     return redirect('/');
 })->middleware(['auth'])->name('logout');
 
-});
+require __DIR__.'/auth.php';
+
 
