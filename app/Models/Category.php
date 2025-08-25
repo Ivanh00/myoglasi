@@ -27,6 +27,12 @@ class Category extends Model
                 $category->slug = Str::slug($category->name);
             }
         });
+        
+        static::updating(function ($category) {
+            if ($category->isDirty('name') && !$category->isDirty('slug')) {
+                $category->slug = Str::slug($category->name);
+            }
+        });
     }
 
     // Relationships
@@ -37,16 +43,33 @@ class Category extends Model
 
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id')->where('is_active', true)->orderBy('sort_order');
+        return $this->hasMany(Category::class, 'parent_id')
+            ->where('is_active', true)
+            ->orderBy('sort_order');
+    }
+
+    public function allChildren()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
     public function listings()
     {
-        return $this->hasMany(Listing::class);
+        return $this->hasMany(Listing::class, 'category_id');
     }
-    public function subcategoryListings()
+
+    public function subListings()
     {
         return $this->hasMany(Listing::class, 'subcategory_id');
+    }
+
+    // Nova metoda: svi listingi za kategoriju i sve njene podkategorije
+    public function allListings()
+    {
+        $categoryIds = $this->getAllCategoryIds();
+        
+        return Listing::whereIn('category_id', $categoryIds)
+            ->orWhereIn('subcategory_id', $categoryIds);
     }
 
     // Scopes
@@ -77,5 +100,37 @@ class Category extends Model
     public function hasChildren()
     {
         return $this->children()->exists();
+    }
+
+    public function isParent()
+    {
+        return is_null($this->parent_id);
+    }
+
+    public function isChild()
+    {
+        return !is_null($this->parent_id);
+    }
+
+    /**
+     * Get all category IDs including this category and all its children recursively
+     */
+    public function getAllCategoryIds()
+    {
+        $ids = [$this->id];
+        
+        foreach ($this->allChildren as $child) {
+            $ids = array_merge($ids, $child->getAllCategoryIds());
+        }
+        
+        return $ids;
+    }
+
+    /**
+     * Get all listings count including subcategories
+     */
+    public function getAllListingsCount()
+    {
+        return $this->allListings()->where('status', 'active')->count();
     }
 }

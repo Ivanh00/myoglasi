@@ -85,8 +85,14 @@ Route::post('logout', function () {
 require __DIR__.'/auth.php';
 
 
-Route::get('/category/{category}', ShowCategories::class)->name('category.show');
-Route::get('/category/{category}/{subcategory}', ShowCategories::class)->name('category.show.subcategory');
+// Route::get('/category/{category}', ShowCategories::class)->name('category.show');
+// Route::get('/category/{category}/{subcategory}', ShowCategories::class)->name('category.show.subcategory');
+
+// Za sve oglase
+Route::get('/listings', \App\Livewire\Listings\Index::class)->name('listings.index');
+
+// Za pojedinačne kategorije (ako još uvek koristite)
+Route::get('/category/{category}', \App\Livewire\Categories\ShowCategories::class)->name('category.show');
 
 // Za kategorije
 Route::get('/category/{category}', ShowCategories::class)->name('category.show');
@@ -110,3 +116,5 @@ Route::get('/listings/{listing}/edit', \App\Livewire\Listings\Edit::class)
     // ->middleware('auth')
     // ->name('listings.edit');
 
+
+Route::get('/listings', ListingsIndex::class)->name('listings.index');
