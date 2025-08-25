@@ -11,7 +11,7 @@ class Listing extends Model
 
     protected $fillable = [
         'title', 'slug', 'description', 'price', 'location', 'contact_phone',
-        'user_id', 'category_id', 'condition_id', 'status', 'expires_at'
+        'user_id', 'category_id', 'subcategory_id', 'condition_id', 'status', 'expires_at'
     ];
 
     protected $casts = [
@@ -27,6 +27,12 @@ class Listing extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    // Relacija za subkategoriju
+    public function subcategory()
+    {
+        return $this->belongsTo(Category::class, 'subcategory_id');
     }
 
     public function condition()
@@ -53,5 +59,4 @@ class Listing extends Model
     {
         return $this->hasOne(ListingImage::class)->where('is_primary', true);
     }
-
 }

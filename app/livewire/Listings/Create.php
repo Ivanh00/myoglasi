@@ -115,7 +115,8 @@ public function updatedCategory_id($value)
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
-            'category_id' => $this->subcategory_id ?? $this->category_id, // ako ima subcategory, njega uzmi
+            'category_id' => $this->category_id,
+            'subcategory_id' => $this->subcategory_id, 
             'condition_id' => $this->condition_id,
             'location' => $this->location,
             'contact_phone' => $this->contact_phone,

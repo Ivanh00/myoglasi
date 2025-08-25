@@ -44,6 +44,10 @@ class Category extends Model
     {
         return $this->hasMany(Listing::class);
     }
+    public function subcategoryListings()
+    {
+        return $this->hasMany(Listing::class, 'subcategory_id');
+    }
 
     // Scopes
     public function scopeActive($query)
