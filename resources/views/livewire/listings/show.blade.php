@@ -213,12 +213,14 @@
                         <div
                             class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                             <div class="flex flex-col md:flex-row">
-                                <!-- Slika oglasa -->
-                                <div class="md:w-48 md:min-w-48 h-48 md:h-auto">
+                                <!-- Slika oglasa - kvadratni kontejner -->
+                                <div class="md:w-48 md:min-w-48 h-48 md:h-48">
+                                    <!-- Fiksna visina za desktop i mobile -->
                                     <a href="{{ route('listings.show', $listing) }}">
                                         @if ($listing->images->count() > 0)
                                             <img src="{{ $listing->images->first()->url }}"
                                                 alt="{{ $listing->title }}" class="w-full h-full object-cover">
+                                            <!-- object-cover osigurava da slika popuni kontejner -->
                                         @else
                                             <div class="w-full h-full bg-gray-200 flex items-center justify-center">
                                                 <i class="fas fa-image text-gray-400 text-3xl"></i>
