@@ -53,79 +53,70 @@ class Create extends Component
 
 public function updatedCategory_id($value)
 {
-    logger()->info('=== PROMENA KATEGORIJE ===');
-    logger()->info('Odabrana kategorija ID: ' . ($value ?? 'null'));
-    
+   
     $this->subcategory_id = null;
     
     if ($value) {
-        // Proverite da li kategorija postoji
-        $selectedCategory = Category::find($value);
-        if ($selectedCategory) {
-            logger()->info('Odabrana kategorija: ' . $selectedCategory->name);
-        } else {
-            logger()->info('GREŠKA: Kategorija sa ID ' . $value . ' ne postoji!');
-        }
         
         // Učitajte podkategorije
         $this->subcategories = Category::where('parent_id', $value)
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
-            
-        logger()->info('Broj pronađenih podkategorija: ' . $this->subcategories->count());
         
-        if ($this->subcategories->count() > 0) {
-            logger()->info('Podkategorije:');
-            foreach($this->subcategories as $sub) {
-                logger()->info("  - ID: {$sub->id} - {$sub->name}");
-            }
-        } else {
-            logger()->info('Nema aktivnih podkategorija za ovu kategoriju.');
-            
-            // Proverite da li postoje neaktivne podkategorije
-            $inactiveSubcats = Category::where('parent_id', $value)
-                ->where('is_active', false)
-                ->count();
-            if ($inactiveSubcats > 0) {
-                logger()->info("NAPOMENA: Postoji {$inactiveSubcats} neaktivnih podkategorija.");
-            }
-        }
     } else {
         $this->subcategories = collect();
         logger()->info('Kategorija resetovana.');
     }
     
-    logger()->info('=== KRAJ PROMENE KATEGORIJE ===');
 }
 
-    public function save()
-    {
-        $this->validate([
-            'title' => 'required|string|min:5|max:100',
-            'description' => 'required|string|min:10|max:2000',
-            'price' => 'required|numeric|min:1',
-            'category_id' => 'required|exists:categories,id',
-            'condition_id' => 'required|exists:listing_conditions,id',
-            'location' => 'required|string|max:255',
-        ]);
+public function save()
+{
+    $this->validate([
+        'title' => 'required|string|min:5|max:100',
+        'description' => 'required|string|min:10|max:2000',
+        'price' => 'required|numeric|min:1',
+        'category_id' => 'required|exists:categories,id',
+        'condition_id' => 'required|exists:listing_conditions,id',
+        'location' => 'required|string|max:255',
+        'images.*' => 'nullable|image|max:5120', // DODAJTE VALIDACIJU ZA SLIKE
+    ]);
 
-        $listing = Listing::create([
-            'user_id' => auth()->id(),
-            'title' => $this->title,
-            'description' => $this->description,
-            'price' => $this->price,
-            'category_id' => $this->category_id,
-            'subcategory_id' => $this->subcategory_id, 
-            'condition_id' => $this->condition_id,
-            'location' => $this->location,
-            'contact_phone' => $this->contact_phone,
-            'slug' => Str::slug($this->title) . '-' . Str::random(6),
-        ]);
-
-        session()->flash('success', 'Oglas je uspešno kreiran!');
-        return redirect()->route('listings.show', $listing->slug);
+    // Sačuvaj slike
+    $imagePaths = [];
+    if (!empty($this->images)) {
+        foreach ($this->images as $image) {
+            $path = $image->store('listings', 'public');
+            $imagePaths[] = $path;
+        }
     }
+
+    $listing = Listing::create([
+        'user_id' => auth()->id(),
+        'title' => $this->title,
+        'description' => $this->description,
+        'price' => $this->price,
+        'category_id' => $this->category_id,
+        'subcategory_id' => $this->subcategory_id,
+        'condition_id' => $this->condition_id,
+        'location' => $this->location,
+        'contact_phone' => $this->contact_phone,
+        'slug' => Str::slug($this->title) . '-' . Str::random(6),
+        'status' => 'active',
+    ]);
+
+    // Sačuvaj slike u bazi
+    foreach ($imagePaths as $path) {
+        $listing->images()->create([
+            'image_path' => $path,
+            'order' => 0
+        ]);
+    }
+
+    session()->flash('success', 'Oglas je uspešno kreiran!');
+    return redirect()->route('listings.show', $listing);
+}
 
     public function updated($propertyName)
 {

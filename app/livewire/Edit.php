@@ -24,28 +24,17 @@ class Edit extends Component
     public $contact_phone;
     public $category_id;
     public $subcategory_id;
-    public $subcategories;
+    public $subcategories = [];
     public $newImages = [];
 
-    public function mount($listing)
+    public function mount(Listing $listing)
     {
-        
-        // Ako je prosleđen slug, nađi listing po slug-u
-        if (is_string($listing)) {
-            $this->listing = Listing::where('slug', $listing)
-                ->with(['images'])
-                ->firstOrFail();
-        } 
-        // Ako je prosleđen Listing model
-        else if ($listing instanceof Listing) {
-            $this->listing = $listing->load(['images']);
-        }
-
         // Proveri da li je korisnik vlasnik oglasa
-        if (auth()->id() !== $this->listing->user_id) {
+        if (auth()->id() !== $listing->user_id) {
             abort(403, 'Niste ovlašćeni da menjate ovaj oglas.');
         }
 
+        $this->listing = $listing;
         $this->categories = Category::whereNull('parent_id')
             ->where('is_active', true)
             ->orderBy('sort_order')
@@ -56,20 +45,19 @@ class Edit extends Component
             ->get();
 
         // Popuni polja sa postojećim podacima
-        $this->title = $this->listing->title;
-        $this->description = $this->listing->description;
-        $this->price = $this->listing->price;
-        $this->condition_id = $this->listing->condition_id;
-        $this->location = $this->listing->location;
-        $this->contact_phone = $this->listing->contact_phone;
-        $this->category_id = $this->listing->category_id;
-        $this->subcategory_id = $this->listing->subcategory_id;
+        $this->title = $listing->title;
+        $this->description = $listing->description;
+        $this->price = $listing->price;
+        $this->condition_id = $listing->condition_id;
+        $this->location = $listing->location;
+        $this->contact_phone = $listing->contact_phone;
+        $this->category_id = $listing->category_id;
+        $this->subcategory_id = $listing->subcategory_id;
 
-        // Učitaj podkategorije
+        // UČITAJ PODKATEGORIJE ČIM SE KOMPONENTA INICIJALIZUJE
         $this->loadSubcategories();
     }
 
-    // Ostale metode ostaju iste...
     public function updatedCategoryId($value)
     {
         $this->subcategory_id = null;
@@ -78,10 +66,14 @@ class Edit extends Component
 
     protected function loadSubcategories()
     {
-        $this->subcategories = Category::where('parent_id', $this->category_id)
-            ->where('is_active', true)
-            ->orderBy('sort_order')
-            ->get();
+        if ($this->category_id) {
+            $this->subcategories = Category::where('parent_id', $this->category_id)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        } else {
+            $this->subcategories = [];
+        }
     }
 
     public function removeImage($imageId)
@@ -93,8 +85,10 @@ class Edit extends Component
             // Obriši zapis iz baze
             $image->delete();
             
+            // Osveži listing da bi se uklonila obrisana slika
+            $this->listing->load('images');
+            
             session()->flash('message', 'Slika je uspešno obrisana.');
-            $this->listing->load('images'); // Osveži podatke
         }
     }
 
