@@ -189,7 +189,214 @@
             </div>
         </div>
 
-        <!-- Slični oglasi -->
+
+        <!-- Preporučeni oglasi -->
+        @if ($recommendedListings && $recommendedListings->count() > 0)
+            <div class="mt-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                    @if ($recommendationType === 'seller')
+                        Ostali oglasi ovog prodavca
+                    @else
+                        Slični oglasi
+                    @endif
+                </h2>
+                <p class="text-gray-600 mb-8">
+                    @if ($recommendationType === 'seller')
+                        Pogledajte i druge oglase ovog prodavca
+                    @else
+                        Pronađite slične oglase iz iste kategorije
+                    @endif
+                </p>
+
+                <div class="space-y-4">
+                    @foreach ($recommendedListings as $listing)
+                        <div
+                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                            <div class="flex flex-col md:flex-row">
+                                <!-- Slika oglasa -->
+                                <div class="md:w-48 md:min-w-48 h-48 md:h-auto">
+                                    <a href="{{ route('listings.show', $listing) }}">
+                                        @if ($listing->images->count() > 0)
+                                            <img src="{{ $listing->images->first()->url }}"
+                                                alt="{{ $listing->title }}" class="w-full h-full object-cover">
+                                        @else
+                                            <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                                <i class="fas fa-image text-gray-400 text-3xl"></i>
+                                            </div>
+                                        @endif
+                                    </a>
+                                </div>
+
+                                <!-- Informacije o oglasu -->
+                                <div class="flex-1 p-4">
+                                    <div class="flex flex-col h-full">
+                                        <div class="flex-1">
+                                            <a href="{{ route('listings.show', $listing) }}">
+                                                <h3
+                                                    class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                                                    {{ $listing->title }}
+                                                </h3>
+                                            </a>
+
+                                            <div class="flex items-center text-sm text-gray-600 mb-2">
+                                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                                <span>{{ $listing->location }}</span>
+                                                <span class="mx-2">•</span>
+                                                <i class="fas fa-folder mr-1"></i>
+                                                <span>{{ $listing->category->name }}</span>
+                                                @if ($listing->subcategory)
+                                                    <span class="mx-2">•</span>
+                                                    <span>{{ $listing->subcategory->name }}</span>
+                                                @endif
+                                            </div>
+
+                                            <p class="text-gray-700 mb-3"
+                                                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                                {{ Str::limit(strip_tags($listing->description), 120) }}
+                                            </p>
+                                        </div>
+
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-blue-600 font-bold text-xl">
+                                                {{ number_format($listing->price, 2) }} RSD
+                                            </div>
+
+                                            @if ($listing->condition)
+                                                <span
+                                                    class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                                    {{ $listing->condition->name }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Desna strana - akcije i dodatne informacije -->
+                                <div
+                                    class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
+                                    <div class="flex flex-col h-full justify-between">
+                                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                <span>{{ $listing->views ?? 0 }}</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <i class="fas fa-heart mr-1"></i>
+                                                <span>0</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-xs text-gray-400 mb-4">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            {{ $listing->created_at->diffForHumans() }}
+                                        </div>
+
+                                        <div class="space-y-2">
+                                            <a href="{{ route('listings.show', $listing) }}"
+                                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                <i class="fas fa-eye mr-2"></i> Pregled
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        {{-- <!-- Preporučeni oglasi - Grid prikaz -->
+        @if ($recommendedListings && $recommendedListings->count() > 0)
+            <div class="mt-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                    @if ($recommendationType === 'seller')
+                        Ostali oglasi ovog prodavca
+                    @else
+                        Slični oglasi
+                    @endif
+                </h2>
+                <p class="text-gray-600 mb-8">
+                    @if ($recommendationType === 'seller')
+                        Pogledajte i druge oglase ovog prodavca
+                    @else
+                        Pronađite slične oglase iz iste kategorije
+                    @endif
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    @foreach ($recommendedListings as $listing)
+                        <div
+                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                            <!-- Slika oglasa -->
+                            <div class="h-48">
+                                <a href="{{ route('listings.show', $listing) }}">
+                                    @if ($listing->images->count() > 0)
+                                        <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                            <i class="fas fa-image text-gray-400 text-3xl"></i>
+                                        </div>
+                                    @endif
+                                </a>
+                            </div>
+
+                            <!-- Informacije o oglasu -->
+                            <div class="p-4">
+                                <a href="{{ route('listings.show', $listing) }}">
+                                    <h3
+                                        class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                                        {{ Str::limit($listing->title, 60) }}
+                                    </h3>
+                                </a>
+
+                                <div class="flex items-center text-sm text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>{{ $listing->location }}</span>
+                                </div>
+
+                                <p class="text-gray-700 mb-3 text-sm"
+                                    style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    {{ Str::limit(strip_tags($listing->description), 100) }}
+                                </p>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="text-blue-600 font-bold text-xl">
+                                        {{ number_format($listing->price, 2) }} RSD
+                                    </div>
+
+                                    @if ($listing->condition)
+                                        <span
+                                            class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                            {{ $listing->condition->name }}
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="flex items-center justify-between mt-4 text-xs text-gray-500">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        <span>{{ $listing->views ?? 0 }}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        <span>{{ $listing->created_at->diffForHumans() }}</span>
+                                    </div>
+                                </div>
+
+                                <a href="{{ route('listings.show', $listing) }}"
+                                    class="block w-full text-center mt-4 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                    <i class="fas fa-eye mr-2"></i> Pregled oglasa
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif --}}
+
+        {{-- <!-- Slični oglasi -->
         @if ($similarListings && $similarListings->count() > 0)
             <div class="mt-12">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6">Slični oglasi</h2>
@@ -222,7 +429,7 @@
                     @endforeach
                 </div>
             </div>
-        @endif
+        @endif --}}
     @endif
 </div>
 
