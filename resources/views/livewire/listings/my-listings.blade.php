@@ -73,7 +73,6 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $listing->created_at->format('d.m.Y.') }}
-                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-2">
                                     <a href="{{ route('listings.show', $listing) }}"
@@ -84,6 +83,10 @@
                                         class="text-indigo-600 hover:text-indigo-900">
                                         <i class="fas fa-edit"></i> Izmeni
                                     </a>
+                                    <button class="text-green-600 hover:text-green-900"
+                                        onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')">
+                                        <i class="fas fa-share-alt"></i> Podeli
+                                    </button>
                                     <button wire:click="deleteListing({{ $listing->id }})"
                                         class="text-red-600 hover:text-red-900"
                                         onclick="return confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')">

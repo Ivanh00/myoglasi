@@ -104,3 +104,9 @@ Route::get('/my-listings', MyListings::class)
 Route::get('/listings/{listing}/edit', \App\Livewire\Listings\Edit::class)
     ->middleware('auth')
     ->name('listings.edit');
+
+    // // Za editovanje oglasa
+    // Route::get('/listings/{listing:slug}/edit', \App\Livewire\Listings\Edit::class)
+    // ->middleware('auth')
+    // ->name('listings.edit');
+

@@ -146,16 +146,57 @@
                                     {{ $listing->created_at->diffForHumans() }}
                                 </div>
 
-                                <div class="space-y-2">
-                                    <button
-                                        class="w-full flex items-center justify-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                        <i class="fas fa-phone mr-2"></i> Pozovi
-                                    </button>
-                                    <button
-                                        class="w-full flex items-center justify-center px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
-                                        <i class="fas fa-envelope mr-2"></i> Poruka
-                                    </button>
-                                </div>
+                                @auth
+                                    @if (auth()->id() == $listing->user_id)
+                                        <!-- Akcije za vlasnika oglasa -->
+                                        <div class="space-y-2">
+                                            <a href="{{ route('listings.edit', $listing) }}"
+                                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                <i class="fas fa-edit mr-2"></i> Izmeni oglas
+                                            </a>
+                                            <a href="{{ route('listings.my') }}"
+                                                class="block w-full text-center px-3 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                                                <i class="fas fa-list mr-2"></i> Svi moji oglasi
+                                            </a>
+                                            <button
+                                                class="w-full flex items-center justify-center px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                                                <i class="fas fa-share-alt mr-2"></i> Podeli oglas
+                                            </button>
+                                        </div>
+                                    @else
+                                        <!-- Akcije za ostale ulogovane korisnike -->
+                                        <div class="space-y-2">
+                                            <button
+                                                class="w-full flex items-center justify-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                <i class="fas fa-phone mr-2"></i> Pozovi
+                                            </button>
+                                            <button
+                                                class="w-full flex items-center justify-center px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                                                <i class="fas fa-envelope mr-2"></i> Poruka
+                                            </button>
+                                            <button
+                                                class="w-full flex items-center justify-center px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                                                <i class="fas fa-heart mr-2"></i> Sačuvaj
+                                            </button>
+                                        </div>
+                                    @endif
+                                @else
+                                    <!-- Akcije za neulogovane korisnike -->
+                                    <div class="space-y-2">
+                                        <a href="{{ route('login') }}"
+                                            class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                            <i class="fas fa-phone mr-2"></i> Pozovi
+                                        </a>
+                                        <a href="{{ route('login') }}"
+                                            class="block w-full text-center px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                                            <i class="fas fa-envelope mr-2"></i> Poruka
+                                        </a>
+                                        <a href="{{ route('login') }}"
+                                            class="block w-full text-center px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                                            <i class="fas fa-heart mr-2"></i> Sačuvaj
+                                        </a>
+                                    </div>
+                                @endauth
 
                                 <div class="mt-4 flex justify-end">
                                     <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors">

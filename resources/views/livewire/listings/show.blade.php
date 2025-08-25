@@ -119,18 +119,51 @@
 
                     <!-- Akcije -->
                     <div class="flex space-x-4 mt-8">
-                        <button
-                            class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            <i class="fas fa-phone mr-2"></i> Pozovi
-                        </button>
-                        <button
-                            class="flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                            <i class="fas fa-envelope mr-2"></i> Pošalji poruku
-                        </button>
-                        <button
-                            class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                            <i class="fas fa-heart mr-2"></i> Sačuvaj
-                        </button>
+                        @auth
+                            @if (auth()->id() == $listing->user_id)
+                                <!-- Akcije za vlasnika oglasa -->
+                                <a href="{{ route('listings.edit', $listing) }}"
+                                    class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-edit mr-2"></i> Izmeni
+                                </a>
+                                <a href="{{ route('listings.my') }}"
+                                    class="flex items-center justify-center px-6 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
+                                    <i class="fas fa-list mr-2"></i> Moji oglasi
+                                </a>
+                                <button
+                                    class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <i class="fas fa-share-alt mr-2"></i> Podeli
+                                </button>
+                            @else
+                                <!-- Akcije za ostale ulogovane korisnike -->
+                                <button
+                                    class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-phone mr-2"></i> Pozovi
+                                </button>
+                                <button
+                                    class="flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <i class="fas fa-envelope mr-2"></i> Poruka
+                                </button>
+                                <button
+                                    class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <i class="fas fa-heart mr-2"></i> Sačuvaj
+                                </button>
+                            @endif
+                        @else
+                            <!-- Akcije za neulogovane korisnike -->
+                            <a href="{{ route('login') }}"
+                                class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-phone mr-2"></i> Pozovi
+                            </a>
+                            <a href="{{ route('login') }}"
+                                class="flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                <i class="fas fa-envelope mr-2"></i> Poruka
+                            </a>
+                            <a href="{{ route('login') }}"
+                                class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                <i class="fas fa-heart mr-2"></i> Sačuvaj
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -180,8 +213,8 @@
                                         {{ Str::limit($similar->title, 40) }}
                                     </h3>
                                 </a>
-                                <p class="text-blue-600 font-bold text-xl mb-2">{{ number_format($similar->price, 2) }}
-                                    RSD</p>
+                                <p class="text-blue-600 font-bold text-xl mb-2">
+                                    {{ number_format($similar->price, 2) }} RSD</p>
                                 <p class="text-gray-600 text-sm">{{ $similar->location }}</p>
                                 <p class="text-gray-400 text-xs mt-2">{{ $similar->created_at->diffForHumans() }}</p>
                             </div>
