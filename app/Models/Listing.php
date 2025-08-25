@@ -53,4 +53,5 @@ class Listing extends Model
     {
         return $this->hasOne(ListingImage::class)->where('is_primary', true);
     }
+
 }
