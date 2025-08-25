@@ -26,61 +26,143 @@
         </ol>
     </nav>
 
-    <!-- Naslov -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">
+    <!-- Naslov i filteri -->
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">
             @if ($subcategory)
                 {{ $subcategory->name }} - Oglasi
             @else
                 {{ $category->name }} - Oglasi
             @endif
         </h1>
-        <p class="text-gray-600 mt-2">
-            @if ($subcategory)
-                Pronađite najbolje ponude iz kategorije {{ $subcategory->name }}
-            @else
-                Pronađite najbolje ponude iz kategorije {{ $category->name }}
-            @endif
-        </p>
+
+        <!-- Traka sa filterima i sortiranjem -->
+        <div
+            class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="text-gray-600">
+                Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <!-- Sortiranje -->
+                <div class="relative">
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 13L1 8l5-5m0 10l5 5-5 5"></path>
+                        </svg>
+                        <span>Sortiraj</span>
+                    </button>
+                </div>
+
+                <!-- Broj oglasa po strani -->
+                <div class="relative">
+                    <select
+                        class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="20">20 po strani</option>
+                        <option value="50">50 po strani</option>
+                        <option value="100">100 po strani</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Lista oglasa -->
     @if ($listings->count() > 0)
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        <div class="space-y-4 mb-8">
             @foreach ($listings as $listing)
                 <div
                     class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div>
-                        @if ($listing->images->count() > 0)
-                            <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
-                                class="w-full h-48 object-cover">
-                        @else
-                            <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
-                                <i class="fas fa-image text-gray-400 text-3xl"></i>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="p-4">
-                        <h3 class="font-semibold text-lg text-gray-900 mb-2">
-                            {{ Str::limit($listing->title, 40) }}
-                        </h3>
-
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-blue-600 font-bold text-xl">{{ number_format($listing->price, 2) }}
-                                RSD</span>
-                            @if ($listing->condition)
-                                <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
-                                    {{ $listing->condition->name }}
-                                </span>
-                            @endif
+                    <div class="flex flex-col md:flex-row">
+                        <!-- Slika oglasa -->
+                        <div class="md:w-48 md:min-w-48 h-48 md:h-auto">
+                            <a href="{{ route('listings.show', $listing) }}">
+                                @if ($listing->images->count() > 0)
+                                    <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
+                                        class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-image text-gray-400 text-3xl"></i>
+                                    </div>
+                                @endif
+                            </a>
                         </div>
 
-                        <p class="text-gray-600 text-sm mb-2">{{ $listing->location }}</p>
+                        <!-- Informacije o oglasu -->
+                        <div class="flex-1 p-4">
+                            <div class="flex flex-col h-full">
+                                <div class="flex-1">
+                                    <a href="{{ route('listings.show', $listing) }}">
+                                        <h3
+                                            class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                                            {{ $listing->title }}
+                                        </h3>
+                                    </a>
 
-                        <div class="flex items-center justify-between text-xs text-gray-400">
-                            <span>{{ $listing->created_at->diffForHumans() }}</span>
-                            <span><i class="fas fa-eye mr-1"></i> {{ $listing->views ?? 0 }}</span>
+                                    <div class="flex items-center text-sm text-gray-600 mb-2">
+                                        <i class="fas fa-map-marker-alt mr-1"></i>
+                                        <span>{{ $listing->location }}</span>
+                                    </div>
+
+                                    <p class="text-gray-700 mb-3"
+                                        style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                        {{ Str::limit(strip_tags($listing->description), 120) }}
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="text-blue-600 font-bold text-xl">
+                                        {{ number_format($listing->price, 2) }} RSD
+                                    </div>
+
+                                    @if ($listing->condition)
+                                        <span
+                                            class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                            {{ $listing->condition->name }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Desna strana - akcije i dodatne informacije -->
+                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
+                            <div class="flex flex-col h-full justify-between">
+                                <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        <span>{{ $listing->views ?? 0 }}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-heart mr-1"></i>
+                                        <span>0</span>
+                                    </div>
+                                </div>
+
+                                <div class="text-xs text-gray-400 mb-4">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    {{ $listing->created_at->diffForHumans() }}
+                                </div>
+
+                                <div class="space-y-2">
+                                    <button
+                                        class="w-full flex items-center justify-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                        <i class="fas fa-phone mr-2"></i> Pozovi
+                                    </button>
+                                    <button
+                                        class="w-full flex items-center justify-center px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                                        <i class="fas fa-envelope mr-2"></i> Poruka
+                                    </button>
+                                </div>
+
+                                <div class="mt-4 flex justify-end">
+                                    <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,7 +170,7 @@
         </div>
 
         <!-- Paginacija -->
-        <div class="mt-6">
+        <div class="mt-8 bg-white rounded-lg shadow-sm p-4">
             {{ $listings->links() }}
         </div>
     @else

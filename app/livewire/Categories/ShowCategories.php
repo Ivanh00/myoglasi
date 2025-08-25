@@ -13,6 +13,13 @@ class ShowCategories extends Component
     
     public $category;
     public $subcategory;
+    public $sortBy = 'newest';
+    public $perPage = 20;
+
+    protected $queryString = [
+        'sortBy' => ['except' => 'newest'],
+        'perPage' => ['except' => 20]
+    ];
 
     public function mount($category, $subcategory = null)
     {
@@ -25,6 +32,16 @@ class ShowCategories extends Component
         }
     }
 
+    public function updatedSortBy()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $query = Listing::where('status', 'active')
@@ -35,8 +52,22 @@ class ShowCategories extends Component
         } else {
             $query->where('category_id', $this->category->id);
         }
+        
+        // Sortiranje
+        switch ($this->sortBy) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
             
-        $listings = $query->orderBy('created_at', 'desc')->paginate(12);
+        $listings = $query->paginate($this->perPage);
         
         // Učitaj podkategorije ako nije izabrana podkategorija
         $subcategories = [];
