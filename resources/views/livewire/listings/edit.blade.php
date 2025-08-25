@@ -133,19 +133,6 @@
                 @enderror
             </div>
 
-            <!-- Location -->
-            <div>
-                <label for="location" class="block text-sm font-medium text-gray-700 mb-2">
-                    Lokacija <span class="text-red-500">*</span>
-                </label>
-                <input type="text" wire:model="location" id="location"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('location') border-red-500 @enderror"
-                    placeholder="Grad, opština">
-                @error('location')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
             <!-- Description -->
             <div>
                 <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
@@ -164,16 +151,42 @@
                 </div>
             </div>
 
-            <!-- Contact Phone -->
-            <div>
-                <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-2">
-                    Kontakt telefon
+            <!-- Upload Area -->
+            <div
+                class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                    </path>
+                </svg>
+                <input type="file" wire:model="newImages" multiple accept="image/*" class="hidden" id="newImages">
+                <label for="newImages" class="cursor-pointer">
+                    <span class="text-blue-600 hover:text-blue-500 font-medium">Kliknite za dodavanje slika</span>
+                    <span class="text-gray-500"> ili prevucite ovde</span>
                 </label>
-                <input type="text" wire:model="contact_phone" id="contact_phone"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="+381 60 123 4567">
-                <p class="text-gray-500 text-sm mt-1">Opcionalno - koristiće se za direktan kontakt</p>
+                <p class="text-gray-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici</p>
             </div>
+
+            @error('newImages.*')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+
+            <!-- New Image Previews -->
+            @if (!empty($newImages))
+                <div class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    @foreach ($newImages as $index => $image)
+                        <div class="relative group">
+                            <img src="{{ $image->temporaryUrl() }}" alt="Preview"
+                                class="w-full h-24 object-cover rounded-lg border">
+                            <button type="button" wire:click="removeNewImage({{ $index }})"
+                                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                ×
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
 
             <!-- Existing Images -->
             <div>
@@ -203,44 +216,41 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     Dodaj nove slike (maksimalno 10)
                 </label>
+            </div>
 
-                <!-- Upload Area -->
-                <div
-                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
-                    <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
-                        </path>
-                    </svg>
-                    <input type="file" wire:model="newImages" multiple accept="image/*" class="hidden"
-                        id="newImages">
-                    <label for="newImages" class="cursor-pointer">
-                        <span class="text-blue-600 hover:text-blue-500 font-medium">Kliknite za dodavanje slika</span>
-                        <span class="text-gray-500"> ili prevucite ovde</span>
-                    </label>
-                    <p class="text-gray-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici</p>
-                </div>
-
-                @error('newImages.*')
+            <!-- Location -->
+            <div>
+                <label for="location" class="block text-sm font-medium text-gray-700 mb-2">
+                    Lokacija <span class="text-red-500">*</span>
+                </label>
+                <input type="text" wire:model="location" id="location"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('location') border-red-500 @enderror"
+                    placeholder="Grad, opština" value="{{ auth()->user()->city }}">
+                @error('location')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
+                <p class="text-gray-500 text-sm mt-1">
+                    Automatski preuzeto iz vašeg profila.
+                    <a href="{{ route('profile') }}" class="text-blue-600 hover:text-blue-500">
+                        Ažuriraj profil
+                    </a>
+                </p>
+            </div>
 
-                <!-- New Image Previews -->
-                @if (!empty($newImages))
-                    <div class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                        @foreach ($newImages as $index => $image)
-                            <div class="relative group">
-                                <img src="{{ $image->temporaryUrl() }}" alt="Preview"
-                                    class="w-full h-24 object-cover rounded-lg border">
-                                <button type="button" wire:click="removeNewImage({{ $index }})"
-                                    class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    ×
-                                </button>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
+            <!-- Contact Phone -->
+            <div>
+                <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-2">
+                    Kontakt telefon
+                </label>
+                <input type="text" wire:model="contact_phone" id="contact_phone"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="+381 60 123 4567" value="{{ auth()->user()->phone }}">
+                <p class="text-gray-500 text-sm mt-1">
+                    Automatski preuzeto iz vašeg profila.
+                    <a href="{{ route('profile') }}" class="text-blue-600 hover:text-blue-500">
+                        Ažuriraj profil
+                    </a>
+                </p>
             </div>
 
             <!-- Submit Buttons -->

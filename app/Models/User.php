@@ -22,6 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'city',           // Dodajte ovo
+        'phone',          // Dodajte ovo
+        'phone_visible',  // Dodajte ovo
+        'avatar',         // Dodajte ovo ako želite
     ];
 
     /**
@@ -44,9 +48,11 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'phone_visible' => 'boolean', // Dodajte cast za boolean
         ];
     }
 
+    // Ostale metode ostaju iste...
     public function listings()
     {
         return $this->hasMany(Listing::class);
@@ -91,15 +97,14 @@ class User extends Authenticatable
     
 
     public function chargeFee($amount)
-{
-    $this->decrement('balance', $amount);
-    
-    Transaction::create([
-        'user_id' => $this->id,
-        'amount' => -$amount,
-        'type' => 'fee',
-        'description' => 'Naplaćena taxa za objavljivanje oglasa'
-    ]);
-}
-
+    {
+        $this->decrement('balance', $amount);
+        
+        Transaction::create([
+            'user_id' => $this->id,
+            'amount' => -$amount,
+            'type' => 'fee',
+            'description' => 'Naplaćena taxa za objavljivanje oglasa'
+        ]);
+    }
 }

@@ -67,9 +67,9 @@ Route::middleware(['auth'])->group(function () {
         return redirect('/');
     })->name('logout');
 });
-    Route::view('profile', 'profile')
+Route::view('profile', 'profile')
     ->middleware(['auth'])
-    ->name('profile');
+    ->name('profile.edit'); // Promenite ime rute
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -115,6 +115,8 @@ Route::get('/listings/{listing}/edit', \App\Livewire\Listings\Edit::class)
     // Route::get('/listings/{listing:slug}/edit', \App\Livewire\Listings\Edit::class)
     // ->middleware('auth')
     // ->name('listings.edit');
-
+    Route::view('/profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
 
 Route::get('/listings', ListingsIndex::class)->name('listings.index');

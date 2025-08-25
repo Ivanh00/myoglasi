@@ -26,126 +26,129 @@ class Create extends Component
     public $subcategory_id;
 
     public $subcategories;
+
     public function mount()
-{
-    $this->categories = Category::whereNull('parent_id')
-        ->where('is_active', true)
-        ->orderBy('sort_order')
-        ->get() ?? collect();
-
-    $this->conditions = ListingCondition::where('is_active', true)
-        ->orderBy('name')
-        ->get() ?? collect();
-
-    $this->subcategories = collect();
-    
-    // DEBUG: Prikažite sve dostupne kategorije sa brojem podkategorija
-    logger()->info('=== DOSTUPNE KATEGORIJE ===');
-    foreach($this->categories as $category) {
-        $subcatCount = Category::where('parent_id', $category->id)
-            ->where('is_active', true)
-            ->count();
-        
-        logger()->info("ID: {$category->id} - {$category->name} - Podkategorije: {$subcatCount}");
-    }
-    logger()->info('=== KRAJ DOSTUPNIH KATEGORIJA ===');
-}
-
-public function updatedCategory_id($value)
-{
-   
-    $this->subcategory_id = null;
-    
-    if ($value) {
-        
-        // Učitajte podkategorije
-        $this->subcategories = Category::where('parent_id', $value)
+    {
+        $this->categories = Category::whereNull('parent_id')
             ->where('is_active', true)
             ->orderBy('sort_order')
-            ->get();
-        
-    } else {
+            ->get() ?? collect();
+
+        $this->conditions = ListingCondition::where('is_active', true)
+            ->orderBy('name')
+            ->get() ?? collect();
+
         $this->subcategories = collect();
-        logger()->info('Kategorija resetovana.');
-    }
-    
-}
-
-public function save()
-{
-    $this->validate([
-        'title' => 'required|string|min:5|max:100',
-        'description' => 'required|string|min:10|max:2000',
-        'price' => 'required|numeric|min:1',
-        'category_id' => 'required|exists:categories,id',
-        'condition_id' => 'required|exists:listing_conditions,id',
-        'location' => 'required|string|max:255',
-        'images.*' => 'nullable|image|max:5120', // DODAJTE VALIDACIJU ZA SLIKE
-    ]);
-
-    // Sačuvaj slike
-    $imagePaths = [];
-    if (!empty($this->images)) {
-        foreach ($this->images as $image) {
-            $path = $image->store('listings', 'public');
-            $imagePaths[] = $path;
-        }
-    }
-
-    $listing = Listing::create([
-        'user_id' => auth()->id(),
-        'title' => $this->title,
-        'description' => $this->description,
-        'price' => $this->price,
-        'category_id' => $this->category_id,
-        'subcategory_id' => $this->subcategory_id,
-        'condition_id' => $this->condition_id,
-        'location' => $this->location,
-        'contact_phone' => $this->contact_phone,
-        'slug' => Str::slug($this->title) . '-' . Str::random(6),
-        'status' => 'active',
-    ]);
-
-    // Sačuvaj slike u bazi
-    foreach ($imagePaths as $path) {
-        $listing->images()->create([
-            'image_path' => $path,
-            'order' => 0
-        ]);
-    }
-
-    session()->flash('success', 'Oglas je uspešno kreiran!');
-    return redirect()->route('listings.show', $listing);
-}
-
-    public function updated($propertyName)
-{
-    if ($propertyName === 'category_id') {
-        logger()->info('=== UPDATED CATEGORY_ID ===');
-        logger()->info('Nova vrednost: ' . $this->category_id);
         
+        // Automatsko popunjavanje lokacije i telefona iz korisničkog profila
+        $user = auth()->user();
+        $this->location = $user->city; // Koristimo city iz profila
+        $this->contact_phone = $user->phone; // Koristimo phone iz profila
+        
+        // DEBUG: Prikažite sve dostupne kategorije sa brojem podkategorija
+        logger()->info('=== DOSTUPNE KATEGORIJE ===');
+        foreach($this->categories as $category) {
+            $subcatCount = Category::where('parent_id', $category->id)
+                ->where('is_active', true)
+                ->count();
+            
+            logger()->info("ID: {$category->id} - {$category->name} - Podkategorije: {$subcatCount}");
+        }
+        logger()->info('=== KRAJ DOSTUPNIH KATEGORIJA ===');
+    }
+
+    public function updatedCategory_id($value)
+    {
         $this->subcategory_id = null;
         
-        if ($this->category_id) {
-            $this->subcategories = Category::where('parent_id', $this->category_id)
+        if ($value) {
+            // Učitajte podkategorije
+            $this->subcategories = Category::where('parent_id', $value)
                 ->where('is_active', true)
                 ->orderBy('sort_order')
                 ->get();
-                
-            logger()->info('Pronađenih podkategorija: ' . $this->subcategories->count());
-            
-            if ($this->subcategories->count() > 0) {
-                foreach($this->subcategories as $sub) {
-                    logger()->info("  - {$sub->name} (ID: {$sub->id})");
-                }
-            }
         } else {
             $this->subcategories = collect();
+            logger()->info('Kategorija resetovana.');
         }
-        
-        logger()->info('=== KRAJ UPDATED ===');
     }
-}
+
+    public function save()
+    {
+        $this->validate([
+            'title' => 'required|string|min:5|max:100',
+            'description' => 'required|string|min:10|max:2000',
+            'price' => 'required|numeric|min:1',
+            'category_id' => 'required|exists:categories,id',
+            'condition_id' => 'required|exists:listing_conditions,id',
+            'location' => 'required|string|max:255',
+            'contact_phone' => 'nullable|string|max:20', // Dodajte validaciju za telefon
+            'images.*' => 'nullable|image|max:5120',
+        ]);
+
+        // Sačuvaj slike
+        $imagePaths = [];
+        if (!empty($this->images)) {
+            foreach ($this->images as $image) {
+                $path = $image->store('listings', 'public');
+                $imagePaths[] = $path;
+            }
+        }
+
+        $listing = Listing::create([
+            'user_id' => auth()->id(),
+            'title' => $this->title,
+            'description' => $this->description,
+            'price' => $this->price,
+            'category_id' => $this->category_id,
+            'subcategory_id' => $this->subcategory_id,
+            'condition_id' => $this->condition_id,
+            'location' => $this->location,
+            'contact_phone' => $this->contact_phone,
+            'slug' => Str::slug($this->title) . '-' . Str::random(6),
+            'status' => 'active',
+        ]);
+
+        // Sačuvaj slike u bazi
+        foreach ($imagePaths as $path) {
+            $listing->images()->create([
+                'image_path' => $path,
+                'order' => 0
+            ]);
+        }
+
+        session()->flash('success', 'Oglas je uspešno kreiran!');
+        return redirect()->route('listings.show', $listing);
+    }
+
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'category_id') {
+            logger()->info('=== UPDATED CATEGORY_ID ===');
+            logger()->info('Nova vrednost: ' . $this->category_id);
+            
+            $this->subcategory_id = null;
+            
+            if ($this->category_id) {
+                $this->subcategories = Category::where('parent_id', $this->category_id)
+                    ->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->get();
+                    
+                logger()->info('Pronađenih podkategorija: ' . $this->subcategories->count());
+                
+                if ($this->subcategories->count() > 0) {
+                    foreach($this->subcategories as $sub) {
+                        logger()->info("  - {$sub->name} (ID: {$sub->id})");
+                    }
+                }
+            } else {
+                $this->subcategories = collect();
+            }
+            
+            logger()->info('=== KRAJ UPDATED ===');
+        }
+    }
 
     public function render()
     {
@@ -157,17 +160,5 @@ public function save()
         
         return view('livewire.listings.create')
             ->layout('layouts.app');
-    }
-
-    // Dodajte ovu metodu privremeno za testiranje
-    public function testSubcategories()
-    {
-        $categoryId = 1; // ili bilo koji ID koji testirate
-        $subcats = Category::where('parent_id', $categoryId)->get();
-        
-        logger()->info('Test subcategories for category ' . $categoryId, [
-            'count' => $subcats->count(),
-            'data' => $subcats->toArray()
-        ]);
     }
 }
