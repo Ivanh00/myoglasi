@@ -15,19 +15,29 @@
         </a>
 
         @php
-            $categories = \App\Models\Category::with('children')
-                ->whereNull('parent_id')
-                ->where('is_active', true)
-                ->orderBy('sort_order')
-                ->get();
+            // Učitaj kategorije direktno ovde ako nisu prosleđene
+            $categoryTree = isset($categoryTree)
+                ? $categoryTree
+                : \App\Models\Category::with([
+                    'children' => function ($query) {
+                        $query->where('is_active', true)->orderBy('sort_order');
+                    },
+                ])
+                    ->whereNull('parent_id')
+                    ->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->get();
         @endphp
 
-        @foreach ($categories as $category)
+        @foreach ($categoryTree as $category)
             <div class="mt-1">
-                <!-- Glavna kategorija sa "Svi oglasi" linkom -->
-                <div class="flex items-center justify-between group">
-                    <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
-                        class="flex-1 flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50 text-blue-700' : '' }}">
+                <!-- Glavna kategorija - ceo red je klikabilan za otvaranje/zatvaranje -->
+                <div class="flex items-center justify-between group cursor-pointer rounded-lg hover:bg-gray-100 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50' : '' }}"
+                    @click="openCategory = openCategory === '{{ $category->id }}' ? null : '{{ $category->id }}'">
+
+                    <!-- Levi deo - ikonica i naziv -->
+                    <div
+                        class="flex items-center flex-1 px-3 py-2 text-gray-700 {{ request()->get('selectedCategory') == $category->id ? 'text-blue-700' : '' }}">
                         @if ($category->icon)
                             <img src="{{ $category->icon }}" alt="{{ $category->name }}" class="w-5 h-5 mr-3">
                         @else
@@ -37,30 +47,37 @@
                                 </path>
                             </svg>
                         @endif
-                        {{ $category->name }}
-                    </a>
+                        <span class="flex-1">{{ $category->name }}</span>
+                        <span class="text-xs text-gray-400 ml-2">
+                            (@if (method_exists($category, 'getAllListingsCount'))
+                                {{ $category->getAllListingsCount() }}
+                            @else
+                                {{ $category->listings_count ?? 0 }}
+                            @endif)
+                        </span>
+                    </div>
 
+                    <!-- Desni deo - strelica samo ako ima podkategorija -->
                     @if ($category->children->count() > 0)
-                        <button
-                            @click="openCategory = openCategory === '{{ $category->id }}' ? null : '{{ $category->id }}'"
-                            class="p-2 text-gray-400 hover:text-gray-600">
+                        <div class="p-2 text-gray-400">
                             <svg class="w-4 h-4 transition-transform duration-200"
                                 :class="{ 'transform rotate-90': openCategory === '{{ $category->id }}' }"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 7-7 7" />
                             </svg>
-                        </button>
+                        </div>
                     @endif
                 </div>
 
-                <!-- Podkategorije -->
+                <!-- Podkategorije i "Svi oglasi" link -->
                 @if ($category->children->count() > 0)
-                    <div class="ml-6 mt-1 overflow-hidden transition-all duration-200"
+                    <div class="mt-1 overflow-hidden transition-all duration-200"
                         :class="{ 'max-h-0': openCategory !== '{{ $category->id }}', 'max-h-96': openCategory === '{{ $category->id }}' }">
+
                         <!-- "Svi oglasi" za ovu kategoriju -->
                         <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
-                            class="block px-3 py-2 text-sm text-gray-700 rounded hover:bg-gray-50 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50 text-blue-600' : '' }}">
+                            class="block px-3 py-2 text-sm text-gray-600 rounded hover:bg-gray-50 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50 text-blue-600' : '' }}">
                             📁 Svi oglasi u {{ $category->name }}
                         </a>
 
@@ -68,9 +85,22 @@
                             <a href="{{ route('listings.index', ['selectedCategory' => $child->id]) }}"
                                 class="block px-3 py-2 text-sm text-gray-600 rounded hover:bg-gray-50 {{ request()->get('selectedCategory') == $child->id ? 'bg-blue-50 text-blue-600' : '' }}">
                                 • {{ $child->name }}
+                                <span class="text-xs text-gray-400 ml-1">
+                                    (@if (method_exists($child, 'getAllListingsCount'))
+                                        {{ $child->getAllListingsCount() }}
+                                    @else
+                                        {{ $child->listings_count ?? 0 }}
+                                    @endif)
+                                </span>
                             </a>
                         @endforeach
                     </div>
+                @else
+                    <!-- Ako nema podkategorija, "Svi oglasi" link bude uvek vidljiv -->
+                    <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
+                        class="block px-3 py-2 text-sm text-gray-600 rounded hover:bg-gray-50 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50 text-blue-600' : '' }}">
+                        📁 Svi oglasi u {{ $category->name }}
+                    </a>
                 @endif
             </div>
         @endforeach

@@ -130,7 +130,16 @@ class Category extends Model
      * Get all listings count including subcategories
      */
     public function getAllListingsCount()
-    {
-        return $this->allListings()->where('status', 'active')->count();
+{
+    try {
+        $categoryIds = $this->getAllCategoryIds();
+        
+        return Listing::whereIn('category_id', $categoryIds)
+            ->orWhereIn('subcategory_id', $categoryIds)
+            ->where('status', 'active')
+            ->count();
+    } catch (\Exception $e) {
+        return 0; // Vrati 0 ako dodje do greške
     }
+}
 }
