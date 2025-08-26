@@ -45,16 +45,6 @@ class Create extends Component
         $this->location = $user->city; // Koristimo city iz profila
         $this->contact_phone = $user->phone; // Koristimo phone iz profila
         
-        // DEBUG: Prikažite sve dostupne kategorije sa brojem podkategorija
-        logger()->info('=== DOSTUPNE KATEGORIJE ===');
-        foreach($this->categories as $category) {
-            $subcatCount = Category::where('parent_id', $category->id)
-                ->where('is_active', true)
-                ->count();
-            
-            logger()->info("ID: {$category->id} - {$category->name} - Podkategorije: {$subcatCount}");
-        }
-        logger()->info('=== KRAJ DOSTUPNIH KATEGORIJA ===');
     }
 
     public function updatedCategory_id($value)

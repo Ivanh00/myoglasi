@@ -34,3 +34,14 @@
     height: 100%;
     object-fit: cover;
 }
+input[readonly] {
+    background-color: #f9fafb; /* bg-gray-50 */
+    color: #6b7280; /* text-gray-500 */
+    cursor: not-allowed;
+}
+
+input[readonly]:focus {
+    outline: none;
+    ring: none;
+    border-color: #d1d5db; /* border-gray-300 */
+}

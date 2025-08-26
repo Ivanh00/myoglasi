@@ -212,12 +212,22 @@
                 <label for="location" class="block text-sm font-medium text-gray-700 mb-2">
                     Lokacija <span class="text-red-500">*</span>
                 </label>
-                <input type="text" wire:model="location" id="location"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('location') border-red-500 @enderror"
-                    placeholder="Grad, opština" value="{{ auth()->user()->city }}">
+                <input type="text" wire:model="location" id="location" readonly
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed @error('location') border-red-500 @enderror"
+                    value="{{ auth()->user()->city }}">
                 @error('location')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <!-- Contact Phone -->
+            <div>
+                <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-2">
+                    Kontakt telefon
+                </label>
+                <input type="text" wire:model="contact_phone" id="contact_phone" readonly
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+                    value="{{ auth()->user()->phone }}">
                 <p class="text-gray-500 text-sm mt-1">
                     Automatski preuzeto iz vašeg profila.
                     <a href="{{ route('profile') }}" class="text-blue-600 hover:text-blue-500">
@@ -237,24 +247,6 @@
                     </a>
                 </p>
             </div> --}}
-
-            <!-- Contact Phone -->
-            <div>
-                <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-2">
-                    Kontakt telefon
-                </label>
-                <input type="text" wire:model="contact_phone" id="contact_phone"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="+381 60 123 4567" value="{{ auth()->user()->phone }}">
-                <p class="text-gray-500 text-sm mt-1">
-                    Automatski preuzeto iz vašeg profila.
-                    <a href="{{ route('profile') }}" class="text-blue-600 hover:text-blue-500">
-                        Ažuriraj profil
-                    </a>
-                </p>
-            </div>
-
-
 
             <!-- Submit Buttons -->
             <div class="flex items-center justify-between pt-6 border-t">

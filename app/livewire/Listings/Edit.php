@@ -28,35 +28,51 @@ class Edit extends Component
     public $newImages = [];
 
     public function mount(Listing $listing)
-    {
-        // Proveri da li je korisnik vlasnik oglasa
-        if (auth()->id() !== $listing->user_id) {
-            abort(403);
-        }
+{
+    $this->listing = $listing;
+    
+    // Popuni polja sa postojećim vrednostima iz oglasa
+    $this->title = $listing->title;
+    $this->description = $listing->description;
+    $this->price = $listing->price;
+    $this->category_id = $listing->category_id;
+    $this->subcategory_id = $listing->subcategory_id;
+    $this->condition_id = $listing->condition_id;
+    $this->location = $listing->location;
+    $this->contact_phone = $listing->contact_phone;
+    
+    $this->categories = Category::whereNull('parent_id')
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get() ?? collect();
 
-        $this->listing = $listing;
-        $this->categories = Category::whereNull('parent_id')
+    $this->conditions = ListingCondition::where('is_active', true)
+        ->orderBy('name')
+        ->get() ?? collect();
+
+    // Učitaj podkategorije ako postoji kategorija
+    if ($this->category_id) {
+        $this->subcategories = Category::where('parent_id', $this->category_id)
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
-
-        $this->conditions = ListingCondition::where('is_active', true)
-            ->orderBy('name')
-            ->get();
-
-        // Popuni polja sa postojećim podacima
-        $this->title = $listing->title;
-        $this->description = $listing->description;
-        $this->price = $listing->price;
-        $this->condition_id = $listing->condition_id;
-        $this->location = $listing->location;
-        $this->contact_phone = $listing->contact_phone;
-        $this->category_id = $listing->category_id;
-        $this->subcategory_id = $listing->subcategory_id;
-
-        // Učitaj podkategorije
-        $this->loadSubcategories();
+    } else {
+        $this->subcategories = collect();
     }
+    
+    // PROVERA DA LI JE POTREBNO AŽURIRATI PODATKE IZ PROFILA
+    $user = auth()->user();
+    
+    // Provera da li je lokacija popunjena u profilu
+    if (empty($user->city)) {
+        session()->flash('warning', 'Molimo vas da popunite vašu lokaciju u profilu. <a href="'.route('profile').'" class="underline">Ažuriraj profil</a>');
+    }
+    
+    // Provera da li je telefon popunjen u profilu
+    if (empty($user->phone)) {
+        session()->flash('info', 'Molimo vas da popunite vaš telefon u profilu kako bi kupci mogli da vas kontaktiro. <a href="'.route('profile').'" class="underline">Ažuriraj profil</a>');
+    }
+}
 
     public function updatedCategoryId($value)
     {
