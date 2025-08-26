@@ -120,3 +120,15 @@ Route::get('/listings/{listing}/edit', \App\Livewire\Listings\Edit::class)
     ->name('profile');
 
 Route::get('/listings', ListingsIndex::class)->name('listings.index');
+
+
+
+
+
+// routes/web.php
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', \App\Livewire\Admin\Dashboard::class)->name('dashboard');
+    Route::get('/users', \App\Livewire\Admin\UserManagement::class)->name('users.index');
+    Route::get('/listings', \App\Livewire\Admin\ListingManagement::class)->name('listings.index');
+    Route::get('/categories', \App\Livewire\Admin\CategoryManagement::class)->name('categories.index');
+});

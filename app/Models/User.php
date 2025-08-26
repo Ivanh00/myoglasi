@@ -26,6 +26,7 @@ class User extends Authenticatable
         'phone',          // Dodajte ovo
         'phone_visible',  // Dodajte ovo
         'avatar',         // Dodajte ovo ako želite
+        'is_admin', 
     ];
 
     /**
@@ -48,7 +49,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'phone_visible' => 'boolean', // Dodajte cast za boolean
+            'phone_visible' => 'boolean',
+            'is_admin' => 'boolean', // DODAJTE OVO
+            'balance' => 'decimal:2',
         ];
     }
 
