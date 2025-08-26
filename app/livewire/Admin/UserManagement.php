@@ -14,6 +14,18 @@ class UserManagement extends Component
     public $perPage = 10;
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
+    public $selectedUser = null;
+    public $showEditModal = false;
+
+    public $editState = [
+        'name' => '',
+        'email' => '',
+        'city' => '',
+        'phone' => '',
+        'phone_visible' => false,
+        'is_admin' => false,
+        'is_banned' => false
+    ];
 
     public function sortBy($field)
     {
@@ -25,13 +37,36 @@ class UserManagement extends Component
         }
     }
 
-    public function toggleAdmin($userId)
+    public function editUser($userId)
     {
-        $user = User::find($userId);
-        $user->is_admin = !$user->is_admin;
-        $user->save();
+        $this->selectedUser = User::find($userId);
+        $this->editState = [
+            'name' => $this->selectedUser->name,
+            'email' => $this->selectedUser->email,
+            'city' => $this->selectedUser->city,
+            'phone' => $this->selectedUser->phone,
+            'phone_visible' => $this->selectedUser->phone_visible,
+            'is_admin' => $this->selectedUser->is_admin,
+            'is_banned' => $this->selectedUser->is_banned ?? false
+        ];
+        $this->showEditModal = true;
+    }
 
-        $this->dispatch('notify', type: 'success', message: 'Korisnik ažuriran!');
+    public function updateUser()
+    {
+        $validated = $this->validate([
+            'editState.name' => 'required|string|max:255',
+            'editState.email' => 'required|email|unique:users,email,' . $this->selectedUser->id,
+            'editState.city' => 'nullable|string|max:255',
+            'editState.phone' => 'nullable|string|max:20',
+            'editState.phone_visible' => 'boolean',
+            'editState.is_admin' => 'boolean',
+            'editState.is_banned' => 'boolean'
+        ]);
+
+        $this->selectedUser->update($validated['editState']);
+        $this->showEditModal = false;
+        $this->dispatch('notify', 'Korisnik uspešno ažuriran!');
     }
 
     public function deleteUser($userId)
@@ -39,12 +74,12 @@ class UserManagement extends Component
         $user = User::find($userId);
         
         if ($user->is_admin) {
-            $this->dispatch('notify', type: 'error', message: 'Ne možete obrisati admina!');
+            $this->dispatch('notify', 'Ne možete obrisati admin korisnika!', 'error');
             return;
         }
 
         $user->delete();
-        $this->dispatch('notify', type: 'success', message: 'Korisnik obrisan!');
+        $this->dispatch('notify', 'Korisnik uspešno obrisan!');
     }
 
     public function render()
@@ -52,7 +87,8 @@ class UserManagement extends Component
         $users = User::query()
             ->when($this->search, function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('email', 'like', '%' . $this->search . '%');
+                      ->orWhere('email', 'like', '%' . $this->search . '%')
+                      ->orWhere('city', 'like', '%' . $this->search . '%');
             })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
