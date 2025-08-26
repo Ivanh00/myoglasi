@@ -46,19 +46,17 @@
             <div class="flex flex-col sm:flex-row gap-3">
                 <!-- Sortiranje -->
                 <div class="relative">
-                    <button
-                        class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 13L1 8l5-5m0 10l5 5-5 5"></path>
-                        </svg>
-                        <span>Sortiraj</span>
-                    </button>
+                    <select wire:model.live="sortBy"
+                        class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="newest">Najnovije</option>
+                        <option value="price_asc">Cena: niža → viša</option>
+                        <option value="price_desc">Cena: viša → niža</option>
+                    </select>
                 </div>
 
                 <!-- Broj oglasa po strani -->
                 <div class="relative">
-                    <select
+                    <select wire:model.live="perPage"
                         class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="20">20 po strani</option>
                         <option value="50">50 po strani</option>
