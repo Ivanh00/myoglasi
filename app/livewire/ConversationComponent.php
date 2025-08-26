@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Log;
+use Validator;
 use App\Models\User;
 use App\Models\Listing;
 use App\Models\Message;
@@ -38,9 +39,9 @@ class ConversationComponent extends Component
                 ->with('error', 'Morate se prijaviti da biste slali poruke.');
         }
 
-        if (Auth::id() === $this->listing->user_id) {
-            abort(403, 'Ne možete slati poruke samom sebi.');
-        }
+        // if (Auth::id() === $this->listing->user_id) {
+        //     abort(403, 'Ne možete slati poruke samom sebi.');
+        // }
 
         $this->otherUser = $this->listing->user;
         $this->conversationId = "conversation_{$this->listing->id}_{$this->otherUser->id}";
@@ -84,7 +85,7 @@ class ConversationComponent extends Component
     public function sendMessage()
 {
     // Manualna validacija umesto $this->validate()
-    $validator = \Validator::make(
+    $validator = Validator::make(
         ['newMessage' => $this->newMessage],
         ['newMessage' => 'required|string|max:1000|min:1']
     );
