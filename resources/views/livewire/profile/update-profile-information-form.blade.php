@@ -85,7 +85,7 @@ $sendVerification = function () {
                         {{ __('Your email address is unverified.') }}
 
                         <button wire:click.prevent="sendVerification"
-                            class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                            class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
@@ -100,12 +100,37 @@ $sendVerification = function () {
         </div>
 
         <!-- Grad/Mesto -->
-        <div x-data="{ open: false, selected: @entangle('city') }" class="relative">
+        <div x-data="{
+            open: false,
+            selected: @entangle('city'),
+            search: '',
+            normalize(str) {
+                const map = {
+                    'š': 's',
+                    's': 's',
+                    'ć': 'c',
+                    'č': 'c',
+                    'c': 'c',
+                    'ž': 'z',
+                    'z': 'z',
+                    'đ': 'dj',
+                    'd': 'd',
+                    'dj': 'dj'
+                };
+                return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
+            },
+            get filteredCities() {
+                return @js(config('cities')).filter(c =>
+                    this.normalize(c).includes(this.normalize(this.search))
+                );
+            }
+        }" class="relative">
+
             <x-input-label for="city" :value="__('City')" />
 
             <!-- Dugme -->
             <button type="button" @click="open = !open"
-                class="mt-1 w-full flex justify-between items-center border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-sm shadow-sm px-3 py-2 focus:outline-none">
+                class="mt-1 w-full flex justify-between items-center border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none">
                 <span x-text="selected ? selected : '{{ __('Odaberi grad') }}'"></span>
                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -114,15 +139,26 @@ $sendVerification = function () {
 
             <!-- Popup -->
             <div x-show="open" x-transition @click.away="open = false"
-                class="absolute z-20 mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg p-4">
+                class="absolute z-20 mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg">
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 max-h-72 overflow-y-auto">
-                    @foreach (config('cities') as $city)
-                        <button type="button" @click="selected = '{{ $city }}'; open = false"
-                            class="w-full text-left px-2 py-2 rounded-md hover:bg-blue-500 hover:text-white transition">
-                            {{ $city }}
+                <!-- Search bar -->
+                <div class="p-2 border-b border-gray-200 dark:border-gray-700">
+                    <input type="text" x-model="search" placeholder="Pretraži grad..."
+                        class="w-full px-3 py-2 border rounded-md dark:bg-gray-900 dark:text-gray-300 focus:outline-none focus:ring focus:border-indigo-500">
+                </div>
+
+                <!-- Lista gradova -->
+                <div class="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 max-h-72 overflow-y-auto">
+                    <template x-for="city in filteredCities" :key="city">
+                        <button type="button" @click="selected = city; open = false"
+                            class="w-full text-left px-2 py-2 rounded-md hover:bg-indigo-500 hover:text-white transition"
+                            :class="selected === city ? 'bg-indigo-600 text-white' : ''">
+                            <span x-text="city"></span>
                         </button>
-                    @endforeach
+                    </template>
+                    <div x-show="filteredCities.length === 0" class="col-span-full text-center text-gray-500 py-2">
+                        Nema rezultata
+                    </div>
                 </div>
             </div>
 
@@ -130,6 +166,8 @@ $sendVerification = function () {
             <input type="hidden" name="city" :value="selected">
             <x-input-error class="mt-2" :messages="$errors->get('city')" />
         </div>
+
+
 
 
         <!-- Telefon -->
