@@ -47,11 +47,15 @@
             <div class="text-gray-600">
                 Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
                 @if ($selectedCategory)
-                    @php
-                        $currentCategory = $categories->firstWhere('id', $selectedCategory);
-                        $categoryName = $currentCategory ? $currentCategory->name : 'Nepoznata kategorija';
-                    @endphp
-                    u kategoriji: <span class="font-semibold">{{ $categoryName }}</span>
+                    @if ($currentCategory)
+                        u kategoriji: <span class="font-semibold">
+                            @if ($currentCategory->parent)
+                                {{ $currentCategory->parent->name }} / {{ $currentCategory->name }}
+                            @else
+                                {{ $currentCategory->name }}
+                            @endif
+                        </span>
+                    @endif
                 @endif
             </div>
 
