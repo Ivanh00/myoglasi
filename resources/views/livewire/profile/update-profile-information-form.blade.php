@@ -100,19 +100,37 @@ $sendVerification = function () {
         </div>
 
         <!-- Grad/Mesto -->
-        <div>
+        <div x-data="{ open: false, selected: @entangle('city') }" class="relative">
             <x-input-label for="city" :value="__('City')" />
-            <select wire:model="city" id="city" name="city"
-                class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                <option value="" disabled selected>{{ __('Odaberi grad') }}</option>
-                <option value="Beograd">Beograd</option>
-                <option value="Novi Sad">Novi Sad</option>
-                <option value="Niš">Niš</option>
-                <option value="Kragujevac">Kragujevac</option>
-                <option value="Subotica">Subotica</option>
-            </select>
+
+            <!-- Dugme -->
+            <button type="button" @click="open = !open"
+                class="mt-1 w-full flex justify-between items-center border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-sm shadow-sm px-3 py-2 focus:outline-none">
+                <span x-text="selected ? selected : '{{ __('Odaberi grad') }}'"></span>
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            <!-- Popup -->
+            <div x-show="open" x-transition @click.away="open = false"
+                class="absolute z-20 mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg p-4">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 max-h-72 overflow-y-auto">
+                    @foreach (config('cities') as $city)
+                        <button type="button" @click="selected = '{{ $city }}'; open = false"
+                            class="w-full text-left px-2 py-2 rounded-md hover:bg-blue-500 hover:text-white transition">
+                            {{ $city }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Hidden input -->
+            <input type="hidden" name="city" :value="selected">
             <x-input-error class="mt-2" :messages="$errors->get('city')" />
         </div>
+
 
         <!-- Telefon -->
         <div>

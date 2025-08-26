@@ -1,0 +1,42 @@
+<?php
+
+return [
+
+    "Ada","Aleksandrovac","Aleksinac","Alibunar","Apatin","Aranđelovac","Arilje","Azanja",
+    "Babušnica","Bač","Bačka Palanka","Bačka Topola","Bački Petrovac","Bačko Gradište",
+    "Bačko Petrovo Selo","Bajina Bašta","Bajmok","Banatski Brestovac","Banatski Karlovac",
+    "Banatsko Novo Selo","Banja Koviljača","Banja Rusanda","Banja Vrujci","Barajevo",
+    "Batočina","Bavanište","Bečej","Bela Crkva","Bela Palanka","Beočin",
+    "Beograd","Beograd | Batajnica","Beograd | Čukarica","Beograd | Novi Bg.",
+    "Beograd | Palilula","Beograd | Rakovica","Beograd | Savski venac",
+    "Beograd | Stari grad","Beograd | Ugrinovci","Beograd | Voždovac",
+    "Beograd | Vračar","Beograd | Zemun","Beograd | Zvezdara",
+    "Beška","Blace","Bogatić","Bojnik","Boljevac","Bor","Borča","Bosilegrad",
+    "Brus","Bujanovac","Čačak","Čajetina","Čelarevo","Čoka","Čurug","Ćićevac",
+    "Ćuprija","Debeljača","Despotovac","Dimitrovgrad","Divčibare","Dobanovci",
+    "Dolovo (kod Pančeva)","Doljevac","Donji Milanovac","Đakovica","Feketić","Futog",
+    "Gadžin Han","Gnjilane","Golubac","Golubinci","Gornji Milanovac","Grocka","Guča",
+    "Horgoš","Inđija","Irig","Ivanjica","Jagodina","Jakovo","Jošanička Banja",
+    "Kačarevo","Kać","Kanjiža","Kikinda","Kisač","Kladovo","Knić","Knjaževac",
+    "Koceljeva","Kopaonik","Kosjerić","Kosmaj","Kosovska Mitrovica","Kostolac",
+    "Kovačica","Kovilj","Kovin","Kragujevac","Kraljevo","Krupanj","Kruševac",
+    "Kučevo","Kula","Kuršumlija","Kusadak","Laćarak","Lajkovac","Lapovo","Lazarevac",
+    "Lebane","Leposavić","Leskovac","Loznica","Lozovik (Velika Plana)","Lučani",
+    "Lukovska Banja","Ljig","Ljubovija","Majdanpek","Majur (Šabac)","Mali Iđoš",
+    "Mali Zvornik","Malo Crniće","Mataruška Banja","Medveđa","Melenci","Merošina",
+    "Mionica","Mladenovac","Mol","Negotin","Niš","Niška Banja","Nova Crnja",
+    "Nova Pazova","Nova Varoš","Novi Banovci","Novi Bečej","Novi Kneževac",
+    "Novi Pazar","Novi Sad","Novo Miloševo","Obrenovac","Odžaci","Omoljica",
+    "Opovo","Osečina","Padina","Palić","Pančevo","Paraćin","Peć","Pećinci",
+    "Petrovac na Mlavi","Petrovaradin","Pirot","Plandište","Pojate","Požarevac",
+    "Požega","Preševo","Priboj","Prijepolje","Prilužje","Prokuplje","Rača",
+    "Raška","Rakovica","Ruma","Senta","Sevojno","Sjenica","Smederevo",
+    "Smederevska Palanka","Sokobanja","Sombor","Sopot","Srbobran","Sremska Kamenica",
+    "Sremska Mitrovica","Sremski Karlovci","Stara Pazova","Subotica","Surčin",
+    "Surdulica","Svrljig","Temerin","Titel","Topola","Trstenik","Tutin",
+    "Ub","Užice","Valjevo","Varvarin","Velika Plana","Veliko Gradište","Veternik",
+    "Vladimirci","Vladičin Han","Vlasotince","Vranje","Vrbac","Vrbovsko","Vrbas",
+    "Vrnjačka Banja","Vršac","Zaječar","Zlatibor","Zrenjanin","Žabalj","Žagubica",
+    "Žitište","Žitorađa"
+
+];
