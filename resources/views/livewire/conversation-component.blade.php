@@ -177,7 +177,8 @@
     <div class="message-form-holder">
         <div class="text-field-holder">
             <textarea wire:model="newMessage" id="message" name="message" class="message-textfield"
-                placeholder="Unesite Vašu poruku. Za brže slanje pritisnite CTRL + ENTER" wire:keydown.enter.ctrl="sendMessage"></textarea>
+                wire:keydown.enter.prevent="sendMessage" placeholder="Unesite Vašu poruku. Za brže slanje pritisnite CTRL + ENTER"
+                wire:keydown.enter.ctrl="sendMessage"></textarea>
 
             <div class="emoji-picker">
                 <button class="emoji-button">
@@ -201,15 +202,9 @@
         </div>
 
         <section class="form-buttons">
-            <button class="send-button" wire:click="sendMessage">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M0.933367 2.15456C0.719728 1.77229 0.779665 1.29549 1.08127 0.977984C1.38287 0.660483 1.85597 0.576154 2.2487 0.769892L15 7C15.1677 7.0853 15.2733 7.36618 15.2733 7.55433C15.2733 7.74248 15.1677 7.9147 15 8L2.2487 14.5486C1.85597 14.7423 1.38287 14.658 1.08127 14.3405C0.779665 14.023 0.719728 13.5462 0.933367 13.1639L4.5 7.5L0.933367 2.15456Z"
-                        stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M15.2294 7.5H4.33337" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-                Pošaljite poruku
+            <button wire:click="sendMessage" wire:loading.attr="disabled" wire:target="sendMessage">
+                <span wire:loading.remove wire:target="sendMessage">Pošaljite poruku</span>
+                <span wire:loading wire:target="sendMessage">Slanje...</span>
             </button>
         </section>
     </div>

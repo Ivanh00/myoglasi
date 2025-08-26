@@ -12,6 +12,7 @@ class MessagesComponent extends Component
     {
         return view('livewire.messages-component')
         ->layout('layouts.app');
+
     }
 
     public $conversations = [];
@@ -84,21 +85,21 @@ class MessagesComponent extends Component
             ->update(['is_read' => true]);
     }
     
-    public function sendMessage()
-    {
-        if (empty($this->newMessage) || !$this->selectedConversation) {
-            return;
-        }
+    // public function sendMessage()
+    // {
+    //     if (empty($this->newMessage) || !$this->selectedConversation) {
+    //         return;
+    //     }
         
-        Message::create([
-            'sender_id' => auth()->id(),
-            'receiver_id' => $this->selectedConversation->user_id,
-            'listing_id' => $this->selectedConversation->id,
-            'message' => $this->newMessage
-        ]);
+    //     Message::create([
+    //         'sender_id' => auth()->id(),
+    //         'receiver_id' => $this->selectedConversation->user_id,
+    //         'listing_id' => $this->selectedConversation->id,
+    //         'message' => $this->newMessage
+    //     ]);
         
-        $this->newMessage = '';
-        $this->loadMessages($this->selectedConversation->id);
-        $this->loadConversations(); // Refresh conversations list
-    }
+    //     $this->newMessage = '';
+    //     $this->loadMessages($this->selectedConversation->id);
+    //     $this->loadConversations(); // Refresh conversations list
+    // }
 }

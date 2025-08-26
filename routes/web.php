@@ -148,27 +148,27 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 // Listings ruta (Livewire komponenta)
 Route::get('/listings', \App\Livewire\Listings\Index::class)->name('listings.index');
 
-Route::get('/oglasi/{listing}/chat', \App\Livewire\ConversationComponent::class)->name('listing.chat');// Prvi način: Korišćenje Livewire rute
+// Route::get('/oglasi/{listing}/chat', \App\Livewire\ConversationComponent::class)->name('listing.chat');// Prvi način: Korišćenje Livewire rute
 
-// Ili drugi način: Eksplicitno navođenje parametra
-Route::get('/oglasi/{listingId}/chat', function ($listingId) {
-    return Livewire::render(ConversationComponent::class, ['listingId' => $listingId]);
-})->name('listing.chat');
+// // Ili drugi način: Eksplicitno navođenje parametra
+// Route::get('/oglasi/{listingId}/chat', function ($listingId) {
+//     return Livewire::render(ConversationComponent::class, ['listingId' => $listingId]);
+// })->name('listing.chat');
 
-// Probajte oba formata da vidite koji radi
-Route::get('/oglasi/{listing}/chat', ConversationComponent::class)->name('listing.chat');
-// ILI
-Route::get('/oglasi/{listingId}/chat', ConversationComponent::class)->name('listing.chat');
-Route::get('/oglasi/{listingSlug}/chat', ConversationComponent::class)->name('listing.chat');
-// Koristite {slug} kao parametar
-Route::get('/oglasi/{slug}/chat', ConversationComponent::class)->name('listing.chat');
+// // Probajte oba formata da vidite koji radi
+// Route::get('/oglasi/{listing}/chat', ConversationComponent::class)->name('listing.chat');
+// // ILI
+// Route::get('/oglasi/{listingId}/chat', ConversationComponent::class)->name('listing.chat');
+// Route::get('/oglasi/{listingSlug}/chat', ConversationComponent::class)->name('listing.chat');
+// // Koristite {slug} kao parametar
+// Route::get('/oglasi/{slug}/chat', ConversationComponent::class)->name('listing.chat');
 
-// Proverite da li imate ovakvu rutu
-Route::get('/oglasi/{listing}', [ListingController::class, 'show'])->name('listing.show');
+// // Proverite da li imate ovakvu rutu
+// Route::get('/oglasi/{listing}', [ListingController::class, 'show'])->name('listing.show');
 
-// // ILI ako koristite Livewire komponentu
-// Route::get('/oglasi/{listing}', ShowListingComponent::class)->name('listing.show');
-
+Route::get('/oglasi/{slug}/chat', \App\Livewire\ConversationComponent::class)->name('listing.chat');
+// Dodajte ovu rutu za prikaz pojedinačnog oglasa
+Route::get('/oglasi/{listing:slug}', [App\Http\Controllers\ListingController::class, 'show'])->name('listing.show');
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {

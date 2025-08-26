@@ -29,12 +29,12 @@ class AppServiceProvider extends ServiceProvider
 {
     View::share('year', date('Y'));
 
-    view()->composer('*', function ($view) {
-        if (!app()->runningInConsole()) {
-            // DODAJTE ->toArray() !!!
-            $view->with('categories', \App\Models\Category::whereNull('parent_id')->get()->toArray());
-            $view->with('conditions', \App\Models\ListingCondition::all()->toArray());
-        }
-    });
+    // view()->composer('*', function ($view) {
+    //     if (!app()->runningInConsole()) {
+    //         // DODAJTE ->toArray() !!!
+    //         $view->with('categories', \App\Models\Category::whereNull('parent_id')->get()->toArray());
+    //         $view->with('conditions', \App\Models\ListingCondition::all()->toArray());
+    //     }
+    // });
 }
 }

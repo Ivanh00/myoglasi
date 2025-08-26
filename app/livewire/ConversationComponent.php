@@ -24,12 +24,6 @@ class ConversationComponent extends Component
     public function mount($slug = null)
     {
         if (!$slug) {
-            $slug = request()->route('slug') ?? 
-                   request()->route('listingSlug') ?? 
-                   request()->route('listing');
-        }
-
-        if (!$slug) {
             abort(404, 'Oglas nije pronađen');
         }
 
@@ -51,12 +45,9 @@ class ConversationComponent extends Component
         $this->otherUser = $this->listing->user;
         $this->conversationId = "conversation_{$this->listing->id}_{$this->otherUser->id}";
         
-        // Inicijalizujte messages kao praznu kolekciju
         $this->messages = collect([]);
-        
         $this->loadMessages();
         $this->markMessagesAsRead();
-        $this->loadAddresses();
     }
 
     public function loadMessages()
@@ -69,12 +60,12 @@ class ConversationComponent extends Component
                 })
                 ->with(['sender', 'receiver'])
                 ->orderBy('created_at', 'asc')
-                ->get(); // Ovo vraća Collection
+                ->get();
                 
             $this->dispatch('scrollToBottom');
         } catch (\Exception $e) {
-            \Log::error('Error loading messages: ' . $e->getMessage());
-            $this->messages = collect([]); // Vratite praznu Collection
+            Log::error('Error loading messages: ' . $e->getMessage());
+            $this->messages = collect([]);
         }
     }
 
@@ -86,32 +77,41 @@ class ConversationComponent extends Component
                 ->where('is_read', false)
                 ->update(['is_read' => true]);
         } catch (\Exception $e) {
-            \Log::error('Error marking messages as read: ' . $e->getMessage());
+            Log::error('Error marking messages as read: ' . $e->getMessage());
         }
     }
 
     public function sendMessage()
 {
-    $this->validate([
-        'newMessage' => 'required|string|max:1000',
-    ]);
+    // Manualna validacija umesto $this->validate()
+    $validator = \Validator::make(
+        ['newMessage' => $this->newMessage],
+        ['newMessage' => 'required|string|max:1000|min:1']
+    );
+
+    if ($validator->fails()) {
+        $this->addError('newMessage', $validator->errors()->first('newMessage'));
+        return;
+    }
+
+    // Sprečite dupli submit
+    if (empty(trim($this->newMessage))) {
+        return;
+    }
 
     try {
-        // Umesto Message::create(), koristite new Message()
         $message = new Message();
         $message->sender_id = Auth::id();
         $message->receiver_id = $this->listing->user_id;
         $message->listing_id = $this->listing->id;
-        $message->message = $this->newMessage;
+        $message->message = trim($this->newMessage);
         $message->save();
 
         $this->newMessage = '';
         $this->loadMessages();
-        $this->dispatch('messageSent');
-
+        
     } catch (\Exception $e) {
         \Log::error('Error sending message: ' . $e->getMessage());
-        \Log::error('Error trace: ' . $e->getTraceAsString());
         session()->flash('error', 'Došlo je do greške pri slanju poruke.');
     }
 }
@@ -124,25 +124,6 @@ class ConversationComponent extends Component
     public function toggleAddressList()
     {
         $this->showAddressList = !$this->showAddressList;
-    }
-
-    public function sendAddress($addressId)
-    {
-        $addressText = "Moja adresa: Primer adrese 123, Beograd, 063123456";
-        
-        try {
-            Message::create([
-                'sender_id' => Auth::id(),
-                'receiver_id' => $this->listing->user_id,
-                'listing_id' => $this->listing->id,
-                'message' => $addressText,
-            ]);
-            
-            $this->loadMessages();
-            $this->showAddressList = false;
-        } catch (\Exception $e) {
-            \Log::error('Error sending address: ' . $e->getMessage());
-        }
     }
 
     public function render()
