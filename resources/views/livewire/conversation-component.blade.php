@@ -1,7 +1,7 @@
 <div class="conversation-container">
     <!-- Navigacija -->
     <section class="navigation-holder">
-        <a class="back-button" href="{{ url()->previous() }}">
+        <a class="back-button" href="{{ route('messages.inbox') }}">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M10 15L3.63057 8.32978C3.54697 8.24236 3.5 8.12372 3.5 8C3.5 7.87628 3.54697 7.75764 3.63057 7.67022L10 1"

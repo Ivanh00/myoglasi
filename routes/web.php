@@ -169,6 +169,10 @@ Route::get('/listings', \App\Livewire\Listings\Index::class)->name('listings.ind
 Route::get('/oglasi/{slug}/chat', \App\Livewire\ConversationComponent::class)->name('listing.chat');
 // Dodajte ovu rutu za prikaz pojedinačnog oglasa
 Route::get('/oglasi/{listing:slug}', [App\Http\Controllers\ListingController::class, 'show'])->name('listing.show');
+// Dodajte ovu rutu za listu poruka
+Route::get('/moj-kp/poruke', \App\Livewire\MessagesList::class)->name('messages.inbox');
+
+
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {

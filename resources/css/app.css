@@ -395,3 +395,192 @@ input[readonly]:focus {
 .send-button:hover {
     background: #0056b3;
 }
+
+.messages-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: white;
+}
+
+.messages-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.messages-header h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.sort-options {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sort-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.checkbox-holder {
+    display: inline-flex;
+    align-items: center;
+}
+
+.checkbox-holder input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-holder label {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+}
+
+.checkbox-holder input[type="checkbox"]:checked + label::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 6px;
+    height: 10px;
+    border: solid green;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.conversation-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    cursor: pointer;
+}
+
+.conversation-item:hover {
+    background: #f5f5f5;
+}
+
+.conversation-info {
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.conversation-inner {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.user-info {
+    grid-column: 1;
+}
+
+.user-name {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.unread-badge {
+    background: #ff4444;
+    color: white;
+    padding: 0.1rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.listing-name {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.message-preview {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.read-icon {
+    flex-shrink: 0;
+}
+
+.preview-text {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.star-button {
+    grid-column: 3;
+}
+
+.star-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.date-info {
+    grid-column: 4;
+    text-align: right;
+}
+
+.full-date {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.short-date {
+    display: none;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.divider {
+    height: 1px;
+    background: #eee;
+    margin: 0.5rem 0;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .conversation-inner {
+        grid-template-columns: 1fr auto;
+    }
+    
+    .message-preview {
+        grid-column: 1;
+        grid-row: 2;
+        margin-top: 0.5rem;
+    }
+    
+    .full-date {
+        display: none;
+    }
+    
+    .short-date {
+        display: block;
+    }
+}
