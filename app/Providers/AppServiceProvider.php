@@ -28,5 +28,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::share('year', date('Y'));
+
+        view()->composer('*', function ($view) {
+            if (!app()->runningInConsole()) {
+                $view->with('categories', \App\Models\Category::whereNull('parent_id')->get());
+                $view->with('conditions', \App\Models\ListingCondition::all());
+            }
+        });
     }
 }
