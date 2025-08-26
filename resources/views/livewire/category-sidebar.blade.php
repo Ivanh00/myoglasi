@@ -120,12 +120,34 @@
             </a>
 
             <a href="{{ route('listings.my') }}"
-                class="flex items-center px-3 py-2 text-indigo-700 rounded-lg hover:bg-indigo-50 mt-2">
+                class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                 </svg>
                 Moji oglasi
+            </a>
+
+            <a href="{{ route('messages.inbox') }}"
+                class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                    </path>
+                </svg>
+                Moje poruke
+                @auth
+                    @php
+                        $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())
+                            ->where('is_read', false)
+                            ->count();
+                    @endphp
+                    @if ($unreadCount > 0)
+                        <span class="ml-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                            {{ $unreadCount }}
+                        </span>
+                    @endif
+                @endauth
             </a>
         </div>
     @endauth
