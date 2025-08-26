@@ -87,9 +87,9 @@
                                         onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')">
                                         <i class="fas fa-share-alt"></i> Podeli
                                     </button>
-                                    <button wire:click="deleteListing({{ $listing->id }})"
-                                        class="text-red-600 hover:text-red-900"
-                                        onclick="return confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')">
+                                    <button x-data
+                                        x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
+                                        class="text-red-600 hover:text-red-900">
                                         <i class="fas fa-trash"></i> Obriši
                                     </button>
                                 </div>
