@@ -125,6 +125,7 @@ class Category extends Model
         
         return $ids;
     }
+    
 
     /**
      * Get all listings count including subcategories

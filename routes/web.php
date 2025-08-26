@@ -133,8 +133,16 @@ Route::get('/listings/{listing}/edit', \App\Livewire\Listings\Edit::class)
 
 Route::get('/listings', ListingsIndex::class)->name('listings.index');
 
-Route::get('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search.index');
+// Route::get('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search.index');
+// Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+
+
+
+// Search ruta
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+
+// Listings ruta (Livewire komponenta)
+Route::get('/listings', \App\Livewire\Listings\Index::class)->name('listings.index');
 
 
 // Admin Routes

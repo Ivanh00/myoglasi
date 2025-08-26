@@ -5,6 +5,7 @@ namespace App\Livewire\Listings;
 use Livewire\Component;
 use App\Models\Listing;
 use App\Models\Category;
+use App\Models\ListingCondition;
 use Livewire\WithPagination;
 
 class Index extends Component
@@ -17,11 +18,25 @@ class Index extends Component
     public $perPage = 20;
     public $categoryTree = [];
     public $currentCategory = null;
+    
+    // Search parametri
+    public $query = '';
+    public $city = '';
+    public $search_category = '';
+    public $condition_id = '';
+    public $price_min = '';
+    public $price_max = '';
 
     protected $queryString = [
         'selectedCategory' => ['except' => ''],
         'sortBy' => ['except' => 'newest'],
-        'perPage' => ['except' => 20]
+        'perPage' => ['except' => 20],
+        'query' => ['except' => ''],
+        'city' => ['except' => ''],
+        'search_category' => ['except' => ''],
+        'condition_id' => ['except' => ''],
+        'price_min' => ['except' => ''],
+        'price_max' => ['except' => '']
     ];
 
     public function mount()
@@ -44,6 +59,26 @@ class Index extends Component
         if ($this->selectedCategory) {
             $this->currentCategory = Category::with('parent')->find($this->selectedCategory);
         }
+        
+        // Učitaj search parametre ako postoje
+        if (request()->has('query')) {
+            $this->query = request('query');
+        }
+        if (request()->has('city')) {
+            $this->city = request('city');
+        }
+        if (request()->has('category')) {
+            $this->search_category = request('category');
+        }
+        if (request()->has('condition')) {
+            $this->condition_id = request('condition');
+        }
+        if (request()->has('price_min')) {
+            $this->price_min = request('price_min');
+        }
+        if (request()->has('price_max')) {
+            $this->price_max = request('price_max');
+        }
     }
 
     public function updatedSelectedCategory()
@@ -59,6 +94,12 @@ class Index extends Component
 
     public function updatedPerPage()
     {
+        $this->resetPage();
+    }
+    
+    public function clearSearchFilters()
+    {
+        $this->reset(['query', 'city', 'search_category', 'condition_id', 'price_min', 'price_max']);
         $this->resetPage();
     }
 
@@ -81,6 +122,34 @@ class Index extends Component
             }
         }
         
+        // Search filteri
+        if ($this->query) {
+            $query->where(function($q) {
+                $q->where('title', 'like', '%' . $this->query . '%')
+                  ->orWhere('description', 'like', '%' . $this->query . '%');
+            });
+        }
+        
+        if ($this->city) {
+            $query->where('location', 'like', '%' . $this->city . '%');
+        }
+        
+        if ($this->search_category) {
+            $query->where('category_id', $this->search_category);
+        }
+        
+        if ($this->condition_id) {
+            $query->where('condition_id', $this->condition_id);
+        }
+        
+        if ($this->price_min) {
+            $query->where('price', '>=', $this->price_min);
+        }
+        
+        if ($this->price_max) {
+            $query->where('price', '<=', $this->price_max);
+        }
+        
         // Sortiranje
         switch ($this->sortBy) {
             case 'price_asc':
@@ -96,12 +165,15 @@ class Index extends Component
         }
             
         $listings = $query->paginate($this->perPage);
+        
+        $conditions = ListingCondition::all();
             
         return view('livewire.listings.index', [
             'listings' => $listings,
             'categories' => $this->categories,
             'categoryTree' => $this->categoryTree,
-            'currentCategory' => $this->currentCategory
+            'currentCategory' => $this->currentCategory,
+            'conditions' => $conditions
         ])->layout('layouts.app');
     }
 }
