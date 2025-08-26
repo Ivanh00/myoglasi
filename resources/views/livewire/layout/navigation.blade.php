@@ -57,8 +57,18 @@
                                 <x-dropdown-link href="{{ route('favorites.index') }}">
                                     Omiljeni
                                 </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('messages.index') }}">
+                                <x-dropdown-link href="{{ route('messages.inbox') }}">
                                     Poruke
+                                    @auth
+                                        @php
+                                            $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())
+                                                ->where('is_read', false)
+                                                ->count();
+                                        @endphp
+                                        @if ($unreadCount > 0)
+                                            <span class="unread-badge">{{ $unreadCount }}</span>
+                                        @endif
+                                    @endauth
                                 </x-dropdown-link>
                                 <x-dropdown-link href="{{ route('balance.index') }}">
                                     Balans
