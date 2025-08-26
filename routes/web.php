@@ -16,6 +16,7 @@ use App\Livewire\CreateListingComponent;
 use App\Livewire\ListingDetailComponent;
 use App\Livewire\MessageDetailComponent;
 use App\Livewire\Home\Index as HomeIndex;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Categories\ShowCategories;
 use App\Livewire\CategoryListingsComponent;
@@ -132,8 +133,8 @@ Route::get('/listings/{listing}/edit', \App\Livewire\Listings\Edit::class)
 
 Route::get('/listings', ListingsIndex::class)->name('listings.index');
 
-
-
+Route::get('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search.index');
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 
 // Admin Routes

@@ -69,7 +69,7 @@
                 @foreach ($listings as $listing)
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
                         <div class="h-48 bg-gray-200">
-                            @if ($listing->images->count() > 0)
+                            @if ($listing->images && $listing->images->count() > 0)
                                 <img src="{{ asset('storage/' . $listing->images->first()->path) }}"
                                     alt="{{ $listing->title }}" class="w-full h-full object-cover">
                             @else
