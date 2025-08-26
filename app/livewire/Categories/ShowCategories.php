@@ -11,25 +11,45 @@ class ShowCategories extends Component
 {
     use WithPagination;
     
-    public $category;
-    public $subcategory;
+    public $selectedCategory = null;
+    public $categories;
     public $sortBy = 'newest';
     public $perPage = 20;
+    public $categoryTree = [];
+    public $currentCategory = null;
 
     protected $queryString = [
+        'selectedCategory' => ['except' => ''],
         'sortBy' => ['except' => 'newest'],
         'perPage' => ['except' => 20]
     ];
 
-    public function mount($category, $subcategory = null)
+    public function mount()
     {
-        $this->category = Category::where('slug', $category)->firstOrFail();
-        
-        if ($subcategory) {
-            $this->subcategory = Category::where('slug', $subcategory)
-                ->where('parent_id', $this->category->id)
-                ->firstOrFail();
+        $this->categories = Category::whereNull('parent_id')
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+
+        // Učitaj celu hijerarhiju kategorija za sidebar
+        $this->categoryTree = Category::with(['children' => function($query) {
+                $query->where('is_active', true)->orderBy('sort_order');
+            }])
+            ->whereNull('parent_id')
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+
+        // Učitaj trenutnu kategoriju ako je selektovana
+        if ($this->selectedCategory) {
+            $this->currentCategory = Category::with('parent')->find($this->selectedCategory);
         }
+    }
+
+    public function updatedSelectedCategory()
+    {
+        $this->currentCategory = Category::with('parent')->find($this->selectedCategory);
+        $this->resetPage();
     }
 
     public function updatedSortBy()
@@ -45,12 +65,20 @@ class ShowCategories extends Component
     public function render()
     {
         $query = Listing::where('status', 'active')
-            ->with(['category', 'condition', 'images']);
+            ->with(['category', 'condition', 'images', 'subcategory']);
             
-        if ($this->subcategory) {
-            $query->where('subcategory_id', $this->subcategory->id);
-        } else {
-            $query->where('category_id', $this->category->id);
+        if ($this->selectedCategory) {
+            $category = Category::find($this->selectedCategory);
+            
+            if ($category) {
+                // Koristimo novu metodu iz Category modela
+                $categoryIds = $category->getAllCategoryIds();
+                
+                $query->where(function($q) use ($categoryIds) {
+                    $q->whereIn('category_id', $categoryIds)
+                      ->orWhereIn('subcategory_id', $categoryIds);
+                });
+            }
         }
         
         // Sortiranje
@@ -68,22 +96,12 @@ class ShowCategories extends Component
         }
             
         $listings = $query->paginate($this->perPage);
-        
-        // Učitaj podkategorije ako nije izabrana podkategorija
-        $subcategories = [];
-        if (!$this->subcategory) {
-            $subcategories = Category::where('parent_id', $this->category->id)
-                ->withCount(['listings' => function($query) {
-                    $query->where('status', 'active');
-                }])
-                ->get();
-        }
             
-        return view('livewire.categories.show-categories', [
+        return view('livewire.listings.index', [
             'listings' => $listings,
-            'subcategories' => $subcategories,
-            'category' => $this->category,
-            'subcategory' => $this->subcategory ?? null
+            'categories' => $this->categories,
+            'categoryTree' => $this->categoryTree,
+            'currentCategory' => $this->currentCategory
         ])->layout('layouts.app');
     }
 }
