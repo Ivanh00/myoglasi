@@ -195,11 +195,12 @@
             <div class="mt-12">
                 <h2 class="text-3xl font-bold text-gray-900 mb-4">
                     @if ($recommendationType === 'seller')
-                        Ostali oglasi ovog prodavca
+                        Ostali oglasi prodavca {{ $listing->user->name }}
                     @else
                         Slični oglasi
                     @endif
                 </h2>
+
                 <p class="text-gray-600 mb-8">
                     @if ($recommendationType === 'seller')
                         Pogledajte i druge oglase ovog prodavca
@@ -239,6 +240,10 @@
                                                     {{ $listing->title }}
                                                 </h3>
                                             </a>
+                                            {{-- Korisničko ime kreatora --}}
+                                            <p class="text-sm font-bold text-gray-700 mb-2">
+                                                {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                            </p>
 
                                             <div class="flex items-center text-sm text-gray-600 mb-2">
                                                 <i class="fas fa-map-marker-alt mr-1"></i>

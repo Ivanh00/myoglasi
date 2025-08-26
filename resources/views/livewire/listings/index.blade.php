@@ -112,6 +112,11 @@
                                         </h3>
                                     </a>
 
+                                    {{-- Korisničko ime kreatora --}}
+                                    <p class="text-sm font-bold text-gray-700 mb-2">
+                                        {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                    </p>
+
                                     <div class="flex items-center text-sm text-gray-600 mb-2">
                                         <i class="fas fa-map-marker-alt mr-1"></i>
                                         <span>{{ $listing->location }}</span>
