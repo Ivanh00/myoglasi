@@ -102,8 +102,15 @@ $sendVerification = function () {
         <!-- Grad/Mesto -->
         <div>
             <x-input-label for="city" :value="__('City')" />
-            <x-text-input wire:model="city" id="city" name="city" type="text" class="mt-1 block w-full"
-                autocomplete="address-level2" />
+            <select wire:model="city" id="city" name="city"
+                class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                <option value="" disabled selected>{{ __('Odaberi grad') }}</option>
+                <option value="Beograd">Beograd</option>
+                <option value="Novi Sad">Novi Sad</option>
+                <option value="Niš">Niš</option>
+                <option value="Kragujevac">Kragujevac</option>
+                <option value="Subotica">Subotica</option>
+            </select>
             <x-input-error class="mt-2" :messages="$errors->get('city')" />
         </div>
 

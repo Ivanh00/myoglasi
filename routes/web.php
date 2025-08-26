@@ -33,7 +33,6 @@ use App\Livewire\Listings\MyListings as MyListings;
 use App\Livewire\Categories\Index as CategoriesIndex;
 use App\Livewire\Transactions\Balance as BalanceIndex;
 
-
 // Javne rute
 Route::get('/', HomeComponent::class)->name('home');
 Route::get('/listings', ListingsIndex::class)->name('listings.index');
@@ -67,9 +66,21 @@ Route::middleware(['auth'])->group(function () {
         return redirect('/');
     })->name('logout');
 });
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile.edit'); // Promenite ime rute
+Route::get('/profile', function () {
+    $user = auth()->user();
+
+    $cities = [
+        'Beograd',
+        'Novi Sad',
+        'Niš',
+        'Kragujevac',
+        'Subotica'
+    ];
+
+    return view('profile', compact('user', 'cities')); // sada se prosleđuje i $user i $cities
+})->middleware(['auth'])->name('profile.edit');
+
+    
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
