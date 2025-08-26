@@ -26,14 +26,15 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
-        View::share('year', date('Y'));
+{
+    View::share('year', date('Y'));
 
-        view()->composer('*', function ($view) {
-            if (!app()->runningInConsole()) {
-                $view->with('categories', \App\Models\Category::whereNull('parent_id')->get());
-                $view->with('conditions', \App\Models\ListingCondition::all());
-            }
-        });
-    }
+    view()->composer('*', function ($view) {
+        if (!app()->runningInConsole()) {
+            // DODAJTE ->toArray() !!!
+            $view->with('categories', \App\Models\Category::whereNull('parent_id')->get()->toArray());
+            $view->with('conditions', \App\Models\ListingCondition::all()->toArray());
+        }
+    });
+}
 }

@@ -19,6 +19,10 @@ return new class extends Migration
             $table->text('message');
             $table->boolean('is_read')->default(false);
             $table->timestamps();
+
+            $table->index(['listing_id', 'created_at']);
+            $table->index(['sender_id', 'receiver_id']);
+            $table->index('is_read');
         });
     }
 

@@ -3,6 +3,7 @@
 use App\Livewire\Home;
 
 // Livewire komponente
+use Livewire\Livewire;
 use App\Livewire\HomeComponent;
 use App\Livewire\Listings\Show;
 use App\Livewire\UserDashboard;
@@ -12,11 +13,14 @@ use App\Livewire\ProfileComponent;
 use App\Livewire\MessagesComponent;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\EditListingComponent;
+use App\Livewire\ShowListingComponent;
+use App\Livewire\ConversationComponent;
 use App\Livewire\CreateListingComponent;
 use App\Livewire\ListingDetailComponent;
 use App\Livewire\MessageDetailComponent;
 use App\Livewire\Home\Index as HomeIndex;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Categories\ShowCategories;
 use App\Livewire\CategoryListingsComponent;
@@ -143,6 +147,27 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 // Listings ruta (Livewire komponenta)
 Route::get('/listings', \App\Livewire\Listings\Index::class)->name('listings.index');
+
+Route::get('/oglasi/{listing}/chat', \App\Livewire\ConversationComponent::class)->name('listing.chat');// Prvi način: Korišćenje Livewire rute
+
+// Ili drugi način: Eksplicitno navođenje parametra
+Route::get('/oglasi/{listingId}/chat', function ($listingId) {
+    return Livewire::render(ConversationComponent::class, ['listingId' => $listingId]);
+})->name('listing.chat');
+
+// Probajte oba formata da vidite koji radi
+Route::get('/oglasi/{listing}/chat', ConversationComponent::class)->name('listing.chat');
+// ILI
+Route::get('/oglasi/{listingId}/chat', ConversationComponent::class)->name('listing.chat');
+Route::get('/oglasi/{listingSlug}/chat', ConversationComponent::class)->name('listing.chat');
+// Koristite {slug} kao parametar
+Route::get('/oglasi/{slug}/chat', ConversationComponent::class)->name('listing.chat');
+
+// Proverite da li imate ovakvu rutu
+Route::get('/oglasi/{listing}', [ListingController::class, 'show'])->name('listing.show');
+
+// // ILI ako koristite Livewire komponentu
+// Route::get('/oglasi/{listing}', ShowListingComponent::class)->name('listing.show');
 
 
 // Admin Routes

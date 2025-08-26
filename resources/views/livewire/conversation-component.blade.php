@@ -1,0 +1,238 @@
+<div class="conversation-container">
+    <!-- Navigacija -->
+    <section class="navigation-holder">
+        <a class="back-button" href="{{ url()->previous() }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M10 15L3.63057 8.32978C3.54697 8.24236 3.5 8.12372 3.5 8C3.5 7.87628 3.54697 7.75764 3.63057 7.67022L10 1"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            Poruke
+        </a>
+    </section>
+
+    <!-- Informacije o korisniku -->
+    <section class="user-info-section">
+        <div class="user-info-holder">
+            <div class="user-name-holder">
+                <span class="user-avatar">
+                    <svg width="24" height="24" viewBox="0 0 16 16" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M8 7.5C9.933 7.5 11.5 5.933 11.5 4C11.5 2.067 9.933 0.5 8 0.5C6.067 0.5 4.5 2.067 4.5 4C4.5 5.933 6.067 7.5 8 7.5Z"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M1.5 15.5C1.5 11.9101 4.41015 9.5 8 9.5C11.5898 9.5 14.5 11.9101 14.5 15.5"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </span>
+                <div class="user-name">{{ $otherUser->name }}</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Informacije o oglasu -->
+    <article class="ad-info-holder">
+        <a class="ad-link" href="{{ route('listing.show', $listing->slug) }}">
+            <div class="ad-image-holder">
+                <img src="{{ $listing->images->first()->url ?? 'https://via.placeholder.com/80x60' }}"
+                    alt="{{ $listing->title }}" width="80" height="60">
+            </div>
+        </a>
+
+        <a class="ad-title" href="{{ route('listing.show', $listing->slug) }}">
+            <div>{{ $listing->title }}</div>
+        </a>
+
+        <div class="ad-price">
+            <div>{{ number_format($listing->price, 0, ',', '.') }} €</div>
+        </div>
+
+        <section class="ad-stats">
+            <div class="stat-item">
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M8.00001 3.50067C5.31267 3.45533 2.53334 5.33333 0.786007 7.25667C0.406129 7.6784 0.406129 8.31893 0.786007 8.74067C2.49534 10.6233 5.26667 12.5447 8.00001 12.4987C10.7333 12.5447 13.5053 10.6233 15.216 8.74067C15.5959 8.31893 15.5959 7.6784 15.216 7.25667C13.4667 5.33333 10.6873 3.45533 8.00001 3.50067Z"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M10.5 8C10.4996 9.38062 9.38018 10.4996 7.99956 10.4993C6.61893 10.4991 5.49988 9.37973 5.5 7.99911C5.50012 6.61848 6.61937 5.49933 8 5.49933C8.66321 5.49915 9.2993 5.76258 9.7682 6.2316C10.2371 6.70063 10.5004 7.33678 10.5 8V8Z"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span class="stat-count">{{ $listing->views }}</span>
+            </div>
+
+            <div class="stat-item">
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M8.486 0.800001L10.7167 5.21933L15.01 5.64467C15.2187 5.66201 15.3983 5.79917 15.4699 5.99597C15.5415 6.19277 15.4921 6.41325 15.3433 6.56067L11.81 10.0627L13.12 14.8213C13.1748 15.0275 13.1035 15.2466 12.9379 15.3811C12.7723 15.5156 12.5433 15.5405 12.3527 15.4447L8 13.2893L3.65334 15.442C3.46276 15.5378 3.23368 15.513 3.06811 15.3785C2.90254 15.244 2.83126 15.0248 2.886 14.8187L4.196 10.06L0.660004 6.558C0.511258 6.41058 0.461853 6.1901 0.533468 5.9933C0.605083 5.79651 0.784634 5.65934 0.993337 5.642L5.28667 5.21667L7.514 0.800001C7.6074 0.617591 7.79507 0.502838 8 0.502838C8.20493 0.502838 8.39261 0.617591 8.486 0.800001Z"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span class="stat-count">{{ $listing->favorites_count }}</span>
+            </div>
+        </section>
+
+        <section class="ad-posted-date">
+            {{ $listing->created_at->diffForHumans() }}
+        </section>
+
+        <section class="ad-location">
+            {{ $listing->location }}
+        </section>
+    </article>
+
+    <!-- Chat prozor -->
+    <div class="chat-box-holder">
+        <div class="chat-box" id="chat-box">
+            @foreach ($messages as $message)
+                <div class="message-item {{ $message->sender_id == auth()->id() ? 'my-message' : 'other-message' }}">
+                    <div class="message-bubble">
+                        <div>{{ $message->message }}</div>
+                        <div class="message-info">
+                            <div>{{ $message->created_at->format('H:i') }}h</div>
+                            @if ($message->sender_id == auth()->id())
+                                <svg width="16" height="11" viewBox="0 0 18 11" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                    <path d="M16.5 1L10.5 9.5L9 8" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                @if ($loop->iteration % 5 === 0)
+                    <div class="message-date">
+                        {{ $message->created_at->format('d.m.Y.') }}
+                    </div>
+                @endif
+            @endforeach
+
+            <section class="user-response-info">
+                <b>{{ $otherUser->name }}</b>
+                <div>Član od {{ $otherUser->created_at->format('d.m.Y.') }}</div>
+            </section>
+        </div>
+
+        <div class="scroll-to-bottom">
+            <button wire:click="scrollToBottom">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M22.5 7L12.4947 16.7991C12.3635 16.9277 12.1856 17 12 17C11.8144 17 11.6365 16.9277 11.5053 16.7991L1.5 7"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lista adresa (sakrivena po defaultu) -->
+    @if ($showAddressList)
+        <div class="address-list">
+            <div class="address-list-container">
+                @foreach ($addresses as $address)
+                    <div class="address-item">
+                        <button wire:click="sendAddress({{ $address->id }})" class="address-button">
+                            <div>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M0.933367 2.15456C0.719728 1.77229 0.779665 1.29549 1.08127 0.977984C1.38287 0.660483 1.85597 0.576154 2.2487 0.769892L15 7C15.1677 7.0853 15.2733 7.36618 15.2733 7.55433C15.2733 7.74248 15.1677 7.9147 15 8L2.2487 14.5486C1.85597 14.7423 1.38287 14.658 1.08127 14.3405C0.779665 14.023 0.719728 13.5462 0.933367 13.1639L4.5 7.5L0.933367 2.15456Z"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M15.2294 7.5H4.33337" stroke-linecap="round" stroke-linejoin="round">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="address-content">
+                                <div class="address-title">{{ $address->street }}</div>
+                                <div class="address-description">{{ $address->city }}, {{ $address->phone }}</div>
+                            </div>
+                        </button>
+                    </div>
+                @endforeach
+
+                <div class="address-item">
+                    <button class="address-button">
+                        <div>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 5V11" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M5 8H11" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <circle cx="8" cy="8" r="7.5"></circle>
+                            </svg>
+                        </div>
+                        <div class="address-content">
+                            <div class="address-title">Dodajte novu adresu</div>
+                            <div class="address-description">Svaki naredni put možete je poslati u dva klika</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Forma za slanje poruke -->
+    <div class="message-form-holder">
+        <div class="text-field-holder">
+            <textarea wire:model="newMessage" id="message" name="message" class="message-textfield"
+                placeholder="Unesite Vašu poruku. Za brže slanje pritisnite CTRL + ENTER" wire:keydown.enter.ctrl="sendMessage"></textarea>
+
+            <div class="emoji-picker">
+                <button class="emoji-button">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M8.99998 16.6666C13.2342 16.6666 16.6666 13.2341 16.6666 8.99989C16.6666 4.76571 13.2342 1.33322 8.99998 1.33322C4.7658 1.33322 1.33331 4.76571 1.33331 8.99989C1.33331 13.2341 4.7658 16.6666 8.99998 16.6666Z"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M6.66665 6.33322C6.85074 6.33322 6.99998 6.48246 6.99998 6.66655C6.99998 6.85065 6.85074 6.99989 6.66665 6.99989C6.48255 6.99989 6.33331 6.85065 6.33331 6.66655C6.33331 6.48246 6.48255 6.33322 6.66665 6.33322Z"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M11.3333 6.33322C11.5174 6.33322 11.6667 6.48246 11.6667 6.66655C11.6667 6.85065 11.5174 6.99989 11.3333 6.99989C11.1492 6.99989 11 6.85065 11 6.66655C11 6.48246 11.1492 6.33322 11.3333 6.33322Z"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path
+                            d="M13.3334 10.9999C12.5173 12.429 10.8381 13.3332 9.00002 13.3332C7.16195 13.3332 5.48277 12.429 4.66669 10.9999"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <section class="form-buttons">
+            <button class="send-button" wire:click="sendMessage">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M0.933367 2.15456C0.719728 1.77229 0.779665 1.29549 1.08127 0.977984C1.38287 0.660483 1.85597 0.576154 2.2487 0.769892L15 7C15.1677 7.0853 15.2733 7.36618 15.2733 7.55433C15.2733 7.74248 15.1677 7.9147 15 8L2.2487 14.5486C1.85597 14.7423 1.38287 14.658 1.08127 14.3405C0.779665 14.023 0.719728 13.5462 0.933367 13.1639L4.5 7.5L0.933367 2.15456Z"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M15.2294 7.5H4.33337" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                Pošaljite poruku
+            </button>
+        </section>
+    </div>
+</div>
+
+@push('scripts')
+    <script>
+        // Funkcija za automatsko skrolovanje na dno chata
+        function scrollToBottom() {
+            const chatBox = document.getElementById('chat-box');
+            if (chatBox) {
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        // Poziv kada se komponenta učita
+        document.addEventListener('DOMContentLoaded', function() {
+            scrollToBottom();
+        });
+
+        // Livewire event listener
+        Livewire.on('scrollToBottom', () => {
+            setTimeout(scrollToBottom, 100);
+        });
+    </script>
+@endpush
