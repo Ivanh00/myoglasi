@@ -106,6 +106,7 @@ $sendVerification = function () {
             search: '',
             normalize(str) {
                 const map = {
+                    // latinica
                     'š': 's',
                     's': 's',
                     'ć': 'c',
@@ -115,7 +116,70 @@ $sendVerification = function () {
                     'z': 'z',
                     'đ': 'dj',
                     'd': 'd',
-                    'dj': 'dj'
+        
+                    // ćirilica
+                    'а': 'a',
+                    'б': 'b',
+                    'в': 'v',
+                    'г': 'g',
+                    'д': 'd',
+                    'ђ': 'dj',
+                    'е': 'e',
+                    'ж': 'z',
+                    'з': 'z',
+                    'и': 'i',
+                    'ј': 'j',
+                    'к': 'k',
+                    'л': 'l',
+                    'љ': 'lj',
+                    'м': 'm',
+                    'н': 'n',
+                    'њ': 'nj',
+                    'о': 'o',
+                    'п': 'p',
+                    'р': 'r',
+                    'с': 's',
+                    'т': 't',
+                    'ћ': 'c',
+                    'у': 'u',
+                    'ф': 'f',
+                    'х': 'h',
+                    'ц': 'c',
+                    'ч': 'c',
+                    'џ': 'dz',
+                    'ш': 's',
+        
+                    // velika ćirilica
+                    'А': 'a',
+                    'Б': 'b',
+                    'В': 'v',
+                    'Г': 'g',
+                    'Д': 'd',
+                    'Ђ': 'dj',
+                    'Е': 'e',
+                    'Ж': 'z',
+                    'З': 'z',
+                    'И': 'i',
+                    'Ј': 'j',
+                    'К': 'k',
+                    'Л': 'l',
+                    'Љ': 'lj',
+                    'М': 'm',
+                    'Н': 'n',
+                    'Њ': 'nj',
+                    'О': 'o',
+                    'П': 'p',
+                    'Р': 'r',
+                    'С': 's',
+                    'Т': 't',
+                    'Ћ': 'c',
+                    'У': 'u',
+                    'Ф': 'f',
+                    'Х': 'h',
+                    'Ц': 'c',
+                    'Ч': 'c',
+                    'Џ': 'dz',
+                    'Ш': 's',
                 };
                 return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
             },
@@ -166,6 +230,7 @@ $sendVerification = function () {
             <input type="hidden" name="city" :value="selected">
             <x-input-error class="mt-2" :messages="$errors->get('city')" />
         </div>
+
 
 
 
