@@ -105,7 +105,8 @@
                         </div>
                     </div>
 
-                    @if ($listing->contact_phone)
+                    {{-- Prikaz telefona samo ako je vlasnik dozvolio i ako je korisnik ulogovan --}}
+                    @if ($listing->contact_phone && $listing->user->phone_visible && auth()->check())
                         <div class="mb-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-2">Kontakt telefon</h3>
                             <div class="flex items-center">
@@ -136,10 +137,13 @@
                                 </button>
                             @else
                                 <!-- Akcije za ostale ulogovane korisnike -->
-                                <button
-                                    class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                    <i class="fas fa-phone mr-2"></i> Pozovi
-                                </button>
+                                @if ($listing->user->phone_visible)
+                                    <button
+                                        class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                        <i class="fas fa-phone mr-2"></i> Pozovi
+                                    </button>
+                                @endif
+
                                 <button
                                     class="flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                     <i class="fas fa-envelope mr-2"></i> Poruka
@@ -151,20 +155,21 @@
                             @endif
                         @else
                             <!-- Akcije za neulogovane korisnike -->
-                            <a href="{{ route('login') }}"
+                            <a href="{{ route('register') }}"
                                 class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                <i class="fas fa-phone mr-2"></i> Pozovi
+                                <i class="fas fa-phone mr-2"></i> Registruj se da bi video detalje o prodavcu
                             </a>
-                            <a href="{{ route('login') }}"
+                            {{-- <a href="{{ route('login') }}"
                                 class="flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                 <i class="fas fa-envelope mr-2"></i> Poruka
                             </a>
                             <a href="{{ route('login') }}"
                                 class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                 <i class="fas fa-heart mr-2"></i> Sačuvaj
-                            </a>
+                            </a> --}}
                         @endauth
                     </div>
+
                 </div>
             </div>
 
