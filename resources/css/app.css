@@ -583,4 +583,23 @@ input[readonly]:focus {
     .short-date {
         display: block;
     }
+
+    .message-info {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+        margin-top: 4px;
+        font-size: 11px;
+        color: #9E9E9E;
+    }
+    
+    .message-status {
+        display: flex;
+        align-items: center;
+    }
+    
+    .read-status, .delivered-status {
+        margin-left: 4px;
+    }
 }

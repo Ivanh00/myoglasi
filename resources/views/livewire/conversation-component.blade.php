@@ -91,13 +91,28 @@
                         <div class="message-info">
                             <div>{{ $message->created_at->format('H:i') }}h</div>
                             @if ($message->sender_id == auth()->id())
-                                <svg width="16" height="11" viewBox="0 0 18 11" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"></path>
-                                    <path d="M16.5 1L10.5 9.5L9 8" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"></path>
-                                </svg>
+                                <!-- Status poruke -->
+                                <div class="message-status">
+                                    @if ($message->is_read)
+                                        <!-- Dve zelene kvakice - poruka je pročitana -->
+                                        <svg width="16" height="11" viewBox="0 0 18 11" fill="none"
+                                            class="read-status">
+                                            <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke="#4CAF50" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16.5 1L10.5 9.5L9 8" stroke="#4CAF50" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    @else
+                                        <!-- Dve sive kvakice - poruka je dostavljena ali nije pročitana -->
+                                        <svg width="16" height="11" viewBox="0 0 18 11" fill="none"
+                                            class="delivered-status">
+                                            <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke="#9E9E9E" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16.5 1L10.5 9.5L9 8" stroke="#9E9E9E" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    @endif
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -122,7 +137,7 @@
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M22.5 7L12.4947 16.7991C12.3635 16.9277 12.1856 17 12 17C11.8144 17 11.6365 16.9277 11.5053 16.7991L1.5 7"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </button>
         </div>
@@ -223,6 +238,18 @@
         // Poziv kada se komponenta učita
         document.addEventListener('DOMContentLoaded', function() {
             scrollToBottom();
+
+            // Pratite skrolovanje i označite poruke kao pročitane
+            const chatBox = document.getElementById('chat-box');
+            if (chatBox) {
+                chatBox.addEventListener('scroll', function() {
+                    // Proverite da li je korisnik skrolovao do dna
+                    if (chatBox.scrollTop + chatBox.clientHeight >= chatBox.scrollHeight - 50) {
+                        // Emitujte event da su poruke pročitane
+                        Livewire.dispatch('messagesSeen');
+                    }
+                });
+            }
         });
 
         // Livewire event listener
