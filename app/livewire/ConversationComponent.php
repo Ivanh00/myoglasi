@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Listing;
 use App\Models\Message;
 use Livewire\Component;
+use App\Events\MessageRead;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Auth;
 
@@ -88,6 +89,7 @@ class ConversationComponent extends Component
         }
     }
 
+
     // Dodajte ovaj event listener za Livewire
     #[On('messageRead')]
     public function handleMessageRead($messageId)
@@ -140,20 +142,52 @@ class ConversationComponent extends Component
             $message->receiver_id = $receiverId;
             $message->listing_id = $this->listing->id;
             $message->message = trim($this->newMessage);
-            $message->is_read = false; // Nova poruka nije pročitana
+            $message->is_read = false;
             $message->save();
-
+    
             $this->newMessage = '';
             $this->loadMessages();
-            
-            // Emitujte event da je poruka poslata
-            $this->dispatch('messageSent');
             
         } catch (\Exception $e) {
             \Log::error('Error sending message: ' . $e->getMessage());
             session()->flash('error', 'Došlo je do greške pri slanju poruke.');
         }
     }
+
+    public function markMessageAsRead($messageId)
+    {
+        $message = Message::find($messageId);
+        
+        if ($message && $message->receiver_id === Auth::id() && !$message->is_read) {
+            $message->is_read = true;
+            $message->save();
+            
+            // Emituj event da je poruka pročitana
+            broadcast(new MessageRead($message, $message->receiver_id));
+            
+            $this->loadMessages();
+        }
+    }
+    
+    // Dodajte ovu metodu za automatsko označavanje poruka kao pročitanih
+    public function markAllMessagesAsRead()
+    {
+        $unreadMessages = Message::where('listing_id', $this->listing->id)
+            ->where('receiver_id', Auth::id())
+            ->where('is_read', false)
+            ->get();
+    
+        foreach ($unreadMessages as $message) {
+            $message->is_read = true;
+            $message->save();
+            
+            // Emituj event za svaku pročitanu poruku
+            broadcast(new MessageRead($message, $message->receiver_id));
+        }
+        
+        $this->loadMessages();
+    }
+    
 
     private function getOriginalSender()
     {

@@ -84,6 +84,16 @@ class MessagesList extends Component
         $this->loadConversations();
     }
 
+    protected $listeners = ['refreshConversations' => 'loadConversations'];
+
+public function getListeners()
+{
+    return [
+        "echo-private:conversation.*." . Auth::id() . ",NewMessage" => 'refreshConversations',
+        "echo-private:conversation.*." . Auth::id() . ",MessageRead" => 'refreshConversations',
+    ];
+}
+
     public function render()
     {
         return view('livewire.messages-list')

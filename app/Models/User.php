@@ -110,4 +110,9 @@ class User extends Authenticatable
             'description' => 'Naplaćena taxa za objavljivanje oglasa'
         ]);
     }
+
+    public function unreadMessages()
+{
+    return $this->hasMany(Message::class, 'receiver_id')->where('is_read', false);
+}
 }

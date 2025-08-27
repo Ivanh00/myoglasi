@@ -31,24 +31,24 @@
     </section>
 
     <!-- Informacije o oglasu -->
-    <article class="ad-info-holder">
-        <a class="ad-link" href="{{ route('listing.show', $listing->slug) }}">
+    <article class="ad-info-holder flex justify-between items-center">
+        <a class="ad-link" href="{{ route('listings.show', $listing) }}">
             <div class="ad-image-holder">
                 <img src="{{ $listing->images->first()->url ?? 'https://via.placeholder.com/80x60' }}"
                     alt="{{ $listing->title }}" width="80" height="60">
             </div>
         </a>
 
-        <a class="ad-title" href="{{ route('listing.show', $listing->slug) }}">
+        <a class="ad-title" href="{{ route('listings.show', $listing) }}">
             <div>{{ $listing->title }}</div>
         </a>
 
         <div class="ad-price">
-            <div>{{ number_format($listing->price, 0, ',', '.') }} €</div>
+            <div>{{ number_format($listing->price, 0, ',', '.') }} RSD</div>
         </div>
 
-        <section class="ad-stats">
-            <div class="stat-item">
+        <section class="ad-stats flex space-x-4">
+            <div class="stat-item flex items-center">
                 <svg width="18" height="18" viewBox="0 0 16 16" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -61,7 +61,7 @@
                 <span class="stat-count">{{ $listing->views }}</span>
             </div>
 
-            <div class="stat-item">
+            <div class="stat-item flex items-center">
                 <svg width="18" height="18" viewBox="0 0 16 16" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -81,9 +81,15 @@
         </section>
     </article>
 
+
     <!-- Chat prozor -->
     <div class="chat-box-holder">
         <div class="chat-box" id="chat-box">
+            <section class="user-response-info text-center">
+                <b>{{ $otherUser->name }}</b>
+                <div>Član od {{ $otherUser->created_at->format('d.m.Y.') }}</div>
+            </section>
+
             @foreach ($messages as $message)
                 <div class="message-item {{ $message->sender_id == auth()->id() ? 'my-message' : 'other-message' }}">
                     <div class="message-bubble">
@@ -125,10 +131,7 @@
                 @endif
             @endforeach
 
-            <section class="user-response-info">
-                <b>{{ $otherUser->name }}</b>
-                <div>Član od {{ $otherUser->created_at->format('d.m.Y.') }}</div>
-            </section>
+
         </div>
 
         <div class="scroll-to-bottom">
@@ -226,7 +229,14 @@
 </div>
 
 @push('scripts')
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
+        // Inicijalizacija Echo/Pusher
+        const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+            cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+            encrypted: true
+        });
+
         // Funkcija za automatsko skrolovanje na dno chata
         function scrollToBottom() {
             const chatBox = document.getElementById('chat-box');
@@ -246,15 +256,73 @@
                     // Proverite da li je korisnik skrolovao do dna
                     if (chatBox.scrollTop + chatBox.clientHeight >= chatBox.scrollHeight - 50) {
                         // Emitujte event da su poruke pročitane
-                        Livewire.dispatch('messagesSeen');
+                        Livewire.dispatch('markAllMessagesAsRead');
                     }
                 });
             }
+
+            // Pretplata na kanal za real-time poruke
+            @auth
+            const channel = pusher.subscribe('private-conversation.{{ $listing->id }}.{{ Auth::id() }}');
+
+            // Slušaj nove poruke
+            channel.bind('App\\Events\\NewMessage', function(data) {
+                // Ažuriraj poruke
+                Livewire.dispatch('refreshMessages');
+
+                // Prikaz obaveštenja
+                if (Notification.permission === 'granted') {
+                    new Notification('Nova poruka', {
+                        body: data.message.sender.name + ': ' + data.message.message,
+                        icon: '/icon.png'
+                    });
+                }
+
+                // Ažuriraj broj nepročitanih poruka
+                updateUnreadCount(data.unread_count);
+            });
+
+            // Slušaj kada su poruke pročitane
+            channel.bind('App\\Events\\MessageRead', function(data) {
+                // Ažuriraj status poruke
+                const messageElement = document.querySelector('[data-message-id="' + data.message_id +
+                    '"]');
+                if (messageElement) {
+                    messageElement.querySelector('.delivered-status').classList.add('hidden');
+                    messageElement.querySelector('.read-status').classList.remove('hidden');
+                }
+
+                // Ažuriraj broj nepročitanih poruka
+                updateUnreadCount(data.unread_count);
+            });
+        @endauth
         });
 
-        // Livewire event listener
+        // Funkcija za ažuriranje broja nepročitanih poruka
+        function updateUnreadCount(count) {
+            const unreadBadge = document.getElementById('unread-messages-count');
+            if (unreadBadge) {
+                if (count > 0) {
+                    unreadBadge.textContent = count;
+                    unreadBadge.classList.remove('hidden');
+                } else {
+                    unreadBadge.classList.add('hidden');
+                }
+            }
+        }
+
+        // Livewire event listeneri
         Livewire.on('scrollToBottom', () => {
             setTimeout(scrollToBottom, 100);
         });
+
+        Livewire.on('refreshMessages', () => {
+            Livewire.dispatch('loadMessages');
+        });
+
+        // Traži dozvolu za notifikacije
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
     </script>
 @endpush

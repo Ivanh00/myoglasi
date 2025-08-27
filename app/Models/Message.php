@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\NewMessage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -18,6 +19,10 @@ class Message extends Model
     protected $casts = [
         'is_read' => 'boolean',
         'created_at' => 'datetime',
+    ];
+
+    protected $dispatchesEvents = [
+        'created' => NewMessage::class,
     ];
 
     public function sender(): BelongsTo
