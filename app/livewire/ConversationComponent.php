@@ -23,33 +23,29 @@ class ConversationComponent extends Component
     protected $listeners = ['messageSent' => 'loadMessages'];
 
     public function mount($slug = null)
-    {
-        if (!$slug) {
-            abort(404, 'Oglas nije pronađen');
-        }
-
-        $this->listing = Listing::where('slug', $slug)->with('user')->first();
-
-        if (!$this->listing) {
-            abort(404, 'Oglas nije pronađen');
-        }
-        
-        if (!Auth::check()) {
-            return redirect()->route('login')
-                ->with('error', 'Morate se prijaviti da biste slali poruke.');
-        }
-
-        // if (Auth::id() === $this->listing->user_id) {
-        //     abort(403, 'Ne možete slati poruke samom sebi.');
-        // }
-
-        $this->otherUser = $this->listing->user;
-        $this->conversationId = "conversation_{$this->listing->id}_{$this->otherUser->id}";
-        
-        $this->messages = collect([]);
-        $this->loadMessages();
-        $this->markMessagesAsRead();
+{
+    if (!$slug) {
+        abort(404, 'Oglas nije pronađen');
     }
+
+    $this->listing = Listing::where('slug', $slug)->with('user')->first();
+
+    if (!$this->listing) {
+        abort(404, 'Oglas nije pronađen');
+    }
+    
+    if (!Auth::check()) {
+        return redirect()->route('login')
+            ->with('error', 'Morate se prijaviti da biste slali poruke.');
+    }
+
+    $this->otherUser = $this->listing->user;
+    $this->conversationId = "conversation_{$this->listing->id}_{$this->otherUser->id}";
+    
+    $this->messages = collect([]);
+    $this->loadMessages();
+    $this->markMessagesAsRead();
+}
 
     public function loadMessages()
     {
@@ -84,6 +80,22 @@ class ConversationComponent extends Component
 
     public function sendMessage()
 {
+    // Proverite da li korisnik pokušava da pošalje poruku samom sebi
+    if (Auth::id() === $this->listing->user_id) {
+        // Vlasnik oglasa želi da odgovori - pronađite originalnog pošioca
+        $originalSender = $this->getOriginalSender();
+        
+        if (!$originalSender) {
+            $this->addError('newMessage', 'Nema sa kim da razgovarate.');
+            return;
+        }
+        
+        $receiverId = $originalSender->id;
+    } else {
+        // Kupac šalje poruku vlasniku oglasa
+        $receiverId = $this->listing->user_id;
+    }
+
     // Manualna validacija umesto $this->validate()
     $validator = Validator::make(
         ['newMessage' => $this->newMessage],
@@ -103,7 +115,7 @@ class ConversationComponent extends Component
     try {
         $message = new Message();
         $message->sender_id = Auth::id();
-        $message->receiver_id = $this->listing->user_id;
+        $message->receiver_id = $receiverId; // Ovo je sada ispravno postavljeno
         $message->listing_id = $this->listing->id;
         $message->message = trim($this->newMessage);
         $message->save();
@@ -115,6 +127,17 @@ class ConversationComponent extends Component
         \Log::error('Error sending message: ' . $e->getMessage());
         session()->flash('error', 'Došlo je do greške pri slanju poruke.');
     }
+}
+
+// Dodajte ovu metodu u vašu ConversationComponent klasu
+private function getOriginalSender()
+{
+    // Pronađite prvog pošioca koji nije vlasnik oglasa
+    $originalMessage = Message::where('listing_id', $this->listing->id)
+        ->where('sender_id', '!=', $this->listing->user_id)
+        ->first();
+    
+    return $originalMessage ? $originalMessage->sender : null;
 }
 
     public function loadAddresses()
