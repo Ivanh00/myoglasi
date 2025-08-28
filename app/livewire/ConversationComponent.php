@@ -24,12 +24,11 @@ class ConversationComponent extends Component
 
     protected $listeners = ['messageSent' => 'loadMessages'];
 
-    public function mount($slug = null, $otherUserId = null)
+    public function mount($slug = null, $user = null)
     {
-
         \Log::info('CONVERSATION MOUNT START', [
             'slug' => $slug,
-            'otherUserId' => $otherUserId,
+            'user_param' => $user,
             'full_url' => request()->fullUrl()
         ]);
 
@@ -48,12 +47,12 @@ class ConversationComponent extends Component
                 ->with('error', 'Morate se prijaviti da biste slali poruke.'); 
         }
 
-        // Određivanje drugog korisnika u konverzaciji - PRVO INICIJALIZUJEMO!
-        if ($otherUserId) {
-            // Ako je prosleđen ID drugog korisnika (kada vlasnik otvara konverzaciju)
-            $this->otherUser = User::find($otherUserId);
+        // Određivanje drugog korisnika u konverzaciji
+        if ($user) {
+            // Ako je prosleđen ID drugog korisnika (iz URL parametra)
+            $this->otherUser = User::find($user);
         } else {
-            // Ako nije prosleđen ID, to znači da kupac otvara konverzaciju
+            // Ako nije prosleđen ID, to znači da kupac otvara konverzaciju sa vlasnikom oglasa
             $this->otherUser = $this->listing->user;
         }
 
@@ -61,10 +60,9 @@ class ConversationComponent extends Component
             abort(404, 'Korisnik nije pronađen');
         }
 
-        // SADA MOŽEMO KORISTITI $this->otherUser
         \Log::info('ConversationComponent mount parameters', [
             'slug' => $slug,
-            'otherUserId' => $otherUserId,
+            'user_param' => $user,
             'listing_id' => $this->listing->id,
             'listing_user_id' => $this->listing->user_id,
             'auth_id' => Auth::id(),
@@ -77,11 +75,10 @@ class ConversationComponent extends Component
             \Log::error('Conversation with self detected', [
                 'auth_id' => Auth::id(),
                 'other_user_id' => $this->otherUser->id,
-                'otherUserId_parameter' => $otherUserId
+                'user_parameter' => $user
             ]);
             
-            session()->flash('error', 'Došlo je do greške pri učitavanju konverzacije.');
-            // Možda bolje redirectovati nazad na listu poruka
+            session()->flash('error', 'Ne možete poslati poruku samom sebi.');
             return redirect()->route('messages.inbox');
         }
 

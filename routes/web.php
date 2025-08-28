@@ -4,6 +4,7 @@ use App\Livewire\Home;
 
 // Livewire komponente
 use Livewire\Livewire;
+use App\Livewire\MessagesList;
 use App\Livewire\HomeComponent;
 use App\Livewire\Listings\Show;
 use App\Livewire\UserDashboard;
@@ -166,13 +167,20 @@ Route::get('/listings', \App\Livewire\Listings\Index::class)->name('listings.ind
 // // Proverite da li imate ovakvu rutu
 // Route::get('/oglasi/{listing}', [ListingController::class, 'show'])->name('listing.show');
 
-// Nova ruta
-Route::get('/oglasi/{slug}/poruka/{user?}', ConversationComponent::class)->name('listing.chat');
+// Ruta za listu poruka
+Route::middleware('auth')->get('/moj-kp/poruke', MessagesList::class)->name('messages.inbox');
 
-// Dodajte ovu rutu za prikaz pojedinačnog oglasa
+// Ruta za konverzaciju sa dodatnim parametrom za korisnika
+Route::middleware('auth')->get('/oglasi/{slug}/poruka/{user?}', ConversationComponent::class)->name('listing.chat');
+
+// Ruta za prikaz pojedinačnog oglasa
 Route::get('/oglasi/{listing:slug}', [App\Http\Controllers\ListingController::class, 'show'])->name('listing.show');
-// Dodajte ovu rutu za listu poruka
-Route::get('/moj-kp/poruke', \App\Livewire\MessagesList::class)->name('messages.inbox');
+
+// Alternativno, ako želite da koristite jedan namespace:
+Route::middleware('auth')->group(function () {
+    Route::get('/moj-kp/poruke', MessagesList::class)->name('messages.inbox');
+    Route::get('/oglasi/{slug}/poruka/{user?}', ConversationComponent::class)->name('listing.chat');
+});
 
 // // Za kupca (bez user parametra)
 // Route::get('/oglasi/{slug}/poruka', ConversationComponent::class)->name('listing.chat');

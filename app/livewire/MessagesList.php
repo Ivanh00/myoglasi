@@ -75,20 +75,26 @@ class MessagesList extends Component
     }
 
     public function selectConversation($conversationKey)
-{
-    $conversation = $this->conversations[$conversationKey] ?? null;
-    
-    if ($conversation) {
-        if (Auth::id() === $conversation['listing']->user_id) {
-            return redirect()->route('listing.chat', [
+    {
+        $conversation = $this->conversations[$conversationKey] ?? null;
+        
+        if ($conversation) {
+            // Uvek koristimo istu rutu sa dodatnim parametrom za drugog korisnika
+            $url = route('listing.chat', [
                 'slug' => $conversation['listing']->slug,
                 'user' => $conversation['other_user']->id
             ]);
-        } else {
-            return redirect()->to('/oglasi/'.$conversation['listing']->slug.'/poruka?user='.$conversation['other_user']->id);
+            
+            \Log::info('Redirecting to conversation', [
+                'url' => $url,
+                'listing_slug' => $conversation['listing']->slug,
+                'other_user_id' => $conversation['other_user']->id,
+                'auth_id' => Auth::id()
+            ]);
+            
+            return redirect()->to($url);
         }
     }
-}
 
     public function markAsRead($conversationKey)
     {
