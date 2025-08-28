@@ -117,9 +117,11 @@
                                     </a>
 
                                     {{-- Korisničko ime kreatora --}}
-                                    <p class="text-sm font-bold text-gray-700 mb-2">
-                                        {{ $listing->user->name ?? 'Nepoznat korisnik' }}
-                                    </p>
+                                    @auth
+                                        <p class="text-sm font-bold text-gray-700 mb-2">
+                                            Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                        </p>
+                                    @endauth
 
                                     <div class="flex items-center text-sm text-gray-600 mb-2">
                                         <i class="fas fa-map-marker-alt mr-1"></i>

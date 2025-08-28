@@ -90,6 +90,12 @@
                     </div>
 
                     <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                        @auth
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-user text-gray-500 mr-2"></i>
+                                <span class="text-gray-700 font-bold">Prodavac: {{ $listing->user->name }}</span>
+                            </div>
+                        @endauth
                         <div class="flex items-center mb-2">
                             <i class="fas fa-map-marker-alt text-gray-500 mr-2"></i>
                             <span class="text-gray-700">{{ $listing->location }}</span>
@@ -144,9 +150,11 @@
                                     </button>
                                 @endif
 
-                                <a href="{{ route('listing.chat', $listing->slug) }}" class="btn btn-primary">
-                                    Pošalji poruku
-                                </a>
+                                <!-- Za kupca -->
+                                <button
+                                    class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <i class="fas fa-envelope mr-2"></i> Pošalji poruku
+                                </button>
                                 <button
                                     class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                     <i class="fas fa-heart mr-2"></i> Sačuvaj
