@@ -24,8 +24,15 @@ class ConversationComponent extends Component
 
     protected $listeners = ['messageSent' => 'loadMessages'];
 
-    public function mount($slug = null)
+    public function mount($slug = null, $otherUserId = null)
     {
+
+        \Log::info('CONVERSATION MOUNT START', [
+            'slug' => $slug,
+            'otherUserId' => $otherUserId,
+            'full_url' => request()->fullUrl()
+        ]);
+
         if (!$slug) {
             abort(404, 'Oglas nije pronađen');
         }
@@ -38,10 +45,46 @@ class ConversationComponent extends Component
         
         if (!Auth::check()) {
             return redirect()->route('login')
-                ->with('error', 'Morate se prijaviti da biste slali poruke.');
+                ->with('error', 'Morate se prijaviti da biste slali poruke.'); 
         }
 
-        $this->otherUser = $this->listing->user;
+        // Određivanje drugog korisnika u konverzaciji - PRVO INICIJALIZUJEMO!
+        if ($otherUserId) {
+            // Ako je prosleđen ID drugog korisnika (kada vlasnik otvara konverzaciju)
+            $this->otherUser = User::find($otherUserId);
+        } else {
+            // Ako nije prosleđen ID, to znači da kupac otvara konverzaciju
+            $this->otherUser = $this->listing->user;
+        }
+
+        if (!$this->otherUser) {
+            abort(404, 'Korisnik nije pronađen');
+        }
+
+        // SADA MOŽEMO KORISTITI $this->otherUser
+        \Log::info('ConversationComponent mount parameters', [
+            'slug' => $slug,
+            'otherUserId' => $otherUserId,
+            'listing_id' => $this->listing->id,
+            'listing_user_id' => $this->listing->user_id,
+            'auth_id' => Auth::id(),
+            'other_user_id' => $this->otherUser->id,
+            'are_auth_and_other_equal' => Auth::id() == $this->otherUser->id
+        ]);
+    
+        // Ako je otherUser isti kao trenutni korisnik, to je greška
+        if (Auth::id() == $this->otherUser->id) {
+            \Log::error('Conversation with self detected', [
+                'auth_id' => Auth::id(),
+                'other_user_id' => $this->otherUser->id,
+                'otherUserId_parameter' => $otherUserId
+            ]);
+            
+            session()->flash('error', 'Došlo je do greške pri učitavanju konverzacije.');
+            // Možda bolje redirectovati nazad na listu poruka
+            return redirect()->route('messages.inbox');
+        }
+
         $this->conversationId = "conversation_{$this->listing->id}_{$this->otherUser->id}";
         
         $this->messages = collect([]);
@@ -52,14 +95,31 @@ class ConversationComponent extends Component
     public function loadMessages()
     {
         try {
+            \Log::info('Loading messages for conversation', [
+                'listing_id' => $this->listing->id,
+                'auth_id' => Auth::id(),
+                'other_user_id' => $this->otherUser->id
+            ]);
+
             $this->messages = Message::where('listing_id', $this->listing->id)
                 ->where(function($query) {
-                    $query->where('sender_id', Auth::id())
-                          ->orWhere('receiver_id', Auth::id());
+                    $query->where(function($q) {
+                        $q->where('sender_id', Auth::id())
+                        ->where('receiver_id', $this->otherUser->id);
+                    })->orWhere(function($q) {
+                        $q->where('sender_id', $this->otherUser->id)
+                        ->where('receiver_id', Auth::id());
+                    });
                 })
                 ->with(['sender', 'receiver'])
                 ->orderBy('created_at', 'asc')
                 ->get();
+
+            \Log::info('Filtered messages for conversation', [
+                'auth_id' => Auth::id(),
+                'other_user_id' => $this->otherUser->id,
+                'count' => $this->messages->count()
+            ]);
                 
             $this->dispatch('scrollToBottom');
         } catch (\Exception $e) {
@@ -72,55 +132,24 @@ class ConversationComponent extends Component
     {
         try {
             Message::where('listing_id', $this->listing->id)
+                ->where('sender_id', $this->otherUser->id)
                 ->where('receiver_id', Auth::id())
                 ->where('is_read', false)
                 ->update(['is_read' => true]);
-                
-            // Ažuriraj i poruke koje je trenutni korisnik poslao a koje je primalac pročitao
-            if (Auth::id() !== $this->listing->user_id) {
-                // Ako je kupac, označi poruke vlasnika kao pročitane
-                Message::where('listing_id', $this->listing->id)
-                    ->where('sender_id', $this->listing->user_id)
-                    ->where('receiver_id', Auth::id())
-                    ->update(['is_read' => true]);
-            }
         } catch (\Exception $e) {
             Log::error('Error marking messages as read: ' . $e->getMessage());
-        }
-    }
-
-
-    // Dodajte ovaj event listener za Livewire
-    #[On('messageRead')]
-    public function handleMessageRead($messageId)
-    {
-        $message = Message::find($messageId);
-        if ($message && $message->receiver_id === Auth::id()) {
-            $message->is_read = true;
-            $message->save();
-            $this->loadMessages();
         }
     }
 
     public function sendMessage()
     {
         // Proverite da li korisnik pokušava da pošalje poruku samom sebi
-        if (Auth::id() === $this->listing->user_id) {
-            // Vlasnik oglasa želi da odgovori - pronađite originalnog pošioca
-            $originalSender = $this->getOriginalSender();
-            
-            if (!$originalSender) {
-                $this->addError('newMessage', 'Nema sa kim da razgovarate.');
-                return;
-            }
-            
-            $receiverId = $originalSender->id;
-        } else {
-            // Kupac šalje poruku vlasniku oglasa
-            $receiverId = $this->listing->user_id;
+        if (Auth::id() === $this->otherUser->id) {
+            $this->addError('newMessage', 'Ne možete slati poruke samom sebi.');
+            return;
         }
 
-        // Manualna validacija umesto $this->validate()
+        // Manualna validacija
         $validator = Validator::make(
             ['newMessage' => $this->newMessage],
             ['newMessage' => 'required|string|max:1000|min:1']
@@ -131,7 +160,6 @@ class ConversationComponent extends Component
             return;
         }
 
-        // Sprečite dupli submit
         if (empty(trim($this->newMessage))) {
             return;
         }
@@ -139,18 +167,29 @@ class ConversationComponent extends Component
         try {
             $message = new Message();
             $message->sender_id = Auth::id();
-            $message->receiver_id = $receiverId;
+            $message->receiver_id = $this->otherUser->id;
             $message->listing_id = $this->listing->id;
             $message->message = trim($this->newMessage);
             $message->is_read = false;
             $message->save();
-    
+
             $this->newMessage = '';
             $this->loadMessages();
             
         } catch (\Exception $e) {
             \Log::error('Error sending message: ' . $e->getMessage());
             session()->flash('error', 'Došlo je do greške pri slanju poruke.');
+        }
+    }
+
+    #[On('messageRead')]
+    public function handleMessageRead($messageId)
+    {
+        $message = Message::find($messageId);
+        if ($message && $message->receiver_id === Auth::id()) {
+            $message->is_read = true;
+            $message->save();
+            $this->loadMessages();
         }
     }
 
@@ -169,7 +208,6 @@ class ConversationComponent extends Component
         }
     }
     
-    // Dodajte ovu metodu za automatsko označavanje poruka kao pročitanih
     public function markAllMessagesAsRead()
     {
         $unreadMessages = Message::where('listing_id', $this->listing->id)
@@ -187,17 +225,6 @@ class ConversationComponent extends Component
         
         $this->loadMessages();
     }
-    
-
-    private function getOriginalSender()
-    {
-        // Pronađite prvog pošioca koji nije vlasnik oglasa
-        $originalMessage = Message::where('listing_id', $this->listing->id)
-            ->where('sender_id', '!=', $this->listing->user_id)
-            ->first();
-        
-        return $originalMessage ? $originalMessage->sender : null;
-    }
 
     public function loadAddresses()
     {
@@ -209,26 +236,13 @@ class ConversationComponent extends Component
         $this->showAddressList = !$this->showAddressList;
     }
     
-    // Nova metoda za praćenje kada su poruke viđene
     public function checkMessagesReadStatus()
     {
-        // Proveri da li je primalac poruka (drugi korisnik) trenutno aktivan na stranici
-        // Ovo je pojednostavljen primer - u realnoj aplikaciji biste koristili WebSockete ili polling
-        if (Auth::id() !== $this->listing->user_id) {
-            // Ako je kupac, označi poruke vlasnika kao pročitane
+        if (Auth::id() !== $this->otherUser->id) {
             Message::where('listing_id', $this->listing->id)
-                ->where('sender_id', $this->listing->user_id)
+                ->where('sender_id', $this->otherUser->id)
                 ->where('receiver_id', Auth::id())
                 ->update(['is_read' => true]);
-        } else {
-            // Ako je vlasnik, označi poruke kupca kao pročitane
-            $originalSender = $this->getOriginalSender();
-            if ($originalSender) {
-                Message::where('listing_id', $this->listing->id)
-                    ->where('sender_id', $originalSender->id)
-                    ->where('receiver_id', Auth::id())
-                    ->update(['is_read' => true]);
-            }
         }
         
         $this->loadMessages();
@@ -236,7 +250,6 @@ class ConversationComponent extends Component
 
     public function render()
     {
-        // Proveri status pročitanosti poruka pri renderovanju
         $this->checkMessagesReadStatus();
         
         return view('livewire.conversation-component')

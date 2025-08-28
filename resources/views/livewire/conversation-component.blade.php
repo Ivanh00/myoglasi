@@ -7,7 +7,7 @@
                     d="M10 15L3.63057 8.32978C3.54697 8.24236 3.5 8.12372 3.5 8C3.5 7.87628 3.54697 7.75764 3.63057 7.67022L10 1"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
-            Poruke
+            Nazad na poruke
         </a>
     </section>
 
@@ -190,6 +190,29 @@
             </div>
         </div>
     @endif
+    <section class="user-info-section">
+        <div class="user-info-holder">
+            <div class="user-name-holder">
+                <span class="user-avatar">
+                    <svg width="24" height="24" viewBox="0 0 16 16" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M8 7.5C9.933 7.5 11.5 5.933 11.5 4C11.5 2.067 9.933 0.5 8 0.5C6.067 0.5 4.5 2.067 4.5 4C4.5 5.933 6.067 7.5 8 7.5Z"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M1.5 15.5C1.5 11.9101 4.41015 9.5 8 9.5C11.5898 9.5 14.5 11.9101 14.5 15.5"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </span>
+                <div class="user-name">
+                    @if (isset($otherUser) && $otherUser)
+                        {{ $otherUser->name }}
+                    @else
+                        Korisnik nije pronađen
+                    @endif
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Forma za slanje poruke -->
     <div class="message-form-holder">

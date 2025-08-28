@@ -22,24 +22,40 @@ class MessagesList extends Component
     {
         $userId = Auth::id();
         
-        $this->conversations = Message::where('sender_id', $userId)
-            ->orWhere('receiver_id', $userId)
+        $this->conversations = Message::where(function($query) use ($userId) {
+                $query->where('sender_id', $userId)
+                    ->orWhere('receiver_id', $userId);
+            })
             ->with(['listing', 'sender', 'receiver'])
             ->get()
-            ->groupBy(function ($message) {
-                return $message->listing_id . '-' . 
-                       min($message->sender_id, $message->receiver_id) . '-' . 
-                       max($message->sender_id, $message->receiver_id);
+            ->groupBy(function ($message) use ($userId) {
+                // Grupiši po kombinaciji oglas + drugi korisnik
+                $otherUserId = $message->sender_id == $userId 
+                    ? $message->receiver_id 
+                    : $message->sender_id;
+                    
+                return $message->listing_id . '-' . $otherUserId;
             })
             ->map(function ($messages) use ($userId) {
                 $lastMessage = $messages->sortByDesc('created_at')->first();
-                $otherUser = $lastMessage->sender_id === $userId 
+                
+                // Odredi drugog korisnika u konverzaciji
+                $otherUser = $lastMessage->sender_id == $userId 
                     ? $lastMessage->receiver 
                     : $lastMessage->sender;
                 
+                // PROVERA: Da li otherUser nije null i da li je različit od trenutnog korisnika
+                if (!$otherUser || $otherUser->id == $userId) {
+                    \Log::error('Invalid other user in conversation', [
+                        'user_id' => $userId,
+                        'other_user' => $otherUser,
+                        'last_message' => $lastMessage->toArray()
+                    ]);
+                }
+                
                 $unreadCount = $messages->where('receiver_id', $userId)
-                                      ->where('is_read', false)
-                                      ->count();
+                                    ->where('is_read', false)
+                                    ->count();
 
                 return [
                     'listing' => $lastMessage->listing,
@@ -50,20 +66,29 @@ class MessagesList extends Component
                     'created_at' => $lastMessage->created_at
                 ];
             })
+            ->filter(function ($conversation) use ($userId) {
+                // Filtriraj konverzacije gde other_user postoji i nije trenutni korisnik
+                return $conversation['other_user'] && $conversation['other_user']->id != $userId;
+            })
             ->sortByDesc('created_at')
             ->values();
     }
 
     public function selectConversation($conversationKey)
-    {
-        $conversation = $this->conversations[$conversationKey] ?? null;
-        
-        if ($conversation) {
+{
+    $conversation = $this->conversations[$conversationKey] ?? null;
+    
+    if ($conversation) {
+        if (Auth::id() === $conversation['listing']->user_id) {
             return redirect()->route('listing.chat', [
-                'slug' => $conversation['listing']->slug
+                'slug' => $conversation['listing']->slug,
+                'user' => $conversation['other_user']->id
             ]);
+        } else {
+            return redirect()->to('/oglasi/'.$conversation['listing']->slug.'/poruka?user='.$conversation['other_user']->id);
         }
     }
+}
 
     public function markAsRead($conversationKey)
     {
@@ -83,16 +108,6 @@ class MessagesList extends Component
         $this->sortBy = $sort;
         $this->loadConversations();
     }
-
-    protected $listeners = ['refreshConversations' => 'loadConversations'];
-
-public function getListeners()
-{
-    return [
-        "echo-private:conversation.*." . Auth::id() . ",NewMessage" => 'refreshConversations',
-        "echo-private:conversation.*." . Auth::id() . ",MessageRead" => 'refreshConversations',
-    ];
-}
 
     public function render()
     {

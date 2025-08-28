@@ -166,12 +166,19 @@ Route::get('/listings', \App\Livewire\Listings\Index::class)->name('listings.ind
 // // Proverite da li imate ovakvu rutu
 // Route::get('/oglasi/{listing}', [ListingController::class, 'show'])->name('listing.show');
 
-Route::get('/oglasi/{slug}/chat', \App\Livewire\ConversationComponent::class)->name('listing.chat');
+// Nova ruta
+Route::get('/oglasi/{slug}/poruka/{user?}', ConversationComponent::class)->name('listing.chat');
+
 // Dodajte ovu rutu za prikaz pojedinačnog oglasa
 Route::get('/oglasi/{listing:slug}', [App\Http\Controllers\ListingController::class, 'show'])->name('listing.show');
 // Dodajte ovu rutu za listu poruka
 Route::get('/moj-kp/poruke', \App\Livewire\MessagesList::class)->name('messages.inbox');
 
+// // Za kupca (bez user parametra)
+// Route::get('/oglasi/{slug}/poruka', ConversationComponent::class)->name('listing.chat');
+
+// // Za vlasnika oglasa (sa user parametrom)
+// Route::get('/oglasi/{slug}/poruka/{user}', ConversationComponent::class)->name('listing.chat.user');
 
 
 // Admin Routes
