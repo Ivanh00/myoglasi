@@ -4,6 +4,7 @@ use App\Livewire\Home;
 
 // Livewire komponente
 use Livewire\Livewire;
+use App\Models\Listing;
 use App\Livewire\MessagesList;
 use App\Livewire\HomeComponent;
 use App\Livewire\Listings\Show;
@@ -187,6 +188,23 @@ Route::middleware('auth')->group(function () {
 
 // // Za vlasnika oglasa (sa user parametrom)
 // Route::get('/oglasi/{slug}/poruka/{user}', ConversationComponent::class)->name('listing.chat.user');
+
+// Ruta za favorites stranicu
+Route::middleware('auth')->get('/moj-kp/omiljeni', FavoritesIndex::class)->name('favorites.index');
+
+// Opciono: API rute za AJAX pozive
+Route::middleware('auth')->group(function () {
+    Route::post('/favorites/{listing}', function (Listing $listing) {
+        Auth::user()->addToFavorites($listing);
+        return response()->json(['status' => 'added']);
+    })->name('favorites.add');
+    
+    Route::delete('/favorites/{listing}', function (Listing $listing) {
+        Auth::user()->removeFromFavorites($listing);
+        return response()->json(['status' => 'removed']);
+    })->name('favorites.remove');
+});
+
 
 
 // Admin Routes

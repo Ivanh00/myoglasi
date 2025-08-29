@@ -59,4 +59,31 @@ class Listing extends Model
     {
         return $this->hasOne(ListingImage::class)->where('is_primary', true);
     }
+
+    public function favorites()
+{
+    return $this->hasMany(Favorite::class);
+}
+
+public function favoritedByUsers()
+{
+    return $this->belongsToMany(User::class, 'favorites')
+                ->withTimestamps();
+}
+
+public function getFavoritesCountAttribute()
+{
+    return $this->favorites()->count();
+}
+
+public function isFavoritedBy($user)
+{
+    if (!$user) {
+        return false;
+    }
+    
+    return $this->favorites()
+                ->where('user_id', $user->id)
+                ->exists();
+}
 }

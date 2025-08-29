@@ -111,6 +111,42 @@ class User extends Authenticatable
         ]);
     }
 
+    public function favorites()
+{
+    return $this->hasMany(Favorite::class);
+}
+
+public function favoriteListings()
+{
+    return $this->belongsToMany(Listing::class, 'favorites')
+                ->withTimestamps();
+}
+
+public function hasFavorited(Listing $listing)
+{
+    return $this->favorites()
+                ->where('listing_id', $listing->id)
+                ->exists();
+}
+
+public function addToFavorites(Listing $listing)
+{
+    if (!$this->hasFavorited($listing)) {
+        return $this->favorites()->create([
+            'listing_id' => $listing->id
+        ]);
+    }
+    
+    return false;
+}
+
+public function removeFromFavorites(Listing $listing)
+{
+    return $this->favorites()
+                ->where('listing_id', $listing->id)
+                ->delete();
+}
+
     public function unreadMessages()
 {
     return $this->hasMany(Message::class, 'receiver_id')->where('is_read', false);

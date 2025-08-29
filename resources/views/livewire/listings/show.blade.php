@@ -124,27 +124,46 @@
                         </div>
                     @endif
 
-                    <!-- Akcije -->
                     <div class="flex space-x-4 mt-8">
                         @auth
                             @if (auth()->id() !== $listing->user_id)
-                                <!-- Dugme za slanje poruke - samo ako korisnik nije vlasnik oglasa -->
+                                <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('listing.chat', ['slug' => $listing->slug]) }}"
                                     class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                     <i class="fas fa-envelope mr-2"></i> Pošalji poruku
                                 </a>
+
+                                <!-- Favorite dugme (Livewire komponenta) -->
+                                <livewire:favorite-button :listing="$listing" />
+
+                                <!-- Dugme za deljenje -->
+                                <button onclick="shareListing()"
+                                    class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <i class="fas fa-share-alt mr-2"></i> Podeli
+                                </button>
                             @else
-                                <!-- Alternativno dugme za vlasnike -->
+                                <!-- Dugme za vlasnike oglasa -->
                                 <div
                                     class="flex items-center justify-center px-4 py-3 bg-gray-100 text-gray-500 rounded-lg">
                                     <i class="fas fa-user mr-2"></i> Vaš oglas
                                 </div>
+
+                                <!-- Opciono: dugme za uređivanje svog oglasa -->
+                                <a href="{{ route('listings.edit', $listing) }}"
+                                    class="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                </a>
                             @endif
                         @else
-                            <!-- Dugme za neautentifikovane korisnike -->
+                            <!-- Dugmad za neautentifikovane korisnike -->
                             <a href="{{ route('login') }}"
                                 class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                 <i class="fas fa-envelope mr-2"></i> Prijavite se za slanje poruke
+                            </a>
+
+                            <a href="{{ route('login') }}"
+                                class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                <i class="fas fa-heart mr-2"></i> Prijavite se za omiljene
                             </a>
                         @endauth
                     </div>
@@ -438,5 +457,27 @@
         // Dodaj border na selektovanu sliku
         element.parentElement.classList.remove('border-gray-200');
         element.parentElement.classList.add('border-blue-500');
+    }
+
+    function shareListing() {
+        const url = window.location.href;
+        const title = "{{ $listing->title }}";
+
+        if (navigator.share) {
+            // Koristi Web Share API ako je dostupan (mobilni browsers)
+            navigator.share({
+                title: title,
+                text: 'Pogledaj ovaj oglas',
+                url: url
+            });
+        } else {
+            // Fallback - kopiraj u clipboard
+            navigator.clipboard.writeText(url).then(function() {
+                alert('Link je kopiran u clipboard!');
+            }, function() {
+                // Ako clipboard ne radi, prikaži URL
+                prompt('Kopiraj ovaj link:', url);
+            });
+        }
     }
 </script>
