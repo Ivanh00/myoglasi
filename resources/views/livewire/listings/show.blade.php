@@ -127,53 +127,25 @@
                     <!-- Akcije -->
                     <div class="flex space-x-4 mt-8">
                         @auth
-                            @if (auth()->id() == $listing->user_id)
-                                <!-- Akcije za vlasnika oglasa -->
-                                <a href="{{ route('listings.edit', $listing) }}"
-                                    class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                    <i class="fas fa-edit mr-2"></i> Izmeni
-                                </a>
-                                <a href="{{ route('listings.my') }}"
-                                    class="flex items-center justify-center px-6 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
-                                    <i class="fas fa-list mr-2"></i> Moji oglasi
-                                </a>
-                                <button
-                                    class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                    <i class="fas fa-share-alt mr-2"></i> Podeli
-                                </button>
-                            @else
-                                <!-- Akcije za ostale ulogovane korisnike -->
-                                @if ($listing->user->phone_visible)
-                                    <button
-                                        class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                        <i class="fas fa-phone mr-2"></i> Pozovi
-                                    </button>
-                                @endif
-
-                                <!-- Za kupca -->
-                                <button
+                            @if (auth()->id() !== $listing->user_id)
+                                <!-- Dugme za slanje poruke - samo ako korisnik nije vlasnik oglasa -->
+                                <a href="{{ route('listing.chat', ['slug' => $listing->slug]) }}"
                                     class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                     <i class="fas fa-envelope mr-2"></i> Pošalji poruku
-                                </button>
-                                <button
-                                    class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                    <i class="fas fa-heart mr-2"></i> Sačuvaj
-                                </button>
+                                </a>
+                            @else
+                                <!-- Alternativno dugme za vlasnike -->
+                                <div
+                                    class="flex items-center justify-center px-4 py-3 bg-gray-100 text-gray-500 rounded-lg">
+                                    <i class="fas fa-user mr-2"></i> Vaš oglas
+                                </div>
                             @endif
                         @else
-                            <!-- Akcije za neulogovane korisnike -->
-                            <a href="{{ route('register') }}"
-                                class="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                <i class="fas fa-phone mr-2"></i> Registruj se da bi video detalje o prodavcu
-                            </a>
-                            {{-- <a href="{{ route('login') }}"
-                                class="flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                <i class="fas fa-envelope mr-2"></i> Poruka
-                            </a>
+                            <!-- Dugme za neautentifikovane korisnike -->
                             <a href="{{ route('login') }}"
                                 class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                <i class="fas fa-heart mr-2"></i> Sačuvaj
-                            </a> --}}
+                                <i class="fas fa-envelope mr-2"></i> Prijavite se za slanje poruke
+                            </a>
                         @endauth
                     </div>
 
