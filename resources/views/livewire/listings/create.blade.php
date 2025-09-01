@@ -229,10 +229,13 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
                     value="{{ auth()->user()->phone }}">
                 <p class="text-gray-500 text-sm mt-1">
-                    Automatski preuzeto iz vašeg profila.
+                    Lokacija i broj telefona su automatski preuzeti iz vašeg profila.
                     <a href="{{ route('profile') }}" class="text-blue-600 hover:text-blue-500">
                         Ažuriraj profil
                     </a>
+                </p>
+                <p class="text-gray-500 text-sm mt-1">
+                    Telefon je vidljiv u uglasima samo ako je označen kao vidljiv u profilu.
                 </p>
             </div>
 

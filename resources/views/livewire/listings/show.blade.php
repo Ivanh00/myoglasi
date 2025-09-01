@@ -161,10 +161,10 @@
                                 <i class="fas fa-envelope mr-2"></i> Prijavite se za slanje poruke
                             </a>
 
-                            <a href="{{ route('login') }}"
+                            {{-- <a href="{{ route('login') }}"
                                 class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                 <i class="fas fa-heart mr-2"></i> Prijavite se za omiljene
-                            </a>
+                            </a> --}}
                         @endauth
                     </div>
 
