@@ -71,8 +71,7 @@
                                         @endif
                                     @endauth
                                 </x-dropdown-link>
-                                <a href="{{ route('notifications.index') }}"
-                                    class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                                <x-dropdown-link href="{{ route('notifications.index') }}">
                                     Obaveštenja
                                     @auth
                                         @php
@@ -85,12 +84,10 @@
                                                 ->count();
                                         @endphp
                                         @if ($unreadNotifications > 0)
-                                            <span class="ml-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
-                                                {{ $unreadNotifications }}
-                                            </span>
+                                            <span class="unread-badge">{{ $unreadNotifications }}</span>
                                         @endif
                                     @endauth
-                                </a>
+                                </x-dropdown-link>
                                 <x-dropdown-link href="{{ route('balance.index') }}">
                                     Balans
                                 </x-dropdown-link>

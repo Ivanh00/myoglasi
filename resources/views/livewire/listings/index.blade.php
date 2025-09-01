@@ -172,7 +172,7 @@
 
                                 <div class="text-xs text-gray-700 mb-4">
                                     <i class="fas fa-clock mr-1"></i>
-                                    {{ $listing->created_at->diffForHumans() }}
+                                    Postavljeno pre {{ floor($listing->created_at->diffInDays()) }} dana
                                 </div>
 
                                 <div class="space-y-2">
