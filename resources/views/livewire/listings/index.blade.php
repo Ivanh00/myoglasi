@@ -157,16 +157,20 @@
                             <div class="flex flex-col h-full justify-between">
                                 <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
                                     <div class="flex items-center">
-                                        <i class="fas fa-eye mr-1"></i>
-                                        <span>{{ $listing->views ?? 0 }}</span>
+                                        <svg class="w-4 h-4 mr-1 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 4.5C7.5 4.5 3.5 8.5 2 12c1.5 3.5 5.5 7.5 10 7.5s8.5-4 10-7.5c-1.5-3.5-5.5-7.5-10-7.5zm0 12c-2.5 0-4.5-2-4.5-4.5S9.5 8.5 12 8.5 16.5 10.5 16.5 12 14.5 16.5 12 16.5zm0-7c-1.5 0-2.5 1-2.5 2.5S10.5 14.5 12 14.5 14.5 13.5 14.5 12 13.5 9.5 12 9.5z" />
+                                        </svg>
+                                        <span class="text-gray-700">{{ $listing->views ?? 0 }}</span>
                                     </div>
+                                    <!-- Dodajte ovaj div za prikaz broja pratilaca -->
                                     <div class="flex items-center">
-                                        <i class="fas fa-heart mr-1"></i>
-                                        <span>0</span>
+                                        <i class="fas fa-heart text-red-500 mr-2"></i>
+                                        <span class="text-gray-700">❤️ {{ $listing->favorites_count ?? 0 }}</span>
                                     </div>
                                 </div>
 
-                                <div class="text-xs text-gray-400 mb-4">
+                                <div class="text-xs text-gray-700 mb-4">
                                     <i class="fas fa-clock mr-1"></i>
                                     {{ $listing->created_at->diffForHumans() }}
                                 </div>

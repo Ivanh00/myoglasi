@@ -1,10 +1,8 @@
-<!-- resources/views/livewire/favorite-button.blade.php -->
-
 <div class="inline-flex items-center">
     @auth
         @if (auth()->id() !== $listing->user_id)
             <button wire:click="toggleFavorite"
-                class="flex items-center justify-center px-3 py-2 rounded-lg transition-colors
+                class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors
                            {{ $isFavorited ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-gray-50 text-gray-600 hover:bg-gray-100' }}">
                 @if ($isFavorited)
                     <svg class="w-5 h-5 mr-1 fill-current" viewBox="0 0 24 24">
@@ -32,11 +30,11 @@
         </a>
     @endauth
 
-    @if ($favoritesCount > 0)
+    {{-- @if ($favoritesCount > 0)
         <span class="ml-2 text-sm text-gray-500">
             ({{ $favoritesCount }})
         </span>
-    @endif
+    @endif --}}
 </div>
 
 <!-- Flash poruke -->

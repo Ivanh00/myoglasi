@@ -105,16 +105,15 @@
                             <span class="text-gray-700">Objavljeno:
                                 {{ $listing->created_at->format('d.m.Y. H:i') }}</span>
                         </div>
-                        <div class="flex items-center">
+                        <div class="flex items-center mb-2">
                             <i class="fas fa-eye text-gray-500 mr-2"></i>
                             <span class="text-gray-700">Pregleda: {{ $listing->views ?? 0 }}</span>
                         </div>
-                    </div>
-
-                    <!-- Dodajte ovaj div za prikaz broja pratilaca -->
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-heart text-gray-500 mr-2"></i>
-                        <span class="text-gray-700">Pratilaca: {{ $listing->favorites_count ?? 0 }}</span>
+                        <!-- Dodajte ovaj div za prikaz broja pratilaca -->
+                        <div class="flex items-center">
+                            <i class="fas fa-heart text-gray-500 mr-2"></i>
+                            <span class="text-gray-700">Pratilaca: {{ $listing->favorites_count ?? 0 }}</span>
+                        </div>
                     </div>
 
                     {{-- Prikaz telefona samo ako je vlasnik dozvolio i ako je korisnik ulogovan --}}
