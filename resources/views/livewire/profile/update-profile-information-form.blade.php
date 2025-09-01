@@ -14,6 +14,7 @@ state([
     'city' => fn() => auth()->user()->city,
     'phone' => fn() => auth()->user()->phone,
     'phone_visible' => fn() => auth()->user()->phone_visible,
+    'seller_terms' => fn() => auth()->user()->seller_terms,
 ]);
 
 $updateProfileInformation = function () {
@@ -25,6 +26,7 @@ $updateProfileInformation = function () {
         'city' => ['nullable', 'string', 'max:255'],
         'phone' => ['nullable', 'string', 'max:20'],
         'phone_visible' => ['boolean'],
+        'seller_terms' => ['nullable', 'string', 'max:2000'],
     ]);
 
     $user->fill($validated);
@@ -253,6 +255,18 @@ $sendVerification = function () {
             </label>
             <x-input-error class="mt-2" :messages="$errors->get('phone_visible')" />
         </div>
+
+        <!-- Uslovi prodaje -->
+        <div>
+            <x-input-label for="seller_terms" :value="__('Uslovi prodavca')" />
+            <textarea wire:model.defer="seller_terms" id="seller_terms" name="seller_terms" rows="4"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 
+               dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 
+               focus:ring-indigo-500 shadow-sm sm:text-sm"></textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('seller_terms')" />
+        </div>
+
+
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>

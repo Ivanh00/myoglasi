@@ -27,6 +27,7 @@ class User extends Authenticatable
         'phone_visible',  // Dodajte ovo
         'avatar',         // Dodajte ovo ako želite
         'is_admin', 
+        'seller_terms',
     ];
 
     /**

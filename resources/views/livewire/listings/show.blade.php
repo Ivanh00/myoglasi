@@ -177,6 +177,18 @@
                 <div class="text-gray-700 whitespace-pre-line">{{ $listing->description }}</div>
             </div>
 
+            {{-- Uslovi prodaje – prikaz ako postoje --}}
+            <div class="border-t border-gray-200 p-6">
+                @if ($listing->user->seller_terms)
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Uslovi prodaje</h3>
+                        <div class="bg-gray-100 p-4 rounded-lg text-gray-700">
+                            {!! nl2br(e($listing->user->seller_terms)) !!}
+                        </div>
+                    </div>
+                @endif
+            </div>
+
             <!-- Informacije o prodavcu -->
             <div class="border-t border-gray-200 p-6 bg-gray-50">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">Informacije o prodavcu</h2>
@@ -186,7 +198,8 @@
                     </div>
                     <div>
                         <h3 class="font-medium text-gray-900">{{ $listing->user->name }}</h3>
-                        <p class="text-gray-600 text-sm">Član od: {{ $listing->user->created_at->format('m/Y') }}</p>
+                        <p class="text-gray-600 text-sm">Član od: {{ $listing->user->created_at->format('m/Y') }}
+                        </p>
                     </div>
                 </div>
             </div>
