@@ -108,6 +108,7 @@ class ConversationComponent extends Component
                         ->where('receiver_id', Auth::id());
                     });
                 })
+                ->where('is_system_message', false) // 👈 Samo regularne poruke
                 ->with(['sender', 'receiver'])
                 ->orderBy('created_at', 'asc')
                 ->get();
@@ -168,6 +169,7 @@ class ConversationComponent extends Component
             $message->listing_id = $this->listing->id;
             $message->message = trim($this->newMessage);
             $message->is_read = false;
+            $message->is_system_message = false; // 👈 Uvek false za regularne poruke
             $message->save();
 
             $this->newMessage = '';
@@ -210,6 +212,7 @@ class ConversationComponent extends Component
         $unreadMessages = Message::where('listing_id', $this->listing->id)
             ->where('receiver_id', Auth::id())
             ->where('is_read', false)
+            ->where('is_system_message', false) // 👈 Samo regularne poruke
             ->get();
     
         foreach ($unreadMessages as $message) {
@@ -234,17 +237,17 @@ class ConversationComponent extends Component
     }
     
     public function checkMessagesReadStatus()
-{
-    if (!$this->isSystemConversation && Auth::id() !== $this->otherUser->id) {
-        Message::where('listing_id', $this->listing->id)
-            ->where('sender_id', $this->otherUser->id)
-            ->where('receiver_id', Auth::id())
-            ->where('is_system_message', false) // 👈 Samo regularne poruke
-            ->update(['is_read' => true]);
+    {
+        if (Auth::id() !== $this->otherUser->id) {
+            Message::where('listing_id', $this->listing->id)
+                ->where('sender_id', $this->otherUser->id)
+                ->where('receiver_id', Auth::id())
+                ->where('is_system_message', false) // 👈 Samo regularne poruke
+                ->update(['is_read' => true]);
+        }
+        
+        $this->loadMessages();
     }
-    
-    $this->loadMessages();
-}
 
     public function render()
     {

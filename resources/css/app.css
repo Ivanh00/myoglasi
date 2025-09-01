@@ -644,324 +644,218 @@ input[readonly]:focus {
         text-align: center;
         color: #0c4a6e;
     }
+   /* NOTIFICATION MODAL STYLES */
+   .notification-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+}
 
-    .notifications-container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10001;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 10002;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.notification-details p {
+    margin-bottom: 16px;
+    line-height: 1.5;
+    color: #374151;
+    font-size: 15px;
+}
+
+.notification-listing-info,
+.notification-time-info {
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.notification-listing-info strong,
+.notification-time-info strong {
+    color: #374151;
+    font-weight: 600;
+}
+
+.listing-link {
+    color: #0ea5e9;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.listing-link:hover {
+    text-decoration: underline;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 20px 24px;
+    border-top: 1px solid #e5e7eb;
+    position: sticky;
+    bottom: 0;
+    background: white;
+}
+
+.view-listing-btn {
+    background-color: #0ea5e9;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: center;
+}
+
+.view-listing-btn:hover {
+    background-color: #0284c7;
+}
+
+.close-btn {
+    background-color: #f3f4f6;
+    color: #374151;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.close-btn:hover {
+    background-color: #e5e7eb;
+}
+
+/* MOBILE STYLES */
+.notification-modal.mobile-modal {
+    padding: 0;
+    align-items: flex-end;
+}
+
+.modal-content.mobile-content {
+    border-radius: 16px 16px 0 0;
+    max-height: 80vh;
+    animation: modalSlideUp 0.3s ease-out;
+}
+
+.notification-modal.mobile-modal .modal-footer {
+    flex-direction: column;
+}
+
+.notification-modal.mobile-modal .view-listing-btn,
+.notification-modal.mobile-modal .close-btn {
+    width: 100%;
+}
+
+/* ANIMATIONS */
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
     }
 
-    .notifications-header {
-        display: flex;
-        justify-content: between;
-        align-items: center;
-        margin-bottom: 20px;
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
     }
 
-    .filter-options {
-        display: flex;
-        gap: 16px;
-        align-items: center;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
 
-    .filter-select {
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        padding: 8px 12px;
-        background-color: white;
-    }
-
-    .mark-all-read-btn {
-        background-color: #0ea5e9;
-        color: white;
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 14px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .mark-all-read-btn:hover {
-        background-color: #0284c7;
-    }
-
-    .notification-item {
-        display: flex;
-        align-items: flex-start;
-        padding: 16px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-    .notification-item:hover {
-        background-color: #f9fafb;
-    }
-
-    .notification-item.unread {
-        background-color: #f0f9ff;
-        border-left: 3px solid #0ea5e9;
-    }
-
-    .notification-icon {
-        margin-right: 16px;
-        flex-shrink: 0;
-    }
-
-    .notification-content {
-        flex: 1;
-    }
-
-    .notification-message {
-        font-weight: 500;
-        margin-bottom: 8px;
-        color: #374151;
-    }
-
-    .notification-listing {
-        font-size: 14px;
-        color: #6b7280;
-        margin-bottom: 4px;
-    }
-
-    .listing-link {
-        color: #0ea5e9;
-        text-decoration: none;
-    }
-
-    .listing-link:hover {
-        text-decoration: underline;
-    }
-
-    .notification-time {
-        font-size: 12px;
-        color: #9ca3af;
-    }
-
-    .unread-indicator {
-        width: 8px;
-        height: 8px;
-        background-color: #0ea5e9;
-        border-radius: 50%;
-        margin-left: 16px;
-        flex-shrink: 0;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 40px 20px;
-        color: #6b7280;
-    }
-
-    .empty-state svg {
-        margin-bottom: 16px;
-    }
-
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
     .notification-modal {
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 50;
+        padding: 0;
+        align-items: flex-end;
     }
 
     .modal-content {
-        background-color: white;
-        border-radius: 8px;
-        width: 90%;
-        max-width: 500px;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: between;
-        align-items: center;
-        padding: 16px 20px;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .modal-close {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: #6b7280;
-    }
-
-    .modal-body {
-        padding: 20px;
-    }
-
-    .notification-details p {
-        margin-bottom: 16px;
-        line-height: 1.5;
-    }
-
-    .notification-listing-info,
-    .notification-time-info {
-        margin-bottom: 12px;
-        font-size: 14px;
+        border-radius: 16px 16px 0 0;
+        max-height: 80vh;
+        animation: modalSlideUp 0.3s ease-out;
     }
 
     .modal-footer {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-        padding: 16px 20px;
-        border-top: 1px solid #e5e7eb;
+        flex-direction: column;
     }
 
-    .view-listing-btn {
-        background-color: #0ea5e9;
-        color: white;
-        padding: 8px 16px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-size: 14px;
-    }
-
-    .view-listing-btn:hover {
-        background-color: #0284c7;
-    }
-
+    .view-listing-btn,
     .close-btn {
-        background-color: #f3f4f6;
-        color: #374151;
-        padding: 8px 16px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        font-size: 14px;
+        width: 100%;
     }
-
-    .close-btn:hover {
-        background-color: #e5e7eb;
-    }
-
-    .divider {
-        height: 1px;
-        background-color: #e5e7eb;
-        margin: 8px 0;
-    }
-
-    .pagination-container {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .conversation-item.unread {
-        background-color: #f0f9ff;
-        border-left: 3px solid #0ea5e9;
-    }
-
-    .unread-badge {
-        background-color: #0ea5e9;
-        color: white;
-        padding: 2px 6px;
-        border-radius: 10px;
-        font-size: 12px;
-        margin-left: 8px;
-    }
-
-    .notification-modal {
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 50;
-    }
-
-    .modal-content {
-        background-color: white;
-        border-radius: 8px;
-        width: 90%;
-        max-width: 500px;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: between;
-        align-items: center;
-        padding: 16px 20px;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .modal-close {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: #6b7280;
-    }
-
-    .modal-body {
-        padding: 20px;
-    }
-
-    .notification-details p {
-        margin-bottom: 16px;
-        line-height: 1.5;
-    }
-
-    .notification-listing-info,
-    .notification-time-info {
-        margin-bottom: 12px;
-        font-size: 14px;
-    }
-
-    .listing-link {
-        color: #0ea5e9;
-        text-decoration: none;
-    }
-
-    .listing-link:hover {
-        text-decoration: underline;
-    }
-
-    .modal-footer {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-        padding: 16px 20px;
-        border-top: 1px solid #e5e7eb;
-    }
-
-    .view-listing-btn {
-        background-color: #0ea5e9;
-        color: white;
-        padding: 8px 16px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-size: 14px;
-    }
-
-    .view-listing-btn:hover {
-        background-color: #0284c7;
-    }
-
-    .close-btn {
-        background-color: #f3f4f6;
-        color: #374151;
-        padding: 8px 16px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-    .close-btn:hover {
-        background-color: #e5e7eb;
-    }
-
-    .pagination-container {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-    }
+}
 }

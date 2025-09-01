@@ -102,8 +102,9 @@
     <!-- Selected Notification Modal -->
     @if ($selectedNotification)
         <div class="notification-modal" x-data="{ open: true }" x-show="open" x-on:click.away="open = false"
-            x-on:keydown.escape.window="open = false">
-            <div class="modal-content">
+            x-on:keydown.escape.window="open = false" :class="{ 'mobile-modal': window.innerWidth <= 768 }">
+            <div class="modal-overlay" x-show="open" x-transition.opacity></div>
+            <div class="modal-content" :class="{ 'mobile-content': window.innerWidth <= 768 }">
                 <div class="modal-header">
                     <h3>Obaveštenje</h3>
                     <button wire:click="$set('selectedNotification', null)" class="modal-close">
@@ -150,7 +151,6 @@
     @endif
 </div>
 
-
 <script>
     // Automatski označi sva obaveštenja kao pročitana kada se stranica učita
     document.addEventListener('DOMContentLoaded', function() {
@@ -167,5 +167,20 @@
                 }
             });
         }
+
+        // Alpine.js inicijalizacija za prozor
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('modal', () => ({
+                init() {
+                    this.$watch('open', (value) => {
+                        if (value) {
+                            document.body.style.overflow = 'hidden';
+                        } else {
+                            document.body.style.overflow = '';
+                        }
+                    });
+                }
+            }));
+        });
     });
 </script>
