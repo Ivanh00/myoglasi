@@ -33,7 +33,7 @@
         <!-- Main Content with Sidebar -->
         <div class="flex">
             <!-- Sidebar -->
-            <aside class="w-64 bg-white shadow-md h-screen sticky top-0">
+            <aside class="w-64 bg-white shadow-md sticky top-16 h-screen">
                 <livewire:category-sidebar />
             </aside>
 

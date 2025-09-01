@@ -1,4 +1,5 @@
-<nav class="bg-white shadow-lg">
+<!-- Start of Selection -->
+<nav class="bg-white shadow-lg sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->
