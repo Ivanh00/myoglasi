@@ -12,7 +12,6 @@ class MessagesList extends Component
     public $conversations = [];
     public $selectedConversation = null;
     public $sortBy = 'all'; // all, unread, starred
-    public $filter = 'all'; // all, system, user
 
     public function mount()
     {
@@ -27,7 +26,7 @@ class MessagesList extends Component
                 $query->where('sender_id', $userId)
                     ->orWhere('receiver_id', $userId);
             })
-            ->where('is_system_message', false) // 👈 DODAJTE OVO - filtrira samo regularne poruke
+            ->where('is_system_message', false) // Samo regularne poruke
             ->with(['listing', 'sender', 'receiver'])
             ->get()
             ->groupBy(function ($message) use ($userId) {
@@ -53,6 +52,7 @@ class MessagesList extends Component
                         'other_user' => $otherUser,
                         'last_message' => $lastMessage->toArray()
                     ]);
+                    return null;
                 }
                 
                 $unreadCount = $messages->where('receiver_id', $userId)
@@ -68,33 +68,20 @@ class MessagesList extends Component
                     'created_at' => $lastMessage->created_at
                 ];
             })
-            ->filter(function ($conversation) use ($userId) {
-                // Filtriraj konverzacije gde other_user postoji i nije trenutni korisnik
-                return $conversation['other_user'] && $conversation['other_user']->id != $userId;
+            ->filter(function ($conversation) {
+                // Filtriraj null vrednosti
+                return $conversation !== null;
             })
             ->sortByDesc('created_at')
             ->values();
     }
 
     public function selectConversation($conversationKey)
-{
-    $conversation = $this->conversations[$conversationKey] ?? null;
-    
-    if ($conversation) {
-        if ($conversation['is_system']) {
-            // Redirect na sistemsku konverzaciju
-            $url = route('listing.system-chat', [
-                'slug' => $conversation['listing']->slug
-            ]);
-            
-            \Log::info('Redirecting to system conversation', [
-                'url' => $url,
-                'listing_slug' => $conversation['listing']->slug
-            ]);
-            
-            return redirect()->to($url);
-        } else {
-            // Regularna konverzacija
+    {
+        $conversation = $this->conversations[$conversationKey] ?? null;
+        
+        if ($conversation) {
+            // Sada su sve konverzacije regularne poruke
             $url = route('listing.chat', [
                 'slug' => $conversation['listing']->slug,
                 'user' => $conversation['other_user']->id
@@ -110,7 +97,6 @@ class MessagesList extends Component
             return redirect()->to($url);
         }
     }
-}
 
     public function markAsRead($conversationKey)
     {
@@ -119,6 +105,7 @@ class MessagesList extends Component
         if ($conversation) {
             Message::where('listing_id', $conversation['listing']->id)
                 ->where('receiver_id', Auth::id())
+                ->where('is_system_message', false) // Samo regularne poruke
                 ->update(['is_read' => true]);
             
             $this->loadConversations();
@@ -128,12 +115,6 @@ class MessagesList extends Component
     public function setSort($sort)
     {
         $this->sortBy = $sort;
-        $this->loadConversations();
-    }
-
-    public function setFilter($filter)
-    {
-        $this->filter = $filter;
         $this->loadConversations();
     }
 
