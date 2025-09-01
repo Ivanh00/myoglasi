@@ -1,5 +1,4 @@
 <?php
-// app/Livewire/FavoriteButton.php
 
 namespace App\Livewire;
 
@@ -7,7 +6,6 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Listing;
 use App\Models\Message;
-use App\Notifications\ListingFavorited;
 
 class FavoriteButton extends Component
 {
@@ -22,42 +20,61 @@ class FavoriteButton extends Component
     }
 
     public function toggleFavorite()
-{
-    if (!Auth::check()) {
-        session()->flash('error', 'Morate se prijaviti da biste dodali oglas u omiljene.');
-        return redirect()->route('login');
-    }
-
-    if (Auth::id() === $this->listing->user_id) {
-        session()->flash('error', 'Ne možete dodati svoj oglas u omiljene.');
-        return;
-    }
-
-    if ($this->isFavorited) {
-        // Ukloni iz omiljenih
-        Auth::user()->removeFromFavorites($this->listing);
-        session()->flash('success', 'Oglas je uklonjen iz omiljenih.');
-    } else {
-        // Dodaj u omiljene
-        Auth::user()->addToFavorites($this->listing);
-        
-        // Pošalji obaveštenje vlasniku oglasa
-        if ($this->listing->user_id !== Auth::id()) {
-            Message::create([
-                'sender_id' => Auth::id(),
-                'receiver_id' => $this->listing->user_id,
-                'listing_id' => $this->listing->id,
-                'message' => "Korisnik " . Auth::user()->name . " je dodao vaš oglas '" . $this->listing->title . "' u omiljene.",
-                'is_system_message' => true,
-                'is_read' => false,
-            ]);
+    {
+        if (!Auth::check()) {
+            session()->flash('error', 'Morate se prijaviti da biste dodali oglas u omiljene.');
+            return redirect()->route('login');
         }
-        
-        session()->flash('success', 'Oglas je dodat u omiljene.');
+
+        if (Auth::id() === $this->listing->user_id) {
+            session()->flash('error', 'Ne možete dodati svoj oglas u omiljene.');
+            return;
+        }
+
+        if ($this->isFavorited) {
+            // Ukloni iz omiljenih
+            Auth::user()->removeFromFavorites($this->listing);
+            session()->flash('success', 'Oglas je uklonjen iz omiljenih.');
+        } else {
+            // Dodaj u omiljene
+            Auth::user()->addToFavorites($this->listing);
+            
+            // Pošalji obaveštenje vlasniku oglasa (samo ako već nije poslato)
+            if ($this->listing->user_id !== Auth::id()) {
+                $this->sendFavoriteNotification();
+            }
+            
+            session()->flash('success', 'Oglas je dodat u omiljene.');
+        }
+
+        $this->updateFavoriteStatus();
     }
 
-    $this->updateFavoriteStatus();
-}
+    private function sendFavoriteNotification()
+    {
+        // Proveri da li je obaveštenje već poslato za ovog korisnika i oglas
+        $existingNotification = Message::where('listing_id', $this->listing->id)
+            ->where('sender_id', Auth::id())
+            ->where('receiver_id', $this->listing->user_id)
+            ->where('is_system_message', true)
+            ->where('message', 'like', '%dodao vaš oglas%')
+            ->first();
+
+        // Ako obaveštenje već postoji, ne šalji ponovo
+        if ($existingNotification) {
+            return;
+        }
+
+        // Kreiraj novo obaveštenje
+        Message::create([
+            'sender_id' => Auth::id(),
+            'receiver_id' => $this->listing->user_id,
+            'listing_id' => $this->listing->id,
+            'message' => "Korisnik " . Auth::user()->name . " je dodao vaš oglas '" . $this->listing->title . "' u omiljene.",
+            'is_system_message' => true,
+            'is_read' => false,
+        ]);
+    }
 
     private function updateFavoriteStatus()
     {
