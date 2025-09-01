@@ -152,4 +152,9 @@ public function removeFromFavorites(Listing $listing)
 {
     return $this->hasMany(Message::class, 'receiver_id')->where('is_read', false);
 }
+
+public function unreadNotifications()
+    {
+        return $this->notifications()->whereNull('read_at');
+    }
 }

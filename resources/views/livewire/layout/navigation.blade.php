@@ -71,6 +71,26 @@
                                         @endif
                                     @endauth
                                 </x-dropdown-link>
+                                <a href="{{ route('notifications.index') }}"
+                                    class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                                    Obaveštenja
+                                    @auth
+                                        @php
+                                            $unreadNotifications = \App\Models\Message::where(
+                                                'receiver_id',
+                                                auth()->id(),
+                                            )
+                                                ->where('is_system_message', true)
+                                                ->where('is_read', false)
+                                                ->count();
+                                        @endphp
+                                        @if ($unreadNotifications > 0)
+                                            <span class="ml-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                                                {{ $unreadNotifications }}
+                                            </span>
+                                        @endif
+                                    @endauth
+                                </a>
                                 <x-dropdown-link href="{{ route('balance.index') }}">
                                     Balans
                                 </x-dropdown-link>
@@ -168,8 +188,41 @@
                         Omiljeni
                     </a>
                     <a href="{{ route('messages.index') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
                         Poruke
+                        @auth
+                            @php
+                                // Samo regularne poruke (bez obaveštenja)
+                                $unreadMessagesCount = \App\Models\Message::where('receiver_id', auth()->id())
+                                    ->where('is_read', false)
+                                    ->where('is_system_message', false)
+                                    ->count();
+                            @endphp
+                            @if ($unreadMessagesCount > 0)
+                                <span class="ml-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                                    {{ $unreadMessagesCount }}
+                                </span>
+                            @endif
+                        @endauth
+                    </a>
+
+                    <a href="{{ route('notifications.index') }}"
+                        class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                        Obaveštenja
+                        @auth
+                            @php
+                                // Samo obaveštenja
+                                $unreadNotificationsCount = \App\Models\Message::where('receiver_id', auth()->id())
+                                    ->where('is_read', false)
+                                    ->where('is_system_message', true)
+                                    ->count();
+                            @endphp
+                            @if ($unreadNotificationsCount > 0)
+                                <span class="ml-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                                    {{ $unreadNotificationsCount }}
+                                </span>
+                            @endif
+                        @endauth
                     </a>
                     <a href="{{ route('balance.index') }}"
                         class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">

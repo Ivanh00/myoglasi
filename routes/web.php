@@ -8,6 +8,7 @@ use App\Models\Listing;
 use App\Livewire\MessagesList;
 use App\Livewire\HomeComponent;
 use App\Livewire\Listings\Show;
+use App\Livewire\Notifications;
 use App\Livewire\UserDashboard;
 use App\Livewire\SearchComponent;
 use App\Livewire\BalanceComponent;
@@ -30,6 +31,7 @@ use App\Livewire\Search\Index as SearchIndex;
 use App\Livewire\Listings\Edit as ListingEdit;
 use App\Livewire\Listings\Show as ListingShow;
 use App\Livewire\Messages\Show as MessageShow;
+use App\Http\Controllers\NotificationController;
 use App\Livewire\Categories\Show as CategoryShow;
 use App\Livewire\Listings\Index as ListingsIndex;
 use App\Livewire\Messages\Index as MessagesIndex;
@@ -205,6 +207,19 @@ Route::middleware('auth')->group(function () {
     })->name('favorites.remove');
 });
 
+// Notifikacije
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+});
+
+// Sistemske konverzacije (obaveštenja)
+Route::middleware('auth')->get('/poruke/{slug}/system', [ConversationComponent::class, 'mount'])
+    ->name('listing.system-chat');
+
+    // Obaveštenja
+Route::middleware('auth')->get('/obavestenja', Notifications::class)->name('notifications.index');
 
 
 // Admin Routes

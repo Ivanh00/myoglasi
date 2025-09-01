@@ -30,6 +30,18 @@
             </header>
         @endif
 
+        @auth
+            @php
+                $unreadNotificationsCount = \App\Models\Message::where('receiver_id', auth()->id())
+                    ->where('is_system_message', true)
+                    ->where('is_read', false)
+                    ->count();
+            @endphp
+            <script>
+                window.unreadNotificationsCount = {{ $unreadNotificationsCount }};
+            </script>
+        @endauth
+
         <!-- Main Content with Sidebar -->
         <div class="flex">
             <!-- Sidebar -->

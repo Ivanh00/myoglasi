@@ -1,4 +1,4 @@
-<div class="conversation-container">
+<div class="conversation-container {{ $isSystemConversation ? 'system-conversation' : '' }}">
     <!-- Navigacija -->
     <section class="navigation-holder">
         <a class="back-button" href="{{ route('messages.inbox') }}">
@@ -16,16 +16,34 @@
         <div class="user-info-holder">
             <div class="user-name-holder">
                 <span class="user-avatar">
-                    <svg width="24" height="24" viewBox="0 0 16 16" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8 7.5C9.933 7.5 11.5 5.933 11.5 4C11.5 2.067 9.933 0.5 8 0.5C6.067 0.5 4.5 2.067 4.5 4C4.5 5.933 6.067 7.5 8 7.5Z"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path d="M1.5 15.5C1.5 11.9101 4.41015 9.5 8 9.5C11.5898 9.5 14.5 11.9101 14.5 15.5"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
+                    @if ($isSystemConversation)
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                stroke="#0ea5e9" stroke-width="2" />
+                            <path d="M12 8V12" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" />
+                            <path d="M12 16H12.01" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    @else
+                        <svg width="24" height="24" viewBox="0 0 16 16" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M8 7.5C9.933 7.5 11.5 5.933 11.5 4C11.5 2.067 9.933 0.5 8 0.5C6.067 0.5 4.5 2.067 4.5 4C4.5 5.933 6.067 7.5 8 7.5Z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M1.5 15.5C1.5 11.9101 4.41015 9.5 8 9.5C11.5898 9.5 14.5 11.9101 14.5 15.5"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    @endif
                 </span>
-                <div class="user-name">{{ $otherUser->name }}</div>
+                <div class="user-name">
+                    @if ($isSystemConversation)
+                        Obaveštenje
+                        <span class="system-badge">Sistem</span>
+                    @else
+                        {{ $otherUser->name }}
+                    @endif
+                </div>
             </div>
         </div>
     </section>
@@ -81,22 +99,24 @@
         </section>
     </article>
 
-
     <!-- Chat prozor -->
     <div class="chat-box-holder">
         <div class="chat-box" id="chat-box">
-            <section class="user-response-info text-center">
-                <b>{{ $otherUser->name }}</b>
-                <div>Član od {{ $otherUser->created_at->format('d.m.Y.') }}</div>
-            </section>
+            @if (!$isSystemConversation)
+                <section class="user-response-info text-center">
+                    <b>{{ $otherUser->name }}</b>
+                    <div>Član od {{ $otherUser->created_at->format('d.m.Y.') }}</div>
+                </section>
+            @endif
 
             @foreach ($messages as $message)
-                <div class="message-item {{ $message->sender_id == auth()->id() ? 'my-message' : 'other-message' }}">
+                <div
+                    class="message-item {{ $message->sender_id == auth()->id() ? 'my-message' : ($message->is_system_message ? 'system-message' : 'other-message') }}">
                     <div class="message-bubble">
                         <div>{{ $message->message }}</div>
                         <div class="message-info">
                             <div>{{ $message->created_at->format('H:i') }}h</div>
-                            @if ($message->sender_id == auth()->id())
+                            @if ($message->sender_id == auth()->id() && !$message->is_system_message)
                                 <!-- Status poruke -->
                                 <div class="message-status">
                                     @if ($message->is_read)
@@ -131,7 +151,6 @@
                 @endif
             @endforeach
 
-
         </div>
 
         <div class="scroll-to-bottom">
@@ -147,7 +166,7 @@
     </div>
 
     <!-- Lista adresa (sakrivena po defaultu) -->
-    @if ($showAddressList)
+    @if ($showAddressList && !$isSystemConversation)
         <div class="address-list">
             <div class="address-list-container">
                 @foreach ($addresses as $address)
@@ -190,65 +209,49 @@
             </div>
         </div>
     @endif
-    <section class="user-info-section">
-        <div class="user-info-holder">
-            <div class="user-name-holder">
-                <span class="user-avatar">
-                    <svg width="24" height="24" viewBox="0 0 16 16" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8 7.5C9.933 7.5 11.5 5.933 11.5 4C11.5 2.067 9.933 0.5 8 0.5C6.067 0.5 4.5 2.067 4.5 4C4.5 5.933 6.067 7.5 8 7.5Z"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path d="M1.5 15.5C1.5 11.9101 4.41015 9.5 8 9.5C11.5898 9.5 14.5 11.9101 14.5 15.5"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
-                </span>
-                <div class="user-name">
-                    @if (isset($otherUser) && $otherUser)
-                        {{ $otherUser->name }}
-                    @else
-                        Korisnik nije pronađen
-                    @endif
+
+    <!-- Forma za slanje poruke (samo za regularne konverzacije) -->
+    @if (!$isSystemConversation)
+        <div class="message-form-holder">
+            <div class="text-field-holder">
+                <textarea wire:model="newMessage" id="message" name="message" class="message-textfield"
+                    wire:keydown.enter.prevent="sendMessage" placeholder="Unesite Vašu poruku. Za brže slanje pritisnite CTRL + ENTER"
+                    wire:keydown.enter.ctrl="sendMessage"></textarea>
+
+                <div class="emoji-picker">
+                    <button class="emoji-button">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M8.99998 16.6666C13.2342 16.6666 16.6666 13.2341 16.6666 8.99989C16.6666 4.76571 13.2342 1.33322 8.99998 1.33322C4.7658 1.33322 1.33331 4.76571 1.33331 8.99989C1.33331 13.2341 4.7658 16.6666 8.99998 16.6666Z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M6.66665 6.33322C6.85074 6.33322 6.99998 6.48246 6.99998 6.66655C6.99998 6.85065 6.85074 6.99989 6.66665 6.99989C6.48255 6.99989 6.33331 6.85065 6.33331 6.66655C6.33331 6.48246 6.48255 6.33322 6.66665 6.33322Z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M11.3333 6.33322C11.5174 6.33322 11.6667 6.48246 11.6667 6.66655C11.6667 6.85065 11.5174 6.99989 11.3333 6.99989C11.1492 6.99989 11 6.85065 11 6.66655C11 6.48246 11.1492 6.33322 11.3333 6.33322Z"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path
+                                d="M13.3334 10.9999C12.5173 12.429 10.8381 13.3332 9.00002 13.3332C7.16195 13.3332 5.48277 12.429 4.66669 10.9999"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Forma za slanje poruke -->
-    <div class="message-form-holder">
-        <div class="text-field-holder">
-            <textarea wire:model="newMessage" id="message" name="message" class="message-textfield"
-                wire:keydown.enter.prevent="sendMessage" placeholder="Unesite Vašu poruku. Za brže slanje pritisnite CTRL + ENTER"
-                wire:keydown.enter.ctrl="sendMessage"></textarea>
-
-            <div class="emoji-picker">
-                <button class="emoji-button">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.99998 16.6666C13.2342 16.6666 16.6666 13.2341 16.6666 8.99989C16.6666 4.76571 13.2342 1.33322 8.99998 1.33322C4.7658 1.33322 1.33331 4.76571 1.33331 8.99989C1.33331 13.2341 4.7658 16.6666 8.99998 16.6666Z"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M6.66665 6.33322C6.85074 6.33322 6.99998 6.48246 6.99998 6.66655C6.99998 6.85065 6.85074 6.99989 6.66665 6.99989C6.48255 6.99989 6.33331 6.85065 6.33331 6.66655C6.33331 6.48246 6.48255 6.33322 6.66665 6.33322Z"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M11.3333 6.33322C11.5174 6.33322 11.6667 6.48246 11.6667 6.66655C11.6667 6.85065 11.5174 6.99989 11.3333 6.99989C11.1492 6.99989 11 6.85065 11 6.66655C11 6.48246 11.1492 6.33322 11.3333 6.33322Z"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path
-                            d="M13.3334 10.9999C12.5173 12.429 10.8381 13.3332 9.00002 13.3332C7.16195 13.3332 5.48277 12.429 4.66669 10.9999"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
+            <section class="form-buttons">
+                <button wire:click="sendMessage" wire:loading.attr="disabled" wire:target="sendMessage">
+                    <span wire:loading.remove wire:target="sendMessage">Pošaljite poruku</span>
+                    <span wire:loading wire:target="sendMessage">Slanje...</span>
                 </button>
-            </div>
+            </section>
         </div>
-
-        <section class="form-buttons">
-            <button wire:click="sendMessage" wire:loading.attr="disabled" wire:target="sendMessage">
-                <span wire:loading.remove wire:target="sendMessage">Pošaljite poruku</span>
-                <span wire:loading wire:target="sendMessage">Slanje...</span>
-            </button>
-        </section>
-    </div>
+    @else
+        <!-- Poruka za sistemske konverzacije -->
+        <div class="system-conversation-info">
+            <p>Ovo je konverzacija sa sistemskim obaveštenjima. Ne možete slati poruke u ovu konverzaciju.</p>
+        </div>
+    @endif
 </div>
 
 @push('scripts')

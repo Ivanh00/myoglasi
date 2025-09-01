@@ -234,16 +234,17 @@ class ConversationComponent extends Component
     }
     
     public function checkMessagesReadStatus()
-    {
-        if (Auth::id() !== $this->otherUser->id) {
-            Message::where('listing_id', $this->listing->id)
-                ->where('sender_id', $this->otherUser->id)
-                ->where('receiver_id', Auth::id())
-                ->update(['is_read' => true]);
-        }
-        
-        $this->loadMessages();
+{
+    if (!$this->isSystemConversation && Auth::id() !== $this->otherUser->id) {
+        Message::where('listing_id', $this->listing->id)
+            ->where('sender_id', $this->otherUser->id)
+            ->where('receiver_id', Auth::id())
+            ->where('is_system_message', false) // 👈 Samo regularne poruke
+            ->update(['is_read' => true]);
     }
+    
+    $this->loadMessages();
+}
 
     public function render()
     {

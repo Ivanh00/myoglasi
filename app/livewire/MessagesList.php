@@ -12,6 +12,7 @@ class MessagesList extends Component
     public $conversations = [];
     public $selectedConversation = null;
     public $sortBy = 'all'; // all, unread, starred
+    public $filter = 'all'; // all, system, user
 
     public function mount()
     {
@@ -26,6 +27,7 @@ class MessagesList extends Component
                 $query->where('sender_id', $userId)
                     ->orWhere('receiver_id', $userId);
             })
+            ->where('is_system_message', false) // 👈 DODAJTE OVO - filtrira samo regularne poruke
             ->with(['listing', 'sender', 'receiver'])
             ->get()
             ->groupBy(function ($message) use ($userId) {
@@ -75,11 +77,24 @@ class MessagesList extends Component
     }
 
     public function selectConversation($conversationKey)
-    {
-        $conversation = $this->conversations[$conversationKey] ?? null;
-        
-        if ($conversation) {
-            // Uvek koristimo istu rutu sa dodatnim parametrom za drugog korisnika
+{
+    $conversation = $this->conversations[$conversationKey] ?? null;
+    
+    if ($conversation) {
+        if ($conversation['is_system']) {
+            // Redirect na sistemsku konverzaciju
+            $url = route('listing.system-chat', [
+                'slug' => $conversation['listing']->slug
+            ]);
+            
+            \Log::info('Redirecting to system conversation', [
+                'url' => $url,
+                'listing_slug' => $conversation['listing']->slug
+            ]);
+            
+            return redirect()->to($url);
+        } else {
+            // Regularna konverzacija
             $url = route('listing.chat', [
                 'slug' => $conversation['listing']->slug,
                 'user' => $conversation['other_user']->id
@@ -95,6 +110,7 @@ class MessagesList extends Component
             return redirect()->to($url);
         }
     }
+}
 
     public function markAsRead($conversationKey)
     {
@@ -112,6 +128,12 @@ class MessagesList extends Component
     public function setSort($sort)
     {
         $this->sortBy = $sort;
+        $this->loadConversations();
+    }
+
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
         $this->loadConversations();
     }
 

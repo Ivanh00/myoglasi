@@ -128,6 +128,7 @@
                 Moji oglasi
             </a>
 
+            <!-- U sidebar.blade.php -->
             <a href="{{ route('messages.inbox') }}"
                 class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,13 +139,38 @@
                 Moje poruke
                 @auth
                     @php
-                        $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())
+                        $unreadMessagesCount = \App\Models\Message::where('receiver_id', auth()->id())
                             ->where('is_read', false)
+                            ->where('is_system_message', false)
                             ->count();
                     @endphp
-                    @if ($unreadCount > 0)
+                    @if ($unreadMessagesCount > 0)
                         <span class="ml-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
-                            {{ $unreadCount }}
+                            {{ $unreadMessagesCount }}
+                        </span>
+                    @endif
+                @endauth
+            </a>
+
+            <a href="{{ route('notifications.index') }}"
+                class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                    </path>
+                </svg>
+                Obaveštenja
+                @auth
+                    @php
+                        // Samo obaveštenja
+                        $unreadNotificationsCount = \App\Models\Message::where('receiver_id', auth()->id())
+                            ->where('is_read', false)
+                            ->where('is_system_message', true)
+                            ->count();
+                    @endphp
+                    @if ($unreadNotificationsCount > 0)
+                        <span class="ml-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                            {{ $unreadNotificationsCount }}
                         </span>
                     @endif
                 @endauth

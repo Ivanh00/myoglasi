@@ -111,6 +111,12 @@
                         </div>
                     </div>
 
+                    <!-- Dodajte ovaj div za prikaz broja pratilaca -->
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-heart text-gray-500 mr-2"></i>
+                        <span class="text-gray-700">Pratilaca: {{ $listing->favorites_count ?? 0 }}</span>
+                    </div>
+
                     {{-- Prikaz telefona samo ako je vlasnik dozvolio i ako je korisnik ulogovan --}}
                     @if ($listing->contact_phone && $listing->user->phone_visible && auth()->check())
                         <div class="mb-6">
