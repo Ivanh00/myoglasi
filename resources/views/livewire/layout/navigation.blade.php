@@ -33,10 +33,15 @@
                             <x-slot name="trigger">
                                 <button
                                     class="flex items-center text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 border border-gray-300 rounded-md hover:border-gray-400">
-                                    <div
-                                        class="px-4 py-2 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium ">
-                                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                                    </div>
+                                    @if (auth()->user()->avatar)
+                                        <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
+                                            class="w-8 h-8 rounded-full object-cover">
+                                    @else
+                                        <div
+                                            class="px-4 py-2 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium">
+                                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <span class="ml-2 text-gray-700 text-sm font-medium">
                                         {{ auth()->user()->name }}
                                     </span>

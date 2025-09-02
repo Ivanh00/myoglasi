@@ -5,6 +5,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 use function Livewire\Volt\state;
 
@@ -52,6 +54,69 @@ $sendVerification = function () {
     $user->sendEmailVerificationNotification();
 
     Session::flash('status', 'verification-link-sent');
+};
+
+// Dodajte ovaj trait za upload fajlova
+use function Livewire\Volt\uses;
+
+uses([WithFileUploads::class]);
+
+state([
+    'name' => fn() => auth()->user()->name,
+    'email' => fn() => auth()->user()->email,
+    'city' => fn() => auth()->user()->city,
+    'phone' => fn() => auth()->user()->phone,
+    'phone_visible' => fn() => auth()->user()->phone_visible,
+    'seller_terms' => fn() => auth()->user()->seller_terms,
+    'avatar' => null,
+    'remove_avatar' => false, // Dodajte ovo stanje za uklanjanje slike
+]);
+
+$updateProfileInformation = function () {
+    $user = Auth::user();
+
+    $validated = $this->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+        'city' => ['nullable', 'string', 'max:255'],
+        'phone' => ['nullable', 'string', 'max:20'],
+        'phone_visible' => ['boolean'],
+        'seller_terms' => ['nullable', 'string', 'max:2000'],
+        'avatar' => ['nullable', 'image', 'max:2048'],
+    ]);
+
+    // Obrada uklanjanja avatara
+    if ($this->remove_avatar && $user->avatar) {
+        Storage::disk('public')->delete($user->avatar);
+        $validated['avatar'] = null;
+        $this->remove_avatar = false;
+    }
+
+    // Obrada upload-a novog avatara
+    if ($this->avatar) {
+        // Obrišite stari avatar ako postoji
+        if ($user->avatar) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+
+        // Sačuvajte novi avatar
+        $validated['avatar'] = $this->avatar->store('avatars', 'public');
+    }
+
+    $user->fill($validated);
+
+    if ($user->isDirty('email')) {
+        $user->email_verified_at = null;
+    }
+
+    $user->save();
+
+    $this->dispatch('profile-updated', name: $user->name);
+};
+
+$removeAvatar = function () {
+    $this->remove_avatar = true;
+    $this->avatar = null;
 };
 
 ?>
@@ -267,6 +332,38 @@ $sendVerification = function () {
         </div>
 
 
+        <!-- Avatar -->
+        <div>
+            <x-input-label for="avatar" :value="__('Profile Picture')" />
+
+            @if (auth()->user()->avatar && !$remove_avatar)
+                <div class="mt-2 mb-2 flex items-center">
+                    <img src="{{ Storage::url(auth()->user()->avatar) }}" alt="Avatar"
+                        class="w-20 h-20 rounded-full object-cover mr-4">
+                    <button type="button" wire:click="removeAvatar"
+                        class="text-red-600 hover:text-red-800 text-sm font-medium">
+                        {{ __('Remove Photo') }}
+                    </button>
+                </div>
+            @endif
+
+            @if (!$remove_avatar)
+                <x-text-input wire:model="avatar" id="avatar" name="avatar" type="file"
+                    class="mt-1 block w-full" />
+                <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
+
+                @if ($avatar)
+                    <div class="mt-2">
+                        <img src="{{ $avatar->temporaryUrl() }}" alt="Preview"
+                            class="w-20 h-20 rounded-full object-cover">
+                    </div>
+                @endif
+            @else
+                <div class="mt-2 text-green-600">
+                    {{ __('Photo will be removed when you save changes.') }}
+                </div>
+            @endif
+        </div>
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>

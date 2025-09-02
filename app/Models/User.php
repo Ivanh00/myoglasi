@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,10 +23,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'city',           // Dodajte ovo
-        'phone',          // Dodajte ovo
-        'phone_visible',  // Dodajte ovo
-        'avatar',         // Dodajte ovo ako želite
+        'city',          
+        'phone',         
+        'phone_visible', 
+        'avatar',
         'is_admin', 
         'seller_terms',
     ];
@@ -157,4 +158,15 @@ public function unreadNotifications()
     {
         return $this->notifications()->whereNull('read_at');
     }
+
+    // U User modelu dodajte ovu metodu:
+public function getAvatarUrlAttribute()
+{
+    if ($this->avatar) {
+        return Storage::url($this->avatar);
+    }
+    
+    // Vraća URL za inicijale ako nema avatara
+    return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
+}
 }
