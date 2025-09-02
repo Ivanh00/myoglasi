@@ -69,7 +69,7 @@ state([
     'phone_visible' => fn() => auth()->user()->phone_visible,
     'seller_terms' => fn() => auth()->user()->seller_terms,
     'avatar' => null,
-    'remove_avatar' => false, // Dodajte ovo stanje za uklanjanje slike
+    'remove_avatar' => false,
 ]);
 
 $updateProfileInformation = function () {
@@ -90,17 +90,20 @@ $updateProfileInformation = function () {
         Storage::disk('public')->delete($user->avatar);
         $validated['avatar'] = null;
         $this->remove_avatar = false;
-    }
+    } else {
+        // Samo ako nije zahtevano uklanjanje, obradi upload
+        if ($this->avatar instanceof \Illuminate\Http\UploadedFile) {
+            // Obrišite stari avatar ako postoji
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
 
-    // Obrada upload-a novog avatara
-    if ($this->avatar) {
-        // Obrišite stari avatar ako postoji
-        if ($user->avatar) {
-            Storage::disk('public')->delete($user->avatar);
+            // Sačuvajte novi avatar
+            $validated['avatar'] = $this->avatar->store('avatars', 'public');
+        } else {
+            // Ako nema novog uploada, zadržite postojeći avatar
+            unset($validated['avatar']);
         }
-
-        // Sačuvajte novi avatar
-        $validated['avatar'] = $this->avatar->store('avatars', 'public');
     }
 
     $user->fill($validated);
@@ -110,6 +113,9 @@ $updateProfileInformation = function () {
     }
 
     $user->save();
+
+    // Resetujte avatar property nakon čuvanja
+    $this->avatar = null;
 
     $this->dispatch('profile-updated', name: $user->name);
 };
@@ -124,17 +130,17 @@ $removeAvatar = function () {
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Profile Information') }}
+            {{ __('Informacije o profilu') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __('Ažurirajte informacije o profilu vašeg naloga i adresu e-pošte.') }}
         </p>
     </header>
 
     <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Ime')" />
             <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full" required
                 autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
@@ -149,17 +155,17 @@ $removeAvatar = function () {
             @if (auth()->user() instanceof MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
                 <div>
                     <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
+                        {{ __('Vaša email adresa nije verifikovana.') }}
 
                         <button wire:click.prevent="sendVerification"
                             class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
+                            {{ __('Kliknite ovde da ponovo pošaljete verifikacioni email.') }}
                         </button>
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
                         <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
+                            {{ __('Nova verifikaciona veza je poslata na vašu email adresu.') }}
                         </p>
                     @endif
                 </div>
@@ -257,7 +263,7 @@ $removeAvatar = function () {
             }
         }" class="relative">
 
-            <x-input-label for="city" :value="__('City')" />
+            <x-input-label for="city" :value="__('Grad')" />
 
             <!-- Dugme -->
             <button type="button" @click="open = !open"
@@ -304,7 +310,7 @@ $removeAvatar = function () {
 
         <!-- Telefon -->
         <div>
-            <x-input-label for="phone" :value="__('Phone')" />
+            <x-input-label for="phone" :value="__('Telefon')" />
             <x-text-input wire:model="phone" id="phone" name="phone" type="text" class="mt-1 block w-full"
                 autocomplete="tel" />
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
@@ -315,7 +321,7 @@ $removeAvatar = function () {
             <label for="phone_visible" class="flex items-center">
                 <x-checkbox wire:model="phone_visible" id="phone_visible" name="phone_visible" />
                 <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">
-                    {{ __('Make my phone number visible to other registered users') }}
+                    {{ __('Prikaži broj telefona drugim registrovanim korisnicima') }}
                 </span>
             </label>
             <x-input-error class="mt-2" :messages="$errors->get('phone_visible')" />
@@ -341,8 +347,8 @@ $removeAvatar = function () {
                     <img src="{{ Storage::url(auth()->user()->avatar) }}" alt="Avatar"
                         class="w-20 h-20 rounded-full object-cover mr-4">
                     <button type="button" wire:click="removeAvatar"
-                        class="text-red-600 hover:text-red-800 text-sm font-medium">
-                        {{ __('Remove Photo') }}
+                        class="bg-red-600 text-white uppercase hover:bg-red-500 text-xs font-bold px-4 py-2 rounded">
+                        {{ __('Izbriši') }}
                     </button>
                 </div>
             @endif
@@ -360,7 +366,7 @@ $removeAvatar = function () {
                 @endif
             @else
                 <div class="mt-2 text-green-600">
-                    {{ __('Photo will be removed when you save changes.') }}
+                    {{ __('Fotografija će biti uklonjena kada sačuvate promene.') }}
                 </div>
             @endif
         </div>
@@ -374,3 +380,13 @@ $removeAvatar = function () {
         </div>
     </form>
 </section>
+
+<script>
+    document.addEventListener('livewire:load', function() {
+        Livewire.on('confirm-remove-avatar', () => {
+            if (confirm('Da li ste sigurni da želite da uklonite profilnu sliku?')) {
+                @this.call('removeAvatar');
+            }
+        });
+    });
+</script>
