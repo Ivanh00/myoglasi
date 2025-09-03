@@ -210,134 +210,161 @@
     </div>
 
     <!-- Edit User Modal -->
-    <div x-show="@entangle('showEditModal')" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="mt-3">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Uredi korisnika</h3>
-                <form wire:submit="updateUser">
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Ime</label>
-                            <input type="text" wire:model="editState.name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
-                            @error('editState.name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" wire:model="editState.email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
-                            @error('editState.email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Grad</label>
-                            <input type="text" wire:model="editState.city" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
-                            @error('editState.city') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Telefon</label>
-                            <input type="text" wire:model="editState.phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
-                            @error('editState.phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        
-                        <div class="flex items-center space-x-4">
-                            <label class="flex items-center">
-                                <input type="checkbox" wire:model="editState.phone_visible" class="rounded">
-                                <span class="ml-2 text-sm text-gray-700">Telefon vidljiv</span>
-                            </label>
+    @if ($showEditModal)
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div class="mt-3">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-900">Uredi korisnika</h3>
+                        <button wire:click="$set('showEditModal', false)" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <form wire:submit="updateUser">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Ime</label>
+                                <input type="text" wire:model="editState.name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                                @error('editState.name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            </div>
                             
-                            <label class="flex items-center">
-                                <input type="checkbox" wire:model="editState.is_admin" class="rounded">
-                                <span class="ml-2 text-sm text-gray-700">Administrator</span>
-                            </label>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" wire:model="editState.email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                                @error('editState.email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Grad</label>
+                                <input type="text" wire:model="editState.city" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                                @error('editState.city') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Telefon</label>
+                                <input type="text" wire:model="editState.phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                                @error('editState.phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            </div>
+                            
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" wire:model="editState.phone_visible" class="rounded">
+                                    <span class="ml-2 text-sm text-gray-700">Telefon vidljiv</span>
+                                </label>
+                                
+                                <label class="flex items-center">
+                                    <input type="checkbox" wire:model="editState.is_admin" class="rounded">
+                                    <span class="ml-2 text-sm text-gray-700">Administrator</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="flex justify-end space-x-2 mt-6">
-                        <button type="button" wire:click="$set('showEditModal', false)" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
-                            Otkaži
-                        </button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                            Sačuvaj
-                        </button>
-                    </div>
-                </form>
+                        
+                        <div class="flex justify-end space-x-2 mt-6">
+                            <button type="button" wire:click="$set('showEditModal', false)" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Otkaži
+                            </button>
+                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                Sačuvaj
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <!-- Ban User Modal -->
-    <div x-show="@entangle('showBanModal')" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="mt-3">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Baniraj korisnika</h3>
-                <form wire:submit="confirmBan">
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Razlog banovanja</label>
-                        <textarea wire:model="banState.ban_reason" rows="4" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                placeholder="Unesite razlog banovanja..."></textarea>
-                        @error('banState.ban_reason') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                    </div>
-                    
-                    <div class="flex justify-end space-x-2">
-                        <button type="button" wire:click="$set('showBanModal', false)" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
-                            Otkaži
-                        </button>
-                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-                            Baniraj
+    @if ($showBanModal)
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div class="mt-3">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-900">Baniraj korisnika</h3>
+                        <button wire:click="$set('showBanModal', false)" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
                         </button>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Balance Adjustment Modal -->
-    <div x-show="@entangle('showBalanceModal')" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="mt-3">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Podesi balans korisnika</h3>
-                @if($selectedUser)
-                    <p class="text-sm text-gray-600 mb-4">Trenutni balans: <strong>{{ number_format($selectedUser->balance ?? 0, 0) }} RSD</strong></p>
-                @endif
-                <form wire:submit="updateBalance">
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Iznos (pozitivni za dodavanje, negativni za oduzimanje)</label>
-                            <input type="number" step="0.01" wire:model="balanceState.amount" 
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                                placeholder="npr. 1000 ili -500">
-                            @error('balanceState.amount') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    <form wire:submit="confirmBan">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Razlog banovanja</label>
+                            <textarea wire:model="banState.ban_reason" rows="4" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                    placeholder="Unesite razlog banovanja..."></textarea>
+                            @error('banState.ban_reason') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                         
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Opis</label>
-                            <input type="text" wire:model="balanceState.description" 
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                                placeholder="npr. Admin dodavanje sredstava">
-                            @error('balanceState.description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <div class="flex justify-end space-x-2">
+                            <button type="button" wire:click="$set('showBanModal', false)" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Otkaži
+                            </button>
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                                Baniraj
+                            </button>
                         </div>
-                    </div>
-                    
-                    <div class="flex justify-end space-x-2 mt-6">
-                        <button type="button" wire:click="$set('showBalanceModal', false)" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
-                            Otkaži
-                        </button>
-                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                            Ažuriraj balans
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
+
+    <!-- Balance Adjustment Modal -->
+    @if ($showBalanceModal)
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div class="mt-3">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-900">Podesi balans korisnika</h3>
+                        <button wire:click="$set('showBalanceModal', false)" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    @if($selectedUser)
+                        <p class="text-sm text-gray-600 mb-4">Trenutni balans: <strong>{{ number_format($selectedUser->balance ?? 0, 0) }} RSD</strong></p>
+                    @endif
+                    <form wire:submit="updateBalance">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Iznos (pozitivni za dodavanje, negativni za oduzimanje)</label>
+                                <input type="number" step="0.01" wire:model="balanceState.amount" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                                    placeholder="npr. 1000 ili -500">
+                                @error('balanceState.amount') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Opis</label>
+                                <input type="text" wire:model="balanceState.description" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                                    placeholder="npr. Admin dodavanje sredstava">
+                                @error('balanceState.description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-2 mt-6">
+                            <button type="button" wire:click="$set('showBalanceModal', false)" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Otkaži
+                            </button>
+                            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                Ažuriraj balans
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <!-- User Details Modal -->
-    <div x-show="@entangle('showUserDetailModal')" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;">
-        <div class="relative top-10 mx-auto p-5 border w-4/5 max-w-4xl shadow-lg rounded-md bg-white">
-            <div class="mt-3">
-                @if(isset($userDetails['user']))
+    @if ($showUserDetailModal && isset($userDetails['user']))
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-10 mx-auto p-5 border w-4/5 max-w-4xl shadow-lg rounded-md bg-white">
+                <div class="mt-3">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-xl font-medium text-gray-900">Detalji korisnika: {{ $userDetails['user']->name }}</h3>
                         <button wire:click="$set('showUserDetailModal', false)" class="text-gray-400 hover:text-gray-600">
@@ -433,14 +460,27 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>
 
 <script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('userManagement', () => ({}))
-})
+// Close modals on escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        @this.call('closeAllModals');
+    }
+});
+
+// Prevent modal close when clicking inside modal content
+document.addEventListener('click', function(event) {
+    const modals = document.querySelectorAll('.fixed.inset-0');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            @this.call('closeAllModals');
+        }
+    });
+});
 </script>

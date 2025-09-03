@@ -45,6 +45,20 @@ class UserManagement extends Component
 
     public $userDetails = [];
 
+    public function mount()
+    {
+        $this->resetModals();
+    }
+
+    public function resetModals()
+    {
+        $this->showEditModal = false;
+        $this->showBanModal = false;
+        $this->showBalanceModal = false;
+        $this->showUserDetailModal = false;
+        $this->selectedUser = null;
+    }
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -57,6 +71,7 @@ class UserManagement extends Component
 
     public function editUser($userId)
     {
+        $this->resetModals(); // Zatvori sve druge modale
         $this->selectedUser = User::find($userId);
         $this->editState = [
             'name' => $this->selectedUser->name,
@@ -81,12 +96,18 @@ class UserManagement extends Component
         ]);
 
         $this->selectedUser->update($validated['editState']);
-        $this->showEditModal = false;
+        $this->resetModals();
         $this->dispatch('notify', type: 'success', message: 'Korisnik uspešno ažuriran!');
+    }
+
+    public function closeAllModals()
+    {
+        $this->resetModals();
     }
 
     public function banUser($userId)
     {
+        $this->resetModals(); // Zatvori sve druge modale
         $this->selectedUser = User::find($userId);
         $this->banState = ['ban_reason' => ''];
         $this->showBanModal = true;
@@ -104,7 +125,7 @@ class UserManagement extends Component
             'ban_reason' => $this->banState['ban_reason'],
         ]);
 
-        $this->showBanModal = false;
+        $this->resetModals();
         $this->dispatch('notify', type: 'success', message: 'Korisnik je uspešno banovan!');
     }
 
@@ -147,6 +168,7 @@ class UserManagement extends Component
 
     public function adjustBalance($userId)
     {
+        $this->resetModals(); // Zatvori sve druge modale
         $this->selectedUser = User::find($userId);
         $this->balanceState = [
             'amount' => 0,
@@ -176,12 +198,13 @@ class UserManagement extends Component
             'description' => $description . ' (Admin akcija)',
         ]);
 
-        $this->showBalanceModal = false;
+        $this->resetModals();
         $this->dispatch('notify', type: 'success', message: 'Balans je uspešno ažuriran!');
     }
 
     public function viewUserDetails($userId)
     {
+        $this->resetModals(); // Zatvori sve druge modale
         $user = User::with(['listings', 'transactions', 'sentMessages', 'receivedMessages', 'favorites'])
             ->find($userId);
 
