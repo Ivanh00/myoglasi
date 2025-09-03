@@ -644,7 +644,9 @@ input[readonly]:focus {
         text-align: center;
         color: #0c4a6e;
     }
-   /* NOTIFICATION MODAL STYLES */
+}
+
+/* NOTIFICATION MODAL STYLES */
    .notification-modal {
     position: fixed;
     inset: 0;
@@ -723,6 +725,7 @@ input[readonly]:focus {
 }
 
 .notification-listing-info,
+.notification-user-info,
 .notification-time-info {
     margin-bottom: 12px;
     font-size: 14px;
@@ -730,6 +733,7 @@ input[readonly]:focus {
 }
 
 .notification-listing-info strong,
+.notification-user-info strong,
 .notification-time-info strong {
     color: #374151;
     font-weight: 600;
@@ -857,5 +861,4 @@ input[readonly]:focus {
     .close-btn {
         width: 100%;
     }
-}
 }

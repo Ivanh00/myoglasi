@@ -15,6 +15,8 @@ class Notifications extends Component
     public $selectedNotification = null;
     public $autoMarkAsRead = false;
 
+    protected $listeners = ['closeModal' => 'closeModal'];
+
     public function mount()
     {
         // Opciono: automatski označi sva obaveštenja kao pročitana
@@ -87,6 +89,11 @@ class Notifications extends Component
                 $this->dispatch('notificationsUpdated');
             }
         }
+    }
+
+    public function closeModal()
+    {
+        $this->selectedNotification = null;
     }
 
     public function getUnreadCountProperty()
