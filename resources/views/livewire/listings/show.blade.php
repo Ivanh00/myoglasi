@@ -158,23 +158,8 @@
                                         <i class="fas fa-share-alt mr-2"></i> Podeli
                                     </button>
                                 @else
-                                    <!-- Onemogućeni dugmad za banovane prodavce -->
-                                    <button disabled
-                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-400 rounded-lg cursor-not-allowed bg-gray-100">
-                                        <i class="fas fa-envelope mr-2"></i> Pošalji poruku
-                                    </button>
-
-                                    <button disabled
-                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-400 rounded-lg cursor-not-allowed bg-gray-100">
-                                        <i class="fas fa-heart mr-2"></i> Dodaj u omiljene
-                                    </button>
-
-                                    <button disabled
-                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-400 rounded-lg cursor-not-allowed bg-gray-100">
-                                        <i class="fas fa-share-alt mr-2"></i> Podeli
-                                    </button>
-                                    
-                                    <div class="w-full mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                    <!-- Poruka za banovane prodavce - bez dugmadi -->
+                                    <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
                                         <div class="flex items-center">
                                             <i class="fas fa-ban text-red-500 mr-2"></i>
                                             <span class="text-red-700 text-sm">Kontakt sa ovim prodavcem nije moguć jer je blokiran.</span>
