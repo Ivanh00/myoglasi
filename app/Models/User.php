@@ -27,7 +27,10 @@ class User extends Authenticatable
         'phone',         
         'phone_visible', 
         'avatar',
-        'is_admin', 
+        'is_admin',
+        'is_banned',
+        'banned_at',
+        'ban_reason',
         'seller_terms',
     ];
 
@@ -53,6 +56,8 @@ class User extends Authenticatable
             'password' => 'hashed',
             'phone_visible' => 'boolean',
             'is_admin' => 'boolean', // DODAJTE OVO
+            'is_banned' => 'boolean',
+            'banned_at' => 'datetime',
             'balance' => 'decimal:2',
         ];
     }
