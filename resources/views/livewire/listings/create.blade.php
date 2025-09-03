@@ -131,13 +131,145 @@
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
 
+            <!-- Price -->
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
+                    Cena (RSD) <span class="text-red-500">*</span>
+                </label>
+                <input type="number" wire:model="price" id="price" step="0.01"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('price') border-red-500 @enderror"
+                    placeholder="0.00">
+                @error('price')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Description -->
             <div class="mb-6">
                 <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
                     Opis oglasa <span class="text-red-500">*</span>
                 </label>
-                <textarea id="description" rows="6"
+                <textarea wire:model="description" id="description" rows="6"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @enderror"
-                    placeholder="Detaljno opišite vaš proizvod...">{{ $description }}</textarea>
-                <x-input-error class="mt-2" :messages="$errors->get('description')" />
+                    placeholder="Detaljno opišite vaš proizvod..."></textarea>
+                <div class="flex justify-between items-center mt-1">
+                    @error('description')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @else
+                        <p class="text-gray-500 text-sm">Minimum 10 karaktera</p>
+                    @enderror
+                    <p class="text-gray-400 text-sm">{{ strlen($description ?? '') }}/2000</p>
+                </div>
+            </div>
+
+            <!-- Images Upload -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Slike (maksimalno 10)
+                </label>
+
+                <!-- Upload Area -->
+                <div
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                    <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                        </path>
+                    </svg>
+                    <input type="file" wire:model="images" multiple accept="image/*" class="hidden" id="images">
+                    <label for="images" class="cursor-pointer">
+                        <span class="text-blue-600 hover:text-blue-500 font-medium">Kliknite za dodavanje slika</span>
+                        <span class="text-gray-500"> ili prevucite ovde</span>
+                    </label>
+                    <p class="text-gray-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici</p>
+                </div>
+
+                @error('images.*')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+
+                <!-- Image Previews -->
+                @if (!empty($images))
+                    <div class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        @foreach ($images as $index => $image)
+                            <div class="relative group">
+                                <img src="{{ $image->temporaryUrl() }}" alt="Preview"
+                                    class="w-full h-24 object-cover rounded-lg border">
+                                <button type="button" wire:click="removeImage({{ $index }})"
+                                    class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    ×
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+
+            <!-- Price -->
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
+                    Cena (RSD) <span class="text-red-500">*</span>
+                </label>
+                <input type="number" wire:model="price" id="price" step="0.01" min="1"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('price') border-red-500 @enderror"
+                    placeholder="0.00">
+                @error('price')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Location -->
+            <div>
+                <label for="location" class="block text-sm font-medium text-gray-700 mb-2">
+                    Lokacija <span class="text-red-500">*</span>
+                </label>
+                <input type="text" wire:model="location" id="location" readonly
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed @error('location') border-red-500 @enderror"
+                    value="{{ auth()->user()->city }}">
+                @error('location')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Contact Phone -->
+            <div>
+                <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-2">
+                    Kontakt telefon
+                </label>
+                <input type="text" wire:model="contact_phone" id="contact_phone" readonly
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+                    value="{{ auth()->user()->phone }}">
+                <p class="text-gray-500 text-sm mt-1">
+                    Lokacija i broj telefona su automatski preuzeti iz vašeg profila.
+                    <a href="{{ route('profile') }}" class="text-blue-600 hover:text-blue-500">
+                        Ažuriraj profil
+                    </a>
+                </p>
+                <p class="text-gray-500 text-sm mt-1">
+                    Telefon je vidljiv u uglasima samo ako je označen kao vidljiv u profilu.
+                </p>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="flex items-center justify-between pt-6 border-t">
+                <a href="{{ route('dashboard') }}"
+                    class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    Otkaži
+                </a>
+
+                <button type="submit" wire:loading.attr="disabled"
+                    class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                    <span wire:loading.remove wire:target="save">Objavi oglas (10 RSD)</span>
+                    <span wire:loading wire:target="save" class="flex items-center">
+                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        Objavljujem...
+                    </span>
+                </button>
             </div>
