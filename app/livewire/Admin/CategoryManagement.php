@@ -20,6 +20,7 @@ class CategoryManagement extends Component
     public $showEditModal = false;
     public $showDeleteModal = false;
     public $showChildren = false;
+    public $forceDelete = false;
 
     public $editState = [
         'name' => '',
@@ -146,25 +147,33 @@ class CategoryManagement extends Component
 
     public function confirmDelete($categoryId)
     {
-        $this->selectedCategory = Category::with(['children', 'listings'])->find($categoryId);
+        $this->selectedCategory = Category::with(['allChildren', 'listings', 'subListings'])->find($categoryId);
+        $this->forceDelete = false;
         
-        // Provera da li kategorija ima podkategorije ili oglase
-        if ($this->selectedCategory->children->count() > 0) {
-            $this->dispatch('notify', type: 'error', message: 'Ne možete obrisati kategoriju koja ima podkategorije!');
-            return;
+        // Provera da li kategorija ima podkategorije (sve, ne samo aktivne)
+        if ($this->selectedCategory->allChildren->count() > 0) {
+            $this->forceDelete = true;
         }
 
-        if ($this->selectedCategory->listings->count() > 0) {
-            $this->dispatch('notify', type: 'error', message: 'Ne možete obrisati kategoriju koja ima oglase!');
+        // Provera da li kategorija ima oglase (kao glavna kategorija ili podkategorija)
+        $totalListings = $this->selectedCategory->listings->count() + $this->selectedCategory->subListings->count();
+        if ($totalListings > 0) {
+            $this->dispatch('notify', type: 'error', message: 'Ne možete obrisati kategoriju koja ima ' . $totalListings . ' oglasa! Prvo premestite ili obrišite oglase.');
             return;
         }
 
         $this->showDeleteModal = true;
     }
 
-    public function deleteCategory()
+    public function deleteCategory($force = false)
     {
         if ($this->selectedCategory) {
+            if ($force || $this->forceDelete) {
+                // Prvo obriši sve podkategorije
+                $this->selectedCategory->allChildren()->delete();
+                $this->dispatch('notify', type: 'success', message: 'Obrisane sve podkategorije za kategoriju: ' . $this->selectedCategory->name);
+            }
+            
             $this->selectedCategory->delete();
             $this->showDeleteModal = false;
             $this->dispatch('notify', type: 'success', message: 'Kategorija uspešno obrisana!');
