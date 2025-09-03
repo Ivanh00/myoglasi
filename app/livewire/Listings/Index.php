@@ -106,7 +106,7 @@ class Index extends Component
     public function render()
     {
         $query = Listing::where('status', 'active')
-            ->with(['category', 'condition', 'images', 'subcategory']);
+            ->with(['category', 'condition', 'images', 'subcategory', 'user']);
             
         if ($this->selectedCategory) {
             $category = Category::find($this->selectedCategory);

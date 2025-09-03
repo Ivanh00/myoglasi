@@ -120,6 +120,9 @@
                                     @auth
                                         <p class="text-sm font-bold text-gray-700 mb-2">
                                             Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                            @if($listing->user && $listing->user->is_banned)
+                                                <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                            @endif
                                         </p>
                                     @endauth
 

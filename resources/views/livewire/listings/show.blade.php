@@ -94,6 +94,9 @@
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-user text-gray-500 mr-2"></i>
                                 <span class="text-gray-700 font-bold">Prodavac: {{ $listing->user->name }}</span>
+                                @if($listing->user->is_banned)
+                                    <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                @endif
                             </div>
                         @endauth
                         <div class="flex items-center mb-2">
@@ -116,8 +119,8 @@
                         </div>
                     </div>
 
-                    {{-- Prikaz telefona samo ako je vlasnik dozvolio i ako je korisnik ulogovan --}}
-                    @if ($listing->contact_phone && $listing->user->phone_visible && auth()->check())
+                    {{-- Prikaz telefona samo ako je vlasnik dozvolio, korisnik ulogovan i prodavac NIJE blokiran --}}
+                    @if ($listing->contact_phone && $listing->user->phone_visible && auth()->check() && !$listing->user->is_banned)
                         <div class="mb-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-2">Kontakt telefon</h3>
                             <div class="flex items-center">
@@ -127,25 +130,57 @@
                                 </a>
                             </div>
                         </div>
+                    @elseif ($listing->user->is_banned && auth()->check())
+                        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                                <span class="text-red-700 font-medium">Kontakt informacije nisu dostupne - prodavac je blokiran</span>
+                            </div>
+                        </div>
                     @endif
 
                     <div class="flex space-x-4 mt-8">
                         @auth
                             @if (auth()->id() !== $listing->user_id)
-                                <!-- Dugme za slanje poruke -->
-                                <a href="{{ route('listing.chat', ['slug' => $listing->slug]) }}"
-                                    class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                    <i class="fas fa-envelope mr-2"></i> Pošalji poruku
-                                </a>
+                                @if(!$listing->user->is_banned)
+                                    <!-- Dugme za slanje poruke -->
+                                    <a href="{{ route('listing.chat', ['slug' => $listing->slug]) }}"
+                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fas fa-envelope mr-2"></i> Pošalji poruku
+                                    </a>
 
-                                <!-- Favorite dugme (Livewire komponenta) -->
-                                <livewire:favorite-button :listing="$listing" />
+                                    <!-- Favorite dugme (Livewire komponenta) -->
+                                    <livewire:favorite-button :listing="$listing" />
 
-                                <!-- Dugme za deljenje -->
-                                <button onclick="shareListing()"
-                                    class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                    <i class="fas fa-share-alt mr-2"></i> Podeli
-                                </button>
+                                    <!-- Dugme za deljenje -->
+                                    <button onclick="shareListing()"
+                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fas fa-share-alt mr-2"></i> Podeli
+                                    </button>
+                                @else
+                                    <!-- Onemogućeni dugmad za banovane prodavce -->
+                                    <button disabled
+                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-400 rounded-lg cursor-not-allowed bg-gray-100">
+                                        <i class="fas fa-envelope mr-2"></i> Pošalji poruku
+                                    </button>
+
+                                    <button disabled
+                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-400 rounded-lg cursor-not-allowed bg-gray-100">
+                                        <i class="fas fa-heart mr-2"></i> Dodaj u omiljene
+                                    </button>
+
+                                    <button disabled
+                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-400 rounded-lg cursor-not-allowed bg-gray-100">
+                                        <i class="fas fa-share-alt mr-2"></i> Podeli
+                                    </button>
+                                    
+                                    <div class="w-full mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-ban text-red-500 mr-2"></i>
+                                            <span class="text-red-700 text-sm">Kontakt sa ovim prodavcem nije moguć jer je blokiran.</span>
+                                        </div>
+                                    </div>
+                                @endif
                             @else
                                 <!-- Dugme za vlasnike oglasa -->
                                 <div
@@ -202,7 +237,12 @@
                         <i class="fas fa-user text-blue-500"></i>
                     </div>
                     <div>
-                        <h3 class="font-medium text-gray-900">{{ $listing->user->name }}</h3>
+                        <h3 class="font-medium text-gray-900">
+                            {{ $listing->user->name }}
+                            @if($listing->user->is_banned)
+                                <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                            @endif
+                        </h3>
                         <p class="text-gray-600 text-sm">Član od: {{ $listing->user->created_at->format('m/Y') }}
                         </p>
                     </div>
