@@ -3,12 +3,14 @@
     query: '{{ request('query') }}',
     city: '{{ request('city') }}',
     category: '{{ request('category') }}',
+    subcategory: '{{ request('subcategory') }}',
     condition: '{{ request('condition') }}',
     price_min: '{{ request('price_min') }}',
     price_max: '{{ request('price_max') }}',
     citySearch: '',
     categories: @js($categories ?? []),
     conditions: @js($conditions ?? []),
+    subcategories: [],
     normalize(str) {
         const map = {
             'š': 's',
@@ -87,6 +89,22 @@
         return @js(config('cities')).filter(c =>
             this.normalize(c).includes(this.normalize(this.citySearch || ''))
         );
+    },
+    loadSubcategories() {
+        if (this.category) {
+            fetch(`/api/categories/${this.category}/subcategories`)
+                .then(response => response.json())
+                .then(data => {
+                    this.subcategories = data;
+                })
+                .catch(error => {
+                    console.error('Error loading subcategories:', error);
+                    this.subcategories = [];
+                });
+        } else {
+            this.subcategories = [];
+            this.subcategory = '';
+        }
     }
 }" class="relative flex-1 max-w-lg mx-4">
     <form action="{{ route('search.index') }}" method="GET">
@@ -165,12 +183,12 @@
 
                                     <!-- Lista gradova -->
                                     <div class="p-2 max-h-48 overflow-y-auto">
-                                        <template x-for="city in filteredCities" :key="city">
+                                        <template x-for="cityItem in filteredCities" :key="cityItem">
                                             <button type="button"
-                                                @click="selectedCity = city; city = city; cityOpen = false"
+                                                @click="selectedCity = cityItem; city = cityItem; cityOpen = false"
                                                 class="w-full text-left px-3 py-2 rounded-md hover:bg-blue-100 transition"
-                                                :class="selectedCity === city ? 'bg-blue-100 text-blue-800' : ''">
-                                                <span x-text="city"></span>
+                                                :class="selectedCity === cityItem ? 'bg-blue-100 text-blue-800' : ''">
+                                                <span x-text="cityItem"></span>
                                             </button>
                                         </template>
                                         <div x-show="filteredCities.length === 0"
@@ -186,11 +204,24 @@
                             <div>
                                 <label for="category"
                                     class="block text-sm font-medium text-gray-700 mb-1">Kategorija</label>
-                                <select name="category" x-model="category"
+                                <select name="category" x-model="category" @change="loadSubcategories()"
                                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                     <option value="">Sve kategorije</option>
                                     <template x-for="cat in categories" :key="cat.id">
                                         <option :value="cat.id" x-text="cat.name"></option>
+                                    </template>
+                                </select>
+                            </div>
+
+                            <!-- Podkategorija -->
+                            <div x-show="subcategories.length > 0">
+                                <label for="subcategory"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Podkategorija</label>
+                                <select name="subcategory" x-model="subcategory"
+                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    <option value="">Sve podkategorije</option>
+                                    <template x-for="subcat in subcategories" :key="subcat.id">
+                                        <option :value="subcat.id" x-text="subcat.name"></option>
                                     </template>
                                 </select>
                             </div>
@@ -232,7 +263,7 @@
                             Primeni filtere
                         </button>
                         <button type="button"
-                            @click="open = false; city = ''; category = ''; condition = ''; price_min = ''; price_max = ''"
+                            @click="open = false; query = ''; city = ''; category = ''; subcategory = ''; condition = ''; price_min = ''; price_max = ''; subcategories = []; citySearch = ''; $nextTick(() => { const cityDiv = document.querySelector('[x-data*=selectedCity]'); if(cityDiv && cityDiv.__x) cityDiv.__x.$data.selectedCity = ''; })"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             Poništi filtere
                         </button>

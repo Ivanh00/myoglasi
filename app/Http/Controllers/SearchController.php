@@ -11,7 +11,7 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         // Proveri da li ima filtera
-        $hasFilters = $request->anyFilled(['query', 'city', 'category', 'condition', 'price_min', 'price_max']);
+        $hasFilters = $request->anyFilled(['query', 'city', 'category', 'subcategory', 'condition', 'price_min', 'price_max']);
         
         // Ako nema filtera, redirect na listings.index
         if (!$hasFilters) {
@@ -23,6 +23,7 @@ class SearchController extends Controller
         if ($request->filled('query')) $queryParams['query'] = $request->input('query');
         if ($request->filled('city')) $queryParams['city'] = $request->input('city');
         if ($request->filled('category')) $queryParams['search_category'] = $request->input('category');
+        if ($request->filled('subcategory')) $queryParams['subcategory'] = $request->input('subcategory');
         if ($request->filled('condition')) $queryParams['condition_id'] = $request->input('condition');
         if ($request->filled('price_min')) $queryParams['price_min'] = $request->input('price_min');
         if ($request->filled('price_max')) $queryParams['price_max'] = $request->input('price_max');

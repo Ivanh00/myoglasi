@@ -104,6 +104,16 @@ Route::post('logout', function () {
 
 require __DIR__.'/auth.php';
 
+// API routes for frontend
+Route::get('/api/categories/{category}/subcategories', function($categoryId) {
+    $subcategories = \App\Models\Category::where('parent_id', $categoryId)
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get(['id', 'name']);
+    
+    return response()->json($subcategories);
+});
+
 
 // Route::get('/category/{category}', ShowCategories::class)->name('category.show');
 // Route::get('/category/{category}/{subcategory}', ShowCategories::class)->name('category.show.subcategory');
