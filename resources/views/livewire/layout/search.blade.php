@@ -105,6 +105,13 @@
             this.subcategories = [];
             this.subcategory = '';
         }
+    },
+    
+    init() {
+        // Load subcategories if category is already selected on page load
+        if (this.category) {
+            this.loadSubcategories();
+        }
     }
 }" class="relative flex-1 max-w-lg mx-4">
     <form action="{{ route('search.index') }}" method="GET">
@@ -159,7 +166,8 @@
                             <!-- Grad/Mesto -->
                             <div x-data="{
                                 cityOpen: false,
-                                selectedCity: city
+                                get selectedCity() { return city; },
+                                set selectedCity(value) { city = value; }
                             }" class="relative">
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Grad/Mesto</label>
                                 <button type="button" @click="cityOpen = !cityOpen"
@@ -185,7 +193,7 @@
                                     <div class="p-2 max-h-48 overflow-y-auto">
                                         <template x-for="cityItem in filteredCities" :key="cityItem">
                                             <button type="button"
-                                                @click="selectedCity = cityItem; city = cityItem; cityOpen = false"
+                                                @click="selectedCity = cityItem; cityOpen = false"
                                                 class="w-full text-left px-3 py-2 rounded-md hover:bg-blue-100 transition"
                                                 :class="selectedCity === cityItem ? 'bg-blue-100 text-blue-800' : ''">
                                                 <span x-text="cityItem"></span>
@@ -263,7 +271,7 @@
                             Primeni filtere
                         </button>
                         <button type="button"
-                            @click="open = false; query = ''; city = ''; category = ''; subcategory = ''; condition = ''; price_min = ''; price_max = ''; subcategories = []; citySearch = ''; $nextTick(() => { const cityDiv = document.querySelector('[x-data*=selectedCity]'); if(cityDiv && cityDiv.__x) cityDiv.__x.$data.selectedCity = ''; })"
+                            @click="open = false; query = ''; city = ''; category = ''; subcategory = ''; condition = ''; price_min = ''; price_max = ''; subcategories = []; citySearch = ''"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             Poništi filtere
                         </button>
