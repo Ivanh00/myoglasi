@@ -14,6 +14,7 @@ class Message extends Model
         'receiver_id',
         'listing_id',
         'message',
+        'subject',
         'is_read',
         'is_system_message' // Dodajte ovo
     ];

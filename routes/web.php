@@ -231,6 +231,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/conditions', \App\Livewire\Admin\ConditionManagement::class)->name('conditions.index');
     Route::get('/messages', \App\Livewire\Admin\MessageManagement::class)->name('messages.index');
     Route::get('/transactions', \App\Livewire\Admin\TransactionManagement::class)->name('transactions.index');
+    Route::get('/notifications', \App\Livewire\Admin\NotificationManagement::class)->name('notifications.index');
     Route::get('/images', \App\Livewire\Admin\ImageManagement::class)->name('images.index');
     Route::get('/settings', \App\Livewire\Admin\Settings::class)->name('settings');
 });

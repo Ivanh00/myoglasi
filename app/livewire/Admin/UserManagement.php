@@ -202,6 +202,11 @@ class UserManagement extends Component
         $this->dispatch('notify', type: 'success', message: 'Balans je uspešno ažuriran!');
     }
 
+    public function sendNotificationToUser($userId)
+    {
+        return redirect()->route('admin.notifications.index', ['user_id' => $userId]);
+    }
+
     public function viewUserDetails($userId)
     {
         $this->resetModals(); // Zatvori sve druge modale

@@ -104,6 +104,14 @@
                             Poruke
                         </a>
 
+                        <a href="{{ route('admin.notifications.index') }}" 
+                           class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.notifications.*') ? 'bg-blue-50 text-blue-700' : '' }}">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
+                            Obaveštenja
+                        </a>
+
                         <a href="{{ route('admin.settings') }}" 
                            class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.settings') ? 'bg-blue-50 text-blue-700' : '' }}">
                             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +131,49 @@
         </div>
     </div>
 
+    <!-- Notification Area -->
+    <div id="notification-area" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
     @livewireScripts
+    
+    <script>
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('notify', (data) => {
+            console.log('Notification received:', data);
+            const notificationArea = document.getElementById('notification-area');
+            const type = data.type || 'info';
+            const message = data.message || '';
+            
+            const notification = document.createElement('div');
+            notification.className = `p-4 rounded-lg shadow-lg text-white max-w-sm ${
+                type === 'success' ? 'bg-green-500' :
+                type === 'error' ? 'bg-red-500' :
+                type === 'info' ? 'bg-blue-500' :
+                'bg-gray-500'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <p class="text-sm">${message}</p>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            notificationArea.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        });
+    });
+    </script>
 </body>
 
 </html>
