@@ -39,7 +39,9 @@
                     <div
                         class="flex items-center flex-1 px-3 py-2 text-gray-700 {{ request()->get('selectedCategory') == $category->id ? 'text-blue-700' : '' }}">
                         @if ($category->icon)
-                            <img src="{{ $category->icon }}" alt="{{ $category->name }}" class="w-5 h-5 mr-3">
+                            <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                                <i class="{{ $category->icon }} text-blue-600"></i>
+                            </div>
                         @else
                             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
