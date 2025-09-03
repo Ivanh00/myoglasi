@@ -5,9 +5,69 @@
                 <h1 class="text-2xl font-bold text-gray-900">Upravljanje kategorijama</h1>
                 <p class="text-gray-600">Pregled i upravljanje kategorijama i podkategorijama</p>
             </div>
-            <button wire:click="createCategory" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                + Nova kategorija
-            </button>
+            <div class="flex space-x-2">
+                <div class="relative inline-block text-left">
+                    <button id="seeder-menu-button" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center">
+                        <span>Seeder opcije</span>
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="seeder-menu" class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                        <div class="py-1">
+                            <button wire:click="runCategorySeeder" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left">
+                                Učitaj kategorije iz seeder-a
+                            </button>
+                            <button wire:click="runConditionSeeder" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left">
+                                Učitaj uslove iz seeder-a
+                            </button>
+                            <button wire:click="exportCategories" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left">
+                                Eksportuj kategorije (JSON)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button wire:click="createCategory" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    + Nova kategorija
+                </button>
+            </div>
+        </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.getElementById('seeder-menu-button');
+            const menu = document.getElementById('seeder-menu');
+            
+            button.addEventListener('click', function() {
+                menu.classList.toggle('hidden');
+            });
+            
+            document.addEventListener('click', function(event) {
+                if (!button.contains(event.target) && !menu.contains(event.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
+        </script>
+    </div>
+
+    <!-- Brza statistika -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <h3 class="text-sm font-medium text-blue-800">Ukupno kategorija</h3>
+            <p class="text-2xl font-bold text-blue-600">{{ \App\Models\Category::whereNull('parent_id')->count() }}</p>
+        </div>
+        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+            <h3 class="text-sm font-medium text-green-800">Podkategorije</h3>
+            <p class="text-2xl font-bold text-green-600">{{ \App\Models\Category::whereNotNull('parent_id')->count() }}</p>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+            <h3 class="text-sm font-medium text-purple-800">Aktivne kategorije</h3>
+            <p class="text-2xl font-bold text-purple-600">{{ \App\Models\Category::where('is_active', true)->count() }}</p>
+        </div>
+        <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+            <h3 class="text-sm font-medium text-orange-800">Sa oglasima</h3>
+            <p class="text-2xl font-bold text-orange-600">{{ \App\Models\Category::has('listings')->count() }}</p>
         </div>
     </div>
 
@@ -72,16 +132,12 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     @if ($category->icon)
-                                        <img src="{{ $category->icon }}" alt="{{ $category->name }}"
-                                            class="w-6 h-6 mr-3">
+                                        <div class="w-8 h-8 bg-blue-100 rounded mr-3 flex items-center justify-center">
+                                            <i class="{{ $category->icon }} text-blue-600"></i>
+                                        </div>
                                     @else
-                                        <div class="w-6 h-6 bg-gray-200 rounded mr-3 flex items-center justify-center">
-                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4">
-                                                </path>
-                                            </svg>
+                                        <div class="w-8 h-8 bg-gray-200 rounded mr-3 flex items-center justify-center">
+                                            <i class="fas fa-folder text-gray-400"></i>
                                         </div>
                                     @endif
                                     <div>
@@ -139,6 +195,15 @@
                                         </svg>
                                     </button>
 
+                                    @if(!$category->parent_id)
+                                        <button wire:click="createSubcategory({{ $category->id }})"
+                                            class="text-green-600 hover:text-green-900" title="Dodaj podkategoriju">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                            </svg>
+                                        </button>
+                                    @endif
+
                                     <button wire:click="toggleActive({{ $category->id }})"
                                         class="text-yellow-600 hover:text-yellow-900"
                                         title="{{ $category->is_active ? 'Deaktiviraj' : 'Aktiviraj' }}">
@@ -192,18 +257,12 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center ml-8">
                                             @if ($child->icon)
-                                                <img src="{{ $child->icon }}" alt="{{ $child->name }}"
-                                                    class="w-5 h-5 mr-3">
+                                                <div class="w-6 h-6 bg-green-100 rounded mr-3 flex items-center justify-center">
+                                                    <i class="{{ $child->icon }} text-green-600 text-xs"></i>
+                                                </div>
                                             @else
-                                                <div
-                                                    class="w-5 h-5 bg-gray-200 rounded mr-3 flex items-center justify-center">
-                                                    <svg class="w-3 h-3 text-gray-400" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4">
-                                                        </path>
-                                                    </svg>
+                                                <div class="w-6 h-6 bg-gray-200 rounded mr-3 flex items-center justify-center">
+                                                    <i class="fas fa-folder text-gray-400 text-xs"></i>
                                                 </div>
                                             @endif
                                             <div class="text-sm font-medium text-gray-600">{{ $child->name }}</div>
@@ -308,12 +367,22 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Ikona (URL)</label>
+                                <label class="block text-sm font-medium text-gray-700">Ikona (Font Awesome klasa)</label>
                                 <input type="text" wire:model="editState.icon"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                                    class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
+                                    placeholder="npr. fas fa-car, fas fa-home, fas fa-laptop">
                                 @error('editState.icon')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
+                                @if($editState['icon'])
+                                    <div class="mt-2 flex items-center">
+                                        <span class="text-sm text-gray-600 mr-2">Pregled:</span>
+                                        <div class="w-6 h-6 bg-blue-100 rounded flex items-center justify-center">
+                                            <i class="{{ $editState['icon'] }} text-blue-600"></i>
+                                        </div>
+                                    </div>
+                                @endif
+                                <p class="text-xs text-gray-500 mt-1">Koristite Font Awesome 6 ikone (npr. fas fa-car)</p>
                             </div>
 
                             <div>
@@ -321,9 +390,9 @@
                                 <select wire:model="editState.parent_id"
                                     class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
                                     <option value="">Glavna kategorija</option>
-                                    @foreach ($categories as $category)
-                                        @if (!$selectedCategory || $category->id !== $selectedCategory->id)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @foreach ($parentCategories as $parentCategory)
+                                        @if (!$selectedCategory || $parentCategory->id !== $selectedCategory->id)
+                                            <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>

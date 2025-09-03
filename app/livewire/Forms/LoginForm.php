@@ -38,6 +38,16 @@ class LoginForm extends Form
             ]);
         }
 
+        // Check if user is banned
+        $user = Auth::user();
+        if ($user && $user->is_banned) {
+            Auth::logout();
+            
+            throw ValidationException::withMessages([
+                'form.email' => 'Vaš nalog je blokiran. Molimo kontaktirajte administratora na admin@myoglasi.com za više informacija.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

@@ -31,22 +31,7 @@ class CategoryManagement extends Component
         'is_active' => true
     ];
 
-    public $categories = [];
-
     protected $listeners = ['refreshCategories' => '$refresh'];
-
-    public function mount()
-    {
-        $this->loadCategories();
-    }
-
-    public function loadCategories()
-    {
-        $this->categories = Category::whereNull('parent_id')
-            ->where('is_active', true)
-            ->orderBy('sort_order')
-            ->get();
-    }
 
     public function sortBy($field)
     {
@@ -85,13 +70,36 @@ class CategoryManagement extends Component
     public function createCategory()
     {
         $this->selectedCategory = null;
+        
+        // Auto-generate sort_order for new category
+        $nextSortOrder = Category::whereNull('parent_id')->max('sort_order') + 1;
+        
         $this->editState = [
             'name' => '',
             'slug' => '',
             'description' => '',
             'icon' => '',
             'parent_id' => null,
-            'sort_order' => 0,
+            'sort_order' => $nextSortOrder,
+            'is_active' => true
+        ];
+        $this->showEditModal = true;
+    }
+
+    public function createSubcategory($parentId)
+    {
+        $this->selectedCategory = null;
+        
+        // Auto-generate sort_order for new subcategory
+        $nextSortOrder = Category::where('parent_id', $parentId)->max('sort_order') + 1;
+        
+        $this->editState = [
+            'name' => '',
+            'slug' => '',
+            'description' => '',
+            'icon' => '',
+            'parent_id' => $parentId,
+            'sort_order' => $nextSortOrder,
             'is_active' => true
         ];
         $this->showEditModal = true;
@@ -133,7 +141,6 @@ class CategoryManagement extends Component
         }
 
         $this->showEditModal = false;
-        $this->loadCategories(); // Osveži listu kategorija
         $this->dispatch('notify', type: 'success', message: $message);
     }
 
@@ -160,7 +167,6 @@ class CategoryManagement extends Component
         if ($this->selectedCategory) {
             $this->selectedCategory->delete();
             $this->showDeleteModal = false;
-            $this->loadCategories(); // Osveži listu kategorija
             $this->dispatch('notify', type: 'success', message: 'Kategorija uspešno obrisana!');
         }
     }
@@ -176,7 +182,6 @@ class CategoryManagement extends Component
             $category->children()->update(['is_active' => false]);
         }
 
-        $this->loadCategories(); // Osveži listu kategorija
         $this->dispatch('notify', type: 'success', message: 'Status kategorije ažuriran!');
     }
 
@@ -186,13 +191,62 @@ class CategoryManagement extends Component
         $category->sort_order = $newOrder;
         $category->save();
 
-        $this->loadCategories(); // Osveži listu kategorija
         $this->dispatch('notify', type: 'success', message: 'Redosled kategorije ažuriran!');
+    }
+
+    public function runCategorySeeder()
+    {
+        try {
+            \Artisan::call('db:seed', ['--class' => 'CategorySeeder', '--force' => true]);
+            $this->dispatch('notify', type: 'success', message: 'Kategorije iz seeder-a uspešno učitane!');
+        } catch (\Exception $e) {
+            $this->dispatch('notify', type: 'error', message: 'Greška pri učitavanju kategorija: ' . $e->getMessage());
+        }
+    }
+
+    public function runConditionSeeder()
+    {
+        try {
+            \Artisan::call('db:seed', ['--class' => 'ListingConditionSeeder', '--force' => true]);
+            $this->dispatch('notify', type: 'success', message: 'Uslovi oglasa iz seeder-a uspešno učitani!');
+        } catch (\Exception $e) {
+            $this->dispatch('notify', type: 'error', message: 'Greška pri učitavanju uslova: ' . $e->getMessage());
+        }
+    }
+
+    public function exportCategories()
+    {
+        $categories = Category::with(['children'])->whereNull('parent_id')->get();
+        $exportData = [];
+
+        foreach ($categories as $category) {
+            $categoryData = [
+                'name' => $category->name,
+                'description' => $category->description,
+                'icon' => $category->icon,
+                'sort_order' => $category->sort_order,
+                'children' => []
+            ];
+
+            foreach ($category->children as $child) {
+                $categoryData['children'][] = [
+                    'name' => $child->name,
+                    'description' => $child->description,
+                    'icon' => $child->icon,
+                    'sort_order' => $child->sort_order,
+                ];
+            }
+
+            $exportData[] = $categoryData;
+        }
+
+        $this->dispatch('downloadCategories', json_encode($exportData, JSON_PRETTY_PRINT));
     }
 
     public function render()
     {
-        $query = Category::with(['parent', 'children', 'listings'])
+        $query = Category::with(['parent', 'children'])
+            ->withCount('listings')
             ->when($this->search, function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
                       ->orWhere('description', 'like', '%' . $this->search . '%')
@@ -207,7 +261,13 @@ class CategoryManagement extends Component
         $categories = $query->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
 
-        return view('livewire.admin.category-management', compact('categories'))
+        // Dodaj parent kategorije za modal dropdown
+        $parentCategories = Category::whereNull('parent_id')
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+
+        return view('livewire.admin.category-management', compact('categories', 'parentCategories'))
             ->layout('layouts.admin');
     }
 }

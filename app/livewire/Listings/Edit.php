@@ -44,11 +44,21 @@ class Edit extends Component
     $this->categories = Category::whereNull('parent_id')
         ->where('is_active', true)
         ->orderBy('sort_order')
-        ->get() ?? collect();
+        ->get();
+    
+    // Ensure categories is never null
+    if (!$this->categories) {
+        $this->categories = collect();
+    }
 
     $this->conditions = ListingCondition::where('is_active', true)
         ->orderBy('name')
-        ->get() ?? collect();
+        ->get();
+    
+    // Ensure conditions is never null
+    if (!$this->conditions) {
+        $this->conditions = collect();
+    }
 
     // Učitaj podkategorije ako postoji kategorija
     if ($this->category_id) {
@@ -57,6 +67,11 @@ class Edit extends Component
             ->orderBy('sort_order')
             ->get();
     } else {
+        $this->subcategories = collect();
+    }
+    
+    // Initialize subcategories as empty collection if null
+    if (!$this->subcategories) {
         $this->subcategories = collect();
     }
     

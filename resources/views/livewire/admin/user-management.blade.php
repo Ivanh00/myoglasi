@@ -209,4 +209,238 @@
         </div>
     </div>
 
-    <!-- Modals will be continued in the next part... -->
+    <!-- Edit User Modal -->
+    <div x-show="@entangle('showEditModal')" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Uredi korisnika</h3>
+                <form wire:submit="updateUser">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Ime</label>
+                            <input type="text" wire:model="editState.name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                            @error('editState.name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" wire:model="editState.email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                            @error('editState.email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Grad</label>
+                            <input type="text" wire:model="editState.city" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                            @error('editState.city') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Telefon</label>
+                            <input type="text" wire:model="editState.phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                            @error('editState.phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <label class="flex items-center">
+                                <input type="checkbox" wire:model="editState.phone_visible" class="rounded">
+                                <span class="ml-2 text-sm text-gray-700">Telefon vidljiv</span>
+                            </label>
+                            
+                            <label class="flex items-center">
+                                <input type="checkbox" wire:model="editState.is_admin" class="rounded">
+                                <span class="ml-2 text-sm text-gray-700">Administrator</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2 mt-6">
+                        <button type="button" wire:click="$set('showEditModal', false)" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Otkaži
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            Sačuvaj
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ban User Modal -->
+    <div x-show="@entangle('showBanModal')" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Baniraj korisnika</h3>
+                <form wire:submit="confirmBan">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Razlog banovanja</label>
+                        <textarea wire:model="banState.ban_reason" rows="4" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                placeholder="Unesite razlog banovanja..."></textarea>
+                        @error('banState.ban_reason') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" wire:click="$set('showBanModal', false)" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Otkaži
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                            Baniraj
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Balance Adjustment Modal -->
+    <div x-show="@entangle('showBalanceModal')" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Podesi balans korisnika</h3>
+                @if($selectedUser)
+                    <p class="text-sm text-gray-600 mb-4">Trenutni balans: <strong>{{ number_format($selectedUser->balance ?? 0, 0) }} RSD</strong></p>
+                @endif
+                <form wire:submit="updateBalance">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Iznos (pozitivni za dodavanje, negativni za oduzimanje)</label>
+                            <input type="number" step="0.01" wire:model="balanceState.amount" 
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                                placeholder="npr. 1000 ili -500">
+                            @error('balanceState.amount') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Opis</label>
+                            <input type="text" wire:model="balanceState.description" 
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                                placeholder="npr. Admin dodavanje sredstava">
+                            @error('balanceState.description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2 mt-6">
+                        <button type="button" wire:click="$set('showBalanceModal', false)" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Otkaži
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                            Ažuriraj balans
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div x-show="@entangle('showUserDetailModal')" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;">
+        <div class="relative top-10 mx-auto p-5 border w-4/5 max-w-4xl shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                @if(isset($userDetails['user']))
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-medium text-gray-900">Detalji korisnika: {{ $userDetails['user']->name }}</h3>
+                        <button wire:click="$set('showUserDetailModal', false)" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- User Info Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800">Oglasi</h4>
+                            <p class="text-2xl font-bold text-blue-600">{{ $userDetails['total_listings'] }}</p>
+                            <p class="text-sm text-blue-600">{{ $userDetails['active_listings'] }} aktivni</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800">Balans</h4>
+                            <p class="text-2xl font-bold text-green-600">{{ number_format($userDetails['user']->balance ?? 0, 0) }}</p>
+                            <p class="text-sm text-green-600">RSD</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-800">Poruke</h4>
+                            <p class="text-2xl font-bold text-purple-600">{{ $userDetails['messages_sent'] + $userDetails['messages_received'] }}</p>
+                            <p class="text-sm text-purple-600">{{ $userDetails['messages_sent'] }} poslano, {{ $userDetails['messages_received'] }} primljeno</p>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-orange-800">Favoriti</h4>
+                            <p class="text-2xl font-bold text-orange-600">{{ $userDetails['favorites_count'] }}</p>
+                            <p class="text-sm text-orange-600">sačuvanih oglasa</p>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Recent Listings -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-3">Poslednji oglasi</h4>
+                            <div class="space-y-2 max-h-60 overflow-y-auto">
+                                @foreach($userDetails['recent_listings'] as $listing)
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="font-medium text-sm">{{ $listing->title }}</p>
+                                        <p class="text-xs text-gray-500">{{ $listing->created_at->format('d.m.Y H:i') }}</p>
+                                        <p class="text-xs font-semibold text-green-600">{{ number_format($listing->price, 0) }} RSD</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Recent Transactions -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-3">Poslednje transakcije</h4>
+                            <div class="space-y-2 max-h-60 overflow-y-auto">
+                                @foreach($userDetails['recent_transactions'] as $transaction)
+                                    <div class="bg-white p-3 rounded border">
+                                        <div class="flex justify-between">
+                                            <p class="text-sm">{{ $transaction->description }}</p>
+                                            <p class="text-sm font-semibold {{ $transaction->amount >= 0 ? 'text-green-600' : 'text-red-600' }}">
+                                                {{ $transaction->amount >= 0 ? '+' : '' }}{{ number_format($transaction->amount, 0) }} RSD
+                                            </p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">{{ $transaction->created_at->format('d.m.Y H:i') }}</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Info -->
+                    <div class="mt-6 bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-800 mb-3">Informacije o korisniku</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p><strong>Email:</strong> {{ $userDetails['user']->email }}</p>
+                                <p><strong>Grad:</strong> {{ $userDetails['user']->city ?? 'Nije navedeno' }}</p>
+                                <p><strong>Telefon:</strong> {{ $userDetails['user']->phone ?? 'Nije navedeno' }}</p>
+                            </div>
+                            <div>
+                                <p><strong>Registrovan:</strong> {{ $userDetails['user']->created_at->format('d.m.Y H:i') }}</p>
+                                <p><strong>Status:</strong> 
+                                    @if($userDetails['user']->is_banned)
+                                        <span class="text-red-600">Banovan</span>
+                                        @if($userDetails['user']->ban_reason)
+                                            <br><small class="text-gray-500">{{ $userDetails['user']->ban_reason }}</small>
+                                        @endif
+                                    @else
+                                        <span class="text-green-600">Aktivan</span>
+                                    @endif
+                                </p>
+                                @if($userDetails['user']->is_admin)
+                                    <p><strong>Privilage:</strong> <span class="text-purple-600">Administrator</span></p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('userManagement', () => ({}))
+})
+</script>
