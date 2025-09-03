@@ -120,7 +120,7 @@
                                     @auth
                                         <p class="text-sm font-bold text-gray-700 mb-2">
                                             Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
-                                            @if($listing->user && $listing->user->is_banned)
+                                            @if ($listing->user && $listing->user->is_banned)
                                                 <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
                                             @endif
                                         </p>
@@ -168,7 +168,7 @@
                                     </div>
                                     <!-- Dodajte ovaj div za prikaz broja pratilaca -->
                                     <div class="flex items-center">
-                                        <i class="fas fa-heart text-red-500 mr-2"></i>
+                                        <i class=""></i>
                                         <span class="text-gray-700">❤️ {{ $listing->favorites_count ?? 0 }}</span>
                                     </div>
                                 </div>
