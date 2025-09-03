@@ -107,11 +107,6 @@ class NotificationManagement extends Component
 
     public function sendNotification()
     {
-        \Log::info('SendNotification function called', ['admin_id' => auth()->id(), 'data' => $this->notificationData]);
-        
-        // Debug notification - let's see if this function is even being called
-        $this->dispatch('notify', type: 'info', message: 'sendNotification funkcija pozvana!');
-        
         // Clean up data before validation
         if (empty($this->notificationData['listing_id']) || $this->notificationData['listing_id'] === '') {
             $this->notificationData['listing_id'] = null;
@@ -128,17 +123,7 @@ class NotificationManagement extends Component
             $rules['notificationData.recipient_id'] = 'required|exists:users,id';
         }
 
-        try {
-            $this->validate($rules);
-            $this->dispatch('notify', type: 'info', message: 'Validation prošla!');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            $errors = collect($e->validator->errors()->all())->join(', ');
-            $this->dispatch('notify', type: 'error', message: 'Validation greška: ' . $errors);
-            return;
-        } catch (\Exception $e) {
-            $this->dispatch('notify', type: 'error', message: 'Validation error: ' . $e->getMessage());
-            return;
-        }
+        $this->validate($rules);
 
         try {
             $recipients = $this->getRecipients();
@@ -175,13 +160,6 @@ class NotificationManagement extends Component
             $this->dispatch('notify', type: 'success', message: "Obaveštenje uspešno poslano na {$sentCount} korisnika!");
 
         } catch (\Exception $e) {
-            \Log::error('Notification sending error: ' . $e->getMessage(), [
-                'recipient_type' => $this->notificationData['recipient_type'],
-                'recipients_count' => isset($recipients) ? $recipients->count() : 0,
-                'admin_id' => auth()->id(),
-                'notification_data' => $this->notificationData,
-                'trace' => $e->getTraceAsString()
-            ]);
             $this->dispatch('notify', type: 'error', message: 'Greška pri slanju: ' . $e->getMessage());
         }
     }
@@ -226,56 +204,6 @@ class NotificationManagement extends Component
         }
     }
 
-    public function testRecipients()
-    {
-        $this->dispatch('notify', type: 'info', message: 'Test funkcija je pozvana! Livewire komunikacija radi.');
-        
-        try {
-            $userCount = User::where('is_banned', false)->count();
-            $this->dispatch('notify', type: 'info', message: "Ukupno aktivnih korisnika u bazi: {$userCount}");
-            
-            // Test direktni query za "all" tip
-            if ($this->notificationData['recipient_type'] === 'all') {
-                $directCount = User::where('is_banned', false)->count();
-                $this->dispatch('notify', type: 'info', message: "Direktni query za 'all' tip: {$directCount} korisnika");
-            }
-            
-            $recipients = $this->getRecipients();
-            $debugInfo = [
-                'Tip' => $this->notificationData['recipient_type'],
-                'Broj korisnika iz getRecipients' => $recipients->count(),
-                'listing_id' => $this->notificationData['listing_id'] === '' ? 'prazan string' : ($this->notificationData['listing_id'] ?? 'null'),
-                'Naslov prazan' => empty($this->notificationData['title']) ? 'da' : 'ne',
-                'Poruka prazna' => empty($this->notificationData['message']) ? 'da' : 'ne',
-            ];
-            
-            if ($this->notificationData['recipient_type'] === 'single') {
-                $debugInfo['Odabran korisnik ID'] = $this->notificationData['recipient_id'] ?? 'Nije odabran';
-            }
-            
-            if ($this->notificationData['recipient_type'] === 'filtered') {
-                $debugInfo['Filter tip'] = $this->notificationData['filter_criteria']['user_type'];
-                if ($this->notificationData['filter_criteria']['user_type'] === 'recent') {
-                    $debugInfo['Dani'] = $this->notificationData['filter_criteria']['days'];
-                }
-            }
-
-            // Test creating one message to see what happens
-            if ($recipients->count() > 0) {
-                $testRecipient = $recipients->first();
-                $debugInfo['Prvi recipient'] = $testRecipient->name;
-                $debugInfo['Prvi recipient banned'] = $testRecipient->is_banned ? 'da' : 'ne';
-            } else {
-                $debugInfo['Problem'] = 'Nema recipijenata pronađeno!';
-            }
-            
-            $message = 'Debug: ' . json_encode($debugInfo, JSON_UNESCAPED_UNICODE);
-            $this->dispatch('notify', type: 'info', message: $message);
-            
-        } catch (\Exception $e) {
-            $this->dispatch('notify', type: 'error', message: 'Debug error: ' . $e->getMessage() . ' | Line: ' . $e->getLine());
-        }
-    }
 
     public function render()
     {

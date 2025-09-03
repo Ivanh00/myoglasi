@@ -6,16 +6,10 @@
                 <h2 class="text-2xl font-bold text-gray-900">Upravljanje obaveštenjima</h2>
                 <p class="text-gray-600">Pošaljite obaveštenja korisnicima individualno ili grupno</p>
             </div>
-            <div class="flex space-x-2">
-                <button wire:click="testRecipients" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
-                    <i class="fas fa-bug mr-2"></i>
-                    Test komunikacije
-                </button>
-                <button wire:click="openSendModal" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                    <i class="fas fa-paper-plane mr-2"></i>
-                    Pošalji obaveštenje
-                </button>
-            </div>
+            <button wire:click="openSendModal" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                <i class="fas fa-paper-plane mr-2"></i>
+                Pošalji obaveštenje
+            </button>
         </div>
     </div>
 
@@ -197,29 +191,19 @@
                                         </div>
                                     @endif
                                     
-                                    <div class="mt-2 flex items-center justify-between">
-                                        <span class="text-sm text-gray-600">
-                                            Biće poslano na <strong>{{ $this->getRecipientsCount() }}</strong> korisnika
-                                        </span>
-                                        <button type="button" wire:click="testRecipients" class="px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded">
-                                            Test
-                                        </button>
+                                    <div class="mt-2 text-sm text-gray-600">
+                                        Biće poslano na <strong>{{ $this->getRecipientsCount() }}</strong> korisnika
                                     </div>
                                 </div>
                             @endif
 
                             @if($notificationData['recipient_type'] === 'all')
                                 <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center">
-                                            <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
-                                            <span class="text-yellow-800 text-sm">
-                                                Obaveštenje će biti poslano na <strong>{{ $this->getRecipientsCount() }}</strong> korisnika
-                                            </span>
-                                        </div>
-                                        <button type="button" wire:click="testRecipients" class="px-2 py-1 text-xs bg-yellow-200 text-yellow-800 rounded">
-                                            Test
-                                        </button>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+                                        <span class="text-yellow-800 text-sm">
+                                            Obaveštenje će biti poslano na <strong>{{ $this->getRecipientsCount() }}</strong> korisnika
+                                        </span>
                                     </div>
                                 </div>
                             @endif
@@ -266,14 +250,8 @@
                             <div class="text-sm text-gray-600">
                                 @if($notificationData['recipient_type'] !== 'single')
                                     Broj recipijenata: <strong>{{ $this->getRecipientsCount() }}</strong>
-                                    <button type="button" wire:click="testRecipients" class="ml-2 px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
-                                        Debug
-                                    </button>
                                 @elseif($notificationData['recipient_type'] === 'single' && $notificationData['recipient_id'])
                                     Šalje se korisniku: <strong>{{ $searchUser }}</strong>
-                                    <button type="button" wire:click="testRecipients" class="ml-2 px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
-                                        Test
-                                    </button>
                                 @endif
                             </div>
                             <div class="flex space-x-3">
