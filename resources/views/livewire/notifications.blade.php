@@ -49,7 +49,11 @@
                                 @endif
                             </div>
                             <div class="listing-name">
-                                {{ $notification->listing->title }}
+                                @if($notification->listing)
+                                    {{ $notification->listing->title }}
+                                @else
+                                    {{ $notification->subject ?? 'Admin obaveštenje' }}
+                                @endif
                             </div>
                         </div>
 
@@ -122,13 +126,20 @@
                     <div class="notification-details">
                         <p>{{ $selectedNotification->message }}</p>
 
-                        <div class="notification-listing-info">
-                            <strong>Oglas:</strong>
-                            <a href="{{ route('listings.show', $selectedNotification->listing) }}" class="listing-link"
-                                wire:navigate>
-                                {{ $selectedNotification->listing->title }}
-                            </a>
-                        </div>
+                        @if($selectedNotification->listing)
+                            <div class="notification-listing-info">
+                                <strong>Oglas:</strong>
+                                <a href="{{ route('listings.show', $selectedNotification->listing) }}" class="listing-link"
+                                    wire:navigate>
+                                    {{ $selectedNotification->listing->title }}
+                                </a>
+                            </div>
+                        @elseif($selectedNotification->subject)
+                            <div class="notification-listing-info">
+                                <strong>Naslov:</strong>
+                                <span class="text-gray-700">{{ $selectedNotification->subject }}</span>
+                            </div>
+                        @endif
 
                         <div class="notification-time-info">
                             <strong>Datum:</strong>
@@ -138,10 +149,12 @@
                 </div>
 
                 <div class="modal-footer">
-                    <a href="{{ route('listings.show', $selectedNotification->listing) }}" class="view-listing-btn"
-                        wire:navigate>
-                        Pogledaj oglas
-                    </a>
+                    @if($selectedNotification->listing)
+                        <a href="{{ route('listings.show', $selectedNotification->listing) }}" class="view-listing-btn"
+                            wire:navigate>
+                            Pogledaj oglas
+                        </a>
+                    @endif
                     <button wire:click="$set('selectedNotification', null)" class="close-btn">
                         Zatvori
                     </button>
