@@ -139,6 +139,9 @@ class TransactionManagement extends Component
         // Track this transaction as processed if status changed to completed
         if ($newStatus === 'completed') {
             $this->processedTransactions[] = $this->selectedTransaction->id;
+            
+            // Broadcast event to refresh user balance components
+            $this->dispatch('transactionUpdated', $this->selectedTransaction->user_id);
         }
     }
 
@@ -146,17 +149,30 @@ class TransactionManagement extends Component
     {
         $transaction = Transaction::with('user')->find($transactionId);
         
-        // Don't process if already completed
+        // Don't process if already completed or being processed
         if ($transaction->status === 'completed') {
             $this->dispatch('notify', type: 'info', message: 'Transakcija je već završena!');
             return;
         }
         
-        // Update transaction status
-        $transaction->update([
-            'status' => 'completed',
-            'completed_at' => now()
-        ]);
+        // Check if transaction was already processed in this session
+        if (in_array($transactionId, $this->processedTransactions)) {
+            $this->dispatch('notify', type: 'info', message: 'Transakcija je već obrađena u ovoj sesiji!');
+            return;
+        }
+        
+        // Update transaction status with database lock to prevent race conditions
+        $updated = Transaction::where('id', $transactionId)
+            ->where('status', '!=', 'completed') // Double check in database
+            ->update([
+                'status' => 'completed',
+                'completed_at' => now()
+            ]);
+            
+        if (!$updated) {
+            $this->dispatch('notify', type: 'info', message: 'Transakcija je već završena!');
+            return;
+        }
         
         // Add credit to user's balance if it's a credit topup
         if (in_array($transaction->type, ['credit_topup', 'admin_credit']) && $transaction->amount > 0) {
@@ -171,6 +187,9 @@ class TransactionManagement extends Component
         
         // Track this transaction as processed to update UI
         $this->processedTransactions[] = $transactionId;
+        
+        // Broadcast event to refresh user balance components
+        $this->dispatch('transactionUpdated', $transaction->user_id);
     }
 
     public function markAsFailed($transactionId)

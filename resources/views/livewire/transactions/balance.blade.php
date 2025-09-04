@@ -35,7 +35,7 @@
                     <div class="ml-4">
                         <p class="text-sm text-gray-600">Ukupno dopunjeno</p>
                         <p class="text-xl font-semibold text-gray-900">
-                            {{ number_format(auth()->user()->transactions()->where('type', 'credit_topup')->where('status', 'completed')->sum('amount'), 0, ',', '.') }} RSD
+                            {{ number_format($this->totalTopup, 0, ',', '.') }} RSD
                         </p>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                     <div class="ml-4">
                         <p class="text-sm text-gray-600">Ukupno potrošeno</p>
                         <p class="text-xl font-semibold text-gray-900">
-                            {{ number_format(auth()->user()->transactions()->where('type', 'listing_fee')->sum('amount'), 0, ',', '.') }} RSD
+                            {{ number_format($this->totalSpent, 0, ',', '.') }} RSD
                         </p>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                     <div class="ml-4">
                         <p class="text-sm text-gray-600">Aktivni oglasi</p>
                         <p class="text-xl font-semibold text-gray-900">
-                            {{ auth()->user()->listings()->where('status', 'active')->count() }}
+                            {{ $this->activeListingsCount }}
                         </p>
                     </div>
                 </div>
@@ -74,16 +74,9 @@
         <div class="bg-white rounded-lg shadow-lg p-6">
             <h2 class="text-xl font-bold text-gray-900 mb-4">Poslednje transakcije</h2>
             
-            @php
-                $transactions = auth()->user()->transactions()
-                    ->orderBy('created_at', 'desc')
-                    ->limit(10)
-                    ->get();
-            @endphp
-
-            @if($transactions->count() > 0)
+            @if($this->transactions->count() > 0)
                 <div class="space-y-3">
-                    @foreach($transactions as $transaction)
+                    @foreach($this->transactions as $transaction)
                         <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                             <div class="flex items-center">
                                 @if($transaction->type === 'credit_topup')
