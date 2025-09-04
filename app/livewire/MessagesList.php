@@ -28,6 +28,16 @@ class MessagesList extends Component
                     ->orWhere('receiver_id', $userId);
             })
             ->where('is_system_message', false) // Samo regularne poruke
+            ->where(function($query) use ($userId) {
+                // Show messages that aren't deleted by current user
+                $query->where(function($q) use ($userId) {
+                    $q->where('sender_id', $userId)
+                      ->where('deleted_by_sender', false);
+                })->orWhere(function($q) use ($userId) {
+                    $q->where('receiver_id', $userId)
+                      ->where('deleted_by_receiver', false);
+                });
+            })
             ->with(['listing', 'sender', 'receiver'])
             ->get()
             ->groupBy(function ($message) use ($userId) {
@@ -153,6 +163,35 @@ class MessagesList extends Component
     {
         $this->search = '';
         $this->loadConversations();
+    }
+
+    public function deleteConversation($conversationKey)
+    {
+        $conversation = $this->conversations[$conversationKey] ?? null;
+        
+        if ($conversation) {
+            $userId = Auth::id();
+            
+            // Mark all messages in this conversation as deleted by current user
+            Message::where('listing_id', $conversation['listing']->id)
+                ->where(function($query) use ($userId, $conversation) {
+                    $query->where(function($q) use ($userId, $conversation) {
+                        $q->where('sender_id', $userId)
+                          ->where('receiver_id', $conversation['other_user']->id);
+                    })->orWhere(function($q) use ($userId, $conversation) {
+                        $q->where('sender_id', $conversation['other_user']->id)
+                          ->where('receiver_id', $userId);
+                    });
+                })
+                ->where('is_system_message', false)
+                ->get()
+                ->each(function($message) use ($userId) {
+                    $message->deleteForUser($userId);
+                });
+            
+            session()->flash('success', 'Konverzacija je obrisana.');
+            $this->loadConversations();
+        }
     }
 
     public function render()

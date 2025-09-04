@@ -117,10 +117,21 @@
                             </div>
                         </div>
 
-                        <!-- Date Info -->
-                        <div class="date-info">
-                            <div class="full-date">
-                                {{ $conversation['last_message']->created_at->format('d.m.Y. H:i') }}
+                        <!-- Date Info and Actions -->
+                        <div class="date-info" style="display: flex; flex-direction: column; align-items: flex-end;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                <div class="full-date">
+                                    {{ $conversation['last_message']->created_at->format('d.m.Y. H:i') }}
+                                </div>
+                                <!-- Delete button -->
+                                <button wire:click="deleteConversation({{ $key }})" 
+                                    wire:confirm="Da li ste sigurni da želite da obrišete ovu konverzaciju? Poruke će biti sakrivene samo vama."
+                                    onclick="event.stopPropagation()"
+                                    style="padding: 4px; color: #ef4444; border: none; background: none; border-radius: 4px; cursor: pointer;"
+                                    onmouseover="this.style.backgroundColor='#fee2e2'"
+                                    onmouseout="this.style.backgroundColor='transparent'">
+                                    <i class="fas fa-trash" style="font-size: 12px;"></i>
+                                </button>
                             </div>
                             <div class="short-date">
                                 {{ $conversation['last_message']->created_at->format('d.m.Y.') }}
@@ -180,16 +191,26 @@
                     </div>
                     
                     <!-- Message preview -->
-                    <div class="flex items-center">
-                        @if ($conversation['last_message']->is_read && $conversation['last_message']->sender_id == Auth::id())
-                            <svg width="12" height="8" viewBox="0 0 18 11" fill="none" stroke="#10b981" class="mr-2 flex-shrink-0">
-                                <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke-width="2" />
-                                <path d="M16.5 1L10.5 9.5L9 8" stroke-width="2" />
-                            </svg>
-                        @endif
-                        <p class="text-sm text-gray-600 truncate">
-                            {{ Str::limit($conversation['last_message']->message, 80) }}
-                        </p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center flex-1 min-w-0">
+                            @if ($conversation['last_message']->is_read && $conversation['last_message']->sender_id == Auth::id())
+                                <svg width="12" height="8" viewBox="0 0 18 11" fill="none" stroke="#10b981" class="mr-2 flex-shrink-0">
+                                    <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke-width="2" />
+                                    <path d="M16.5 1L10.5 9.5L9 8" stroke-width="2" />
+                                </svg>
+                            @endif
+                            <p class="text-sm text-gray-600 truncate">
+                                {{ Str::limit($conversation['last_message']->message, 80) }}
+                            </p>
+                        </div>
+                        
+                        <!-- Delete button -->
+                        <button wire:click="deleteConversation({{ $key }})" 
+                            wire:confirm="Da li ste sigurni da želite da obrišete ovu konverzaciju? Poruke će biti sakrivene samo vama."
+                            onclick="event.stopPropagation()"
+                            class="ml-2 p-1 text-red-500 hover:text-red-700 rounded">
+                            <i class="fas fa-trash text-xs"></i>
+                        </button>
                     </div>
                 </div>
             </div>
