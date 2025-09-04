@@ -217,7 +217,8 @@
                 @if ($showPaymentSlip && $this->paymentSlipData)
                     <div class="border-t pt-6 mt-6">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-bold text-gray-900">{{ $this->paymentSlipData['slip_title'] }}</h3>
+                            <h3 class="text-xl font-bold text-gray-900">{{ $this->paymentSlipData['slip_title'] }}
+                            </h3>
                             <button wire:click="printPaymentSlip"
                                 class="inline-flex items-center px-3 py-2 border border-blue-300 rounded-md shadow-sm text-sm font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors">
                                 <i class="fas fa-print mr-2"></i>
@@ -239,86 +240,130 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 print:gap-4">
                                 <!-- Left Column -->
                                 <div class="space-y-4 print:space-y-3">
+                                    <!-- Platilac -->
                                     <div class="border border-gray-400 p-3 print:p-2">
-                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Platilac / Payer:</p>
-                                        <p class="font-semibold print:text-sm">{{ $this->paymentSlipData['payer_name'] }}
-                                        </p>
+                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">платилац</p>
+                                        <p class="font-semibold print:text-sm">
+                                            {{ $this->paymentSlipData['payer_name'] }}</p>
                                     </div>
 
+                                    <!-- Svrha plaćanja -->
                                     <div class="border border-gray-400 p-3 print:p-2">
-                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Svrha plaćanja /
-                                            Payment purpose:</p>
+                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">сврха плаћања</p>
                                         <p class="font-semibold print:text-sm">
                                             {{ $this->paymentSlipData['payment_purpose'] }}</p>
                                     </div>
 
+                                    <!-- Primalac -->
                                     <div class="border border-gray-400 p-3 print:p-2">
-                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Primalac / Beneficiary:
-                                        </p>
-                                        <p class="font-semibold print:text-sm">{{ $this->paymentSlipData['company_name'] }}
-                                        </p>
-                                    </div>
-
-                                    <div class="border border-gray-400 p-3 print:p-2">
-                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Adresa primaoca /
-                                            Beneficiary address:</p>
+                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">прималац</p>
                                         <p class="font-semibold print:text-sm">
+                                            {{ $this->paymentSlipData['company_name'] }}</p>
+                                        <p class="font-semibold print:text-sm text-sm mt-1">
                                             {{ $this->paymentSlipData['company_address'] }}</p>
                                     </div>
 
-                                    <div class="grid grid-cols-2 gap-3 print:gap-2">
-                                        <div class="border border-gray-400 p-3 print:p-2">
-                                            <p class="text-xs text-gray-600 mb-1 print:text-[10px]">PIB:</p>
-                                            <p class="font-semibold print:text-sm">
-                                                {{ $this->paymentSlipData['company_pib'] }}</p>
-                                        </div>
-                                        <div class="border border-gray-400 p-3 print:p-2">
-                                            <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Šifra plaćanja:</p>
-                                            <p class="font-semibold print:text-sm">
-                                                {{ $this->paymentSlipData['payment_code'] }}</p>
+                                    <!-- Potpis platioca -->
+                                    <div class="border-t border-gray-400 pt-4 print:pt-2">
+                                        <p class="text-xs text-gray-600 mb-2 print:text-[10px]">потпис
+                                            платиоца/примаоца</p>
+                                        <div class="h-16 print:h-12 border-b border-gray-300"></div>
+
+                                        <div class="grid grid-cols-2 gap-4 mt-4 print:gap-2 print:mt-2">
+                                            <div>
+                                                <p class="text-xs text-gray-600 mb-1 print:text-[10px]">место и датум
+                                                    пријема</p>
+                                                <div class="h-8 print:h-6 border-b border-gray-300"></div>
+                                            </div>
+                                            <div>
+                                                <p class="text-xs text-gray-600 mb-1 print:text-[10px]">датум извршења
+                                                </p>
+                                                <div class="h-8 print:h-6 border-b border-gray-300"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Right Column -->
                                 <div class="space-y-4 print:space-y-3">
-                                    <div
-                                        class="border border-gray-400 p-3 bg-yellow-50 print:bg-transparent print:p-2">
-                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Iznos / Amount:</p>
-                                        <p class="font-bold text-3xl text-green-700 print:text-xl print:text-black">
-                                            {{ number_format($this->paymentSlipData['amount'], 2, ',', '.') }} RSD</p>
+                                    <!-- Top row: Šifra, Valuta, Iznos -->
+                                    <div class="grid grid-cols-3 gap-2 print:gap-1">
+                                        <div class="border border-gray-400 p-2 text-center print:p-1">
+                                            <p class="text-xs text-gray-600 print:text-[10px]">шифра<br>плаћања</p>
+                                            <p class="font-bold text-lg print:text-sm">
+                                                {{ $this->paymentSlipData['payment_code'] }}</p>
+                                        </div>
+                                        <div class="border border-gray-400 p-2 text-center print:p-1">
+                                            <p class="text-xs text-gray-600 print:text-[10px]">валута</p>
+                                            <p class="font-bold print:text-sm">DIN</p>
+                                        </div>
+                                        <div class="border border-gray-400 p-2 text-center print:p-1">
+                                            <p class="text-xs text-gray-600 print:text-[10px]">износ</p>
+                                            <p class="font-bold print:text-sm">=
+                                                {{ number_format($this->paymentSlipData['amount'], 2, ',', '.') }}</p>
+                                        </div>
                                     </div>
 
+                                    @if ($payerType === 'legal')
+                                        <!-- Račun platioca (samo za pravna lica) -->
+                                        <div class="border border-gray-400 p-3 print:p-2">
+                                            <p class="text-xs text-gray-600 mb-1 print:text-[10px]">рачун платиоца</p>
+                                            <div class="border border-gray-300 p-2 h-12 print:h-8">
+                                                <p class="text-gray-400 text-sm print:text-xs">(Popunjava platilac)</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Model i poziv na broj zaduženja (samo za pravna lica) -->
+                                        <div class="border border-gray-400 p-3 print:p-2">
+                                            <p class="text-xs text-gray-600 mb-1 print:text-[10px]">модел и позив на
+                                                број (задужење)</p>
+                                            <div class="grid grid-cols-2 gap-2 print:gap-1">
+                                                <div
+                                                    class="border border-gray-300 p-2 text-center h-12 print:h-8 print:p-1">
+                                                    <p class="text-gray-400 text-sm print:text-xs">(Popunjava)</p>
+                                                </div>
+                                                <div class="border border-gray-300 p-2 h-12 print:h-8 print:p-1">
+                                                    <p class="text-gray-400 text-sm print:text-xs">(Popunjava)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    <!-- Račun primaoca -->
                                     <div class="border border-gray-400 p-3 print:p-2">
-                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Račun primaoca /
-                                            Beneficiary account:</p>
+                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">рачун примаоца</p>
                                         <p class="font-semibold font-mono text-lg print:text-sm">
                                             {{ $this->paymentSlipData['bank_account'] }}</p>
                                     </div>
 
+                                    <!-- Model i poziv na broj (odobrenja) -->
                                     <div class="border border-gray-400 p-3 print:p-2">
-                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Banka primaoca /
-                                            Beneficiary bank:</p>
-                                        <p class="font-semibold print:text-sm">{{ $this->paymentSlipData['bank_name'] }}</p>
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-3 print:gap-2">
-                                        <div class="border border-gray-400 p-3 print:p-2">
-                                            <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Model:</p>
-                                            <p class="font-semibold print:text-sm">
-                                                {{ $this->paymentSlipData['model_number'] }}</p>
-                                        </div>
-                                        <div class="border border-gray-400 p-3 print:p-2">
-                                            <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Poziv na broj:</p>
-                                            <p class="font-semibold print:text-sm">
-                                                {{ $this->paymentSlipData['reference_number'] }}</p>
+                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">модел и позив на број
+                                            (одобрење)</p>
+                                        <div class="grid grid-cols-2 gap-2 print:gap-1">
+                                            <div class="border border-gray-300 p-2 text-center print:p-1">
+                                                <p class="font-bold print:text-sm">
+                                                    {{ $this->paymentSlipData['model_number'] }}</p>
+                                            </div>
+                                            <div class="border border-gray-300 p-2 print:p-1">
+                                                <p class="font-bold print:text-sm">
+                                                    {{ $this->paymentSlipData['reference_number'] }}</p>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="border border-gray-400 p-3 print:p-2">
-                                        <p class="text-xs text-gray-600 mb-1 print:text-[10px]">Potpis / Signature:</p>
-                                        <div class="h-12 print:h-8"></div>
-                                    </div>
+
+
+                                    @if ($payerType === 'physical')
+                                        <!-- Hitno checkbox (samo za fizička lica) -->
+                                        <div
+                                            class="border border-gray-400 p-3 print:p-2 flex items-center justify-end">
+                                            <div class="flex items-center">
+                                                <div class="w-4 h-4 border border-gray-400 mr-2"></div>
+                                                <p class="text-xs text-gray-600 print:text-[10px]">хитно</p>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 
