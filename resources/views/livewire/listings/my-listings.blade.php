@@ -80,10 +80,15 @@
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 mb-1">Aktivan</span>
                                         @if($listing->expires_at)
                                             @php
-                                                $daysLeft = $listing->expires_at->diffInDays(now(), false);
-                                                $daysLeft = (int)$daysLeft;
+                                                $daysLeft = now()->diffInDays($listing->expires_at, false);
+                                                $daysLeft = max(0, (int)$daysLeft); // Ensure positive number
                                             @endphp
-                                            <span class="text-xs {{ $daysLeft <= 5 ? 'text-red-500' : 'text-gray-500' }}">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                @if($daysLeft <= 5) bg-red-100 text-red-800
+                                                @elseif($daysLeft <= 10) bg-yellow-100 text-yellow-800
+                                                @elseif($daysLeft > 10) bg-green-100 text-green-800
+                                                @else bg-gray-100 text-gray-800
+                                                @endif">
                                                 @if($daysLeft > 1)
                                                     Ističe za {{ $daysLeft }} dana
                                                 @elseif($daysLeft == 1)
