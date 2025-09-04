@@ -165,6 +165,13 @@
                                         </svg>
                                     </button>
 
+                                    <button wire:click="editUserPayment({{ $user->id }})" 
+                                            class="text-blue-600 hover:text-blue-900 p-1 rounded" title="Podešavanja plaćanja">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                        </svg>
+                                    </button>
+
                                     <a href="{{ route('admin.notifications.index', ['user_id' => $user->id]) }}" 
                                        class="text-purple-600 hover:text-purple-900 p-1 rounded" title="Pošalji obaveštenje">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -466,6 +473,124 @@
                                 @endif
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Payment Modal -->
+    @if($showPaymentModal && $selectedUser)
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50">
+            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                </svg>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    Podešavanja plaćanja - {{ $selectedUser->name }}
+                                </h3>
+                                <div class="mt-4 space-y-4">
+                                    <!-- Current Status -->
+                                    <div class="bg-gray-50 p-3 rounded-lg">
+                                        <p class="text-sm text-gray-600">
+                                            <strong>Trenutni status:</strong> 
+                                            <span class="font-semibold">{{ $selectedUser->plan_status }}</span>
+                                        </p>
+                                        @if($selectedUser->plan_expires_at)
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                Ističe: {{ $selectedUser->plan_expires_at->format('d.m.Y H:i') }}
+                                            </p>
+                                        @endif
+                                    </div>
+
+                                    <!-- Payment Enabled -->
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="payment_enabled" wire:model="paymentState.payment_enabled" 
+                                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <label for="payment_enabled" class="ml-2 text-sm text-gray-700">
+                                            Uključi naplaćivanje oglasa za ovog korisnika
+                                        </label>
+                                    </div>
+
+                                    @if($paymentState['payment_enabled'])
+                                        <!-- Payment Plan -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Tip plaćanja</label>
+                                            <select wire:model="paymentState.payment_plan" 
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                                <option value="per_listing">Plaćanje po oglasu</option>
+                                                <option value="monthly">Mesečni plan</option>
+                                                <option value="yearly">Godišnji plan</option>
+                                                <option value="free">Besplatan plan</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Expiry Date for Plans -->
+                                        @if(in_array($paymentState['payment_plan'], ['monthly', 'yearly']))
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                    Datum isteka plana (opciono)
+                                                </label>
+                                                <input type="date" wire:model="paymentState.plan_expires_at" 
+                                                    min="{{ now()->addDay()->format('Y-m-d') }}"
+                                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                                <p class="text-xs text-gray-500 mt-1">
+                                                    Ostavi prazno za automatsko izračunavanje
+                                                </p>
+                                            </div>
+                                        @endif
+                                    @else
+                                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                                            <p class="text-sm text-yellow-800">
+                                                <i class="fas fa-exclamation-triangle mr-1"></i>
+                                                Korisnik može postavljati oglase besplatno (plaćanje isključeno)
+                                            </p>
+                                        </div>
+                                    @endif
+
+                                    <!-- Quick Actions -->
+                                    @if($paymentState['payment_enabled'])
+                                        <div class="border-t pt-4">
+                                            <p class="text-sm font-medium text-gray-700 mb-2">Brze akcije:</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button wire:click="grantMonthlyPlan({{ $selectedUser->id }})" 
+                                                    class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200">
+                                                    Odobri mesečni plan
+                                                </button>
+                                                <button wire:click="grantYearlyPlan({{ $selectedUser->id }})" 
+                                                    class="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded hover:bg-blue-200">
+                                                    Odobri godišnji plan
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @error('paymentState.payment_plan') 
+                                        <p class="text-red-600 text-sm">{{ $message }}</p>
+                                    @enderror
+                                    @error('paymentState.plan_expires_at') 
+                                        <p class="text-red-600 text-sm">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button wire:click="updateUserPayment" type="button"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            <i class="fas fa-save mr-1"></i>
+                            Sačuvaj
+                        </button>
+                        <button wire:click="resetModals" type="button"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            Otkaži
+                        </button>
                     </div>
                 </div>
             </div>

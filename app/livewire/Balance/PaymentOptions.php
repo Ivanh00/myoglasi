@@ -3,6 +3,7 @@
 namespace App\Livewire\Balance;
 
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Setting;
@@ -49,12 +50,22 @@ class PaymentOptions extends Component
     {
         $this->amount = $amount;
         $this->customAmount = '';
+        
+        // Automatically show payment slip for bank transfer
+        if ($this->selectedMethod === 'bank' && $this->amount) {
+            $this->showPaymentSlip = true;
+        }
     }
 
     public function setCustomAmount()
     {
         if ($this->customAmount) {
             $this->amount = $this->customAmount;
+            
+            // Automatically show payment slip for bank transfer
+            if ($this->selectedMethod === 'bank' && $this->amount) {
+                $this->showPaymentSlip = true;
+            }
         }
     }
 
@@ -138,7 +149,8 @@ class PaymentOptions extends Component
         return str_replace('{user_id}', auth()->id(), $template);
     }
     
-    public function getPaymentSlipDataProperty()
+    #[Computed]
+    public function paymentSlipData()
     {
         if (!$this->showPaymentSlip || !$this->amount) {
             return null;
