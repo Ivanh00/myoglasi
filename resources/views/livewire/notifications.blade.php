@@ -188,6 +188,20 @@
                         </a>
                     @endif
                     
+                    @if(str_contains($selectedNotification->subject, 'oglas ističe'))
+                        <a href="{{ route('listings.my') }}" class="view-listing-btn"
+                            style="background-color: #f59e0b; border-color: #f59e0b;" wire:navigate>
+                            <i class="fas fa-redo mr-1"></i>
+                            Obnovi oglas
+                        </a>
+                        
+                        <a href="{{ route('balance.payment-options') }}" class="view-listing-btn" 
+                            style="background-color: #10b981; border-color: #10b981;" wire:navigate>
+                            <i class="fas fa-plus mr-1"></i>
+                            Dopuna kredita
+                        </a>
+                    @endif
+                    
                     <button onclick="closeModal()" class="close-btn" type="button">
                         Zatvori
                     </button>

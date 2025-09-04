@@ -114,6 +114,7 @@ class Create extends Component
             'contact_phone' => $this->contact_phone,
             'slug' => Str::slug($this->title) . '-' . Str::random(6),
             'status' => 'active',
+            'expires_at' => now()->addDays(60),
         ]);
 
         // Sačuvaj slike u bazi

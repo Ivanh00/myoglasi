@@ -12,8 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withSchedule(function ($schedule) {
         $schedule->command('plans:expire')->daily();
+        $schedule->command('listings:expire')->daily();
         $schedule->command('notifications:plan-expiry')->daily();
         $schedule->command('notifications:low-balance')->daily();
+        $schedule->command('notifications:listing-expiry')->daily();
     })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([

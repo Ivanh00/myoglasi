@@ -11,11 +11,13 @@ class Listing extends Model
 
     protected $fillable = [
         'title', 'slug', 'description', 'price', 'location', 'contact_phone',
-        'user_id', 'category_id', 'subcategory_id', 'condition_id', 'status', 'expires_at'
+        'user_id', 'category_id', 'subcategory_id', 'condition_id', 'status', 
+        'expires_at', 'renewed_at', 'renewal_count'
     ];
 
     protected $casts = [
         'expires_at' => 'datetime',
+        'renewed_at' => 'datetime',
         'price' => 'decimal:2'
     ];
 
@@ -85,5 +87,50 @@ public function isFavoritedBy($user)
     return $this->favorites()
                 ->where('user_id', $user->id)
                 ->exists();
+}
+
+public function isExpired()
+{
+    return $this->expires_at && $this->expires_at->isPast();
+}
+
+public function isActive()
+{
+    return $this->status === 'active' && !$this->isExpired();
+}
+
+public function canBeRenewed()
+{
+    return $this->status === 'expired' || $this->isExpired();
+}
+
+public function renewListing()
+{
+    $user = $this->user;
+    
+    // Check if user can renew (payment check)
+    if (!$user->chargeForListing()) {
+        return false;
+    }
+    
+    // Renew the listing
+    $this->update([
+        'status' => 'active',
+        'expires_at' => now()->addDays(60),
+        'renewed_at' => now(),
+    ]);
+    
+    $this->increment('renewal_count');
+    
+    return true;
+}
+
+public function getDaysUntilExpiryAttribute()
+{
+    if (!$this->expires_at) {
+        return null;
+    }
+    
+    return max(0, $this->expires_at->diffInDays(now(), false));
 }
 }

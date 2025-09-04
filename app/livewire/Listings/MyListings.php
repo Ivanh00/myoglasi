@@ -4,11 +4,14 @@ namespace App\Livewire\Listings;
 
 use Livewire\Component;
 use App\Models\Listing;
+use App\Models\Setting;
 use Livewire\WithPagination;
 
 class MyListings extends Component
 {
     use WithPagination;
+    
+    public $filter = 'all'; // all, active, expired
     
     public function deleteListing($id)
     {
@@ -21,12 +24,63 @@ class MyListings extends Component
         session()->flash('message', 'Oglas je uspešno obrisan.');
     }
 
+    public function renewListing($id)
+    {
+        $listing = Listing::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+            
+        if (!$listing->canBeRenewed()) {
+            session()->flash('error', 'Ovaj oglas ne može biti obnovljen.');
+            return;
+        }
+        
+        $user = auth()->user();
+        
+        // Check if user can renew based on their plan
+        if ($user->payment_plan === 'per_listing') {
+            $fee = Setting::get('listing_fee_amount', 10);
+            if ($user->balance < $fee) {
+                session()->flash('error', 'Nemate dovoljno kredita za obnavljanje oglasa. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD');
+                return redirect()->route('balance.payment-options');
+            }
+        } elseif (in_array($user->payment_plan, ['monthly', 'yearly'])) {
+            if (!$user->hasActivePlan()) {
+                session()->flash('error', 'Vaš plan je istekao. Molimo obnovite plan ili promenite na plaćanje po oglasu.');
+                return redirect()->route('balance.plan-selection');
+            }
+        }
+        
+        if ($listing->renewListing()) {
+            session()->flash('success', 'Oglas je uspešno obnovljen i važi narednih 60 dana!');
+        } else {
+            session()->flash('error', 'Greška pri obnavljanju oglasa. Molimo pokušajte ponovo.');
+        }
+    }
+
     public function render()
     {
-        $listings = Listing::where('user_id', auth()->id())
-            ->with(['category', 'condition', 'images'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $query = Listing::where('user_id', auth()->id())
+            ->with(['category', 'condition', 'images']);
+            
+        // Apply filters
+        if ($this->filter === 'active') {
+            $query->where('status', 'active')
+                  ->where(function ($q) {
+                      $q->whereNull('expires_at')
+                        ->orWhere('expires_at', '>', now());
+                  });
+        } elseif ($this->filter === 'expired') {
+            $query->where(function ($q) {
+                $q->where('status', 'expired')
+                  ->orWhere(function ($subQ) {
+                      $subQ->where('status', 'active')
+                           ->where('expires_at', '<', now());
+                  });
+            });
+        }
+        
+        $listings = $query->orderBy('created_at', 'desc')->paginate(10);
             
         return view('livewire.listings.my-listings', [
             'listings' => $listings
