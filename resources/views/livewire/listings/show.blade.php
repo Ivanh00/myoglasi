@@ -139,7 +139,8 @@
                         </div>
                     @endif
 
-                    <div class="flex space-x-4 mt-8">
+                    <!-- Desktop Actions -->
+                    <div class="hidden md:flex space-x-4 mt-8">
                         @auth
                             @if (auth()->id() !== $listing->user_id)
                                 @if(!$listing->user->is_banned)
@@ -185,11 +186,57 @@
                                 class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                 <i class="fas fa-envelope mr-2"></i> Prijavite se za slanje poruke
                             </a>
+                        @endauth
+                    </div>
 
-                            {{-- <a href="{{ route('login') }}"
-                                class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                <i class="fas fa-heart mr-2"></i> Prijavite se za omiljene
-                            </a> --}}
+                    <!-- Mobile Actions -->
+                    <div class="md:hidden space-y-3 mt-8">
+                        @auth
+                            @if (auth()->id() !== $listing->user_id)
+                                @if(!$listing->user->is_banned)
+                                    <!-- Dugme za slanje poruke -->
+                                    <a href="{{ route('listing.chat', ['slug' => $listing->slug]) }}"
+                                        class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                        <i class="fas fa-envelope mr-2"></i> Pošalji poruku
+                                    </a>
+
+                                    <!-- Favorite dugme (Livewire komponenta) - full width wrapper -->
+                                    <div class="w-full">
+                                        <livewire:favorite-button :listing="$listing" />
+                                    </div>
+
+                                    <!-- Dugme za deljenje -->
+                                    <button onclick="shareListing()"
+                                        class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fas fa-share-alt mr-2"></i> Podeli oglas
+                                    </button>
+                                @else
+                                    <!-- Poruka za banovane prodavce -->
+                                    <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-ban text-red-500 mr-2"></i>
+                                            <span class="text-red-700 text-sm">Kontakt sa ovim prodavcem nije moguć jer je blokiran.</span>
+                                        </div>
+                                    </div>
+                                @endif
+                            @else
+                                <!-- Dugme za vlasnike oglasa -->
+                                <div class="w-full p-3 bg-gray-100 text-gray-500 rounded-lg text-center">
+                                    <i class="fas fa-user mr-2"></i> Vaš oglas
+                                </div>
+
+                                <!-- Dugme za uređivanje svog oglasa -->
+                                <a href="{{ route('listings.edit', $listing) }}"
+                                    class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                </a>
+                            @endif
+                        @else
+                            <!-- Dugme za neautentifikovane korisnike -->
+                            <a href="{{ route('login') }}"
+                                class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                <i class="fas fa-envelope mr-2"></i> Prijavite se za slanje poruke
+                            </a>
                         @endauth
                     </div>
 
@@ -255,19 +302,17 @@
                     @endif
                 </p>
 
+                <!-- Lista oglasa (koristi isti layout kao Index stranica) -->
                 <div class="space-y-4">
-                    @foreach ($recommendedListings as $listing)
-                        <div
-                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    @foreach ($recommendedListings as $relatedListing)
+                        <div class="listing-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                             <div class="flex flex-col md:flex-row">
-                                <!-- Slika oglasa - kvadratni kontejner -->
-                                <div class="md:w-48 md:min-w-48 h-48 md:h-48">
-                                    <!-- Fiksna visina za desktop i mobile -->
-                                    <a href="{{ route('listings.show', $listing) }}">
-                                        @if ($listing->images->count() > 0)
-                                            <img src="{{ $listing->images->first()->url }}"
-                                                alt="{{ $listing->title }}" class="w-full h-full object-cover">
-                                            <!-- object-cover osigurava da slika popuni kontejner -->
+                                <!-- Slika oglasa - responsive -->
+                                <div class="w-full md:w-48 md:min-w-48 h-48">
+                                    <a href="{{ route('listings.show', $relatedListing) }}">
+                                        @if ($relatedListing->images->count() > 0)
+                                            <img src="{{ $relatedListing->images->first()->url }}" alt="{{ $relatedListing->title }}"
+                                                class="w-full h-full object-cover">
                                         @else
                                             <div class="w-full h-full bg-gray-200 flex items-center justify-center">
                                                 <i class="fas fa-image text-gray-400 text-3xl"></i>
@@ -277,47 +322,37 @@
                                 </div>
 
                                 <!-- Informacije o oglasu -->
-                                <div class="flex-1 p-4">
+                                <div class="flex-1 p-4 md:p-6">
                                     <div class="flex flex-col h-full">
                                         <div class="flex-1">
-                                            <a href="{{ route('listings.show', $listing) }}">
-                                                <h3
-                                                    class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-                                                    {{ $listing->title }}
+                                            <a href="{{ route('listings.show', $relatedListing) }}">
+                                                <h3 class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                                                    {{ $relatedListing->title }}
                                                 </h3>
                                             </a>
-                                            {{-- Korisničko ime kreatora --}}
-                                            <p class="text-sm font-bold text-gray-700 mb-2">
-                                                {{ $listing->user->name ?? 'Nepoznat korisnik' }}
-                                            </p>
 
                                             <div class="flex items-center text-sm text-gray-600 mb-2">
                                                 <i class="fas fa-map-marker-alt mr-1"></i>
-                                                <span>{{ $listing->location }}</span>
+                                                <span>{{ $relatedListing->location }}</span>
                                                 <span class="mx-2">•</span>
                                                 <i class="fas fa-folder mr-1"></i>
-                                                <span>{{ $listing->category->name }}</span>
-                                                @if ($listing->subcategory)
-                                                    <span class="mx-2">•</span>
-                                                    <span>{{ $listing->subcategory->name }}</span>
-                                                @endif
+                                                <span>{{ $relatedListing->category->name }}</span>
                                             </div>
 
                                             <p class="text-gray-700 mb-3"
                                                 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                                                {{ Str::limit(strip_tags($listing->description), 120) }}
+                                                {{ Str::limit(strip_tags($relatedListing->description), 120) }}
                                             </p>
                                         </div>
 
                                         <div class="flex items-center justify-between">
                                             <div class="text-blue-600 font-bold text-xl">
-                                                {{ number_format($listing->price, 2) }} RSD
+                                                {{ number_format($relatedListing->price, 2) }} RSD
                                             </div>
 
-                                            @if ($listing->condition)
-                                                <span
-                                                    class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
-                                                    {{ $listing->condition->name }}
+                                            @if ($relatedListing->condition)
+                                                <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                                    {{ $relatedListing->condition->name }}
                                                 </span>
                                             @endif
                                         </div>
@@ -325,27 +360,28 @@
                                 </div>
 
                                 <!-- Desna strana - akcije i dodatne informacije -->
-                                <div
-                                    class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
+                                <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
                                     <div class="flex flex-col h-full justify-between">
                                         <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
                                             <div class="flex items-center">
-                                                <i class="fas fa-eye mr-1"></i>
-                                                <span>{{ $listing->views ?? 0 }}</span>
+                                                <svg class="w-4 h-4 mr-1 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M12 4.5C7.5 4.5 3.5 8.5 2 12c1.5 3.5 5.5 7.5 10 7.5s8.5-4 10-7.5c-1.5-3.5-5.5-7.5-10-7.5zm0 12c-2.5 0-4.5-2-4.5-4.5S9.5 8.5 12 8.5 16.5 10.5 16.5 12 14.5 16.5 12 16.5zm0-7c-1.5 0-2.5 1-2.5 2.5S10.5 14.5 12 14.5 14.5 13.5 14.5 12 13.5 9.5 12 9.5z" />
+                                                </svg>
+                                                <span class="text-gray-700">{{ $relatedListing->views ?? 0 }}</span>
                                             </div>
+                                            <!-- Favorites count -->
                                             <div class="flex items-center">
-                                                <i class="fas fa-heart mr-1"></i>
-                                                <span>0</span>
+                                                <span class="text-gray-700">❤️ {{ $relatedListing->favorites_count ?? 0 }}</span>
                                             </div>
                                         </div>
 
-                                        <div class="text-xs text-gray-400 mb-4">
+                                        <div class="text-xs text-gray-700 mb-4">
                                             <i class="fas fa-clock mr-1"></i>
-                                            {{ $listing->created_at->diffForHumans() }}
+                                            Postavljeno pre {{ floor($relatedListing->created_at->diffInDays()) }} dana
                                         </div>
 
                                         <div class="space-y-2">
-                                            <a href="{{ route('listings.show', $listing) }}"
+                                            <a href="{{ route('listings.show', $relatedListing) }}"
                                                 class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                                                 <i class="fas fa-eye mr-2"></i> Pregled
                                             </a>
