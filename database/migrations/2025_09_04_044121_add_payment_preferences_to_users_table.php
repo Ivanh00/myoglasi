@@ -9,8 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('payment_plan', ['per_listing', 'monthly', 'yearly', 'free'])->default('per_listing');
-            $table->boolean('payment_enabled')->default(true);
+            $table->enum('payment_plan', ['per_listing', 'monthly', 'yearly', 'free'])->default('free');
+            $table->boolean('payment_enabled')->default(false);
             $table->timestamp('plan_expires_at')->nullable();
             $table->integer('free_listings_used')->default(0);
             $table->timestamp('free_listings_reset_at')->nullable();

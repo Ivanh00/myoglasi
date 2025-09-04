@@ -76,6 +76,14 @@ class Create extends Component
             'images.*' => 'nullable|image|max:5120',
         ]);
 
+        $user = auth()->user();
+        
+        // Check if user can create listing (payment check)
+        if (!$user->chargeForListing()) {
+            session()->flash('error', 'Nemate dovoljno kredita za postavljanje oglasa. Molimo dopunite balans ili aktivirajte plan.');
+            return redirect()->route('balance.index');
+        }
+
         // Sačuvaj slike
         $imagePaths = [];
         if (!empty($this->images)) {

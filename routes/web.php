@@ -70,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
     
     // Payment routes
     Route::get('/balance/payment-options', \App\Livewire\Balance\PaymentOptions::class)->name('balance.payment-options');
+    Route::get('/balance/plan-selection', \App\Livewire\Balance\PlanSelection::class)->name('balance.plan-selection');
     Route::get('/balance/card-payment/{transaction}', \App\Livewire\Balance\CardPayment::class)->name('balance.card-payment');
     Route::get('/balance/bank-transfer/{transaction}', \App\Livewire\Balance\BankTransfer::class)->name('balance.bank-transfer');
 

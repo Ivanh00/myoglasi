@@ -9,12 +9,20 @@
                 </div>
                 <p class="text-gray-600 text-lg">dinara</p>
                 
-                <div class="mt-6">
+                <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="{{ route('balance.payment-options') }}" 
                         class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-plus mr-2"></i>
                         Dopuni balans
                     </a>
+                    
+                    @if(auth()->user()->payment_enabled)
+                        <a href="{{ route('balance.plan-selection') }}" 
+                            class="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-calendar-alt mr-2"></i>
+                            Vaš plan
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
