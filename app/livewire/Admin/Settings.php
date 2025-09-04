@@ -85,7 +85,7 @@ class Settings extends Component
         // General Settings
         $this->siteName = Setting::get('site_name', 'MyOglasi');
         $this->maxImagesPerListing = Setting::get('max_images_per_listing', 10);
-        $this->listingAutoExpireDays = Setting::get('listing_auto_expire_days', 30);
+        $this->listingAutoExpireDays = Setting::get('listing_auto_expire_days', 60);
         $this->maintenanceMode = Setting::get('maintenance_mode', false);
         
         // Email Settings

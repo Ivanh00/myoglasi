@@ -114,9 +114,11 @@ public function renewListing()
     }
     
     // Renew the listing
+    $expiryDays = Setting::get('listing_auto_expire_days', 60);
+    
     $this->update([
         'status' => 'active',
-        'expires_at' => now()->addDays(60),
+        'expires_at' => now()->addDays($expiryDays),
         'renewed_at' => now(),
     ]);
     

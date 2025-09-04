@@ -78,7 +78,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'key' => 'listing_auto_expire_days',
-                'value' => '30',
+                'value' => '60',
                 'type' => 'integer',
                 'group' => 'general',
                 'description' => 'Broj dana posle kojih oglas automatski ističe'

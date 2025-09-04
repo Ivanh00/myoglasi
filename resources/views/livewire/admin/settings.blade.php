@@ -210,6 +210,9 @@
                         <label class="block text-sm font-medium text-gray-700">Oglasi ističu posle (dana)</label>
                         <input type="number" wire:model="listingAutoExpireDays" min="7" max="365"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <p class="text-xs text-gray-500 mt-1">
+                            Važi za sve nove oglase i obnove postojećih oglasa (trenutno: {{ $listingAutoExpireDays }} dana)
+                        </p>
                         @error('listingAutoExpireDays') 
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                         @enderror

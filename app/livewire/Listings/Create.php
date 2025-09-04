@@ -102,6 +102,8 @@ class Create extends Component
             }
         }
 
+        $expiryDays = \App\Models\Setting::get('listing_auto_expire_days', 60);
+        
         $listing = Listing::create([
             'user_id' => auth()->id(),
             'title' => $this->title,
@@ -114,7 +116,7 @@ class Create extends Component
             'contact_phone' => $this->contact_phone,
             'slug' => Str::slug($this->title) . '-' . Str::random(6),
             'status' => 'active',
-            'expires_at' => now()->addDays(60),
+            'expires_at' => now()->addDays($expiryDays),
         ]);
 
         // Sačuvaj slike u bazi
