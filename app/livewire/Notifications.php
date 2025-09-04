@@ -30,6 +30,7 @@ class Notifications extends Component
 {
     $query = Message::where('receiver_id', Auth::id())
         ->where('is_system_message', true) // 👈 Samo sistemska obaveštenja
+        ->where('deleted_by_receiver', false) // Don't show deleted notifications
         ->with(['listing', 'sender']);
     
     if ($this->filter === 'unread') {
@@ -71,6 +72,19 @@ class Notifications extends Component
     {
         $this->filter = $filter;
         $this->resetPage();
+    }
+
+    public function deleteNotification($notificationId)
+    {
+        $notification = Message::where('id', $notificationId)
+            ->where('receiver_id', Auth::id())
+            ->where('is_system_message', true)
+            ->first();
+            
+        if ($notification) {
+            $notification->deleteForUser(Auth::id());
+            session()->flash('success', 'Obaveštenje je obrisano.');
+        }
     }
 
     public function selectNotification($notificationId)

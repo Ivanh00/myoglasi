@@ -75,13 +75,7 @@
         @forelse($notifications as $notification)
             <div class="conversation-item {{ $notification->is_read ? '' : 'unread' }}"
                 wire:key="notification-{{ $notification->id }}">
-                <span class="checkbox-holder" style="margin-right: 0.5rem;">
-                    <input type="checkbox" id="notification-{{ $notification->id }}"
-                        wire:click="markAsRead({{ $notification->id }})">
-                    <label for="notification-{{ $notification->id }}"></label>
-                </span>
-
-                <div class="conversation-info" wire:click="selectNotification({{ $notification->id }})" style="margin-left: 0;">
+                <div class="conversation-info" wire:click="selectNotification({{ $notification->id }})" style="margin-left: 0; padding-left: 1rem;">
                     <div class="conversation-inner">
                         <!-- Notification Info -->
                         <div class="user-info">
@@ -107,10 +101,21 @@
                             </div>
                         </div>
 
-                        <!-- Date Info -->
-                        <div class="date-info">
-                            <div class="full-date">
-                                {{ $notification->created_at->format('d.m.Y. H:i') }}
+                        <!-- Date Info and Actions -->
+                        <div class="date-info" style="display: flex; flex-direction: column; align-items: flex-end;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                <div class="full-date">
+                                    {{ $notification->created_at->format('d.m.Y. H:i') }}
+                                </div>
+                                <!-- Delete button -->
+                                <button wire:click="deleteNotification({{ $notification->id }})" 
+                                    wire:confirm="Da li ste sigurni da želite da obrišete ovo obaveštenje? Biće sakriveno samo vama."
+                                    onclick="event.stopPropagation()"
+                                    style="padding: 4px; color: #ef4444; border: none; background: none; border-radius: 4px; cursor: pointer;"
+                                    onmouseover="this.style.backgroundColor='#fee2e2'"
+                                    onmouseout="this.style.backgroundColor='transparent'">
+                                    <i class="fas fa-trash" style="font-size: 12px;"></i>
+                                </button>
                             </div>
                             <div class="short-date">
                                 {{ $notification->created_at->format('d.m.Y.') }}
@@ -166,6 +171,14 @@
                             <span class="text-xs text-gray-400">
                                 {{ $notification->created_at->format('d.m.Y') }}
                             </span>
+                            
+                            <!-- Mobile trash button positioned under date -->
+                            <button wire:click="deleteNotification({{ $notification->id }})" 
+                                wire:confirm="Da li ste sigurni da želite da obrišete ovo obaveštenje? Biće sakriveno samo vama."
+                                onclick="event.stopPropagation()"
+                                class="mt-1 p-1 text-red-500 hover:text-red-700 rounded">
+                                <i class="fas fa-trash text-xs"></i>
+                            </button>
                         </div>
                     </div>
                     
