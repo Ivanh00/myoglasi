@@ -27,6 +27,16 @@ class Create extends Component
 
     public $subcategories;
 
+    public function updatedImages()
+    {
+        $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+        
+        if (count($this->images) > $maxImages) {
+            $this->images = array_slice($this->images, 0, $maxImages);
+            session()->flash('error', "Možete dodati maksimalno {$maxImages} slika.");
+        }
+    }
+
     public function mount()
     {
         $this->categories = Category::whereNull('parent_id')
@@ -65,6 +75,8 @@ class Create extends Component
 
     public function save()
     {
+        $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+        
         $this->validate([
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',
@@ -72,7 +84,8 @@ class Create extends Component
             'category_id' => 'required|exists:categories,id',
             'condition_id' => 'required|exists:listing_conditions,id',
             'location' => 'required|string|max:255',
-            'contact_phone' => 'nullable|string|max:20', // Dodajte validaciju za telefon
+            'contact_phone' => 'nullable|string|max:20',
+            'images' => "nullable|array|max:{$maxImages}",
             'images.*' => 'nullable|image|max:5120',
         ]);
 

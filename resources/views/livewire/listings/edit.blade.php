@@ -152,21 +152,34 @@
             </div>
 
             <!-- Upload Area -->
-            <div
-                class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
-                <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
-                    </path>
-                </svg>
-                <input type="file" wire:model="newImages" multiple accept="image/*" class="hidden" id="newImages">
-                <label for="newImages" class="cursor-pointer">
-                    <span class="text-blue-600 hover:text-blue-500 font-medium">Kliknite za dodavanje slika</span>
-                    <span class="text-gray-500"> ili prevucite ovde</span>
-                </label>
-                <p class="text-gray-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici</p>
-            </div>
+            @php 
+                $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+                $currentCount = $listing->images->count();
+                $remainingSlots = max(0, $maxImages - $currentCount);
+            @endphp
+            @if($remainingSlots > 0)
+                <div
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                    <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                        </path>
+                    </svg>
+                    <input type="file" wire:model="newImages" multiple accept="image/*" class="hidden" id="newImages">
+                    <label for="newImages" class="cursor-pointer">
+                        <span class="text-blue-600 hover:text-blue-500 font-medium">Kliknite za dodavanje slika</span>
+                        <span class="text-gray-500"> ili prevucite ovde</span>
+                    </label>
+                    <p class="text-gray-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici (još {{ $remainingSlots }} slika)</p>
+                </div>
+            @else
+                <div class="border-2 border-gray-300 rounded-lg p-6 text-center bg-gray-50">
+                    <i class="fas fa-images text-gray-400 text-4xl mb-2"></i>
+                    <p class="text-gray-600 font-medium">Dostigli ste maksimum od {{ $maxImages }} slika</p>
+                    <p class="text-gray-500 text-sm">Obrišite neku postojeću sliku da biste dodali novu</p>
+                </div>
+            @endif
 
             @error('newImages.*')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -213,8 +226,14 @@
 
             <!-- New Images Upload -->
             <div>
+                @php 
+                    $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+                    $currentCount = $listing->images->count();
+                    $remainingSlots = max(0, $maxImages - $currentCount);
+                @endphp
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Dodaj nove slike (maksimalno 10)
+                    Dodaj nove slike 
+                    <span class="text-blue-600">({{ $currentCount }}/{{ $maxImages }} postojećih, možete dodati još {{ $remainingSlots }})</span>
                 </label>
             </div>
 

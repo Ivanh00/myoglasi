@@ -27,6 +27,19 @@ class Edit extends Component
     public $subcategories;
     public $newImages = [];
 
+    public function updatedNewImages()
+    {
+        $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+        $currentImages = $this->listing->images->count();
+        $totalImages = $currentImages + count($this->newImages);
+        
+        if ($totalImages > $maxImages) {
+            $allowedNew = max(0, $maxImages - $currentImages);
+            $this->newImages = array_slice($this->newImages, 0, $allowedNew);
+            session()->flash('error', "Možete dodati maksimalno {$maxImages} slika ukupno. Imate {$currentImages} postojećih, možete dodati još {$allowedNew}.");
+        }
+    }
+
     public function mount(Listing $listing)
 {
     $this->listing = $listing;
@@ -124,6 +137,10 @@ class Edit extends Component
 
     public function update()
     {
+        $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+        $currentImagesCount = $this->listing->images->count();
+        $maxNewImages = max(0, $maxImages - $currentImagesCount);
+        
         $this->validate([
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',
@@ -131,6 +148,7 @@ class Edit extends Component
             'category_id' => 'required|exists:categories,id',
             'condition_id' => 'required|exists:listing_conditions,id',
             'location' => 'required|string|max:255',
+            'newImages' => "nullable|array|max:{$maxNewImages}",
             'newImages.*' => 'nullable|image|max:5120',
         ]);
 
