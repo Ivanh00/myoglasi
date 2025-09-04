@@ -15,9 +15,10 @@
     <!-- TailwindCSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center">
-    <div class="max-w-lg mx-auto px-6">
-        <div class="text-center">
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col">
+    <div class="flex-1 flex items-center justify-center">
+        <div class="max-w-lg mx-auto px-6">
+            <div class="text-center">
             <!-- Logo -->
             <div class="mb-8">
                 <h1 class="text-4xl font-bold text-blue-600 mb-2">MyOglasi</h1>
@@ -99,16 +100,17 @@
                         </form>
                     </div>
                 @endauth
+                </div>
             </div>
         </div>
     </div>
     
     <!-- Footer -->
-    <div class="mt-12 text-center py-4">
+    <footer class="text-center py-4 bg-white border-t">
         <p class="text-gray-500 text-sm">
             &copy; {{ date('Y') }} MyOglasi. Sva prava zadržana.
         </p>
-    </div>
+    </footer>
     
     <!-- Auto-refresh script to check if maintenance mode is disabled -->
     <script>
