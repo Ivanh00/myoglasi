@@ -269,10 +269,14 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span
                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                @if ($transaction->status === 'completed') bg-green-100 text-green-800
+                                @if ($transaction->status === 'completed' || in_array($transaction->id, $processedTransactions)) bg-green-100 text-green-800
                                 @elseif($transaction->status === 'pending') bg-yellow-100 text-yellow-800
                                 @elseif($transaction->status === 'failed') bg-red-100 text-red-800 @endif">
-                                    {{ $statusOptions[$transaction->status] }}
+                                    @if (in_array($transaction->id, $processedTransactions))
+                                        Završeno
+                                    @else
+                                        {{ $statusOptions[$transaction->status] }}
+                                    @endif
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -289,17 +293,19 @@
                                         </svg>
                                     </button>
 
-                                    <button wire:click="editTransaction({{ $transaction->id }})"
-                                        class="text-yellow-600 hover:text-yellow-900" title="Izmeni">
+                                    @if ($transaction->status !== 'completed' && !in_array($transaction->id, $processedTransactions))
+                                        <button wire:click="editTransaction({{ $transaction->id }})"
+                                            class="text-yellow-600 hover:text-yellow-900" title="Izmeni">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                             </path>
                                         </svg>
-                                    </button>
+                                        </button>
+                                    @endif
 
-                                    @if ($transaction->status === 'pending')
+                                    @if ($transaction->status === 'pending' && !in_array($transaction->id, $processedTransactions))
                                         <button wire:click="markAsCompleted({{ $transaction->id }})"
                                             class="text-green-600 hover:text-green-900" title="Označi kao završeno">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"

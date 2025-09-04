@@ -18,6 +18,7 @@ class TransactionManagement extends Component
     public $selectedTransaction = null;
     public $showViewModal = false;
     public $showUpdateModal = false;
+    public $processedTransactions = [];
 
     public $filters = [
         'type' => '',
@@ -134,6 +135,11 @@ class TransactionManagement extends Component
         }
         
         $this->showUpdateModal = false;
+        
+        // Track this transaction as processed if status changed to completed
+        if ($newStatus === 'completed') {
+            $this->processedTransactions[] = $this->selectedTransaction->id;
+        }
     }
 
     public function markAsCompleted($transactionId)
@@ -163,8 +169,8 @@ class TransactionManagement extends Component
             $this->dispatch('notify', type: 'success', message: 'Transakcija označena kao završena!');
         }
         
-        // Refresh the component to show updated status
-        $this->dispatch('$refresh');
+        // Track this transaction as processed to update UI
+        $this->processedTransactions[] = $transactionId;
     }
 
     public function markAsFailed($transactionId)
