@@ -118,36 +118,36 @@
                                     @endif
                                 </div>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex flex-wrap space-x-2 space-y-1">
+                                <div class="flex items-center space-x-2">
                                     <a href="{{ route('listings.show', $listing) }}"
-                                        class="text-blue-600 hover:text-blue-900">
-                                        <i class="fas fa-eye"></i> Pregled
+                                        class="inline-flex items-center px-2 py-1 text-blue-600 hover:text-blue-900 rounded">
+                                        <i class="fas fa-eye mr-1"></i> Pregled
                                     </a>
                                     
                                     @if($listing->isActive())
                                         <a href="{{ route('listings.edit', $listing) }}"
-                                            class="text-indigo-600 hover:text-indigo-900">
-                                            <i class="fas fa-edit"></i> Izmeni
+                                            class="inline-flex items-center px-2 py-1 text-indigo-600 hover:text-indigo-900 rounded">
+                                            <i class="fas fa-edit mr-1"></i> Izmeni
                                         </a>
                                     @endif
                                     
                                     @if($listing->canBeRenewed())
                                         <button wire:click="renewListing({{ $listing->id }})" 
-                                            class="text-green-600 hover:text-green-900"
-                                            onclick="return confirm('Da li želite da obnovite ovaj oglas? {{ auth()->user()->payment_plan === 'per_listing' ? 'Biće naplaćeno ' . \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD.' : 'Bесплатno jer imate aktivan plan.' }}')">
-                                            <i class="fas fa-redo"></i> Obnovi
+                                            class="inline-flex items-center px-2 py-1 text-green-600 hover:text-green-900 rounded"
+                                            onclick="return confirm('Da li želite da obnovite ovaj oglas? {{ auth()->user()->payment_plan === 'per_listing' ? 'Biće naplaćeno ' . \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD.' : 'Besplatno jer imate aktivan plan.' }}')">
+                                            <i class="fas fa-redo mr-1"></i> Obnovi
                                         </button>
                                     @endif
                                     
-                                    <button class="text-orange-600 hover:text-orange-900"
+                                    <button class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded"
                                         onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')">
-                                        <i class="fas fa-share-alt"></i> Podeli
+                                        <i class="fas fa-share-alt mr-1"></i> Podeli
                                     </button>
                                     
                                     <button x-data
                                         x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
-                                        class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i> Obriši
+                                        class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-900 rounded">
+                                        <i class="fas fa-trash mr-1"></i> Obriši
                                     </button>
                                 </div>
                             </td>

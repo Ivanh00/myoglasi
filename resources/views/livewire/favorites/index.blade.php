@@ -5,20 +5,22 @@
         <p class="text-gray-600 mt-2">Vaši sačuvani oglasi</p>
     </div>
 
-    <!-- Sortiranje -->
-    <div class="mb-6 flex items-center justify-between">
+    <!-- Sortiranje i info -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+        <div class="text-gray-600">
+            Ukupno: <span class="font-semibold">{{ $favorites->total() }}</span> omiljenih oglasa
+        </div>
+        
+        <!-- Sortiranje -->
         <div class="flex items-center space-x-4">
             <label class="text-sm font-medium text-gray-700">Sortiraj po:</label>
-            <select wire:model="sortBy" wire:change="setSortBy($event.target.value)"
-                class="border border-gray-300 rounded-md px-3 py-1 text-sm">
+            <select wire:model.live="sortBy" 
+                class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 <option value="newest">Najnovije dodato</option>
                 <option value="oldest">Najstarije dodato</option>
-                <option value="price_asc">Cena rastući</option>
-                <option value="price_desc">Cena opadajući</option>
+                <option value="price_asc">Cena ↑</option>
+                <option value="price_desc">Cena ↓</option>
             </select>
-        </div>
-        <div class="text-sm text-gray-500">
-            {{ $favorites->total() }} omiljenih oglasa
         </div>
     </div>
 
@@ -29,87 +31,187 @@
         </div>
     @endif
 
-    <!-- Grid oglasa -->
+    <!-- Desktop Tabela oglasa -->
     @if ($favorites->count() > 0)
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-            @foreach ($favorites as $listing)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <!-- Slika -->
-                    <div class="relative">
-                        <a href="{{ route('listings.show', $listing) }}">
-                            @if ($listing->images->count() > 0)
-                                <img class="w-full h-48 object-cover" src="{{ $listing->images->first()->url }}"
-                                    alt="{{ $listing->title }}">
-                            @else
-                                <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
-                                    <i class="fas fa-image text-gray-400 text-3xl"></i>
+        <div class="hidden lg:block bg-white rounded-lg shadow-md overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oglas</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cena</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dodato</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Akcije</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach ($favorites as $listing)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        @if ($listing->images->count() > 0)
+                                            <img class="h-10 w-10 rounded-full object-cover"
+                                                src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}">
+                                        @else
+                                            <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                                <i class="fas fa-image text-gray-400"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">{{ Str::limit($listing->title, 40) }}</div>
+                                        <div class="text-sm text-gray-500">{{ $listing->category->name }}</div>
+                                        <div class="text-xs text-gray-400">{{ $listing->location }}</div>
+                                    </div>
                                 </div>
-                            @endif
-                        </a>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900 font-bold">{{ number_format($listing->price, 2) }} RSD</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if ($listing->status === 'active')
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Aktivan
+                                    </span>
+                                @elseif($listing->status === 'expired')
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        Istekao
+                                    </span>
+                                @else
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                        {{ ucfirst($listing->status) }}
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $listing->pivot->created_at->format('d.m.Y H:i') }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <div class="flex items-center space-x-2">
+                                    <a href="{{ route('listings.show', $listing) }}" 
+                                        class="inline-flex items-center px-2 py-1 text-blue-600 hover:text-blue-900 rounded">
+                                        <i class="fas fa-eye mr-1"></i> Pregled
+                                    </a>
+                                    
+                                    <button onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')"
+                                        class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded">
+                                        <i class="fas fa-share-alt mr-1"></i> Podeli
+                                    </button>
+                                    
+                                    <button wire:click="removeFromFavorites({{ $listing->id }})"
+                                        wire:confirm="Da li ste sigurni da želite da uklonite ovaj oglas iz omiljenih?"
+                                        class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-900 rounded">
+                                        <i class="fas fa-heart-broken mr-1"></i> Ukloni
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-                        <!-- Status badge -->
-                        @if ($listing->status === 'active')
-                            <span
-                                class="absolute top-2 left-2 px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">
-                                Aktivan
-                            </span>
-                        @endif
+        <!-- Desktop Paginacija -->
+        <div class="hidden lg:block mt-6">
+            {{ $favorites->links() }}
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="lg:hidden space-y-4">
+            @foreach ($favorites as $listing)
+                <div class="bg-white shadow rounded-lg overflow-hidden">
+                    <!-- Card Header -->
+                    <div class="p-4 border-b border-gray-200">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start flex-1">
+                                <!-- Image -->
+                                <div class="flex-shrink-0 h-16 w-16 mr-3">
+                                    @if ($listing->images->count() > 0)
+                                        <img class="h-16 w-16 rounded-lg object-cover" 
+                                             src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}">
+                                    @else
+                                        <div class="h-16 w-16 rounded-lg bg-gray-200 flex items-center justify-center">
+                                            <i class="fas fa-image text-gray-400"></i>
+                                        </div>
+                                    @endif
+                                </div>
+                                
+                                <!-- Listing Info -->
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ $listing->title }}</h3>
+                                    <p class="text-sm text-gray-500 mb-1">{{ $listing->category->name }}</p>
+                                    <p class="text-xs text-gray-400 mb-2">{{ $listing->location }}</p>
+                                    <p class="text-xl font-bold text-blue-600">{{ number_format($listing->price, 2) }} RSD</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Status Badge -->
+                            @if ($listing->status === 'active')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Aktivan
+                                </span>
+                            @elseif($listing->status === 'expired')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    Istekao
+                                </span>
+                            @else
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                    {{ ucfirst($listing->status) }}
+                                </span>
+                            @endif
+                        </div>
                     </div>
 
-                    <!-- Sadržaj -->
+                    <!-- Card Body -->
                     <div class="p-4">
-                        <div class="mb-2">
-                            <a href="{{ route('listings.show', $listing) }}"
-                                class="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
-                                {{ Str::limit($listing->title, 40) }}
-                            </a>
+                        <!-- Date Added -->
+                        <div class="mb-4">
+                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Dodato u omiljene</div>
+                            <div class="text-sm text-gray-900">{{ $listing->pivot->created_at->format('d.m.Y H:i') }}</div>
                         </div>
 
-                        <div class="text-sm text-gray-500 mb-2">
-                            {{ $listing->category->name }}
-                        </div>
-
-                        <div class="text-xl font-bold text-blue-600 mb-3">
-                            {{ number_format($listing->price, 0, ',', '.') }} RSD
-                        </div>
-
-                        <div class="text-xs text-gray-500 mb-3">
-                            <i class="fas fa-map-marker-alt mr-1"></i>
-                            {{ $listing->location }}
-                        </div>
-
-                        <!-- Akcije -->
-                        <div class="flex justify-between items-center">
-                            <div class="flex space-x-2">
-                                <a href="{{ route('listings.show', $listing) }}"
-                                    class="text-blue-600 hover:text-blue-900 text-sm">
-                                    <i class="fas fa-eye"></i> Pregled
-                                </a>
-                                <button
-                                    onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')"
-                                    class="text-green-600 hover:text-green-900 text-sm">
-                                    <i class="fas fa-share-alt"></i> Podeli
-                                </button>
+                        @if($listing->user)
+                            <!-- Seller Info -->
+                            <div class="mb-4">
+                                <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Prodavac</div>
+                                <div class="text-sm text-gray-900">
+                                    {{ $listing->user->name }}
+                                    @if($listing->user->is_banned)
+                                        <span class="text-red-600 text-xs ml-1">BLOKIRAN</span>
+                                    @endif
+                                </div>
                             </div>
+                        @endif
 
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap gap-2">
+                            <a href="{{ route('listings.show', $listing) }}"
+                                class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                                <i class="fas fa-eye mr-1"></i>
+                                Pregled
+                            </a>
+                            
+                            <button onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')"
+                                class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-share-alt mr-1"></i>
+                                Podeli
+                            </button>
+                            
                             <button wire:click="removeFromFavorites({{ $listing->id }})"
                                 wire:confirm="Da li ste sigurni da želite da uklonite ovaj oglas iz omiljenih?"
-                                class="text-red-600 hover:text-red-900 text-sm">
-                                <i class="fas fa-heart"></i> Ukloni
+                                class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                                <i class="fas fa-heart-broken mr-1"></i>
+                                Ukloni
                             </button>
-                        </div>
-
-                        <!-- Datum dodavanja u favorite -->
-                        <div class="text-xs text-gray-400 mt-2">
-                            Dodato u omiljene: {{ $listing->pivot->created_at->format('d.m.Y. H:i') }}
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
-
-        <!-- Paginacija -->
-        <div class="mt-6">
+        
+        <!-- Mobile Pagination -->
+        <div class="lg:hidden mt-6">
             {{ $favorites->links() }}
         </div>
     @else
