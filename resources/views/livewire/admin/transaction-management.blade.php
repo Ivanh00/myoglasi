@@ -184,8 +184,8 @@
         </div>
     </div>
 
-    <!-- Tabela transakcija -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <!-- Desktop Tabela transakcija -->
+    <div class="hidden lg:block bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -340,6 +340,125 @@
 
         <!-- Pagination -->
         <div class="px-6 py-4 border-t border-gray-200">
+            {{ $transactions->links() }}
+        </div>
+    </div>
+
+    <!-- Mobile Transaction Cards -->
+    <div class="lg:hidden space-y-4">
+        @forelse($transactions as $transaction)
+            <div class="bg-white shadow rounded-lg p-4">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-12 w-12 rounded-full flex items-center justify-center
+                            @if($transaction->amount > 0) bg-green-100 text-green-600
+                            @else bg-red-100 text-red-600
+                            @endif">
+                            @if($transaction->amount > 0)
+                                <i class="fas fa-plus text-lg"></i>
+                            @else
+                                <i class="fas fa-minus text-lg"></i>
+                            @endif
+                        </div>
+                        <div class="ml-3 flex-1">
+                            <div class="text-lg font-bold {{ $transaction->amount > 0 ? 'text-green-600' : 'text-red-600' }}">
+                                {{ $transaction->amount > 0 ? '+' : '' }}{{ number_format($transaction->amount, 0, ',', '.') }} RSD
+                            </div>
+                            <div class="text-sm text-gray-500">ID: {{ $transaction->id }}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Status -->
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                        @if ($transaction->status === 'completed' || in_array($transaction->id, $processedTransactions)) bg-green-100 text-green-800
+                        @elseif($transaction->status === 'pending') bg-yellow-100 text-yellow-800
+                        @elseif($transaction->status === 'failed') bg-red-100 text-red-800 @endif">
+                        @if (in_array($transaction->id, $processedTransactions))
+                            Završeno
+                        @else
+                            {{ $statusOptions[$transaction->status] }}
+                        @endif
+                    </span>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-4">
+                    <div class="text-sm text-gray-900">{{ $transaction->description }}</div>
+                    @if($transaction->type)
+                        <div class="text-xs text-gray-500 mt-1">{{ $typeOptions[$transaction->type] ?? ucfirst($transaction->type) }}</div>
+                    @endif
+                </div>
+
+                <!-- User Info -->
+                @if($transaction->user)
+                    <div class="bg-gray-50 p-3 rounded-lg mb-4">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Korisnik</div>
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-8 w-8">
+                                @if ($transaction->user->avatar)
+                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ $transaction->user->avatar_url }}" alt="{{ $transaction->user->name }}">
+                                @else
+                                    <div class="h-8 w-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-xs">
+                                        {{ strtoupper(substr($transaction->user->name, 0, 1)) }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="ml-3">
+                                <div class="text-sm font-medium text-gray-900">{{ $transaction->user->name }}</div>
+                                <div class="text-xs text-gray-500">{{ $transaction->user->email }}</div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Date -->
+                <div class="mb-4">
+                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Datum</div>
+                    <div class="text-sm text-gray-900">{{ $transaction->created_at->format('d.m.Y H:i') }}</div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button wire:click="viewTransaction({{ $transaction->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                        <i class="fas fa-eye mr-1"></i>
+                        Pregled
+                    </button>
+
+                    @if ($transaction->status !== 'completed' && !in_array($transaction->id, $processedTransactions))
+                        <button wire:click="editTransaction({{ $transaction->id }})"
+                            class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-lg hover:bg-yellow-200 transition-colors">
+                            <i class="fas fa-edit mr-1"></i>
+                            Izmeni
+                        </button>
+                    @endif
+
+                    @if ($transaction->status === 'pending' && !in_array($transaction->id, $processedTransactions))
+                        <button wire:click="markAsCompleted({{ $transaction->id }})"
+                            class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                            <i class="fas fa-check mr-1"></i>
+                            Završi
+                        </button>
+
+                        <button wire:click="markAsFailed({{ $transaction->id }})"
+                            class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                            <i class="fas fa-times mr-1"></i>
+                            Neuspešno
+                        </button>
+                    @endif
+                </div>
+            </div>
+        @empty
+            <div class="bg-white rounded-lg shadow p-8 text-center">
+                <i class="fas fa-receipt text-gray-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema transakcija</h3>
+                <p class="text-gray-600">Nema transakcija koje odgovaraju kriterijumima pretrage.</p>
+            </div>
+        @endforelse
+        
+        <!-- Mobile Pagination -->
+        <div class="mt-6">
             {{ $transactions->links() }}
         </div>
     </div>

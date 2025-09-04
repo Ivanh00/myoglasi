@@ -62,8 +62,8 @@
         </div>
     </div>
 
-    <!-- Tabela oglasa -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <!-- Desktop Tabela oglasa -->
+    <div class="hidden lg:block bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -212,6 +212,123 @@
 
         <!-- Pagination -->
         <div class="px-6 py-4 border-t border-gray-200">
+            {{ $listings->links() }}
+        </div>
+    </div>
+
+    <!-- Mobile Listings Cards -->
+    <div class="lg:hidden space-y-4">
+        @forelse($listings as $listing)
+            <div class="bg-white shadow rounded-lg p-4">
+                <!-- Header -->
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        <div class="text-lg font-semibold text-gray-900 mb-2">{{ Str::limit($listing->title, 40) }}</div>
+                        <div class="flex items-center space-x-4 text-sm text-gray-500">
+                            <span><i class="fas fa-tag mr-1"></i>{{ $listing->category->name }}</span>
+                            <span><i class="fas fa-map-marker-alt mr-1"></i>{{ $listing->location }}</span>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-lg font-bold text-green-600">{{ number_format($listing->price, 0, ',', '.') }} RSD</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Image -->
+                    @if($listing->images->count() > 0)
+                        <div class="flex-shrink-0 ml-4">
+                            <img class="h-16 w-16 rounded-lg object-cover" src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}">
+                        </div>
+                    @endif
+                </div>
+
+                <!-- User Info -->
+                <div class="bg-gray-50 p-3 rounded-lg mb-4">
+                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Korisnik</div>
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-8 w-8">
+                            @if ($listing->user->avatar)
+                                <img class="h-8 w-8 rounded-full object-cover" src="{{ $listing->user->avatar_url }}" alt="{{ $listing->user->name }}">
+                            @else
+                                <div class="h-8 w-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-xs">
+                                    {{ strtoupper(substr($listing->user->name, 0, 1)) }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="ml-3">
+                            <div class="text-sm font-medium text-gray-900">{{ $listing->user->name }}</div>
+                            <div class="text-xs text-gray-500">{{ $listing->user->email }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status and Date Info -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Status</div>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            @if($listing->status === 'active') bg-green-100 text-green-800
+                            @elseif($listing->status === 'pending') bg-yellow-100 text-yellow-800
+                            @elseif($listing->status === 'expired') bg-red-100 text-red-800
+                            @else bg-gray-100 text-gray-800
+                            @endif">
+                            {{ ucfirst($listing->status) }}
+                        </span>
+                    </div>
+                    
+                    <div>
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Datum</div>
+                        <div class="text-sm text-gray-900">{{ $listing->created_at->format('d.m.Y H:i') }}</div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button wire:click="viewListing({{ $listing->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                        <i class="fas fa-eye mr-1"></i>
+                        Pregled
+                    </button>
+                    
+                    <button wire:click="editListing({{ $listing->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
+                        <i class="fas fa-edit mr-1"></i>
+                        Uredi
+                    </button>
+                    
+                    @if($listing->status === 'pending')
+                        <button wire:click="approveListing({{ $listing->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                            <i class="fas fa-check mr-1"></i>
+                            Odobri
+                        </button>
+                    @endif
+                    
+                    @if($listing->status === 'active')
+                        <button wire:click="blockListing({{ $listing->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
+                            <i class="fas fa-ban mr-1"></i>
+                            Blokiraj
+                        </button>
+                    @endif
+                    
+                    <button wire:click="deleteListing({{ $listing->id }})" 
+                        wire:confirm="Da li ste sigurni da želite da obrišete ovaj oglas?"
+                        class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                        <i class="fas fa-trash mr-1"></i>
+                        Obriši
+                    </button>
+                </div>
+            </div>
+        @empty
+            <div class="bg-white rounded-lg shadow p-8 text-center">
+                <i class="fas fa-list-alt text-gray-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema oglasa</h3>
+                <p class="text-gray-600">Nema oglasa koji odgovaraju kriterijumima pretrage.</p>
+            </div>
+        @endforelse
+        
+        <!-- Mobile Pagination -->
+        <div class="mt-6">
             {{ $listings->links() }}
         </div>
     </div>

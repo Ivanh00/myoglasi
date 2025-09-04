@@ -48,8 +48,8 @@
         </div>
     </div>
 
-    <!-- Users Table -->
-    <div class="bg-white shadow rounded-lg">
+    <!-- Desktop Users Table -->
+    <div class="hidden lg:block bg-white shadow rounded-lg">
         <div class="overflow-x-auto">
             <table class="w-full table-auto">
                 <thead class="bg-gray-50">
@@ -279,6 +279,190 @@
         </div>
         
         <div class="px-6 py-4 border-t border-gray-200">
+            {{ $users->links() }}
+        </div>
+    </div>
+
+    <!-- Mobile Users Cards -->
+    <div class="lg:hidden space-y-4">
+        @forelse($users as $user)
+            <div class="bg-white shadow rounded-lg p-4">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-12 w-12">
+                            @if ($user->avatar)
+                                <img class="h-12 w-12 rounded-full object-cover" src="{{ $user->avatar_url }}" alt="{{ $user->name }}">
+                            @else
+                                <div class="h-12 w-12 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium">
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <div class="text-lg font-semibold text-gray-900">{{ $user->name }}</div>
+                            <div class="text-sm text-gray-500">{{ $user->email }}</div>
+                            @if($user->city)
+                                <div class="text-xs text-gray-400">{{ $user->city }}</div>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    <!-- Status Badges -->
+                    <div class="flex flex-col space-y-1">
+                        @if($user->is_banned)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                Banovan
+                            </span>
+                        @else
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Aktivan
+                            </span>
+                        @endif
+                        
+                        @if($user->is_admin)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                Admin
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Balans</div>
+                        <div class="text-sm font-medium text-gray-900">{{ number_format($user->balance ?? 0, 0) }} RSD</div>
+                        <div class="text-xs text-gray-500">{{ $user->transactions_count }} transakcija</div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Oglasi</div>
+                        <div class="text-sm font-medium text-gray-900">{{ $user->listings_count }} oglasa</div>
+                        <div class="text-xs text-gray-500">Ukupno</div>
+                    </div>
+                </div>
+
+                <!-- Payment Plan -->
+                <div class="mb-4">
+                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Način plaćanja</div>
+                    @if(!$user->payment_enabled)
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                            <i class="fas fa-times mr-1"></i>
+                            Isključeno
+                        </span>
+                    @else
+                        @switch($user->payment_plan)
+                            @case('per_listing')
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    <i class="fas fa-receipt mr-1"></i>
+                                    Po oglasu
+                                </span>
+                                @break
+                            @case('monthly')
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-calendar-alt mr-1"></i>
+                                    Mesečni
+                                </span>
+                                @if($user->plan_expires_at)
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
+                                    </div>
+                                @endif
+                                @break
+                            @case('yearly')
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    <i class="fas fa-calendar mr-1"></i>
+                                    Godišnji
+                                </span>
+                                @if($user->plan_expires_at)
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
+                                    </div>
+                                @endif
+                                @break
+                            @case('free')
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-gift mr-1"></i>
+                                    Besplatan
+                                </span>
+                                @break
+                        @endswitch
+                    @endif
+                </div>
+
+                <!-- Registration Date -->
+                <div class="mb-4">
+                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Registrovan</div>
+                    <div class="text-sm text-gray-900">{{ $user->created_at->format('d.m.Y') }}</div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button wire:click="viewUserDetails({{ $user->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                        <i class="fas fa-eye mr-1"></i>
+                        Pregled
+                    </button>
+                    
+                    <button wire:click="editUser({{ $user->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
+                        <i class="fas fa-edit mr-1"></i>
+                        Uredi
+                    </button>
+                    
+                    <button wire:click="adjustBalance({{ $user->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                        <i class="fas fa-dollar-sign mr-1"></i>
+                        Balans
+                    </button>
+
+                    <button wire:click="editUserPayment({{ $user->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                        <i class="fas fa-credit-card mr-1"></i>
+                        Plaćanje
+                    </button>
+
+                    <a href="{{ route('admin.notifications.index', ['user_id' => $user->id]) }}" 
+                       class="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-medium rounded-lg hover:bg-purple-200 transition-colors">
+                        <i class="fas fa-bell mr-1"></i>
+                        Poruka
+                    </a>
+                    
+                    @if($user->is_banned)
+                        <button wire:click="unbanUser({{ $user->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-lg hover:bg-yellow-200 transition-colors">
+                            <i class="fas fa-unlock mr-1"></i>
+                            Odbaniraj
+                        </button>
+                    @else
+                        <button wire:click="banUser({{ $user->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
+                            <i class="fas fa-ban mr-1"></i>
+                            Baniraj
+                        </button>
+                    @endif
+                    
+                    @if(!$user->is_admin || $user->id === auth()->id())
+                        <button wire:click="deleteUser({{ $user->id }})" 
+                            wire:confirm="Da li ste sigurni da želite da obrišete ovog korisnika? Ova akcija je nepovratna!"
+                            class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                            <i class="fas fa-trash mr-1"></i>
+                            Obriši
+                        </button>
+                    @endif
+                </div>
+            </div>
+        @empty
+            <div class="bg-white rounded-lg shadow p-8 text-center">
+                <i class="fas fa-users text-gray-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema korisnika</h3>
+                <p class="text-gray-600">Nema korisnika koji odgovaraju kriterijumima pretrage.</p>
+            </div>
+        @endforelse
+        
+        <!-- Mobile Pagination -->
+        <div class="mt-6">
             {{ $users->links() }}
         </div>
     </div>
