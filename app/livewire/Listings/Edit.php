@@ -38,6 +38,9 @@ class Edit extends Component
             $this->newImages = array_slice($this->newImages, 0, $allowedNew);
             session()->flash('error', "Možete dodati maksimalno {$maxImages} slika ukupno. Imate {$currentImages} postojećih, možete dodati još {$allowedNew}.");
         }
+        
+        // Force re-render to update UI
+        $this->dispatch('$refresh');
     }
 
     public function mount(Listing $listing)
@@ -125,7 +128,13 @@ class Edit extends Component
             // Obriši zapis iz baze
             $image->delete();
             
+            // Refresh the listing relationship to get updated count
+            $this->listing->load('images');
+            
             session()->flash('message', 'Slika je uspešno obrisana.');
+            
+            // Force re-render to update UI
+            $this->dispatch('$refresh');
         }
     }
 
@@ -133,6 +142,23 @@ class Edit extends Component
     {
         unset($this->newImages[$index]);
         $this->newImages = array_values($this->newImages);
+        
+        // Force re-render to update UI
+        $this->dispatch('$refresh');
+    }
+
+    public function getRemainingImageSlotsProperty()
+    {
+        $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+        $currentCount = $this->listing->images()->count(); // Fresh count from database
+        $newCount = count($this->newImages ?? []);
+        $totalCount = $currentCount + $newCount;
+        return max(0, $maxImages - $totalCount);
+    }
+
+    public function getMaxImagesProperty()
+    {
+        return \App\Models\Setting::get('max_images_per_listing', 10);
     }
 
     public function update()

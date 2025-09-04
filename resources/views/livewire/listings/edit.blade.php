@@ -152,12 +152,7 @@
             </div>
 
             <!-- Upload Area -->
-            @php 
-                $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
-                $currentCount = $listing->images->count();
-                $remainingSlots = max(0, $maxImages - $currentCount);
-            @endphp
-            @if($remainingSlots > 0)
+            @if($this->remainingImageSlots > 0)
                 <div
                     class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
                     <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor"
@@ -171,12 +166,12 @@
                         <span class="text-blue-600 hover:text-blue-500 font-medium">Kliknite za dodavanje slika</span>
                         <span class="text-gray-500"> ili prevucite ovde</span>
                     </label>
-                    <p class="text-gray-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici (još {{ $remainingSlots }} slika)</p>
+                    <p class="text-gray-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici (još {{ $this->remainingImageSlots }} slika)</p>
                 </div>
             @else
                 <div class="border-2 border-gray-300 rounded-lg p-6 text-center bg-gray-50">
                     <i class="fas fa-images text-gray-400 text-4xl mb-2"></i>
-                    <p class="text-gray-600 font-medium">Dostigli ste maksimum od {{ $maxImages }} slika</p>
+                    <p class="text-gray-600 font-medium">Dostigli ste maksimum od {{ $this->maxImages }} slika</p>
                     <p class="text-gray-500 text-sm">Obrišite neku postojeću sliku da biste dodali novu</p>
                 </div>
             @endif
@@ -226,14 +221,9 @@
 
             <!-- New Images Upload -->
             <div>
-                @php 
-                    $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
-                    $currentCount = $listing->images->count();
-                    $remainingSlots = max(0, $maxImages - $currentCount);
-                @endphp
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     Dodaj nove slike 
-                    <span class="text-blue-600">({{ $currentCount }}/{{ $maxImages }} postojećih, možete dodati još {{ $remainingSlots }})</span>
+                    <span class="text-blue-600">({{ $listing->images->count() }}/{{ \App\Models\Setting::get('max_images_per_listing', 10) }} postojećih, možete dodati još {{ max(0, \App\Models\Setting::get('max_images_per_listing', 10) - $listing->images->count()) }})</span>
                 </label>
             </div>
 
