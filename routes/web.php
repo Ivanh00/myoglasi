@@ -42,6 +42,11 @@ use App\Livewire\Listings\MyListings as MyListings;
 use App\Livewire\Categories\Index as CategoriesIndex;
 use App\Livewire\Transactions\Balance as BalanceIndex;
 
+// Maintenance route (must be before other routes)
+Route::get('/maintenance', function () {
+    return view('maintenance');
+})->name('maintenance');
+
 // Javne rute
 Route::get('/', HomeComponent::class)->name('home');
 Route::get('/listings', ListingsIndex::class)->name('listings.index');

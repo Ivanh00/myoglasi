@@ -22,11 +22,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'check.banned' => \App\Http\Middleware\CheckBannedUser::class,
             'check.listing' => \App\Http\Middleware\CheckUserCanCreateListing::class,
+            'maintenance' => \App\Http\Middleware\MaintenanceMode::class,
         ]);
         
-        // Add banned user check to all web requests
+        // Add global middleware to web requests
         $middleware->web(append: [
             \App\Http\Middleware\CheckBannedUser::class,
+            \App\Http\Middleware\MaintenanceMode::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
