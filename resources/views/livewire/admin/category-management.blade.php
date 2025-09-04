@@ -330,7 +330,22 @@
 
     <!-- Mobile Category Cards -->
     <div class="lg:hidden space-y-4" x-data="{ openCategories: {} }">
-        @forelse($categories->where('parent_id', null) as $category)
+        @php
+            // Get all main categories (not paginated for mobile to show full hierarchy)
+            $mainCategories = \App\Models\Category::with(['children' => function($query) {
+                $query->orderBy('sort_order', 'asc');
+            }])
+            ->whereNull('parent_id')
+            ->withCount('listings')
+            ->when($search, function ($query) {
+                $query->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('description', 'like', '%' . $search . '%');
+            })
+            ->orderBy($sortField, $sortDirection)
+            ->get();
+        @endphp
+        
+        @forelse($mainCategories as $category)
             <div class="bg-white shadow rounded-lg p-4">
                 <!-- Main Category Header -->
                 <div class="flex items-center justify-between mb-4">
@@ -345,10 +360,10 @@
                             <div class="text-sm text-gray-500">Glavna kategorija</div>
                         </div>
                         
-                        @if($categories->where('parent_id', $category->id)->count() > 0)
+                        @if($category->children->count() > 0)
                             <button x-on:click="openCategories[{{ $category->id }}] = !openCategories[{{ $category->id }}]" 
-                                class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors mr-3">
-                                <i class="fas fa-chevron-down text-gray-600 transition-transform" 
+                                class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 transition-colors mr-3">
+                                <i class="fas fa-chevron-down text-blue-600 transition-transform" 
                                    x-bind:class="openCategories[{{ $category->id }}] ? 'rotate-180' : ''"></i>
                             </button>
                         @endif
@@ -405,7 +420,7 @@
                 </div>
 
                 <!-- Subcategories (Collapsible) -->
-                @if($categories->where('parent_id', $category->id)->count() > 0)
+                @if($category->children->count() > 0)
                     <div x-show="openCategories[{{ $category->id }}]" 
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 scale-95" 
@@ -413,10 +428,10 @@
                          class="border-t border-gray-200 pt-4 mt-4">
                         <div class="text-sm font-medium text-gray-700 mb-3">
                             <i class="fas fa-folder-open mr-2 text-green-600"></i>
-                            Podkategorije ({{ $categories->where('parent_id', $category->id)->count() }})
+                            Podkategorije ({{ $category->children->count() }})
                         </div>
                         
-                        @foreach($categories->where('parent_id', $category->id) as $subcategory)
+                        @foreach($category->children as $subcategory)
                             <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-3">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="flex items-center flex-1">
@@ -480,11 +495,6 @@
                 <p class="text-gray-600">Počnite kreiranjem kategorija za oglase.</p>
             </div>
         @endforelse
-        
-        <!-- Mobile Pagination -->
-        <div class="mt-6">
-            {{ $categories->links() }}
-        </div>
     </div>
 
     <!-- Edit Modal -->
