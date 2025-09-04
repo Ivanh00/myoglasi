@@ -34,7 +34,7 @@
     </div>
 
     <!-- Sent Notifications -->
-    <div class="bg-white shadow rounded-lg">
+    <div class="hidden lg:block bg-white shadow rounded-lg">
         <div class="px-6 py-4 border-b border-gray-200">
             <h3 class="text-lg font-medium text-gray-900">Poslana obaveštenja</h3>
         </div>
@@ -100,6 +100,92 @@
         </div>
         
         <div class="px-6 py-4 border-t border-gray-200">
+            {{ $sentNotifications->links() }}
+        </div>
+    </div>
+
+    <!-- Mobile Notifications Cards -->
+    <div class="lg:hidden space-y-4">
+        @forelse($sentNotifications as $notification)
+            <div class="bg-white shadow rounded-lg p-4">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        @if($notification->is_read)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                <i class="fas fa-check mr-1"></i>
+                                Pročitano
+                            </span>
+                        @else
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                <i class="fas fa-clock mr-1"></i>
+                                Nepročitano
+                            </span>
+                        @endif
+                        <div class="text-xs text-gray-500">{{ $notification->created_at->format('d.m.Y H:i') }}</div>
+                    </div>
+                </div>
+
+                <!-- Notification Title -->
+                <div class="mb-4">
+                    <div class="text-lg font-semibold text-gray-900">{{ $notification->subject ?? 'Admin obaveštenje' }}</div>
+                </div>
+
+                <!-- Recipient Info -->
+                <div class="bg-gray-50 p-3 rounded-lg mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Prima</div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                {{ strtoupper(substr($notification->receiver->name, 0, 1)) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-sm font-medium text-gray-900">{{ $notification->receiver->name }}</div>
+                    <div class="text-xs text-gray-500">{{ $notification->receiver->email }}</div>
+                </div>
+
+                <!-- Message Preview -->
+                <div class="mb-4">
+                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Poruka</div>
+                    <div class="text-sm text-gray-900">{{ Str::limit($notification->message, 120) }}</div>
+                    @if(strlen($notification->message) > 120)
+                        <button class="text-blue-600 text-xs mt-1">
+                            Prikaži više...
+                        </button>
+                    @endif
+                </div>
+
+                <!-- Related Listing -->
+                @if($notification->listing)
+                    <div class="mb-4">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Vezano za oglas</div>
+                        <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                            <div class="text-sm font-medium text-gray-900">{{ Str::limit($notification->listing->title, 40) }}</div>
+                            <div class="text-xs text-green-600 font-semibold">{{ number_format($notification->listing->price, 2) }} RSD</div>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Notification Type Badge -->
+                <div class="mb-4">
+                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Tip obaveštenja</div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        <i class="fas fa-bell mr-1"></i>
+                        Admin obaveštenje
+                    </span>
+                </div>
+            </div>
+        @empty
+            <div class="bg-white rounded-lg shadow p-8 text-center">
+                <i class="fas fa-bell text-gray-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema poslanih obaveštenja</h3>
+                <p class="text-gray-600">Još uvek nema poslanih obaveštenja korisnicima.</p>
+            </div>
+        @endforelse
+        
+        <!-- Mobile Pagination -->
+        <div class="mt-6">
             {{ $sentNotifications->links() }}
         </div>
     </div>

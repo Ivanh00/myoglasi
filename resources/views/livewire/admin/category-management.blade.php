@@ -94,8 +94,8 @@
         </div>
     </div>
 
-    <!-- Tabela kategorija -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <!-- Desktop Tabela kategorija -->
+    <div class="hidden lg:block bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -324,6 +324,97 @@
 
         <!-- Pagination -->
         <div class="px-6 py-4 border-t border-gray-200">
+            {{ $categories->links() }}
+        </div>
+    </div>
+
+    <!-- Mobile Category Cards -->
+    <div class="lg:hidden space-y-4">
+        @forelse($categories as $category)
+            <div class="bg-white shadow rounded-lg p-4">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center flex-1">
+                        @if($category->icon)
+                            <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="{{ $category->icon }} text-blue-600"></i>
+                            </div>
+                        @endif
+                        <div class="flex-1">
+                            <div class="text-lg font-semibold text-gray-900">{{ $category->name }}</div>
+                            @if($category->parent)
+                                <div class="text-sm text-gray-500">Podkategorija od: {{ $category->parent->name }}</div>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    <!-- Status -->
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                        {{ $category->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                        {{ $category->is_active ? 'Aktivna' : 'Neaktivna' }}
+                    </span>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Redosled</div>
+                        <div class="text-sm font-medium text-gray-900">{{ $category->sort_order ?? 0 }}</div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Oglasi</div>
+                        <div class="text-sm font-medium text-gray-900">{{ $category->listings_count ?? 0 }}</div>
+                    </div>
+                </div>
+
+                @if($category->description)
+                    <div class="mb-4">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Opis</div>
+                        <div class="text-sm text-gray-700">{{ Str::limit($category->description, 100) }}</div>
+                    </div>
+                @endif
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button wire:click="editCategory({{ $category->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
+                        <i class="fas fa-edit mr-1"></i>
+                        Uredi
+                    </button>
+                    
+                    @if($category->is_active)
+                        <button wire:click="deactivateCategory({{ $category->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
+                            <i class="fas fa-eye-slash mr-1"></i>
+                            Deaktiviraj
+                        </button>
+                    @else
+                        <button wire:click="activateCategory({{ $category->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                            <i class="fas fa-eye mr-1"></i>
+                            Aktiviraj
+                        </button>
+                    @endif
+                    
+                    <button wire:click="deleteCategory({{ $category->id }})" 
+                        wire:confirm="Da li ste sigurni da želite da obrišete ovu kategoriju?"
+                        class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                        <i class="fas fa-trash mr-1"></i>
+                        Obriši
+                    </button>
+                </div>
+            </div>
+        @empty
+            <div class="bg-white rounded-lg shadow p-8 text-center">
+                <i class="fas fa-tags text-gray-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema kategorija</h3>
+                <p class="text-gray-600">Počnite kreiranjem kategorija za oglase.</p>
+            </div>
+        @endforelse
+        
+        <!-- Mobile Pagination -->
+        <div class="mt-6">
             {{ $categories->links() }}
         </div>
     </div>

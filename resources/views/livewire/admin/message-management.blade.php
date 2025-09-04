@@ -122,8 +122,8 @@
         </div>
     </div>
 
-    <!-- Tabela poruka -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <!-- Desktop Tabela poruka -->
+    <div class="hidden lg:block bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -276,6 +276,127 @@
 
         <!-- Pagination -->
         <div class="px-6 py-4 border-t border-gray-200">
+            {{ $messages->links() }}
+        </div>
+    </div>
+
+    <!-- Mobile Messages Cards -->
+    <div class="lg:hidden space-y-4">
+        @forelse($messages as $message)
+            <div class="bg-white shadow rounded-lg p-4 @if (!$message->is_read) border-l-4 border-blue-500 bg-blue-50 @endif">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        @if ($message->is_read)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                <i class="fas fa-check mr-1"></i>
+                                Pročitano
+                            </span>
+                        @else
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                <i class="fas fa-exclamation mr-1"></i>
+                                Nepročitano
+                            </span>
+                        @endif
+                        <div class="text-xs text-gray-500">{{ $message->created_at->format('d.m.Y H:i') }}</div>
+                    </div>
+                </div>
+
+                <!-- Sender and Receiver Info -->
+                <div class="grid grid-cols-1 gap-4 mb-4">
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Pošiljalac</div>
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                    {{ strtoupper(substr($message->sender->name, 0, 1)) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-sm font-medium text-gray-900">{{ $message->sender->name }}</div>
+                        <div class="text-xs text-gray-500">{{ $message->sender->email }}</div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Primalac</div>
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                    {{ strtoupper(substr($message->receiver->name, 0, 1)) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-sm font-medium text-gray-900">{{ $message->receiver->name }}</div>
+                        <div class="text-xs text-gray-500">{{ $message->receiver->email }}</div>
+                    </div>
+                </div>
+
+                <!-- Message Preview -->
+                <div class="mb-4">
+                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Poruka</div>
+                    <div class="text-sm text-gray-900">{{ Str::limit($message->message, 100) }}</div>
+                    @if (strlen($message->message) > 100)
+                        <button wire:click="viewMessage({{ $message->id }})" class="text-blue-600 text-xs mt-1">
+                            Prikaži više...
+                        </button>
+                    @endif
+                </div>
+
+                <!-- Listing Info -->
+                @if ($message->listing)
+                    <div class="mb-4">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Oglas</div>
+                        <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                            <div class="text-sm font-medium text-gray-900">{{ Str::limit($message->listing->title, 30) }}</div>
+                            <div class="text-xs text-green-600 font-semibold">{{ number_format($message->listing->price, 2) }} RSD</div>
+                        </div>
+                    </div>
+                @else
+                    <div class="mb-4">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Oglas</div>
+                        <div class="text-xs text-gray-400 italic">Oglas obrisan</div>
+                    </div>
+                @endif
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button wire:click="viewMessage({{ $message->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                        <i class="fas fa-eye mr-1"></i>
+                        Prikaži
+                    </button>
+                    
+                    @if ($message->is_read)
+                        <button wire:click="markAsUnread({{ $message->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-lg hover:bg-yellow-200 transition-colors">
+                            <i class="fas fa-eye-slash mr-1"></i>
+                            Nepročitano
+                        </button>
+                    @else
+                        <button wire:click="markAsRead({{ $message->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                            <i class="fas fa-check mr-1"></i>
+                            Pročitano
+                        </button>
+                    @endif
+                    
+                    <button wire:click="confirmDelete({{ $message->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                        <i class="fas fa-trash mr-1"></i>
+                        Obriši
+                    </button>
+                </div>
+            </div>
+        @empty
+            <div class="bg-white rounded-lg shadow p-8 text-center">
+                <i class="fas fa-comments text-gray-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema pronađenih poruka</h3>
+                <p class="text-gray-600">Nema poruka koje odgovaraju kriterijumima pretrage.</p>
+            </div>
+        @endforelse
+        
+        <!-- Mobile Pagination -->
+        <div class="mt-6">
             {{ $messages->links() }}
         </div>
     </div>
