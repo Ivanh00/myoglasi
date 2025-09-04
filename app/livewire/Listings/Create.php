@@ -21,20 +21,37 @@ class Create extends Component
     public $location;
     public $contact_phone;
     public $images = [];
+    public $tempImages = [];
     public $conditions = [];
     public $category_id;
     public $subcategory_id;
 
     public $subcategories;
 
-    public function updatedImages()
+    public function updatedTempImages()
     {
         $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
         
-        if (count($this->images) > $maxImages) {
-            $this->images = array_slice($this->images, 0, $maxImages);
-            session()->flash('error', "Možete dodati maksimalno {$maxImages} slika.");
+        if (!empty($this->tempImages)) {
+            // Add new images to existing images array
+            foreach ($this->tempImages as $tempImage) {
+                if (count($this->images) < $maxImages) {
+                    $this->images[] = $tempImage;
+                } else {
+                    session()->flash('error', "Možete dodati maksimalno {$maxImages} slika.");
+                    break;
+                }
+            }
+            
+            // Clear temp images
+            $this->tempImages = [];
         }
+    }
+
+    public function removeImage($index)
+    {
+        unset($this->images[$index]);
+        $this->images = array_values($this->images); // Re-index array
     }
 
     public function mount()
@@ -87,6 +104,7 @@ class Create extends Component
             'contact_phone' => 'nullable|string|max:20',
             'images' => "nullable|array|max:{$maxImages}",
             'images.*' => 'nullable|image|max:5120',
+            'tempImages.*' => 'nullable|image|max:5120',
         ]);
 
         $user = auth()->user();
