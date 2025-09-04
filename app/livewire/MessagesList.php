@@ -11,7 +11,8 @@ class MessagesList extends Component
 {
     public $conversations = [];
     public $selectedConversation = null;
-    public $sortBy = 'all'; // all, unread, starred
+    public $sortBy = 'all'; // all, unread
+    public $search = ''; // Search by user name or listing title
 
     public function mount()
     {
@@ -68,9 +69,29 @@ class MessagesList extends Component
                     'created_at' => $lastMessage->created_at
                 ];
             })
-            ->filter(function ($conversation) {
+            ->filter(function ($conversation) use ($userId) {
                 // Filtriraj null vrednosti
-                return $conversation !== null;
+                if ($conversation === null) {
+                    return false;
+                }
+                
+                // Apply sortBy filter
+                if ($this->sortBy === 'unread' && $conversation['unread_count'] == 0) {
+                    return false;
+                }
+                
+                // Apply search filter
+                if (!empty($this->search)) {
+                    $searchTerm = strtolower($this->search);
+                    $userName = strtolower($conversation['other_user']->name ?? '');
+                    $listingTitle = strtolower($conversation['listing']->title ?? '');
+                    
+                    if (strpos($userName, $searchTerm) === false && strpos($listingTitle, $searchTerm) === false) {
+                        return false;
+                    }
+                }
+                
+                return true;
             })
             ->sortByDesc('created_at')
             ->values();
@@ -115,6 +136,17 @@ class MessagesList extends Component
     public function setSort($sort)
     {
         $this->sortBy = $sort;
+        $this->loadConversations();
+    }
+    
+    public function updatedSearch()
+    {
+        $this->loadConversations();
+    }
+    
+    public function clearSearch()
+    {
+        $this->search = '';
         $this->loadConversations();
     }
 

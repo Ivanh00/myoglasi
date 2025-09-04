@@ -4,41 +4,84 @@
     <section class="navigation-holder">
         <div class="messages-header">
             <h1>Obaveštenja</h1>
-
-            <!-- Sort Options -->
-            <div class="sort-options">
-                <div class="sort-item">
-                    <span class="checkbox-holder">
-                        <input type="checkbox" id="selectAll" wire:click="markAllAsRead">
-                        <label for="selectAll"></label>
-                    </span>
-                </div>
-
-                <div class="sort-item">
-                    <p>Prikaži:</p>
-                    <select wire:model="filter" wire:change="setFilter($event.target.value)" class="sort-select">
-                        <option value="all">Sve</option>
-                        <option value="unread">Nepročitane</option>
-                    </select>
-                </div>
-            </div>
         </div>
     </section>
 
+    <!-- Filter Options -->
+    <div style="padding: 1rem; background: white; border-bottom: 1px solid #eee;">
+        <!-- Desktop filters -->
+        <div class="hidden md:block">
+            <div class="flex justify-between items-center">
+                <!-- Mark all as read button -->
+                <div class="flex items-center">
+                    <button wire:click="markAllAsRead" 
+                        class="px-3 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors">
+                        <i class="fas fa-check mr-1"></i>
+                        Označi sve kao pročitano
+                    </button>
+                </div>
+
+                <!-- Filter dropdown -->
+                <div class="flex items-center" x-data="{ open: false }">
+                    <label class="text-sm font-medium text-gray-700 mr-3">Prikaži:</label>
+                    <div class="relative">
+                        <button @click="open = !open" type="button"
+                            class="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between min-w-32">
+                            <span>
+                                @if($filter === 'all') Sve
+                                @elseif($filter === 'unread') Nepročitane
+                                @endif
+                            </span>
+                            <svg class="w-4 h-4 text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <div x-show="open" @click.away="open = false" x-transition
+                            class="absolute z-10 mt-1 right-0 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            <button @click="$wire.set('filter', 'all'); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg {{ $filter === 'all' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                Sve
+                            </button>
+                            <button @click="$wire.set('filter', 'unread'); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-b-lg {{ $filter === 'unread' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                Nepročitane
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile filters -->
+        <div class="md:hidden space-y-3">
+            <button wire:click="markAllAsRead" 
+                class="w-full px-3 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors">
+                <i class="fas fa-check mr-1"></i>
+                Označi sve kao pročitano
+            </button>
+            
+            <select wire:model.live="filter" class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+                <option value="all">Sve</option>
+                <option value="unread">Nepročitane</option>
+            </select>
+        </div>
+    </div>
+
     <div class="divider"></div>
 
-    <!-- Notifications List -->
-    <div class="conversations-list">
+    <!-- Desktop Notifications List -->
+    <div class="hidden md:block conversations-list">
         @forelse($notifications as $notification)
             <div class="conversation-item {{ $notification->is_read ? '' : 'unread' }}"
                 wire:key="notification-{{ $notification->id }}">
-                <span class="checkbox-holder">
+                <span class="checkbox-holder" style="margin-right: 0.5rem;">
                     <input type="checkbox" id="notification-{{ $notification->id }}"
                         wire:click="markAsRead({{ $notification->id }})">
                     <label for="notification-{{ $notification->id }}"></label>
                 </span>
 
-                <div class="conversation-info" wire:click="selectNotification({{ $notification->id }})">
+                <div class="conversation-info" wire:click="selectNotification({{ $notification->id }})" style="margin-left: 0;">
                     <div class="conversation-inner">
                         <!-- Notification Info -->
                         <div class="user-info">
@@ -64,17 +107,6 @@
                             </div>
                         </div>
 
-                        <!-- Star Button (možete dodati funkcionalnost kasnije) -->
-                        <div class="star-button">
-                            <button>
-                                <svg width="20" height="20" viewBox="0 0 16 16" fill="none"
-                                    stroke="var(--text-secondary)" class="star-icon">
-                                    <path
-                                        d="M8.486 0.800001L10.7167 5.21933L15.01 5.64467C15.2187 5.66201 15.3983 5.79917 15.4699 5.99597C15.5415 6.19277 15.4921 6.41325 15.3433 6.56067L11.81 10.0627L13.12 14.8213C13.1748 15.0275 13.1035 15.2466 12.9379 15.3811C12.7723 15.5156 12.5433 15.5405 12.3527 15.4447L8 13.2893L3.65334 15.442C3.46276 15.5378 3.23368 15.513 3.06811 15.3785C2.90254 15.244 2.83126 15.0248 2.886 14.8187L4.196 10.06L0.660004 6.558C0.511258 6.41058 0.461853 6.1901 0.533468 5.9933C0.605083 5.79651 0.784634 5.65934 0.993337 5.642L5.28667 5.21667L7.514 0.800001C7.6074 0.617591 7.79507 0.502838 8 0.502838C8.20493 0.502838 8.39261 0.617591 8.486 0.800001Z" />
-                                </svg>
-                            </button>
-                        </div>
-
                         <!-- Date Info -->
                         <div class="date-info">
                             <div class="full-date">
@@ -92,6 +124,76 @@
         @empty
             <div class="empty-state">
                 <p>Nemate obaveštenja</p>
+            </div>
+        @endforelse
+    </div>
+
+    <!-- Mobile Card View -->
+    <div class="md:hidden">
+        @forelse($notifications as $notification)
+            <div class="bg-white border-b border-gray-200 hover:bg-gray-50 cursor-pointer {{ !$notification->is_read ? 'bg-blue-50 border-l-4 border-l-blue-500' : '' }}" 
+                 wire:click="selectNotification({{ $notification->id }})" 
+                 wire:key="mobile-notification-{{ $notification->id }}">
+                <div class="p-4">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center flex-1 min-w-0">
+                            <!-- Notification Icon -->
+                            <div class="flex-shrink-0 h-10 w-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-bell text-purple-600"></i>
+                            </div>
+                            
+                            <!-- Notification info -->
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-sm font-semibold text-gray-900 mb-1">
+                                    @if($notification->listing)
+                                        {{ Str::limit($notification->listing->title, 30) }}
+                                    @else
+                                        {{ $notification->subject ?? 'Admin obaveštenje' }}
+                                    @endif
+                                </h3>
+                                <p class="text-xs text-gray-500">Sistemsko obaveštenje</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Status and date -->
+                        <div class="flex flex-col items-end ml-2">
+                            @if (!$notification->is_read)
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 mb-1">
+                                    Novo
+                                </span>
+                            @endif
+                            <span class="text-xs text-gray-400">
+                                {{ $notification->created_at->format('d.m.Y') }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Message preview -->
+                    <div class="flex items-start">
+                        <p class="text-sm text-gray-600">
+                            {{ Str::limit($notification->message, 80) }}
+                        </p>
+                    </div>
+
+                    <!-- Mark as read button (mobile only) -->
+                    @if (!$notification->is_read)
+                        <div class="mt-3 pt-3 border-t border-gray-200">
+                            <button wire:click="markAsRead({{ $notification->id }})" 
+                                class="text-xs text-blue-600 hover:text-blue-800"
+                                onclick="event.stopPropagation()">
+                                <i class="fas fa-check mr-1"></i>
+                                Označi kao pročitano
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @empty
+            <div class="p-8 text-center">
+                <i class="fas fa-bell text-gray-400 text-4xl mb-3"></i>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Nemate obaveštenja</h3>
+                <p class="text-gray-600">Obaveštenja će se pojaviti kada sistem pošalje poruke.</p>
             </div>
         @endforelse
     </div>

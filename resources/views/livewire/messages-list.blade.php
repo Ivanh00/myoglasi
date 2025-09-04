@@ -3,40 +3,92 @@
     <section class="navigation-holder">
         <div class="messages-header">
             <h1>Poruke</h1>
-
-            <!-- Sort Options -->
-            <div class="sort-options">
-                <div class="sort-item">
-                    <span class="checkbox-holder">
-                        <input type="checkbox" id="selectAll">
-                        <label for="selectAll"></label>
-                    </span>
-                </div>
-
-                <div class="sort-item">
-                    <p>Prikaži:</p>
-                    <select wire:model="sortBy" wire:change="setSort($event.target.value)" class="sort-select">
-                        <option value="all">Sve</option>
-                        <option value="unread">Nepročitane</option>
-                        <option value="starred">Zvezdice</option>
-                    </select>
-                </div>
-            </div>
         </div>
     </section>
 
+    <!-- Search and Filter Options -->
+    <div style="padding: 1rem; background: white; border-bottom: 1px solid #eee;">
+        <!-- Desktop filters -->
+        <div class="hidden md:block">
+            <div class="flex justify-between items-center">
+                <!-- Search -->
+                <div class="flex items-center">
+                    <input type="text" wire:model.live="search" placeholder="Pretraži po korisniku ili oglasu..." 
+                        class="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors w-80">
+                    @if($search)
+                        <button wire:click="clearSearch" class="ml-2 px-2 py-1 text-gray-500 hover:text-gray-700 rounded">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    @endif
+                </div>
+
+                <!-- Filter dropdown -->
+                <div class="flex items-center" x-data="{ open: false }">
+                    <label class="text-sm font-medium text-gray-700 mr-3">Prikaži:</label>
+                    <div class="relative">
+                        <button @click="open = !open" type="button"
+                            class="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between min-w-32">
+                            <span>
+                                @if($sortBy === 'all') Sve poruke
+                                @elseif($sortBy === 'unread') Nepročitane
+                                @endif
+                            </span>
+                            <svg class="w-4 h-4 text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <div x-show="open" @click.away="open = false" x-transition
+                            class="absolute z-10 mt-1 right-0 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            <button @click="$wire.set('sortBy', 'all'); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg {{ $sortBy === 'all' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                Sve poruke
+                            </button>
+                            <button @click="$wire.set('sortBy', 'unread'); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-b-lg {{ $sortBy === 'unread' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                Nepročitane
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile filters -->
+        <div class="md:hidden space-y-3">
+            <div>
+                <input type="text" wire:model.live="search" placeholder="Pretraži..." 
+                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+                @if($search)
+                    <button wire:click="clearSearch" class="mt-1 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times mr-1"></i> Očisti pretragu
+                    </button>
+                @endif
+            </div>
+            
+            <div>
+                <select wire:model.live="sortBy" class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+                    <option value="all">Sve poruke</option>
+                    <option value="unread">Nepročitane</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
     <div class="divider"></div>
 
-    <!-- Conversations List -->
-    <div class="conversations-list">
-        @forelse($conversations as $key => $conversation)
-            <div class="conversation-item" wire:key="conversation-{{ $key }}">
-                <span class="checkbox-holder">
-                    <input type="checkbox" id="conversation-{{ $key }}">
-                    <label for="conversation-{{ $key }}"></label>
-                </span>
+    <!-- Results info -->
+    @if($search)
+        <div style="padding: 0.5rem 1rem; background: #f8f9fa; font-size: 0.9rem; color: #6c757d;">
+            Rezultati za "{{ $search }}": {{ count($conversations) }} konverzacija
+        </div>
+    @endif
 
-                <div class="conversation-info" wire:click="selectConversation({{ $key }})">
+    <!-- Desktop Conversations List -->
+    <div class="hidden md:block conversations-list">
+        @forelse($conversations as $key => $conversation)
+            <div class="conversation-item {{ $conversation['unread_count'] > 0 ? 'unread' : '' }}" wire:key="conversation-{{ $key }}">
+                <div class="conversation-info" wire:click="selectConversation({{ $key }})" style="margin-left: 0; padding-left: 1rem;">
                     <div class="conversation-inner">
                         <!-- User Info -->
                         <div class="user-info">
@@ -65,17 +117,6 @@
                             </div>
                         </div>
 
-                        <!-- Star Button -->
-                        <div class="star-button">
-                            <button>
-                                <svg width="20" height="20" viewBox="0 0 16 16" fill="none"
-                                    stroke="var(--text-secondary)" class="star-icon">
-                                    <path
-                                        d="M8.486 0.800001L10.7167 5.21933L15.01 5.64467C15.2187 5.66201 15.3983 5.79917 15.4699 5.99597C15.5415 6.19277 15.4921 6.41325 15.3433 6.56067L11.81 10.0627L13.12 14.8213C13.1748 15.0275 13.1035 15.2466 12.9379 15.3811C12.7723 15.5156 12.5433 15.5405 12.3527 15.4447L8 13.2893L3.65334 15.442C3.46276 15.5378 3.23368 15.513 3.06811 15.3785C2.90254 15.244 2.83126 15.0248 2.886 14.8187L4.196 10.06L0.660004 6.558C0.511258 6.41058 0.461853 6.1901 0.533468 5.9933C0.605083 5.79651 0.784634 5.65934 0.993337 5.642L5.28667 5.21667L7.514 0.800001C7.6074 0.617591 7.79507 0.502838 8 0.502838C8.20493 0.502838 8.39261 0.617591 8.486 0.800001Z" />
-                                </svg>
-                            </button>
-                        </div>
-
                         <!-- Date Info -->
                         <div class="date-info">
                             <div class="full-date">
@@ -93,6 +134,70 @@
         @empty
             <div class="empty-state">
                 <p>Nemate poruka</p>
+            </div>
+        @endforelse
+    </div>
+
+    <!-- Mobile Card View -->
+    <div class="md:hidden">
+        @forelse($conversations as $key => $conversation)
+            <div class="bg-white border-b border-gray-200 hover:bg-gray-50 cursor-pointer" 
+                 wire:click="selectConversation({{ $key }})" 
+                 wire:key="mobile-conversation-{{ $key }}">
+                <div class="p-4">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center flex-1 min-w-0">
+                            <!-- Avatar -->
+                            <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-blue-600 font-medium text-sm">
+                                    {{ strtoupper(substr($conversation['other_user']->name, 0, 1)) }}
+                                </span>
+                            </div>
+                            
+                            <!-- User name -->
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-sm font-semibold text-gray-900 truncate">
+                                    {{ $conversation['other_user']->name }}
+                                </h3>
+                                <p class="text-xs text-gray-500 truncate">
+                                    {{ $conversation['listing']->title }}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Status and date -->
+                        <div class="flex flex-col items-end ml-2">
+                            @if ($conversation['unread_count'] > 0)
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 mb-1">
+                                    {{ $conversation['unread_count'] }}
+                                </span>
+                            @endif
+                            <span class="text-xs text-gray-400">
+                                {{ $conversation['last_message']->created_at->format('d.m.Y') }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Message preview -->
+                    <div class="flex items-center">
+                        @if ($conversation['last_message']->is_read && $conversation['last_message']->sender_id == Auth::id())
+                            <svg width="12" height="8" viewBox="0 0 18 11" fill="none" stroke="#10b981" class="mr-2 flex-shrink-0">
+                                <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke-width="2" />
+                                <path d="M16.5 1L10.5 9.5L9 8" stroke-width="2" />
+                            </svg>
+                        @endif
+                        <p class="text-sm text-gray-600 truncate">
+                            {{ Str::limit($conversation['last_message']->message, 80) }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="p-8 text-center">
+                <i class="fas fa-envelope text-gray-400 text-4xl mb-3"></i>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Nemate poruka</h3>
+                <p class="text-gray-600">Poruke će se pojaviti kada kontaktirate prodavce.</p>
             </div>
         @endforelse
     </div>
