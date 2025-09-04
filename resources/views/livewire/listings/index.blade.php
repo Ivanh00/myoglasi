@@ -1,12 +1,30 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <!-- Mobile specific adjustments -->
+    <style>
+        @media (max-width: 768px) {
+            .listing-card {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                max-width: 100%;
+                overflow: hidden;
+            }
+            .scrollbar-hide {
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    </style>
     <!-- Naslov -->
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-4">Svi oglasi</h1>
         <p class="text-gray-600">Pronađite najbolje ponude iz svih kategorija</p>
     </div>
 
-    <!-- Traka sa kategorijama -->
-    <div class="mb-8 overflow-hidden">
+    <!-- Desktop traka sa kategorijama -->
+    <div class="hidden md:block mb-8 overflow-hidden">
         <div class="flex space-x-4 pb-4 overflow-x-auto scrollbar-hide">
             <!-- Sve kategorije -->
             <a href="{{ route('listings.index') }}"
@@ -38,6 +56,20 @@
                     </div>
                 </a>
             @endforeach
+        </div>
+    </div>
+
+    <!-- Mobile kategorija dropdown -->
+    <div class="md:hidden mb-6">
+        <div class="bg-white rounded-lg shadow-md p-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Kategorija</label>
+            <select wire:model.live="selectedCategory" 
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="">Sve kategorije</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
 
@@ -87,11 +119,10 @@
     @if ($listings->count() > 0)
         <div class="space-y-4 mb-8">
             @foreach ($listings as $listing)
-                <div
-                    class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="listing-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div class="flex flex-col md:flex-row">
-                        <!-- Slika oglasa - kvadratni kontejner -->
-                        <div class="md:w-48 md:min-w-48 h-48 md:h-48"> <!-- Fiksna visina za desktop i mobile -->
+                        <!-- Slika oglasa - responsive -->
+                        <div class="w-full md:w-48 md:min-w-48 h-48"> <!-- Full width na mobile -->
                             <a href="{{ route('listings.show', $listing) }}">
                                 @if ($listing->images->count() > 0)
                                     <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
@@ -106,7 +137,7 @@
                         </div>
 
                         <!-- Informacije o oglasu -->
-                        <div class="flex-1 p-4">
+                        <div class="flex-1 p-4 md:p-6">
                             <div class="flex flex-col h-full">
                                 <div class="flex-1">
                                     <a href="{{ route('listings.show', $listing) }}">

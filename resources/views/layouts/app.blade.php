@@ -77,7 +77,7 @@
             </aside>
 
             <!-- Page Content -->
-            <main class="flex-1 p-6">
+            <main class="flex-1 p-4 md:p-6">
                 {{ $slot }}
             </main>
         </div>
