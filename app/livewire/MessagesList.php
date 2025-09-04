@@ -144,6 +144,11 @@ class MessagesList extends Component
         $this->loadConversations();
     }
     
+    public function updatedSortBy()
+    {
+        $this->loadConversations();
+    }
+    
     public function clearSearch()
     {
         $this->search = '';
