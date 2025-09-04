@@ -54,23 +54,19 @@
 
             <section class="ad-stats flex space-x-4">
                 <div class="stat-item flex items-center">
-                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#6b7280" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M8.00001 3.50067C5.31267 3.45533 2.53334 5.33333 0.786007 7.25667C0.406129 7.6784 0.406129 8.31893 0.786007 8.74067C2.49534 10.6233 5.26667 12.5447 8.00001 12.4987C10.7333 12.5447 13.5053 10.6233 15.216 8.74067C15.5959 8.31893 15.5959 7.6784 15.216 7.25667C13.4667 5.33333 10.6873 3.45533 8.00001 3.50067Z"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M10.5 8C10.4996 9.38062 9.38018 10.4996 7.99956 10.4993C6.61893 10.4991 5.49988 9.37973 5.5 7.99911C5.50012 6.61848 6.61937 5.49933 8 5.49933C8.66321 5.49915 9.2993 5.76258 9.7682 6.2316C10.2371 6.70063 10.5004 7.33678 10.5 8V8Z"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
                     </svg>
-                    <span class="stat-count">{{ $listing->views }}</span>
+                    <span class="stat-count ml-1">{{ $listing->views }}</span>
                 </div>
 
                 <div class="stat-item flex items-center">
-                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.486 0.800001L10.7167 5.21933L15.01 5.64467C15.2187 5.66201 15.3983 5.79917 15.4699 5.99597C15.5415 6.19277 15.4921 6.41325 15.3433 6.56067L11.81 10.0627L13.12 14.8213C13.1748 15.0275 13.1035 15.2466 12.9379 15.3811C12.7723 15.5156 12.5433 15.5405 12.3527 15.4447L8 13.2893L3.65334 15.442C3.46276 15.5378 3.23368 15.513 3.06811 15.3785C2.90254 15.244 2.83126 15.0248 2.886 14.8187L4.196 10.06L0.660004 6.558C0.511258 6.41058 0.461853 6.1901 0.533468 5.9933C0.605083 5.79651 0.784634 5.65934 0.993337 5.642L5.28667 5.21667L7.514 0.800001C7.6074 0.617591 7.79507 0.502838 8 0.502838C8.20493 0.502838 8.39261 0.617591 8.486 0.800001Z"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
+                    <i class="fas fa-heart text-red-500 mr-1"></i>
                     <span class="stat-count">{{ $listing->favorites_count }}</span>
                 </div>
             </section>
@@ -108,19 +104,13 @@
             <div class="mobile-right-column">
                 <section class="ad-stats">
                     <div class="stat-item flex items-center">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M8.00001 3.50067C5.31267 3.45533 2.53334 5.33333 0.786007 7.25667C0.406129 7.6784 0.406129 8.31893 0.786007 8.74067C2.49534 10.6233 5.26667 12.5447 8.00001 12.4987C10.7333 12.5447 13.5053 10.6233 15.216 8.74067C15.5959 8.31893 15.5959 7.6784 15.216 7.25667C13.4667 5.33333 10.6873 3.45533 8.00001 3.50067Z"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M10.5 8C10.4996 9.38062 9.38018 10.4996 7.99956 10.4993C6.61893 10.4991 5.49988 9.37973 5.5 7.99911C5.50012 6.61848 6.61937 5.49933 8 5.49933C8.66321 5.49915 9.2993 5.76258 9.7682 6.2316C10.2371 6.70063 10.5004 7.33678 10.5 8V8Z"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                        <span class="stat-count ml-1">{{ $listing->views }}</span>
+                        <i class="fas fa-eye text-gray-500 mr-1" style="font-size: 14px;"></i>
+                        <span class="stat-count">{{ $listing->views }}</span>
                     </div>
 
                     <div class="stat-item flex items-center">
-                        <span class="stat-count">❤️ {{ $listing->favorites_count }}</span>
+                        <i class="fas fa-heart text-red-500 mr-1" style="font-size: 14px;"></i>
+                        <span class="stat-count">{{ $listing->favorites_count }}</span>
                     </div>
                 </section>
 
