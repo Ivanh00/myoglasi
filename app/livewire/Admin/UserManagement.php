@@ -24,6 +24,7 @@ class UserManagement extends Component
     public $showBanModal = false;
     public $showBalanceModal = false;
     public $showUserDetailModal = false;
+    public $showPaymentModal = false;
 
     public $editState = [
         'name' => '',
@@ -43,6 +44,12 @@ class UserManagement extends Component
         'description' => '',
     ];
 
+    public $paymentState = [
+        'payment_plan' => 'per_listing',
+        'payment_enabled' => true,
+        'plan_expires_at' => null,
+    ];
+
     public $userDetails = [];
 
     public function mount()
@@ -56,6 +63,7 @@ class UserManagement extends Component
         $this->showBanModal = false;
         $this->showBalanceModal = false;
         $this->showUserDetailModal = false;
+        $this->showPaymentModal = false;
         $this->selectedUser = null;
     }
 
@@ -271,5 +279,116 @@ class UserManagement extends Component
         $this->search = '';
         $this->filterStatus = 'all';
         $this->resetPage();
+    }
+
+    // Payment Management Methods
+    public function editUserPayment($userId)
+    {
+        $this->resetModals();
+        $user = User::findOrFail($userId);
+        $this->selectedUser = $user;
+        
+        $this->paymentState = [
+            'payment_plan' => $user->payment_plan,
+            'payment_enabled' => $user->payment_enabled,
+            'plan_expires_at' => $user->plan_expires_at ? $user->plan_expires_at->format('Y-m-d') : null,
+        ];
+        
+        $this->showPaymentModal = true;
+    }
+    
+    public function updateUserPayment()
+    {
+        $this->validate([
+            'paymentState.payment_plan' => 'required|in:per_listing,monthly,yearly,free',
+            'paymentState.payment_enabled' => 'required|boolean',
+            'paymentState.plan_expires_at' => 'nullable|date|after:today',
+        ]);
+        
+        $planExpiresAt = null;
+        if ($this->paymentState['plan_expires_at']) {
+            $planExpiresAt = Carbon::parse($this->paymentState['plan_expires_at']);
+        }
+        
+        // Set expiry based on plan type if not manually set
+        if (!$planExpiresAt && in_array($this->paymentState['payment_plan'], ['monthly', 'yearly'])) {
+            if ($this->paymentState['payment_plan'] === 'monthly') {
+                $planExpiresAt = Carbon::now()->addMonth();
+            } elseif ($this->paymentState['payment_plan'] === 'yearly') {
+                $planExpiresAt = Carbon::now()->addYear();
+            }
+        }
+        
+        $this->selectedUser->update([
+            'payment_plan' => $this->paymentState['payment_plan'],
+            'payment_enabled' => $this->paymentState['payment_enabled'],
+            'plan_expires_at' => $planExpiresAt,
+            'free_listings_used' => 0, // Reset free listings counter
+            'free_listings_reset_at' => now()->addMonth(),
+        ]);
+        
+        $this->resetModals();
+        $this->dispatch('notify', type: 'success', message: 'Podešavanja plaćanja su uspešno ažurirana!');
+    }
+    
+    public function grantMonthlyPlan($userId)
+    {
+        $user = User::findOrFail($userId);
+        $user->update([
+            'payment_plan' => 'monthly',
+            'plan_expires_at' => Carbon::now()->addMonth(),
+        ]);
+        
+        Transaction::create([
+            'user_id' => $user->id,
+            'type' => 'admin_grant',
+            'amount' => 0,
+            'status' => 'completed',
+            'description' => 'Admin odobrio mesečni plan',
+        ]);
+        
+        $this->dispatch('notify', type: 'success', message: 'Mesečni plan je odobren korisniku!');
+    }
+    
+    public function grantYearlyPlan($userId)
+    {
+        $user = User::findOrFail($userId);
+        $user->update([
+            'payment_plan' => 'yearly',
+            'plan_expires_at' => Carbon::now()->addYear(),
+        ]);
+        
+        Transaction::create([
+            'user_id' => $user->id,
+            'type' => 'admin_grant',
+            'amount' => 0,
+            'status' => 'completed',
+            'description' => 'Admin odobrio godišnji plan',
+        ]);
+        
+        $this->dispatch('notify', type: 'success', message: 'Godišnji plan je odobren korisniku!');
+    }
+    
+    public function disablePaymentForUser($userId)
+    {
+        $user = User::findOrFail($userId);
+        $user->update([
+            'payment_enabled' => false,
+            'payment_plan' => 'free',
+            'plan_expires_at' => null,
+        ]);
+        
+        $this->dispatch('notify', type: 'success', message: 'Plaćanje je isključeno za korisnika!');
+    }
+    
+    public function enablePaymentForUser($userId)
+    {
+        $user = User::findOrFail($userId);
+        $user->update([
+            'payment_enabled' => true,
+            'payment_plan' => 'per_listing',
+        ]);
+        
+        $this->dispatch('notify', type: 'success', message: 'Plaćanje je uključeno za korisnika!');
     }
 }

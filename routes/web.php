@@ -67,6 +67,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/favorites', FavoritesIndex::class)->name('favorites.index');
     Route::get('/balance', BalanceIndex::class)->name('balance.index');
+    
+    // Payment routes
+    Route::get('/balance/payment-options', \App\Livewire\Balance\PaymentOptions::class)->name('balance.payment-options');
+    Route::get('/balance/card-payment/{transaction}', \App\Livewire\Balance\CardPayment::class)->name('balance.card-payment');
+    Route::get('/balance/bank-transfer/{transaction}', \App\Livewire\Balance\BankTransfer::class)->name('balance.bank-transfer');
 
     Route::post('/logout', function () {
         auth()->guard('web')->logout();
