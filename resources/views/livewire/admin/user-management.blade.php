@@ -11,7 +11,7 @@
         </div>
 
         <!-- Search and Filters -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div>
                 <input type="text" wire:model.live="search" placeholder="Pretraži korisnike..."
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -23,6 +23,18 @@
                     <option value="banned">Banovani</option>
                     <option value="admin">Administratori</option>
                     <option value="with_balance">Sa kreditima</option>
+                </select>
+            </div>
+            <div>
+                <select wire:model.live="filterPaymentPlan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="all">Svi načini plaćanja</option>
+                    <option value="per_listing">Plaćanje po oglasu</option>
+                    <option value="monthly">Mesečni plan</option>
+                    <option value="yearly">Godišnji plan</option>
+                    <option value="free">Besplatan plan</option>
+                    <option value="free_disabled">Isključeno plaćanje</option>
+                    <option value="active_plans">Aktivni planovi</option>
+                    <option value="expired_plans">Istekli planovi</option>
                 </select>
             </div>
             <div>
@@ -76,6 +88,7 @@
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oglasi</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Način plaćanja</th>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('created_at')" class="flex items-center space-x-1 text-xs font-medium text-gray-500 uppercase tracking-wider hover:text-gray-700">
                                 <span>Registrovan</span>
@@ -135,6 +148,53 @@
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                             Admin
                                         </span>
+                                    @endif
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex flex-col space-y-1">
+                                    @if(!$user->payment_enabled)
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                            <i class="fas fa-times mr-1"></i>
+                                            Isključeno
+                                        </span>
+                                    @else
+                                        @switch($user->payment_plan)
+                                            @case('per_listing')
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                    <i class="fas fa-receipt mr-1"></i>
+                                                    Po oglasu
+                                                </span>
+                                                @break
+                                            @case('monthly')
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                    <i class="fas fa-calendar-alt mr-1"></i>
+                                                    Mesečni
+                                                </span>
+                                                @if($user->plan_expires_at)
+                                                    <span class="text-xs text-gray-500">
+                                                        {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
+                                                    </span>
+                                                @endif
+                                                @break
+                                            @case('yearly')
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                    <i class="fas fa-calendar mr-1"></i>
+                                                    Godišnji
+                                                </span>
+                                                @if($user->plan_expires_at)
+                                                    <span class="text-xs text-gray-500">
+                                                        {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
+                                                    </span>
+                                                @endif
+                                                @break
+                                            @case('free')
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                    <i class="fas fa-gift mr-1"></i>
+                                                    Besplatan
+                                                </span>
+                                                @break
+                                        @endswitch
                                     @endif
                                 </div>
                             </td>

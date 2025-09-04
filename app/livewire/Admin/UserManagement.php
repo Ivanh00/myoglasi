@@ -18,6 +18,7 @@ class UserManagement extends Component
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
     public $filterStatus = 'all';
+    public $filterPaymentPlan = 'all';
     
     public $selectedUser = null;
     public $showEditModal = false;
@@ -257,6 +258,24 @@ class UserManagement extends Component
                     $query->where('is_banned', false);
                 }
             })
+            ->when($this->filterPaymentPlan !== 'all', function ($query) {
+                if ($this->filterPaymentPlan === 'free_disabled') {
+                    $query->where('payment_enabled', false);
+                } elseif ($this->filterPaymentPlan === 'active_plans') {
+                    $query->where('payment_enabled', true)
+                          ->whereIn('payment_plan', ['monthly', 'yearly'])
+                          ->where(function ($q) {
+                              $q->whereNull('plan_expires_at')
+                                ->orWhere('plan_expires_at', '>', now());
+                          });
+                } elseif ($this->filterPaymentPlan === 'expired_plans') {
+                    $query->where('payment_enabled', true)
+                          ->whereIn('payment_plan', ['monthly', 'yearly'])
+                          ->where('plan_expires_at', '<', now());
+                } else {
+                    $query->where('payment_plan', $this->filterPaymentPlan);
+                }
+            })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
 
@@ -274,10 +293,16 @@ class UserManagement extends Component
         $this->resetPage();
     }
 
+    public function updatingFilterPaymentPlan()
+    {
+        $this->resetPage();
+    }
+
     public function resetFilters()
     {
         $this->search = '';
         $this->filterStatus = 'all';
+        $this->filterPaymentPlan = 'all';
         $this->resetPage();
     }
 
