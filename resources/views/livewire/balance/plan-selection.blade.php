@@ -19,6 +19,10 @@
                             <p class="text-blue-800">
                                 {{ auth()->user()->plan_status }}
                             </p>
+                            <!-- Debug info -->
+                            <p class="text-xs text-blue-600 mt-1">
+                                Current: {{ $currentPlan }}, Selected: {{ $selectedPlan }}, Enabled: {{ auth()->user()->payment_enabled ? 'Yes' : 'No' }}
+                            </p>
                             @if(auth()->user()->plan_expires_at && auth()->user()->plan_expires_at->isFuture())
                                 <p class="text-sm text-blue-600 mt-1">
                                     Ističe: {{ auth()->user()->plan_expires_at->format('d.m.Y H:i') }}
@@ -35,23 +39,24 @@
 
             @if(!auth()->user()->payment_enabled)
                 <!-- Payment Disabled Notice -->
-                <div class="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6 text-center mb-6">
                     <i class="fas fa-gift text-green-600 text-4xl mb-4"></i>
-                    <h3 class="text-lg font-semibold text-green-900 mb-2">Besplatan pristup</h3>
-                    <p class="text-green-800">
-                        Administrator je isključio naplaćivanje za vaš nalog. Možete postavljati oglase besplatno!
+                    <h3 class="text-lg font-semibold text-green-900 mb-2">Trenutno imate besplatan pristup</h3>
+                    <p class="text-green-800 mb-4">
+                        Možete postavljati oglase besplatno! Ako želite da aktivirate neki od plaćenih planova, odaberite opciju ispod.
                     </p>
                 </div>
-            @else
+            @endif
+
+            @if(!auth()->user()->payment_enabled || true)
                 <!-- Plan Selection -->
                 <form wire:submit.prevent="purchasePlan">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                         <!-- Per Listing Plan -->
                         @if($planPrices['per_listing']['enabled'])
-                            <div class="border rounded-lg p-6 {{ $selectedPlan === 'per_listing' ? 'border-blue-500 bg-blue-50' : 'border-gray-200' }} transition-all">
-                                <label class="cursor-pointer">
-                                    <input type="radio" wire:model="selectedPlan" value="per_listing" class="sr-only">
-                                    <div class="text-center">
+                            <div class="border rounded-lg p-6 {{ $selectedPlan === 'per_listing' ? 'border-blue-500 bg-blue-50' : 'border-gray-200' }} transition-all cursor-pointer" 
+                                 wire:click="$set('selectedPlan', 'per_listing')">
+                                <div class="text-center">
                                         <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <i class="fas fa-receipt text-blue-600 text-2xl"></i>
                                         </div>
@@ -67,17 +72,15 @@
                                                 <i class="fas fa-check-circle text-blue-500 text-xl"></i>
                                             </div>
                                         @endif
-                                    </div>
-                                </label>
+                                </div>
                             </div>
                         @endif
 
                         <!-- Monthly Plan -->
                         @if($planPrices['monthly']['enabled'])
-                            <div class="border rounded-lg p-6 {{ $selectedPlan === 'monthly' ? 'border-green-500 bg-green-50' : 'border-gray-200' }} transition-all">
-                                <label class="cursor-pointer">
-                                    <input type="radio" wire:model="selectedPlan" value="monthly" class="sr-only">
-                                    <div class="text-center">
+                            <div class="border rounded-lg p-6 {{ $selectedPlan === 'monthly' ? 'border-green-500 bg-green-50' : 'border-gray-200' }} transition-all cursor-pointer"
+                                 wire:click="$set('selectedPlan', 'monthly')">
+                                <div class="text-center">
                                         <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <i class="fas fa-calendar-alt text-green-600 text-2xl"></i>
                                         </div>
@@ -99,17 +102,15 @@
                                                 <i class="fas fa-check-circle text-green-500 text-xl"></i>
                                             </div>
                                         @endif
-                                    </div>
-                                </label>
+                                </div>
                             </div>
                         @endif
 
                         <!-- Yearly Plan -->
                         @if($planPrices['yearly']['enabled'])
-                            <div class="border rounded-lg p-6 {{ $selectedPlan === 'yearly' ? 'border-purple-500 bg-purple-50' : 'border-gray-200' }} transition-all">
-                                <label class="cursor-pointer">
-                                    <input type="radio" wire:model="selectedPlan" value="yearly" class="sr-only">
-                                    <div class="text-center">
+                            <div class="border rounded-lg p-6 {{ $selectedPlan === 'yearly' ? 'border-purple-500 bg-purple-50' : 'border-gray-200' }} transition-all cursor-pointer"
+                                 wire:click="$set('selectedPlan', 'yearly')">
+                                <div class="text-center">
                                         <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <i class="fas fa-calendar text-purple-600 text-2xl"></i>
                                         </div>
@@ -131,8 +132,7 @@
                                                 <i class="fas fa-check-circle text-purple-500 text-xl"></i>
                                             </div>
                                         @endif
-                                    </div>
-                                </label>
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -181,24 +181,20 @@
                             Otkaži
                         </button>
                         
-                        @if($selectedPlan !== $currentPlan || !auth()->user()->hasActivePlan())
-                            <button type="submit"
-                                class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
-                                @if($selectedPlan === 'per_listing')
-                                    <i class="fas fa-check mr-2"></i>
-                                    Promeni na plaćanje po oglasu
-                                @else
-                                    <i class="fas fa-shopping-cart mr-2"></i>
-                                    Kupi {{ $planPrices[$selectedPlan]['title'] ?? '' }} 
-                                    ({{ number_format($planPrices[$selectedPlan]['price'] ?? 0, 0, ',', '.') }} RSD)
+                        <!-- Always show the button if a plan is selected -->
+                        <button type="submit"
+                            class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                            @if($selectedPlan === 'per_listing')
+                                <i class="fas fa-check mr-2"></i>
+                                {{ !auth()->user()->payment_enabled ? 'Aktiviraj' : 'Promeni na' }} plaćanje po oglasu
+                            @else
+                                <i class="fas fa-shopping-cart mr-2"></i>
+                                {{ !auth()->user()->payment_enabled ? 'Aktiviraj' : 'Kupi' }} {{ $planPrices[$selectedPlan]['title'] ?? '' }} 
+                                @if(isset($planPrices[$selectedPlan]['price']))
+                                    ({{ number_format($planPrices[$selectedPlan]['price'], 0, ',', '.') }} RSD)
                                 @endif
-                            </button>
-                        @else
-                            <div class="text-green-600 font-semibold">
-                                <i class="fas fa-check-circle mr-1"></i>
-                                Trenutno aktivan plan
-                            </div>
-                        @endif
+                            @endif
+                        </button>
                     </div>
 
                     @error('selectedPlan') 

@@ -16,13 +16,11 @@
                         Dopuni balans
                     </a>
                     
-                    @if(auth()->user()->payment_enabled)
-                        <a href="{{ route('balance.plan-selection') }}" 
-                            class="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
-                            <i class="fas fa-calendar-alt mr-2"></i>
-                            Vaš plan
-                        </a>
-                    @endif
+                    <a href="{{ route('balance.plan-selection') }}" 
+                        class="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        Vaš plan
+                    </a>
                 </div>
             </div>
         </div>

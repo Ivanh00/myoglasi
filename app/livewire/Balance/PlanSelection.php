@@ -55,10 +55,9 @@ class PlanSelection extends Component
         
         $user = auth()->user();
         
-        // If user doesn't have payment enabled, they can't purchase plans
+        // If user doesn't have payment enabled, automatically enable it when they try to purchase a plan
         if (!$user->payment_enabled) {
-            session()->flash('error', 'Kontaktirajte administratora da aktivira plaćanje za vaš nalog.');
-            return;
+            $user->update(['payment_enabled' => true]);
         }
         
         // If selecting the same plan as current, no need to do anything

@@ -27,7 +27,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'key' => 'monthly_plan_enabled',
-                'value' => '0',
+                'value' => '1',
                 'type' => 'boolean',
                 'group' => 'payments',
                 'description' => 'Da li je mesečni plan uključen'
@@ -41,7 +41,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'key' => 'yearly_plan_enabled',
-                'value' => '0',
+                'value' => '1',
                 'type' => 'boolean',
                 'group' => 'payments',
                 'description' => 'Da li je godišnji plan uključen'
