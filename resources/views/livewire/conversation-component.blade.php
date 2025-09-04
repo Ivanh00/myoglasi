@@ -17,14 +17,14 @@
             <div class="user-info-holder">
                 <div class="user-name-holder">
                     <span class="user-avatar">
-                        <svg width="24" height="24" viewBox="0 0 16 16" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M8 7.5C9.933 7.5 11.5 5.933 11.5 4C11.5 2.067 9.933 0.5 8 0.5C6.067 0.5 4.5 2.067 4.5 4C4.5 5.933 6.067 7.5 8 7.5Z"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M1.5 15.5C1.5 11.9101 4.41015 9.5 8 9.5C11.5898 9.5 14.5 11.9101 14.5 15.5"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
+                        @if($otherUser->avatar)
+                            <img src="{{ $otherUser->avatar_url }}" alt="{{ $otherUser->name }}" 
+                                style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                        @else
+                            <div style="width: 40px; height: 40px; background-color: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
+                                {{ strtoupper(substr($otherUser->name, 0, 1)) }}
+                            </div>
+                        @endif
                     </span>
                     <div class="user-name">
                         {{ $otherUser->name }}
