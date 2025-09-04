@@ -171,6 +171,23 @@
                             Pogledaj oglas
                         </a>
                     @endif
+                    
+                    @if(str_contains($selectedNotification->subject, 'balans') || 
+                        str_contains($selectedNotification->subject, 'kredita') || 
+                        str_contains($selectedNotification->subject, 'plan ističe'))
+                        <a href="{{ route('balance.payment-options') }}" class="view-listing-btn" 
+                            style="background-color: #10b981; border-color: #10b981;" wire:navigate>
+                            <i class="fas fa-plus mr-1"></i>
+                            Dopuna kredita
+                        </a>
+                        
+                        <a href="{{ route('balance.plan-selection') }}" class="view-listing-btn"
+                            style="background-color: #8b5cf6; border-color: #8b5cf6;" wire:navigate>
+                            <i class="fas fa-calendar-alt mr-1"></i>
+                            Promeni plan
+                        </a>
+                    @endif
+                    
                     <button onclick="closeModal()" class="close-btn" type="button">
                         Zatvori
                     </button>
