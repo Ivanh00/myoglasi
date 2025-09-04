@@ -108,18 +108,63 @@ class TransactionManagement extends Component
             'updateState.description' => 'nullable|string|max:500'
         ]);
 
-        $this->selectedTransaction->update($validated['updateState']);
+        $oldStatus = $this->selectedTransaction->status;
+        $newStatus = $validated['updateState']['status'];
+        
+        // Update transaction
+        $this->selectedTransaction->update([
+            'status' => $newStatus,
+            'description' => $validated['updateState']['description'],
+            'completed_at' => $newStatus === 'completed' ? now() : null
+        ]);
+        
+        // Add credit to user's balance if changing from pending/failed to completed
+        if ($oldStatus !== 'completed' && $newStatus === 'completed') {
+            if (in_array($this->selectedTransaction->type, ['credit_topup', 'admin_credit']) && $this->selectedTransaction->amount > 0) {
+                $this->selectedTransaction->user->increment('balance', $this->selectedTransaction->amount);
+                
+                $this->dispatch('notify', type: 'success', message: 
+                    'Transakcija ažurirana! Kredit od ' . number_format($this->selectedTransaction->amount, 0, ',', '.') . 
+                    ' RSD je dodatan korisniku ' . $this->selectedTransaction->user->name . '.');
+            } else {
+                $this->dispatch('notify', type: 'success', message: 'Transakcija uspešno ažurirana!');
+            }
+        } else {
+            $this->dispatch('notify', type: 'success', message: 'Transakcija uspešno ažurirana!');
+        }
         
         $this->showUpdateModal = false;
-        $this->dispatch('notify', type: 'success', message: 'Transakcija uspešno ažurirana!');
     }
 
     public function markAsCompleted($transactionId)
     {
-        $transaction = Transaction::find($transactionId);
-        $transaction->update(['status' => 'completed']);
+        $transaction = Transaction::with('user')->find($transactionId);
         
-        $this->dispatch('notify', type: 'success', message: 'Transakcija označena kao završena!');
+        // Don't process if already completed
+        if ($transaction->status === 'completed') {
+            $this->dispatch('notify', type: 'info', message: 'Transakcija je već završena!');
+            return;
+        }
+        
+        // Update transaction status
+        $transaction->update([
+            'status' => 'completed',
+            'completed_at' => now()
+        ]);
+        
+        // Add credit to user's balance if it's a credit topup
+        if (in_array($transaction->type, ['credit_topup', 'admin_credit']) && $transaction->amount > 0) {
+            $transaction->user->increment('balance', $transaction->amount);
+            
+            $this->dispatch('notify', type: 'success', message: 
+                'Transakcija završena! Kredit od ' . number_format($transaction->amount, 0, ',', '.') . 
+                ' RSD je dodatan korisniku ' . $transaction->user->name . '.');
+        } else {
+            $this->dispatch('notify', type: 'success', message: 'Transakcija označena kao završena!');
+        }
+        
+        // Refresh the component to show updated status
+        $this->dispatch('$refresh');
     }
 
     public function markAsFailed($transactionId)
