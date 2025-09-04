@@ -78,9 +78,18 @@ class Create extends Component
 
         $user = auth()->user();
         
-        // Check if user can create listing (payment check)
+        // Check if user can create listing (payment check)  
+        if (!$user->canCreateListingForFree() && $user->payment_plan === 'per_listing') {
+            $fee = \App\Models\Setting::get('listing_fee_amount', 10);
+            if ($user->balance < $fee) {
+                session()->flash('error', 'Nemate dovoljno kredita za postavljanje oglasa. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+                return redirect()->route('balance.payment-options');
+            }
+        }
+        
+        // Now charge for listing
         if (!$user->chargeForListing()) {
-            session()->flash('error', 'Nemate dovoljno kredita za postavljanje oglasa. Molimo dopunite balans ili aktivirajte plan.');
+            session()->flash('error', 'Greška pri naplaćivanju oglasa. Molimo pokušajte ponovo.');
             return redirect()->route('balance.index');
         }
 

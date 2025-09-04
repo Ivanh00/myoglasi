@@ -46,7 +46,7 @@ use App\Livewire\Transactions\Balance as BalanceIndex;
 Route::get('/', HomeComponent::class)->name('home');
 Route::get('/listings', ListingsIndex::class)->name('listings.index');
 Route::get('/listings/create', ListingCreate::class)
-    ->middleware('auth')
+    ->middleware(['auth', 'check.listing'])
     ->name('listings.create');
 // Route::get('/listings/{listing}', ListingShow::class)->name('listings.show');
 

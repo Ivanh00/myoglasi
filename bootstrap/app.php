@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'check.banned' => \App\Http\Middleware\CheckBannedUser::class,
+            'check.listing' => \App\Http\Middleware\CheckUserCanCreateListing::class,
         ]);
         
         // Add banned user check to all web requests

@@ -19,11 +19,7 @@
                             <p class="text-blue-800">
                                 {{ auth()->user()->plan_status }}
                             </p>
-                            <!-- Debug info -->
-                            <p class="text-xs text-blue-600 mt-1">
-                                Current: {{ $currentPlan }}, Selected: {{ $selectedPlan }}, Enabled: {{ auth()->user()->payment_enabled ? 'Yes' : 'No' }}
-                            </p>
-                            @if(auth()->user()->plan_expires_at && auth()->user()->plan_expires_at->isFuture())
+                            @if(auth()->user()->plan_expires_at && auth()->user()->plan_expires_at->isFuture() && auth()->user()->payment_plan !== 'per_listing')
                                 <p class="text-sm text-blue-600 mt-1">
                                     Ističe: {{ auth()->user()->plan_expires_at->format('d.m.Y H:i') }}
                                 </p>

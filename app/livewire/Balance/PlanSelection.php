@@ -80,7 +80,7 @@ class PlanSelection extends Component
                 'plan_expires_at' => null,
             ]);
             
-            session()->flash('success', 'Uspešno ste prešli na plaćanje po oglasu.');
+            session()->flash('success', 'Uspešno ste prešli na plaćanje po oglasu. Plaćaćete samo kada postavite oglas.');
             return redirect()->route('balance.index');
         }
         
