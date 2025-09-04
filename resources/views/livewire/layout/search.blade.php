@@ -1,117 +1,29 @@
 <div x-data="{
     open: false,
-    query: '{{ request('query') }}',
-    city: '{{ request('city') }}',
-    category: '{{ request('category') }}',
-    subcategory: '{{ request('subcategory') }}',
-    condition: '{{ request('condition') }}',
-    price_min: '{{ request('price_min') }}',
-    price_max: '{{ request('price_max') }}',
+    query: '{{ request('query') ?? '' }}',
+    city: '{{ request('city') ?? '' }}',
+    category: '{{ request('category') ?? '' }}',
+    subcategory: '{{ request('subcategory') ?? '' }}',
+    condition: '{{ request('condition') ?? '' }}',
+    price_min: '{{ request('price_min') ?? '' }}',
+    price_max: '{{ request('price_max') ?? '' }}',
     citySearch: '',
     categories: @js($categories ?? []),
     conditions: @js($conditions ?? []),
     subcategories: [],
+    
     normalize(str) {
         const map = {
-            'š': 's',
-            's': 's',
-            'ć': 'c',
-            'č': 'c',
-            'c': 'c',
-            'ž': 'z',
-            'z': 'z',
-            'đ': 'dj',
-            'd': 'd',
-            'а': 'a',
-            'б': 'b',
-            'в': 'v',
-            'г': 'g',
-            'д': 'd',
-            'ђ': 'dj',
-            'е': 'e',
-            'ж': 'z',
-            'з': 'z',
-            'и': 'i',
-            'ј': 'j',
-            'к': 'k',
-            'л': 'l',
-            'љ': 'lj',
-            'м': 'm',
-            'н': 'n',
-            'њ': 'nj',
-            'о': 'o',
-            'п': 'p',
-            'р': 'r',
-            'с': 's',
-            'т': 't',
-            'ћ': 'c',
-            'у': 'u',
-            'ф': 'f',
-            'х': 'h',
-            'ц': 'c',
-            'ч': 'c',
-            'џ': 'dz',
-            'ш': 's',
-            'А': 'a',
-            'Б': 'b',
-            'В': 'v',
-            'Г': 'g',
-            'Д': 'd',
-            'Ђ': 'dj',
-            'Е': 'e',
-            'Ж': 'z',
-            'З': 'z',
-            'И': 'i',
-            'Ј': 'j',
-            'К': 'k',
-            'Л': 'l',
-            'Љ': 'lj',
-            'М': 'm',
-            'Н': 'n',
-            'Њ': 'nj',
-            'О': 'o',
-            'П': 'p',
-            'Р': 'r',
-            'С': 's',
-            'Т': 't',
-            'Ћ': 'c',
-            'У': 'u',
-            'Ф': 'f',
-            'Х': 'h',
-            'Ц': 'c',
-            'Ч': 'c',
-            'Џ': 'dz',
-            'Ш': 's'
+            'š': 's', 'ć': 'c', 'č': 'c', 'ž': 'z', 'đ': 'dj',
+            'Š': 's', 'Ć': 'c', 'Č': 'c', 'Ž': 'z', 'Đ': 'dj'
         };
         return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
     },
+    
     get filteredCities() {
         return @js(config('cities')).filter(c =>
             this.normalize(c).includes(this.normalize(this.citySearch || ''))
         );
-    },
-    loadSubcategories() {
-        if (this.category) {
-            fetch(`/api/categories/${this.category}/subcategories`)
-                .then(response => response.json())
-                .then(data => {
-                    this.subcategories = data;
-                })
-                .catch(error => {
-                    console.error('Error loading subcategories:', error);
-                    this.subcategories = [];
-                });
-        } else {
-            this.subcategories = [];
-            this.subcategory = '';
-        }
-    },
-    
-    init() {
-        // Load subcategories if category is already selected on page load
-        if (this.category) {
-            this.loadSubcategories();
-        }
     }
 }" class="relative flex-1 max-w-lg mx-4">
     <form action="{{ route('search.index') }}" method="GET">
@@ -191,12 +103,12 @@
 
                                     <!-- Lista gradova -->
                                     <div class="p-2 max-h-48 overflow-y-auto">
-                                        <template x-for="cityItem in filteredCities" :key="cityItem">
+                                        <template x-for="cityOption in filteredCities" :key="cityOption">
                                             <button type="button"
-                                                @click="selectedCity = cityItem; cityOpen = false"
+                                                @click="selectedCity = cityOption; cityOpen = false"
                                                 class="w-full text-left px-3 py-2 rounded-md hover:bg-blue-100 transition"
-                                                :class="selectedCity === cityItem ? 'bg-blue-100 text-blue-800' : ''">
-                                                <span x-text="cityItem"></span>
+                                                :class="selectedCity === cityOption ? 'bg-blue-100 text-blue-800' : ''">
+                                                <span x-text="cityOption"></span>
                                             </button>
                                         </template>
                                         <div x-show="filteredCities.length === 0"
@@ -210,55 +122,38 @@
 
                             <!-- Kategorija -->
                             <div>
-                                <label for="category"
-                                    class="block text-sm font-medium text-gray-700 mb-1">Kategorija</label>
-                                <select name="category" x-model="category" @change="loadSubcategories()"
+                                <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Kategorija</label>
+                                <select name="category" x-model="category"
                                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                     <option value="">Sve kategorije</option>
-                                    <template x-for="cat in categories" :key="cat.id">
-                                        <option :value="cat.id" x-text="cat.name"></option>
-                                    </template>
-                                </select>
-                            </div>
-
-                            <!-- Podkategorija -->
-                            <div x-show="subcategories.length > 0">
-                                <label for="subcategory"
-                                    class="block text-sm font-medium text-gray-700 mb-1">Podkategorija</label>
-                                <select name="subcategory" x-model="subcategory"
-                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                                    <option value="">Sve podkategorije</option>
-                                    <template x-for="subcat in subcategories" :key="subcat.id">
-                                        <option :value="subcat.id" x-text="subcat.name"></option>
-                                    </template>
+                                    @foreach(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
+                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
                             <!-- Stanje -->
                             <div>
-                                <label for="condition"
-                                    class="block text-sm font-medium text-gray-700 mb-1">Stanje</label>
+                                <label for="condition" class="block text-sm font-medium text-gray-700 mb-1">Stanje</label>
                                 <select name="condition" x-model="condition"
                                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                     <option value="">Sva stanja</option>
-                                    <template x-for="cond in conditions" :key="cond.id">
-                                        <option :value="cond.id" x-text="cond.name"></option>
-                                    </template>
+                                    @foreach(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get() as $cond)
+                                        <option value="{{ $cond->id }}">{{ $cond->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
                             <!-- Cena od -->
                             <div>
-                                <label for="price_min" class="block text-sm font-medium text-gray-700 mb-1">Cena od
-                                    (RSD)</label>
+                                <label for="price_min" class="block text-sm font-medium text-gray-700 mb-1">Cena od (RSD)</label>
                                 <input type="number" name="price_min" x-model="price_min" placeholder="0"
                                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
 
                             <!-- Cena do -->
                             <div>
-                                <label for="price_max" class="block text-sm font-medium text-gray-700 mb-1">Cena do
-                                    (RSD)</label>
+                                <label for="price_max" class="block text-sm font-medium text-gray-700 mb-1">Cena do (RSD)</label>
                                 <input type="number" name="price_max" x-model="price_max"
                                     placeholder="Unesite maksimalnu cenu"
                                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
@@ -271,7 +166,7 @@
                             Primeni filtere
                         </button>
                         <button type="button"
-                            @click="open = false; query = ''; city = ''; category = ''; subcategory = ''; condition = ''; price_min = ''; price_max = ''; subcategories = []; citySearch = ''"
+                            @click="query = ''; city = ''; category = ''; subcategory = ''; condition = ''; price_min = ''; price_max = ''; subcategories = []; citySearch = ''; $el.closest('form').submit()"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             Poništi filtere
                         </button>
