@@ -104,10 +104,29 @@
     </div>
     
     <!-- Footer -->
-    <div class="fixed bottom-0 left-0 right-0 text-center py-4 bg-white border-t">
+    <div class="mt-12 text-center py-4">
         <p class="text-gray-500 text-sm">
             &copy; {{ date('Y') }} MyOglasi. Sva prava zadržana.
         </p>
     </div>
+    
+    <!-- Auto-refresh script to check if maintenance mode is disabled -->
+    <script>
+        // Check every 30 seconds if maintenance mode is disabled
+        setInterval(function() {
+            fetch('/api/maintenance-status')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.maintenance_mode) {
+                        // Maintenance mode is disabled, refresh the current page
+                        window.location.reload();
+                    }
+                })
+                .catch(error => {
+                    // Silently ignore errors
+                    console.log('Checking maintenance status...');
+                });
+        }, 30000); // Check every 30 seconds
+    </script>
 </body>
 </html>

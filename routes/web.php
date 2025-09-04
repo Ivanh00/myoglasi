@@ -42,8 +42,12 @@ use App\Livewire\Listings\MyListings as MyListings;
 use App\Livewire\Categories\Index as CategoriesIndex;
 use App\Livewire\Transactions\Balance as BalanceIndex;
 
-// Maintenance route (must be before other routes)
+// Maintenance route (only accessible when maintenance mode is on)
 Route::get('/maintenance', function () {
+    // Prevent direct access when maintenance is off
+    if (!\App\Models\Setting::get('maintenance_mode', false)) {
+        return redirect()->route('home');
+    }
     return view('maintenance');
 })->name('maintenance');
 
@@ -123,6 +127,13 @@ Route::get('/api/categories/{category}/subcategories', function($categoryId) {
         ->get(['id', 'name']);
     
     return response()->json($subcategories);
+});
+
+// Maintenance status API (for auto-refresh)
+Route::get('/api/maintenance-status', function() {
+    return response()->json([
+        'maintenance_mode' => \App\Models\Setting::get('maintenance_mode', false)
+    ]);
 });
 
 

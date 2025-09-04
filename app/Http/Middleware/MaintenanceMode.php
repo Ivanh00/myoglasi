@@ -20,20 +20,20 @@ class MaintenanceMode
                 return $next($request);
             }
             
-            // Allow access to maintenance page itself and logout
-            if ($request->routeIs('maintenance') || 
-                $request->routeIs('logout') || 
-                $request->is('logout')) {
+            // Allow logout functionality
+            if ($request->routeIs('logout') || 
+                $request->is('logout') ||
+                $request->method() === 'POST' && $request->is('logout')) {
                 return $next($request);
             }
             
-            // Allow API routes that might be needed for logout
-            if ($request->is('api/*')) {
+            // Allow API routes that might be needed
+            if ($request->is('api/*') || $request->is('livewire/*')) {
                 return $next($request);
             }
             
-            // Redirect all other users to maintenance page
-            return redirect()->route('maintenance');
+            // Return maintenance view without redirecting (preserves URL)
+            return response()->view('maintenance', [], 503);
         }
         
         return $next($request);
