@@ -157,6 +157,8 @@ class MessagesList extends Component
 
     public function render()
     {
+        $this->loadConversations(); // Ensure conversations are always fresh
+        
         return view('livewire.messages-list')
             ->layout('layouts.app');
     }

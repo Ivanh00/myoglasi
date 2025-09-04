@@ -132,6 +132,7 @@ class ConversationComponent extends Component
             Message::where('listing_id', $this->listing->id)
                 ->where('sender_id', $this->otherUser->id)
                 ->where('receiver_id', Auth::id())
+                ->where('is_system_message', false) // Only mark regular messages as read, NOT notifications
                 ->where('is_read', false)
                 ->update(['is_read' => true]);
         } catch (\Exception $e) {
