@@ -329,10 +329,10 @@
     </div>
 
     <!-- Mobile Category Cards -->
-    <div class="lg:hidden space-y-4">
-        @forelse($categories as $category)
+    <div class="lg:hidden space-y-4" x-data="{ openCategories: {} }">
+        @forelse($categories->where('parent_id', null) as $category)
             <div class="bg-white shadow rounded-lg p-4">
-                <!-- Header -->
+                <!-- Main Category Header -->
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center flex-1">
                         @if($category->icon)
@@ -342,41 +342,40 @@
                         @endif
                         <div class="flex-1">
                             <div class="text-lg font-semibold text-gray-900">{{ $category->name }}</div>
-                            @if($category->parent)
-                                <div class="text-sm text-gray-500">Podkategorija od: {{ $category->parent->name }}</div>
-                            @endif
+                            <div class="text-sm text-gray-500">Glavna kategorija</div>
                         </div>
+                        
+                        @if($categories->where('parent_id', $category->id)->count() > 0)
+                            <button x-on:click="openCategories[{{ $category->id }}] = !openCategories[{{ $category->id }}]" 
+                                class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors mr-3">
+                                <i class="fas fa-chevron-down text-gray-600 transition-transform" 
+                                   x-bind:class="openCategories[{{ $category->id }}] ? 'rotate-180' : ''"></i>
+                            </button>
+                        @endif
                     </div>
                     
                     <!-- Status -->
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                        {{ $category->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                        {{ $category->is_active ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800' }}">
                         {{ $category->is_active ? 'Aktivna' : 'Neaktivna' }}
                     </span>
                 </div>
 
-                <!-- Info Grid -->
+                <!-- Main Category Info Grid -->
                 <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Redosled</div>
+                    <div class="bg-blue-50 p-3 rounded-lg">
+                        <div class="text-xs font-medium text-blue-600 uppercase tracking-wider">Redosled</div>
                         <div class="text-sm font-medium text-gray-900">{{ $category->sort_order ?? 0 }}</div>
                     </div>
                     
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Oglasi</div>
+                    <div class="bg-blue-50 p-3 rounded-lg">
+                        <div class="text-xs font-medium text-blue-600 uppercase tracking-wider">Ukupno oglasa</div>
                         <div class="text-sm font-medium text-gray-900">{{ $category->listings_count ?? 0 }}</div>
                     </div>
                 </div>
 
-                @if($category->description)
-                    <div class="mb-4">
-                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Opis</div>
-                        <div class="text-sm text-gray-700">{{ Str::limit($category->description, 100) }}</div>
-                    </div>
-                @endif
-
-                <!-- Action Buttons -->
-                <div class="flex flex-wrap gap-2">
+                <!-- Main Category Action Buttons -->
+                <div class="flex flex-wrap gap-2 mb-4">
                     <button wire:click="editCategory({{ $category->id }})" 
                         class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
                         <i class="fas fa-edit mr-1"></i>
@@ -404,6 +403,75 @@
                         Obriši
                     </button>
                 </div>
+
+                <!-- Subcategories (Collapsible) -->
+                @if($categories->where('parent_id', $category->id)->count() > 0)
+                    <div x-show="openCategories[{{ $category->id }}]" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 scale-95" 
+                         x-transition:enter-end="opacity-100 scale-100"
+                         class="border-t border-gray-200 pt-4 mt-4">
+                        <div class="text-sm font-medium text-gray-700 mb-3">
+                            <i class="fas fa-folder-open mr-2 text-green-600"></i>
+                            Podkategorije ({{ $categories->where('parent_id', $category->id)->count() }})
+                        </div>
+                        
+                        @foreach($categories->where('parent_id', $category->id) as $subcategory)
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-3">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center flex-1">
+                                        <div class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                                            @if($subcategory->icon)
+                                                <i class="{{ $subcategory->icon }} text-green-600 text-sm"></i>
+                                            @else
+                                                <i class="fas fa-tag text-green-600 text-sm"></i>
+                                            @endif
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="font-semibold text-gray-900">{{ $subcategory->name }}</div>
+                                            <div class="text-xs text-gray-500">Redosled: {{ $subcategory->sort_order ?? 0 }}</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium 
+                                        {{ $subcategory->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $subcategory->is_active ? 'Aktivna' : 'Neaktivna' }}
+                                    </span>
+                                </div>
+                                
+                                <!-- Subcategory Actions -->
+                                <div class="flex flex-wrap gap-2">
+                                    <button wire:click="editCategory({{ $subcategory->id }})" 
+                                        class="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded hover:bg-green-200 transition-colors">
+                                        <i class="fas fa-edit mr-1"></i>
+                                        Uredi
+                                    </button>
+                                    
+                                    @if($subcategory->is_active)
+                                        <button wire:click="deactivateCategory({{ $subcategory->id }})" 
+                                            class="inline-flex items-center px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded hover:bg-orange-200 transition-colors">
+                                            <i class="fas fa-eye-slash mr-1"></i>
+                                            Deaktiviraj
+                                        </button>
+                                    @else
+                                        <button wire:click="activateCategory({{ $subcategory->id }})" 
+                                            class="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded hover:bg-green-200 transition-colors">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            Aktiviraj
+                                        </button>
+                                    @endif
+                                    
+                                    <button wire:click="deleteCategory({{ $subcategory->id }})" 
+                                        wire:confirm="Da li ste sigurni da želite da obrišete ovu podkategoriju?"
+                                        class="inline-flex items-center px-2 py-1 bg-red-100 text-red-700 text-xs font-medium rounded hover:bg-red-200 transition-colors">
+                                        <i class="fas fa-trash mr-1"></i>
+                                        Obriši
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         @empty
             <div class="bg-white rounded-lg shadow p-8 text-center">
