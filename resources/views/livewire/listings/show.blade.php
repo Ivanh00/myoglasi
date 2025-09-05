@@ -159,16 +159,18 @@
                                 @if(!$listing->user->is_banned)
                                     <!-- Dugme za slanje poruke -->
                                     <a href="{{ route('listing.chat', ['slug' => $listing->slug]) }}"
-                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        class="flex-1 flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                         <i class="fas fa-envelope mr-2"></i> Pošalji poruku
                                     </a>
 
                                     <!-- Favorite dugme (Livewire komponenta) -->
-                                    <livewire:favorite-button :listing="$listing" />
+                                    <div class="flex-1">
+                                        <livewire:favorite-button :listing="$listing" />
+                                    </div>
 
                                     <!-- Dugme za deljenje -->
                                     <button onclick="shareListing()"
-                                        class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        class="flex-1 flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                         <i class="fas fa-share-alt mr-2"></i> Podeli
                                     </button>
                                 @else
