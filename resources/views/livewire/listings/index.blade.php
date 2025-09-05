@@ -23,41 +23,7 @@
         <p class="text-gray-600">Pronađite najbolje ponude iz svih kategorija</p>
     </div>
 
-    <!-- Desktop traka sa kategorijama -->
-    <div class="hidden md:block mb-8 overflow-hidden">
-        <div class="flex space-x-4 pb-4 overflow-x-auto scrollbar-hide">
-            <!-- Sve kategorije -->
-            <a href="{{ route('listings.index') }}"
-                class="flex-shrink-0 px-6 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap {{ !$selectedCategory ? 'bg-blue-50 border-blue-500 text-blue-700' : '' }}">
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 11H5m14-8H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"></path>
-                    </svg>
-                    Sve kategorije
-                </div>
-            </a>
-
-            <!-- Pojedinačne kategorije -->
-            @foreach ($categories as $category)
-                <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
-                    class="flex-shrink-0 px-6 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap {{ $selectedCategory == $category->id ? 'bg-blue-50 border-blue-500 text-blue-700' : '' }}">
-                    <div class="flex items-center">
-                        @if ($category->icon)
-                            <i class="{{ $category->icon }} text-blue-600 mr-2"></i>
-                        @else
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4">
-                                </path>
-                            </svg>
-                        @endif
-                        {{ $category->name }}
-                    </div>
-                </a>
-            @endforeach
-        </div>
-    </div>
+    <!-- Desktop kategorije dropdown će biti u donjoj sekciji -->
 
     <!-- Mobile kategorija dropdown -->
     <div class="md:hidden mb-6">
@@ -101,22 +67,59 @@
 
     <!-- Filteri i sortiranje -->
     <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+        <!-- Results Info (Desktop/Mobile) -->
+        <div class="text-center text-gray-600 mb-4">
+            Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
+            @if ($selectedCategory)
+                @if ($currentCategory)
+                    u kategoriji: <span class="font-semibold">
+                        @if ($currentCategory->parent)
+                            {{ $currentCategory->parent->name }} / {{ $currentCategory->name }}
+                        @else
+                            {{ $currentCategory->name }}
+                        @endif
+                    </span>
+                @endif
+            @endif
+        </div>
+        
         <!-- Desktop Layout -->
         <div class="hidden md:flex md:items-center md:justify-between gap-4">
-            <!-- Left: Results count -->
-            <div class="text-gray-600">
-                Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
-                @if ($selectedCategory)
-                    @if ($currentCategory)
-                        u kategoriji: <span class="font-semibold">
-                            @if ($currentCategory->parent)
-                                {{ $currentCategory->parent->name }} / {{ $currentCategory->name }}
+            <!-- Left: Category dropdown -->
+            <div class="w-60" x-data="{ open: false }">
+                <div class="relative">
+                    <button @click="open = !open" type="button"
+                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
+                        <span>
+                            @if($selectedCategory)
+                                @php $selectedCat = $categories->firstWhere('id', $selectedCategory); @endphp
+                                {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
                             @else
-                                {{ $currentCategory->name }}
+                                Sve kategorije
                             @endif
                         </span>
-                    @endif
-                @endif
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg {{ !$selectedCategory ? 'bg-blue-50 text-blue-700' : '' }}">
+                            Sve kategorije
+                        </button>
+                        @foreach ($categories as $category)
+                            <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center {{ $selectedCategory == $category->id ? 'bg-blue-50 text-blue-700' : '' }}">
+                                @if($category->icon)
+                                    <i class="{{ $category->icon }} text-blue-600 mr-2"></i>
+                                @endif
+                                {{ $category->name }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
             </div>
 
             <!-- Center: Filters -->
