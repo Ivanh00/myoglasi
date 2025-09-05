@@ -227,14 +227,15 @@
                                         
                                         {{-- User ratings --}}
                                         @if($listing->user && $listing->user->total_ratings_count > 0)
-                                            <div class="flex items-center text-xs text-gray-600 mb-2">
+                                            <a href="{{ route('user.ratings', $listing->user->id) }}" class="inline-flex items-center text-xs text-gray-600 mb-2 hover:text-blue-600 transition-colors">
                                                 <span class="text-green-600 mr-1">😊 {{ $listing->user->positive_ratings_count }}</span>
                                                 <span class="text-yellow-600 mr-1">😐 {{ $listing->user->neutral_ratings_count }}</span>
                                                 <span class="text-red-600 mr-1">😞 {{ $listing->user->negative_ratings_count }}</span>
                                                 @if($listing->user->rating_badge)
                                                     <span class="ml-1">{{ $listing->user->rating_badge }}</span>
                                                 @endif
-                                            </div>
+                                                <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                                            </a>
                                         @endif
                                     @endauth
 

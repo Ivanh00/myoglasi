@@ -91,13 +91,26 @@
 
                     <div class="mb-6 p-4 bg-gray-50 rounded-lg">
                         @auth
-                            <div class="flex items-center mb-2">
+                            <div class="flex items-center mb-1">
                                 <i class="fas fa-user text-gray-500 mr-2"></i>
                                 <span class="text-gray-700 font-bold">Prodavac: {{ $listing->user->name }}</span>
                                 @if($listing->user->is_banned)
                                     <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
                                 @endif
                             </div>
+                            
+                            {{-- User ratings --}}
+                            @if($listing->user->total_ratings_count > 0)
+                                <a href="{{ route('user.ratings', $listing->user->id) }}" class="inline-flex items-center text-xs text-gray-600 mb-2 hover:text-blue-600 transition-colors">
+                                    <span class="text-green-600 mr-1">😊 {{ $listing->user->positive_ratings_count }}</span>
+                                    <span class="text-yellow-600 mr-1">😐 {{ $listing->user->neutral_ratings_count }}</span>
+                                    <span class="text-red-600 mr-1">😞 {{ $listing->user->negative_ratings_count }}</span>
+                                    @if($listing->user->rating_badge)
+                                        <span class="ml-1">{{ $listing->user->rating_badge }}</span>
+                                    @endif
+                                    <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                                </a>
+                            @endif
                         @endauth
                         <div class="flex items-center mb-2">
                             <i class="fas fa-map-marker-alt text-gray-500 mr-2"></i>
@@ -264,19 +277,43 @@
             <!-- Informacije o prodavcu -->
             <div class="border-t border-gray-200 p-6 bg-gray-50">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">Informacije o prodavcu</h2>
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                        <i class="fas fa-user text-blue-500"></i>
+                <div class="flex items-start">
+                    <!-- Avatar -->
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        @if($listing->user->avatar)
+                            <img src="{{ $listing->user->avatar_url }}" alt="{{ $listing->user->name }}" 
+                                 class="w-16 h-16 rounded-full object-cover">
+                        @else
+                            <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                                {{ strtoupper(substr($listing->user->name, 0, 1)) }}
+                            </div>
+                        @endif
                     </div>
-                    <div>
-                        <h3 class="font-medium text-gray-900">
+                    
+                    <div class="flex-1">
+                        <h3 class="font-medium text-gray-900 text-lg">
                             {{ $listing->user->name }}
                             @if($listing->user->is_banned)
                                 <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
                             @endif
                         </h3>
-                        <p class="text-gray-600 text-sm">Član od: {{ $listing->user->created_at->format('m/Y') }}
-                        </p>
+                        <p class="text-gray-600 text-sm mb-3">Član od: {{ $listing->user->created_at->format('m/Y') }}</p>
+                        
+                        {{-- User ratings --}}
+                        @if($listing->user->total_ratings_count > 0)
+                            <a href="{{ route('user.ratings', $listing->user->id) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                                <span class="text-green-600 mr-2">😊 {{ $listing->user->positive_ratings_count }}</span>
+                                <span class="text-yellow-600 mr-2">😐 {{ $listing->user->neutral_ratings_count }}</span>
+                                <span class="text-red-600 mr-2">😞 {{ $listing->user->negative_ratings_count }}</span>
+                                @if($listing->user->rating_badge)
+                                    <span class="ml-1 mr-2">{{ $listing->user->rating_badge }}</span>
+                                @endif
+                                <span class="text-blue-500 hover:text-blue-700">Pogledaj ocene</span>
+                                <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                            </a>
+                        @else
+                            <p class="text-gray-500 text-sm">Još nema ocena</p>
+                        @endif
                     </div>
                 </div>
             </div>
