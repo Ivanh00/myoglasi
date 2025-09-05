@@ -45,8 +45,11 @@ class MessagesList extends Component
                 $otherUserId = $message->sender_id == $userId 
                     ? $message->receiver_id 
                     : $message->sender_id;
+                
+                // Handle null listing_id for admin contact
+                $listingKey = $message->listing_id ?? 'admin_contact';
                     
-                return $message->listing_id . '-' . $otherUserId;
+                return $listingKey . '-' . $otherUserId;
             })
             ->map(function ($messages) use ($userId) {
                 $lastMessage = $messages->sortByDesc('created_at')->first();
@@ -71,7 +74,7 @@ class MessagesList extends Component
                                     ->count();
 
                 return [
-                    'listing' => $lastMessage->listing,
+                    'listing' => $lastMessage->listing, // Can be null for admin contact
                     'other_user' => $otherUser,
                     'last_message' => $lastMessage,
                     'unread_count' => $unreadCount,
@@ -112,7 +115,13 @@ class MessagesList extends Component
         $conversation = $this->conversations[$conversationKey] ?? null;
         
         if ($conversation) {
-            // Sada su sve konverzacije regularne poruke
+            // Check if this is admin contact (no listing)
+            if (!$conversation['listing']) {
+                // Redirect to admin contact page
+                return redirect()->route('admin.contact');
+            }
+            
+            // Regular listing conversation
             $url = route('listing.chat', [
                 'slug' => $conversation['listing']->slug,
                 'user' => $conversation['other_user']->id

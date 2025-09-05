@@ -110,6 +110,11 @@
                                 <x-dropdown-link href="{{ route('balance.index') }}">
                                     Balans
                                 </x-dropdown-link>
+                                
+                                <x-dropdown-link href="{{ route('admin.contact') }}">
+                                    Piši Adminu
+                                </x-dropdown-link>
+                                
                                 <div class="border-t border-gray-100"></div>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf

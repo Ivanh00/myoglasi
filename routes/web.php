@@ -90,6 +90,9 @@ Route::middleware(['auth'])->group(function () {
     
     // Report routes
     Route::get('/listing/{slug}/report', \App\Livewire\Listings\ReportListing::class)->name('listing.report');
+    
+    // Admin contact
+    Route::get('/contact-admin', \App\Livewire\AdminContact::class)->name('admin.contact');
 
     Route::post('/logout', function () {
         auth()->guard('web')->logout();

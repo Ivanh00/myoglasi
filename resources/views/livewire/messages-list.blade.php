@@ -99,7 +99,11 @@
                                 @endif
                             </div>
                             <div class="listing-name">
-                                {{ $conversation['listing']->title }}
+                                @if($conversation['listing'])
+                                    {{ $conversation['listing']->title }}
+                                @else
+                                    <span class="text-gray-500">Direktna komunikacija</span>
+                                @endif
                             </div>
                         </div>
 
@@ -172,7 +176,11 @@
                                     {{ $conversation['other_user']->name }}
                                 </h3>
                                 <p class="text-xs text-gray-500 truncate">
-                                    {{ $conversation['listing']->title }}
+                                    @if($conversation['listing'])
+                                        {{ $conversation['listing']->title }}
+                                    @else
+                                        Direktna komunikacija
+                                    @endif
                                 </p>
                             </div>
                         </div>
