@@ -344,4 +344,73 @@ public function getAvatarUrlAttribute()
         
         return 'Plaćanje po oglasu';
     }
+
+    // Rating relationships
+    public function ratingsGiven()
+    {
+        return $this->hasMany(Rating::class, 'rater_id');
+    }
+
+    public function ratingsReceived()
+    {
+        return $this->hasMany(Rating::class, 'rated_user_id');
+    }
+
+    // Rating statistics
+    public function getPositiveRatingsCountAttribute()
+    {
+        return $this->ratingsReceived()->where('rating', 'positive')->count();
+    }
+
+    public function getNeutralRatingsCountAttribute()
+    {
+        return $this->ratingsReceived()->where('rating', 'neutral')->count();
+    }
+
+    public function getNegativeRatingsCountAttribute()
+    {
+        return $this->ratingsReceived()->where('rating', 'negative')->count();
+    }
+
+    public function getTotalRatingsCountAttribute()
+    {
+        return $this->ratingsReceived()->count();
+    }
+
+    public function getRatingPercentageAttribute()
+    {
+        $total = $this->total_ratings_count;
+        if ($total == 0) return null;
+        
+        return [
+            'positive' => round(($this->positive_ratings_count / $total) * 100),
+            'neutral' => round(($this->neutral_ratings_count / $total) * 100),
+            'negative' => round(($this->negative_ratings_count / $total) * 100)
+        ];
+    }
+
+    public function getRatingBadgeAttribute()
+    {
+        $total = $this->total_ratings_count;
+        if ($total == 0) return null;
+        
+        $positive = $this->positive_ratings_count;
+        $negative = $this->negative_ratings_count;
+        
+        $positivePercent = ($positive / $total) * 100;
+        
+        if ($positivePercent >= 90) return '⭐⭐⭐'; // Excellent
+        if ($positivePercent >= 75) return '⭐⭐'; // Good
+        if ($positivePercent >= 50) return '⭐'; // OK
+        return null; // Poor
+    }
+
+    public function canBeRatedBy($userId, $listingId)
+    {
+        // Check if user has already rated this user for this listing
+        return !$this->ratingsReceived()
+            ->where('rater_id', $userId)
+            ->where('listing_id', $listingId)
+            ->exists();
+    }
 }
