@@ -14,18 +14,28 @@
 
             <!-- Right Section - Desktop -->
             <div class="hidden md:flex items-center space-x-4">
-                <!-- Postavi oglas dugme - samo za ulogovane -->
+                <!-- Postavi oglas dugme - samo za obične korisnike (ne admin) -->
                 @auth
-                    <div>
-                        <a href="{{ route('listings.create') }}"
-                            class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-green-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-                            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            Postavi oglas
-                        </a>
-                    </div>
+                    @if(!auth()->user()->is_admin)
+                        <div>
+                            <a href="{{ route('listings.create') }}"
+                                class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-green-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                Postavi oglas
+                            </a>
+                        </div>
+                    @else
+                        <!-- Admin Panel Icon Button -->
+                        <div>
+                            <a href="{{ route('admin.dashboard') }}"
+                                class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 rounded-full shadow-sm bg-white hover:bg-blue-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                <i class="fas fa-cog text-gray-700 text-lg"></i>
+                            </a>
+                        </div>
+                    @endif
 
                     <!-- User dropdown -->
                     <div class="relative">
@@ -54,18 +64,13 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link href="{{ route('profile') }}">
-                                    Moj profil
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('listings.my') }}">
-                                    Moji oglasi
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('favorites.index') }}">
-                                    Omiljeni
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('messages.inbox') }}">
-                                    Poruke
-                                    @auth
+                                @if(auth()->user()->is_admin)
+                                    <!-- Admin dropdown menu -->
+                                    <x-dropdown-link href="{{ route('profile') }}">
+                                        Moj profil
+                                    </x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('messages.inbox') }}">
+                                        Poruke
                                         @php
                                             $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())
                                                 ->where('is_read', false)
@@ -74,16 +79,11 @@
                                         @if ($unreadCount > 0)
                                             <span class="unread-badge">{{ $unreadCount }}</span>
                                         @endif
-                                    @endauth
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('notifications.index') }}">
-                                    Obaveštenja
-                                    @auth
+                                    </x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('notifications.index') }}">
+                                        Obaveštenja
                                         @php
-                                            $unreadNotifications = \App\Models\Message::where(
-                                                'receiver_id',
-                                                auth()->id(),
-                                            )
+                                            $unreadNotifications = \App\Models\Message::where('receiver_id', auth()->id())
                                                 ->where('is_system_message', true)
                                                 ->where('is_read', false)
                                                 ->count();
@@ -91,12 +91,44 @@
                                         @if ($unreadNotifications > 0)
                                             <span class="unread-badge">{{ $unreadNotifications }}</span>
                                         @endif
-                                    @endauth
-                                </x-dropdown-link>
-                                
-                                <x-dropdown-link href="{{ route('ratings.my') }}">
-                                    Moje ocene
-                                    @auth
+                                    </x-dropdown-link>
+                                @else
+                                    <!-- Regular user dropdown menu -->
+                                    <x-dropdown-link href="{{ route('profile') }}">
+                                        Moj profil
+                                    </x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('listings.my') }}">
+                                        Moji oglasi
+                                    </x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('favorites.index') }}">
+                                        Omiljeni
+                                    </x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('messages.inbox') }}">
+                                        Poruke
+                                        @php
+                                            $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())
+                                                ->where('is_read', false)
+                                                ->count();
+                                        @endphp
+                                        @if ($unreadCount > 0)
+                                            <span class="unread-badge">{{ $unreadCount }}</span>
+                                        @endif
+                                    </x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('notifications.index') }}">
+                                        Obaveštenja
+                                        @php
+                                            $unreadNotifications = \App\Models\Message::where('receiver_id', auth()->id())
+                                                ->where('is_system_message', true)
+                                                ->where('is_read', false)
+                                                ->count();
+                                        @endphp
+                                        @if ($unreadNotifications > 0)
+                                            <span class="unread-badge">{{ $unreadNotifications }}</span>
+                                        @endif
+                                    </x-dropdown-link>
+                                    
+                                    <x-dropdown-link href="{{ route('ratings.my') }}">
+                                        Moje ocene
                                         @php
                                             $totalRatings = auth()->user()->total_ratings_count ?? 0;
                                         @endphp
@@ -105,15 +137,15 @@
                                                 {{ $totalRatings }}
                                             </span>
                                         @endif
-                                    @endauth
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('balance.index') }}">
-                                    Balans
-                                </x-dropdown-link>
-                                
-                                <x-dropdown-link href="{{ route('admin.contact') }}">
-                                    Piši Adminu
-                                </x-dropdown-link>
+                                    </x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('balance.index') }}">
+                                        Balans
+                                    </x-dropdown-link>
+                                    
+                                    <x-dropdown-link href="{{ route('admin.contact') }}">
+                                        Piši Adminu
+                                    </x-dropdown-link>
+                                @endif
                                 
                                 <div class="border-t border-gray-100"></div>
                                 <form method="POST" action="{{ route('logout') }}">
