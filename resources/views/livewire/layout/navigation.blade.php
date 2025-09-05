@@ -218,7 +218,7 @@
                         Omiljeni
                     </a>
                     <a href="{{ route('messages.index') }}"
-                        class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Poruke
                         @auth
                             @php
@@ -237,7 +237,7 @@
                     </a>
 
                     <a href="{{ route('notifications.index') }}"
-                        class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Obaveštenja
                         @auth
                             @php
@@ -250,6 +250,21 @@
                             @if ($unreadNotificationsCount > 0)
                                 <span class="ml-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
                                     {{ $unreadNotificationsCount }}
+                                </span>
+                            @endif
+                        @endauth
+                    </a>
+                    
+                    <a href="{{ route('ratings.my') }}"
+                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        Moje ocene
+                        @auth
+                            @php
+                                $totalRatings = auth()->user()->total_ratings_count ?? 0;
+                            @endphp
+                            @if ($totalRatings > 0)
+                                <span class="ml-1 bg-green-500 text-white rounded px-2 py-1 text-xs font-medium">
+                                    {{ $totalRatings }}
                                 </span>
                             @endif
                         @endauth

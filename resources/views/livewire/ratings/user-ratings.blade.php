@@ -104,7 +104,7 @@
     <!-- Desktop Ratings List -->
     <div class="hidden md:block conversations-list">
         @forelse($ratings as $rating)
-            <div class="conversation-item" wire:key="rating-{{ $rating->id }}">
+            <div class="conversation-item {{ $rating->rating === 'positive' ? 'border-l-4 border-l-green-500' : ($rating->rating === 'neutral' ? 'border-l-4 border-l-yellow-500' : 'border-l-4 border-l-red-500') }}" wire:key="rating-{{ $rating->id }}" style="border-left: 4px solid {{ $rating->rating === 'positive' ? '#10b981' : ($rating->rating === 'neutral' ? '#f59e0b' : '#ef4444') }};">
                 <div class="conversation-info" style="margin-left: 0; padding-left: 1rem;">
                     <div class="conversation-inner">
                         <!-- Rating Info -->
