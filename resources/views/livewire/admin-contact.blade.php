@@ -58,17 +58,11 @@
                                 <!-- Status poruke -->
                                 <div class="message-status">
                                     @if ($message->is_read)
-                                        <!-- Pročitana poruka -->
-                                        <svg width="16" height="11" viewBox="0 0 18 11" fill="none" class="read-status">
-                                            <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M16.5 1L10.5 9.5L9 8" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+                                        <!-- Pročitana poruka - zeleno oko -->
+                                        <i class="fas fa-eye text-green-500 text-sm" title="Pročitano"></i>
                                     @else
-                                        <!-- Dostavljena poruka -->
-                                        <svg width="16" height="11" viewBox="0 0 18 11" fill="none" class="delivered-status">
-                                            <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M16.5 1L10.5 9.5L9 8" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+                                        <!-- Dostavljena poruka - sivo oko -->
+                                        <i class="fas fa-eye text-gray-400 text-sm" title="Dostavljeno"></i>
                                     @endif
                                 </div>
                             @endif

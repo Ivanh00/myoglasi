@@ -109,12 +109,12 @@
 
                         <!-- Message Preview -->
                         <div class="message-preview">
-                            @if ($conversation['last_message']->is_read && $conversation['last_message']->sender_id == Auth::id())
-                                <svg width="16" height="11" viewBox="0 0 18 11" fill="none"
-                                    stroke="var(--accent-primary)" class="read-icon">
-                                    <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke-width="2" />
-                                    <path d="M16.5 1L10.5 9.5L9 8" stroke-width="2" />
-                                </svg>
+                            @if ($conversation['last_message']->sender_id == Auth::id())
+                                @if ($conversation['last_message']->is_read)
+                                    <i class="fas fa-eye text-green-500 text-sm mr-2" title="Pročitano"></i>
+                                @else
+                                    <i class="fas fa-eye text-gray-400 text-sm mr-2" title="Dostavljeno"></i>
+                                @endif
                             @endif
                             <div class="preview-text">
                                 {{ Str::limit($conversation['last_message']->message, 60) }}
@@ -201,11 +201,12 @@
                     <!-- Message preview -->
                     <div class="flex items-center justify-between">
                         <div class="flex items-center flex-1 min-w-0">
-                            @if ($conversation['last_message']->is_read && $conversation['last_message']->sender_id == Auth::id())
-                                <svg width="12" height="8" viewBox="0 0 18 11" fill="none" stroke="#10b981" class="mr-2 flex-shrink-0">
-                                    <path d="M10.5 1L4.5 9.5L1.5 6.5" stroke-width="2" />
-                                    <path d="M16.5 1L10.5 9.5L9 8" stroke-width="2" />
-                                </svg>
+                            @if ($conversation['last_message']->sender_id == Auth::id())
+                                @if ($conversation['last_message']->is_read)
+                                    <i class="fas fa-eye text-green-500 text-sm mr-2 flex-shrink-0" title="Pročitano"></i>
+                                @else
+                                    <i class="fas fa-eye text-gray-400 text-sm mr-2 flex-shrink-0" title="Dostavljeno"></i>
+                                @endif
                             @endif
                             <p class="text-sm text-gray-600 truncate">
                                 {{ Str::limit($conversation['last_message']->message, 80) }}
