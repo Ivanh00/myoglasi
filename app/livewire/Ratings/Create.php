@@ -31,6 +31,12 @@ class Create extends Component
         $this->user = $user;
         $this->listing = $listing;
         
+        // Check if user is trying to rate themselves
+        if ($user->id == auth()->id()) {
+            session()->flash('error', 'Ne možete oceniti sebe.');
+            return redirect()->route('messages.inbox');
+        }
+        
         // Check if user can rate
         if (!$this->user->canBeRatedBy(auth()->id(), $this->listing->id)) {
             session()->flash('error', 'Već ste ocenili ovog korisnika za ovaj oglas.');

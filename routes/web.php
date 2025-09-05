@@ -83,8 +83,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/balance/card-payment/{transaction}', \App\Livewire\Balance\CardPayment::class)->name('balance.card-payment');
     Route::get('/balance/bank-transfer/{transaction}', \App\Livewire\Balance\BankTransfer::class)->name('balance.bank-transfer');
     
-    // Rating routes
-    Route::get('/rating/create/{user}/{listing}', \App\Livewire\Ratings\Create::class)->name('ratings.create');
+    // Rating routes  
+    Route::get('/rating/create/{user}/{listing:id}', \App\Livewire\Ratings\Create::class)->name('ratings.create');
 
     Route::post('/logout', function () {
         auth()->guard('web')->logout();
