@@ -47,6 +47,12 @@ class Edit extends Component
 {
     $this->listing = $listing;
     
+    // Prevent editing of inactive listings (except by admins)
+    if ($listing->status === 'inactive' && (!auth()->check() || !auth()->user()->is_admin)) {
+        session()->flash('error', 'Ovaj oglas je uklonjen i ne može se uređivati.');
+        return redirect()->route('listings.my');
+    }
+    
     // Popuni polja sa postojećim vrednostima iz oglasa
     $this->title = $listing->title;
     $this->description = $listing->description;

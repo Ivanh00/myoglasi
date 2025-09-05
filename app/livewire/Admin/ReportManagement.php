@@ -23,6 +23,7 @@ class ReportManagement extends Component
     public $showActionModal = false;
     public $showDetailsModal = false;
     public $showDeleteModal = false;
+    public $showRestoreModal = false;
     public $adminAction = ''; // mark_reviewed, mark_resolved, delete_listing
     public $adminNotes = '';
     public $notifyUser = true;
@@ -240,27 +241,76 @@ class ReportManagement extends Component
         if (!$this->selectedReport) return;
 
         try {
-            // Mark listing as inactive instead of hard delete
-            $this->selectedReport->listing->update(['status' => 'inactive']);
+            $listing = $this->selectedReport->listing;
             
-            $this->selectedReport->update([
-                'status' => 'resolved',
-                'admin_notes' => 'Oglas je uklonjen zbog kršenja pravila. ' . $this->adminNotes
-            ]);
-            
-            if ($this->notifyUser) {
-                // Send notification to listing owner
-                $this->sendNotificationToListingOwner();
+            if ($listing->status === 'inactive') {
+                // Hard delete if already soft deleted
+                $listing->delete();
+                
+                $this->selectedReport->update([
+                    'status' => 'resolved',
+                    'admin_notes' => 'Oglas je trajno obrisan. ' . $this->adminNotes
+                ]);
+                
+                $this->dispatch('notify', type: 'success', message: 'Oglas je trajno obrisan.');
+            } else {
+                // Soft delete - mark as inactive
+                $listing->update(['status' => 'inactive']);
+                
+                $this->selectedReport->update([
+                    'status' => 'resolved',
+                    'admin_notes' => 'Oglas je uklonjen zbog kršenja pravila. ' . $this->adminNotes
+                ]);
+                
+                if ($this->notifyUser) {
+                    // Send notification to listing owner
+                    $this->sendNotificationToListingOwner();
+                }
+                
+                // Send notification to reporting user
+                $this->sendNotificationToReporter('rešena - oglas uklonjen');
+                
+                $this->dispatch('notify', type: 'success', message: 'Oglas je uklonjen i može biti vraćen ako je potrebno.');
             }
             
-            // Send notification to reporting user
-            $this->sendNotificationToReporter('rešena - oglas uklonjen');
-            
-            $this->dispatch('notify', type: 'success', message: 'Oglas je uklonjen i prijava je rešena.');
             $this->resetModals();
 
         } catch (\Exception $e) {
             $this->dispatch('notify', type: 'error', message: 'Greška pri brisanju oglasa: ' . $e->getMessage());
+        }
+    }
+
+    public function restoreListing($reportId)
+    {
+        try {
+            $report = ListingReport::with(['user', 'listing'])->find($reportId);
+            
+            if (!$report || !$report->listing) {
+                $this->dispatch('notify', type: 'error', message: 'Oglas nije pronađen.');
+                return;
+            }
+            
+            $report->listing->update(['status' => 'active']);
+            
+            $report->update([
+                'admin_notes' => $report->admin_notes . ' | Oglas vraćen ' . now()->format('d.m.Y H:i')
+            ]);
+            
+            // Send notification to listing owner
+            Message::create([
+                'sender_id' => auth()->id(),
+                'receiver_id' => $report->listing->user_id,
+                'listing_id' => $report->listing_id,
+                'message' => "Vaš oglas '{$report->listing->title}' je vraćen na platformu.",
+                'subject' => 'Oglas vraćen',
+                'is_system_message' => true,
+                'is_read' => false
+            ]);
+            
+            $this->dispatch('notify', type: 'success', message: 'Oglas je vraćen na platformu.');
+            
+        } catch (\Exception $e) {
+            $this->dispatch('notify', type: 'error', message: 'Greška pri vraćanju oglasa: ' . $e->getMessage());
         }
     }
 

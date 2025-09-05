@@ -24,6 +24,14 @@ class Show extends Component
             $this->listing = $listing->load(['category', 'subcategory', 'condition', 'images', 'user']);
         }
         
+        // Check if listing is accessible (not deleted or inactive to public)
+        if ($this->listing && $this->listing->status === 'inactive') {
+            // Only allow access for admins and listing owner
+            if (!auth()->check() || (!auth()->user()->is_admin && auth()->id() !== $this->listing->user_id)) {
+                abort(404, 'Oglas nije dostupan.');
+            }
+        }
+        
         // Povećaj broj pregleda
         if ($this->listing) {
             $this->listing->increment('views');
