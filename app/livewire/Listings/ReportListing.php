@@ -12,6 +12,7 @@ class ReportListing extends Component
     public $listing;
     public $reportReason = '';
     public $reportDetails = '';
+    public $showSuccessModal = false;
     
     public $reportReasons = [
         'inappropriate_content' => 'Neprikladan sadržaj',
@@ -78,12 +79,22 @@ class ReportListing extends Component
                 'is_read' => false
             ]);
             
-            session()->flash('success', 'Prijava je poslata administratoru. Hvala vam na ukazanoj pažnji.');
-            return redirect()->route('listings.show', $this->listing);
+            // Show success modal instead of redirect
+            $this->showSuccessModal = true;
+            
+            // Reset form
+            $this->reportReason = '';
+            $this->reportDetails = '';
             
         } catch (\Exception $e) {
             session()->flash('error', 'Greška pri slanju prijave. Molimo pokušajte ponovo.');
         }
+    }
+    
+    public function closeSuccessModal()
+    {
+        $this->showSuccessModal = false;
+        return redirect()->route('listings.show', $this->listing);
     }
 
     public function render()

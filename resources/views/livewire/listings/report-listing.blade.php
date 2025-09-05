@@ -117,4 +117,27 @@
             </form>
         </div>
     </div>
+
+    <!-- Success Modal -->
+    @if($showSuccessModal)
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg shadow-xl p-6 max-w-md mx-4">
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check text-green-600 text-2xl"></i>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Prijava je poslata</h3>
+                    <p class="text-gray-600 mb-6">
+                        Hvala vam na ukazanoj pažnji. Administratori će pregledati vašu prijavu u najkraćem roku.
+                    </p>
+                    
+                    <button wire:click="closeSuccessModal" 
+                        class="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                        Nazad na oglas
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
