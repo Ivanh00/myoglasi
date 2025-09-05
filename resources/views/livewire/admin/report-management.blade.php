@@ -233,10 +233,22 @@
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                     
-                                    <button wire:click="confirmDeleteListing({{ $report->id }})" 
-                                            class="text-red-600 hover:text-red-900 p-1 rounded" title="Obriši oglas">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    @if($report->listing && $report->listing->status === 'inactive')
+                                        <button wire:click="restoreListing({{ $report->id }})" 
+                                                class="text-green-600 hover:text-green-900 p-1 rounded" title="Vrati oglas">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                        
+                                        <button wire:click="confirmDeleteListing({{ $report->id }})" 
+                                                class="text-red-600 hover:text-red-900 p-1 rounded" title="Trajno obriši">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    @else
+                                        <button wire:click="confirmDeleteListing({{ $report->id }})" 
+                                                class="text-red-600 hover:text-red-900 p-1 rounded" title="Obriši oglas">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -362,17 +374,35 @@
                         </button>
                     @endif
                     
-                    <a href="{{ route('listings.show', $report->listing) }}" target="_blank"
-                       class="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-medium rounded-lg hover:bg-purple-200 transition-colors">
-                        <i class="fas fa-external-link-alt mr-1"></i>
-                        Pogledaj
-                    </a>
+                    @if($report->listing)
+                        @if($report->listing->status !== 'inactive')
+                            <a href="{{ route('listings.show', $report->listing) }}" target="_blank"
+                               class="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-medium rounded-lg hover:bg-purple-200 transition-colors">
+                                <i class="fas fa-external-link-alt mr-1"></i>
+                                Pogledaj
+                            </a>
+                        @endif
+                    @endif
                     
-                    <button wire:click="confirmDeleteListing({{ $report->id }})" 
-                        class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
-                        <i class="fas fa-trash mr-1"></i>
-                        Obriši oglas
-                    </button>
+                    @if($report->listing && $report->listing->status === 'inactive')
+                        <button wire:click="restoreListing({{ $report->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                            <i class="fas fa-undo mr-1"></i>
+                            Vrati oglas
+                        </button>
+                        
+                        <button wire:click="confirmDeleteListing({{ $report->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                            <i class="fas fa-trash-alt mr-1"></i>
+                            Trajno obriši
+                        </button>
+                    @else
+                        <button wire:click="confirmDeleteListing({{ $report->id }})" 
+                            class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                            <i class="fas fa-trash mr-1"></i>
+                            Obriši oglas
+                        </button>
+                    @endif
                 </div>
             </div>
         @empty
