@@ -85,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
     
     // Rating routes  
     Route::get('/rating/create', \App\Livewire\Ratings\Create::class)->name('ratings.create');
+    Route::get('/my-ratings', \App\Livewire\Ratings\MyRatings::class)->name('ratings.my');
 
     Route::post('/logout', function () {
         auth()->guard('web')->logout();

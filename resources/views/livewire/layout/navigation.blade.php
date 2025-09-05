@@ -93,6 +93,18 @@
                                         @endif
                                     @endauth
                                 </x-dropdown-link>
+                                
+                                <x-dropdown-link href="{{ route('ratings.my') }}">
+                                    Moje ocene
+                                    @auth
+                                        @php
+                                            $totalRatings = auth()->user()->total_ratings_count ?? 0;
+                                        @endphp
+                                        @if ($totalRatings > 0)
+                                            <span class="text-gray-500 text-sm">({{ $totalRatings }})</span>
+                                        @endif
+                                    @endauth
+                                </x-dropdown-link>
                                 <x-dropdown-link href="{{ route('balance.index') }}">
                                     Balans
                                 </x-dropdown-link>
