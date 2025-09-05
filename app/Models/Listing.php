@@ -135,4 +135,18 @@ public function getDaysUntilExpiryAttribute()
     
     return max(0, $this->expires_at->diffInDays(now(), false));
 }
+
+public function isReportedBy($userId)
+{
+    return ListingReport::where('user_id', $userId)
+        ->where('listing_id', $this->id)
+        ->exists();
+}
+
+public function getReportByUser($userId)
+{
+    return ListingReport::where('user_id', $userId)
+        ->where('listing_id', $this->id)
+        ->first();
+}
 }

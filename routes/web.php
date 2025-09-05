@@ -273,6 +273,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/transactions', \App\Livewire\Admin\TransactionManagement::class)->name('transactions.index');
     Route::get('/notifications', \App\Livewire\Admin\NotificationManagement::class)->name('notifications.index');
     Route::get('/ratings', \App\Livewire\Admin\RatingManagement::class)->name('ratings.index');
+    Route::get('/reports', \App\Livewire\Admin\ReportManagement::class)->name('reports.index');
     Route::get('/images', \App\Livewire\Admin\ImageManagement::class)->name('images.index');
     Route::get('/settings', \App\Livewire\Admin\Settings::class)->name('settings');
 });

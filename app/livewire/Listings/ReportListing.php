@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Listing;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\ListingReport;
 
 class ReportListing extends Component
 {
@@ -46,6 +47,16 @@ class ReportListing extends Component
             session()->flash('error', 'Ne možete prijaviti svoj oglas.');
             return redirect()->route('listings.show', $this->listing);
         }
+        
+        // Check if user has already reported this listing
+        $existingReport = ListingReport::where('user_id', auth()->id())
+            ->where('listing_id', $this->listing->id)
+            ->first();
+            
+        if ($existingReport) {
+            session()->flash('info', 'Već ste prijavili ovaj oglas.');
+            return redirect()->route('listings.show', $this->listing);
+        }
     }
 
     public function submitReport()
@@ -61,13 +72,23 @@ class ReportListing extends Component
                 return;
             }
             
+            // Create report record
+            $report = ListingReport::create([
+                'user_id' => auth()->id(),
+                'listing_id' => $this->listing->id,
+                'reason' => $this->reportReason,
+                'details' => $this->reportDetails,
+                'status' => 'pending'
+            ]);
+            
             // Create report message to admin
             $reportMessage = "PRIJAVA OGLASA\n\n" .
                            "Korisnik: " . auth()->user()->name . " (" . auth()->user()->email . ")\n" .
                            "Oglas: " . $this->listing->title . "\n" .
                            "Razlog: " . $this->reportReasons[$this->reportReason] . "\n\n" .
                            "Detalji:\n" . $this->reportDetails . "\n\n" .
-                           "Link oglasa: " . route('listings.show', $this->listing);
+                           "Link oglasa: " . route('listings.show', $this->listing) . "\n" .
+                           "Report ID: " . $report->id;
 
             Message::create([
                 'sender_id' => auth()->id(),

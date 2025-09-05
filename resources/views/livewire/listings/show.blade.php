@@ -82,12 +82,25 @@
                         
                         @auth
                             @if(auth()->id() !== $listing->user_id)
-                                <!-- Report button -->
-                                <a href="{{ route('listing.report', ['slug' => $listing->slug]) }}" 
-                                   class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm">
-                                    <i class="fas fa-flag mr-1"></i>
-                                    Prijavi
-                                </a>
+                                @php
+                                    $userReport = \App\Models\ListingReport::where('user_id', auth()->id())
+                                        ->where('listing_id', $listing->id)
+                                        ->first();
+                                @endphp
+                                @if($userReport)
+                                    <!-- Already reported status -->
+                                    <span class="inline-flex items-center px-3 py-1.5 {{ $userReport->status_badge }} rounded-lg text-sm">
+                                        <i class="fas fa-flag mr-1"></i>
+                                        Prijavljen ({{ $userReport->status_text }})
+                                    </span>
+                                @else
+                                    <!-- Report button -->
+                                    <a href="{{ route('listing.report', ['slug' => $listing->slug]) }}" 
+                                       class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm">
+                                        <i class="fas fa-flag mr-1"></i>
+                                        Prijavi
+                                    </a>
+                                @endif
                             @endif
                         @endauth
                     </div>
