@@ -165,9 +165,13 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white font-medium text-xs">
-                                        {{ strtoupper(substr($report->user->name, 0, 1)) }}
-                                    </div>
+                                    @if($report->user->avatar)
+                                        <img src="{{ $report->user->avatar_url }}" alt="{{ $report->user->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @else
+                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                            {{ strtoupper(substr($report->user->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-gray-900">{{ $report->user->name }}</div>
                                         <div class="text-sm text-gray-500">{{ $report->user->email }}</div>

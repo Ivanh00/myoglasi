@@ -58,9 +58,13 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">
-                                        {{ strtoupper(substr($notification->receiver->name, 0, 1)) }}
-                                    </div>
+                                    @if($notification->receiver->avatar)
+                                        <img src="{{ $notification->receiver->avatar_url }}" alt="{{ $notification->receiver->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @else
+                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                            {{ strtoupper(substr($notification->receiver->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-gray-900">{{ $notification->receiver->name }}</div>
                                         <div class="text-sm text-gray-500">{{ $notification->receiver->email }}</div>
@@ -136,9 +140,13 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Prima</div>
                         <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
-                                {{ strtoupper(substr($notification->receiver->name, 0, 1)) }}
-                            </div>
+                            @if($notification->receiver->avatar)
+                                <img src="{{ $notification->receiver->avatar_url }}" alt="{{ $notification->receiver->name }}" class="w-8 h-8 rounded-full object-cover mr-2">
+                            @else
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                    {{ strtoupper(substr($notification->receiver->name, 0, 1)) }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="text-sm font-medium text-gray-900">{{ $notification->receiver->name }}</div>
@@ -240,9 +248,13 @@
                                             @foreach($foundUsers as $user)
                                                 <div wire:click="selectUser({{ $user->id }})" 
                                                      class="p-2 hover:bg-gray-100 cursor-pointer flex items-center">
-                                                    <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
-                                                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                                                    </div>
+                                                    @if($user->avatar)
+                                                        <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="w-6 h-6 rounded-full object-cover mr-2">
+                                                    @else
+                                                        <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                                                        </div>
+                                                    @endif
                                                     <div>
                                                         <div class="font-medium text-sm">{{ $user->name }}</div>
                                                         <div class="text-xs text-gray-500">{{ $user->email }}</div>

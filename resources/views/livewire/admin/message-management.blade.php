@@ -169,10 +169,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div
-                                        class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-sm font-medium text-gray-700">
-                                        {{ strtoupper(substr($message->sender->name, 0, 1)) }}
-                                    </div>
+                                    @if($message->sender->avatar)
+                                        <img src="{{ $message->sender->avatar_url }}" alt="{{ $message->sender->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @else
+                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                            {{ strtoupper(substr($message->sender->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-gray-900">{{ $message->sender->name }}
                                         </div>
@@ -182,10 +185,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div
-                                        class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-sm font-medium text-gray-700">
-                                        {{ strtoupper(substr($message->receiver->name, 0, 1)) }}
-                                    </div>
+                                    @if($message->receiver->avatar)
+                                        <img src="{{ $message->receiver->avatar_url }}" alt="{{ $message->receiver->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @else
+                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                            {{ strtoupper(substr($message->receiver->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-gray-900">{{ $message->receiver->name }}
                                         </div>
@@ -308,9 +314,13 @@
                         <div class="flex items-center justify-between mb-2">
                             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Pošiljalac</div>
                             <div class="flex items-center">
-                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
-                                    {{ strtoupper(substr($message->sender->name, 0, 1)) }}
-                                </div>
+                                @if($message->sender->avatar)
+                                    <img src="{{ $message->sender->avatar_url }}" alt="{{ $message->sender->name }}" class="w-8 h-8 rounded-full object-cover mr-2">
+                                @else
+                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                        {{ strtoupper(substr($message->sender->name, 0, 1)) }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="text-sm font-medium text-gray-900">{{ $message->sender->name }}</div>
@@ -321,9 +331,13 @@
                         <div class="flex items-center justify-between mb-2">
                             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Primalac</div>
                             <div class="flex items-center">
-                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
-                                    {{ strtoupper(substr($message->receiver->name, 0, 1)) }}
-                                </div>
+                                @if($message->receiver->avatar)
+                                    <img src="{{ $message->receiver->avatar_url }}" alt="{{ $message->receiver->name }}" class="w-8 h-8 rounded-full object-cover mr-2">
+                                @else
+                                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                        {{ strtoupper(substr($message->receiver->name, 0, 1)) }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="text-sm font-medium text-gray-900">{{ $message->receiver->name }}</div>
@@ -413,10 +427,13 @@
                             <div>
                                 <h4 class="text-sm font-medium text-gray-500">Pošiljalac:</h4>
                                 <div class="flex items-center mt-1">
-                                    <div
-                                        class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-sm font-medium text-gray-700">
-                                        {{ strtoupper(substr($selectedMessage->sender->name, 0, 1)) }}
-                                    </div>
+                                    @if($selectedMessage->sender->avatar)
+                                        <img src="{{ $selectedMessage->sender->avatar_url }}" alt="{{ $selectedMessage->sender->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @else
+                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                            {{ strtoupper(substr($selectedMessage->sender->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <div class="ml-3">
                                         <p class="text-sm font-medium text-gray-900">
                                             {{ $selectedMessage->sender->name }}</p>
@@ -428,10 +445,13 @@
                             <div>
                                 <h4 class="text-sm font-medium text-gray-500">Primalac:</h4>
                                 <div class="flex items-center mt-1">
-                                    <div
-                                        class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-sm font-medium text-gray-700">
-                                        {{ strtoupper(substr($selectedMessage->receiver->name, 0, 1)) }}
-                                    </div>
+                                    @if($selectedMessage->receiver->avatar)
+                                        <img src="{{ $selectedMessage->receiver->avatar_url }}" alt="{{ $selectedMessage->receiver->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @else
+                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                            {{ strtoupper(substr($selectedMessage->receiver->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <div class="ml-3">
                                         <p class="text-sm font-medium text-gray-900">
                                             {{ $selectedMessage->receiver->name }}</p>
