@@ -77,7 +77,20 @@
 
                 <!-- Informacije o oglasu -->
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ $listing->title }}</h1>
+                    <div class="flex items-center justify-between mb-2">
+                        <h1 class="text-2xl font-bold text-gray-900">{{ $listing->title }}</h1>
+                        
+                        @auth
+                            @if(auth()->id() !== $listing->user_id)
+                                <!-- Report button -->
+                                <a href="{{ route('listing.report', ['slug' => $listing->slug]) }}" 
+                                   class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm">
+                                    <i class="fas fa-flag mr-1"></i>
+                                    Prijavi
+                                </a>
+                            @endif
+                        @endauth
+                    </div>
 
                     <div class="flex items-center mb-4">
                         <span class="text-3xl font-bold text-blue-600">{{ number_format($listing->price, 2) }}

@@ -1,0 +1,120 @@
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-2xl mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Prijavite oglas</h1>
+                <p class="text-gray-600">Pomoći ćete nam da održimo sigurnu i pouzdanu platformu</p>
+            </div>
+
+            <!-- Listing Info -->
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 h-16 w-16 mr-4">
+                        @if($listing->images->count() > 0)
+                            <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}" 
+                                 class="h-16 w-16 rounded-lg object-cover">
+                        @else
+                            <div class="h-16 w-16 rounded-lg bg-gray-200 flex items-center justify-center">
+                                <i class="fas fa-image text-gray-400"></i>
+                            </div>
+                        @endif
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-red-900">{{ $listing->title }}</h3>
+                        <p class="text-red-700 text-sm">Prodavac: {{ $listing->user->name }}</p>
+                        <p class="text-red-600 text-sm">{{ number_format($listing->price, 0, ',', '.') }} RSD</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Form -->
+            <form wire:submit.prevent="submitReport">
+                <!-- Report Reason -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        Razlog prijave <span class="text-red-500">*</span>
+                    </label>
+                    
+                    <div class="space-y-2">
+                        @foreach($reportReasons as $key => $reason)
+                            <label class="flex items-center cursor-pointer p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors {{ $reportReason === $key ? 'border-red-500 bg-red-50' : '' }}">
+                                <input type="radio" wire:model.live="reportReason" value="{{ $key }}" 
+                                       class="mr-3 text-red-600 focus:ring-red-500">
+                                <div class="flex-1">
+                                    <div class="font-medium text-gray-900">{{ $reason }}</div>
+                                    @switch($key)
+                                        @case('inappropriate_content')
+                                            <div class="text-sm text-gray-500">Uvredljiv, diskriminirajući ili neprikladan sadržaj</div>
+                                            @break
+                                        @case('fake_listing') 
+                                            <div class="text-sm text-gray-500">Lažne informacije ili nepostojеći proizvod</div>
+                                            @break
+                                        @case('scam')
+                                            <div class="text-sm text-gray-500">Sumnja na prevaru ili malicioznu aktivnost</div>
+                                            @break
+                                        @case('duplicate')
+                                            <div class="text-sm text-gray-500">Isti oglas je već postavljen</div>
+                                            @break
+                                    @endswitch
+                                </div>
+                            </label>
+                        @endforeach
+                    </div>
+                    
+                    @error('reportReason') 
+                        <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Report Details -->
+                <div class="mb-8">
+                    <label for="reportDetails" class="block text-sm font-medium text-gray-700 mb-2">
+                        Detaljno objašnjenje <span class="text-red-500">*</span>
+                    </label>
+                    <textarea wire:model="reportDetails" id="reportDetails" rows="5" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                        placeholder="Molimo opišite detaljno problem sa ovim oglasom..."></textarea>
+                    <div class="flex justify-between items-center mt-1">
+                        @error('reportDetails') 
+                            <p class="text-red-600 text-sm">{{ $message }}</p>
+                        @else
+                            <p class="text-gray-500 text-sm">Vaš izveštaj će biti poslat administratorima</p>
+                        @enderror
+                        <p class="text-gray-400 text-sm">{{ strlen($reportDetails ?? '') }}/1000</p>
+                    </div>
+                </div>
+
+                <!-- Warning Notice -->
+                <div class="mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <div class="flex items-start">
+                        <i class="fas fa-exclamation-triangle text-yellow-600 mr-3 mt-1"></i>
+                        <div>
+                            <h4 class="text-yellow-900 font-semibold mb-1">Napomena</h4>
+                            <ul class="text-yellow-800 text-sm space-y-1">
+                                <li>• Lažne prijave mogu dovesti do ograničavanja vašeg naloga</li>
+                                <li>• Administratori će pregledati vašu prijavu u najkraćem roku</li>
+                                <li>• Za hitne slučajeve kontaktirajte nas direktno</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-between items-center">
+                    <a href="{{ route('listings.show', $listing) }}" 
+                       class="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Nazad na oglas
+                    </a>
+                    
+                    <button type="submit" 
+                        class="px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fas fa-flag mr-2"></i>
+                        Pošaljite prijavu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
