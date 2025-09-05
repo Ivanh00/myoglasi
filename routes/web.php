@@ -84,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/balance/bank-transfer/{transaction}', \App\Livewire\Balance\BankTransfer::class)->name('balance.bank-transfer');
     
     // Rating routes  
-    Route::get('/rating/create/{user}/{listing:id}', \App\Livewire\Ratings\Create::class)->name('ratings.create');
+    Route::get('/rating/create', \App\Livewire\Ratings\Create::class)->name('ratings.create');
 
     Route::post('/logout', function () {
         auth()->guard('web')->logout();

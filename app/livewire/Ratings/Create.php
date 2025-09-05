@@ -26,13 +26,26 @@ class Create extends Component
         'comment.max' => 'Komentar može imati maksimalno 500 karaktera.'
     ];
 
-    public function mount(User $user, Listing $listing)
+    public function mount()
     {
-        $this->user = $user;
-        $this->listing = $listing;
+        $userId = request('user');
+        $listingId = request('listing');
+        
+        if (!$userId || !$listingId) {
+            session()->flash('error', 'Nedostaju parametri za ocenjivanje.');
+            return redirect()->route('messages.inbox');
+        }
+        
+        $this->user = User::find($userId);
+        $this->listing = Listing::find($listingId);
+        
+        if (!$this->user || !$this->listing) {
+            session()->flash('error', 'Korisnik ili oglas ne postoji.');
+            return redirect()->route('messages.inbox');
+        }
         
         // Check if user is trying to rate themselves
-        if ($user->id == auth()->id()) {
+        if ($this->user->id == auth()->id()) {
             session()->flash('error', 'Ne možete oceniti sebe.');
             return redirect()->route('messages.inbox');
         }

@@ -33,7 +33,7 @@
                 
                 <!-- Rating button -->
                 @if($otherUser->canBeRatedBy(auth()->id(), $listing->id))
-                    <a href="{{ route('ratings.create', ['user' => $otherUser->id, 'listing' => $listing->id]) }}" 
+                    <a href="{{ route('ratings.create') }}?user={{ $otherUser->id }}&listing={{ $listing->id }}" 
                        class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 transition-colors text-sm">
                         <i class="fas fa-star mr-1"></i>
                         Ocenite
