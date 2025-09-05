@@ -28,7 +28,20 @@
     <!-- Mobile kategorija dropdown -->
     <div class="md:hidden mb-6">
         <div class="bg-white rounded-lg shadow-md p-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Kategorija</label>
+            <div class="text-gray-600 mb-2">
+                Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
+                @if ($selectedCategory)
+                    @if ($currentCategory)
+                        u kategoriji: <span class="font-semibold">
+                            @if ($currentCategory->parent)
+                                {{ $currentCategory->parent->name }} / {{ $currentCategory->name }}
+                            @else
+                                {{ $currentCategory->name }}
+                            @endif
+                        </span>
+                    @endif
+                @endif
+            </div>
             <div class="relative" x-data="{ open: false }">
                 <button @click="open = !open" type="button"
                     class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
@@ -67,24 +80,26 @@
 
     <!-- Filteri i sortiranje -->
     <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-        <!-- Results Info (Desktop/Mobile) -->
-        <div class="text-center text-gray-600 mb-4">
-            Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
-            @if ($selectedCategory)
-                @if ($currentCategory)
-                    u kategoriji: <span class="font-semibold">
-                        @if ($currentCategory->parent)
-                            {{ $currentCategory->parent->name }} / {{ $currentCategory->name }}
-                        @else
-                            {{ $currentCategory->name }}
-                        @endif
-                    </span>
-                @endif
-            @endif
-        </div>
-        
         <!-- Desktop Layout -->
-        <div class="hidden md:flex md:items-center md:justify-between gap-4">
+        <div class="hidden md:block">
+            <!-- Results Info (Desktop - Left aligned) -->
+            <div class="text-gray-600 mb-4">
+                Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
+                @if ($selectedCategory)
+                    @if ($currentCategory)
+                        u kategoriji: <span class="font-semibold">
+                            @if ($currentCategory->parent)
+                                {{ $currentCategory->parent->name }} / {{ $currentCategory->name }}
+                            @else
+                                {{ $currentCategory->name }}
+                            @endif
+                        </span>
+                    @endif
+                @endif
+            </div>
+            
+            <!-- Filter Controls -->
+            <div class="flex items-center justify-between gap-4">
             <!-- Left: Category dropdown -->
             <div class="w-60" x-data="{ open: false }">
                 <div class="relative">
@@ -200,8 +215,9 @@
                 </button>
             </div>
         </div>
+        </div>
 
-        <!-- Mobile Layout -->
+        <!-- Mobile Sort/PerPage Layout -->
         <div class="md:hidden">
             <div class="flex gap-3">
                 <!-- Mobile filters (50/50 split) -->
@@ -264,6 +280,74 @@
                                 100 po strani
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Additional Filters -->
+    <div class="md:hidden bg-white rounded-lg shadow-md p-4 mb-6">
+        <div class="flex gap-3">
+            <!-- Sort -->
+            <div class="flex-1" x-data="{ open: false }">
+                <div class="relative">
+                    <button @click="open = !open" type="button"
+                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
+                        <span>
+                            @if($sortBy === 'newest') Najnovije
+                            @elseif($sortBy === 'price_asc') Cena ↑
+                            @elseif($sortBy === 'price_desc') Cena ↓
+                            @endif
+                        </span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                        <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg">
+                            Najnovije
+                        </button>
+                        <button @click="$wire.set('sortBy', 'price_asc'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50">
+                            Cena ↑
+                        </button>
+                        <button @click="$wire.set('sortBy', 'price_desc'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-b-lg">
+                            Cena ↓
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Per page -->
+            <div class="flex-1" x-data="{ open: false }">
+                <div class="relative">
+                    <button @click="open = !open" type="button"
+                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
+                        <span>{{ $perPage }} po strani</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                        <button @click="$wire.set('perPage', '20'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg">
+                            20 po strani
+                        </button>
+                        <button @click="$wire.set('perPage', '50'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50">
+                            50 po strani
+                        </button>
+                        <button @click="$wire.set('perPage', '100'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-b-lg">
+                            100 po strani
+                        </button>
                     </div>
                 </div>
             </div>
