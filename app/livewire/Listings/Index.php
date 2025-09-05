@@ -18,6 +18,7 @@ class Index extends Component
     public $perPage = 20;
     public $categoryTree = [];
     public $currentCategory = null;
+    public $viewMode = 'list'; // list or grid
     
     // Search parametri
     public $query = '';
@@ -31,6 +32,7 @@ class Index extends Component
         'selectedCategory' => ['except' => ''],
         'sortBy' => ['except' => 'newest'],
         'perPage' => ['except' => 20],
+        'viewMode' => ['except' => 'list'],
         'query' => ['except' => ''],
         'city' => ['except' => ''],
         'search_category' => ['except' => ''],
@@ -94,6 +96,12 @@ class Index extends Component
 
     public function updatedPerPage()
     {
+        $this->resetPage();
+    }
+
+    public function setViewMode($mode)
+    {
+        $this->viewMode = $mode;
         $this->resetPage();
     }
     

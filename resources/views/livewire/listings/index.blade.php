@@ -102,6 +102,7 @@
     <!-- Filteri i sortiranje -->
     <div class="bg-white rounded-lg shadow-md p-4 mb-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <!-- Left: Results count -->
             <div class="text-gray-600">
                 Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
                 @if ($selectedCategory)
@@ -117,9 +118,10 @@
                 @endif
             </div>
 
-            <div class="flex flex-row gap-3">
+            <!-- Center: Filters -->
+            <div class="flex items-center gap-3">
                 <!-- Sortiranje -->
-                <div class="flex-1" x-data="{ open: false }">
+                <div class="w-40" x-data="{ open: false }">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
@@ -152,12 +154,12 @@
                     </div>
                 </div>
 
-                <!-- Broj oglasa po strani -->
-                <div class="flex-1" x-data="{ open: false }">
+                <!-- Per page -->
+                <div class="w-32" x-data="{ open: false }">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
-                            <span>{{ $perPage }} po strani</span>
+                            <span>{{ $perPage }}</span>
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -167,29 +169,144 @@
                             class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
                             <button @click="$wire.set('perPage', '20'); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg">
-                                20 po strani
+                                20
                             </button>
                             <button @click="$wire.set('perPage', '50'); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50">
-                                50 po strani
+                                50
                             </button>
                             <button @click="$wire.set('perPage', '100'); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-b-lg">
-                                100 po strani
+                                100
                             </button>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Right: View Mode Toggle (Desktop only) -->
+            <div class="hidden md:flex bg-white border border-gray-300 rounded-lg shadow-sm">
+                <button wire:click="setViewMode('list')" 
+                    class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100' }} rounded-l-lg transition-colors">
+                    <i class="fas fa-list"></i>
+                </button>
+                <button wire:click="setViewMode('grid')" 
+                    class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100' }} rounded-r-lg transition-colors">
+                    <i class="fas fa-th"></i>
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Lista oglasa -->
     @if ($listings->count() > 0)
-        <div class="space-y-4 mb-8">
-            @foreach ($listings as $listing)
-                <div class="listing-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex flex-col md:flex-row">
+        @if($viewMode === 'grid')
+            <!-- Grid View (Desktop) -->
+            <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+                @foreach ($listings as $listing)
+                    <div class="listing-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        <!-- Image -->
+                        <div class="w-full h-48">
+                            <a href="{{ route('listings.show', $listing) }}">
+                                @if ($listing->images->count() > 0)
+                                    <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
+                                        class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-image text-gray-400 text-3xl"></i>
+                                    </div>
+                                @endif
+                            </a>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-4">
+                            <a href="{{ route('listings.show', $listing) }}">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                                    {{ Str::limit($listing->title, 40) }}
+                                </h3>
+                            </a>
+
+                            {{-- Seller info --}}
+                            @auth
+                                <p class="text-sm font-bold text-gray-700 mb-1">
+                                    Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                    @if ($listing->user && $listing->user->is_banned)
+                                        <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
+                                    @endif
+                                </p>
+                                
+                                {{-- User ratings --}}
+                                @if($listing->user && $listing->user->total_ratings_count > 0)
+                                    <a href="{{ route('user.ratings', $listing->user->id) }}" class="inline-flex items-center text-xs text-gray-600 mb-2 hover:text-blue-600 transition-colors">
+                                        <span class="text-green-600 mr-1">😊 {{ $listing->user->positive_ratings_count }}</span>
+                                        <span class="text-yellow-600 mr-1">😐 {{ $listing->user->neutral_ratings_count }}</span>
+                                        <span class="text-red-600 mr-1">😞 {{ $listing->user->negative_ratings_count }}</span>
+                                        @if($listing->user->rating_badge)
+                                            <span class="ml-1">{{ $listing->user->rating_badge }}</span>
+                                        @endif
+                                        <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                                    </a>
+                                @endif
+                            @endauth
+
+                            <div class="flex items-center text-sm text-gray-600 mb-2">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                <span>{{ $listing->location }}</span>
+                                <span class="mx-2">•</span>
+                                <i class="fas fa-folder mr-1"></i>
+                                <span>{{ $listing->category->name }}</span>
+                            </div>
+
+                            <p class="text-gray-700 text-sm mb-3"
+                                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                {{ Str::limit(strip_tags($listing->description), 100) }}
+                            </p>
+
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-blue-600 font-bold text-lg">
+                                    {{ number_format($listing->price, 2) }} RSD
+                                </div>
+
+                                @if ($listing->condition)
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                        {{ $listing->condition->name }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            <!-- Stats -->
+                            <div class="flex items-center justify-between text-xs text-gray-500 mb-3">
+                                <div class="flex items-center">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    <span>{{ $listing->views ?? 0 }}</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span>❤️ {{ $listing->favorites_count ?? 0 }}</span>
+                                </div>
+                            </div>
+
+                            <div class="text-xs text-gray-500 mb-3">
+                                <i class="fas fa-clock mr-1"></i>
+                                Postavljeno pre {{ floor($listing->created_at->diffInDays()) }} dana
+                            </div>
+
+                            <a href="{{ route('listings.show', $listing) }}"
+                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                <i class="fas fa-eye mr-2"></i> Pregled
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+        @if($viewMode === 'list')
+            <!-- List View (Desktop) -->
+            <div class="space-y-4 mb-8">
+                @foreach ($listings as $listing)
+                    <div class="listing-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex flex-col md:flex-row">
                         <!-- Slika oglasa - responsive -->
                         <div class="w-full md:w-48 md:min-w-48 h-48"> <!-- Full width na mobile -->
                             <a href="{{ route('listings.show', $listing) }}">
@@ -302,7 +419,8 @@
                     </div>
                 </div>
             @endforeach
-        </div>
+            </div>
+        @endif
 
         <!-- Paginacija -->
         <div class="mt-8 bg-white rounded-lg shadow-sm p-4">
