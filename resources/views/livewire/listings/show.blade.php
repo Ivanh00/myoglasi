@@ -164,7 +164,7 @@
                                     </a>
 
                                     <!-- Favorite dugme (Livewire komponenta) -->
-                                    <div class="flex-1">
+                                    <div class="flex-1" id="favorite-button-desktop">
                                         <livewire:favorite-button :listing="$listing" />
                                     </div>
 
@@ -215,10 +215,8 @@
                                         <i class="fas fa-envelope mr-2"></i> Pošalji poruku
                                     </a>
 
-                                    <!-- Favorite dugme (Livewire komponenta) - full width wrapper -->
-                                    <div class="w-full">
-                                        <livewire:favorite-button :listing="$listing" />
-                                    </div>
+                                    <!-- Favorite dugme (shared component) -->
+                                    <div class="w-full" id="favorite-button-mobile"></div>
 
                                     <!-- Dugme za deljenje -->
                                     <button onclick="shareListing()"
@@ -598,4 +596,45 @@
             });
         }
     }
+
+    // Move favorite button between desktop and mobile based on viewport
+    function manageFavoriteButton() {
+        const desktopContainer = document.getElementById('favorite-button-desktop');
+        const mobileContainer = document.getElementById('favorite-button-mobile');
+        
+        if (!desktopContainer || !mobileContainer) return;
+        
+        // Find component in either container
+        let favoriteComponent = desktopContainer.querySelector('[wire\\:id]') || 
+                               mobileContainer.querySelector('[wire\\:id]');
+        
+        if (!favoriteComponent) return;
+        
+        if (window.innerWidth < 768) {
+            // Mobile: ensure component is in mobile container
+            if (favoriteComponent.parentNode !== mobileContainer) {
+                mobileContainer.appendChild(favoriteComponent);
+            }
+        } else {
+            // Desktop: ensure component is in desktop container
+            if (favoriteComponent.parentNode !== desktopContainer) {
+                desktopContainer.appendChild(favoriteComponent);
+            }
+        }
+    }
+
+    // Debounced resize handler to prevent excessive calls
+    let resizeTimeout;
+    function handleResize() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(manageFavoriteButton, 100);
+    }
+
+    // Run on load and resize
+    document.addEventListener('DOMContentLoaded', function() {
+        manageFavoriteButton();
+        // Also run after a short delay to ensure Livewire components are fully loaded
+        setTimeout(manageFavoriteButton, 500);
+    });
+    window.addEventListener('resize', handleResize);
 </script>
