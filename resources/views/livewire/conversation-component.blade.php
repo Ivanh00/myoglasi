@@ -14,8 +14,8 @@
     <!-- Informacije o korisniku -->
     <section class="user-info-section">
         <div class="user-info-holder">
-            <div class="user-info-holder">
-                <div class="user-name-holder">
+            <div class="user-name-holder" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span class="user-avatar">
                         @if($otherUser->avatar)
                             <img src="{{ $otherUser->avatar_url }}" alt="{{ $otherUser->name }}" 
@@ -30,7 +30,19 @@
                         {{ $otherUser->name }}
                     </div>
                 </div>
+                
+                <!-- Rating button -->
+                @if($otherUser->canBeRatedBy(auth()->id(), $listing->id))
+                    <a href="{{ route('ratings.create', ['user' => $otherUser->id, 'listing' => $listing->id]) }}" 
+                       class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 transition-colors text-sm">
+                        <i class="fas fa-star mr-1"></i>
+                        Ocenite
+                    </a>
+                @else
+                    <span class="text-xs text-gray-500">Već ste ocenili</span>
+                @endif
             </div>
+        </div>
     </section>
 
     <!-- Informacije o oglasu -->

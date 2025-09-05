@@ -218,12 +218,24 @@
 
                                     {{-- Korisničko ime kreatora --}}
                                     @auth
-                                        <p class="text-sm font-bold text-gray-700 mb-2">
+                                        <p class="text-sm font-bold text-gray-700 mb-1">
                                             Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
                                             @if ($listing->user && $listing->user->is_banned)
                                                 <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
                                             @endif
                                         </p>
+                                        
+                                        {{-- User ratings --}}
+                                        @if($listing->user && $listing->user->total_ratings_count > 0)
+                                            <div class="flex items-center text-xs text-gray-600 mb-2">
+                                                <span class="text-green-600 mr-1">😊 {{ $listing->user->positive_ratings_count }}</span>
+                                                <span class="text-yellow-600 mr-1">😐 {{ $listing->user->neutral_ratings_count }}</span>
+                                                <span class="text-red-600 mr-1">😞 {{ $listing->user->negative_ratings_count }}</span>
+                                                @if($listing->user->rating_badge)
+                                                    <span class="ml-1">{{ $listing->user->rating_badge }}</span>
+                                                @endif
+                                            </div>
+                                        @endif
                                     @endauth
 
                                     <div class="flex items-center text-sm text-gray-600 mb-2">

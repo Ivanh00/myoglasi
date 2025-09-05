@@ -1,0 +1,127 @@
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-2xl mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Ocenite korisnika</h1>
+                <p class="text-gray-600">Podelite vaše iskustvo sa drugim korisnicima</p>
+            </div>
+
+            <!-- User and Listing Info -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <div class="flex items-center mb-3">
+                    <div class="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        @if($user->avatar)
+                            <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="h-12 w-12 rounded-full object-cover">
+                        @else
+                            <span class="text-blue-600 font-semibold text-lg">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
+                        @endif
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-900">{{ $user->name }}</h3>
+                        <p class="text-blue-700 text-sm">Član od {{ $user->created_at->format('m/Y') }}</p>
+                    </div>
+                </div>
+                
+                <div class="border-t border-blue-200 pt-3">
+                    <p class="text-blue-800 text-sm">
+                        <i class="fas fa-tag mr-1"></i>
+                        <strong>Oglas:</strong> {{ $listing->title }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Rating Form -->
+            <form wire:submit.prevent="submitRating">
+                <!-- Rating Selection -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Kako ocenjujete vašu saradnju?</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Positive -->
+                        <div class="relative">
+                            <input type="radio" wire:model="rating" value="positive" id="positive" class="sr-only">
+                            <label for="positive" class="block p-6 bg-white border-2 rounded-lg cursor-pointer text-center transition-all
+                                {{ $rating === 'positive' ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-green-300' }}">
+                                <div class="text-6xl mb-3">😊</div>
+                                <div class="text-lg font-semibold {{ $rating === 'positive' ? 'text-green-700' : 'text-gray-700' }}">
+                                    Pozitivno
+                                </div>
+                                <div class="text-sm {{ $rating === 'positive' ? 'text-green-600' : 'text-gray-500' }}">
+                                    Odličo iskustvo
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Neutral -->
+                        <div class="relative">
+                            <input type="radio" wire:model="rating" value="neutral" id="neutral" class="sr-only">
+                            <label for="neutral" class="block p-6 bg-white border-2 rounded-lg cursor-pointer text-center transition-all
+                                {{ $rating === 'neutral' ? 'border-yellow-500 bg-yellow-50' : 'border-gray-300 hover:border-yellow-300' }}">
+                                <div class="text-6xl mb-3">😐</div>
+                                <div class="text-lg font-semibold {{ $rating === 'neutral' ? 'text-yellow-700' : 'text-gray-700' }}">
+                                    Neutralno
+                                </div>
+                                <div class="text-sm {{ $rating === 'neutral' ? 'text-yellow-600' : 'text-gray-500' }}">
+                                    Prosečno iskustvo
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Negative -->
+                        <div class="relative">
+                            <input type="radio" wire:model="rating" value="negative" id="negative" class="sr-only">
+                            <label for="negative" class="block p-6 bg-white border-2 rounded-lg cursor-pointer text-center transition-all
+                                {{ $rating === 'negative' ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-red-300' }}">
+                                <div class="text-6xl mb-3">😞</div>
+                                <div class="text-lg font-semibold {{ $rating === 'negative' ? 'text-red-700' : 'text-gray-700' }}">
+                                    Negativno
+                                </div>
+                                <div class="text-sm {{ $rating === 'negative' ? 'text-red-600' : 'text-gray-500' }}">
+                                    Loše iskustvo
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    @error('rating') 
+                        <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Comment -->
+                <div class="mb-8">
+                    <label for="comment" class="block text-sm font-medium text-gray-700 mb-2">
+                        Komentar (opciono)
+                    </label>
+                    <textarea wire:model="comment" id="comment" rows="4" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Opišite vaše iskustvo sa ovim korisnikom..."></textarea>
+                    <div class="flex justify-between items-center mt-1">
+                        @error('comment') 
+                            <p class="text-red-600 text-sm">{{ $message }}</p>
+                        @else
+                            <p class="text-gray-500 text-sm">Vaš komentar će biti javan</p>
+                        @enderror
+                        <p class="text-gray-400 text-sm">{{ strlen($comment ?? '') }}/500</p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-between items-center">
+                    <a href="{{ route('listing.chat', ['slug' => $listing->slug, 'user' => $user->id]) }}" 
+                       class="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Nazad na poruke
+                    </a>
+                    
+                    <button type="submit" 
+                        class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-star mr-2"></i>
+                        Pošaljite ocenu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
