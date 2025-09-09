@@ -12,7 +12,8 @@
                         </div>
                         <div class="text-right">
                             @if($auction->isActive())
-                                <div class="text-2xl font-bold">
+                                <div class="text-2xl font-bold auction-countdown" 
+                                     data-end-time="{{ $auction->ends_at->timestamp }}">
                                     @if($auction->time_left)
                                         @if($auction->time_left['days'] > 0)
                                             {{ $auction->time_left['days'] }}d {{ $auction->time_left['hours'] }}h
@@ -162,7 +163,12 @@
 
             <!-- Bid History -->
             <div class="bg-white rounded-lg shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Istorija ponuda</h3>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Istorija ponuda</h3>
+                    <button wire:click="$refresh" class="text-sm text-blue-600 hover:text-blue-800">
+                        <i class="fas fa-refresh mr-1"></i> Osvežite
+                    </button>
+                </div>
                 
                 @if($auction->bids->count() > 0)
                     <div class="space-y-3 max-h-64 overflow-y-auto">
@@ -209,33 +215,48 @@
 
 <!-- Real-time countdown script -->
 <script>
-    @if($auction->isActive() && $auction->time_left)
-        let timeLeft = {{ $auction->time_left['total_seconds'] }};
+    document.addEventListener('DOMContentLoaded', function() {
+        const countdownElement = document.querySelector('.auction-countdown');
         
-        function updateCountdown() {
-            if (timeLeft <= 0) {
-                location.reload(); // Refresh when auction ends
-                return;
+        if (countdownElement) {
+            const endTime = parseInt(countdownElement.dataset.endTime);
+            
+            function updateCountdown() {
+                const now = Math.floor(Date.now() / 1000);
+                const timeLeft = endTime - now;
+                
+                if (timeLeft <= 0) {
+                    countdownElement.textContent = 'ZAVRŠENO';
+                    // Refresh page when auction ends to show final results
+                    setTimeout(() => location.reload(), 1000);
+                    return;
+                }
+                
+                const days = Math.floor(timeLeft / (24 * 60 * 60));
+                const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
+                const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
+                const seconds = timeLeft % 60;
+                
+                if (days > 0) {
+                    countdownElement.textContent = `${days}d ${hours}h`;
+                } else {
+                    countdownElement.textContent = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
             }
             
-            const days = Math.floor(timeLeft / (24 * 60 * 60));
-            const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
-            const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
-            const seconds = timeLeft % 60;
-            
-            const countdownElements = document.querySelectorAll('.auction-countdown');
-            countdownElements.forEach(element => {
-                if (days > 0) {
-                    element.textContent = `${days}d ${hours}h`;
-                } else {
-                    element.textContent = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                }
-            });
-            
-            timeLeft--;
+            // Update countdown every second
+            updateCountdown(); // Initial update
+            setInterval(updateCountdown, 1000);
         }
-        
-        // Update countdown every second
-        setInterval(updateCountdown, 1000);
-    @endif
+    });
+    
+    // Refresh auction data after placing a bid (without full page reload)
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('bid-placed', (event) => {
+            // Update current price and bid count without full refresh
+            setTimeout(() => {
+                Livewire.dispatch('refreshAuction');
+            }, 500);
+        });
+    });
 </script>

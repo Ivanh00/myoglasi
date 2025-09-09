@@ -65,6 +65,9 @@ class Show extends Component
             $this->isAutoBid = false;
             $this->showBidForm = false;
 
+            // Emit event for JavaScript to handle
+            $this->dispatch('bid-placed');
+            
             session()->flash('success', 'Vaša ponuda je uspešno postavljena!');
 
         } catch (\Exception $e) {
