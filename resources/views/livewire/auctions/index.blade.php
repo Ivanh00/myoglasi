@@ -223,10 +223,19 @@
                                 Prodavac: {{ $auction->seller->name }}
                             </div>
 
-                            <a href="{{ route('auction.show', $auction) }}"
-                                class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
-                                <i class="fas fa-gavel mr-2"></i> Licitiraj
-                            </a>
+                            <div class="space-y-2">
+                                <a href="{{ route('auction.show', $auction) }}"
+                                    class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                    <i class="fas fa-gavel mr-2"></i> Licitiraj
+                                </a>
+                                
+                                @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
+                                    <a href="{{ route('auction.show', $auction) }}"
+                                        class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                        <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach
