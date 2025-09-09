@@ -146,7 +146,7 @@
                             ->count();
                     @endphp
                     @if ($unreadMessagesCount > 0)
-                        <span class="ml-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                        <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
                             {{ $unreadMessagesCount }}
                         </span>
                     @endif
@@ -167,7 +167,7 @@
                             ->count();
                     @endphp
                     @if ($unreadNotificationsCount > 0)
-                        <span class="ml-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                        <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
                             {{ $unreadNotificationsCount }}
                         </span>
                     @endif
@@ -213,7 +213,7 @@
                                 ->count();
                         @endphp
                         @if ($unreadMessagesCount > 0)
-                            <span class="ml-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
                                 {{ $unreadMessagesCount }}
                             </span>
                         @endif
@@ -237,7 +237,7 @@
                                 ->count();
                         @endphp
                         @if ($unreadNotificationsCount > 0)
-                            <span class="ml-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
                                 {{ $unreadNotificationsCount }}
                             </span>
                         @endif

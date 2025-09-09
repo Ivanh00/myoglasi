@@ -77,7 +77,7 @@
                                                 ->count();
                                         @endphp
                                         @if ($unreadCount > 0)
-                                            <span class="unread-badge">{{ $unreadCount }}</span>
+                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $unreadCount }}</span>
                                         @endif
                                     </x-dropdown-link>
                                     <x-dropdown-link href="{{ route('notifications.index') }}">
@@ -89,7 +89,7 @@
                                                 ->count();
                                         @endphp
                                         @if ($unreadNotifications > 0)
-                                            <span class="unread-badge">{{ $unreadNotifications }}</span>
+                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $unreadNotifications }}</span>
                                         @endif
                                     </x-dropdown-link>
                                 @else
@@ -115,7 +115,7 @@
                                                 ->count();
                                         @endphp
                                         @if ($unreadCount > 0)
-                                            <span class="unread-badge">{{ $unreadCount }}</span>
+                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $unreadCount }}</span>
                                         @endif
                                     </x-dropdown-link>
                                     <x-dropdown-link href="{{ route('notifications.index') }}">
@@ -127,7 +127,7 @@
                                                 ->count();
                                         @endphp
                                         @if ($unreadNotifications > 0)
-                                            <span class="unread-badge">{{ $unreadNotifications }}</span>
+                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $unreadNotifications }}</span>
                                         @endif
                                     </x-dropdown-link>
                                     
@@ -276,7 +276,7 @@
                                     ->count();
                             @endphp
                             @if ($unreadMessagesCount > 0)
-                                <span class="ml-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                                <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
                                     {{ $unreadMessagesCount }}
                                 </span>
                             @endif
@@ -295,7 +295,7 @@
                                     ->count();
                             @endphp
                             @if ($unreadNotificationsCount > 0)
-                                <span class="ml-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                                <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
                                     {{ $unreadNotificationsCount }}
                                 </span>
                             @endif

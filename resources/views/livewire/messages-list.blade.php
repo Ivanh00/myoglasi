@@ -95,7 +95,7 @@
                             <div class="user-name">
                                 {{ $conversation['other_user']->name }}
                                 @if ($conversation['unread_count'] > 0)
-                                    <span class="unread-badge">{{ $conversation['unread_count'] }}</span>
+                                    <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $conversation['unread_count'] }}</span>
                                 @endif
                             </div>
                             <div class="listing-name">

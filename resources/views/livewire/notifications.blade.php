@@ -82,7 +82,7 @@
                             <div class="user-name">
                                 Obaveštenje
                                 @if (!$notification->is_read)
-                                    <span class="unread-badge">1</span>
+                                    <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">1</span>
                                 @endif
                             </div>
                             <div class="listing-name">
