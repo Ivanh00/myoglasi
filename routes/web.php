@@ -93,6 +93,9 @@ Route::middleware(['auth'])->group(function () {
     
     // Admin contact
     Route::get('/contact-admin', \App\Livewire\AdminContact::class)->name('admin.contact');
+    
+    // Auction routes
+    Route::get('/auction/setup/{listing}', \App\Livewire\Auctions\Setup::class)->name('auction.setup');
 
     Route::post('/logout', function () {
         auth()->guard('web')->logout();

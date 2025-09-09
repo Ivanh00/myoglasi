@@ -49,9 +49,41 @@
                     @if ($listing->images->count() > 0)
                         <div class="relative">
                             <!-- Glavna slika -->
-                            <div class="mb-4 rounded-lg overflow-hidden">
+                            <div class="mb-4 rounded-lg overflow-hidden relative">
                                 <img id="mainImage" src="{{ $listing->images->first()->url }}"
                                     alt="{{ $listing->title }}" class="w-full h-80 object-cover rounded-lg">
+                                    
+                                <!-- Auction Overlay Button -->
+                                @auth
+                                    @if(auth()->id() !== $listing->user_id && $listing->hasActiveAuction())
+                                        <div class="absolute top-4 left-4">
+                                            <a href="{{ route('auction.show', $listing->auction) }}"
+                                                class="inline-flex items-center px-4 py-2 bg-red-600 bg-opacity-90 text-white font-semibold rounded-lg hover:bg-red-700 hover:bg-opacity-100 transition-all shadow-lg">
+                                                <i class="fas fa-gavel mr-2"></i>
+                                                Kupi na aukciji
+                                            </a>
+                                        </div>
+                                    @endif
+                                @endauth
+                                
+                                <!-- Auction Status Badge -->
+                                @if($listing->hasActiveAuction())
+                                    <div class="absolute top-4 right-4">
+                                        <span class="inline-flex items-center px-3 py-1 bg-yellow-500 bg-opacity-90 text-white text-sm font-medium rounded-lg">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            @php
+                                                $timeLeft = $listing->auction->time_left;
+                                            @endphp
+                                            @if($timeLeft)
+                                                @if($timeLeft['days'] > 0)
+                                                    {{ $timeLeft['days'] }}d {{ $timeLeft['hours'] }}h
+                                                @else
+                                                    {{ $timeLeft['hours'] }}:{{ sprintf('%02d', $timeLeft['minutes']) }}
+                                                @endif
+                                            @endif
+                                        </span>
+                                    </div>
+                                @endif
                             </div>
 
                             <!-- Mala galerija -->
