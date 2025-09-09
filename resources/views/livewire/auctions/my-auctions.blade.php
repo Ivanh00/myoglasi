@@ -112,11 +112,16 @@
                                         <i class="fas fa-list mr-1"></i> Oglas
                                     </a>
                                     
-                                    @if(!$auction->isActive() || $auction->total_bids == 0)
+                                    @php
+                                        $canRemove = !auth()->user()->is_admin ? 
+                                            $auction->current_price <= $auction->starting_price : 
+                                            true;
+                                    @endphp
+                                    @if($canRemove)
                                         <button x-data
-                                            x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovu aukciju?')) { $wire.deleteAuction({{ $auction->id }}) }"
-                                            class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-900 rounded">
-                                            <i class="fas fa-trash mr-1"></i> Obriši
+                                            x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $auction->id }}) }"
+                                            class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded">
+                                            <i class="fas fa-times mr-1"></i> Ukloni iz aukcije
                                         </button>
                                     @endif
                                 </div>
@@ -130,6 +135,41 @@
         <!-- Desktop Paginacija -->
         <div class="mt-6">
             {{ $auctions->links() }}
+        </div>
+
+        <!-- Auction Rules Section -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                Pravila za upravljanje aukcijama
+            </h3>
+            
+            <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="text-sm text-blue-800">
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span><strong>Uklanjanje aukcije:</strong> Aukcija se može ukloniti samo ukoliko trenutna cena nije premašila početnu cenu aukcije</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-handshake text-green-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span><strong>Obaveza prodavca:</strong> Nakon što aukcija premaši početnu cenu, prodavac se obavezuje da proda predmet kupcu sa najboljom ponudom</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span><strong>Posledice nepoštovanja:</strong> Ukoliko prodavac ne ispoštuje obavezu, suočava se sa negativnom ocenom od strane člana</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-shield-alt text-purple-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span><strong>Zaštita kupaca:</strong> Ova pravila štite kupce od nepoštenih prodavaca i osiguravaju fer trgovinu</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-user-shield text-gray-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span><strong>Napomena za administratore:</strong> Administratori mogu ukloniti aukciju u bilo kom trenutku radi rešavanja sporova</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- Mobile Card View -->
@@ -226,12 +266,17 @@
                                 Oglas
                             </a>
                             
-                            @if(!$auction->isActive() || $auction->total_bids == 0)
+                            @php
+                                $canRemove = !auth()->user()->is_admin ? 
+                                    $auction->current_price <= $auction->starting_price : 
+                                    true;
+                            @endphp
+                            @if($canRemove)
                                 <button x-data
-                                    x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovu aukciju?')) { $wire.deleteAuction({{ $auction->id }}) }"
-                                    class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
-                                    <i class="fas fa-trash mr-1"></i>
-                                    Obriši
+                                    x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $auction->id }}) }"
+                                    class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
+                                    <i class="fas fa-times mr-1"></i>
+                                    Ukloni iz aukcije
                                 </button>
                             @endif
                         </div>
