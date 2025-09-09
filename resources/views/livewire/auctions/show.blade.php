@@ -280,6 +280,10 @@
                             <i class="fas fa-shield-alt text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
                             <span>Sprečava "last second sniping" i omogućava fer nadmetanje</span>
                         </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-lock text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span>Vlasnik ne može otkazati aukciju ako je trenutna cena veća od početne cene aukcije</span>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -39,13 +39,13 @@ class MyListings extends Component
 
             $auction = $listing->auction;
 
-            // Check if current price exceeds listing price (minimum protection rule)
+            // Check if current price exceeds starting price (minimum protection rule)
             // Only applies to regular users, not admins
-            if (!auth()->user()->is_admin && $auction->current_price > $listing->price) {
+            if (!auth()->user()->is_admin && $auction->current_price > $auction->starting_price) {
                 session()->flash('error', 'Ne možete ukloniti aukciju jer je trenutna cena (' . 
                     number_format($auction->current_price, 0, ',', '.') . 
-                    ' RSD) veća od osnovne cene oglasa (' . 
-                    number_format($listing->price, 2, ',', '.') . ' RSD).');
+                    ' RSD) veća od početne cene aukcije (' . 
+                    number_format($auction->starting_price, 0, ',', '.') . ' RSD).');
                 return;
             }
             
