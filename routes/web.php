@@ -96,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
     
     // Auction routes
     Route::get('/auction/setup/{listing}', \App\Livewire\Auctions\Setup::class)->name('auction.setup');
+    Route::get('/auction/{auction}', \App\Livewire\Auctions\Show::class)->name('auction.show');
 
     Route::post('/logout', function () {
         auth()->guard('web')->logout();

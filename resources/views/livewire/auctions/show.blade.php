@@ -1,0 +1,241 @@
+<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left Column: Listing Info -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
+                <!-- Auction Header -->
+                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-xl font-bold">{{ $auction->listing->title }}</h1>
+                            <p class="text-yellow-100">Aukcija #{{ $auction->id }}</p>
+                        </div>
+                        <div class="text-right">
+                            @if($auction->isActive())
+                                <div class="text-2xl font-bold">
+                                    @if($auction->time_left)
+                                        @if($auction->time_left['days'] > 0)
+                                            {{ $auction->time_left['days'] }}d {{ $auction->time_left['hours'] }}h
+                                        @else
+                                            {{ $auction->time_left['hours'] }}:{{ sprintf('%02d', $auction->time_left['minutes']) }}:{{ sprintf('%02d', $auction->time_left['seconds']) }}
+                                        @endif
+                                    @endif
+                                </div>
+                                <p class="text-yellow-100 text-sm">vremena ostalo</p>
+                            @else
+                                <div class="text-2xl font-bold">ZAVRŠENO</div>
+                                @if($auction->winner)
+                                    <p class="text-yellow-100 text-sm">Pobednik: {{ $auction->winner->name }}</p>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div class="p-6">
+                    @if($auction->listing->images->count() > 0)
+                        <div class="mb-6">
+                            <img src="{{ $auction->listing->images->first()->url }}" 
+                                 alt="{{ $auction->listing->title }}" 
+                                 class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                        
+                        <!-- Thumbnail gallery -->
+                        @if($auction->listing->images->count() > 1)
+                            <div class="grid grid-cols-4 gap-2 mb-6">
+                                @foreach($auction->listing->images->skip(1) as $image)
+                                    <img src="{{ $image->url }}" alt="{{ $auction->listing->title }}"
+                                         class="w-full h-16 object-cover rounded-lg">
+                                @endforeach
+                            </div>
+                        @endif
+                    @endif
+
+                    <!-- Listing Description -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Opis proizvoda</h3>
+                        <div class="text-gray-700 whitespace-pre-line">{{ $auction->listing->description }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Bidding -->
+        <div>
+            <!-- Current Price -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Trenutna cena</h3>
+                
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-red-600 mb-2">
+                        {{ number_format($auction->current_price, 0, ',', '.') }} RSD
+                    </div>
+                    @if($auction->total_bids > 0)
+                        <p class="text-gray-600">{{ $auction->total_bids }} ponuda</p>
+                        @if($auction->winningBid)
+                            <p class="text-sm text-gray-500">Vodi: {{ $auction->winningBid->user->name }}</p>
+                        @endif
+                    @else
+                        <p class="text-gray-600">Još nema ponuda</p>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Bidding Form -->
+            @auth
+                @if(auth()->id() !== $auction->user_id && $auction->isActive())
+                    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Postavite ponudu</h3>
+                        
+                        <div class="mb-4">
+                            <label for="bidAmount" class="block text-sm font-medium text-gray-700 mb-2">
+                                Vaša ponuda (minimum: {{ number_format($auction->minimum_bid, 0, ',', '.') }} RSD)
+                            </label>
+                            <input type="number" wire:model="bidAmount" id="bidAmount" 
+                                min="{{ $auction->minimum_bid }}" step="{{ $auction->bid_increment }}"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                            @error('bidAmount') 
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Auto Bid Option -->
+                        <div class="mb-4">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" wire:model="isAutoBid" 
+                                    class="mr-3 h-4 w-4 text-red-600 focus:ring-red-500 rounded">
+                                <span class="text-sm text-gray-700">Automatska ponuda</span>
+                            </label>
+                            @if($isAutoBid)
+                                <div class="mt-3">
+                                    <input type="number" wire:model="maxBidAmount" placeholder="Maksimalna cena" 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                    <p class="text-xs text-gray-500 mt-1">Sistem će automatski licitirati do ove cene</p>
+                                    @error('maxBidAmount') 
+                                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="space-y-3">
+                            <button type="button" wire:click="placeBid"
+                                class="w-full px-4 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors">
+                                <i class="fas fa-gavel mr-2"></i>
+                                Pošaljite ponudu
+                            </button>
+
+                            @if($auction->buy_now_price)
+                                <button type="button" wire:click="buyNow"
+                                    onclick="return confirm('Da li ste sigurni da želite da kupite odmah za {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD?')"
+                                    class="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
+                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                    Kupi odmah ({{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD)
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+            @endauth
+
+            <!-- Seller Info -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Prodavac</h3>
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                        @if($auction->seller->avatar)
+                            <img src="{{ $auction->seller->avatar_url }}" alt="{{ $auction->seller->name }}" 
+                                 class="w-12 h-12 rounded-full object-cover">
+                        @else
+                            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                                {{ strtoupper(substr($auction->seller->name, 0, 1)) }}
+                            </div>
+                        @endif
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-900">{{ $auction->seller->name }}</h4>
+                        <p class="text-gray-600 text-sm">Član od {{ $auction->seller->created_at->format('m/Y') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bid History -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Istorija ponuda</h3>
+                
+                @if($auction->bids->count() > 0)
+                    <div class="space-y-3 max-h-64 overflow-y-auto">
+                        @foreach($auction->bids()->latest()->take(10)->get() as $bid)
+                            <div class="flex items-center justify-between p-3 {{ $bid->is_winning ? 'bg-green-50 border border-green-200' : 'bg-gray-50' }} rounded-lg">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                                        @if($bid->user->avatar)
+                                            <img src="{{ $bid->user->avatar_url }}" alt="{{ $bid->user->name }}" 
+                                                 class="w-8 h-8 rounded-full object-cover">
+                                        @else
+                                            <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white font-medium text-xs">
+                                                {{ strtoupper(substr($bid->user->name, 0, 1)) }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">{{ $bid->user->name }}</div>
+                                        <div class="text-xs text-gray-500">{{ $bid->created_at->format('d.m.Y H:i') }}</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold {{ $bid->is_winning ? 'text-green-600' : 'text-gray-900' }}">
+                                        {{ number_format($bid->amount, 0, ',', '.') }} RSD
+                                    </div>
+                                    @if($bid->is_auto_bid)
+                                        <div class="text-xs text-blue-500">Auto</div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-8">
+                        <i class="fas fa-gavel text-gray-400 text-3xl mb-3"></i>
+                        <p class="text-gray-600">Još nema ponuda</p>
+                        <p class="text-gray-500 text-sm">Budite prvi koji će licitirati!</p>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Real-time countdown script -->
+<script>
+    @if($auction->isActive() && $auction->time_left)
+        let timeLeft = {{ $auction->time_left['total_seconds'] }};
+        
+        function updateCountdown() {
+            if (timeLeft <= 0) {
+                location.reload(); // Refresh when auction ends
+                return;
+            }
+            
+            const days = Math.floor(timeLeft / (24 * 60 * 60));
+            const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
+            const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
+            const seconds = timeLeft % 60;
+            
+            const countdownElements = document.querySelectorAll('.auction-countdown');
+            countdownElements.forEach(element => {
+                if (days > 0) {
+                    element.textContent = `${days}d ${hours}h`;
+                } else {
+                    element.textContent = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+            });
+            
+            timeLeft--;
+        }
+        
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+    @endif
+</script>
