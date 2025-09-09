@@ -82,16 +82,21 @@ class Auction extends Model
     {
         if (!$this->isActive()) return false;
         
-        // Ako je ponuda stigla u poslednje 3 minuta
-        return $this->ends_at->diffInMinutes(now()) <= 3 &&
-               $this->bids()->where('created_at', '>=', $this->ends_at->subMinutes(3))->exists();
+        $triggerTime = \App\Models\Setting::get('auction_extension_trigger_time', 3);
+        
+        // Ako je ponuda stigla u poslednje X minuta (iz admin podešavanja)
+        return $this->ends_at->diffInMinutes(now()) <= $triggerTime &&
+               $this->bids()->where('created_at', '>=', $this->ends_at->subMinutes($triggerTime))->exists();
     }
 
     public function extendAuction()
     {
-        if ($this->needsExtension() && $this->extension_count < 10) { // Max 10 produžavanja
+        $maxExtensions = \App\Models\Setting::get('auction_max_extensions', 10);
+        $extensionTime = \App\Models\Setting::get('auction_extension_time', 3);
+        
+        if ($this->needsExtension() && $this->extension_count < $maxExtensions) {
             $this->update([
-                'ends_at' => $this->ends_at->addMinutes(3),
+                'ends_at' => $this->ends_at->addMinutes($extensionTime),
                 'extended_at' => now(),
                 'extension_count' => $this->extension_count + 1
             ]);
@@ -143,11 +148,8 @@ class Auction extends Model
 
     public function getBidIncrementAttribute()
     {
-        // Preporučeni korak za povećanje ponude
-        if ($this->current_price < 1000) return 50;
-        if ($this->current_price < 5000) return 100; 
-        if ($this->current_price < 10000) return 200;
-        return 500;
+        // Koristimo tačno admin podešavanje kao minimalni korak
+        return \App\Models\Setting::get('auction_default_bid_increment', 50);
     }
 
     public function getMinimumBidAttribute()
