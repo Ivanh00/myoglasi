@@ -215,11 +215,23 @@
                                     <i class="fas fa-user mr-2"></i> Vaš oglas
                                 </div>
 
-                                <!-- Opciono: dugme za uređivanje svog oglasa -->
+                                <!-- Dugme za uređivanje svog oglasa -->
                                 <a href="{{ route('listings.edit', $listing) }}"
                                     class="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                     <i class="fas fa-edit mr-2"></i> Uredi oglas
                                 </a>
+                                
+                                <!-- Dugme za aukciju -->
+                                @if(!$listing->auction)
+                                    <a href="{{ route('auction.setup', $listing) }}"
+                                        class="flex items-center justify-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                        <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
+                                    </a>
+                                @else
+                                    <span class="flex items-center justify-center px-4 py-3 bg-gray-400 text-white rounded-lg">
+                                        <i class="fas fa-gavel mr-2"></i> Na aukciji
+                                    </span>
+                                @endif
                             @endif
                         @else
                             <!-- Dugmad za neautentifikovane korisnike -->
@@ -269,6 +281,18 @@
                                     class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                     <i class="fas fa-edit mr-2"></i> Uredi oglas
                                 </a>
+                                
+                                <!-- Dugme za aukciju (mobile) -->
+                                @if(!$listing->auction)
+                                    <a href="{{ route('auction.setup', $listing) }}"
+                                        class="w-full flex items-center justify-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                        <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
+                                    </a>
+                                @else
+                                    <span class="w-full flex items-center justify-center px-4 py-3 bg-gray-400 text-white rounded-lg">
+                                        <i class="fas fa-gavel mr-2"></i> Na aukciji
+                                    </span>
+                                @endif
                             @endif
                         @else
                             <!-- Dugme za neautentifikovane korisnike -->

@@ -149,4 +149,14 @@ public function getReportByUser($userId)
         ->where('listing_id', $this->id)
         ->first();
 }
+
+public function auction()
+{
+    return $this->hasOne(Auction::class);
+}
+
+public function hasActiveAuction()
+{
+    return $this->auction && $this->auction->isActive();
+}
 }
