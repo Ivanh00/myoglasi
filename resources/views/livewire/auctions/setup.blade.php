@@ -71,12 +71,12 @@
                             <label class="block text-sm font-medium text-gray-700 mb-3">Kada počinje aukcija?</label>
                             <div class="space-y-2">
                                 <label class="flex items-center cursor-pointer">
-                                    <input type="radio" wire:model="startType" value="immediately" name="startType" 
+                                    <input type="radio" wire:model.live="startType" value="immediately" name="startType" 
                                         class="mr-3 h-4 w-4 text-yellow-600 focus:ring-yellow-500">
                                     <span class="text-gray-700">Odmah</span>
                                 </label>
                                 <label class="flex items-center cursor-pointer">
-                                    <input type="radio" wire:model="startType" value="scheduled" name="startType" 
+                                    <input type="radio" wire:model.live="startType" value="scheduled" name="startType" 
                                         class="mr-3 h-4 w-4 text-yellow-600 focus:ring-yellow-500">
                                     <span class="text-gray-700">Zakazano</span>
                                 </label>
@@ -115,7 +115,7 @@
                                 @foreach($durationOptions as $days => $label)
                                     <label class="flex flex-col items-center cursor-pointer p-3 border-2 rounded-lg transition-all
                                         {{ $duration == $days ? 'border-yellow-500 bg-yellow-50' : 'border-gray-300 hover:border-yellow-300' }}">
-                                        <input type="radio" wire:model="duration" value="{{ $days }}" class="sr-only">
+                                        <input type="radio" wire:model.live="duration" value="{{ $days }}" class="sr-only">
                                         <span class="text-2xl mb-1">⏰</span>
                                         <span class="text-sm font-medium {{ $duration == $days ? 'text-yellow-700' : 'text-gray-700' }}">
                                             {{ $label }}

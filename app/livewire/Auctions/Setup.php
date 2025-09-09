@@ -77,7 +77,7 @@ class Setup extends Component
                 ? now() 
                 : Carbon::parse($this->startDate . ' ' . $this->startTime);
 
-            $endDateTime = $startDateTime->copy()->addDays($this->duration);
+            $endDateTime = $startDateTime->copy()->addDays((int) $this->duration);
 
             $auction = Auction::create([
                 'listing_id' => $this->listing->id,
