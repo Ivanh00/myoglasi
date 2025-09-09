@@ -100,7 +100,8 @@
                                     <x-dropdown-link href="{{ route('listings.my') }}">
                                         Moji oglasi
                                     </x-dropdown-link>
-                                    <x-dropdown-link href="{{ route('auctions.my') }}">
+                                    <x-dropdown-link href="{{ route('auctions.my') }}" class="bg-yellow-600 text-white hover:bg-yellow-700">
+                                        <i class="fas fa-gavel mr-2"></i>
                                         Moje aukcije
                                     </x-dropdown-link>
                                     <x-dropdown-link href="{{ route('favorites.index') }}">
@@ -254,7 +255,8 @@
                         Moji oglasi
                     </a>
                     <a href="{{ route('auctions.my') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="bg-yellow-600 text-white hover:bg-yellow-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                        <i class="fas fa-gavel mr-2"></i>
                         Moje aukcije
                     </a>
                     <a href="{{ route('favorites.index') }}"
