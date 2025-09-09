@@ -138,6 +138,22 @@
                                                 Kupi odmah ({{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD)
                                             </button>
                                         @endif
+
+                                        <!-- Message seller button -->
+                                        @if(!$auction->seller->is_banned)
+                                            <a href="{{ route('listing.chat', ['slug' => $auction->listing->slug]) }}"
+                                                class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                                <i class="fas fa-envelope mr-2"></i>
+                                                Pošaljite poruku prodavcu
+                                            </a>
+                                        @else
+                                            <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
+                                                <div class="flex items-center justify-center">
+                                                    <i class="fas fa-ban text-red-500 mr-2"></i>
+                                                    <span class="text-red-700 text-sm">Prodavac je blokiran</span>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             @endif
