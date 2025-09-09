@@ -192,9 +192,9 @@
                                                     <i class="fas fa-gavel mr-1"></i> Aukcija
                                                 </a>
                                             @endif
-                                            <button wire:click="removeFromAuction({{ $listing->id }})" 
-                                                class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded"
-                                                onclick="return confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')">
+                                            <button x-data
+                                                x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $listing->id }}) }"
+                                                class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded">
                                                 <i class="fas fa-times mr-1"></i> Ukloni
                                             </button>
                                             
@@ -384,9 +384,9 @@
                                         Aukcija
                                     </a>
                                 @endif
-                                <button wire:click="removeFromAuction({{ $listing->id }})" 
-                                    class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors"
-                                    onclick="return confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')">
+                                <button x-data
+                                    x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $listing->id }}) }"
+                                    class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
                                     <i class="fas fa-times mr-1"></i>
                                     Ukloni iz aukcije
                                 </button>

@@ -26,27 +26,63 @@ class MyListings extends Component
 
     public function removeFromAuction($id)
     {
-        $listing = Listing::where('id', $id)
-            ->where('user_id', auth()->id())
-            ->with('auction')
-            ->firstOrFail();
-            
-        if (!$listing->auction) {
-            session()->flash('error', 'Ovaj oglas nije na aukciji.');
-            return;
-        }
+        try {
+            $listing = Listing::where('id', $id)
+                ->where('user_id', auth()->id())
+                ->with(['auction.bids.user'])
+                ->firstOrFail();
+                
+            if (!$listing->auction) {
+                session()->flash('error', 'Ovaj oglas nije na aukciji.');
+                return;
+            }
 
-        // Don't allow removal if auction has bids
-        if ($listing->auction->total_bids > 0) {
-            session()->flash('error', 'Ne možete ukloniti oglas iz aukcije koja ima ponude.');
-            return;
+            $auction = $listing->auction;
+
+            // Check if current price exceeds listing price (minimum protection rule)
+            // Only applies to regular users, not admins
+            if (!auth()->user()->is_admin && $auction->current_price > $listing->price) {
+                session()->flash('error', 'Ne možete ukloniti aukciju jer je trenutna cena (' . 
+                    number_format($auction->current_price, 0, ',', '.') . 
+                    ' RSD) veća od osnovne cene oglasa (' . 
+                    number_format($listing->price, 2, ',', '.') . ' RSD).');
+                return;
+            }
+            
+            // Send notifications to all bidders before deleting
+            if ($auction->bids->count() > 0) {
+                $this->notifyBiddersOfAuctionCancellation($auction, $listing);
+            }
+            
+            // Delete all auction data
+            $auction->bids()->delete();
+            $auction->delete();
+            
+            session()->flash('success', 'Aukcija je uspešno uklonjena. Oglas je vraćen u redovan prodajni režim.');
+            
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri uklanjanju iz aukcije: ' . $e->getMessage());
         }
+    }
+
+    private function notifyBiddersOfAuctionCancellation($auction, $listing)
+    {
+        // Get all unique bidders
+        $bidders = $auction->bids()->with('user')->get()->unique('user_id');
         
-        // Delete all auction data (bids should be 0, but just in case)
-        $listing->auction->bids()->delete();
-        $listing->auction->delete();
-        
-        session()->flash('success', 'Oglas je uspešno uklonjen iz aukcije.');
+        foreach ($bidders as $bid) {
+            \App\Models\Message::create([
+                'sender_id' => 1, // System
+                'receiver_id' => $bid->user_id,
+                'listing_id' => $listing->id,
+                'message' => "Aukcija za '{$listing->title}' je otkazana od strane vlasnika oglasa. " . 
+                            "Oglas možete i dalje pronaći u njihovim oglasima po ceni od " . 
+                            number_format($listing->price, 2, ',', '.') . ' RSD.',
+                'subject' => 'Aukcija otkazana - ' . $listing->title,
+                'is_system_message' => true,
+                'is_read' => false
+            ]);
+        }
     }
 
     public function renewListing($id)
