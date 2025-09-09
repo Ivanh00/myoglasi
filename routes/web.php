@@ -276,6 +276,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', \App\Livewire\Admin\Dashboard::class)->name('dashboard');
     Route::get('/users', \App\Livewire\Admin\UserManagement::class)->name('users.index');
     Route::get('/listings', \App\Livewire\Admin\ListingManagement::class)->name('listings.index');
+    Route::get('/auctions', \App\Livewire\Admin\AuctionManagement::class)->name('auctions.index');
     Route::get('/categories', \App\Livewire\Admin\CategoryManagement::class)->name('categories.index');
     Route::get('/conditions', \App\Livewire\Admin\ConditionManagement::class)->name('conditions.index');
     Route::get('/messages', \App\Livewire\Admin\MessageManagement::class)->name('messages.index');

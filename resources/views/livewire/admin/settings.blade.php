@@ -29,6 +29,11 @@
                     <i class="fas fa-university mr-1"></i>
                     Bankovna
                 </button>
+                <button wire:click="switchTab('auctions')" 
+                    class="py-2 px-1 border-b-2 font-medium text-sm {{ $activeTab === 'auctions' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
+                    <i class="fas fa-gavel mr-1"></i>
+                    Aukcije
+                </button>
             </nav>
         </div>
 
@@ -403,6 +408,94 @@
                         class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-save mr-2"></i>
                         Sačuvaj bankovna podešavanja
+                    </button>
+                </div>
+            </div>
+        @endif
+
+        <!-- Auction Settings Tab -->
+        @if($activeTab === 'auctions')
+            <div class="space-y-6">
+                <!-- Bid Settings -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-gavel mr-2 text-red-600"></i>
+                        Podešavanja licitiranja
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Minimalni korak povećanja ponude (RSD)</label>
+                            <input type="number" wire:model="auctionDefaultBidIncrement" min="10" max="10000"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                            <p class="text-xs text-gray-500 mt-1">Minimalna vrednost za povećanje ponude u aukciji</p>
+                            @error('auctionDefaultBidIncrement') 
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extension Settings -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-clock mr-2 text-orange-600"></i>
+                        Podešavanja produžavanja aukcije
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Maksimalno produžavanja</label>
+                            <input type="number" wire:model="auctionMaxExtensions" min="1" max="20"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                            <p class="text-xs text-gray-500 mt-1">Koliko puta se aukcija može produžiti</p>
+                            @error('auctionMaxExtensions') 
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Vreme produžavanja (minuti)</label>
+                            <input type="number" wire:model="auctionExtensionTime" min="1" max="10"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                            <p class="text-xs text-gray-500 mt-1">Za koliko minuta se aukcija produžava</p>
+                            @error('auctionExtensionTime') 
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Aktivacija produžavanja (minuti)</label>
+                            <input type="number" wire:model="auctionExtensionTriggerTime" min="1" max="10"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                            <p class="text-xs text-gray-500 mt-1">Ponuda u poslednje X minuta produžava aukciju</p>
+                            @error('auctionExtensionTriggerTime') 
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-600 mt-0.5 mr-2"></i>
+                            <div class="text-sm text-blue-800">
+                                <strong>Kako funkcioniše automatsko produžavanje:</strong>
+                                <ul class="list-disc list-inside mt-1 space-y-1">
+                                    <li>Ako se postavi ponuda u poslednje {{ $auctionExtensionTriggerTime ?? 3 }} minuta aukcije</li>
+                                    <li>Aukcija se automatski produžava za {{ $auctionExtensionTime ?? 3 }} minuta</li>
+                                    <li>Ovo se može desiti maksimalno {{ $auctionMaxExtensions ?? 10 }} puta po aukciji</li>
+                                    <li>Sprečava "last second sniping" i omogućava fer nadmetanje</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button wire:click="saveAuctionSettings" 
+                        class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        Sačuvaj podešavanja aukcija
                     </button>
                 </div>
             </div>

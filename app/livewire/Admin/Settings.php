@@ -40,6 +40,12 @@ class Settings extends Component
     public $modelNumberLegal;
     public $referenceNumberTemplate;
 
+    // Auction Settings
+    public $auctionDefaultBidIncrement;
+    public $auctionMaxExtensions;
+    public $auctionExtensionTime;
+    public $auctionExtensionTriggerTime;
+
     protected $rules = [
         'listingFeeEnabled' => 'required|boolean',
         'listingFeeAmount' => 'required|integer|min:1|max:10000',
@@ -64,6 +70,10 @@ class Settings extends Component
         'modelNumberPhysical' => 'required|string|max:10',
         'modelNumberLegal' => 'required|string|max:10',
         'referenceNumberTemplate' => 'required|string|max:100',
+        'auctionDefaultBidIncrement' => 'required|integer|min:10|max:10000',
+        'auctionMaxExtensions' => 'required|integer|min:1|max:20',
+        'auctionExtensionTime' => 'required|integer|min:1|max:10',
+        'auctionExtensionTriggerTime' => 'required|integer|min:1|max:10',
     ];
 
     public function mount()
@@ -103,6 +113,12 @@ class Settings extends Component
         $this->modelNumberPhysical = Setting::get('model_number_physical', '97');
         $this->modelNumberLegal = Setting::get('model_number_legal', '97');
         $this->referenceNumberTemplate = Setting::get('reference_number_template', '20-10-{user_id}');
+        
+        // Auction Settings
+        $this->auctionDefaultBidIncrement = Setting::get('auction_default_bid_increment', 50);
+        $this->auctionMaxExtensions = Setting::get('auction_max_extensions', 10);
+        $this->auctionExtensionTime = Setting::get('auction_extension_time', 3);
+        $this->auctionExtensionTriggerTime = Setting::get('auction_extension_trigger_time', 3);
     }
 
     public function switchTab($tab)
@@ -190,6 +206,23 @@ class Settings extends Component
         Setting::set('reference_number_template', $this->referenceNumberTemplate, 'string', 'banking');
 
         session()->flash('success', 'Bankovna podešavanja su uspešno sačuvana.');
+    }
+
+    public function saveAuctionSettings()
+    {
+        $this->validate([
+            'auctionDefaultBidIncrement' => 'required|integer|min:10|max:10000',
+            'auctionMaxExtensions' => 'required|integer|min:1|max:20',
+            'auctionExtensionTime' => 'required|integer|min:1|max:10',
+            'auctionExtensionTriggerTime' => 'required|integer|min:1|max:10',
+        ]);
+
+        Setting::set('auction_default_bid_increment', $this->auctionDefaultBidIncrement, 'integer', 'auctions');
+        Setting::set('auction_max_extensions', $this->auctionMaxExtensions, 'integer', 'auctions');
+        Setting::set('auction_extension_time', $this->auctionExtensionTime, 'integer', 'auctions');
+        Setting::set('auction_extension_trigger_time', $this->auctionExtensionTriggerTime, 'integer', 'auctions');
+
+        session()->flash('success', 'Podešavanja aukcija su uspešno sačuvana.');
     }
 
     public function render()
