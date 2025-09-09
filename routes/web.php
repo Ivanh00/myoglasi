@@ -54,6 +54,7 @@ Route::get('/maintenance', function () {
 // Javne rute
 Route::get('/', HomeComponent::class)->name('home');
 Route::get('/listings', ListingsIndex::class)->name('listings.index');
+Route::get('/auctions', \App\Livewire\Auctions\Index::class)->name('auctions.index');
 Route::get('/listings/create', ListingCreate::class)
     ->middleware(['auth', 'check.listing'])
     ->name('listings.create');
