@@ -124,7 +124,7 @@
                                 Pošaljite ponudu
                             </button>
 
-                            @if($auction->buy_now_price)
+                            @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                 <button type="button" 
                                     x-data="{ 
                                         buyNow() {

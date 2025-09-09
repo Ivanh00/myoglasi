@@ -57,6 +57,9 @@ class Show extends Component
 
             // Send notification to previous highest bidder
             $this->sendOutbidNotification();
+            
+            // Send notification to listing owner
+            $this->sendBidNotificationToOwner();
 
             // Refresh auction data
             $this->auction = $this->auction->fresh(['bids.user']);
@@ -142,6 +145,25 @@ class Show extends Component
             'message' => "Vaš proizvod '{$this->auction->listing->title}' je prodat putem aukcije za " . 
                         number_format($this->auction->buy_now_price, 0, ',', '.') . ' RSD.',
             'subject' => 'Proizvod prodat - ' . $this->auction->listing->title,
+            'is_system_message' => true,
+            'is_read' => false
+        ]);
+    }
+
+    private function sendBidNotificationToOwner()
+    {
+        // Don't send notification if the owner is bidding on their own auction (shouldn't happen, but safety check)
+        if (auth()->id() === $this->auction->user_id) {
+            return;
+        }
+
+        Message::create([
+            'sender_id' => 1, // System
+            'receiver_id' => $this->auction->user_id,
+            'listing_id' => $this->auction->listing_id,
+            'message' => "Nova ponuda na vašoj aukciji '{$this->auction->listing->title}'. " . 
+                        "Ponuda: " . number_format($this->bidAmount, 0, ',', '.') . ' RSD od korisnika ' . auth()->user()->name . '.',
+            'subject' => 'Nova ponuda - ' . $this->auction->listing->title,
             'is_system_message' => true,
             'is_read' => false
         ]);
