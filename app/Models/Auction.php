@@ -106,15 +106,36 @@ class Auction extends Model
     {
         if ($this->hasEnded()) return null;
         
-        $diff = $this->ends_at->diff(now());
+        // Koristimo Carbon da izračunamo tačno koliko sekundi je ostalo
+        $totalSeconds = $this->ends_at->diffInSeconds(now(), false);
+        
+        // Ako je vreme prošlo, vratimo null
+        if ($totalSeconds <= 0) return null;
+        
+        $days = floor($totalSeconds / (24 * 60 * 60));
+        $hours = floor(($totalSeconds % (24 * 60 * 60)) / (60 * 60));
+        $minutes = floor(($totalSeconds % (60 * 60)) / 60);
+        $seconds = $totalSeconds % 60;
         
         return [
-            'days' => $diff->d,
-            'hours' => $diff->h,
-            'minutes' => $diff->i,
-            'seconds' => $diff->s,
-            'total_seconds' => $this->ends_at->diffInSeconds(now())
+            'days' => (int)$days,
+            'hours' => (int)$hours,
+            'minutes' => (int)$minutes,
+            'seconds' => (int)$seconds,
+            'total_seconds' => (int)$totalSeconds,
+            'formatted' => $this->formatTimeLeft($days, $hours, $minutes, $seconds)
         ];
+    }
+    
+    private function formatTimeLeft($days, $hours, $minutes, $seconds)
+    {
+        if ($days > 0) {
+            return $days . 'd ' . $hours . 'h';
+        } elseif ($hours > 0) {
+            return $hours . ':' . sprintf('%02d', $minutes) . ':' . sprintf('%02d', $seconds);
+        } else {
+            return $minutes . ':' . sprintf('%02d', $seconds);
+        }
     }
 
     public function getBidIncrementAttribute()

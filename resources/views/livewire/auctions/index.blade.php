@@ -186,11 +186,7 @@
                             <div class="absolute top-2 right-2">
                                 <span class="px-2 py-1 bg-red-600 bg-opacity-90 text-white text-xs font-medium rounded">
                                     @if($auction->time_left)
-                                        @if($auction->time_left['days'] > 0)
-                                            {{ $auction->time_left['days'] }}d {{ $auction->time_left['hours'] }}h
-                                        @else
-                                            {{ $auction->time_left['hours'] }}:{{ sprintf('%02d', $auction->time_left['minutes']) }}
-                                        @endif
+                                        {{ $auction->time_left['formatted'] }}
                                     @endif
                                 </span>
                             </div>
@@ -258,11 +254,7 @@
                                 <div class="absolute top-2 right-2">
                                     <span class="px-2 py-1 bg-red-600 bg-opacity-90 text-white text-xs font-medium rounded">
                                         @if($auction->time_left)
-                                            @if($auction->time_left['days'] > 0)
-                                                {{ $auction->time_left['days'] }}d {{ $auction->time_left['hours'] }}h
-                                            @else
-                                                {{ $auction->time_left['hours'] }}:{{ sprintf('%02d', $auction->time_left['minutes']) }}
-                                            @endif
+                                            {{ $auction->time_left['formatted'] }}
                                         @endif
                                     </span>
                                 </div>
@@ -317,10 +309,7 @@
                                     <div class="text-center mb-4">
                                         <div class="text-lg font-bold text-yellow-600">
                                             @if($auction->time_left)
-                                                @if($auction->time_left['days'] > 0)
-                                                    {{ $auction->time_left['days'] }} dana
-                                                @else
-                                                    {{ $auction->time_left['hours'] }}:{{ sprintf('%02d', $auction->time_left['minutes']) }}
+                                                {{ $auction->time_left['formatted'] }}
                                                 @endif
                                             @endif
                                         </div>

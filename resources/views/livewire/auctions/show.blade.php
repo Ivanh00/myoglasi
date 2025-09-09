@@ -13,13 +13,10 @@
                         <div class="text-right">
                             @if($auction->isActive())
                                 <div class="text-2xl font-bold auction-countdown" 
-                                     data-end-time="{{ $auction->ends_at->timestamp }}">
+                                     data-end-time="{{ $auction->ends_at->timestamp }}"
+                                     data-total-seconds="{{ $auction->time_left['total_seconds'] ?? 0 }}">
                                     @if($auction->time_left)
-                                        @if($auction->time_left['days'] > 0)
-                                            {{ $auction->time_left['days'] }}d {{ $auction->time_left['hours'] }}h
-                                        @else
-                                            {{ $auction->time_left['hours'] }}:{{ sprintf('%02d', $auction->time_left['minutes']) }}:{{ sprintf('%02d', $auction->time_left['seconds']) }}
-                                        @endif
+                                        {{ $auction->time_left['formatted'] }}
                                     @endif
                                 </div>
                                 <p class="text-yellow-100 text-sm">vremena ostalo</p>
@@ -213,40 +210,50 @@
     </div>
 </div>
 
-<!-- Real-time countdown script -->
+<!-- Real-time countdown script using Carbon data -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const countdownElement = document.querySelector('.auction-countdown');
         
         if (countdownElement) {
-            const endTime = parseInt(countdownElement.dataset.endTime);
+            // Koristimo Carbon izračunat broj sekundi
+            let totalSecondsLeft = parseInt(countdownElement.dataset.totalSeconds);
             
             function updateCountdown() {
-                const now = Math.floor(Date.now() / 1000);
-                const timeLeft = endTime - now;
-                
-                if (timeLeft <= 0) {
+                if (totalSecondsLeft <= 0) {
                     countdownElement.textContent = 'ZAVRŠENO';
                     // Refresh page when auction ends to show final results
                     setTimeout(() => location.reload(), 1000);
                     return;
                 }
                 
-                const days = Math.floor(timeLeft / (24 * 60 * 60));
-                const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
-                const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
-                const seconds = timeLeft % 60;
+                // Izračunavamo vreme iz preostajućih sekundi
+                const days = Math.floor(totalSecondsLeft / (24 * 60 * 60));
+                const hours = Math.floor((totalSecondsLeft % (24 * 60 * 60)) / (60 * 60));
+                const minutes = Math.floor((totalSecondsLeft % (60 * 60)) / 60);
+                const seconds = totalSecondsLeft % 60;
                 
+                // Formatiramo prikaz kao što Carbon radi
                 if (days > 0) {
                     countdownElement.textContent = `${days}d ${hours}h`;
-                } else {
+                } else if (hours > 0) {
                     countdownElement.textContent = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
                 }
+                
+                // Smanjujemo broj sekundi za sledeći ciklus
+                totalSecondsLeft--;
             }
             
-            // Update countdown every second
-            updateCountdown(); // Initial update
-            setInterval(updateCountdown, 1000);
+            // Pokretamo countdown odmah i onda svakih sekund
+            updateCountdown();
+            const countdownInterval = setInterval(updateCountdown, 1000);
+            
+            // Čišćenje interval-a kad se komponenta uništi
+            window.addEventListener('beforeunload', () => {
+                clearInterval(countdownInterval);
+            });
         }
     });
     
