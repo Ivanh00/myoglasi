@@ -244,6 +244,46 @@
                 </div>
             @endif
         </div>
+
+        <!-- Auction Rules Section -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                Pravila licitiranja
+            </h3>
+            
+            <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="text-sm text-blue-800">
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-up text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span>Minimalni korak povećanja ponude: <strong>{{ number_format($auction->bid_increment, 0, ',', '.') }} RSD</strong></span>
+                        </li>
+                        @php
+                            $triggerTime = \App\Models\Setting::get('auction_extension_trigger_time', 3);
+                            $extensionTime = \App\Models\Setting::get('auction_extension_time', 3);
+                            $maxExtensions = \App\Models\Setting::get('auction_max_extensions', 10);
+                        @endphp
+                        <li class="flex items-start">
+                            <i class="fas fa-clock text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span>Ako se postavi ponuda u poslednje <strong>{{ $triggerTime }} minuta</strong> aukcije</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-plus text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span>Aukcija se automatski produžava za <strong>{{ $extensionTime }} minuta</strong></span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-repeat text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span>Ovo se može desiti maksimalno <strong>{{ $maxExtensions }} puta</strong> po aukciji</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-shield-alt text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span>Sprečava "last second sniping" i omogućava fer nadmetanje</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
