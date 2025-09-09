@@ -317,6 +317,16 @@
                         </a>
                     @endif
                     
+                    @if(str_contains($selectedNotification->subject, 'Ponuda nadmašena') || str_contains($selectedNotification->subject, 'Aukcija'))
+                        @if($selectedNotification->listing)
+                            <a href="{{ route('auction.show', $selectedNotification->listing->auction) }}" class="view-listing-btn"
+                                style="background-color: #dc2626; border-color: #dc2626;" wire:navigate>
+                                <i class="fas fa-gavel mr-1"></i>
+                                Idi na aukciju
+                            </a>
+                        @endif
+                    @endif
+                    
                     <button onclick="closeModal()" class="close-btn" type="button">
                         Zatvori
                     </button>
