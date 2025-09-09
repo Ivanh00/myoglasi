@@ -113,11 +113,11 @@ class AuctionManagement extends Component
             // Delete all bids first
             $this->selectedAuction->bids()->delete();
             
-            // Delete auction
+            // Delete only auction (listing remains intact)
             $this->selectedAuction->delete();
             
             $this->showDeleteModal = false;
-            $this->dispatch('notify', type: 'success', message: 'Aukcija uspešno obrisana!');
+            $this->dispatch('notify', type: 'success', message: 'Aukcija je uspešno obrisana! Oglas je zadržan.');
         }
     }
 

@@ -246,105 +246,113 @@
     </div>
 
     <!-- Edit Modal -->
-    <x-modal wire:model="showEditModal" name="edit-auction" max-width="2xl">
-        <div class="p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">
-                Uredi aukciju #{{ $selectedAuction->id ?? '' }}
-            </h3>
+    @if ($showEditModal)
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
+                <div class="mt-3">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">
+                        Uredi aukciju #{{ $selectedAuction->id ?? '' }}
+                    </h3>
 
-            @if($selectedAuction)
-                <form wire:submit="updateAuction">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Starting Price -->
-                        <div>
-                            <label for="starting_price" class="block text-sm font-medium text-gray-700">Početna cena (RSD)</label>
-                            <input type="number" wire:model="editState.starting_price" id="starting_price" min="1" step="1"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            @error('editState.starting_price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
+                    @if($selectedAuction)
+                        <form wire:submit.prevent="updateAuction">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Starting Price -->
+                                <div>
+                                    <label for="starting_price" class="block text-sm font-medium text-gray-700">Početna cena (RSD)</label>
+                                    <input type="number" wire:model="editState.starting_price" id="starting_price" min="1" step="1"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    @error('editState.starting_price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
 
-                        <!-- Buy Now Price -->
-                        <div>
-                            <label for="buy_now_price" class="block text-sm font-medium text-gray-700">Kupi odmah cena (RSD)</label>
-                            <input type="number" wire:model="editState.buy_now_price" id="buy_now_price" min="1" step="1"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            @error('editState.buy_now_price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
+                                <!-- Buy Now Price -->
+                                <div>
+                                    <label for="buy_now_price" class="block text-sm font-medium text-gray-700">Kupi odmah cena (RSD)</label>
+                                    <input type="number" wire:model="editState.buy_now_price" id="buy_now_price" min="1" step="1"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    @error('editState.buy_now_price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
 
-                        <!-- Current Price -->
-                        <div>
-                            <label for="current_price" class="block text-sm font-medium text-gray-700">Trenutna cena (RSD)</label>
-                            <input type="number" wire:model="editState.current_price" id="current_price" min="1" step="1"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            @error('editState.current_price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
+                                <!-- Current Price -->
+                                <div>
+                                    <label for="current_price" class="block text-sm font-medium text-gray-700">Trenutna cena (RSD)</label>
+                                    <input type="number" wire:model="editState.current_price" id="current_price" min="1" step="1"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    @error('editState.current_price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
 
-                        <!-- Status -->
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                            <select wire:model="editState.status" id="status"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                @foreach($statusOptions as $key => $label)
-                                    <option value="{{ $key }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
-                            @error('editState.status') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
+                                <!-- Status -->
+                                <div>
+                                    <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                    <select wire:model="editState.status" id="status"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        @foreach($statusOptions as $key => $label)
+                                            <option value="{{ $key }}">{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('editState.status') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
 
-                        <!-- Starts At -->
-                        <div>
-                            <label for="starts_at" class="block text-sm font-medium text-gray-700">Počinje</label>
-                            <input type="datetime-local" wire:model="editState.starts_at" id="starts_at"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            @error('editState.starts_at') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
+                                <!-- Starts At -->
+                                <div>
+                                    <label for="starts_at" class="block text-sm font-medium text-gray-700">Počinje</label>
+                                    <input type="datetime-local" wire:model="editState.starts_at" id="starts_at"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    @error('editState.starts_at') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
 
-                        <!-- Ends At -->
-                        <div>
-                            <label for="ends_at" class="block text-sm font-medium text-gray-700">Završava</label>
-                            <input type="datetime-local" wire:model="editState.ends_at" id="ends_at"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            @error('editState.ends_at') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
+                                <!-- Ends At -->
+                                <div>
+                                    <label for="ends_at" class="block text-sm font-medium text-gray-700">Završava</label>
+                                    <input type="datetime-local" wire:model="editState.ends_at" id="ends_at"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    @error('editState.ends_at') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
 
-                    <div class="mt-6 flex items-center justify-end space-x-3">
-                        <button type="button" wire:click="$set('showEditModal', false)"
-                            class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Otkaži
-                        </button>
-                        <button type="submit"
-                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Sačuvaj izmene
-                        </button>
-                    </div>
-                </form>
-            @endif
-        </div>
-    </x-modal>
-
-    <!-- Delete Modal -->
-    <x-modal wire:model="showDeleteModal" name="delete-auction">
-        <div class="p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">
-                Potvrdi brisanje aukcije
-            </h3>
-            <p class="text-sm text-gray-600 mb-6">
-                Da li ste sigurni da želite da obrišete ovu aukciju? Ova akcija se ne može poništiti.
-                @if($selectedAuction && $selectedAuction->total_bids > 0)
-                    <br><strong class="text-red-600">Upozorenje: Ova aukcija ima {{ $selectedAuction->total_bids }} ponuda!</strong>
-                @endif
-            </p>
-            <div class="flex items-center justify-end space-x-3">
-                <button wire:click="$set('showDeleteModal', false)"
-                    class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Otkaži
-                </button>
-                <button wire:click="deleteAuction"
-                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                    Obriši aukciju
-                </button>
+                            <div class="mt-6 flex items-center justify-end space-x-3">
+                                <button type="button" wire:click="$set('showEditModal', false)"
+                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                                    Otkaži
+                                </button>
+                                <button type="submit"
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                    Sačuvaj izmene
+                                </button>
+                            </div>
+                        </form>
+                    @endif
+                </div>
             </div>
         </div>
-    </x-modal>
+    @endif
+
+    <!-- Delete Modal -->
+    @if ($showDeleteModal)
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div class="mt-3 text-center">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Potvrda brisanja aukcije</h3>
+                    <p class="text-sm text-gray-500 mb-4">
+                        Da li ste sigurni da želite da obrišete aukciju za "{{ $selectedAuction->listing->title ?? '' }}"?
+                        <br>Ovo će obrisati samo aukciju, oglas će ostati netaknut.
+                        @if($selectedAuction && $selectedAuction->total_bids > 0)
+                            <br><strong class="text-red-600">Upozorenje: Ova aukcija ima {{ $selectedAuction->total_bids }} ponuda!</strong>
+                        @endif
+                    </p>
+
+                    <div class="flex justify-center space-x-3">
+                        <button wire:click="$set('showDeleteModal', false)"
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            Otkaži
+                        </button>
+                        <button wire:click="deleteAuction"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                            Obriši aukciju
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
