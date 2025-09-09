@@ -36,6 +36,8 @@
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Aukcija</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Datum
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -44,7 +46,7 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($listings as $listing)
-                        <tr>
+                        <tr class="{{ $listing->auction ? 'border-l-4 !border-l-yellow-500 bg-yellow-50' : '' }}" style="{{ $listing->auction ? 'border-left: 4px solid #eab308 !important;' : '' }}">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
@@ -107,6 +109,40 @@
                                     @endif
                                 </div>
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if($listing->auction)
+                                    @if($listing->auction->isActive())
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            <i class="fas fa-gavel mr-1"></i>
+                                            Aktivna aukcija
+                                        </span>
+                                        <div class="text-xs text-gray-500 mt-1">
+                                            {{ $listing->auction->total_bids }} ponuda
+                                        </div>
+                                        @if($listing->auction->current_price > $listing->auction->starting_price)
+                                            <div class="text-xs text-green-600">
+                                                {{ number_format($listing->auction->current_price, 0, ',', '.') }} RSD
+                                            </div>
+                                        @endif
+                                    @elseif($listing->auction->hasEnded())
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                            <i class="fas fa-flag-checkered mr-1"></i>
+                                            Završena
+                                        </span>
+                                        @if($listing->auction->winner)
+                                            <div class="text-xs text-green-600">
+                                                Pobednik: {{ $listing->auction->winner->name }}
+                                            </div>
+                                        @endif
+                                    @else
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            {{ ucfirst($listing->auction->status) }}
+                                        </span>
+                                    @endif
+                                @else
+                                    <span class="text-gray-400 text-xs">Nije na aukciji</span>
+                                @endif
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="flex flex-col">
                                     <span>{{ $listing->created_at->format('d.m.Y') }}</span>
@@ -143,6 +179,20 @@
                                         onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')">
                                         <i class="fas fa-share-alt mr-1"></i> Podeli
                                     </button>
+
+                                    @if($listing->auction)
+                                        @if($listing->auction->isActive())
+                                            <a href="{{ route('auction.show', $listing->auction) }}"
+                                                class="inline-flex items-center px-2 py-1 text-yellow-600 hover:text-yellow-900 rounded">
+                                                <i class="fas fa-gavel mr-1"></i> Aukcija
+                                            </a>
+                                        @endif
+                                        <button wire:click="removeFromAuction({{ $listing->id }})" 
+                                            class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded"
+                                            onclick="return confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')">
+                                            <i class="fas fa-times mr-1"></i> Ukloni iz aukcije
+                                        </button>
+                                    @endif
                                     
                                     <button x-data
                                         x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
@@ -165,7 +215,7 @@
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
             @foreach ($listings as $listing)
-                <div class="bg-white shadow rounded-lg overflow-hidden">
+                <div class="bg-white shadow rounded-lg overflow-hidden {{ $listing->auction ? 'border-l-4 border-yellow-500 bg-yellow-50' : '' }}">
                     <!-- Card Header -->
                     <div class="p-4 border-b border-gray-200">
                         <div class="flex items-start justify-between">
@@ -249,6 +299,37 @@
                             </div>
                         </div>
 
+                        <!-- Auction Info -->
+                        @if($listing->auction)
+                            <div class="mb-4">
+                                <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Status aukcije</div>
+                                <div class="space-y-2">
+                                    @if($listing->auction->isActive())
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 w-fit">
+                                            <i class="fas fa-gavel mr-1"></i>
+                                            Aktivna aukcija
+                                        </span>
+                                        <div class="text-xs text-gray-500">{{ $listing->auction->total_bids }} ponuda</div>
+                                        @if($listing->auction->current_price > $listing->auction->starting_price)
+                                            <div class="text-xs text-green-600">{{ number_format($listing->auction->current_price, 0, ',', '.') }} RSD</div>
+                                        @endif
+                                    @elseif($listing->auction->hasEnded())
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 w-fit">
+                                            <i class="fas fa-flag-checkered mr-1"></i>
+                                            Završena
+                                        </span>
+                                        @if($listing->auction->winner)
+                                            <div class="text-xs text-green-600">Pobednik: {{ $listing->auction->winner->name }}</div>
+                                        @endif
+                                    @else
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 w-fit">
+                                            {{ ucfirst($listing->auction->status) }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+
                         <!-- Action Buttons -->
                         <div class="flex flex-wrap gap-2">
                             <a href="{{ route('listings.show', $listing) }}"
@@ -279,6 +360,22 @@
                                 <i class="fas fa-share-alt mr-1"></i>
                                 Podeli
                             </button>
+
+                            @if($listing->auction)
+                                @if($listing->auction->isActive())
+                                    <a href="{{ route('auction.show', $listing->auction) }}"
+                                        class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-lg hover:bg-yellow-200 transition-colors">
+                                        <i class="fas fa-gavel mr-1"></i>
+                                        Aukcija
+                                    </a>
+                                @endif
+                                <button wire:click="removeFromAuction({{ $listing->id }})" 
+                                    class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors"
+                                    onclick="return confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')">
+                                    <i class="fas fa-times mr-1"></i>
+                                    Ukloni iz aukcije
+                                </button>
+                            @endif
                             
                             <button x-data
                                 x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"

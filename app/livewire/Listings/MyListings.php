@@ -24,6 +24,31 @@ class MyListings extends Component
         session()->flash('message', 'Oglas je uspešno obrisan.');
     }
 
+    public function removeFromAuction($id)
+    {
+        $listing = Listing::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->with('auction')
+            ->firstOrFail();
+            
+        if (!$listing->auction) {
+            session()->flash('error', 'Ovaj oglas nije na aukciji.');
+            return;
+        }
+
+        // Don't allow removal if auction has bids
+        if ($listing->auction->total_bids > 0) {
+            session()->flash('error', 'Ne možete ukloniti oglas iz aukcije koja ima ponude.');
+            return;
+        }
+        
+        // Delete all auction data (bids should be 0, but just in case)
+        $listing->auction->bids()->delete();
+        $listing->auction->delete();
+        
+        session()->flash('success', 'Oglas je uspešno uklonjen iz aukcije.');
+    }
+
     public function renewListing($id)
     {
         $listing = Listing::where('id', $id)
@@ -61,7 +86,7 @@ class MyListings extends Component
     public function render()
     {
         $query = Listing::where('user_id', auth()->id())
-            ->with(['category', 'condition', 'images']);
+            ->with(['category', 'condition', 'images', 'auction.bids', 'auction.winner']);
             
         // Apply filters
         if ($this->filter === 'active') {
