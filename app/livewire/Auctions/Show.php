@@ -75,6 +75,12 @@ class Show extends Component
         }
     }
 
+    public function confirmBuyNow()
+    {
+        // Ova metoda se poziva kad korisnik potvrdi kupovinu
+        $this->buyNow();
+    }
+
     public function buyNow()
     {
         if (!$this->auction->buy_now_price) {

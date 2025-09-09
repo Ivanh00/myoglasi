@@ -100,7 +100,8 @@ class Setup extends Component
 
     public function render()
     {
-        return view('livewire.auctions.setup')
-            ->layout('layouts.app');
+        return view('livewire.auctions.setup', [
+            'minDate' => Carbon::today()->format('Y-m-d')
+        ])->layout('layouts.app');
     }
 }

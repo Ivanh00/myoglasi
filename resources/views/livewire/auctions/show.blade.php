@@ -125,8 +125,15 @@
                             </button>
 
                             @if($auction->buy_now_price)
-                                <button type="button" wire:click="buyNow"
-                                    onclick="return confirm('Da li ste sigurni da želite da kupite odmah za {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD?')"
+                                <button type="button" 
+                                    x-data="{ 
+                                        buyNow() {
+                                            if (confirm('Da li ste sigurni da želite da kupite odmah za {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD?')) {
+                                                $wire.confirmBuyNow();
+                                            }
+                                        }
+                                    }"
+                                    @click="buyNow()"
                                     class="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
                                     <i class="fas fa-shopping-cart mr-2"></i>
                                     Kupi odmah ({{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD)

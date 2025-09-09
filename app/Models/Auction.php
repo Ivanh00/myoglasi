@@ -106,10 +106,13 @@ class Auction extends Model
     {
         if ($this->hasEnded()) return null;
         
-        // Koristimo Carbon da izračunamo tačno koliko sekundi je ostalo
-        $totalSeconds = $this->ends_at->diffInSeconds(now(), false);
+        // Ako je aukcija završena (vreme je prošlo)
+        if ($this->ends_at->isPast()) return null;
         
-        // Ako je vreme prošlo, vratimo null
+        // Koristimo timestamp razliku za precizan izračun
+        $totalSeconds = $this->ends_at->timestamp - now()->timestamp;
+        
+        // Ako je negativan (što ne bi trebalo), vrati null
         if ($totalSeconds <= 0) return null;
         
         $days = floor($totalSeconds / (24 * 60 * 60));

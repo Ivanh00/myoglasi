@@ -310,7 +310,6 @@
                                         <div class="text-lg font-bold text-yellow-600">
                                             @if($auction->time_left)
                                                 {{ $auction->time_left['formatted'] }}
-                                                @endif
                                             @endif
                                         </div>
                                         <div class="text-xs text-gray-500">vremena ostalo</div>
