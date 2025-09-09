@@ -153,52 +153,67 @@
                                         <span class="text-xs text-gray-400">({{ $listing->renewal_count }}x obnovljen)</span>
                                     @endif
                                 </div>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex items-center space-x-2">
-                                    <a href="{{ route('listings.show', $listing) }}"
-                                        class="inline-flex items-center px-2 py-1 text-blue-600 hover:text-blue-900 rounded">
-                                        <i class="fas fa-eye mr-1"></i> Pregled
-                                    </a>
-                                    
-                                    @if($listing->isActive())
-                                        <a href="{{ route('listings.edit', $listing) }}"
-                                            class="inline-flex items-center px-2 py-1 text-indigo-600 hover:text-indigo-900 rounded">
-                                            <i class="fas fa-edit mr-1"></i> Izmeni
+                            <td class="px-6 py-4 text-sm font-medium">
+                                <div class="space-y-2">
+                                    <!-- First row: Primary actions -->
+                                    <div class="flex items-center space-x-2">
+                                        <a href="{{ route('listings.show', $listing) }}"
+                                            class="inline-flex items-center px-2 py-1 text-blue-600 hover:text-blue-900 rounded">
+                                            <i class="fas fa-eye mr-1"></i> Pregled
                                         </a>
-                                    @endif
-                                    
-                                    @if($listing->canBeRenewed())
-                                        <button wire:click="renewListing({{ $listing->id }})" 
-                                            class="inline-flex items-center px-2 py-1 text-green-600 hover:text-green-900 rounded"
-                                            onclick="return confirm('Da li želite da obnovite ovaj oglas? {{ auth()->user()->payment_plan === 'per_listing' ? 'Biće naplaćeno ' . \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD.' : 'Besplatno jer imate aktivan plan.' }}')">
-                                            <i class="fas fa-redo mr-1"></i> Obnovi
-                                        </button>
-                                    @endif
-                                    
-                                    <button class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded"
-                                        onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')">
-                                        <i class="fas fa-share-alt mr-1"></i> Podeli
-                                    </button>
-
-                                    @if($listing->auction)
-                                        @if($listing->auction->isActive())
-                                            <a href="{{ route('auction.show', $listing->auction) }}"
-                                                class="inline-flex items-center px-2 py-1 text-yellow-600 hover:text-yellow-900 rounded">
-                                                <i class="fas fa-gavel mr-1"></i> Aukcija
+                                        
+                                        @if($listing->isActive())
+                                            <a href="{{ route('listings.edit', $listing) }}"
+                                                class="inline-flex items-center px-2 py-1 text-indigo-600 hover:text-indigo-900 rounded">
+                                                <i class="fas fa-edit mr-1"></i> Izmeni
                                             </a>
                                         @endif
-                                        <button wire:click="removeFromAuction({{ $listing->id }})" 
-                                            class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded"
-                                            onclick="return confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')">
-                                            <i class="fas fa-times mr-1"></i> Ukloni iz aukcije
+                                        
+                                        @if($listing->canBeRenewed())
+                                            <button wire:click="renewListing({{ $listing->id }})" 
+                                                class="inline-flex items-center px-2 py-1 text-green-600 hover:text-green-900 rounded"
+                                                onclick="return confirm('Da li želite da obnovite ovaj oglas? {{ auth()->user()->payment_plan === 'per_listing' ? 'Biće naplaćeno ' . \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD.' : 'Besplatno jer imate aktivan plan.' }}')">
+                                                <i class="fas fa-redo mr-1"></i> Obnovi
+                                            </button>
+                                        @endif
+
+                                        <button class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded"
+                                            onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')">
+                                            <i class="fas fa-share-alt mr-1"></i> Podeli
                                         </button>
+                                    </div>
+
+                                    <!-- Second row: Auction and delete actions (only if auction exists) -->
+                                    @if($listing->auction)
+                                        <div class="flex items-center space-x-2">
+                                            @if($listing->auction->isActive())
+                                                <a href="{{ route('auction.show', $listing->auction) }}"
+                                                    class="inline-flex items-center px-2 py-1 text-yellow-600 hover:text-yellow-900 rounded">
+                                                    <i class="fas fa-gavel mr-1"></i> Aukcija
+                                                </a>
+                                            @endif
+                                            <button wire:click="removeFromAuction({{ $listing->id }})" 
+                                                class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded"
+                                                onclick="return confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')">
+                                                <i class="fas fa-times mr-1"></i> Ukloni
+                                            </button>
+                                            
+                                            <button x-data
+                                                x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
+                                                class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-900 rounded">
+                                                <i class="fas fa-trash mr-1"></i> Obriši
+                                            </button>
+                                        </div>
+                                    @else
+                                        <!-- No auction - delete button on same row -->
+                                        <div class="flex items-center space-x-2">
+                                            <button x-data
+                                                x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
+                                                class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-900 rounded">
+                                                <i class="fas fa-trash mr-1"></i> Obriši
+                                            </button>
+                                        </div>
                                     @endif
-                                    
-                                    <button x-data
-                                        x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
-                                        class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-900 rounded">
-                                        <i class="fas fa-trash mr-1"></i> Obriši
-                                    </button>
                                 </div>
                             </td>
                         </tr>
