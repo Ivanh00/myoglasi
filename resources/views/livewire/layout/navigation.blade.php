@@ -137,7 +137,7 @@
                                             $totalRatings = auth()->user()->total_ratings_count ?? 0;
                                         @endphp
                                         @if ($totalRatings > 0)
-                                            <span class="ml-2 bg-green-500 text-white rounded px-2 py-1 text-xs font-medium">
+                                            <span class="ml-2 bg-green-600 text-white rounded px-2 py-1 text-xs font-medium">
                                                 {{ $totalRatings }}
                                             </span>
                                         @endif
@@ -156,7 +156,8 @@
                                     @csrf
                                     <x-dropdown-link href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); this.closest('form').submit();"
-                                        class="text-red-600 hover:text-red-800">
+                                        class="bg-red-600 text-white hover:bg-red-700">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>
                                         Odjavi se
                                     </x-dropdown-link>
                                 </form>
@@ -309,7 +310,7 @@
                                 $totalRatings = auth()->user()->total_ratings_count ?? 0;
                             @endphp
                             @if ($totalRatings > 0)
-                                <span class="ml-1 bg-green-500 text-white rounded px-2 py-1 text-xs font-medium">
+                                <span class="ml-1 bg-green-600 text-white rounded px-2 py-1 text-xs font-medium">
                                     {{ $totalRatings }}
                                 </span>
                             @endif

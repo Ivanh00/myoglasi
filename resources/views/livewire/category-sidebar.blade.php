@@ -256,7 +256,7 @@
                         $totalRatings = auth()->user()->total_ratings_count ?? 0;
                     @endphp
                     @if ($totalRatings > 0)
-                        <span class="ml-2 bg-green-500 text-white rounded px-2 py-1 text-xs font-medium">
+                        <span class="ml-2 bg-green-600 text-white rounded px-2 py-1 text-xs font-medium">
                             {{ $totalRatings }}
                         </span>
                     @endif
