@@ -205,7 +205,7 @@
                                         {{ $auction->total_bids }} ponuda
                                     </div>
                                 </div>
-                                @if($auction->buy_now_price)
+                                @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                     <div class="text-right">
                                         <div class="text-sm text-gray-500">Kupi odmah:</div>
                                         <div class="text-lg font-bold text-green-600">
@@ -291,7 +291,7 @@
                                             <div class="text-sm text-gray-500">{{ $auction->total_bids }} ponuda</div>
                                         </div>
                                         
-                                        @if($auction->buy_now_price)
+                                        @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                             <div class="text-right">
                                                 <div class="text-sm text-gray-500">Kupi odmah:</div>
                                                 <div class="text-lg font-bold text-green-600">
@@ -321,7 +321,7 @@
                                             <i class="fas fa-gavel mr-2"></i> Licitiraj
                                         </a>
                                         
-                                        @if($auction->buy_now_price)
+                                        @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                             <a href="{{ route('auction.show', $auction) }}"
                                                 class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
                                                 <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
