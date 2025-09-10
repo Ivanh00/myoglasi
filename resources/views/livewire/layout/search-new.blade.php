@@ -9,7 +9,7 @@ $hasFilters = !empty(array_filter([
 ]));
 
 // Check if filters should be open
-$shouldShowFilters = $hasFilters || !empty($urlParams['show_filters']);
+$shouldShowFilters = $hasFilters || !empty($urlParams['show_filters']) || !empty($urlParams['filters_open']);
 
 // Get category and condition names for display
 $selectedCategoryName = '';
@@ -189,8 +189,13 @@ x-init="syncFromUrl()">
                     <label class="block text-xs font-medium text-gray-700 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
                         class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span x-text="categoryName || 'Sve kategorije'" 
-                            :class="categoryName ? 'text-gray-900' : 'text-gray-500'"></span>
+                        <span :class="category ? 'text-gray-900' : 'text-gray-500'">
+                            @if(!empty($selectedCategoryName))
+                                {{ $selectedCategoryName }}
+                            @else
+                                <span x-text="categoryName || 'Sve kategorije'"></span>
+                            @endif
+                        </span>
                         <svg class="w-4 h-4 transition-transform" :class="categoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
                         </svg>
@@ -248,8 +253,13 @@ x-init="syncFromUrl()">
                     <label class="block text-xs font-medium text-gray-700 mb-1">Stanje</label>
                     <button type="button" @click="conditionOpen = !conditionOpen"
                         class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span x-text="conditionName || 'Sva stanja'" 
-                            :class="conditionName ? 'text-gray-900' : 'text-gray-500'"></span>
+                        <span :class="condition ? 'text-gray-900' : 'text-gray-500'">
+                            @if(!empty($selectedConditionName))
+                                {{ $selectedConditionName }}
+                            @else
+                                <span x-text="conditionName || 'Sva stanja'"></span>
+                            @endif
+                        </span>
                         <svg class="w-4 h-4 transition-transform" :class="conditionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
                         </svg>
