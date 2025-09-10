@@ -149,6 +149,18 @@ if (!empty($auctionType)) {
         this.auctionTypeName = name;
     },
     
+    quickSearch() {
+        // Quick search with only query parameter, no other filters
+        const params = new URLSearchParams();
+        if (this.query) {
+            params.set('query', this.query);
+            params.set('content_type', 'all'); // Search both listings and auctions
+        }
+        
+        const url = '{{ route('search.unified') }}' + (params.toString() ? '?' + params.toString() : '');
+        window.location.href = url;
+    },
+    
     submitSearch() {
         // Build URL with parameters using correct parameter names
         const params = new URLSearchParams();
@@ -184,9 +196,11 @@ x-init="syncFromUrl()">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                     </svg>
                 </div>
-                <input type="text" x-model="query" @keydown.enter="submitSearch()"
-                    class="block w-full pl-10 pr-3 py-3 border-0 bg-transparent placeholder-gray-400 focus:outline-none focus:ring-0 text-sm"
-                    placeholder="Pretraži oglase...">
+                <form @submit.prevent="quickSearch()">
+                    <input type="text" x-model="query" 
+                        class="block w-full pl-10 pr-3 py-3 border-0 bg-transparent placeholder-gray-400 focus:outline-none focus:ring-0 text-sm"
+                        placeholder="Pretraži oglase...">
+                </form>
             </div>
             
             <button type="button" @click="toggleFilters()" 
@@ -200,8 +214,9 @@ x-init="syncFromUrl()">
                 <span x-show="hasActiveFilters()" class="ml-2 w-2 h-2 bg-blue-600 rounded-full"></span>
             </button>
             
-            <button type="button" @click="submitSearch()"
-                class="inline-flex items-center px-4 py-3 border-l border-gray-300 bg-blue-600 text-white hover:bg-blue-700 focus:outline-none transition-colors">
+            <button type="button" @click="quickSearch()"
+                class="inline-flex items-center px-4 py-3 border-l border-gray-300 bg-blue-600 text-white hover:bg-blue-700 focus:outline-none transition-colors"
+                title="Brza pretraga samo po nazivu">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
