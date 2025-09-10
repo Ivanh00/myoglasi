@@ -82,14 +82,24 @@ class FirewallMiddleware
         
         // Check requests in last minute
         if ($visitor->request_count > $maxPerMinute && $visitor->last_activity > now()->subMinute()) {
-            $userType = $isAuthenticated ? 'prijavljeni korisnik' : 'guest';
-            abort(429, "Previše zahteva za {$userType}. Molimo sačekajte pre ponovnog pristupa.");
+            if ($isAuthenticated) {
+                abort(429, "Previše zahteva za prijavljeni korisnik. Molimo sačekajte pre ponovnog pristupa.");
+            } else {
+                // Redirect guests to login instead of showing error
+                session()->flash('warning', 'Dostigli ste limit zahteva. Ulogujte se za veći pristup sajtu.');
+                abort(redirect()->route('login'));
+            }
         }
         
         // Check requests in last hour  
         if ($visitor->request_count > $maxPerHour && $visitor->last_activity > now()->subHour()) {
-            $userType = $isAuthenticated ? 'prijavljeni korisnik' : 'guest';
-            abort(429, "Dostignut je limit zahteva za {$userType}. Molimo pokušajte kasnije.");
+            if ($isAuthenticated) {
+                abort(429, "Dostignut je limit zahteva za prijavljeni korisnik. Molimo pokušajte kasnije.");
+            } else {
+                // Redirect guests to login/register instead of showing error
+                session()->flash('info', 'Dostigli ste dnevni limit pristupa. Registrujte se za neograničen pristup ili se ulogujte ako već imate nalog.');
+                abort(redirect()->route('register'));
+            }
         }
     }
     
