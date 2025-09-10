@@ -87,7 +87,7 @@ class FirewallMiddleware
             } else {
                 // Redirect guests to login instead of showing error
                 session()->flash('warning', 'Dostigli ste limit zahteva. Ulogujte se za veći pristup sajtu.');
-                abort(redirect()->route('login'));
+                return redirect()->route('login');
             }
         }
         
@@ -98,7 +98,7 @@ class FirewallMiddleware
             } else {
                 // Redirect guests to login/register instead of showing error
                 session()->flash('info', 'Dostigli ste dnevni limit pristupa. Registrujte se za neograničen pristup ili se ulogujte ako već imate nalog.');
-                abort(redirect()->route('register'));
+                return redirect()->route('register');
             }
         }
     }

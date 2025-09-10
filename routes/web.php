@@ -127,12 +127,6 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::post('logout', function () {
-    auth()->guard('web')->logout();
-    session()->invalidate();
-    session()->regenerateToken();
-    return redirect('/');
-})->middleware(['auth'])->name('logout');
 
 require __DIR__.'/auth.php';
 
