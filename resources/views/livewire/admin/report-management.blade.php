@@ -11,7 +11,7 @@
                     Resetuj filtere
                 </button>
                 <button wire:click="exportReports" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                    <i class="fas fa-download mr-2"></i>
+                    <i class="fas fa-download mr-2 "></i>
                     Izvezi CSV
                 </button>
             </div>
@@ -60,7 +60,7 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
                 <div class="p-3 bg-gray-100 rounded-lg">
-                    <i class="fas fa-flag text-gray-600 text-xl"></i>
+                    <i class="fas fa-flag text-gray-600 text-xl "></i>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500">Ukupno prijava</h3>
@@ -72,7 +72,7 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
                 <div class="p-3 bg-yellow-100 rounded-lg">
-                    <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                    <i class="fas fa-clock text-yellow-600 text-xl "></i>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500">Na čekanju</h3>
@@ -84,7 +84,7 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
                 <div class="p-3 bg-blue-100 rounded-lg">
-                    <i class="fas fa-eye text-blue-600 text-xl"></i>
+                    <i class="fas fa-eye text-blue-600 text-xl "></i>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500">Pregledano</h3>
@@ -96,7 +96,7 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
                 <div class="p-3 bg-green-100 rounded-lg">
-                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                    <i class="fas fa-check-circle text-green-600 text-xl "></i>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500">Rešeno</h3>
@@ -117,12 +117,12 @@
                                 <span>Datum</span>
                                 @if($sortField === 'created_at')
                                     @if($sortDirection === 'asc')
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 15l7-7 7 7"></path>
                                         </svg>
                                     @else
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"></path>
                                         </svg>
                                     @endif
                                 @endif
@@ -145,19 +145,19 @@
                                 @switch($report->status)
                                     @case('pending')
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                            <i class="fas fa-clock mr-1"></i>
+                                            <i class="fas fa-clock mr-1 "></i>
                                             Na čekanju
                                         </span>
                                         @break
                                     @case('reviewed')
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                            <i class="fas fa-eye mr-1"></i>
+                                            <i class="fas fa-eye mr-1 "></i>
                                             Pregledano
                                         </span>
                                         @break
                                     @case('resolved')
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                            <i class="fas fa-check-circle mr-1"></i>
+                                            <i class="fas fa-check-circle mr-1 "></i>
                                             Rešeno
                                         </span>
                                         @break
@@ -185,7 +185,7 @@
                                              class="w-10 h-10 rounded object-cover">
                                     @else
                                         <div class="w-10 h-10 rounded bg-gray-200 flex items-center justify-center">
-                                            <i class="fas fa-image text-gray-400"></i>
+                                            <i class="fas fa-image text-gray-400 "></i>
                                         </div>
                                     @endif
                                     <div class="ml-3">
@@ -215,42 +215,57 @@
                                 <div class="flex items-center space-x-2">
                                     <button wire:click="viewReportDetails({{ $report->id }})" 
                                             class="text-blue-600 hover:text-blue-900 p-1 rounded" title="Detalji">
-                                        <i class="fas fa-eye"></i>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
                                     </button>
                                     
                                     @if($report->status === 'pending')
                                         <button wire:click="markAsReviewed({{ $report->id }})" 
                                                 class="text-indigo-600 hover:text-indigo-900 p-1 rounded" title="Označi kao pregledano">
-                                            <i class="fas fa-check"></i>
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"></path>
+                                            </svg>
                                         </button>
                                     @endif
                                     
                                     @if($report->status !== 'resolved')
                                         <button wire:click="markAsResolved({{ $report->id }})" 
                                                 class="text-green-600 hover:text-green-900 p-1 rounded" title="Označi kao rešeno">
-                                            <i class="fas fa-check-circle"></i>
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
                                         </button>
                                     @endif
                                     
                                     <a href="{{ route('listings.show', $report->listing) }}" target="_blank"
                                        class="text-purple-600 hover:text-purple-900 p-1 rounded" title="Pogledaj oglas">
-                                        <i class="fas fa-external-link-alt"></i>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
                                     </a>
                                     
                                     @if($report->listing && $report->listing->status === 'inactive')
                                         <button wire:click="restoreListing({{ $report->id }})" 
                                                 class="text-green-600 hover:text-green-900 p-1 rounded" title="Vrati oglas">
-                                            <i class="fas fa-undo"></i>
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                                            </svg>
                                         </button>
                                         
                                         <button wire:click="confirmDeleteListing({{ $report->id }})" 
                                                 class="text-red-600 hover:text-red-900 p-1 rounded" title="Trajno obriši">
-                                            <i class="fas fa-trash-alt"></i>
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
                                         </button>
                                     @else
                                         <button wire:click="confirmDeleteListing({{ $report->id }})" 
                                                 class="text-red-600 hover:text-red-900 p-1 rounded" title="Obriši oglas">
-                                            <i class="fas fa-trash"></i>
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
                                         </button>
                                     @endif
                                 </div>
@@ -285,7 +300,7 @@
                                      class="h-10 w-10 rounded object-cover">
                             @else
                                 <div class="h-10 w-10 rounded bg-gray-200 flex items-center justify-center">
-                                    <i class="fas fa-image text-gray-400"></i>
+                                    <i class="fas fa-image text-gray-400 "></i>
                                 </div>
                             @endif
                         </div>
@@ -300,19 +315,19 @@
                         @switch($report->status)
                             @case('pending')
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                    <i class="fas fa-clock mr-1"></i>
+                                    <i class="fas fa-clock mr-1 "></i>
                                     Na čekanju
                                 </span>
                                 @break
                             @case('reviewed')
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    <i class="fas fa-eye mr-1"></i>
+                                    <i class="fas fa-eye mr-1 "></i>
                                     Pregledano
                                 </span>
                                 @break
                             @case('resolved')
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    <i class="fas fa-check-circle mr-1"></i>
+                                    <i class="fas fa-check-circle mr-1 "></i>
                                     Rešeno
                                 </span>
                                 @break
@@ -358,14 +373,14 @@
                 <div class="flex flex-wrap gap-2">
                     <button wire:click="viewReportDetails({{ $report->id }})" 
                         class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
-                        <i class="fas fa-eye mr-1"></i>
+                        <i class="fas fa-eye mr-1 "></i>
                         Detalji
                     </button>
                     
                     @if($report->status === 'pending')
                         <button wire:click="markAsReviewed({{ $report->id }})" 
                             class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
-                            <i class="fas fa-check mr-1"></i>
+                            <i class="fas fa-check mr-1 "></i>
                             Pregledano
                         </button>
                     @endif
@@ -373,7 +388,7 @@
                     @if($report->status !== 'resolved')
                         <button wire:click="markAsResolved({{ $report->id }})" 
                             class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
-                            <i class="fas fa-check-circle mr-1"></i>
+                            <i class="fas fa-check-circle mr-1 "></i>
                             Rešeno
                         </button>
                     @endif
@@ -382,7 +397,7 @@
                         @if($report->listing->status !== 'inactive')
                             <a href="{{ route('listings.show', $report->listing) }}" target="_blank"
                                class="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-medium rounded-lg hover:bg-purple-200 transition-colors">
-                                <i class="fas fa-external-link-alt mr-1"></i>
+                                <i class="fas fa-external-link-alt mr-1 "></i>
                                 Pogledaj
                             </a>
                         @endif
@@ -391,19 +406,19 @@
                     @if($report->listing && $report->listing->status === 'inactive')
                         <button wire:click="restoreListing({{ $report->id }})" 
                             class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
-                            <i class="fas fa-undo mr-1"></i>
+                            <i class="fas fa-undo mr-1 "></i>
                             Vrati oglas
                         </button>
                         
                         <button wire:click="confirmDeleteListing({{ $report->id }})" 
                             class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
-                            <i class="fas fa-trash-alt mr-1"></i>
+                            <i class="fas fa-trash-alt mr-1 "></i>
                             Trajno obriši
                         </button>
                     @else
                         <button wire:click="confirmDeleteListing({{ $report->id }})" 
                             class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
-                            <i class="fas fa-trash mr-1"></i>
+                            <i class="fas fa-trash mr-1 "></i>
                             Obriši oglas
                         </button>
                     @endif
@@ -411,7 +426,7 @@
             </div>
         @empty
             <div class="bg-white rounded-lg shadow p-8 text-center">
-                <i class="fas fa-flag text-gray-400 text-5xl mb-4"></i>
+                <i class="fas fa-flag text-gray-400 text-5xl mb-4 "></i>
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema prijava</h3>
                 <p class="text-gray-600">Nema prijava koje odgovaraju kriterijumima pretrage.</p>
             </div>
@@ -432,7 +447,7 @@
                         <h3 class="text-xl font-medium text-gray-900">Detalji prijave #{{ $selectedReport->id }}</h3>
                         <button wire:click="$set('showDetailsModal', false)" class="text-gray-400 hover:text-gray-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
                     </div>
@@ -449,19 +464,19 @@
                                         @switch($selectedReport->status)
                                             @case('pending')
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 ml-2">
-                                                    <i class="fas fa-clock mr-1"></i>
+                                                    <i class="fas fa-clock mr-1 "></i>
                                                     Na čekanju
                                                 </span>
                                                 @break
                                             @case('reviewed')
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-2">
-                                                    <i class="fas fa-eye mr-1"></i>
+                                                    <i class="fas fa-eye mr-1 "></i>
                                                     Pregledano
                                                 </span>
                                                 @break
                                             @case('resolved')
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-2">
-                                                    <i class="fas fa-check-circle mr-1"></i>
+                                                    <i class="fas fa-check-circle mr-1 "></i>
                                                     Rešeno
                                                 </span>
                                                 @break
@@ -535,7 +550,7 @@
                                              class="w-full h-48 rounded-lg object-cover">
                                     @else
                                         <div class="w-full h-48 rounded-lg bg-gray-200 flex items-center justify-center">
-                                            <i class="fas fa-image text-gray-400 text-4xl"></i>
+                                            <i class="fas fa-image text-gray-400 text-4xl "></i>
                                         </div>
                                     @endif
                                 </div>
@@ -569,14 +584,14 @@
                                     <div class="flex flex-wrap gap-2">
                                         <a href="{{ route('listings.show', $selectedReport->listing) }}" target="_blank"
                                            class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200">
-                                            <i class="fas fa-external-link-alt mr-1"></i>
+                                            <i class="fas fa-external-link-alt mr-1 "></i>
                                             Pogledaj oglas
                                         </a>
                                         
                                         @if($selectedReport->status === 'pending')
                                             <button wire:click="markAsReviewed({{ $selectedReport->id }})" 
                                                 class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200">
-                                                <i class="fas fa-check mr-1"></i>
+                                                <i class="fas fa-check mr-1 "></i>
                                                 Označi kao pregledano
                                             </button>
                                         @endif
@@ -584,14 +599,14 @@
                                         @if($selectedReport->status !== 'resolved')
                                             <button wire:click="markAsResolved({{ $selectedReport->id }})" 
                                                 class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200">
-                                                <i class="fas fa-check-circle mr-1"></i>
+                                                <i class="fas fa-check-circle mr-1 "></i>
                                                 Označi kao rešeno
                                             </button>
                                         @endif
                                         
                                         <button wire:click="confirmDeleteListing({{ $selectedReport->id }})" 
                                             class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200">
-                                            <i class="fas fa-trash mr-1"></i>
+                                            <i class="fas fa-trash mr-1 "></i>
                                             Obriši oglas
                                         </button>
                                     </div>
@@ -610,17 +625,17 @@
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-medium text-gray-900">Potvrdi brisanje</h3>
+                        <h3 class=" font-medium text-gray-900">Potvrdi brisanje</h3>
                         <button wire:click="$set('showDeleteModal', false)" class="text-gray-400 hover:text-gray-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
                     </div>
                     
                     <div class="mb-4">
                         <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg mb-4">
-                            <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                            <i class="fas fa-exclamation-triangle text-red-500 mr-2 "></i>
                             <p class="text-sm text-red-700">
                                 Da li ste sigurni da želite da obrišete oglas "<strong>{{ $selectedReport->listing->title }}</strong>"? 
                                 Ova akcija je nepovratna!
@@ -649,7 +664,7 @@
                         </button>
                         <button wire:click="deleteListing" 
                             class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-                            <i class="fas fa-trash mr-1"></i>
+                            <i class="fas fa-trash mr-1 "></i>
                             Obriši oglas
                         </button>
                     </div>
