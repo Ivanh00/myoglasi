@@ -197,6 +197,7 @@ Route::get('/listings', ListingsIndex::class)->name('listings.index');
 
 // Search ruta
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+Route::get('/pretraga', \App\Livewire\Search\UnifiedSearch::class)->name('search.unified');
 
 // Listings ruta (Livewire komponenta)
 Route::get('/listings', \App\Livewire\Listings\Index::class)->name('listings.index');

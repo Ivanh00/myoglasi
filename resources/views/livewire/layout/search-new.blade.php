@@ -161,7 +161,7 @@ if (!empty($auctionType)) {
             params.set('show_filters', '1');
         }
         
-        const url = '{{ route('listings.index') }}' + (params.toString() ? '?' + params.toString() : '');
+        const url = '{{ route('search.unified') }}' + (params.toString() ? '?' + params.toString() : '');
         window.location.href = url;
     },
     
@@ -308,44 +308,73 @@ x-init="syncFromUrl()">
                 </div>
             </div>
 
-            <!-- Right Column: Additional Filters -->
+            <!-- Middle Column: Auctions (Yellow Section) -->
             <div class="space-y-4">
-                <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Dodatni filteri</h4>
+                <h4 class="text-sm font-semibold text-yellow-700 uppercase tracking-wide">🔥 Aukcije</h4>
                 
-                <!-- Content Type -->
-                <div x-data="{ contentOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Tip sadržaja</label>
-                    <button type="button" @click="contentOpen = !contentOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span :class="auction_type ? 'text-gray-900' : 'text-gray-500'">
+                <!-- Auction Sort Type -->
+                <div x-data="{ auctionOpen: false }" class="relative">
+                    <label class="block text-xs font-medium text-yellow-700 mb-1">Sortiranje aukcija</label>
+                    <button type="button" @click="auctionOpen = !auctionOpen"
+                        class="w-full flex justify-between items-center border border-yellow-300 bg-yellow-50 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                        <span :class="auction_type ? 'text-yellow-900' : 'text-yellow-600'">
                             @if(!empty($selectedAuctionTypeName))
                                 {{ $selectedAuctionTypeName }}
                             @else
-                                <span x-text="auction_type ? 'Aukcije' : 'Svi oglasi'"></span>
+                                <span x-text="auctionTypeName || 'Sve aukcije'"></span>
                             @endif
                         </span>
-                        <svg class="w-4 h-4 transition-transform" :class="contentOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 transition-transform text-yellow-600" :class="auctionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
                         </svg>
                     </button>
 
-                    <div x-show="contentOpen" x-transition @click.away="contentOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+                    <div x-show="auctionOpen" x-transition @click.away="auctionOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white border border-yellow-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
-                            <button type="button" @click="selectAuctionType('', ''); contentOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition flex items-center"
-                                :class="!auction_type ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                            <button type="button" @click="selectAuctionType('', ''); auctionOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
+                                :class="!auction_type ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
                                 <i class="fas fa-list text-gray-600 mr-2"></i>
-                                <span>Svi oglasi</span>
+                                <span>Sve aukcije</span>
                             </button>
-                            <button type="button" @click="window.location.href = '{{ route('auctions.index') }}'; contentOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center text-gray-700">
-                                <i class="fas fa-gavel text-yellow-600 mr-2"></i>
-                                <span>Aukcije</span>
+                            <button type="button" @click="selectAuctionType('ending_soon', 'Završavaju uskoro'); auctionOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
+                                :class="auction_type === 'ending_soon' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
+                                <i class="fas fa-clock text-red-600 mr-2"></i>
+                                <span>Završavaju uskoro</span>
+                            </button>
+                            <button type="button" @click="selectAuctionType('newest', 'Najnovije aukcije'); auctionOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
+                                :class="auction_type === 'newest' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
+                                <i class="fas fa-plus text-green-600 mr-2"></i>
+                                <span>Najnovije aukcije</span>
+                            </button>
+                            <button type="button" @click="selectAuctionType('highest_price', 'Najviša cena'); auctionOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
+                                :class="auction_type === 'highest_price' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
+                                <i class="fas fa-money-bill text-green-600 mr-2"></i>
+                                <span>Najviša cena</span>
+                            </button>
+                            <button type="button" @click="selectAuctionType('most_bids', 'Najviše ponuda'); auctionOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
+                                :class="auction_type === 'most_bids' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
+                                <i class="fas fa-gavel text-orange-600 mr-2"></i>
+                                <span>Najviše ponuda</span>
                             </button>
                         </div>
                     </div>
                 </div>
+                
+                <div class="text-xs text-yellow-700 p-2 bg-yellow-50 border border-yellow-200 rounded">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Ostavi prazno za prikaz svih oglasa, izaberi opciju za filtriranje samo aukcija
+                </div>
+            </div>
+
+            <!-- Right Column: Additional Filters -->
+            <div class="space-y-4">
+                <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Dodatni filteri</h4>
                 
                 <!-- Condition -->
                 <div x-data="{ conditionOpen: false }" class="relative">
