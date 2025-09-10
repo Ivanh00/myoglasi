@@ -231,6 +231,7 @@ x-init="syncFromUrl()">
     <div x-show="showFilters" x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" 
         x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="ease-in duration-150" 
         x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95"
+        @click.away="showFilters = false"
         class="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-300 z-50 p-6"
         style="display: none;">
         
