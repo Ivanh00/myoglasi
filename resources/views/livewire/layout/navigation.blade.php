@@ -10,7 +10,7 @@
             </div>
 
             <!-- Search Bar -->
-            @include('livewire.layout.search')
+            @include('livewire.layout.search-new')
 
             <!-- Right Section - Desktop -->
             <div class="hidden md:flex items-center space-x-4">

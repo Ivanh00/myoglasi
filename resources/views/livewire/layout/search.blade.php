@@ -12,6 +12,15 @@
     conditions: @js($conditions ?? []),
     subcategories: [],
     
+    // Store initial values for proper reset
+    initialQuery: '{{ request('query') ?? '' }}',
+    initialCity: '{{ request('city') ?? '' }}',
+    initialCategory: '{{ request('category') ?? '' }}',
+    initialSubcategory: '{{ request('subcategory') ?? '' }}',
+    initialCondition: '{{ request('condition') ?? '' }}',
+    initialPriceMin: '{{ request('price_min') ?? '' }}',
+    initialPriceMax: '{{ request('price_max') ?? '' }}',
+    
     normalize(str) {
         const map = {
             'š': 's', 'ć': 'c', 'č': 'c', 'ž': 'z', 'đ': 'dj',
@@ -24,6 +33,38 @@
         return @js(config('cities')).filter(c =>
             this.normalize(c).includes(this.normalize(this.citySearch || ''))
         );
+    },
+    
+    // Reset all filters to empty state
+    resetAllFilters() {
+        this.query = '';
+        this.city = '';
+        this.category = '';
+        this.subcategory = '';
+        this.condition = '';
+        this.price_min = '';
+        this.price_max = '';
+        this.citySearch = '';
+        this.subcategories = [];
+    },
+    
+    // Restore values when modal opens
+    restoreValues() {
+        this.query = this.initialQuery;
+        this.city = this.initialCity;
+        this.category = this.initialCategory;
+        this.subcategory = this.initialSubcategory;
+        this.condition = this.initialCondition;
+        this.price_min = this.initialPriceMin;
+        this.price_max = this.initialPriceMax;
+        this.citySearch = '';
+    },
+    
+    // Check if any filters are active
+    hasActiveFilters() {
+        return this.initialQuery || this.initialCity || this.initialCategory || 
+               this.initialSubcategory || this.initialCondition || 
+               this.initialPriceMin || this.initialPriceMax;
     }
 }" class="relative flex-1 max-w-lg mx-4">
     <form action="{{ route('search.index') }}" method="GET">
@@ -40,13 +81,16 @@
                     class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-l-md bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     placeholder="Pretraži oglase...">
             </div>
-            <button type="button" @click="open = true"
-                class="inline-flex items-center px-3 py-2 border border-l-0 border-gray-300 bg-gray-50 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <svg class="h-4 w-4 text-gray-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button type="button" @click="open = true; restoreValues()"
+                class="inline-flex items-center px-3 py-2 border border-l-0 border-gray-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+                :class="hasActiveFilters() ? 'bg-blue-100 text-blue-700 border-blue-300' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'">
+                <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    :class="hasActiveFilters() ? 'text-blue-600' : 'text-gray-500'">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                 </svg>
                 Detaljno
+                <span x-show="hasActiveFilters()" class="ml-1 w-2 h-2 bg-blue-600 rounded-full"></span>
             </button>
             <button type="submit"
                 class="inline-flex items-center px-3 py-2 border border-l-0 border-gray-300 bg-blue-600 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-r-md">
@@ -61,7 +105,10 @@
         <div x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
             x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-            class="fixed inset-0 overflow-y-auto z-50" style="display: none;" @click.away="open = false">
+            class="fixed inset-0 overflow-y-auto z-50" style="display: none;" 
+            @click.away="open = false; restoreValues()"
+            @keydown.escape.window="open = false; restoreValues()"
+            x-on:close-modal="restoreValues()">
             <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 transition-opacity" aria-hidden="true">
                     <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -72,7 +119,15 @@
                 <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full"
                     @click.stop>
                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Detaljna pretraga</h3>
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-medium text-gray-900">Detaljna pretraga</h3>
+                            <button type="button" @click="open = false; restoreValues()" 
+                                class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Grad/Mesto -->
@@ -166,7 +221,7 @@
                             Primeni filtere
                         </button>
                         <button type="button"
-                            @click="query = ''; city = ''; category = ''; subcategory = ''; condition = ''; price_min = ''; price_max = ''; subcategories = []; citySearch = ''; $el.closest('form').submit()"
+                            @click="resetAllFilters(); $el.closest('form').submit(); open = false"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             Poništi filtere
                         </button>
