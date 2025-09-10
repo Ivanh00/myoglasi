@@ -141,15 +141,39 @@ $hasFilters = !empty(array_filter([
                 </div>
 
                 <!-- Category -->
-                <div>
+                <div x-data="{ categoryOpen: false }" class="relative">
                     <label class="block text-xs font-medium text-gray-700 mb-1">Kategorija</label>
-                    <select x-model="category" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">Sve kategorije</option>
-                        @foreach(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
-                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                        @endforeach
-                    </select>
+                    <button type="button" @click="categoryOpen = !categoryOpen"
+                        class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span x-text="category ? (@js(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get()->keyBy('id')->map(fn($c) => $c->name)))[category] || 'Sve kategorije') : 'Sve kategorije'" 
+                            :class="category ? 'text-gray-900' : 'text-gray-500'"></span>
+                        <svg class="w-4 h-4 transition-transform" :class="categoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="categoryOpen" x-transition @click.away="categoryOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-1">
+                            <button type="button" @click="category = ''; categoryOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition flex items-center"
+                                :class="!category ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                <span>Sve kategorije</span>
+                            </button>
+                            @foreach(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
+                                <button type="button" @click="category = '{{ $cat->id }}'; categoryOpen = false"
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition flex items-center"
+                                    :class="category === '{{ $cat->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                    @if($cat->icon)
+                                        <i class="{{ $cat->icon }} text-blue-600 mr-2"></i>
+                                    @else
+                                        <i class="fas fa-folder text-blue-600 mr-2"></i>
+                                    @endif
+                                    {{ $cat->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -176,15 +200,34 @@ $hasFilters = !empty(array_filter([
                 <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Dodatni filteri</h4>
                 
                 <!-- Condition -->
-                <div>
+                <div x-data="{ conditionOpen: false }" class="relative">
                     <label class="block text-xs font-medium text-gray-700 mb-1">Stanje</label>
-                    <select x-model="condition" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">Sva stanja</option>
-                        @foreach(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get() as $cond)
-                            <option value="{{ $cond->id }}">{{ $cond->name }}</option>
-                        @endforeach
-                    </select>
+                    <button type="button" @click="conditionOpen = !conditionOpen"
+                        class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span x-text="condition ? (@js(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get()->keyBy('id')->map(fn($c) => $c->name)))[condition] || 'Sva stanja') : 'Sva stanja'" 
+                            :class="condition ? 'text-gray-900' : 'text-gray-500'"></span>
+                        <svg class="w-4 h-4 transition-transform" :class="conditionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="conditionOpen" x-transition @click.away="conditionOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-1">
+                            <button type="button" @click="condition = ''; conditionOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
+                                :class="!condition ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                <span>Sva stanja</span>
+                            </button>
+                            @foreach(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get() as $cond)
+                                <button type="button" @click="condition = '{{ $cond->id }}'; conditionOpen = false"
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
+                                    :class="condition === '{{ $cond->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                    {{ $cond->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
