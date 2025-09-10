@@ -9,7 +9,7 @@ $hasFilters = !empty(array_filter([
 ]));
 
 // Check if filters should be open
-$shouldShowFilters = $hasFilters || !empty($urlParams['filters_open']);
+$shouldShowFilters = $hasFilters || !empty($urlParams['show_filters']);
 
 // Get category and condition names for display
 $selectedCategoryName = '';
@@ -64,30 +64,12 @@ if (!empty($urlParams['condition'])) {
         this.submitSearch();
     },
     
-    // Update state when URL changes (after form submission)
+    // Update state when URL changes (after form submission)  
     syncFromUrl() {
-        const urlParams = new URLSearchParams(window.location.search);
-        this.query = urlParams.get('query') || '';
-        this.city = urlParams.get('city') || '';
-        this.category = urlParams.get('category') || '';
-        this.condition = urlParams.get('condition') || '';
-        this.price_min = urlParams.get('price_min') || '';
-        this.price_max = urlParams.get('price_max') || '';
-        
-        // Update names based on new IDs
-        if (this.category) {
-            const categoryMap = @js(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name));
-            this.categoryName = categoryMap[this.category] || '';
-        } else {
-            this.categoryName = '';
-        }
-        
-        if (this.condition) {
-            const conditionMap = @js(\App\Models\ListingCondition::where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name));
-            this.conditionName = conditionMap[this.condition] || '';
-        } else {
-            this.conditionName = '';
-        }
+        // Don't sync from URL since we already have server-side values
+        // Just ensure the display is updated correctly
+        console.log('Current category:', this.category, 'Name:', this.categoryName);
+        console.log('Current condition:', this.condition, 'Name:', this.conditionName);
     },
     
     selectCategory(id, name) {
@@ -110,9 +92,9 @@ if (!empty($urlParams['condition'])) {
         if (this.price_min) params.set('price_min', this.price_min);
         if (this.price_max) params.set('price_max', this.price_max);
         
-        // Keep filter panel open if filters are active
+        // Always keep filter panel open after search if any filters are set
         if (this.hasActiveFilters()) {
-            params.set('filters_open', '1');
+            params.set('show_filters', '1');
         }
         
         const url = '{{ route('search.index') }}' + (params.toString() ? '?' + params.toString() : '');
