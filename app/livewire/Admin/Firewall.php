@@ -64,6 +64,11 @@ class Firewall extends Component
 
     public function loadSettings()
     {
+        // Enable visitor logging by default
+        if (!Setting::where('key', 'visitor_logging_enabled')->exists()) {
+            Setting::set('visitor_logging_enabled', true, 'boolean', 'firewall');
+        }
+        
         // Rate Limiting Settings
         $this->rateLimitSettings = [
             'enabled' => Setting::get('rate_limit_enabled', true),
@@ -167,6 +172,33 @@ class Firewall extends Component
         }
 
         session()->flash('success', 'Bezbednosna podešavanja su uspešno sačuvana.');
+    }
+
+    public function blockIp($ip)
+    {
+        // Check if IP is already blocked
+        $existing = IpBlock::where('ip_address', $ip)
+            ->where('is_active', true)
+            ->where('action', 'block')
+            ->first();
+            
+        if ($existing) {
+            $this->dispatch('notify', type: 'warning', message: 'IP adresa je već blokirana!');
+            return;
+        }
+
+        IpBlock::create([
+            'ip_address' => $ip,
+            'type' => 'single',
+            'action' => 'block',
+            'reason' => 'Ručno blokiranje iz admin panela - sumnjiva aktivnost',
+            'expires_at' => null, // Permanent
+            'created_by' => auth()->id(),
+            'is_active' => true,
+            'auto_generated' => false
+        ]);
+
+        $this->dispatch('notify', type: 'success', message: "IP adresa {$ip} je uspešno blokirana!");
     }
 
     public function getVisitorStats()

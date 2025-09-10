@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
         
         // Add global middleware to web requests
         $middleware->web(append: [
+            \App\Http\Middleware\FirewallMiddleware::class,
             \App\Http\Middleware\CheckBannedUser::class,
             \App\Http\Middleware\MaintenanceMode::class,
         ]);
