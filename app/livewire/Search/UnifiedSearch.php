@@ -27,6 +27,7 @@ class UnifiedSearch extends Component
     public $viewMode = 'list';
     public $perPage = 20;
     public $sortBy = 'newest';
+    public $show_filters = '';
     
     protected $queryString = [
         'query' => ['except' => ''],
