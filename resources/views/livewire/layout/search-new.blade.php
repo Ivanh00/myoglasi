@@ -5,7 +5,8 @@ $hasFilters = !empty(array_filter([
     $urlParams['search_category'] ?? $urlParams['category'] ?? '',
     $urlParams['condition_id'] ?? $urlParams['condition'] ?? '',
     $urlParams['price_min'] ?? '',
-    $urlParams['price_max'] ?? ''
+    $urlParams['price_max'] ?? '',
+    $urlParams['auction_type'] ?? ''
 ]));
 
 // Check if filters should be open
@@ -26,6 +27,19 @@ if (!empty($conditionId)) {
     $selectedConditionName = $selectedCond ? $selectedCond->name : '';
 }
 
+// Get auction type name for display
+$selectedAuctionTypeName = '';
+$auctionType = $urlParams['auction_type'] ?? null;
+if (!empty($auctionType)) {
+    $auctionTypes = [
+        'ending_soon' => 'Završavaju uskoro',
+        'newest' => 'Najnovije aukcije',
+        'highest_price' => 'Najviša cena',
+        'most_bids' => 'Najviše ponuda'
+    ];
+    $selectedAuctionTypeName = $auctionTypes[$auctionType] ?? '';
+}
+
 @endphp
 
 <div class="relative flex-1 max-w-4xl mx-4" x-data="{
@@ -36,6 +50,8 @@ if (!empty($conditionId)) {
     categoryName: '{{ $selectedCategoryName }}',
     condition: '{{ $conditionId ?? '' }}',
     conditionName: '{{ $selectedConditionName }}',
+    auction_type: '{{ $auctionType ?? '' }}',
+    auctionTypeName: '{{ $selectedAuctionTypeName }}',
     price_min: '{{ $urlParams['price_min'] ?? '' }}',
     price_max: '{{ $urlParams['price_max'] ?? '' }}',
     citySearch: '',
@@ -61,6 +77,8 @@ if (!empty($conditionId)) {
         this.categoryName = '';
         this.condition = '';
         this.conditionName = '';
+        this.auction_type = '';
+        this.auctionTypeName = '';
         this.price_min = '';
         this.price_max = '';
         this.citySearch = '';
@@ -76,6 +94,7 @@ if (!empty($conditionId)) {
         this.city = urlParams.get('city') || '';
         this.category = urlParams.get('search_category') || urlParams.get('category') || '';
         this.condition = urlParams.get('condition_id') || urlParams.get('condition') || '';
+        this.auction_type = urlParams.get('auction_type') || '';
         this.price_min = urlParams.get('price_min') || '';
         this.price_max = urlParams.get('price_max') || '';
         
@@ -96,6 +115,19 @@ if (!empty($conditionId)) {
         } else {
             this.conditionName = '';
         }
+        
+        // Update auction type name
+        const auctionTypeMap = {
+            'ending_soon': 'Završavaju uskoro',
+            'newest': 'Najnovije aukcije', 
+            'highest_price': 'Najviša cena',
+            'most_bids': 'Najviše ponuda'
+        };
+        if (this.auction_type) {
+            this.auctionTypeName = auctionTypeMap[this.auction_type] || '';
+        } else {
+            this.auctionTypeName = '';
+        }
     },
     
     selectCategory(id, name) {
@@ -108,6 +140,11 @@ if (!empty($conditionId)) {
         this.conditionName = name;
     },
     
+    selectAuctionType(type, name) {
+        this.auction_type = type;
+        this.auctionTypeName = name;
+    },
+    
     submitSearch() {
         // Build URL with parameters using correct parameter names
         const params = new URLSearchParams();
@@ -115,6 +152,7 @@ if (!empty($conditionId)) {
         if (this.city) params.set('city', this.city);
         if (this.category) params.set('search_category', this.category); // Changed to match backend
         if (this.condition) params.set('condition_id', this.condition); // Changed to match backend  
+        if (this.auction_type) params.set('auction_type', this.auction_type);
         if (this.price_min) params.set('price_min', this.price_min);
         if (this.price_max) params.set('price_max', this.price_max);
         
@@ -128,7 +166,7 @@ if (!empty($conditionId)) {
     },
     
     hasActiveFilters() {
-        return this.city || this.category || this.condition || this.price_min || this.price_max;
+        return this.city || this.category || this.condition || this.auction_type || this.price_min || this.price_max;
     }
 }" 
 x-init="syncFromUrl()">
@@ -273,6 +311,41 @@ x-init="syncFromUrl()">
             <!-- Right Column: Additional Filters -->
             <div class="space-y-4">
                 <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Dodatni filteri</h4>
+                
+                <!-- Content Type -->
+                <div x-data="{ contentOpen: false }" class="relative">
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Tip sadržaja</label>
+                    <button type="button" @click="contentOpen = !contentOpen"
+                        class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span :class="auction_type ? 'text-gray-900' : 'text-gray-500'">
+                            @if(!empty($selectedAuctionTypeName))
+                                {{ $selectedAuctionTypeName }}
+                            @else
+                                <span x-text="auction_type ? 'Aukcije' : 'Svi oglasi'"></span>
+                            @endif
+                        </span>
+                        <svg class="w-4 h-4 transition-transform" :class="contentOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="contentOpen" x-transition @click.away="contentOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+                        <div class="p-1">
+                            <button type="button" @click="selectAuctionType('', ''); contentOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition flex items-center"
+                                :class="!auction_type ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                <i class="fas fa-list text-gray-600 mr-2"></i>
+                                <span>Svi oglasi</span>
+                            </button>
+                            <button type="button" @click="window.location.href = '{{ route('auctions.index') }}'; contentOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center text-gray-700">
+                                <i class="fas fa-gavel text-yellow-600 mr-2"></i>
+                                <span>Aukcije</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Condition -->
                 <div x-data="{ conditionOpen: false }" class="relative">

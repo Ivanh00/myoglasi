@@ -25,6 +25,7 @@ class Index extends Component
     public $city = '';
     public $search_category = '';
     public $condition_id = '';
+    public $auction_type = '';
     public $price_min = '';
     public $price_max = '';
 
@@ -37,6 +38,7 @@ class Index extends Component
         'city' => ['except' => ''],
         'search_category' => ['except' => ''],
         'condition_id' => ['except' => ''],
+        'auction_type' => ['except' => ''],
         'price_min' => ['except' => ''],
         'price_max' => ['except' => '']
     ];
@@ -81,6 +83,9 @@ class Index extends Component
         if (request()->has('price_max')) {
             $this->price_max = request('price_max');
         }
+        if (request()->has('auction_type')) {
+            $this->auction_type = request('auction_type');
+        }
     }
 
     public function updatedSelectedCategory()
@@ -107,30 +112,50 @@ class Index extends Component
     
     public function clearSearchFilters()
     {
-        $this->reset(['query', 'city', 'search_category', 'condition_id', 'price_min', 'price_max']);
+        $this->reset(['query', 'city', 'search_category', 'condition_id', 'auction_type', 'price_min', 'price_max']);
         $this->resetPage();
     }
 
-    public function render()
+    private function applyAuctionFilters($query)
     {
-        $query = Listing::where('status', 'active')
-            ->with(['category', 'condition', 'images', 'subcategory', 'user']);
-            
-        if ($this->selectedCategory) {
-            $category = Category::find($this->selectedCategory);
-            
-            if ($category) {
-                // Koristimo novu metodu iz Category modela
-                $categoryIds = $category->getAllCategoryIds();
-                
-                $query->where(function($q) use ($categoryIds) {
-                    $q->whereIn('category_id', $categoryIds)
-                      ->orWhereIn('subcategory_id', $categoryIds);
-                });
-            }
+        // Apply filters to auction query (using listing relationship)
+        if ($this->query) {
+            $query->whereHas('listing', function($q) {
+                $q->where('title', 'like', '%' . $this->query . '%')
+                  ->orWhere('description', 'like', '%' . $this->query . '%');
+            });
         }
         
-        // Search filteri
+        if ($this->city) {
+            $query->whereHas('listing', function($q) {
+                $q->where('location', 'like', '%' . $this->city . '%');
+            });
+        }
+        
+        if ($this->search_category) {
+            $query->whereHas('listing', function($q) {
+                $q->where('category_id', $this->search_category);
+            });
+        }
+        
+        if ($this->condition_id) {
+            $query->whereHas('listing', function($q) {
+                $q->where('condition_id', $this->condition_id);
+            });
+        }
+        
+        if ($this->price_min) {
+            $query->where('current_price', '>=', $this->price_min);
+        }
+        
+        if ($this->price_max) {
+            $query->where('current_price', '<=', $this->price_max);
+        }
+    }
+
+    private function applyListingFilters($query)
+    {
+        // Apply filters to regular listing query
         if ($this->query) {
             $query->where(function($q) {
                 $q->where('title', 'like', '%' . $this->query . '%')
@@ -157,22 +182,82 @@ class Index extends Component
         if ($this->price_max) {
             $query->where('price', '<=', $this->price_max);
         }
-        
-        // Sortiranje
-        switch ($this->sortBy) {
-            case 'price_asc':
-                $query->orderBy('price', 'asc');
-                break;
-            case 'price_desc':
-                $query->orderBy('price', 'desc');
-                break;
-            case 'newest':
-            default:
-                $query->orderBy('created_at', 'desc');
-                break;
+    }
+
+    public function render()
+    {
+        // Determine if we're filtering for auctions only
+        if ($this->auction_type) {
+            // Query auctions instead of regular listings
+            $query = \App\Models\Auction::where('status', 'active')
+                ->with(['listing.category', 'listing.condition', 'listing.images', 'listing.subcategory', 'listing.user', 'bids']);
+        } else {
+            // Regular listings query
+            $query = Listing::where('status', 'active')
+                ->with(['category', 'condition', 'images', 'subcategory', 'user']);
         }
             
-        $listings = $query->paginate($this->perPage);
+        if ($this->selectedCategory) {
+            $category = Category::find($this->selectedCategory);
+            
+            if ($category) {
+                // Koristimo novu metodu iz Category modela
+                $categoryIds = $category->getAllCategoryIds();
+                
+                $query->where(function($q) use ($categoryIds) {
+                    $q->whereIn('category_id', $categoryIds)
+                      ->orWhereIn('subcategory_id', $categoryIds);
+                });
+            }
+        }
+        
+        // Apply filters based on query type
+        if ($this->auction_type) {
+            // Auction-specific filters
+            $this->applyAuctionFilters($query);
+            
+            // Auction-specific sorting
+            switch ($this->auction_type) {
+                case 'ending_soon':
+                    $query->orderBy('ends_at', 'asc');
+                    break;
+                case 'newest':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                case 'highest_price':
+                    $query->orderBy('current_price', 'desc');
+                    break;
+                case 'most_bids':
+                    $query->orderBy('total_bids', 'desc');
+                    break;
+            }
+            
+            $auctions = $query->paginate($this->perPage);
+            // Convert auctions to listings for unified view
+            $listings = $auctions;
+            $listings->getCollection()->transform(function ($auction) {
+                return $auction->listing;
+            });
+        } else {
+            // Regular listing filters
+            $this->applyListingFilters($query);
+            
+            // Regular sorting
+            switch ($this->sortBy) {
+                case 'price_asc':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'newest':
+                default:
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+            
+            $listings = $query->paginate($this->perPage);
+        }
         
         $conditions = ListingCondition::all();
             
