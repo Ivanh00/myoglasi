@@ -11,7 +11,7 @@
         </div>
 
         <!-- Search and Filters -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
             <div>
                 <input type="text" wire:model.live="search" placeholder="Pretraži korisnike..."
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -23,6 +23,15 @@
                     <option value="banned">Banovani</option>
                     <option value="admin">Administratori</option>
                     <option value="with_balance">Sa kreditima</option>
+                </select>
+            </div>
+            <div>
+                <select wire:model.live="filterVerification" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <option value="all">Svi (verifikacija)</option>
+                    <option value="verified">✅ Verifikovani</option>
+                    <option value="pending">⏳ Na čekanju</option>
+                    <option value="rejected">❌ Odbačeni</option>
+                    <option value="unverified">👤 Neverifikovani</option>
                 </select>
             </div>
             <div>
@@ -88,6 +97,7 @@
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oglasi</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verifikacija</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Način plaćanja</th>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('created_at')" class="flex items-center space-x-1 text-xs font-medium text-gray-500 uppercase tracking-wider hover:text-gray-700">
@@ -153,6 +163,24 @@
                                             Admin
                                         </span>
                                     @endif
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        {!! $user->verification_badge !!}
+                                        @if($user->verification_comment)
+                                            <div class="text-xs text-gray-500 mt-1" title="{{ $user->verification_comment }}">
+                                                {{ Str::limit($user->verification_comment, 30) }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <button wire:click="openVerificationModal({{ $user->id }})" 
+                                        class="ml-2 text-green-600 hover:text-green-900" title="Upravljaj verifikacijom">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -233,6 +261,13 @@
                                             class="text-blue-600 hover:text-blue-900 p-1 rounded" title="Podešavanja plaćanja">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                        </svg>
+                                    </button>
+
+                                    <button wire:click="openVerificationModal({{ $user->id }})" 
+                                            class="text-green-600 hover:text-green-900 p-1 rounded" title="Upravljaj verifikacijom">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
                                     </button>
 
@@ -329,6 +364,9 @@
                                 Admin
                             </span>
                         @endif
+                        
+                        <!-- Verification Badge -->
+                        {!! $user->verification_badge !!}
                     </div>
                 </div>
 
@@ -425,6 +463,14 @@
                         class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
                         <i class="fas fa-credit-card mr-1"></i>
                         Plaćanje
+                    </button>
+
+                    <button wire:click="openVerificationModal({{ $user->id }})" 
+                        class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Verifikacija
                     </button>
 
                     <a href="{{ route('admin.notifications.index', ['user_id' => $user->id]) }}" 
@@ -840,6 +886,97 @@
                             Otkaži
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Verification Modal -->
+    @if($showVerificationModal && $selectedUser)
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+                <div class="mt-3">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <i class="fas fa-shield-check text-green-600 mr-2"></i>
+                            Verifikacija korisnika
+                        </h3>
+                        <button wire:click="$set('showVerificationModal', false)" 
+                            class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- User Info -->
+                    <div class="bg-gray-50 p-3 rounded-lg mb-4">
+                        <div class="flex items-center">
+                            @if($selectedUser->avatar)
+                                <img src="{{ $selectedUser->avatar_url }}" alt="{{ $selectedUser->name }}" 
+                                     class="w-10 h-10 rounded-full object-cover">
+                            @else
+                                <div class="w-10 h-10 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium">
+                                    {{ strtoupper(substr($selectedUser->name, 0, 1)) }}
+                                </div>
+                            @endif
+                            <div class="ml-3">
+                                <div class="text-sm font-medium text-gray-900">{{ $selectedUser->name }}</div>
+                                <div class="text-sm text-gray-500">{{ $selectedUser->email }}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Current Status -->
+                        <div class="mt-3">
+                            <p class="text-xs text-gray-500">Trenutni status:</p>
+                            <div class="mt-1">{!! $selectedUser->verification_badge !!}</div>
+                            @if($selectedUser->verification_comment)
+                                <p class="text-xs text-gray-600 mt-2 p-2 bg-gray-100 rounded">
+                                    <strong>Poslednji komentar:</strong> {{ $selectedUser->verification_comment }}
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Comment Field -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Komentar (razlog verifikacije/odbacivanja)
+                        </label>
+                        <textarea wire:model="verificationComment" rows="3" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                            placeholder="Napišite razlog verifikacije ili odbacivanja..."></textarea>
+                        @error('verificationComment') 
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p> 
+                        @enderror
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <button wire:click="verifyUser('reject')" 
+                            class="w-full inline-flex justify-center items-center px-4 py-2 border border-red-300 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <i class="fas fa-times mr-2"></i>
+                            Odbaci verifikaciju
+                        </button>
+                        
+                        <button wire:click="verifyUser('approve')" 
+                            class="w-full inline-flex justify-center items-center px-4 py-2 border border-green-300 rounded-md text-sm font-medium text-green-700 bg-green-50 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <i class="fas fa-check mr-2"></i>
+                            Verifikuj korisnika
+                        </button>
+                    </div>
+
+                    <!-- Additional Actions -->
+                    @if($selectedUser->verification_status !== 'unverified')
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <button wire:click="resetVerification({{ $selectedUser->id }})" 
+                                onclick="return confirm('Da li ste sigurni da želite da resetujete verifikaciju?')"
+                                class="w-full text-sm text-gray-600 hover:text-gray-800">
+                                <i class="fas fa-undo mr-1"></i>
+                                Resetuj verifikaciju na početno stanje
+                            </button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

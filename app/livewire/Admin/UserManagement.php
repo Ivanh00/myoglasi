@@ -19,6 +19,7 @@ class UserManagement extends Component
     public $sortDirection = 'desc';
     public $filterStatus = 'all';
     public $filterPaymentPlan = 'all';
+    public $filterVerification = 'all';
     
     public $selectedUser = null;
     public $showEditModal = false;
@@ -26,6 +27,7 @@ class UserManagement extends Component
     public $showBalanceModal = false;
     public $showUserDetailModal = false;
     public $showPaymentModal = false;
+    public $showVerificationModal = false;
 
     public $editState = [
         'name' => '',
@@ -48,8 +50,10 @@ class UserManagement extends Component
     public $paymentState = [
         'payment_plan' => 'per_listing',
         'payment_enabled' => true,
-        'plan_expires_at' => null,
     ];
+    
+    public $verificationAction = '';
+    public $verificationComment = '';
 
     public $userDetails = [];
 
@@ -65,6 +69,7 @@ class UserManagement extends Component
         $this->showBalanceModal = false;
         $this->showUserDetailModal = false;
         $this->showPaymentModal = false;
+        $this->showVerificationModal = false;
         $this->selectedUser = null;
     }
 
@@ -276,6 +281,9 @@ class UserManagement extends Component
                     $query->where('payment_plan', $this->filterPaymentPlan);
                 }
             })
+            ->when($this->filterVerification !== 'all', function ($query) {
+                $query->where('verification_status', $this->filterVerification);
+            })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
 
@@ -303,6 +311,7 @@ class UserManagement extends Component
         $this->search = '';
         $this->filterStatus = 'all';
         $this->filterPaymentPlan = 'all';
+        $this->filterVerification = 'all';
         $this->resetPage();
     }
 
@@ -416,4 +425,61 @@ class UserManagement extends Component
         
         $this->dispatch('notify', type: 'success', message: 'Plaćanje je uključeno za korisnika!');
     }
+
+    // User Verification Methods
+    public function openVerificationModal($userId)
+    {
+        $this->resetModals();
+        $this->selectedUser = User::findOrFail($userId);
+        $this->verificationComment = '';
+        $this->showVerificationModal = true;
+    }
+
+    public function verifyUser($action)
+    {
+        $this->validate([
+            'verificationComment' => 'nullable|string|max:500'
+        ]);
+
+        if ($action === 'approve') {
+            $this->selectedUser->approveVerification(auth()->id(), $this->verificationComment);
+            $message = 'Korisnik je uspešno verifikovan!';
+        } elseif ($action === 'reject') {
+            $this->selectedUser->rejectVerification(auth()->id(), $this->verificationComment);
+            $message = 'Verifikacija je odbijena!';
+        } else {
+            session()->flash('error', 'Nevaljan action za verifikaciju.');
+            return;
+        }
+
+        // Send notification to user
+        \App\Models\Message::create([
+            'sender_id' => 1, // System
+            'receiver_id' => $this->selectedUser->id,
+            'listing_id' => null,
+            'message' => $action === 'approve' 
+                ? "Vaš nalog je uspešno verifikovan! Sada imate status verifikovanog korisnika." . ($this->verificationComment ? "\n\nNapomena: {$this->verificationComment}" : '')
+                : "Vaša verifikacija je odbijena." . ($this->verificationComment ? "\n\nRazlog: {$this->verificationComment}" : ''),
+            'subject' => $action === 'approve' ? 'Nalog verifikovan' : 'Verifikacija odbijena',
+            'is_system_message' => true,
+            'is_read' => false
+        ]);
+
+        $this->showVerificationModal = false;
+        $this->dispatch('notify', type: 'success', message: $message);
+    }
+
+    public function resetVerification($userId)
+    {
+        $user = User::findOrFail($userId);
+        $user->update([
+            'verification_status' => 'unverified',
+            'verification_comment' => null,
+            'verified_at' => null,
+            'verified_by' => null
+        ]);
+
+        $this->dispatch('notify', type: 'success', message: 'Status verifikacije je resetovan!');
+    }
+
 }

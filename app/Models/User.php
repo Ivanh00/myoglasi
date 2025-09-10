@@ -39,6 +39,11 @@ class User extends Authenticatable
         'plan_expires_at',
         'free_listings_used',
         'free_listings_reset_at',
+        'verification_status',
+        'verification_comment',
+        'verification_requested_at',
+        'verified_at',
+        'verified_by',
     ];
 
     /**
@@ -69,7 +74,79 @@ class User extends Authenticatable
             'payment_enabled' => 'boolean',
             'plan_expires_at' => 'datetime',
             'free_listings_reset_at' => 'datetime',
+            'verification_requested_at' => 'datetime',
+            'verified_at' => 'datetime',
         ];
+    }
+
+    // Verification relationships
+    public function verifiedBy()
+    {
+        return $this->belongsTo(User::class, 'verified_by');
+    }
+
+    // Verification helper methods
+    public function isVerified()
+    {
+        return $this->verification_status === 'verified';
+    }
+
+    public function isPendingVerification()
+    {
+        return $this->verification_status === 'pending';
+    }
+
+    public function isVerificationRejected()
+    {
+        return $this->verification_status === 'rejected';
+    }
+
+    public function getVerificationBadgeAttribute()
+    {
+        return match($this->verification_status) {
+            'verified' => '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><i class="fas fa-check-circle mr-1"></i>Verifikovan</span>',
+            'pending' => '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"><i class="fas fa-clock mr-1"></i>Na čekanju</span>',
+            'rejected' => '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><i class="fas fa-times-circle mr-1"></i>Odbijena</span>',
+            default => '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"><i class="fas fa-user mr-1"></i>Neverifikovan</span>'
+        };
+    }
+
+    public function getVerificationStatusTextAttribute()
+    {
+        return match($this->verification_status) {
+            'verified' => 'Verifikovan',
+            'pending' => 'Na čekanju',
+            'rejected' => 'Odbijena verifikacija',
+            default => 'Neverifikovan'
+        };
+    }
+
+    public function requestVerification()
+    {
+        $this->update([
+            'verification_status' => 'pending',
+            'verification_requested_at' => now()
+        ]);
+    }
+
+    public function approveVerification($adminId, $comment = null)
+    {
+        $this->update([
+            'verification_status' => 'verified',
+            'verified_at' => now(),
+            'verified_by' => $adminId,
+            'verification_comment' => $comment
+        ]);
+    }
+
+    public function rejectVerification($adminId, $comment = null)
+    {
+        $this->update([
+            'verification_status' => 'rejected',
+            'verified_at' => now(),
+            'verified_by' => $adminId,
+            'verification_comment' => $comment
+        ]);
     }
 
     // Ostale metode ostaju iste...
