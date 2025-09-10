@@ -260,11 +260,11 @@ x-init="syncFromUrl()">
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Left Column: Location & Category -->
+            <!-- Left Column: Location, Category & Condition -->
             <div class="space-y-4">
                 <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Lokacija i kategorija</h4>
                 
-                <!-- City -->
+                <!-- City (full width) -->
                 <div x-data="{ cityOpen: false }" class="relative">
                     <label class="block text-xs font-medium text-gray-700 mb-1">Grad/Mesto</label>
                     <button type="button" @click="cityOpen = !cityOpen"
@@ -296,7 +296,7 @@ x-init="syncFromUrl()">
                     </div>
                 </div>
 
-                <!-- Category -->
+                <!-- Category (full width) -->
                 <div x-data="{ categoryOpen: false }" class="relative">
                     <label class="block text-xs font-medium text-gray-700 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
@@ -336,11 +336,12 @@ x-init="syncFromUrl()">
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <!-- Middle Column: Price -->
+            <!-- Middle Column: Price & Condition -->
             <div class="space-y-4">
-                <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Cena</h4>
+                <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Cena i stanje</h4>
                 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -352,6 +353,42 @@ x-init="syncFromUrl()">
                         <label class="block text-xs font-medium text-gray-700 mb-1">Cena do</label>
                         <input type="number" x-model="price_max" placeholder="∞"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+                
+                <!-- Condition (full width) -->
+                <div x-data="{ conditionOpen: false }" class="relative">
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Stanje</label>
+                    <button type="button" @click="conditionOpen = !conditionOpen"
+                        class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span :class="condition ? 'text-gray-900' : 'text-gray-500'">
+                            @if(!empty($selectedConditionName))
+                                {{ $selectedConditionName }}
+                            @else
+                                <span x-text="conditionName || 'Sva stanja'"></span>
+                            @endif
+                        </span>
+                        <svg class="w-4 h-4 transition-transform" :class="conditionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="conditionOpen" x-transition @click.away="conditionOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-1">
+                            <button type="button" @click="selectCondition('', ''); conditionOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
+                                :class="!condition ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                <span>Sva stanja</span>
+                            </button>
+                            @foreach(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get() as $cond)
+                                <button type="button" @click="selectCondition('{{ $cond->id }}', '{{ $cond->name }}'); conditionOpen = false"
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
+                                    :class="condition === '{{ $cond->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                    {{ $cond->name }}
+                                </button>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -417,47 +454,6 @@ x-init="syncFromUrl()">
                 <div class="text-xs text-yellow-700 p-2 bg-yellow-50 border border-yellow-200 rounded">
                     <i class="fas fa-info-circle mr-1"></i>
                     Ostavi prazno za prikaz svih oglasa, izaberi opciju za filtriranje samo aukcija
-                </div>
-            </div>
-
-            <!-- Right Column: Additional Filters -->
-            <div class="space-y-4">
-                <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Dodatni filteri</h4>
-                
-                <!-- Condition -->
-                <div x-data="{ conditionOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Stanje</label>
-                    <button type="button" @click="conditionOpen = !conditionOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span :class="condition ? 'text-gray-900' : 'text-gray-500'">
-                            @if(!empty($selectedConditionName))
-                                {{ $selectedConditionName }}
-                            @else
-                                <span x-text="conditionName || 'Sva stanja'"></span>
-                            @endif
-                        </span>
-                        <svg class="w-4 h-4 transition-transform" :class="conditionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
-                        </svg>
-                    </button>
-
-                    <div x-show="conditionOpen" x-transition @click.away="conditionOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                        <div class="p-1">
-                            <button type="button" @click="selectCondition('', ''); conditionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
-                                :class="!condition ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
-                                <span>Sva stanja</span>
-                            </button>
-                            @foreach(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get() as $cond)
-                                <button type="button" @click="selectCondition('{{ $cond->id }}', '{{ $cond->name }}'); conditionOpen = false"
-                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
-                                    :class="condition === '{{ $cond->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
-                                    {{ $cond->name }}
-                                </button>
-                            @endforeach
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
