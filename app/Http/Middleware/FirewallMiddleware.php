@@ -22,19 +22,15 @@ class FirewallMiddleware
         $ip = $request->ip();
         $userAgent = $request->userAgent();
         
-        // Skip all checks for admin users to prevent lockout
-        if (auth()->check() && auth()->user()->is_admin) {
-            // Still log admin activity but skip all blocking
-            if (Setting::get('visitor_logging_enabled', true)) {
-                VisitorLog::logVisitor($ip, $userAgent, auth()->id());
-            }
-            return $next($request);
-        }
-        
-        // Track user sessions (allows multiple users per IP)
+        // Track all activity first (including admins)
         if (Setting::get('visitor_logging_enabled', true)) {
             VisitorLog::logVisitor($ip, $userAgent, auth()->id());
             UserSession::trackSession(session()->getId(), $ip, $userAgent, auth()->id());
+        }
+
+        // Skip all checks for admin users to prevent lockout (but after logging)
+        if (auth()->check() && auth()->user()->is_admin) {
+            return $next($request);
         }
         
         // Check if IP is blocked

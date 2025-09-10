@@ -41,8 +41,9 @@
                         <div class="flex items-center">
                             <i class="fas fa-users text-3xl opacity-80"></i>
                             <div class="ml-4">
-                                <p class="text-green-100 text-sm">Aktivni posetioci</p>
-                                <p class="text-2xl font-bold">{{ $stats['active_visitors'] ?? 0 }}</p>
+                                <p class="text-green-100 text-sm">Aktivni korisnici</p>
+                                <p class="text-2xl font-bold">{{ $stats['active_users'] ?? 0 }}</p>
+                                <p class="text-green-200 text-xs">{{ $stats['active_ips'] ?? 0 }} različitih IP-ova</p>
                             </div>
                         </div>
                     </div>
@@ -51,18 +52,20 @@
                         <div class="flex items-center">
                             <i class="fas fa-calendar-day text-3xl opacity-80"></i>
                             <div class="ml-4">
-                                <p class="text-blue-100 text-sm">Posetioci danas</p>
-                                <p class="text-2xl font-bold">{{ $stats['today_visitors'] ?? 0 }}</p>
+                                <p class="text-blue-100 text-sm">Korisnici danas</p>
+                                <p class="text-2xl font-bold">{{ $stats['today_users'] ?? 0 }}</p>
+                                <p class="text-blue-200 text-xs">{{ $stats['today_ips'] ?? 0 }} različitih IP-ova</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-gradient-to-r from-purple-400 to-purple-600 rounded-lg p-6 text-white">
                         <div class="flex items-center">
-                            <i class="fas fa-mouse-pointer text-3xl opacity-80"></i>
+                            <i class="fas fa-user-check text-3xl opacity-80"></i>
                             <div class="ml-4">
-                                <p class="text-purple-100 text-sm">Zahtevi danas</p>
-                                <p class="text-2xl font-bold">{{ number_format($stats['total_requests_today'] ?? 0) }}</p>
+                                <p class="text-purple-100 text-sm">Ulogovani</p>
+                                <p class="text-2xl font-bold">{{ $stats['logged_in_count'] ?? 0 }}</p>
+                                <p class="text-purple-200 text-xs">aktivnih sesija</p>
                             </div>
                         </div>
                     </div>
@@ -73,6 +76,7 @@
                             <div class="ml-4">
                                 <p class="text-red-100 text-sm">Blokirano danas</p>
                                 <p class="text-2xl font-bold">{{ $stats['blocked_attempts_today'] ?? 0 }}</p>
+                                <p class="text-red-200 text-xs">IP adresa</p>
                             </div>
                         </div>
                     </div>

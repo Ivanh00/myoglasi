@@ -282,10 +282,18 @@ class Firewall extends Component
     public function getVisitorStats()
     {
         return [
-            'active_visitors' => VisitorLog::where('last_activity', '>', now()->subMinutes(5))->distinct('ip_address')->count(),
-            'today_visitors' => VisitorLog::whereDate('first_visit', today())->distinct('ip_address')->count(),
+            'active_users' => \App\Models\UserSession::where('is_active', true)
+                ->where('last_activity', '>', now()->subMinutes(5))
+                ->count(),
+            'active_ips' => VisitorLog::where('last_activity', '>', now()->subMinutes(5))->distinct('ip_address')->count(),
+            'today_users' => \App\Models\UserSession::whereDate('created_at', today())->count(),
+            'today_ips' => VisitorLog::whereDate('first_visit', today())->distinct('ip_address')->count(),
             'total_requests_today' => VisitorLog::whereDate('last_activity', today())->sum('request_count'),
             'blocked_attempts_today' => IpBlock::where('created_at', '>', today())->where('action', 'block')->count(),
+            'logged_in_count' => \App\Models\UserSession::whereNotNull('user_id')
+                ->where('is_active', true)
+                ->where('last_activity', '>', now()->subMinutes(30))
+                ->count(),
             'top_countries' => VisitorLog::select('country', \DB::raw('COUNT(DISTINCT ip_address) as visitor_count'))
                 ->whereDate('last_activity', today())
                 ->whereNotNull('country')
