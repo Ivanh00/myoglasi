@@ -198,28 +198,31 @@ x-init="syncFromUrl()">
                 </div>
                 <form @submit.prevent="quickSearch()">
                     <input type="text" x-model="query" 
-                        class="block w-full pl-10 pr-3 py-3 border-0 bg-transparent placeholder-gray-400 focus:outline-none focus:ring-0 text-sm"
+                        class="block w-full pl-10 pr-44 py-3 border-0 bg-transparent placeholder-gray-400 focus:outline-none focus:ring-0 text-sm"
                         placeholder="Pretraži oglase...">
                 </form>
+                
+                <!-- Integrated Detaljno Button (inside search bar) -->
+                <div class="absolute inset-y-0 right-16 flex items-center py-1 pr-1">
+                    <button type="button" @click="toggleFilters()" 
+                        class="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium transition-colors focus:outline-none hover:bg-blue-700"
+                        :class="showFilters ? 'bg-blue-700' : 'bg-blue-600'">
+                        <span>Detaljno</span>
+                        <svg class="w-3 h-3 ml-2 transition-transform" :class="showFilters ? 'rotate-180' : ''" 
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                        </svg>
+                        <span x-show="hasActiveFilters()" class="ml-2 w-2 h-2 bg-white rounded-full"></span>
+                    </button>
+                </div>
             </div>
             
             <button type="button" @click="quickSearch()"
-                class="inline-flex items-center px-4 py-3 border-l border-gray-300 bg-blue-600 text-white hover:bg-blue-700 focus:outline-none transition-colors"
-                title="Brza pretraga">
+                class="inline-flex items-center px-4 py-3 bg-blue-600 text-white hover:bg-blue-700 focus:outline-none transition-colors"
+                title="Pretraži">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-            </button>
-            
-            <button type="button" @click="toggleFilters()" 
-                class="inline-flex items-center px-4 py-3 border-l border-gray-300 text-sm font-medium transition-colors focus:outline-none"
-                :class="hasActiveFilters() || showFilters ? 'bg-gray-100 text-gray-700' : 'text-gray-600 hover:bg-gray-50'">
-                <svg class="h-4 w-4 mr-2 transition-transform" :class="showFilters ? 'rotate-180' : ''" 
-                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                </svg>
-                <span>Detaljno</span>
-                <span x-show="hasActiveFilters()" class="ml-2 w-2 h-2 bg-blue-600 rounded-full"></span>
             </button>
         </div>
     </div>
