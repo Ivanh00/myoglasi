@@ -165,12 +165,158 @@
 
     <!-- Results -->
     @if($results->count() > 0)
-        <div class="space-y-4">
-            @foreach($results as $listing)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 {{ isset($listing->is_auction) ? 'border-l-4 border-yellow-500' : '' }}">
-                    <div class="flex flex-col md:flex-row">
+        @if($viewMode === 'list')
+            <!-- List View -->
+            <div class="space-y-4">
+                @foreach($results as $listing)
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 {{ isset($listing->is_auction) ? 'border-l-4 border-yellow-500' : '' }}">
+                        <div class="flex flex-col md:flex-row">
+                            <!-- Image -->
+                            <div class="w-full md:w-48 md:min-w-48 h-48 relative">
+                                <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}">
+                                    @if($listing->images->count() > 0)
+                                        <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                            <i class="fas fa-image text-gray-400 text-3xl"></i>
+                                        </div>
+                                    @endif
+                                </a>
+                                
+                                <!-- Auction Badge -->
+                                @if(isset($listing->is_auction))
+                                    <div class="absolute top-2 left-2">
+                                        <span class="inline-flex items-center px-2 py-1 bg-yellow-500 bg-opacity-90 text-white text-xs font-medium rounded">
+                                            <i class="fas fa-gavel mr-1"></i>
+                                            Aukcija
+                                        </span>
+                                    </div>
+                                    
+                                    @if($listing->auction_data->time_left)
+                                        <div class="absolute top-2 right-2">
+                                            <span class="px-2 py-1 bg-red-600 bg-opacity-90 text-white text-xs font-medium rounded">
+                                                {{ $listing->auction_data->time_left['formatted'] }}
+                                            </span>
+                                        </div>
+                                    @endif
+                                @endif
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex-1 p-4 md:p-6">
+                                <div class="flex flex-col h-full">
+                                    <div class="flex-1">
+                                        <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}">
+                                            <h3 class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                                                {{ $listing->title }}
+                                            </h3>
+                                        </a>
+
+                                        <div class="flex items-center text-sm text-gray-600 mb-2">
+                                            <i class="fas fa-map-marker-alt mr-1"></i>
+                                            <span>{{ $listing->location }}</span>
+                                            <span class="mx-2">•</span>
+                                            <i class="fas fa-folder mr-1"></i>
+                                            <span>{{ $listing->category->name }}</span>
+                                        </div>
+
+                                        <p class="text-gray-700 mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                            {{ Str::limit(strip_tags($listing->description), 120) }}
+                                        </p>
+
+                                        <div class="text-sm text-gray-600 mb-2">
+                                            Prodavac: <span class="font-medium">{{ $listing->user->name }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            @if(isset($listing->is_auction))
+                                                <div class="text-xl font-bold text-red-600">
+                                                    {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
+                                                </div>
+                                                <div class="text-sm text-gray-500">{{ $listing->auction_data->total_bids }} ponuda</div>
+                                            @else
+                                                <div class="text-xl font-bold text-blue-600">
+                                                    {{ number_format($listing->price, 2, ',', '.') }} RSD
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        @if($listing->condition)
+                                            <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                                {{ $listing->condition->name }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sidebar -->
+                            <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
+                                <div class="flex flex-col h-full justify-between">
+                                    @if(isset($listing->is_auction))
+                                        <div class="text-center mb-4">
+                                            <div class="text-lg font-bold text-yellow-600">
+                                                @if($listing->auction_data->time_left)
+                                                    {{ $listing->auction_data->time_left['formatted'] }}
+                                                @endif
+                                            </div>
+                                            <div class="text-xs text-gray-500">vremena ostalo</div>
+                                        </div>
+                                    @else
+                                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                <span>{{ $listing->views ?? 0 }}</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <span>❤️ {{ $listing->favorites_count ?? 0 }}</span>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    <div class="text-xs text-gray-500 mb-4">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        Objavljeno {{ $listing->created_at->diffForHumans() }}
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        @if(isset($listing->is_auction))
+                                            <a href="{{ route('auction.show', $listing->auction_data) }}"
+                                                class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                                <i class="fas fa-gavel mr-2"></i> Licitiraj
+                                            </a>
+                                            
+                                            @if($listing->auction_data->buy_now_price && $listing->auction_data->current_price < $listing->auction_data->buy_now_price)
+                                                <a href="{{ route('auction.show', $listing->auction_data) }}"
+                                                    class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                                    <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
+                                                </a>
+                                            @endif
+                                        @else
+                                            <a href="{{ route('listings.show', $listing) }}"
+                                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                <i class="fas fa-eye mr-2"></i> Pregled
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+        @if($viewMode === 'grid')
+            <!-- Grid View -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                @foreach($results as $listing)
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 {{ isset($listing->is_auction) ? 'border-l-4 border-yellow-500' : '' }}">
                         <!-- Image -->
-                        <div class="w-full md:w-48 md:min-w-48 h-48 relative">
+                        <div class="w-full h-48 relative">
                             <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}">
                                 @if($listing->images->count() > 0)
                                     <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
@@ -202,110 +348,94 @@
                         </div>
 
                         <!-- Content -->
-                        <div class="flex-1 p-4 md:p-6">
-                            <div class="flex flex-col h-full">
-                                <div class="flex-1">
-                                    <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}">
-                                        <h3 class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-                                            {{ $listing->title }}
-                                        </h3>
-                                    </a>
+                        <div class="p-4">
+                            <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                                    {{ Str::limit($listing->title, 40) }}
+                                </h3>
+                            </a>
 
-                                    <div class="flex items-center text-sm text-gray-600 mb-2">
-                                        <i class="fas fa-map-marker-alt mr-1"></i>
-                                        <span>{{ $listing->location }}</span>
-                                        <span class="mx-2">•</span>
-                                        <i class="fas fa-folder mr-1"></i>
-                                        <span>{{ $listing->category->name }}</span>
-                                    </div>
-
-                                    <p class="text-gray-700 mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                                        {{ Str::limit(strip_tags($listing->description), 120) }}
-                                    </p>
-
-                                    <div class="text-sm text-gray-600 mb-2">
-                                        Prodavac: <span class="font-medium">{{ $listing->user->name }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        @if(isset($listing->is_auction))
-                                            <div class="text-xl font-bold text-red-600">
-                                                {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
-                                            </div>
-                                            <div class="text-sm text-gray-500">{{ $listing->auction_data->total_bids }} ponuda</div>
-                                        @else
-                                            <div class="text-xl font-bold text-blue-600">
-                                                {{ number_format($listing->price, 2, ',', '.') }} RSD
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    @if($listing->condition)
-                                        <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
-                                            {{ $listing->condition->name }}
-                                        </span>
-                                    @endif
-                                </div>
+                            <div class="flex items-center text-sm text-gray-600 mb-2">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                <span>{{ $listing->location }}</span>
+                                <span class="mx-2">•</span>
+                                <i class="fas fa-folder mr-1"></i>
+                                <span>{{ $listing->category->name }}</span>
                             </div>
-                        </div>
 
-                        <!-- Sidebar -->
-                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
-                            <div class="flex flex-col h-full justify-between">
-                                @if(isset($listing->is_auction))
-                                    <div class="text-center mb-4">
-                                        <div class="text-lg font-bold text-yellow-600">
-                                            @if($listing->auction_data->time_left)
-                                                {{ $listing->auction_data->time_left['formatted'] }}
-                                            @endif
-                                        </div>
-                                        <div class="text-xs text-gray-500">vremena ostalo</div>
-                                    </div>
-                                @else
-                                    <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
-                                        <div class="flex items-center">
-                                            <i class="fas fa-eye mr-1"></i>
-                                            <span>{{ $listing->views ?? 0 }}</span>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <span>❤️ {{ $listing->favorites_count ?? 0 }}</span>
-                                        </div>
-                                    </div>
-                                @endif
+                            <p class="text-gray-700 text-sm mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                {{ Str::limit(strip_tags($listing->description), 100) }}
+                            </p>
 
-                                <div class="text-xs text-gray-500 mb-4">
-                                    <i class="fas fa-clock mr-1"></i>
-                                    Objavljeno {{ $listing->created_at->diffForHumans() }}
-                                </div>
+                            <div class="text-sm text-gray-600 mb-3">
+                                Prodavac: {{ $listing->user->name }}
+                            </div>
 
-                                <div class="space-y-2">
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
                                     @if(isset($listing->is_auction))
-                                        <a href="{{ route('auction.show', $listing->auction_data) }}"
-                                            class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
-                                            <i class="fas fa-gavel mr-2"></i> Licitiraj
-                                        </a>
-                                        
-                                        @if($listing->auction_data->buy_now_price && $listing->auction_data->current_price < $listing->auction_data->buy_now_price)
-                                            <a href="{{ route('auction.show', $listing->auction_data) }}"
-                                                class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
-                                                <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
-                                            </a>
-                                        @endif
+                                        <div class="text-2xl font-bold text-red-600">
+                                            {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
+                                        </div>
+                                        <div class="text-sm text-gray-500">{{ $listing->auction_data->total_bids }} ponuda</div>
                                     @else
-                                        <a href="{{ route('listings.show', $listing) }}"
-                                            class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                            <i class="fas fa-eye mr-2"></i> Pregled
+                                        <div class="text-2xl font-bold text-blue-600">
+                                            {{ number_format($listing->price, 2, ',', '.') }} RSD
+                                        </div>
+                                    @endif
+                                </div>
+
+                                @if($listing->condition)
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                        {{ $listing->condition->name }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            <!-- Stats -->
+                            @if(!isset($listing->is_auction))
+                                <div class="flex items-center justify-between text-xs text-gray-500 mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        <span>{{ $listing->views ?? 0 }}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span>❤️ {{ $listing->favorites_count ?? 0 }}</span>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="text-xs text-gray-500 mb-3">
+                                <i class="fas fa-clock mr-1"></i>
+                                Objavljeno {{ $listing->created_at->diffForHumans() }}
+                            </div>
+
+                            <!-- Action Button -->
+                            @if(isset($listing->is_auction))
+                                <div class="space-y-2">
+                                    <a href="{{ route('auction.show', $listing->auction_data) }}"
+                                        class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                        <i class="fas fa-gavel mr-2"></i> Licitiraj
+                                    </a>
+                                    
+                                    @if($listing->auction_data->buy_now_price && $listing->auction_data->current_price < $listing->auction_data->buy_now_price)
+                                        <a href="{{ route('auction.show', $listing->auction_data) }}"
+                                            class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                            <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
                                         </a>
                                     @endif
                                 </div>
-                            </div>
+                            @else
+                                <a href="{{ route('listings.show', $listing) }}"
+                                    class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                    <i class="fas fa-eye mr-2"></i> Pregled
+                                </a>
+                            @endif
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+        @endif
 
         <!-- Pagination -->
         <div class="mt-8">
