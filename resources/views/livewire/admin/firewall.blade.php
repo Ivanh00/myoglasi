@@ -427,9 +427,12 @@
                                 <h4 class="font-medium text-gray-900">CAPTCHA zaštita</h4>
                                 <p class="text-sm text-gray-600">Omogući CAPTCHA za sumnjive korisnike</p>
                             </div>
-                            <label class="flex items-center">
-                                <input type="checkbox" wire:model="securitySettings.captcha_enabled" 
-                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" wire:model.live="securitySettings.captcha_enabled" 
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer">
+                                <span class="ml-2 text-sm text-gray-700">
+                                    {{ $securitySettings['captcha_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
+                                </span>
                             </label>
                         </div>
 
@@ -440,9 +443,12 @@
                                     <h4 class="font-medium text-gray-900">Geografsko blokiranje</h4>
                                     <p class="text-sm text-gray-600">Blokiraj pristup iz određenih zemalja</p>
                                 </div>
-                                <label class="flex items-center">
-                                    <input type="checkbox" wire:model="securitySettings.geo_blocking_enabled" 
-                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="checkbox" wire:model.live="securitySettings.geo_blocking_enabled" 
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer">
+                                    <span class="ml-2 text-sm text-gray-700">
+                                        {{ $securitySettings['geo_blocking_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
+                                    </span>
                                 </label>
                             </div>
                             
@@ -488,9 +494,12 @@
                                     <h4 class="font-medium text-gray-900">Blokiranje User Agent-a</h4>
                                     <p class="text-sm text-gray-600">Blokiraj određene botove i crawlere</p>
                                 </div>
-                                <label class="flex items-center">
-                                    <input type="checkbox" wire:model="securitySettings.user_agent_blocking_enabled" 
-                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="checkbox" wire:model.live="securitySettings.user_agent_blocking_enabled" 
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer">
+                                    <span class="ml-2 text-sm text-gray-700">
+                                        {{ $securitySettings['user_agent_blocking_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
+                                    </span>
                                 </label>
                             </div>
                             
@@ -535,9 +544,12 @@
                                 <h4 class="font-medium text-gray-900">Admin panel whitelist</h4>
                                 <p class="text-sm text-gray-600">Ograniči pristup admin panelu samo na whitelisted IP adrese</p>
                             </div>
-                            <label class="flex items-center">
-                                <input type="checkbox" wire:model="securitySettings.require_admin_whitelist" 
-                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" wire:model.live="securitySettings.require_admin_whitelist" 
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer">
+                                <span class="ml-2 text-sm text-gray-700">
+                                    {{ $securitySettings['require_admin_whitelist'] ? 'Omogućeno' : 'Onemogućeno' }}
+                                </span>
                             </label>
                         </div>
                     </div>

@@ -21,6 +21,15 @@ class FirewallMiddleware
         $ip = $request->ip();
         $userAgent = $request->userAgent();
         
+        // Skip all checks for admin users to prevent lockout
+        if (auth()->check() && auth()->user()->is_admin) {
+            // Still log admin activity but skip all blocking
+            if (Setting::get('visitor_logging_enabled', true)) {
+                VisitorLog::logVisitor($ip, $userAgent, auth()->id());
+            }
+            return $next($request);
+        }
+        
         // Log visitor activity
         if (Setting::get('visitor_logging_enabled', true)) {
             VisitorLog::logVisitor($ip, $userAgent, auth()->id());
