@@ -7,14 +7,32 @@ $hasFilters = !empty(array_filter([
     $urlParams['price_min'] ?? '',
     $urlParams['price_max'] ?? ''
 ]));
+
+// Check if filters should be open
+$shouldShowFilters = $hasFilters || !empty($urlParams['filters_open']);
+
+// Get category and condition names for display
+$selectedCategoryName = '';
+if (!empty($urlParams['category'])) {
+    $selectedCat = \App\Models\Category::find($urlParams['category']);
+    $selectedCategoryName = $selectedCat ? $selectedCat->name : '';
+}
+
+$selectedConditionName = '';
+if (!empty($urlParams['condition'])) {
+    $selectedCond = \App\Models\ListingCondition::find($urlParams['condition']);
+    $selectedConditionName = $selectedCond ? $selectedCond->name : '';
+}
 @endphp
 
 <div class="relative flex-1 max-w-4xl mx-4" x-data="{
-    showFilters: {{ $hasFilters ? 'true' : 'false' }},
+    showFilters: {{ $shouldShowFilters ? 'true' : 'false' }},
     query: '{{ $urlParams['query'] ?? '' }}',
     city: '{{ $urlParams['city'] ?? '' }}',
     category: '{{ $urlParams['category'] ?? '' }}',
+    categoryName: '{{ $selectedCategoryName }}',
     condition: '{{ $urlParams['condition'] ?? '' }}',
+    conditionName: '{{ $selectedConditionName }}',
     price_min: '{{ $urlParams['price_min'] ?? '' }}',
     price_max: '{{ $urlParams['price_max'] ?? '' }}',
     citySearch: '',
@@ -37,11 +55,49 @@ $hasFilters = !empty(array_filter([
         this.query = '';
         this.city = '';
         this.category = '';
+        this.categoryName = '';
         this.condition = '';
+        this.conditionName = '';
         this.price_min = '';
         this.price_max = '';
         this.citySearch = '';
         this.submitSearch();
+    },
+    
+    // Update state when URL changes (after form submission)
+    syncFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        this.query = urlParams.get('query') || '';
+        this.city = urlParams.get('city') || '';
+        this.category = urlParams.get('category') || '';
+        this.condition = urlParams.get('condition') || '';
+        this.price_min = urlParams.get('price_min') || '';
+        this.price_max = urlParams.get('price_max') || '';
+        
+        // Update names based on new IDs
+        if (this.category) {
+            const categoryMap = @js(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name));
+            this.categoryName = categoryMap[this.category] || '';
+        } else {
+            this.categoryName = '';
+        }
+        
+        if (this.condition) {
+            const conditionMap = @js(\App\Models\ListingCondition::where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name));
+            this.conditionName = conditionMap[this.condition] || '';
+        } else {
+            this.conditionName = '';
+        }
+    },
+    
+    selectCategory(id, name) {
+        this.category = id;
+        this.categoryName = name;
+    },
+    
+    selectCondition(id, name) {
+        this.condition = id;
+        this.conditionName = name;
     },
     
     submitSearch() {
@@ -54,6 +110,11 @@ $hasFilters = !empty(array_filter([
         if (this.price_min) params.set('price_min', this.price_min);
         if (this.price_max) params.set('price_max', this.price_max);
         
+        // Keep filter panel open if filters are active
+        if (this.hasActiveFilters()) {
+            params.set('filters_open', '1');
+        }
+        
         const url = '{{ route('search.index') }}' + (params.toString() ? '?' + params.toString() : '');
         window.location.href = url;
     },
@@ -61,7 +122,8 @@ $hasFilters = !empty(array_filter([
     hasActiveFilters() {
         return this.city || this.category || this.condition || this.price_min || this.price_max;
     }
-}">
+}" 
+x-init="syncFromUrl()">
     <!-- Main Search Bar -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-300 overflow-hidden">
         <div class="flex">
@@ -145,8 +207,8 @@ $hasFilters = !empty(array_filter([
                     <label class="block text-xs font-medium text-gray-700 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
                         class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span x-text="category ? (@js(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get()->keyBy('id')->map(fn($c) => $c->name)))[category] || 'Sve kategorije') : 'Sve kategorije'" 
-                            :class="category ? 'text-gray-900' : 'text-gray-500'"></span>
+                        <span x-text="categoryName || 'Sve kategorije'" 
+                            :class="categoryName ? 'text-gray-900' : 'text-gray-500'"></span>
                         <svg class="w-4 h-4 transition-transform" :class="categoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
                         </svg>
@@ -155,13 +217,13 @@ $hasFilters = !empty(array_filter([
                     <div x-show="categoryOpen" x-transition @click.away="categoryOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
-                            <button type="button" @click="category = ''; categoryOpen = false"
+                            <button type="button" @click="selectCategory('', ''); categoryOpen = false"
                                 class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition flex items-center"
                                 :class="!category ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
                                 <span>Sve kategorije</span>
                             </button>
                             @foreach(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
-                                <button type="button" @click="category = '{{ $cat->id }}'; categoryOpen = false"
+                                <button type="button" @click="selectCategory('{{ $cat->id }}', '{{ $cat->name }}'); categoryOpen = false"
                                     class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition flex items-center"
                                     :class="category === '{{ $cat->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
                                     @if($cat->icon)
@@ -204,8 +266,8 @@ $hasFilters = !empty(array_filter([
                     <label class="block text-xs font-medium text-gray-700 mb-1">Stanje</label>
                     <button type="button" @click="conditionOpen = !conditionOpen"
                         class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span x-text="condition ? (@js(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get()->keyBy('id')->map(fn($c) => $c->name)))[condition] || 'Sva stanja') : 'Sva stanja'" 
-                            :class="condition ? 'text-gray-900' : 'text-gray-500'"></span>
+                        <span x-text="conditionName || 'Sva stanja'" 
+                            :class="conditionName ? 'text-gray-900' : 'text-gray-500'"></span>
                         <svg class="w-4 h-4 transition-transform" :class="conditionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
                         </svg>
@@ -214,13 +276,13 @@ $hasFilters = !empty(array_filter([
                     <div x-show="conditionOpen" x-transition @click.away="conditionOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
-                            <button type="button" @click="condition = ''; conditionOpen = false"
+                            <button type="button" @click="selectCondition('', ''); conditionOpen = false"
                                 class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
                                 :class="!condition ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
                                 <span>Sva stanja</span>
                             </button>
                             @foreach(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get() as $cond)
-                                <button type="button" @click="condition = '{{ $cond->id }}'; conditionOpen = false"
+                                <button type="button" @click="selectCondition('{{ $cond->id }}', '{{ $cond->name }}'); conditionOpen = false"
                                     class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
                                     :class="condition === '{{ $cond->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
                                     {{ $cond->name }}
@@ -248,7 +310,9 @@ $hasFilters = !empty(array_filter([
                 <button type="button" @click="submitSearch()" 
                     class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                     <i class="fas fa-search mr-2"></i>
-                    Primeni filtere
+                    <span>Primeni filtere</span>
+                    <span x-show="hasActiveFilters()" class="ml-1 px-2 py-0.5 bg-blue-500 text-white rounded-full text-xs" 
+                        x-text="(city ? 1 : 0) + (category ? 1 : 0) + (condition ? 1 : 0) + (price_min ? 1 : 0) + (price_max ? 1 : 0)"></span>
                 </button>
             </div>
         </div>
