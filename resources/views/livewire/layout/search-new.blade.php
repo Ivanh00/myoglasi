@@ -6,7 +6,8 @@ $hasFilters = !empty(array_filter([
     $urlParams['condition_id'] ?? $urlParams['condition'] ?? '',
     $urlParams['price_min'] ?? '',
     $urlParams['price_max'] ?? '',
-    $urlParams['auction_type'] ?? ''
+    $urlParams['auction_type'] ?? '',
+    $urlParams['content_type'] ?? ''
 ]));
 
 // Check if filters should be open
@@ -52,6 +53,7 @@ if (!empty($auctionType)) {
     conditionName: '{{ $selectedConditionName }}',
     auction_type: '{{ $auctionType ?? '' }}',
     auctionTypeName: '{{ $selectedAuctionTypeName }}',
+    content_type: '{{ $urlParams['content_type'] ?? 'all' }}',
     price_min: '{{ $urlParams['price_min'] ?? '' }}',
     price_max: '{{ $urlParams['price_max'] ?? '' }}',
     citySearch: '',
@@ -79,6 +81,7 @@ if (!empty($auctionType)) {
         this.conditionName = '';
         this.auction_type = '';
         this.auctionTypeName = '';
+        this.content_type = 'all';
         this.price_min = '';
         this.price_max = '';
         this.citySearch = '';
@@ -95,6 +98,7 @@ if (!empty($auctionType)) {
         this.category = urlParams.get('search_category') || urlParams.get('category') || '';
         this.condition = urlParams.get('condition_id') || urlParams.get('condition') || '';
         this.auction_type = urlParams.get('auction_type') || '';
+        this.content_type = urlParams.get('content_type') || 'all';
         this.price_min = urlParams.get('price_min') || '';
         this.price_max = urlParams.get('price_max') || '';
         
@@ -153,6 +157,7 @@ if (!empty($auctionType)) {
         if (this.category) params.set('search_category', this.category); // Changed to match backend
         if (this.condition) params.set('condition_id', this.condition); // Changed to match backend  
         if (this.auction_type) params.set('auction_type', this.auction_type);
+        if (this.content_type && this.content_type !== 'all') params.set('content_type', this.content_type);
         if (this.price_min) params.set('price_min', this.price_min);
         if (this.price_max) params.set('price_max', this.price_max);
         
@@ -166,7 +171,7 @@ if (!empty($auctionType)) {
     },
     
     hasActiveFilters() {
-        return this.city || this.category || this.condition || this.auction_type || this.price_min || this.price_max;
+        return this.city || this.category || this.condition || this.auction_type || this.content_type !== 'all' || this.price_min || this.price_max;
     }
 }" 
 x-init="syncFromUrl()">
@@ -211,6 +216,31 @@ x-init="syncFromUrl()">
         class="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-300 z-50 p-6"
         style="display: none;">
         
+        <!-- Content Type Selector -->
+        <div class="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+            <label class="block text-sm font-medium text-gray-700 mb-3">Pretražuj u:</label>
+            <div class="flex space-x-4">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="content_type" x-model="content_type" value="all" 
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                    <span class="ml-2 text-sm text-gray-700">Svi oglasi i aukcije</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="content_type" x-model="content_type" value="listings" 
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                    <span class="ml-2 text-sm text-gray-700">Samo oglasi</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="content_type" x-model="content_type" value="auctions" 
+                        class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
+                    <span class="ml-2 text-sm text-yellow-700">
+                        <i class="fas fa-gavel mr-1"></i>
+                        Samo aukcije
+                    </span>
+                </label>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Left Column: Location & Category -->
             <div class="space-y-4">
