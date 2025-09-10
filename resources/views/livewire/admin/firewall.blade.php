@@ -318,9 +318,9 @@
                     </select>
                 </div>
 
-                <!-- Visitors Table -->
+                <!-- Desktop Visitors Table -->
                 @if(isset($visitors) && $visitors->count() > 0)
-                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="hidden lg:block bg-white rounded-lg shadow overflow-hidden">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -390,6 +390,90 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    
+                    <!-- Mobile Visitors Cards -->
+                    <div class="lg:hidden space-y-4">
+                        @foreach($visitors as $visitor)
+                            <div class="bg-white shadow rounded-lg overflow-hidden {{ $visitor->is_suspicious ? 'border-l-4 border-red-500' : '' }}">
+                                <!-- Card Header -->
+                                <div class="p-4 border-b border-gray-200">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <span class="text-2xl mr-3">{{ $visitor->country_flag }}</span>
+                                            <div>
+                                                <code class="text-sm bg-gray-100 px-2 py-1 rounded font-mono">{{ $visitor->ip_address }}</code>
+                                                @if($visitor->country)
+                                                    <div class="text-xs text-gray-500 mt-1">
+                                                        {{ $visitor->country }}@if($visitor->city), {{ $visitor->city }}@endif
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Status Badge -->
+                                        <div class="flex items-center space-x-2">
+                                            @if($visitor->is_suspicious)
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                    Sumnjivo
+                                                </span>
+                                            @elseif($visitor->last_activity > now()->subMinutes(5))
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                    Online
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                                    Offline
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card Body -->
+                                <div class="p-4">
+                                    <!-- User Agent -->
+                                    <div class="mb-3">
+                                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">User Agent</div>
+                                        <div class="text-sm text-gray-900 break-all">{{ $visitor->user_agent }}</div>
+                                        @if($visitor->is_bot)
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 mt-1">
+                                                Bot
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <!-- Activity Info -->
+                                    <div class="mb-4">
+                                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Aktivnost</div>
+                                        <div class="space-y-1">
+                                            <div class="flex justify-between">
+                                                <span class="text-sm text-gray-600">Ukupno zahteva:</span>
+                                                <span class="text-sm font-medium text-gray-900">{{ number_format($visitor->request_count) }}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-sm text-gray-600">Prva poseta:</span>
+                                                <span class="text-sm text-gray-900">{{ $visitor->first_visit->format('d.m.Y H:i') }}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-sm text-gray-600">Poslednja aktivnost:</span>
+                                                <span class="text-sm text-gray-900">{{ $visitor->last_activity->diffForHumans() }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Button -->
+                                    <div class="flex justify-center">
+                                        <button wire:click="blockIp('{{ $visitor->ip_address }}')" 
+                                            onclick="return confirm('Da li želite da blokirate IP {{ $visitor->ip_address }}?')"
+                                            class="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 text-sm font-medium rounded-lg hover:bg-red-200 transition-colors">
+                                            <i class="fas fa-ban mr-2"></i>
+                                            Blokiraj IP
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                     
                     <div class="mt-4">
