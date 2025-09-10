@@ -198,14 +198,14 @@ x-init="syncFromUrl()">
                 </div>
                 <form @submit.prevent="quickSearch()">
                     <input type="text" x-model="query" 
-                        class="block w-full pl-10 pr-44 py-3 border-0 bg-transparent placeholder-gray-400 focus:outline-none focus:ring-0 text-sm"
+                        class="block w-full pl-10 pr-28 py-3 border-0 bg-transparent placeholder-gray-400 focus:outline-none focus:ring-0 text-sm"
                         placeholder="Pretraži oglase...">
                 </form>
                 
                 <!-- Integrated Detaljno Button (inside search bar) -->
-                <div class="absolute inset-y-0 right-16 flex items-center py-1 pr-1">
+                <div class="absolute top-1 bottom-1 right-0 flex items-center pr-1">
                     <button type="button" @click="toggleFilters()" 
-                        class="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium transition-colors focus:outline-none hover:bg-blue-700"
+                        class="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium transition-colors focus:outline-none hover:bg-blue-700 mr-1"
                         :class="showFilters ? 'bg-blue-700' : 'bg-blue-600'">
                         <span>Detaljno</span>
                         <svg class="w-3 h-3 ml-2 transition-transform" :class="showFilters ? 'rotate-180' : ''" 
