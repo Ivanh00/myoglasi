@@ -285,5 +285,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/ratings', \App\Livewire\Admin\RatingManagement::class)->name('ratings.index');
     Route::get('/reports', \App\Livewire\Admin\ReportManagement::class)->name('reports.index');
     Route::get('/images', \App\Livewire\Admin\ImageManagement::class)->name('images.index');
+    Route::get('/firewall', \App\Livewire\Admin\Firewall::class)->name('firewall.index');
     Route::get('/settings', \App\Livewire\Admin\Settings::class)->name('settings');
 });

@@ -198,6 +198,12 @@
                             Prijave
                         </a>
 
+                        <a href="{{ route('admin.firewall.index') }}" 
+                           class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.firewall.*') ? 'bg-blue-50 text-blue-700' : '' }}">
+                            <i class="fas fa-shield-alt w-5 h-5 mr-3"></i>
+                            Firewall
+                        </a>
+
                         <a href="{{ route('admin.settings') }}" 
                            class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.settings') ? 'bg-blue-50 text-blue-700' : '' }}">
                             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -289,6 +295,12 @@
                            class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.reports.*') ? 'bg-blue-50 text-blue-700' : '' }}">
                             <i class="fas fa-flag w-5 h-5 mr-3"></i>
                             Prijave
+                        </a>
+
+                        <a href="{{ route('admin.firewall.index') }}" 
+                           class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.firewall.*') ? 'bg-blue-50 text-blue-700' : '' }}">
+                            <i class="fas fa-shield-alt w-5 h-5 mr-3"></i>
+                            Firewall
                         </a>
 
                         <a href="{{ route('admin.settings') }}" 
