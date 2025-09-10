@@ -123,11 +123,11 @@
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
                                     @if($auction->listing->images->count() > 0)
-                                        <img class="h-10 w-10 rounded-full object-cover" 
+                                        <img class="h-10 w-10 rounded object-cover" 
                                             src="{{ $auction->listing->images->first()->url }}" 
                                             alt="{{ $auction->listing->title }}">
                                     @else
-                                        <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                        <div class="h-10 w-10 rounded bg-gray-200 flex items-center justify-center">
                                             <i class="fas fa-gavel text-gray-400"></i>
                                         </div>
                                     @endif
