@@ -54,6 +54,10 @@ class Firewall extends Component
 
     public $showAddIpModal = false;
     public $editingIpBlock = null;
+    
+    // Additional properties for security settings
+    public $blockedCountriesInput = '';
+    public $newUserAgent = '';
 
     protected $listeners = ['refreshFirewall' => '$refresh'];
 
@@ -199,6 +203,50 @@ class Firewall extends Component
         ]);
 
         $this->dispatch('notify', type: 'success', message: "IP adresa {$ip} je uspešno blokirana!");
+    }
+
+    public function addBlockedCountry()
+    {
+        if (empty($this->blockedCountriesInput)) return;
+
+        $countries = array_map('trim', array_map('strtoupper', explode(',', $this->blockedCountriesInput)));
+        $countries = array_filter($countries); // Remove empty values
+
+        $existing = $this->securitySettings['blocked_countries'];
+        $this->securitySettings['blocked_countries'] = array_unique(array_merge($existing, $countries));
+        
+        $this->blockedCountriesInput = '';
+        $this->saveSecuritySettings();
+    }
+
+    public function removeBlockedCountry($country)
+    {
+        $this->securitySettings['blocked_countries'] = array_filter(
+            $this->securitySettings['blocked_countries'], 
+            fn($c) => $c !== $country
+        );
+        $this->saveSecuritySettings();
+    }
+
+    public function addBlockedUserAgent()
+    {
+        if (empty($this->newUserAgent)) return;
+
+        $existing = $this->securitySettings['blocked_user_agents'];
+        $existing[] = $this->newUserAgent;
+        $this->securitySettings['blocked_user_agents'] = array_unique($existing);
+        
+        $this->newUserAgent = '';
+        $this->saveSecuritySettings();
+    }
+
+    public function removeBlockedUserAgent($agent)
+    {
+        $this->securitySettings['blocked_user_agents'] = array_filter(
+            $this->securitySettings['blocked_user_agents'], 
+            fn($a) => $a !== $agent
+        );
+        $this->saveSecuritySettings();
     }
 
     public function getVisitorStats()

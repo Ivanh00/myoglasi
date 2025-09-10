@@ -434,27 +434,99 @@
                         </div>
 
                         <!-- Geo Blocking -->
-                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-                            <div>
-                                <h4 class="font-medium text-gray-900">Geografsko blokiranje</h4>
-                                <p class="text-sm text-gray-600">Blokiraj pristup iz određenih zemalja</p>
+                        <div class="p-4 border border-gray-200 rounded-lg">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Geografsko blokiranje</h4>
+                                    <p class="text-sm text-gray-600">Blokiraj pristup iz određenih zemalja</p>
+                                </div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" wire:model="securitySettings.geo_blocking_enabled" 
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                </label>
                             </div>
-                            <label class="flex items-center">
-                                <input type="checkbox" wire:model="securitySettings.geo_blocking_enabled" 
-                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                            </label>
+                            
+                            @if($securitySettings['geo_blocking_enabled'])
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Blokirane zemlje (kodovi)</label>
+                                        <div class="flex gap-2">
+                                            <input type="text" wire:model="blockedCountriesInput" 
+                                                placeholder="CN,RU,KP (odvojeno zarezima)"
+                                                class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                            <button wire:click="addBlockedCountry" 
+                                                class="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1">Unesite dvoslovne kodove zemalja (npr: CN za Kinu, RU za Rusiju)</p>
+                                    </div>
+                                    
+                                    @if(!empty($securitySettings['blocked_countries']))
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700 mb-2">Trenutno blokirane zemlje:</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                @foreach($securitySettings['blocked_countries'] as $country)
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800">
+                                                        {{ $country }}
+                                                        <button wire:click="removeBlockedCountry('{{ $country }}')" class="ml-1 text-red-600 hover:text-red-800">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
                         </div>
 
                         <!-- User Agent Blocking -->
-                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-                            <div>
-                                <h4 class="font-medium text-gray-900">Blokiranje User Agent-a</h4>
-                                <p class="text-sm text-gray-600">Blokiraj određene botove i crawlere</p>
+                        <div class="p-4 border border-gray-200 rounded-lg">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Blokiranje User Agent-a</h4>
+                                    <p class="text-sm text-gray-600">Blokiraj određene botove i crawlere</p>
+                                </div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" wire:model="securitySettings.user_agent_blocking_enabled" 
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                </label>
                             </div>
-                            <label class="flex items-center">
-                                <input type="checkbox" wire:model="securitySettings.user_agent_blocking_enabled" 
-                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                            </label>
+                            
+                            @if($securitySettings['user_agent_blocking_enabled'])
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Novi User Agent za blokiranje</label>
+                                        <div class="flex gap-2">
+                                            <input type="text" wire:model="newUserAgent" 
+                                                placeholder="Chrome/Bot/Crawler"
+                                                class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                            <button wire:click="addBlockedUserAgent" 
+                                                class="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1">Deo User Agent string-a koji se traži</p>
+                                    </div>
+                                    
+                                    @if(!empty($securitySettings['blocked_user_agents']))
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700 mb-2">Blokirani User Agent-i:</p>
+                                            <div class="space-y-2">
+                                                @foreach($securitySettings['blocked_user_agents'] as $agent)
+                                                    <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                                        <code class="text-xs">{{ $agent }}</code>
+                                                        <button wire:click="removeBlockedUserAgent('{{ $agent }}')" class="text-red-600 hover:text-red-800">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
                         </div>
 
                         <!-- Admin Whitelist -->
