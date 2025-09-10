@@ -99,6 +99,77 @@
                     </div>
                 @endif
 
+                <!-- Currently Logged In Users Grouped by IP -->
+                @if(isset($logged_in_users) && $logged_in_users->count() > 0)
+                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-users mr-2 text-green-600"></i>
+                            Trenutno ulogovani korisnici po IP adresama (poslednje 30 min)
+                        </h3>
+                        <div class="space-y-4">
+                            @foreach($logged_in_users as $ipGroup)
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <!-- IP Header -->
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center">
+                                            <span class="text-lg mr-2">{{ $ipGroup['country_flag'] }}</span>
+                                            <div>
+                                                <code class="text-sm bg-gray-100 px-2 py-1 rounded font-mono">{{ $ipGroup['ip_address'] }}</code>
+                                                <span class="text-xs text-gray-500 ml-2">
+                                                    {{ $ipGroup['country'] }} • {{ $ipGroup['sessions']->count() }} korisnik(a)
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <button wire:click="blockIp('{{ $ipGroup['ip_address'] }}')" 
+                                            onclick="return confirm('Da li želite da blokirate IP {{ $ipGroup['ip_address'] }}? Ovo će uticati na {{ $ipGroup['sessions']->count() }} korisnik(a).')"
+                                            class="text-red-600 hover:text-red-900">
+                                            <i class="fas fa-ban mr-1"></i> Blokiraj IP
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Users on this IP -->
+                                    <div class="space-y-2">
+                                        @foreach($ipGroup['sessions'] as $session)
+                                            <div class="flex items-center justify-between py-2 px-3 {{ $session['is_online'] ? 'bg-green-50' : 'bg-gray-50' }} rounded">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0">
+                                                        @if($session['user']->avatar)
+                                                            <img src="{{ $session['user']->avatar_url }}" alt="{{ $session['user']->name }}" 
+                                                                 class="w-6 h-6 rounded-full object-cover">
+                                                        @else
+                                                            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs">
+                                                                {{ strtoupper(substr($session['user']->name, 0, 1)) }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="ml-2">
+                                                        <div class="text-sm font-medium text-gray-900">
+                                                            {{ $session['user']->name }}
+                                                            @if($session['user']->is_admin)
+                                                                <span class="ml-1 px-1 py-0.5 bg-red-100 text-red-800 text-xs font-medium rounded">Admin</span>
+                                                            @endif
+                                                            @if($session['is_online'])
+                                                                <span class="ml-1 w-2 h-2 bg-green-500 rounded-full inline-block" title="Online"></span>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-xs text-gray-500">
+                                                            {{ number_format($session['request_count']) }} zahteva | 
+                                                            {{ $session['last_activity']->diffForHumans() }}
+                                                            @if($session['login_at'])
+                                                                | Ulogovan: {{ $session['login_at']->format('H:i') }}
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
                 <!-- Recent Blocks -->
                 @if(isset($recent_blocks) && $recent_blocks->count() > 0)
                     <div class="bg-white border border-gray-200 rounded-lg p-6">
@@ -341,59 +412,82 @@
                     </h3>
                     
                     <div class="space-y-6">
-                        <div>
-                            <label class="flex items-center mb-4">
-                                <input type="checkbox" wire:model="rateLimitSettings.enabled" 
-                                    class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
-                                <span class="ml-2 text-sm text-gray-700">Omogući rate limiting</span>
-                            </label>
-                        </div>
-                        
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <!-- Guest User Limits -->
                             <div class="border border-gray-200 rounded-lg p-4">
-                                <h4 class="font-medium text-gray-900 mb-3">
-                                    <i class="fas fa-user text-gray-600 mr-2"></i>
-                                    Guest korisnici (neulogovani)
-                                </h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Zahteva po minutu</label>
-                                        <input type="number" wire:model="rateLimitSettings.guest_per_minute" 
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                                        <p class="text-xs text-gray-500 mt-1">Preporučeno: 20-50</p>
-                                    </div>
-                                    
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Zahteva po satu</label>
-                                        <input type="number" wire:model="rateLimitSettings.guest_per_hour" 
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                                        <p class="text-xs text-gray-500 mt-1">Preporučeno: 300-1000</p>
-                                    </div>
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 class="font-medium text-gray-900">
+                                        <i class="fas fa-user text-gray-600 mr-2"></i>
+                                        Guest korisnici (neulogovani)
+                                    </h4>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" wire:model.live="rateLimitSettings.guest_enabled" 
+                                            class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded cursor-pointer">
+                                        <span class="ml-2 text-sm text-gray-700">
+                                            {{ $rateLimitSettings['guest_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
+                                        </span>
+                                    </label>
                                 </div>
+                                
+                                @if($rateLimitSettings['guest_enabled'])
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700">Zahteva po minutu</label>
+                                            <input type="number" wire:model="rateLimitSettings.guest_per_minute" 
+                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                                            <p class="text-xs text-gray-500 mt-1">Preporučeno: 20-50</p>
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700">Zahteva po satu</label>
+                                            <input type="number" wire:model="rateLimitSettings.guest_per_hour" 
+                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                                            <p class="text-xs text-gray-500 mt-1">Preporučeno: 300-1000</p>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             
                             <!-- Authenticated User Limits -->
                             <div class="border border-gray-200 rounded-lg p-4">
-                                <h4 class="font-medium text-gray-900 mb-3">
-                                    <i class="fas fa-user-check text-green-600 mr-2"></i>
-                                    Registrovani korisnici
-                                </h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Zahteva po minutu</label>
-                                        <input type="number" wire:model="rateLimitSettings.auth_per_minute" 
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
-                                        <p class="text-xs text-gray-500 mt-1">Preporučeno: 100-200 (više zbog upload-a)</p>
-                                    </div>
-                                    
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Zahteva po satu</label>
-                                        <input type="number" wire:model="rateLimitSettings.auth_per_hour" 
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
-                                        <p class="text-xs text-gray-500 mt-1">Preporučeno: 1500-3000 (više zbog intenzivnog korišćenja)</p>
-                                    </div>
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 class="font-medium text-gray-900">
+                                        <i class="fas fa-user-check text-green-600 mr-2"></i>
+                                        Registrovani korisnici
+                                    </h4>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" wire:model.live="rateLimitSettings.auth_enabled" 
+                                            class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded cursor-pointer">
+                                        <span class="ml-2 text-sm text-gray-700">
+                                            {{ $rateLimitSettings['auth_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
+                                        </span>
+                                    </label>
                                 </div>
+                                
+                                @if($rateLimitSettings['auth_enabled'])
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700">Zahteva po minutu</label>
+                                            <input type="number" wire:model="rateLimitSettings.auth_per_minute" 
+                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                                            <p class="text-xs text-gray-500 mt-1">Preporučeno: 100-200 (više zbog upload-a)</p>
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700">Zahteva po satu</label>
+                                            <input type="number" wire:model="rateLimitSettings.auth_per_hour" 
+                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                                            <p class="text-xs text-gray-500 mt-1">Preporučeno: 1500-3000 (više zbog intenzivnog korišćenja)</p>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="p-3 bg-green-50 border border-green-200 rounded">
+                                        <p class="text-sm text-green-800">
+                                            <i class="fas fa-infinity mr-1"></i>
+                                            Registrovani korisnici imaju neograničen pristup
+                                        </p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\IpBlock;
 use App\Models\VisitorLog;
+use App\Models\UserSession;
 use App\Models\Setting;
 
 class FirewallMiddleware
@@ -30,9 +31,10 @@ class FirewallMiddleware
             return $next($request);
         }
         
-        // Log visitor activity
+        // Track user sessions (allows multiple users per IP)
         if (Setting::get('visitor_logging_enabled', true)) {
             VisitorLog::logVisitor($ip, $userAgent, auth()->id());
+            UserSession::trackSession(session()->getId(), $ip, $userAgent, auth()->id());
         }
         
         // Check if IP is blocked
@@ -48,8 +50,10 @@ class FirewallMiddleware
         }
         
         // Check rate limiting (different limits for authenticated vs guest users)
-        if (Setting::get('rate_limit_enabled', true)) {
-            $this->checkRateLimit($ip, auth()->check());
+        $isAuthenticated = auth()->check();
+        if (($isAuthenticated && Setting::get('rate_limit_auth_enabled', true)) || 
+            (!$isAuthenticated && Setting::get('rate_limit_guest_enabled', true))) {
+            $this->checkRateLimit($ip, $isAuthenticated);
         }
         
         // Check blocked countries

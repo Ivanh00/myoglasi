@@ -32,7 +32,8 @@ class Firewall extends Component
     
     // Rate Limiting Settings
     public $rateLimitSettings = [
-        'enabled' => true,
+        'guest_enabled' => true,
+        'auth_enabled' => true,
         'guest_per_minute' => 30,
         'guest_per_hour' => 500,
         'auth_per_minute' => 120,
@@ -77,7 +78,8 @@ class Firewall extends Component
         
         // Rate Limiting Settings
         $this->rateLimitSettings = [
-            'enabled' => Setting::get('rate_limit_enabled', true),
+            'guest_enabled' => Setting::get('rate_limit_guest_enabled', true),
+            'auth_enabled' => Setting::get('rate_limit_auth_enabled', true),
             'guest_per_minute' => Setting::get('rate_limit_guest_per_minute', 30),
             'guest_per_hour' => Setting::get('rate_limit_guest_per_hour', 500),
             'auth_per_minute' => Setting::get('rate_limit_auth_per_minute', 120),
@@ -255,6 +257,28 @@ class Firewall extends Component
         $this->saveSecuritySettings();
     }
 
+    public function getLoggedInUsers()
+    {
+        // Get all logged-in users grouped by IP to show multiple users per IP
+        return \App\Models\UserSession::getUsersByIp()->map(function ($sessions, $ip) {
+            return [
+                'ip_address' => $ip,
+                'country_flag' => $sessions->first()->country_flag,
+                'country' => $sessions->first()->country,
+                'sessions' => $sessions->map(function ($session) {
+                    return [
+                        'user' => $session->user,
+                        'session_id' => $session->session_id,
+                        'last_activity' => $session->last_activity,
+                        'request_count' => $session->request_count,
+                        'is_online' => $session->last_activity > now()->subMinutes(5),
+                        'login_at' => $session->login_at
+                    ];
+                })
+            ];
+        })->values();
+    }
+
     public function getVisitorStats()
     {
         return [
@@ -279,6 +303,7 @@ class Firewall extends Component
         switch ($this->activeTab) {
             case 'overview':
                 $data['stats'] = $this->getVisitorStats();
+                $data['logged_in_users'] = $this->getLoggedInUsers();
                 $data['recent_blocks'] = IpBlock::with('creator')
                     ->where('is_active', true)
                     ->latest()
