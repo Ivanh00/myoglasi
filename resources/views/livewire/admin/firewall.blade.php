@@ -340,25 +340,68 @@
                         Rate Limiting
                     </h3>
                     
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="space-y-6">
                         <div>
                             <label class="flex items-center mb-4">
                                 <input type="checkbox" wire:model="rateLimitSettings.enabled" 
                                     class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
                                 <span class="ml-2 text-sm text-gray-700">Omogući rate limiting</span>
                             </label>
-                            
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Zahteva po minutu</label>
-                                    <input type="number" wire:model="rateLimitSettings.max_requests_per_minute" 
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Guest User Limits -->
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-900 mb-3">
+                                    <i class="fas fa-user text-gray-600 mr-2"></i>
+                                    Guest korisnici (neulogovani)
+                                </h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Zahteva po minutu</label>
+                                        <input type="number" wire:model="rateLimitSettings.guest_per_minute" 
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                                        <p class="text-xs text-gray-500 mt-1">Preporučeno: 20-50</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Zahteva po satu</label>
+                                        <input type="number" wire:model="rateLimitSettings.guest_per_hour" 
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                                        <p class="text-xs text-gray-500 mt-1">Preporučeno: 300-1000</p>
+                                    </div>
                                 </div>
-                                
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Zahteva po satu</label>
-                                    <input type="number" wire:model="rateLimitSettings.max_requests_per_hour" 
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                            </div>
+                            
+                            <!-- Authenticated User Limits -->
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-900 mb-3">
+                                    <i class="fas fa-user-check text-green-600 mr-2"></i>
+                                    Registrovani korisnici
+                                </h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Zahteva po minutu</label>
+                                        <input type="number" wire:model="rateLimitSettings.auth_per_minute" 
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                                        <p class="text-xs text-gray-500 mt-1">Preporučeno: 100-200 (više zbog upload-a)</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Zahteva po satu</label>
+                                        <input type="number" wire:model="rateLimitSettings.auth_per_hour" 
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                                        <p class="text-xs text-gray-500 mt-1">Preporučeno: 1500-3000 (više zbog intenzivnog korišćenja)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div class="flex items-start">
+                                <i class="fas fa-info-circle text-blue-600 mt-0.5 mr-2"></i>
+                                <div class="text-sm text-blue-800">
+                                    <strong>Napomena:</strong> Registrovani korisnici imaju veće limite jer koriste funkcije kao što su upload slika, kreiranje oglasa, i česta navigacija kroz sajt. Administratori su potpuno oslobođeni ograničenja.
                                 </div>
                             </div>
                         </div>

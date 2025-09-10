@@ -33,8 +33,10 @@ class Firewall extends Component
     // Rate Limiting Settings
     public $rateLimitSettings = [
         'enabled' => true,
-        'max_requests_per_minute' => 60,
-        'max_requests_per_hour' => 1000,
+        'guest_per_minute' => 30,
+        'guest_per_hour' => 500,
+        'auth_per_minute' => 120,
+        'auth_per_hour' => 2000,
         'auto_block_enabled' => true,
         'auto_block_threshold' => 100,
         'auto_block_duration' => 24, // hours
@@ -76,8 +78,10 @@ class Firewall extends Component
         // Rate Limiting Settings
         $this->rateLimitSettings = [
             'enabled' => Setting::get('rate_limit_enabled', true),
-            'max_requests_per_minute' => Setting::get('rate_limit_per_minute', 60),
-            'max_requests_per_hour' => Setting::get('rate_limit_per_hour', 1000),
+            'guest_per_minute' => Setting::get('rate_limit_guest_per_minute', 30),
+            'guest_per_hour' => Setting::get('rate_limit_guest_per_hour', 500),
+            'auth_per_minute' => Setting::get('rate_limit_auth_per_minute', 120),
+            'auth_per_hour' => Setting::get('rate_limit_auth_per_hour', 2000),
             'auto_block_enabled' => Setting::get('auto_block_enabled', true),
             'auto_block_threshold' => Setting::get('auto_block_threshold', 100),
             'auto_block_duration' => Setting::get('auto_block_duration', 24),
@@ -151,8 +155,10 @@ class Firewall extends Component
     public function saveRateLimitSettings()
     {
         $this->validate([
-            'rateLimitSettings.max_requests_per_minute' => 'required|integer|min:1|max:1000',
-            'rateLimitSettings.max_requests_per_hour' => 'required|integer|min:100|max:10000',
+            'rateLimitSettings.guest_per_minute' => 'required|integer|min:1|max:1000',
+            'rateLimitSettings.guest_per_hour' => 'required|integer|min:100|max:10000',
+            'rateLimitSettings.auth_per_minute' => 'required|integer|min:1|max:1000',
+            'rateLimitSettings.auth_per_hour' => 'required|integer|min:100|max:10000',
             'rateLimitSettings.auto_block_threshold' => 'required|integer|min:10|max:1000',
             'rateLimitSettings.auto_block_duration' => 'required|integer|min:1|max:168',
             'rateLimitSettings.login_attempt_limit' => 'required|integer|min:3|max:20',
@@ -160,7 +166,7 @@ class Firewall extends Component
         ]);
 
         foreach ($this->rateLimitSettings as $key => $value) {
-            Setting::set('rate_limit_' . str_replace('_', '_', $key), $value, 
+            Setting::set('rate_limit_' . $key, $value, 
                 is_bool($value) ? 'boolean' : (is_array($value) ? 'json' : 'string'), 'firewall');
         }
 

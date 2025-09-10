@@ -47,9 +47,9 @@ class FirewallMiddleware
             }
         }
         
-        // Check rate limiting
+        // Check rate limiting (different limits for authenticated vs guest users)
         if (Setting::get('rate_limit_enabled', true)) {
-            $this->checkRateLimit($ip);
+            $this->checkRateLimit($ip, auth()->check());
         }
         
         // Check blocked countries
@@ -65,23 +65,31 @@ class FirewallMiddleware
         return $next($request);
     }
     
-    protected function checkRateLimit($ip)
+    protected function checkRateLimit($ip, $isAuthenticated = false)
     {
         $visitor = VisitorLog::where('ip_address', $ip)->first();
         
         if (!$visitor) return;
         
-        $maxPerMinute = Setting::get('rate_limit_per_minute', 60);
-        $maxPerHour = Setting::get('rate_limit_per_hour', 1000);
+        // Different limits for authenticated vs guest users
+        if ($isAuthenticated) {
+            $maxPerMinute = Setting::get('rate_limit_auth_per_minute', 120); // Higher for logged-in users
+            $maxPerHour = Setting::get('rate_limit_auth_per_hour', 2000); // Higher for logged-in users
+        } else {
+            $maxPerMinute = Setting::get('rate_limit_guest_per_minute', 30); // Lower for guests
+            $maxPerHour = Setting::get('rate_limit_guest_per_hour', 500); // Lower for guests
+        }
         
         // Check requests in last minute
         if ($visitor->request_count > $maxPerMinute && $visitor->last_activity > now()->subMinute()) {
-            abort(429, 'Previše zahteva. Molimo sačekajte pre ponovnog pristupa.');
+            $userType = $isAuthenticated ? 'prijavljeni korisnik' : 'guest';
+            abort(429, "Previše zahteva za {$userType}. Molimo sačekajte pre ponovnog pristupa.");
         }
         
-        // Check requests in last hour
+        // Check requests in last hour  
         if ($visitor->request_count > $maxPerHour && $visitor->last_activity > now()->subHour()) {
-            abort(429, 'Dnevni limit zahteva je dostignut. Molimo pokušajte sutra.');
+            $userType = $isAuthenticated ? 'prijavljeni korisnik' : 'guest';
+            abort(429, "Dostignut je limit zahteva za {$userType}. Molimo pokušajte kasnije.");
         }
     }
     
