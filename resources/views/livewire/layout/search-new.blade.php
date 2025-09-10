@@ -2,8 +2,8 @@
 $urlParams = request()->all();
 $hasFilters = !empty(array_filter([
     $urlParams['city'] ?? '',
-    $urlParams['category'] ?? '',
-    $urlParams['condition'] ?? '',
+    $urlParams['search_category'] ?? $urlParams['category'] ?? '',
+    $urlParams['condition_id'] ?? $urlParams['condition'] ?? '',
     $urlParams['price_min'] ?? '',
     $urlParams['price_max'] ?? ''
 ]));
@@ -11,17 +11,29 @@ $hasFilters = !empty(array_filter([
 // Check if filters should be open
 $shouldShowFilters = $hasFilters || !empty($urlParams['show_filters']) || !empty($urlParams['filters_open']);
 
-// Get category and condition names for display
+// Get category and condition names for display (check both possible parameter names)
 $selectedCategoryName = '';
-if (!empty($urlParams['category'])) {
-    $selectedCat = \App\Models\Category::find($urlParams['category']);
+$categoryId = $urlParams['search_category'] ?? $urlParams['category'] ?? null;
+if (!empty($categoryId)) {
+    $selectedCat = \App\Models\Category::find($categoryId);
     $selectedCategoryName = $selectedCat ? $selectedCat->name : '';
 }
 
 $selectedConditionName = '';
-if (!empty($urlParams['condition'])) {
-    $selectedCond = \App\Models\ListingCondition::find($urlParams['condition']);
+$conditionId = $urlParams['condition_id'] ?? $urlParams['condition'] ?? null;
+if (!empty($conditionId)) {
+    $selectedCond = \App\Models\ListingCondition::find($conditionId);
     $selectedConditionName = $selectedCond ? $selectedCond->name : '';
+}
+
+// Debug output (remove after testing)
+if (app()->environment('local')) {
+    $debugCategory = $urlParams['category'] ?? 'none';
+    $debugCondition = $urlParams['condition'] ?? 'none';
+    echo "<!-- DEBUG: URL Params: " . json_encode($urlParams) . " -->";
+    echo "<!-- DEBUG: Selected Category: {$debugCategory} -> {$selectedCategoryName} -->";
+    echo "<!-- DEBUG: Selected Condition: {$debugCondition} -> {$selectedConditionName} -->";
+    echo "<!-- DEBUG: Should Show Filters: " . ($shouldShowFilters ? 'true' : 'false') . " -->";
 }
 @endphp
 
@@ -29,9 +41,9 @@ if (!empty($urlParams['condition'])) {
     showFilters: {{ $shouldShowFilters ? 'true' : 'false' }},
     query: '{{ $urlParams['query'] ?? '' }}',
     city: '{{ $urlParams['city'] ?? '' }}',
-    category: '{{ $urlParams['category'] ?? '' }}',
+    category: '{{ $categoryId ?? '' }}',
     categoryName: '{{ $selectedCategoryName }}',
-    condition: '{{ $urlParams['condition'] ?? '' }}',
+    condition: '{{ $conditionId ?? '' }}',
     conditionName: '{{ $selectedConditionName }}',
     price_min: '{{ $urlParams['price_min'] ?? '' }}',
     price_max: '{{ $urlParams['price_max'] ?? '' }}',
@@ -66,29 +78,69 @@ if (!empty($urlParams['condition'])) {
     
     // Update state when URL changes (after form submission)  
     syncFromUrl() {
-        // Don't sync from URL since we already have server-side values
-        // Just ensure the display is updated correctly
-        console.log('Current category:', this.category, 'Name:', this.categoryName);
-        console.log('Current condition:', this.condition, 'Name:', this.conditionName);
+        // Read from URL and update names
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log('Current URL:', window.location.search);
+        console.log('URL params object:', urlParams.toString());
+        
+        this.query = urlParams.get('query') || '';
+        this.city = urlParams.get('city') || '';
+        this.category = urlParams.get('search_category') || urlParams.get('category') || '';
+        this.condition = urlParams.get('condition_id') || urlParams.get('condition') || '';
+        this.price_min = urlParams.get('price_min') || '';
+        this.price_max = urlParams.get('price_max') || '';
+        
+        console.log('Read from URL - category:', this.category, 'condition:', this.condition);
+        console.log('Individual gets - category:', urlParams.get('category'), 'condition:', urlParams.get('condition'));
+        
+        // Get the mapping data
+        const categoryMap = @js(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
+        const conditionMap = @js(\App\Models\ListingCondition::where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
+        
+        console.log('Category map:', categoryMap);
+        console.log('Condition map:', conditionMap);
+        
+        // Update category name
+        if (this.category) {
+            this.categoryName = categoryMap[this.category] || '';
+            console.log('Updated category name:', this.categoryName);
+        } else {
+            this.categoryName = '';
+        }
+        
+        // Update condition name
+        if (this.condition) {
+            this.conditionName = conditionMap[this.condition] || '';
+            console.log('Updated condition name:', this.conditionName);
+        } else {
+            this.conditionName = '';
+        }
+        
+        console.log('Final state - category:', this.category, 'Name:', this.categoryName);
+        console.log('Final state - condition:', this.condition, 'Name:', this.conditionName);
     },
     
     selectCategory(id, name) {
+        console.log('Selecting category:', id, name);
         this.category = id;
         this.categoryName = name;
+        console.log('After selection - category:', this.category, 'categoryName:', this.categoryName);
     },
     
     selectCondition(id, name) {
+        console.log('Selecting condition:', id, name);
         this.condition = id;
         this.conditionName = name;
+        console.log('After selection - condition:', this.condition, 'conditionName:', this.conditionName);
     },
     
     submitSearch() {
-        // Build URL with parameters
+        // Build URL with parameters using correct parameter names
         const params = new URLSearchParams();
         if (this.query) params.set('query', this.query);
         if (this.city) params.set('city', this.city);
-        if (this.category) params.set('category', this.category);
-        if (this.condition) params.set('condition', this.condition);
+        if (this.category) params.set('search_category', this.category); // Changed to match backend
+        if (this.condition) params.set('condition_id', this.condition); // Changed to match backend  
         if (this.price_min) params.set('price_min', this.price_min);
         if (this.price_max) params.set('price_max', this.price_max);
         
@@ -97,7 +149,10 @@ if (!empty($urlParams['condition'])) {
             params.set('show_filters', '1');
         }
         
-        const url = '{{ route('search.index') }}' + (params.toString() ? '?' + params.toString() : '');
+        console.log('Current location:', window.location.href);
+        console.log('Submitting search with params:', params.toString());
+        const url = '{{ route('listings.index') }}' + (params.toString() ? '?' + params.toString() : '');
+        console.log('Going to URL:', url);
         window.location.href = url;
     },
     
