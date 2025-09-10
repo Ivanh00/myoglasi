@@ -164,6 +164,7 @@
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-user text-gray-500 mr-2"></i>
                                 <span class="text-gray-700 font-bold">Prodavac: {{ $auction->seller->name }}</span>
+                                {!! $auction->seller->verified_icon !!}
                             </div>
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-map-marker-alt text-gray-500 mr-2"></i>

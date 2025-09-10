@@ -227,6 +227,7 @@
 
                                         <div class="text-sm text-gray-600 mb-2">
                                             Prodavac: <span class="font-medium">{{ $listing->user->name }}</span>
+                                            {!! $listing->user->verified_icon !!}
                                         </div>
                                     </div>
 
@@ -369,6 +370,7 @@
 
                             <div class="text-sm text-gray-600 mb-3">
                                 Prodavac: {{ $listing->user->name }}
+                                {!! $listing->user->verified_icon !!}
                             </div>
 
                             <div class="flex items-center justify-between mb-3">

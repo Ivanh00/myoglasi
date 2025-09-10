@@ -221,6 +221,7 @@
 
                             <div class="text-sm text-gray-600 mb-3">
                                 Prodavac: {{ $auction->seller->name }}
+                                {!! $auction->seller->verified_icon !!}
                             </div>
 
                             <div class="space-y-2">
@@ -289,6 +290,7 @@
 
                                         <div class="text-sm text-gray-600 mb-2">
                                             Prodavac: <span class="font-medium">{{ $auction->seller->name }}</span>
+                                            {!! $auction->seller->verified_icon !!}
                                         </div>
                                     </div>
 

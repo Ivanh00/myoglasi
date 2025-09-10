@@ -94,6 +94,7 @@
                         <div class="user-info">
                             <div class="user-name">
                                 {{ $conversation['other_user']->name }}
+                                {!! $conversation['other_user']->verified_icon !!}
                                 @if ($conversation['unread_count'] > 0)
                                     <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $conversation['unread_count'] }}</span>
                                 @endif
@@ -174,6 +175,7 @@
                             <div class="flex-1 min-w-0">
                                 <h3 class="text-sm font-semibold text-gray-900 truncate">
                                     {{ $conversation['other_user']->name }}
+                                    {!! $conversation['other_user']->verified_icon !!}
                                 </h3>
                                 <p class="text-xs text-gray-500 truncate">
                                     @if($conversation['listing'])

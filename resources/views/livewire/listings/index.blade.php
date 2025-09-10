@@ -320,6 +320,7 @@
                             @auth
                                 <p class="text-sm font-bold text-gray-700 mb-1">
                                     Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                    @if($listing->user){!! $listing->user->verified_icon !!}@endif
                                     @if ($listing->user && $listing->user->is_banned)
                                         <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
                                     @endif
@@ -426,6 +427,7 @@
                                     @auth
                                         <p class="text-sm font-bold text-gray-700 mb-1">
                                             Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                            @if($listing->user){!! $listing->user->verified_icon !!}@endif
                                             @if ($listing->user && $listing->user->is_banned)
                                                 <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
                                             @endif

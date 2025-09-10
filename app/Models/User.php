@@ -149,6 +149,15 @@ class User extends Authenticatable
         ]);
     }
 
+    // Simple verified icon for inline display
+    public function getVerifiedIconAttribute()
+    {
+        if ($this->verification_status === 'verified') {
+            return '<i class="fas fa-user-check text-green-600 ml-1" title="Verifikovan korisnik"></i>';
+        }
+        return '';
+    }
+
     // Ostale metode ostaju iste...
     public function listings()
     {

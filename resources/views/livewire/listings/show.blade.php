@@ -152,6 +152,7 @@
                             <div class="flex items-center mb-1">
                                 <i class="fas fa-user text-gray-500 mr-2"></i>
                                 <span class="text-gray-700 font-bold">Prodavac: {{ $listing->user->name }}</span>
+                                @if($listing->user){!! $listing->user->verified_icon !!}@endif
                                 @if($listing->user->is_banned)
                                     <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
                                 @endif
@@ -375,6 +376,7 @@
                     <div class="flex-1">
                         <h3 class="font-medium text-gray-900 text-lg">
                             {{ $listing->user->name }}
+                            {!! $listing->user->verified_icon !!}
                             @if($listing->user->is_banned)
                                 <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
                             @endif
