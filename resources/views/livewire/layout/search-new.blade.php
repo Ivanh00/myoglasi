@@ -26,15 +26,6 @@ if (!empty($conditionId)) {
     $selectedConditionName = $selectedCond ? $selectedCond->name : '';
 }
 
-// Debug output (remove after testing)
-if (app()->environment('local')) {
-    $debugCategory = $urlParams['category'] ?? 'none';
-    $debugCondition = $urlParams['condition'] ?? 'none';
-    echo "<!-- DEBUG: URL Params: " . json_encode($urlParams) . " -->";
-    echo "<!-- DEBUG: Selected Category: {$debugCategory} -> {$selectedCategoryName} -->";
-    echo "<!-- DEBUG: Selected Condition: {$debugCondition} -> {$selectedConditionName} -->";
-    echo "<!-- DEBUG: Should Show Filters: " . ($shouldShowFilters ? 'true' : 'false') . " -->";
-}
 @endphp
 
 <div class="relative flex-1 max-w-4xl mx-4" x-data="{
@@ -80,8 +71,6 @@ if (app()->environment('local')) {
     syncFromUrl() {
         // Read from URL and update names
         const urlParams = new URLSearchParams(window.location.search);
-        console.log('Current URL:', window.location.search);
-        console.log('URL params object:', urlParams.toString());
         
         this.query = urlParams.get('query') || '';
         this.city = urlParams.get('city') || '';
@@ -90,20 +79,13 @@ if (app()->environment('local')) {
         this.price_min = urlParams.get('price_min') || '';
         this.price_max = urlParams.get('price_max') || '';
         
-        console.log('Read from URL - category:', this.category, 'condition:', this.condition);
-        console.log('Individual gets - category:', urlParams.get('category'), 'condition:', urlParams.get('condition'));
-        
         // Get the mapping data
         const categoryMap = @js(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
         const conditionMap = @js(\App\Models\ListingCondition::where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
         
-        console.log('Category map:', categoryMap);
-        console.log('Condition map:', conditionMap);
-        
         // Update category name
         if (this.category) {
             this.categoryName = categoryMap[this.category] || '';
-            console.log('Updated category name:', this.categoryName);
         } else {
             this.categoryName = '';
         }
@@ -111,27 +93,19 @@ if (app()->environment('local')) {
         // Update condition name
         if (this.condition) {
             this.conditionName = conditionMap[this.condition] || '';
-            console.log('Updated condition name:', this.conditionName);
         } else {
             this.conditionName = '';
         }
-        
-        console.log('Final state - category:', this.category, 'Name:', this.categoryName);
-        console.log('Final state - condition:', this.condition, 'Name:', this.conditionName);
     },
     
     selectCategory(id, name) {
-        console.log('Selecting category:', id, name);
         this.category = id;
         this.categoryName = name;
-        console.log('After selection - category:', this.category, 'categoryName:', this.categoryName);
     },
     
     selectCondition(id, name) {
-        console.log('Selecting condition:', id, name);
         this.condition = id;
         this.conditionName = name;
-        console.log('After selection - condition:', this.condition, 'conditionName:', this.conditionName);
     },
     
     submitSearch() {
@@ -149,10 +123,7 @@ if (app()->environment('local')) {
             params.set('show_filters', '1');
         }
         
-        console.log('Current location:', window.location.href);
-        console.log('Submitting search with params:', params.toString());
         const url = '{{ route('listings.index') }}' + (params.toString() ? '?' + params.toString() : '');
-        console.log('Going to URL:', url);
         window.location.href = url;
     },
     
