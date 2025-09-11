@@ -123,7 +123,7 @@ Route::get('/profile', function () {
 
     
 
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard', \App\Livewire\Dashboard::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
