@@ -91,18 +91,31 @@ class Balance extends Component
             return;
         }
         
-        $this->validate([
-            'transferAmount' => 'required|numeric|min:10|max:' . auth()->user()->balance,
-            'selectedRecipient' => 'required',
-            'transferNote' => 'nullable|string|max:255'
-        ], [
-            'transferAmount.required' => 'Unesite iznos za transfer.',
-            'transferAmount.numeric' => 'Iznos mora biti broj.',
-            'transferAmount.min' => 'Minimalni transfer je 10 RSD.',
-            'transferAmount.max' => 'Nemate dovoljno kredita za ovaj transfer. Vaš balans: ' . number_format(auth()->user()->balance, 0, ',', '.') . ' RSD.',
-            'selectedRecipient.required' => 'Izaberite korisnika kome šaljete kredit.',
-            'transferNote.max' => 'Napomena može imati maksimalno 255 karaktera.'
-        ]);
+        // Custom validation with better error messages
+        if (empty($this->transferAmount) || !is_numeric($this->transferAmount)) {
+            $this->addError('transferAmount', 'Unesite valjan iznos za transfer.');
+            return;
+        }
+        
+        if ($this->transferAmount < 10) {
+            $this->addError('transferAmount', 'Minimalni transfer je 10 RSD.');
+            return;
+        }
+        
+        if ($this->transferAmount > auth()->user()->balance) {
+            $this->addError('transferAmount', 'Nemate dovoljno kredita za ovaj transfer. Vaš balans: ' . number_format(auth()->user()->balance, 0, ',', '.') . ' RSD, a pokušavate da pošaljete: ' . number_format($this->transferAmount, 0, ',', '.') . ' RSD.');
+            return;
+        }
+        
+        if (!$this->selectedRecipient) {
+            $this->addError('selectedRecipient', 'Izaberite korisnika kome šaljete kredit.');
+            return;
+        }
+        
+        if ($this->transferNote && strlen($this->transferNote) > 255) {
+            $this->addError('transferNote', 'Napomena može imati maksimalno 255 karaktera.');
+            return;
+        }
 
         try {
             \DB::transaction(function () {
@@ -148,6 +161,14 @@ class Balance extends Component
                     'is_system_message' => true,
                     'is_read' => false
                 ]);
+
+                // Dispatch real-time notification event
+                event(new \App\Events\CreditTransferReceived(
+                    $recipient,
+                    $sender,
+                    $amount,
+                    $this->transferNote
+                ));
             });
 
             session()->flash('success', "Uspešno ste poslali " . number_format($this->transferAmount, 0, ',', '.') . " RSD korisniku {$this->selectedRecipient->name}!");

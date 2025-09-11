@@ -1,4 +1,29 @@
 <!-- Start of Selection -->
+<!-- Credit Received Toast Notification -->
+@if(session()->has('credit_received'))
+    <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)" 
+         class="fixed top-4 right-4 z-[9999] bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg max-w-sm">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <i class="fas fa-coins text-lg"></i>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm font-medium">
+                    Kredit primljen!
+                </p>
+                <p class="text-xs opacity-90">
+                    {{ session('credit_received')['sender_name'] }} vam je poslao {{ session('credit_received')['amount'] }}
+                </p>
+            </div>
+            <div class="ml-4">
+                <button @click="show = false" class="text-green-200 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+@endif
+
 <nav class="bg-white shadow-lg sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between h-16">
@@ -71,26 +96,14 @@
                                     </x-dropdown-link>
                                     <x-dropdown-link href="{{ route('messages.inbox') }}">
                                         Poruke
-                                        @php
-                                            $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())
-                                                ->where('is_read', false)
-                                                ->where('is_system_message', false)
-                                                ->count();
-                                        @endphp
-                                        @if ($unreadCount > 0)
-                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $unreadCount }}</span>
+                                        @if ($this->unreadMessagesCount > 0)
+                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadMessagesCount }}</span>
                                         @endif
                                     </x-dropdown-link>
                                     <x-dropdown-link href="{{ route('notifications.index') }}">
                                         Obaveštenja
-                                        @php
-                                            $unreadNotifications = \App\Models\Message::where('receiver_id', auth()->id())
-                                                ->where('is_system_message', true)
-                                                ->where('is_read', false)
-                                                ->count();
-                                        @endphp
-                                        @if ($unreadNotifications > 0)
-                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $unreadNotifications }}</span>
+                                        @if ($this->unreadNotificationsCount > 0)
+                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadNotificationsCount }}</span>
                                         @endif
                                     </x-dropdown-link>
                                 @else
@@ -114,26 +127,14 @@
                                     </x-dropdown-link>
                                     <x-dropdown-link href="{{ route('messages.inbox') }}">
                                         Poruke
-                                        @php
-                                            $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())
-                                                ->where('is_read', false)
-                                                ->where('is_system_message', false)
-                                                ->count();
-                                        @endphp
-                                        @if ($unreadCount > 0)
-                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $unreadCount }}</span>
+                                        @if ($this->unreadMessagesCount > 0)
+                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadMessagesCount }}</span>
                                         @endif
                                     </x-dropdown-link>
                                     <x-dropdown-link href="{{ route('notifications.index') }}">
                                         Obaveštenja
-                                        @php
-                                            $unreadNotifications = \App\Models\Message::where('receiver_id', auth()->id())
-                                                ->where('is_system_message', true)
-                                                ->where('is_read', false)
-                                                ->count();
-                                        @endphp
-                                        @if ($unreadNotifications > 0)
-                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $unreadNotifications }}</span>
+                                        @if ($this->unreadNotificationsCount > 0)
+                                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadNotificationsCount }}</span>
                                         @endif
                                     </x-dropdown-link>
                                     
@@ -278,39 +279,21 @@
                     <a href="{{ route('messages.inbox') }}"
                         class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Poruke
-                        @auth
-                            @php
-                                // Samo regularne poruke (bez obaveštenja)
-                                $unreadMessagesCount = \App\Models\Message::where('receiver_id', auth()->id())
-                                    ->where('is_read', false)
-                                    ->where('is_system_message', false)
-                                    ->count();
-                            @endphp
-                            @if ($unreadMessagesCount > 0)
-                                <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
-                                    {{ $unreadMessagesCount }}
-                                </span>
-                            @endif
-                        @endauth
+                        @if ($this->unreadMessagesCount > 0)
+                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
+                                {{ $this->unreadMessagesCount }}
+                            </span>
+                        @endif
                     </a>
 
                     <a href="{{ route('notifications.index') }}"
                         class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Obaveštenja
-                        @auth
-                            @php
-                                // Samo obaveštenja
-                                $unreadNotificationsCount = \App\Models\Message::where('receiver_id', auth()->id())
-                                    ->where('is_read', false)
-                                    ->where('is_system_message', true)
-                                    ->count();
-                            @endphp
-                            @if ($unreadNotificationsCount > 0)
-                                <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
-                                    {{ $unreadNotificationsCount }}
-                                </span>
-                            @endif
-                        @endauth
+                        @if ($this->unreadNotificationsCount > 0)
+                            <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
+                                {{ $this->unreadNotificationsCount }}
+                            </span>
+                        @endif
                     </a>
                     
                     <a href="{{ route('ratings.my') }}"
