@@ -92,44 +92,20 @@ class Bid extends Model
     // Process auto-bids when a new manual bid is placed
     public static function processAutoBids($auction, $excludeUserId = null)
     {
-        // Prevent multiple simultaneous auto-bid processing
-        $cacheKey = "auto_bid_processing_{$auction->id}";
-        if (\Cache::has($cacheKey)) {
-            if (app()->environment('local')) {
-                \Log::info("Auto-bid processing already in progress for auction {$auction->id}, skipping");
-            }
-            return;
-        }
+        // Get fresh auction data
+        $auction = $auction->fresh();
         
-        \Cache::put($cacheKey, true, 30); // Lock for 30 seconds to prevent double calls
-        
-        try {
-            // Debug logging
-            if (app()->environment('local')) {
-                \Log::info("ProcessAutoBids called for auction {$auction->id}, excluding user {$excludeUserId}");
-            }
-            
-            // Get fresh auction data
-            $auction = $auction->fresh();
-            
-            // Get active auto-bids for this auction (excluding the user who just bid)
-            $autoBids = self::where('auction_id', $auction->id)
-                ->where('is_auto_bid', true)
-                ->whereNotNull('max_bid')
-                ->when($excludeUserId, function($query, $userId) {
-                    return $query->where('user_id', '!=', $userId);
-                })
-                ->whereRaw('max_bid > ?', [$auction->current_price])
-                ->orderBy('max_bid', 'desc') // Highest max bid first
-                ->orderBy('created_at', 'asc') // Earlier auto-bid wins ties
-                ->get();
-        } finally {
-            \Cache::forget($cacheKey);
-        }
-            
-        if (app()->environment('local')) {
-            \Log::info("Found " . $autoBids->count() . " eligible auto-bids");
-        }
+        // Get active auto-bids for this auction (excluding the user who just bid)
+        $autoBids = self::where('auction_id', $auction->id)
+            ->where('is_auto_bid', true)
+            ->whereNotNull('max_bid')
+            ->when($excludeUserId, function($query, $userId) {
+                return $query->where('user_id', '!=', $userId);
+            })
+            ->whereRaw('max_bid > ?', [$auction->current_price])
+            ->orderBy('max_bid', 'desc') // Highest max bid first
+            ->orderBy('created_at', 'asc') // Earlier auto-bid wins ties
+            ->get();
 
         // Find who should win and calculate step-by-step battle resolution
         if ($autoBids->count() > 0) {
@@ -152,14 +128,12 @@ class Bid extends Model
                 $winningAmount = $auction->current_price + $auction->bid_increment;
                 
                 if (app()->environment('local')) {
-                    \Log::info("Single auto-bid: user_{$winnerAutoBid->user_id} bids {$auction->current_price} + {$auction->bid_increment} = {$winningAmount}");
                 }
             }
             
             // Check if winner can afford the winning amount and it's higher than current
             if ($winnerAutoBid->max_bid >= $winningAmount && $winningAmount > $auction->current_price) {
                 if (app()->environment('local')) {
-                    \Log::info("Executing auto-bid victory for user_{$winnerAutoBid->user_id}: {$winningAmount} RSD");
                 }
                 
                 \DB::transaction(function () use ($auction, $winnerAutoBid, $winningAmount) {

@@ -43,10 +43,6 @@ class Show extends Component
                 $this->maxBidAmount = $existingAutoBid->max_bid;
             }
             
-            // Debug info (remove after testing)
-            if (app()->environment('local')) {
-                \Log::info('Auto-bid check for user ' . auth()->id() . ': ' . ($existingAutoBid ? 'Found max=' . $existingAutoBid->max_bid : 'Not found'));
-            }
         }
     }
 
@@ -87,10 +83,8 @@ class Show extends Component
             // Send notification to listing owner
             $this->sendBidNotificationToOwner();
             
-            // Trigger auto-bid response for manual bids only
-            if (!$this->isAutoBid) {
-                Bid::processAutoBids($this->auction->fresh(), auth()->id());
-            }
+            // Trigger auto-bid response to manual bids (separate from auto-bid setup)
+            $this->processManualBidResponse();
 
             // Refresh auction data
             $this->auction = $this->auction->fresh(['bids.user']);
@@ -127,6 +121,14 @@ class Show extends Component
         session()->flash('info', 'Automatska ponuda je deaktivirana. Istorija ponuda je očuvana.');
     }
     
+    private function processManualBidResponse()
+    {
+        // Only respond to manual bids, not auto-bid setup
+        if (!$this->isAutoBid) {
+            Bid::processAutoBids($this->auction->fresh(), auth()->id());
+        }
+    }
+    
     public function updatedMaxBidAmount()
     {
         // Removed auto-save to prevent double calls
@@ -142,10 +144,6 @@ class Show extends Component
     
     public function setAutoBid()
     {
-        // Debug info
-        if (app()->environment('local')) {
-            \Log::info('SetAutoBid called - User: ' . (auth()->id() ?? 'not logged in') . ', isAutoBid: ' . ($this->isAutoBid ? 'true' : 'false') . ', maxBidAmount: ' . ($this->maxBidAmount ?: 'empty'));
-        }
         
         // Manual method to set auto-bid
         if ($this->isAutoBid && $this->maxBidAmount) {
