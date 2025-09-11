@@ -57,6 +57,56 @@ class Bid extends Model
             throw new \Exception('Ponuda mora biti najmanje ' . number_format($auction->minimum_bid, 0, ',', '.') . ' RSD.');
         }
 
+        // Check auto-bid priority for manual bids
+        if (!$isAutoBid) {
+            $existingAutoBids = self::where('auction_id', $auctionId)
+                ->where('is_auto_bid', true)
+                ->whereNotNull('max_bid')
+                ->get();
+                
+            $highestAutoBidMax = $existingAutoBids->max('max_bid');
+            
+            if ($highestAutoBidMax && $amount <= $highestAutoBidMax) {
+                // Manual bid conflicts with auto-bid - auto-bid wins at their max or manual bid amount
+                $autoBidWinner = $existingAutoBids->where('max_bid', $highestAutoBidMax)->first();
+                $autoWinAmount = min($amount, $autoBidWinner->max_bid);
+                
+                \DB::transaction(function () use ($auction, $autoBidWinner, $autoWinAmount, $userId, $amount) {
+                    // First, create the manual bid (shows in history)
+                    self::create([
+                        'auction_id' => $auction->id,
+                        'user_id' => $userId,
+                        'amount' => $amount,
+                        'is_winning' => false, // Won't win due to auto-bid
+                        'is_auto_bid' => false,
+                        'max_bid' => null,
+                        'ip_address' => request()->ip()
+                    ]);
+                    
+                    // Then, auto-bid wins
+                    $auction->bids()->update(['is_winning' => false]);
+                    
+                    self::create([
+                        'auction_id' => $auction->id,
+                        'user_id' => $autoBidWinner->user_id,
+                        'amount' => $autoWinAmount,
+                        'is_winning' => true,
+                        'is_auto_bid' => true,
+                        'max_bid' => $autoBidWinner->max_bid,
+                        'ip_address' => $autoBidWinner->ip_address
+                    ]);
+
+                    // Update auction  
+                    $auction->update([
+                        'current_price' => $autoWinAmount,
+                        'total_bids' => $auction->total_bids + 2 // Both bids count
+                    ]);
+                });
+                
+                return true;
+            }
+        }
+
         \DB::transaction(function () use ($auction, $userId, $amount, $isAutoBid, $maxBid) {
             // Mark previous winning bid as not winning
             $auction->bids()->where('is_winning', true)->update(['is_winning' => false]);
@@ -118,17 +168,14 @@ class Bid extends Model
             if ($otherAutoBids->count() > 0) {
                 // Multiple auto-bids: winner pays (second_highest_max + increment) 
                 $secondHighestMax = $otherAutoBids->sortByDesc('max_bid')->first()->max_bid;
-                $winningAmount = $secondHighestMax + $auction->bid_increment;
+                $calculatedAmount = $secondHighestMax + $auction->bid_increment;
                 
-                if (app()->environment('local')) {
-                    \Log::info("Auto-bid battle: Winner user_{$winnerAutoBid->user_id} (max:{$winnerAutoBid->max_bid}) beats others, pays: {$secondHighestMax} + {$auction->bid_increment} = {$winningAmount}");
-                }
+                // Never exceed winner's maximum bid amount
+                $winningAmount = min($calculatedAmount, $winnerAutoBid->max_bid);
             } else {
-                // Single auto-bid: just outbid current price
-                $winningAmount = $auction->current_price + $auction->bid_increment;
-                
-                if (app()->environment('local')) {
-                }
+                // Single auto-bid: outbid current price but don't exceed max
+                $calculatedAmount = $auction->current_price + $auction->bid_increment;
+                $winningAmount = min($calculatedAmount, $winnerAutoBid->max_bid);
             }
             
             // Check if winner can afford the winning amount and it's higher than current

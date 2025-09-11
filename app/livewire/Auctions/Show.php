@@ -54,6 +54,8 @@ class Show extends Component
             return;
         }
         
+        // Auto-bid priority logic is now handled in Bid::placeBid() method
+
         $this->validate([
             'bidAmount' => 'required|numeric|min:' . $this->auction->minimum_bid
         ]);
