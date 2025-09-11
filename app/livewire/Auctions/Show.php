@@ -52,6 +52,12 @@ class Show extends Component
 
     public function placeBid()
     {
+        // Prevent manual bidding when auto-bid is enabled
+        if ($this->isAutoBid) {
+            session()->flash('error', 'Ne možete ručno licitirati kada je uključena automatska ponuda. Koristite "Postavi automatsku ponudu" dugme.');
+            return;
+        }
+        
         $this->validate([
             'bidAmount' => 'required|numeric|min:' . $this->auction->minimum_bid
         ]);

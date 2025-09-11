@@ -172,9 +172,10 @@
 
                                     <div class="space-y-3">
                                         <button type="button" wire:click="placeBid"
-                                            class="w-full px-4 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors">
+                                            class="w-full px-4 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors"
+                                            :disabled="$wire.isAutoBid">
                                             <i class="fas fa-gavel mr-2"></i>
-                                            Pošaljite ponudu
+                                            {{ $isAutoBid ? 'Koristite "Postavi automatsku ponudu" dugme' : 'Pošaljite ponudu' }}
                                         </button>
 
                                         @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
