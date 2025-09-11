@@ -176,9 +176,15 @@ class Show extends Component
             $highestCompetitorMax = $existingAutoBids->max('max_bid');
             $minimumToWin = $highestCompetitorMax + $this->auction->bid_increment;
             
-            if ($this->maxBidAmount < $minimumToWin) {
-                session()->flash('warning', 'Vaša maksimalna ponuda (' . number_format($this->maxBidAmount, 0, ',', '.') . ' RSD) je premala za pobedi. Potrebno je najmanje ' . number_format($minimumToWin, 0, ',', '.') . ' RSD da pobedite konkurenciju.');
+            // Only show warning if user can't improve their position at all
+            if ($this->maxBidAmount <= $this->auction->current_price) {
+                session()->flash('warning', 'Vaša maksimalna ponuda (' . number_format($this->maxBidAmount, 0, ',', '.') . ' RSD) mora biti veća od trenutne cene (' . number_format($this->auction->current_price, 0, ',', '.') . ' RSD).');
                 return;
+            }
+            
+            // Allow auto-bid even if it can't win - it will trigger competitor's response
+            if ($this->maxBidAmount < $minimumToWin) {
+                session()->flash('info', 'Vaša ponuda će pokrenuti auto-bid konkurencije. Konkurent će verovatno prebiti vašu ponudu do ' . number_format($minimumToWin, 0, ',', '.') . ' RSD.');
             }
         }
 
@@ -192,53 +198,22 @@ class Show extends Component
         $firstAutoBidAmount = $this->auction->current_price + $this->auction->bid_increment;
         
         try {
-            // Calculate optimal bid amount directly without placeholder
-            $existingAutoBids = Bid::where('auction_id', $this->auction->id)
-                ->where('user_id', '!=', auth()->id())
-                ->where('is_auto_bid', true)
-                ->whereNotNull('max_bid')
-                ->get();
-                
-            if ($existingAutoBids->count() > 0) {
-                // Find highest competing max bid
-                $highestCompetitorMax = $existingAutoBids->max('max_bid');
-                
-                // My bid amount = competitor max + increment (if I can afford it)
-                $myOptimalBid = $highestCompetitorMax + $this->auction->bid_increment;
-                
-                if ($this->maxBidAmount >= $myOptimalBid) {
-                    $finalBidAmount = $myOptimalBid;
-                } else {
-                    // I can't beat competitor, bid what I can
-                    $finalBidAmount = $this->maxBidAmount;
-                }
-            } else {
-                // No competitors, simple increment
-                $finalBidAmount = $this->auction->current_price + $this->auction->bid_increment;
-            }
+            // First, create auto-bid entry  
+            $autoBidEntry = Bid::create([
+                'auction_id' => $this->auction->id,
+                'user_id' => auth()->id(),
+                'amount' => $this->auction->current_price, // Placeholder
+                'is_winning' => false,
+                'is_auto_bid' => true,
+                'max_bid' => $this->maxBidAmount,
+                'ip_address' => request()->ip()
+            ]);
             
-            // Create single winning auto-bid directly
-            \DB::transaction(function () use ($finalBidAmount) {
-                // Mark previous bids as not winning  
-                $this->auction->bids()->update(['is_winning' => false]);
-                
-                // Create my winning auto-bid
-                Bid::create([
-                    'auction_id' => $this->auction->id,
-                    'user_id' => auth()->id(),
-                    'amount' => $finalBidAmount,
-                    'is_winning' => true,
-                    'is_auto_bid' => true,
-                    'max_bid' => $this->maxBidAmount,
-                    'ip_address' => request()->ip()
-                ]);
-                
-                // Update auction
-                $this->auction->update([
-                    'current_price' => $finalBidAmount,
-                    'total_bids' => $this->auction->total_bids + 1
-                ]);
-            });
+            // Wait a moment for database commit
+            usleep(50000); // 50ms delay
+            
+            // Now trigger competitive auto-bid resolution
+            Bid::processAutoBids($this->auction->fresh(), null);
             
             // Refresh auction data
             $this->auction = $this->auction->fresh(['bids.user']);
