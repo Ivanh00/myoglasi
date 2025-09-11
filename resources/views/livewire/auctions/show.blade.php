@@ -262,7 +262,7 @@
             
             @if($auction->bids->count() > 0)
                 <div class="space-y-3 max-h-96 overflow-y-auto">
-                    @foreach($auction->bids()->latest()->take(10)->get() as $bid)
+                    @foreach($auction->bids()->orderBy('amount', 'desc')->orderBy('created_at', 'desc')->take(10)->get() as $bid)
                         <div class="flex items-center justify-between p-3 {{ $bid->is_winning ? 'bg-green-50 border border-green-200' : 'bg-gray-50' }} rounded-lg">
                             <div class="flex items-center">
                                 <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">

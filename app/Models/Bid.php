@@ -82,10 +82,12 @@ class Bid extends Model
             if ($auction->needsExtension()) {
                 $auction->extendAuction();
             }
-            
-            // Process auto-bids after this bid
-            self::processAutoBids($auction, $userId);
         });
+        
+        // Process auto-bids AFTER transaction (separate transaction)
+        if (!$isAutoBid) { // Only trigger auto-bids for manual bids, not auto-bids
+            self::processAutoBids($auction->fresh(), $userId);
+        }
 
         return true;
     }
@@ -93,6 +95,11 @@ class Bid extends Model
     // Process auto-bids when a new manual bid is placed
     public static function processAutoBids($auction, $excludeUserId = null)
     {
+        // Debug logging
+        if (app()->environment('local')) {
+            \Log::info("ProcessAutoBids called for auction {$auction->id}, excluding user {$excludeUserId}");
+        }
+        
         // Get active auto-bids for this auction (excluding the user who just bid)
         $autoBids = self::where('auction_id', $auction->id)
             ->where('is_auto_bid', true)
@@ -104,30 +111,37 @@ class Bid extends Model
             ->orderBy('max_bid', 'desc') // Highest max bid first
             ->orderBy('created_at', 'asc') // Earlier auto-bid wins ties
             ->get();
+            
+        if (app()->environment('local')) {
+            \Log::info("Found " . $autoBids->count() . " eligible auto-bids");
+        }
 
         foreach ($autoBids as $autoBid) {
             // Calculate next bid amount
             $nextBidAmount = $auction->current_price + $auction->bid_increment;
             
+            if (app()->environment('local')) {
+                \Log::info("Auto-bid candidate - User {$autoBid->user_id}, Max: {$autoBid->max_bid}, Next bid: {$nextBidAmount}");
+            }
+            
             // Check if auto-bidder can afford this bid
             if ($autoBid->max_bid >= $nextBidAmount) {
+                if (app()->environment('local')) {
+                    \Log::info("Activating auto-bid for user {$autoBid->user_id}: {$nextBidAmount} RSD");
+                }
+                
                 // Place automatic bid
                 \DB::transaction(function () use ($auction, $autoBid, $nextBidAmount) {
-                    // Mark previous winning bid as not winning
-                    $auction->bids()->where('is_winning', true)->update(['is_winning' => false]);
+                    // Mark ALL previous bids as not winning
+                    $auction->bids()->update(['is_winning' => false]);
 
-                    // Create automatic bid
-                    Bid::create([
-                        'auction_id' => $auction->id,
-                        'user_id' => $autoBid->user_id,
+                    // Update existing auto-bid record with new amount
+                    $autoBid->update([
                         'amount' => $nextBidAmount,
-                        'is_winning' => true,
-                        'is_auto_bid' => true,
-                        'max_bid' => $autoBid->max_bid,
-                        'ip_address' => $autoBid->ip_address
+                        'is_winning' => true
                     ]);
 
-                    // Update auction
+                    // Update auction current price
                     $auction->update([
                         'current_price' => $nextBidAmount,
                         'total_bids' => $auction->total_bids + 1

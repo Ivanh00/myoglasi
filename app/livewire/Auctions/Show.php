@@ -80,6 +80,11 @@ class Show extends Component
             
             // Send notification to listing owner
             $this->sendBidNotificationToOwner();
+            
+            // Trigger auto-bids after manual bid
+            if (!$this->isAutoBid) {
+                Bid::processAutoBids($this->auction->fresh(), auth()->id());
+            }
 
             // Refresh auction data
             $this->auction = $this->auction->fresh(['bids.user']);
