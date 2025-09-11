@@ -7,6 +7,14 @@ use Livewire\Component;
 class Balance extends Component
 {
     protected $listeners = ['transactionUpdated' => 'handleTransactionUpdate'];
+    
+    // Credit transfer properties
+    public $showTransferModal = false;
+    public $transferAmount = '';
+    public $recipientName = '';
+    public $transferNote = '';
+    public $selectedRecipient = null;
+    public $userSearchResults = [];
 
     public function handleTransactionUpdate($userId)
     {
@@ -45,6 +53,111 @@ class Balance extends Component
         return auth()->user()->listings()
             ->where('status', 'active')
             ->count();
+    }
+
+    // Credit transfer methods
+    public function openTransferModal()
+    {
+        $this->resetTransferForm();
+        $this->showTransferModal = true;
+    }
+    
+    public function updatedRecipientName()
+    {
+        if (strlen($this->recipientName) >= 2) {
+            $this->userSearchResults = \App\Models\User::where('name', 'like', '%' . $this->recipientName . '%')
+                ->where('id', '!=', auth()->id())
+                ->where('is_banned', false)
+                ->limit(5)
+                ->get(['id', 'name', 'email']);
+        } else {
+            $this->userSearchResults = [];
+        }
+    }
+    
+    public function selectRecipient($userId)
+    {
+        $user = \App\Models\User::find($userId);
+        $this->selectedRecipient = $user;
+        $this->recipientName = $user->name;
+        $this->userSearchResults = [];
+    }
+    
+    public function transferCredit()
+    {
+        $this->validate([
+            'transferAmount' => 'required|numeric|min:10|max:' . auth()->user()->balance,
+            'selectedRecipient' => 'required',
+            'transferNote' => 'nullable|string|max:255'
+        ], [
+            'transferAmount.required' => 'Unesite iznos za transfer.',
+            'transferAmount.min' => 'Minimalni transfer je 10 RSD.',
+            'transferAmount.max' => 'Nemate dovoljno kredita za ovaj transfer.',
+            'selectedRecipient.required' => 'Izaberite korisnika kome šaljete kredit.'
+        ]);
+
+        try {
+            \DB::transaction(function () {
+                $sender = auth()->user();
+                $recipient = $this->selectedRecipient;
+                $amount = $this->transferAmount;
+
+                // Deduct from sender
+                $sender->decrement('balance', $amount);
+                
+                // Add to recipient  
+                $recipient->increment('balance', $amount);
+
+                // Create transaction records
+                \App\Models\Transaction::create([
+                    'user_id' => $sender->id,
+                    'type' => 'credit_transfer_sent',
+                    'amount' => -$amount,
+                    'status' => 'completed',
+                    'description' => "Transfer kredita korisniku {$recipient->name}",
+                    'reference_number' => 'TRF-' . now()->timestamp,
+                    'notes' => $this->transferNote ?: null
+                ]);
+
+                \App\Models\Transaction::create([
+                    'user_id' => $recipient->id,
+                    'type' => 'credit_transfer_received',
+                    'amount' => $amount,
+                    'status' => 'completed',
+                    'description' => "Primljen kredit od korisnika {$sender->name}",
+                    'reference_number' => 'TRF-' . now()->timestamp,
+                    'notes' => $this->transferNote ?: null
+                ]);
+
+                // Send notification to recipient
+                \App\Models\Message::create([
+                    'sender_id' => 1, // System
+                    'receiver_id' => $recipient->id,
+                    'listing_id' => null,
+                    'message' => "Primili ste kredit od korisnika {$sender->name}!\n\nIznos: " . number_format($amount, 0, ',', '.') . " RSD" . 
+                                ($this->transferNote ? "\nNapomena: {$this->transferNote}" : ''),
+                    'subject' => 'Kredit primljen',
+                    'is_system_message' => true,
+                    'is_read' => false
+                ]);
+            });
+
+            session()->flash('success', "Uspešno ste poslali " . number_format($this->transferAmount, 0, ',', '.') . " RSD korisniku {$this->selectedRecipient->name}!");
+            $this->resetTransferForm();
+            $this->showTransferModal = false;
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri transferu kredita: ' . $e->getMessage());
+        }
+    }
+    
+    private function resetTransferForm()
+    {
+        $this->transferAmount = '';
+        $this->recipientName = '';
+        $this->transferNote = '';
+        $this->selectedRecipient = null;
+        $this->userSearchResults = [];
     }
 
     public function render()

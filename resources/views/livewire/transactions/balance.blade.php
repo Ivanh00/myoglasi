@@ -23,6 +23,12 @@
                         <i class="fas fa-calendar-alt mr-2"></i>
                         Vaš plan
                     </a>
+                    
+                    <button wire:click="openTransferModal"
+                        class="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
+                        <i class="fas fa-exchange-alt mr-2"></i>
+                        Podeli kredit
+                    </button>
                 </div>
             </div>
         </div>
@@ -162,4 +168,122 @@
             @endif
         </div>
     </div>
+
+    <!-- Credit Transfer Modal -->
+    @if($showTransferModal)
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+                <div class="mt-3">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <i class="fas fa-exchange-alt text-purple-600 mr-2"></i>
+                            Podeli kredit
+                        </h3>
+                        <button wire:click="$set('showTransferModal', false)" 
+                            class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Current Balance Info -->
+                    <div class="bg-blue-50 p-3 rounded-lg mb-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-wallet text-blue-600 mr-2"></i>
+                            <span class="text-blue-900 font-medium">
+                                Vaš trenutni balans: {{ number_format(auth()->user()->balance, 0, ',', '.') }} RSD
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Transfer Form -->
+                    <form wire:submit.prevent="transferCredit">
+                        <div class="space-y-4">
+                            <!-- Recipient Search -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Kome šaljete kredit?</label>
+                                <div class="relative">
+                                    <input type="text" wire:model.live="recipientName" 
+                                        placeholder="Ukucajte ime korisnika..."
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                                    
+                                    <!-- Search Results -->
+                                    @if(!empty($userSearchResults))
+                                        <div class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-40 overflow-y-auto">
+                                            @foreach($userSearchResults as $user)
+                                                <button type="button" wire:click="selectRecipient({{ $user->id }})"
+                                                    class="w-full text-left px-3 py-2 hover:bg-purple-50 flex items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white text-xs mr-3">
+                                                        {{ strtoupper(substr($user->name, 0, 1)) }}
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium">{{ $user->name }}</div>
+                                                        <div class="text-xs text-gray-500">{{ $user->email }}</div>
+                                                    </div>
+                                                </button>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                                
+                                <!-- Selected Recipient -->
+                                @if($selectedRecipient)
+                                    <div class="mt-2 p-2 bg-green-50 border border-green-200 rounded flex items-center">
+                                        <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                                        <span class="text-green-900">Izabran: {{ $selectedRecipient->name }}</span>
+                                        <button type="button" wire:click="$set('selectedRecipient', null)"
+                                            class="ml-auto text-green-600 hover:text-green-800">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                @endif
+                                
+                                @error('selectedRecipient') 
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p> 
+                                @enderror
+                            </div>
+
+                            <!-- Transfer Amount -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Iznos za transfer</label>
+                                <input type="number" wire:model="transferAmount" 
+                                    min="10" max="{{ auth()->user()->balance }}" step="10"
+                                    placeholder="Unesite iznos u RSD"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                                @error('transferAmount') 
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p> 
+                                @enderror
+                            </div>
+
+                            <!-- Optional Note -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Napomena (opciono)</label>
+                                <textarea wire:model="transferNote" rows="2" 
+                                    placeholder="Razlog transfer-a ili poruka..."
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"></textarea>
+                                @error('transferNote') 
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p> 
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Modal Actions -->
+                        <div class="flex items-center justify-end space-x-3 mt-6">
+                            <button type="button" wire:click="$set('showTransferModal', false)"
+                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                                Otkaži
+                            </button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Pošalji kredit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
