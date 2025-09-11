@@ -217,8 +217,8 @@ class Settings extends Component
             'promotionHighlightedDays' => 'required|integer|min:1|max:365',
             'promotionAutoRefreshPrice' => 'required|integer|min:1|max:10000',
             'promotionAutoRefreshDays' => 'required|integer|min:1|max:365',
-            'promotionLargeImagePrice' => 'required|integer|min:1|max:10000',
-            'promotionLargeImageDays' => 'required|integer|min:1|max:365',
+            'promotionDoubleImagesPrice' => 'required|integer|min:1|max:10000',
+            'promotionDoubleImagesDays' => 'required|integer|min:1|max:365',
             'promotionExtendedDurationPrice' => 'required|integer|min:1|max:10000',
             'promotionExtendedDurationDays' => 'required|integer|min:1|max:365',
         ]);
