@@ -6,6 +6,42 @@
             {!! auth()->user()->verified_icon !!}
         </h1>
         <p class="text-gray-600 mt-2">Pregled vaših aktivnosti na MyOglasi platformi</p>
+        
+        <!-- Listing Limit Indicator (for users with payment disabled) -->
+        @if(!auth()->user()->payment_enabled && !auth()->user()->is_admin)
+            @php
+                $activeLimit = \App\Models\Setting::get('monthly_listing_limit', 50);
+                $currentActive = $stats['active_listings_count'];
+                $percentage = ($currentActive / $activeLimit) * 100;
+            @endphp
+            <div class="mt-4 p-4 {{ $stats['can_create_listing'] ? 'bg-blue-50 border-blue-200' : 'bg-red-50 border-red-200' }} border rounded-lg">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center">
+                        <i class="fas fa-chart-pie {{ $stats['can_create_listing'] ? 'text-blue-600' : 'text-red-600' }} mr-2"></i>
+                        <span class="font-medium {{ $stats['can_create_listing'] ? 'text-blue-900' : 'text-red-900' }}">
+                            Aktivni oglasi: {{ $currentActive }} od {{ $activeLimit }} dostupnih
+                        </span>
+                    </div>
+                    <span class="text-sm {{ $stats['can_create_listing'] ? 'text-blue-700' : 'text-red-700' }} font-medium">
+                        {{ $stats['remaining_listings'] }} slobodno
+                    </span>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="h-2 rounded-full {{ $percentage >= 100 ? 'bg-red-500' : ($percentage >= 80 ? 'bg-yellow-500' : 'bg-blue-500') }}" 
+                         style="width: {{ min($percentage, 100) }}%"></div>
+                </div>
+                
+                <p class="text-xs {{ $stats['can_create_listing'] ? 'text-blue-700' : 'text-red-700' }} mt-2">
+                    @if($stats['can_create_listing'])
+                        💡 Možete postaviti još {{ $stats['remaining_listings'] }} oglasa. Kada oglas istekne ili se obriše, možete postaviti novi.
+                    @else
+                        ⚠️ Dostigli ste limit. Obrišite postojeći oglas ili aktivirajte plaćanje za neograničene oglase.
+                    @endif
+                </p>
+            </div>
+        @endif
     </div>
 
     <!-- Quick Stats Cards -->
