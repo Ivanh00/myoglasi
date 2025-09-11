@@ -74,6 +74,7 @@
                                         @php
                                             $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())
                                                 ->where('is_read', false)
+                                                ->where('is_system_message', false)
                                                 ->count();
                                         @endphp
                                         @if ($unreadCount > 0)
@@ -112,6 +113,7 @@
                                         @php
                                             $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())
                                                 ->where('is_read', false)
+                                                ->where('is_system_message', false)
                                                 ->count();
                                         @endphp
                                         @if ($unreadCount > 0)
