@@ -81,10 +81,8 @@ class Show extends Component
             // Send notification to listing owner
             $this->sendBidNotificationToOwner();
             
-            // Trigger auto-bids after manual bid
-            if (!$this->isAutoBid) {
-                Bid::processAutoBids($this->auction->fresh(), auth()->id());
-            }
+            // Auto-bid processing is now handled only when setting auto-bid, not here
+            // Removed to prevent double calls
 
             // Refresh auction data
             $this->auction = $this->auction->fresh(['bids.user']);
@@ -123,14 +121,8 @@ class Show extends Component
     
     public function updatedMaxBidAmount()
     {
-        // Auto-save auto-bid when max amount is entered
-        if ($this->isAutoBid && $this->maxBidAmount && $this->maxBidAmount > $this->auction->current_price) {
-            try {
-                $this->saveAutoBid();
-            } catch (\Exception $e) {
-                session()->flash('error', $e->getMessage());
-            }
-        }
+        // Removed auto-save to prevent double calls
+        // Auto-bid is now only saved when user clicks "Postavi automatsku ponudu" button
     }
     
     public function updatedIsAutoBid()
@@ -175,20 +167,23 @@ class Show extends Component
         $firstAutoBidAmount = $this->auction->current_price + $this->auction->bid_increment;
         
         try {
-            // First, create auto-bid entry
-            $autoBidEntry = Bid::create([
-                'auction_id' => $this->auction->id,
-                'user_id' => auth()->id(),
-                'amount' => $this->auction->current_price, // Placeholder, will be calculated
-                'is_winning' => false,
-                'is_auto_bid' => true,
-                'max_bid' => $this->maxBidAmount,
-                'ip_address' => request()->ip()
-            ]);
-            
-            // Now trigger auto-bid battle calculation (including this new auto-bid)
-            // This will immediately resolve who should win based on max amounts
-            Bid::processAutoBids($this->auction->fresh(), null); // Don't exclude anyone
+            // Create auto-bid entry and immediately trigger battle resolution
+            \DB::transaction(function () {
+                // First, create auto-bid entry
+                $autoBidEntry = Bid::create([
+                    'auction_id' => $this->auction->id,
+                    'user_id' => auth()->id(),
+                    'amount' => $this->auction->current_price, // Placeholder, will be calculated
+                    'is_winning' => false,
+                    'is_auto_bid' => true,
+                    'max_bid' => $this->maxBidAmount,
+                    'ip_address' => request()->ip()
+                ]);
+                
+                // Now trigger auto-bid battle calculation (including this new auto-bid)
+                // This will immediately resolve who should win based on max amounts
+                Bid::processAutoBids($this->auction->fresh(), null); // Don't exclude anyone
+            });
             
             // Refresh auction data
             $this->auction = $this->auction->fresh(['bids.user']);

@@ -95,11 +95,13 @@ class Bid extends Model
         // Prevent multiple simultaneous auto-bid processing
         $cacheKey = "auto_bid_processing_{$auction->id}";
         if (\Cache::has($cacheKey)) {
-            \Log::info("Auto-bid processing already in progress for auction {$auction->id}, skipping");
+            if (app()->environment('local')) {
+                \Log::info("Auto-bid processing already in progress for auction {$auction->id}, skipping");
+            }
             return;
         }
         
-        \Cache::put($cacheKey, true, 10); // Lock for 10 seconds
+        \Cache::put($cacheKey, true, 30); // Lock for 30 seconds to prevent double calls
         
         try {
             // Debug logging
