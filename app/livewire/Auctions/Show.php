@@ -81,8 +81,10 @@ class Show extends Component
             // Send notification to listing owner
             $this->sendBidNotificationToOwner();
             
-            // Auto-bid processing is now handled only when setting auto-bid, not here
-            // Removed to prevent double calls
+            // Trigger auto-bid response for manual bids only
+            if (!$this->isAutoBid) {
+                Bid::processAutoBids($this->auction->fresh(), auth()->id());
+            }
 
             // Refresh auction data
             $this->auction = $this->auction->fresh(['bids.user']);
@@ -167,22 +169,52 @@ class Show extends Component
         $firstAutoBidAmount = $this->auction->current_price + $this->auction->bid_increment;
         
         try {
-            // Create auto-bid entry and immediately trigger battle resolution
-            \DB::transaction(function () {
-                // First, create auto-bid entry
-                $autoBidEntry = Bid::create([
+            // Calculate optimal bid amount directly without placeholder
+            $existingAutoBids = Bid::where('auction_id', $this->auction->id)
+                ->where('user_id', '!=', auth()->id())
+                ->where('is_auto_bid', true)
+                ->whereNotNull('max_bid')
+                ->get();
+                
+            if ($existingAutoBids->count() > 0) {
+                // Find highest competing max bid
+                $highestCompetitorMax = $existingAutoBids->max('max_bid');
+                
+                // My bid amount = competitor max + increment (if I can afford it)
+                $myOptimalBid = $highestCompetitorMax + $this->auction->bid_increment;
+                
+                if ($this->maxBidAmount >= $myOptimalBid) {
+                    $finalBidAmount = $myOptimalBid;
+                } else {
+                    // I can't beat competitor, bid what I can
+                    $finalBidAmount = $this->maxBidAmount;
+                }
+            } else {
+                // No competitors, simple increment
+                $finalBidAmount = $this->auction->current_price + $this->auction->bid_increment;
+            }
+            
+            // Create single winning auto-bid directly
+            \DB::transaction(function () use ($finalBidAmount) {
+                // Mark previous bids as not winning  
+                $this->auction->bids()->update(['is_winning' => false]);
+                
+                // Create my winning auto-bid
+                Bid::create([
                     'auction_id' => $this->auction->id,
                     'user_id' => auth()->id(),
-                    'amount' => $this->auction->current_price, // Placeholder, will be calculated
-                    'is_winning' => false,
+                    'amount' => $finalBidAmount,
+                    'is_winning' => true,
                     'is_auto_bid' => true,
                     'max_bid' => $this->maxBidAmount,
                     'ip_address' => request()->ip()
                 ]);
                 
-                // Now trigger auto-bid battle calculation (including this new auto-bid)
-                // This will immediately resolve who should win based on max amounts
-                Bid::processAutoBids($this->auction->fresh(), null); // Don't exclude anyone
+                // Update auction
+                $this->auction->update([
+                    'current_price' => $finalBidAmount,
+                    'total_bids' => $this->auction->total_bids + 1
+                ]);
             });
             
             // Refresh auction data
