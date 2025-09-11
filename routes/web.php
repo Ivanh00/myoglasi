@@ -266,15 +266,11 @@ Route::middleware('auth')->get('/poruke/{slug}/system', [ConversationComponent::
 Route::middleware('auth')->get('/obavestenja', Notifications::class)->name('notifications.index');
 
 
-// Services Routes (temporary simple routes)
-Route::get('/services', function () {
-    return view('services.coming-soon');
-})->name('services.index');
+// Services Routes
+Route::get('/services', \App\Livewire\Services\Index::class)->name('services.index');
 
-// Giveaways Routes (temporary simple routes)
-Route::get('/giveaways', function () {
-    return view('giveaways.coming-soon');
-})->name('giveaways.index');
+// Giveaways Routes
+Route::get('/giveaways', \App\Livewire\Giveaways\Index::class)->name('giveaways.index');
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -283,7 +279,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/listings', \App\Livewire\Admin\ListingManagement::class)->name('listings.index');
     Route::get('/auctions', \App\Livewire\Admin\AuctionManagement::class)->name('auctions.index');
     Route::get('/categories', \App\Livewire\Admin\CategoryManagement::class)->name('categories.index');
-    Route::get('/service-categories', \App\Livewire\Admin\ServiceCategoryManagement::class)->name('service-categories.index');
+    Route::get('/service-categories', \App\Livewire\Admin\ServiceCategoryManagement::class)->name('admin.service-categories.index');
     Route::get('/conditions', \App\Livewire\Admin\ConditionManagement::class)->name('conditions.index');
     Route::get('/messages', \App\Livewire\Admin\MessageManagement::class)->name('messages.index');
     Route::get('/transactions', \App\Livewire\Admin\TransactionManagement::class)->name('transactions.index');

@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Livewire\Services;
+
+use Livewire\Component;
+use Livewire\WithPagination;
+use App\Models\Service;
+use App\Models\ServiceCategory;
+
+class Index extends Component
+{
+    use WithPagination;
+    
+    public $selectedCategory = null;
+    public $categories;
+    public $sortBy = 'newest';
+    public $perPage = 20;
+
+    public function mount()
+    {
+        $this->categories = ServiceCategory::whereNull('parent_id')
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+    }
+
+    public function setCategory($categoryId)
+    {
+        $this->selectedCategory = $categoryId;
+        $this->resetPage();
+    }
+
+    public function setSorting($sort)
+    {
+        $this->sortBy = $sort;
+        $this->resetPage();
+    }
+
+    public function render()
+    {
+        $query = Service::where('status', 'active')
+            ->with(['category', 'subcategory', 'images', 'user']);
+            
+        if ($this->selectedCategory) {
+            $category = ServiceCategory::find($this->selectedCategory);
+            
+            if ($category) {
+                $categoryIds = $category->getAllServiceIds();
+                $query->whereIn('service_category_id', $categoryIds);
+            }
+        }
+        
+        // Sorting
+        switch ($this->sortBy) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+        
+        $services = $query->paginate($this->perPage);
+        
+        return view('livewire.services.index', [
+            'services' => $services,
+            'categories' => $this->categories
+        ])->layout('layouts.app');
+    }
+}
