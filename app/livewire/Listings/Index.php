@@ -7,6 +7,7 @@ use App\Models\Listing;
 use App\Models\Category;
 use App\Models\ListingCondition;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class Index extends Component
 {
@@ -245,21 +246,24 @@ class Index extends Component
             // Load promotions for sorting
             $query->with('promotions');
             
-            // Add custom sorting for promoted listings
-            $query->leftJoin('listing_promotions', function($join) {
-                $join->on('listings.id', '=', 'listing_promotions.listing_id')
-                     ->where('listing_promotions.is_active', '=', true)
-                     ->where('listing_promotions.starts_at', '<=', now())
-                     ->where('listing_promotions.expires_at', '>', now());
-            });
-            
-            // Featured homepage listings first, then featured category, then others
-            $query->addSelect(['listings.*'])
-                  ->addSelect([
-                      'has_featured_homepage' => \DB::raw("CASE WHEN listing_promotions.type = 'featured_homepage' THEN 1 ELSE 0 END"),
-                      'has_featured_category' => \DB::raw("CASE WHEN listing_promotions.type = 'featured_category' THEN 1 ELSE 0 END"),
-                  ])
-                  ->groupBy('listings.id');
+            // Add custom sorting for promoted listings using subqueries to avoid GROUP BY issues
+            $query->addSelect([
+                'has_featured_homepage' => DB::table('listing_promotions')
+                    ->selectRaw('CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END')
+                    ->whereColumn('listing_promotions.listing_id', 'listings.id')
+                    ->where('listing_promotions.type', 'featured_homepage')
+                    ->where('listing_promotions.is_active', true)
+                    ->where('listing_promotions.starts_at', '<=', now())
+                    ->where('listing_promotions.expires_at', '>', now()),
+                    
+                'has_featured_category' => DB::table('listing_promotions')
+                    ->selectRaw('CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END')
+                    ->whereColumn('listing_promotions.listing_id', 'listings.id')
+                    ->where('listing_promotions.type', 'featured_category')
+                    ->where('listing_promotions.is_active', true)
+                    ->where('listing_promotions.starts_at', '<=', now())
+                    ->where('listing_promotions.expires_at', '>', now())
+            ]);
             
             // Regular sorting with promotion priority
             switch ($this->sortBy) {

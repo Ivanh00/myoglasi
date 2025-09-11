@@ -11,30 +11,28 @@ use Illuminate\Support\Facades\DB;
 class PromotionManager extends Component
 {
     public $listing;
+    public $listingId;
     public $showModal = false;
     public $selectedPromotions = [];
     public $totalCost = 0;
 
-    protected $listeners = [];
-    
-    public function getListeners()
-    {
-        return [
-            'openPromotionModal-' . $this->listing->id => 'openPromotionModal',
-        ];
-    }
+    protected $listeners = ['openPromotionModal'];
 
-    public function mount(Listing $listing)
+    public function openPromotionModal($listingId)
     {
-        $this->listing = $listing;
-    }
-
-    public function openPromotionModal()
-    {
+        $this->listingId = $listingId;
+        $this->listing = Listing::find($listingId);
+        
+        if (!$this->listing || $this->listing->user_id !== auth()->id()) {
+            session()->flash('error', 'Nemate dozvolu da upravljate ovim oglasom.');
+            return;
+        }
+        
         $this->showModal = true;
         $this->selectedPromotions = [];
         $this->calculateTotal();
     }
+
 
     public function closeModal()
     {
@@ -159,5 +157,11 @@ class PromotionManager extends Component
     public function render()
     {
         return view('livewire.listings.promotion-manager');
+    }
+    
+    // Helper method for views when listing is not loaded yet
+    public function getListingProperty()
+    {
+        return $this->listing;
     }
 }

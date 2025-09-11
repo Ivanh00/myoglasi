@@ -1,16 +1,6 @@
 <div>
-    <!-- Promotion Button -->
-    <button wire:click="openPromotionModal" 
-        class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all shadow-md hover:shadow-lg">
-        <i class="fas fa-bullhorn mr-2"></i>
-        Promocija oglasa
-        @if($listing->hasActivePromotion())
-            <span class="ml-2 bg-white bg-opacity-30 text-xs px-2 py-1 rounded-full">AKTIVNA</span>
-        @endif
-    </button>
-
     <!-- Promotion Modal -->
-    @if($showModal)
+    @if($showModal && $listing)
         <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-4 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white">
                 <div class="mt-3">
