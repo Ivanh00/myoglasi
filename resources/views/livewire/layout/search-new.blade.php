@@ -238,23 +238,39 @@ x-init="syncFromUrl()">
         <!-- Content Type Selector -->
         <div class="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
             <label class="block text-sm font-medium text-gray-700 mb-3">Pretražuj u:</label>
-            <div class="flex space-x-4">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="all" 
                         class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                    <span class="ml-2 text-sm text-gray-700">Svi oglasi i aukcije</span>
+                    <span class="ml-2 text-sm text-gray-700">Sve</span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="listings" 
                         class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                    <span class="ml-2 text-sm text-gray-700">Samo oglasi</span>
+                    <span class="ml-2 text-sm text-gray-700">Oglasi</span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="auctions" 
                         class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
                     <span class="ml-2 text-sm text-yellow-700">
                         <i class="fas fa-gavel mr-1"></i>
-                        Samo aukcije
+                        Aukcije
+                    </span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="content_type" x-model="content_type" value="services" 
+                        class="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300">
+                    <span class="ml-2 text-sm text-gray-700">
+                        <i class="fas fa-tools mr-1"></i>
+                        Usluge
+                    </span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="content_type" x-model="content_type" value="giveaways" 
+                        class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300">
+                    <span class="ml-2 text-sm text-green-700">
+                        <i class="fas fa-gift mr-1"></i>
+                        Poklanjam
                     </span>
                 </label>
             </div>

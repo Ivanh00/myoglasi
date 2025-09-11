@@ -11,6 +11,20 @@
             Aukcije
         </a>
         
+        <!-- Usluge -->
+        <a href="{{ route('services.index') }}"
+            class="flex items-center px-4 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors mb-2 {{ request()->routeIs('services.*') ? 'bg-gray-700' : '' }}">
+            <i class="fas fa-tools mr-3"></i>
+            Usluge
+        </a>
+        
+        <!-- Poklanjam -->
+        <a href="{{ route('giveaways.index') }}"
+            class="flex items-center px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mb-2 {{ request()->routeIs('giveaways.*') ? 'bg-green-700' : '' }}">
+            <i class="fas fa-gift mr-3"></i>
+            Poklanjam
+        </a>
+        
         <!-- Globalni "Svi oglasi" -->
         <a href="{{ route('listings.index') }}"
             class="flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('listings.index') && !request()->get('selectedCategory') ? 'bg-blue-50 text-blue-700' : '' }}">
