@@ -100,7 +100,6 @@ class Create extends Component
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',
             'category_id' => 'required|exists:categories,id',
-            'condition_id' => 'required|exists:listing_conditions,id',
             'location' => 'required|string|max:255',
             'contact_phone' => 'nullable|string|max:20',
             'images' => "nullable|array|max:{$maxImages}",
@@ -111,6 +110,11 @@ class Create extends Component
         // Price is required only for listings and services
         if ($this->listingType !== 'giveaway') {
             $rules['price'] = 'required|numeric|min:1';
+        }
+        
+        // Condition is required only for regular listings
+        if ($this->listingType === 'listing') {
+            $rules['condition_id'] = 'required|exists:listing_conditions,id';
         }
         
         $this->validate($rules);
@@ -176,8 +180,8 @@ class Create extends Component
             'price' => $this->listingType === 'giveaway' ? null : $this->price,
             'listing_type' => $this->listingType,
             'category_id' => $this->category_id,
-            'subcategory_id' => $this->subcategory_id,
-            'condition_id' => $this->condition_id,
+            'subcategory_id' => $this->listingType === 'listing' ? $this->subcategory_id : null,
+            'condition_id' => $this->listingType === 'listing' ? $this->condition_id : null,
             'location' => $this->location,
             'contact_phone' => $this->contact_phone,
             'slug' => Str::slug($this->title) . '-' . Str::random(6),

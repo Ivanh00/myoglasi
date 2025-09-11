@@ -119,8 +119,8 @@
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
 
-                    <!-- Subcategory -->
-                    @if ($category_id)
+                    <!-- Subcategory (only for regular listings) -->
+                    @if ($category_id && $listingType === 'listing')
                         @if ($subcategories && $subcategories->count() > 0)
                             <div class="mt-4">
                                 <label for="subcategory_id" class="block text-sm font-medium text-gray-700">
@@ -171,17 +171,24 @@
                 </div> --}}
             </div>
 
-            <!-- Condition -->
-            <select wire:model="condition_id"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('condition_id') border-red-500 @enderror">
-                <option value="">Odaberite stanje</option>
-                @foreach ($conditions as $condition)
-                    <option value="{{ $condition->id }}">{{ $condition->name }}</option>
-                @endforeach
-            </select>
-            @error('condition_id')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
+            <!-- Condition (only for regular listings) -->
+            @if($listingType === 'listing')
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Stanje <span class="text-red-500">*</span>
+                    </label>
+                    <select wire:model="condition_id"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('condition_id') border-red-500 @enderror">
+                        <option value="">Odaberite stanje</option>
+                        @foreach ($conditions as $condition)
+                            <option value="{{ $condition->id }}">{{ $condition->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('condition_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+            @endif
 
             <!-- Price (hidden for giveaways) -->
             @if($listingType !== 'giveaway')
