@@ -29,7 +29,7 @@ class Edit extends Component
 
     public function updatedNewImages()
     {
-        $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+        $maxImages = $this->listing->getMaxImagesCount();
         $currentImages = $this->listing->images->count();
         $totalImages = $currentImages + count($this->newImages);
         
@@ -155,7 +155,7 @@ class Edit extends Component
 
     public function getRemainingImageSlotsProperty()
     {
-        $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+        $maxImages = $this->listing->getMaxImagesCount();
         $currentCount = $this->listing->images()->count(); // Fresh count from database
         $newCount = count($this->newImages ?? []);
         $totalCount = $currentCount + $newCount;
@@ -164,12 +164,12 @@ class Edit extends Component
 
     public function getMaxImagesProperty()
     {
-        return \App\Models\Setting::get('max_images_per_listing', 10);
+        return $this->listing->getMaxImagesCount();
     }
 
     public function update()
     {
-        $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+        $maxImages = $this->listing->getMaxImagesCount();
         $currentImagesCount = $this->listing->images->count();
         $maxNewImages = max(0, $maxImages - $currentImagesCount);
         

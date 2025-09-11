@@ -42,7 +42,7 @@
                                     'featured_homepage' => 'red', 
                                     'highlighted' => 'yellow',
                                     'auto_refresh' => 'green',
-                                    'large_image' => 'purple',
+                                    'double_images' => 'purple',
                                     'extended_duration' => 'orange'
                                 ];
                                 $color = $colors[$type] ?? 'gray';
@@ -62,8 +62,8 @@
                                                 <i class="fas fa-highlighter text-yellow-600 mr-2"></i>
                                             @elseif($type === 'auto_refresh')
                                                 <i class="fas fa-sync text-green-600 mr-2"></i>
-                                            @elseif($type === 'large_image')
-                                                <i class="fas fa-expand text-purple-600 mr-2"></i>
+                                            @elseif($type === 'double_images')
+                                                <i class="fas fa-images text-purple-600 mr-2"></i>
                                             @else
                                                 <i class="fas fa-clock text-orange-600 mr-2"></i>
                                             @endif
@@ -84,8 +84,8 @@
                                                 Oglas ima drugačiju boju pozadine i istaknut je
                                             @elseif($type === 'auto_refresh')
                                                 Oglas se automatski "podiže" na vrh svaki dan
-                                            @elseif($type === 'large_image')
-                                                Slika oglasa je duplo veća u listi oglasa
+                                            @elseif($type === 'double_images')
+                                                Udvostručuje dozvoljen broj slika za oglas
                                             @else
                                                 Produžava vreme isteka oglasa za {{ $duration }} dana
                                             @endif

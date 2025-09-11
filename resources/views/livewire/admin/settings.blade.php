@@ -676,28 +676,28 @@
                         </div>
                     </div>
 
-                    <!-- Large Image -->
+                    <!-- Double Images -->
                     <div class="border border-gray-200 rounded-lg p-6">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                            <i class="fas fa-expand text-purple-600 mr-2"></i>
-                            Dupla veličina slike
+                            <i class="fas fa-images text-purple-600 mr-2"></i>
+                            Dupliraj broj slika
                         </h3>
-                        <p class="text-sm text-gray-600 mb-4">Slika oglasa je duplo veća u listi oglasa</p>
+                        <p class="text-sm text-gray-600 mb-4">Udvostručuje dozvoljen broj slika za oglas (trenutno: max {{ \App\Models\Setting::get('max_images_per_listing', 10) }} → {{ \App\Models\Setting::get('max_images_per_listing', 10) * 2 }} slika)</p>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Cena (RSD)</label>
-                                <input type="number" wire:model="promotionLargeImagePrice" min="1" max="10000"
+                                <input type="number" wire:model="promotionDoubleImagesPrice" min="1" max="10000"
                                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
-                                @error('promotionLargeImagePrice') 
+                                @error('promotionDoubleImagesPrice') 
                                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Trajanje (dana)</label>
-                                <input type="number" wire:model="promotionLargeImageDays" min="1" max="365"
+                                <input type="number" wire:model="promotionDoubleImagesDays" min="1" max="365"
                                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
-                                @error('promotionLargeImageDays') 
+                                @error('promotionDoubleImagesDays') 
                                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>

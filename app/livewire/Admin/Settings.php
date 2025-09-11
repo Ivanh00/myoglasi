@@ -36,8 +36,8 @@ class Settings extends Component
     public $promotionHighlightedDays;
     public $promotionAutoRefreshPrice;
     public $promotionAutoRefreshDays;
-    public $promotionLargeImagePrice;
-    public $promotionLargeImageDays;
+    public $promotionDoubleImagesPrice;
+    public $promotionDoubleImagesDays;
     public $promotionExtendedDurationPrice;
     public $promotionExtendedDurationDays;
     
@@ -87,8 +87,8 @@ class Settings extends Component
         'promotionHighlightedDays' => 'required|integer|min:1|max:365',
         'promotionAutoRefreshPrice' => 'required|integer|min:1|max:10000',
         'promotionAutoRefreshDays' => 'required|integer|min:1|max:365',
-        'promotionLargeImagePrice' => 'required|integer|min:1|max:10000',
-        'promotionLargeImageDays' => 'required|integer|min:1|max:365',
+        'promotionDoubleImagesPrice' => 'required|integer|min:1|max:10000',
+        'promotionDoubleImagesDays' => 'required|integer|min:1|max:365',
         'promotionExtendedDurationPrice' => 'required|integer|min:1|max:10000',
         'promotionExtendedDurationDays' => 'required|integer|min:1|max:365',
         'adminEmail' => 'required|email|max:255',
@@ -143,8 +143,8 @@ class Settings extends Component
         $this->promotionHighlightedDays = Setting::get('promotion_highlighted_days', 14);
         $this->promotionAutoRefreshPrice = Setting::get('promotion_auto_refresh_price', 80);
         $this->promotionAutoRefreshDays = Setting::get('promotion_auto_refresh_days', 30);
-        $this->promotionLargeImagePrice = Setting::get('promotion_large_image_price', 30);
-        $this->promotionLargeImageDays = Setting::get('promotion_large_image_days', 14);
+        $this->promotionDoubleImagesPrice = Setting::get('promotion_double_images_price', 30);
+        $this->promotionDoubleImagesDays = Setting::get('promotion_double_images_days', 14);
         $this->promotionExtendedDurationPrice = Setting::get('promotion_extended_duration_price', 60);
         $this->promotionExtendedDurationDays = Setting::get('promotion_extended_duration_days', 30);
         
@@ -240,8 +240,8 @@ class Settings extends Component
         Setting::set('promotion_highlighted_days', $this->promotionHighlightedDays, 'integer', 'promotions');
         Setting::set('promotion_auto_refresh_price', $this->promotionAutoRefreshPrice, 'integer', 'promotions');
         Setting::set('promotion_auto_refresh_days', $this->promotionAutoRefreshDays, 'integer', 'promotions');
-        Setting::set('promotion_large_image_price', $this->promotionLargeImagePrice, 'integer', 'promotions');
-        Setting::set('promotion_large_image_days', $this->promotionLargeImageDays, 'integer', 'promotions');
+        Setting::set('promotion_double_images_price', $this->promotionDoubleImagesPrice, 'integer', 'promotions');
+        Setting::set('promotion_double_images_days', $this->promotionDoubleImagesDays, 'integer', 'promotions');
         Setting::set('promotion_extended_duration_price', $this->promotionExtendedDurationPrice, 'integer', 'promotions');
         Setting::set('promotion_extended_duration_days', $this->promotionExtendedDurationDays, 'integer', 'promotions');
 

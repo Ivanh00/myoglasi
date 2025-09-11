@@ -207,9 +207,20 @@ public function hasAutoRefresh()
     return $this->hasActivePromotion('auto_refresh');
 }
 
-public function hasLargeImage()
+public function hasDoubleImages()
 {
-    return $this->hasActivePromotion('large_image');
+    return $this->hasActivePromotion('double_images');
+}
+
+public function getMaxImagesCount()
+{
+    $baseMax = \App\Models\Setting::get('max_images_per_listing', 10);
+    
+    if ($this->hasDoubleImages()) {
+        return $baseMax * 2;
+    }
+    
+    return $baseMax;
 }
 
 public function hasExtendedDuration()

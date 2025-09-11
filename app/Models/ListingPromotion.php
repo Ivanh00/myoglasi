@@ -56,7 +56,7 @@ class ListingPromotion extends Model
             'featured_homepage' => 'Top glavne strane',
             'highlighted' => 'Istaknut oglas',
             'auto_refresh' => 'Automatsko osvežavanje',
-            'large_image' => 'Dupla veličina slike',
+            'double_images' => 'Dupliraj broj slika',
             'extended_duration' => 'Produžena trajnost',
             default => 'Nepoznato'
         };
@@ -69,7 +69,7 @@ class ListingPromotion extends Model
             'featured_homepage' => 'Top glavne strane',
             'highlighted' => 'Istaknut oglas',
             'auto_refresh' => 'Automatsko osvežavanje',
-            'large_image' => 'Dupla veličina slike',
+            'double_images' => 'Dupliraj broj slika',
             'extended_duration' => 'Produžena trajnost',
         ];
     }
@@ -81,7 +81,7 @@ class ListingPromotion extends Model
             'featured_homepage' => \App\Models\Setting::get('promotion_featured_homepage_price', 200),
             'highlighted' => \App\Models\Setting::get('promotion_highlighted_price', 50),
             'auto_refresh' => \App\Models\Setting::get('promotion_auto_refresh_price', 80),
-            'large_image' => \App\Models\Setting::get('promotion_large_image_price', 30),
+            'double_images' => \App\Models\Setting::get('promotion_double_images_price', 30),
             'extended_duration' => \App\Models\Setting::get('promotion_extended_duration_price', 60),
         ];
 
@@ -95,7 +95,7 @@ class ListingPromotion extends Model
             'featured_homepage' => \App\Models\Setting::get('promotion_featured_homepage_days', 3),
             'highlighted' => \App\Models\Setting::get('promotion_highlighted_days', 14),
             'auto_refresh' => \App\Models\Setting::get('promotion_auto_refresh_days', 30),
-            'large_image' => \App\Models\Setting::get('promotion_large_image_days', 14),
+            'double_images' => \App\Models\Setting::get('promotion_double_images_days', 14),
             'extended_duration' => \App\Models\Setting::get('promotion_extended_duration_days', 30),
         ];
 
