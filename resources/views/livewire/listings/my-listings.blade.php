@@ -181,6 +181,18 @@
                                             onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')">
                                             <i class="fas fa-share-alt mr-1"></i> Podeli
                                         </button>
+                                        
+                                        @if($listing->isActive())
+                                            <button wire:click="$dispatch('openPromotionModal-{{ $listing->id }}')" 
+                                                class="inline-flex items-center px-2 py-1 text-yellow-600 hover:text-yellow-900 rounded">
+                                                <i class="fas fa-bullhorn mr-1"></i> 
+                                                @if($listing->hasActivePromotion())
+                                                    Promocija ✓
+                                                @else
+                                                    Promocija
+                                                @endif
+                                            </button>
+                                        @endif
                                     </div>
 
                                     <!-- Second row: Auction and delete actions (only if auction exists) -->
@@ -418,5 +430,14 @@
                 Kreiraj prvi oglas
             </a>
         </div>
+    @endif
+    
+    <!-- Promotion Manager Components -->
+    @if($listings->count() > 0)
+        @foreach ($listings as $listing)
+            @if($listing->isActive())
+                @livewire('listings.promotion-manager', ['listing' => $listing], key('promotion-'.$listing->id))
+            @endif
+        @endforeach
     @endif
 </div>

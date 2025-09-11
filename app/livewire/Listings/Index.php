@@ -242,17 +242,42 @@ class Index extends Component
             // Regular listing filters
             $this->applyListingFilters($query);
             
-            // Regular sorting
+            // Load promotions for sorting
+            $query->with('promotions');
+            
+            // Add custom sorting for promoted listings
+            $query->leftJoin('listing_promotions', function($join) {
+                $join->on('listings.id', '=', 'listing_promotions.listing_id')
+                     ->where('listing_promotions.is_active', '=', true)
+                     ->where('listing_promotions.starts_at', '<=', now())
+                     ->where('listing_promotions.expires_at', '>', now());
+            });
+            
+            // Featured homepage listings first, then featured category, then others
+            $query->addSelect(['listings.*'])
+                  ->addSelect([
+                      'has_featured_homepage' => \DB::raw("CASE WHEN listing_promotions.type = 'featured_homepage' THEN 1 ELSE 0 END"),
+                      'has_featured_category' => \DB::raw("CASE WHEN listing_promotions.type = 'featured_category' THEN 1 ELSE 0 END"),
+                  ])
+                  ->groupBy('listings.id');
+            
+            // Regular sorting with promotion priority
             switch ($this->sortBy) {
                 case 'price_asc':
-                    $query->orderBy('price', 'asc');
+                    $query->orderBy('has_featured_homepage', 'desc')
+                          ->orderBy('has_featured_category', 'desc')
+                          ->orderBy('price', 'asc');
                     break;
                 case 'price_desc':
-                    $query->orderBy('price', 'desc');
+                    $query->orderBy('has_featured_homepage', 'desc')
+                          ->orderBy('has_featured_category', 'desc')
+                          ->orderBy('price', 'desc');
                     break;
                 case 'newest':
                 default:
-                    $query->orderBy('created_at', 'desc');
+                    $query->orderBy('has_featured_homepage', 'desc')
+                          ->orderBy('has_featured_category', 'desc')
+                          ->orderBy('listings.created_at', 'desc');
                     break;
             }
             
