@@ -25,7 +25,9 @@
                     </a>
                     
                     <button wire:click="openTransferModal"
-                        class="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
+                        class="inline-flex items-center px-6 py-3 {{ auth()->user()->balance > 0 ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-400 cursor-not-allowed' }} text-white font-semibold rounded-lg transition-colors"
+                        {{ auth()->user()->balance <= 0 ? 'disabled' : '' }}
+                        title="{{ auth()->user()->balance <= 0 ? 'Nemate dovoljno kredita za transfer' : 'Podelite kredit sa drugim korisnicima' }}">
                         <i class="fas fa-exchange-alt mr-2"></i>
                         Podeli kredit
                     </button>
@@ -189,13 +191,18 @@
                     </div>
 
                     <!-- Current Balance Info -->
-                    <div class="bg-blue-50 p-3 rounded-lg mb-4">
+                    <div class="{{ auth()->user()->balance > 0 ? 'bg-blue-50 border-blue-200' : 'bg-red-50 border-red-200' }} p-3 rounded-lg mb-4 border">
                         <div class="flex items-center">
-                            <i class="fas fa-wallet text-blue-600 mr-2"></i>
-                            <span class="text-blue-900 font-medium">
+                            <i class="fas fa-wallet {{ auth()->user()->balance > 0 ? 'text-blue-600' : 'text-red-600' }} mr-2"></i>
+                            <span class="{{ auth()->user()->balance > 0 ? 'text-blue-900' : 'text-red-900' }} font-medium">
                                 Vaš trenutni balans: {{ number_format(auth()->user()->balance, 0, ',', '.') }} RSD
                             </span>
                         </div>
+                        @if(auth()->user()->balance <= 0)
+                            <div class="mt-2 text-xs text-red-700">
+                                ⚠️ Nemate dovoljno kredita za transfer. Dopunite balans da biste mogli da delite kredit.
+                            </div>
+                        @endif
                     </div>
 
                     <!-- Transfer Form -->

@@ -85,15 +85,23 @@ class Balance extends Component
     
     public function transferCredit()
     {
+        // Check if user has any balance first
+        if (auth()->user()->balance <= 0) {
+            session()->flash('error', 'Nemate dovoljno kredita za transfer. Dopunite vaš balans da biste mogli da delite kredit.');
+            return;
+        }
+        
         $this->validate([
             'transferAmount' => 'required|numeric|min:10|max:' . auth()->user()->balance,
             'selectedRecipient' => 'required',
             'transferNote' => 'nullable|string|max:255'
         ], [
             'transferAmount.required' => 'Unesite iznos za transfer.',
+            'transferAmount.numeric' => 'Iznos mora biti broj.',
             'transferAmount.min' => 'Minimalni transfer je 10 RSD.',
-            'transferAmount.max' => 'Nemate dovoljno kredita za ovaj transfer.',
-            'selectedRecipient.required' => 'Izaberite korisnika kome šaljete kredit.'
+            'transferAmount.max' => 'Nemate dovoljno kredita za ovaj transfer. Vaš balans: ' . number_format(auth()->user()->balance, 0, ',', '.') . ' RSD.',
+            'selectedRecipient.required' => 'Izaberite korisnika kome šaljete kredit.',
+            'transferNote.max' => 'Napomena može imati maksimalno 255 karaktera.'
         ]);
 
         try {
