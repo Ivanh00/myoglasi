@@ -25,6 +25,7 @@ class Create extends Component
     public $conditions = [];
     public $category_id;
     public $subcategory_id;
+    public $listingType = 'listing'; // Default to regular listing
 
     public $subcategories;
 
@@ -94,10 +95,10 @@ class Create extends Component
     {
         $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
         
-        $this->validate([
+        $rules = [
+            'listingType' => 'required|in:listing,service,giveaway',
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',
-            'price' => 'required|numeric|min:1',
             'category_id' => 'required|exists:categories,id',
             'condition_id' => 'required|exists:listing_conditions,id',
             'location' => 'required|string|max:255',
@@ -105,7 +106,14 @@ class Create extends Component
             'images' => "nullable|array|max:{$maxImages}",
             'images.*' => 'nullable|image|max:5120',
             'tempImages.*' => 'nullable|image|max:5120',
-        ]);
+        ];
+        
+        // Price is required only for listings and services
+        if ($this->listingType !== 'giveaway') {
+            $rules['price'] = 'required|numeric|min:1';
+        }
+        
+        $this->validate($rules);
 
         $user = auth()->user();
         
@@ -119,19 +127,35 @@ class Create extends Component
             return redirect()->route('listings.my');
         }
         
-        // Check if user can create listing (payment check)  
-        if (!$user->canCreateListingForFree() && $user->payment_plan === 'per_listing') {
+        // Calculate fee based on listing type
+        $fee = 0;
+        if ($this->listingType === 'service' && \App\Models\Setting::get('service_fee_enabled', true)) {
+            $fee = \App\Models\Setting::get('service_fee_amount', 100);
+        } elseif ($this->listingType === 'listing' && !$user->canCreateListingForFree() && $user->payment_plan === 'per_listing') {
             $fee = \App\Models\Setting::get('listing_fee_amount', 10);
-            if ($user->balance < $fee) {
-                session()->flash('error', 'Nemate dovoljno kredita za postavljanje oglasa. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
-                return redirect()->route('balance.payment-options');
-            }
+        }
+        // Giveaways are always free
+        
+        // Check balance if fee is required
+        if ($fee > 0 && $user->balance < $fee) {
+            $typeText = $this->listingType === 'service' ? 'usluge' : 'oglasa';
+            session()->flash('error', 'Nemate dovoljno kredita za postavljanje ' . $typeText . '. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+            return redirect()->route('balance.payment-options');
         }
         
-        // Now charge for listing
-        if (!$user->chargeForListing()) {
-            session()->flash('error', 'Greška pri naplaćivanju oglasa. Molimo pokušajte ponovo.');
-            return redirect()->route('balance.index');
+        // Charge fee if required
+        if ($fee > 0) {
+            $user->decrement('balance', $fee);
+            
+            // Create transaction record
+            \App\Models\Transaction::create([
+                'user_id' => $user->id,
+                'type' => $this->listingType === 'service' ? 'service_fee' : 'listing_fee',
+                'amount' => $fee,
+                'status' => 'completed',
+                'description' => 'Naplaćivanje za objavljivanje ' . ($this->listingType === 'service' ? 'usluge' : 'oglasa') . ': ' . $this->title,
+                'reference_number' => 'FEE-' . now()->timestamp,
+            ]);
         }
 
         // Sačuvaj slike
@@ -149,7 +173,8 @@ class Create extends Component
             'user_id' => auth()->id(),
             'title' => $this->title,
             'description' => $this->description,
-            'price' => $this->price,
+            'price' => $this->listingType === 'giveaway' ? null : $this->price,
+            'listing_type' => $this->listingType,
             'category_id' => $this->category_id,
             'subcategory_id' => $this->subcategory_id,
             'condition_id' => $this->condition_id,

@@ -26,6 +26,8 @@ class Settings extends Component
     public $monthlyListingLimit;
     public $minimumCreditTransfer;
     public $showLastSeen;
+    public $serviceFeeEnabled;
+    public $serviceFeeAmount;
     
     // Promotion Settings
     public $promotionFeaturedCategoryPrice;
@@ -78,6 +80,8 @@ class Settings extends Component
         'monthlyListingLimit' => 'required|integer|min:1|max:1000',
         'minimumCreditTransfer' => 'required|integer|min:1|max:10000',
         'showLastSeen' => 'required|boolean',
+        'serviceFeeEnabled' => 'required|boolean',
+        'serviceFeeAmount' => 'required|integer|min:1|max:10000',
         // Promotion validation
         'promotionFeaturedCategoryPrice' => 'required|integer|min:1|max:10000',
         'promotionFeaturedCategoryDays' => 'required|integer|min:1|max:365',
@@ -133,6 +137,8 @@ class Settings extends Component
         $this->monthlyListingLimit = Setting::get('monthly_listing_limit', 50);
         $this->minimumCreditTransfer = Setting::get('minimum_credit_transfer', 10);
         $this->showLastSeen = Setting::get('show_last_seen', true);
+        $this->serviceFeeEnabled = Setting::get('service_fee_enabled', true);
+        $this->serviceFeeAmount = Setting::get('service_fee_amount', 100);
         
         // Promotion Settings
         $this->promotionFeaturedCategoryPrice = Setting::get('promotion_featured_category_price', 100);
@@ -209,6 +215,8 @@ class Settings extends Component
             'monthlyListingLimit' => 'required|integer|min:1|max:1000',
             'minimumCreditTransfer' => 'required|integer|min:1|max:10000',
             'showLastSeen' => 'required|boolean',
+            'serviceFeeEnabled' => 'required|boolean',
+            'serviceFeeAmount' => 'required|integer|min:1|max:10000',
             'promotionFeaturedCategoryPrice' => 'required|integer|min:1|max:10000',
             'promotionFeaturedCategoryDays' => 'required|integer|min:1|max:365',
             'promotionFeaturedHomepagePrice' => 'required|integer|min:1|max:10000',
@@ -230,6 +238,8 @@ class Settings extends Component
         Setting::set('monthly_listing_limit', $this->monthlyListingLimit, 'integer', 'general');
         Setting::set('minimum_credit_transfer', $this->minimumCreditTransfer, 'integer', 'general');
         Setting::set('show_last_seen', $this->showLastSeen, 'boolean', 'general');
+        Setting::set('service_fee_enabled', $this->serviceFeeEnabled, 'boolean', 'general');
+        Setting::set('service_fee_amount', $this->serviceFeeAmount, 'integer', 'general');
         
         // Save promotion settings
         Setting::set('promotion_featured_category_price', $this->promotionFeaturedCategoryPrice, 'integer', 'promotions');

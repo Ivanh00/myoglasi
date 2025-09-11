@@ -49,7 +49,7 @@
 
             <!-- Right: Results count -->
             <div class="text-gray-600">
-                Pronađeno poklonja: <span class="font-semibold">{{ $giveaways->total() }}</span>
+                Pronađeno poklona: <span class="font-semibold">{{ $giveaways->total() }}</span>
             </div>
         </div>
     </div>
@@ -175,12 +175,12 @@
     @else
         <div class="bg-white rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-gift text-green-400 text-5xl mb-4"></i>
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema poklonja</h3>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema poklona</h3>
             <p class="text-gray-600 mb-4">
                 @if ($selectedCategory)
-                    Trenutno nema poklonja u ovoj kategoriji.
+                    Trenutno nema poklona u ovoj kategoriji.
                 @else
-                    Trenutno nema poklonja.
+                    Trenutno nema poklona.
                 @endif
             </p>
             <p class="text-sm text-gray-500">Budite prvi koji će pokloniti nešto!</p>

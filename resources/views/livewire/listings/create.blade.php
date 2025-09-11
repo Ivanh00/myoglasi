@@ -13,7 +13,15 @@
                     </svg>
                     <span class="text-sm font-medium text-yellow-800">
                         Vaš trenutni balans: <strong>{{ number_format(auth()->user()->balance, 2) }} RSD</strong>
-                        | Cena oglasa: <strong>10,00 RSD</strong>
+                        | Cena objave: <strong>
+                            @if($listingType === 'service')
+                                {{ \App\Models\Setting::get('service_fee_enabled', true) ? number_format(\App\Models\Setting::get('service_fee_amount', 100), 2) . ' RSD' : 'Besplatno' }}
+                            @elseif($listingType === 'giveaway')
+                                Besplatno
+                            @else
+                                {{ \App\Models\Setting::get('listing_fee_enabled') ? number_format(\App\Models\Setting::get('listing_fee_amount', 10), 2) . ' RSD' : 'Besplatno' }}
+                            @endif
+                        </strong>
                     </span>
                 </div>
             </div>
@@ -34,6 +42,50 @@
         @endif
 
         <form wire:submit.prevent="save" class="space-y-6">
+            <!-- Listing Type Selector -->
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <label class="block text-sm font-medium text-gray-700 mb-3">
+                    Tip objave <span class="text-red-500">*</span>
+                </label>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'listing' ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400' }}">
+                        <input type="radio" wire:model="listingType" value="listing" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                        <div class="ml-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-shopping-tag text-blue-600 mr-2"></i>
+                                <span class="text-sm font-medium text-gray-900">Oglas</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Prodaja proizvoda ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})</p>
+                        </div>
+                    </label>
+
+                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'service' ? 'border-gray-500 bg-gray-50' : 'border-gray-300 hover:border-gray-400' }}">
+                        <input type="radio" wire:model="listingType" value="service" class="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300">
+                        <div class="ml-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-tools text-gray-600 mr-2"></i>
+                                <span class="text-sm font-medium text-gray-900">Usluga</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Pružanje usluga ({{ \App\Models\Setting::get('service_fee_enabled', true) ? \App\Models\Setting::get('service_fee_amount', 100) . ' RSD' : 'Besplatno' }})</p>
+                        </div>
+                    </label>
+
+                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'giveaway' ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-gray-400' }}">
+                        <input type="radio" wire:model="listingType" value="giveaway" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300">
+                        <div class="ml-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-gift text-green-600 mr-2"></i>
+                                <span class="text-sm font-medium text-gray-900">Poklon</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Besplatno davanje (Besplatno)</p>
+                        </div>
+                    </label>
+                </div>
+                @error('listingType')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Basic Information -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Title -->
@@ -131,27 +183,39 @@
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
 
-            <!-- Price -->
-            <div>
-                <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
-                    Cena (RSD) <span class="text-red-500">*</span>
-                </label>
-                <input type="number" wire:model="price" id="price" step="0.01"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('price') border-red-500 @enderror"
-                    placeholder="0.00">
-                @error('price')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+            <!-- Price (hidden for giveaways) -->
+            @if($listingType !== 'giveaway')
+                <div>
+                    <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
+                        @if($listingType === 'service')
+                            Cena usluge (RSD) <span class="text-red-500">*</span>
+                        @else
+                            Cena (RSD) <span class="text-red-500">*</span>
+                        @endif
+                    </label>
+                    <input type="number" wire:model="price" id="price" step="0.01"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('price') border-red-500 @enderror"
+                        placeholder="0.00">
+                    @error('price')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            @endif
 
             <!-- Description -->
             <div class="mb-6">
                 <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
-                    Opis oglasa <span class="text-red-500">*</span>
+                    @if($listingType === 'service')
+                        Opis usluge <span class="text-red-500">*</span>
+                    @elseif($listingType === 'giveaway')
+                        Opis poklona <span class="text-red-500">*</span>
+                    @else
+                        Opis oglasa <span class="text-red-500">*</span>
+                    @endif
                 </label>
                 <textarea wire:model="description" id="description" rows="6"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @enderror"
-                    placeholder="Detaljno opišite vaš proizvod..."></textarea>
+                    placeholder="@if($listingType === 'service')Detaljno opišite uslugu koju pružate...@elseif($listingType === 'giveaway')Detaljno opišite šta poklanjate...@elseDetaljno opišite vaš proizvod...@endif"></textarea>
                 <div class="flex justify-between items-center mt-1">
                     @error('description')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
@@ -221,18 +285,6 @@
                 @endif
             </div>
 
-            <!-- Price -->
-            <div>
-                <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
-                    Cena (RSD) <span class="text-red-500">*</span>
-                </label>
-                <input type="number" wire:model="price" id="price" step="0.01" min="1"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('price') border-red-500 @enderror"
-                    placeholder="0.00">
-                @error('price')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
 
             <!-- Location -->
             <div>
@@ -275,7 +327,15 @@
 
                 <button type="submit" wire:loading.attr="disabled"
                     class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                    <span wire:loading.remove wire:target="save">Objavi oglas (10 RSD)</span>
+                    <span wire:loading.remove wire:target="save">
+                        @if($listingType === 'service')
+                            Objavi uslugu ({{ \App\Models\Setting::get('service_fee_enabled', true) ? \App\Models\Setting::get('service_fee_amount', 100) . ' RSD' : 'Besplatno' }})
+                        @elseif($listingType === 'giveaway')
+                            Objavi poklon (Besplatno)
+                        @else
+                            Objavi oglas ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})
+                        @endif
+                    </span>
                     <span wire:loading wire:target="save" class="flex items-center">
                         <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"

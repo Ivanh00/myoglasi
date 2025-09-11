@@ -12,7 +12,7 @@ class Listing extends Model
     protected $fillable = [
         'title', 'slug', 'description', 'price', 'location', 'contact_phone',
         'user_id', 'category_id', 'subcategory_id', 'condition_id', 'status', 
-        'expires_at', 'renewed_at', 'renewal_count'
+        'listing_type', 'expires_at', 'renewed_at', 'renewal_count'
     ];
 
     protected $casts = [
@@ -245,5 +245,40 @@ public function getPromotionBadges()
     }
     
     return $badges;
+}
+
+// Listing type helper methods
+public function isService()
+{
+    return $this->listing_type === 'service';
+}
+
+public function isGiveaway()
+{
+    return $this->listing_type === 'giveaway';
+}
+
+public function isRegularListing()
+{
+    return $this->listing_type === 'listing' || $this->listing_type === null;
+}
+
+public function getTypeDisplayName()
+{
+    return match($this->listing_type) {
+        'service' => 'Usluga',
+        'giveaway' => 'Poklon',
+        'listing' => 'Oglas',
+        default => 'Oglas'
+    };
+}
+
+public function getTypeBadge()
+{
+    return match($this->listing_type) {
+        'service' => ['text' => 'USLUGA', 'class' => 'bg-gray-500 text-white'],
+        'giveaway' => ['text' => 'POKLON', 'class' => 'bg-green-500 text-white'],
+        default => null
+    };
 }
 }

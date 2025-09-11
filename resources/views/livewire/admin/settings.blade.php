@@ -277,6 +277,32 @@
                         <div class="text-xs text-blue-600 mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
                             💡 <strong>Napomena:</strong> Kada je uključeno, pored imena korisnika će pisati kada je poslednji put bio aktivan (npr. "Online", "Pre 5 min", "Pre 2 sata").
                         </div>
+
+                        <div class="flex items-center mt-4">
+                            <input type="checkbox" id="service_fee_enabled" wire:model="serviceFeeEnabled" 
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="service_fee_enabled" class="ml-2 text-sm text-gray-700">
+                                Naplaćuj objavljivanje usluga
+                            </label>
+                        </div>
+                        
+                        @if($serviceFeeEnabled)
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-700">Cena za objavljivanje usluge (RSD)</label>
+                                <input type="number" wire:model="serviceFeeAmount" min="1" max="10000"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Koliko košta objavljivanje jedne usluge (trenutno: {{ number_format($serviceFeeAmount, 0, ',', '.') }} RSD)
+                                </p>
+                                @error('serviceFeeAmount') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
+                        
+                        <div class="text-xs text-blue-600 mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
+                            💡 <strong>Napomena:</strong> Pokloni su uvek besplatni za objavljivanje. Ova naknada se odnosi samo na komercijalne usluge.
+                        </div>
                     </div>
                     </div>
                 </div>
