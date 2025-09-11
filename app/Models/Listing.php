@@ -47,6 +47,16 @@ class Listing extends Model
         return $this->hasMany(ListingImage::class)->orderBy('order');
     }
 
+    public function promotions()
+    {
+        return $this->hasMany(ListingPromotion::class);
+    }
+
+    public function activePromotions()
+    {
+        return $this->hasMany(ListingPromotion::class)->active();
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';
@@ -158,5 +168,71 @@ public function auction()
 public function hasActiveAuction()
 {
     return $this->auction && $this->auction->isActive();
+}
+
+// Promotion methods
+public function hasActivePromotion($type = null)
+{
+    $query = $this->activePromotions();
+    
+    if ($type) {
+        $query->where('type', $type);
+    }
+    
+    return $query->exists();
+}
+
+public function getActivePromotion($type)
+{
+    return $this->activePromotions()->where('type', $type)->first();
+}
+
+public function isFeaturedInCategory()
+{
+    return $this->hasActivePromotion('featured_category');
+}
+
+public function isFeaturedOnHomepage()
+{
+    return $this->hasActivePromotion('featured_homepage');
+}
+
+public function isHighlighted()
+{
+    return $this->hasActivePromotion('highlighted');
+}
+
+public function hasAutoRefresh()
+{
+    return $this->hasActivePromotion('auto_refresh');
+}
+
+public function hasLargeImage()
+{
+    return $this->hasActivePromotion('large_image');
+}
+
+public function hasExtendedDuration()
+{
+    return $this->hasActivePromotion('extended_duration');
+}
+
+public function getPromotionBadges()
+{
+    $badges = [];
+    
+    if ($this->isFeaturedOnHomepage()) {
+        $badges[] = ['text' => 'TOP', 'class' => 'bg-red-500 text-white'];
+    }
+    
+    if ($this->isFeaturedInCategory()) {
+        $badges[] = ['text' => 'VRH', 'class' => 'bg-blue-500 text-white'];
+    }
+    
+    if ($this->isHighlighted()) {
+        $badges[] = ['text' => 'ISTAKNUT', 'class' => 'bg-yellow-500 text-black'];
+    }
+    
+    return $badges;
 }
 }

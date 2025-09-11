@@ -34,6 +34,11 @@
                     <i class="fas fa-gavel mr-1"></i>
                     Aukcije
                 </button>
+                <button wire:click="switchTab('promotions')" 
+                    class="py-2 px-1 border-b-2 font-medium text-sm {{ $activeTab === 'promotions' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
+                    <i class="fas fa-bullhorn mr-1"></i>
+                    Promocije
+                </button>
             </nav>
         </div>
 
@@ -540,6 +545,199 @@
                         class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-save mr-2"></i>
                         Sačuvaj podešavanja aukcija
+                    </button>
+                </div>
+            </div>
+        @endif
+
+        <!-- Promotions Settings Tab -->
+        @if($activeTab === 'promotions')
+            <div class="space-y-6">
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-bullhorn text-yellow-600 mt-0.5 mr-2"></i>
+                        <div class="text-sm text-yellow-800">
+                            <strong>Promocije oglasa</strong> omogućavaju korisnicima da plate dodatno da bi njihovi oglasi bili istaknutiji.
+                            Ovde možete podesiti cene i trajanje za svaku vrstu promocije.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Featured Category -->
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-arrow-up text-blue-600 mr-2"></i>
+                            Top kategorije
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">Oglas se prikazuje na vrhu liste u svojoj kategoriji</p>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Cena (RSD)</label>
+                                <input type="number" wire:model="promotionFeaturedCategoryPrice" min="1" max="10000"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                @error('promotionFeaturedCategoryPrice') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Trajanje (dana)</label>
+                                <input type="number" wire:model="promotionFeaturedCategoryDays" min="1" max="365"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                @error('promotionFeaturedCategoryDays') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Homepage -->
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-star text-red-600 mr-2"></i>
+                            Top glavne strane
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">Oglas se prikazuje na vrhu glavne strane sajta</p>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Cena (RSD)</label>
+                                <input type="number" wire:model="promotionFeaturedHomepagePrice" min="1" max="10000"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                @error('promotionFeaturedHomepagePrice') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Trajanje (dana)</label>
+                                <input type="number" wire:model="promotionFeaturedHomepageDays" min="1" max="365"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                @error('promotionFeaturedHomepageDays') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Highlighted -->
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-highlighter text-yellow-600 mr-2"></i>
+                            Istaknut oglas
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">Oglas ima drugačiju boju pozadine i okvir</p>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Cena (RSD)</label>
+                                <input type="number" wire:model="promotionHighlightedPrice" min="1" max="10000"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-yellow-500 focus:border-yellow-500">
+                                @error('promotionHighlightedPrice') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Trajanje (dana)</label>
+                                <input type="number" wire:model="promotionHighlightedDays" min="1" max="365"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-yellow-500 focus:border-yellow-500">
+                                @error('promotionHighlightedDays') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Auto Refresh -->
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-sync text-green-600 mr-2"></i>
+                            Automatsko osvežavanje
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">Oglas se automatski "podiže" na vrh svaki dan</p>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Cena (RSD)</label>
+                                <input type="number" wire:model="promotionAutoRefreshPrice" min="1" max="10000"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+                                @error('promotionAutoRefreshPrice') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Trajanje (dana)</label>
+                                <input type="number" wire:model="promotionAutoRefreshDays" min="1" max="365"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+                                @error('promotionAutoRefreshDays') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Large Image -->
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-expand text-purple-600 mr-2"></i>
+                            Dupla veličina slike
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">Slika oglasa je duplo veća u listi oglasa</p>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Cena (RSD)</label>
+                                <input type="number" wire:model="promotionLargeImagePrice" min="1" max="10000"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                                @error('promotionLargeImagePrice') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Trajanje (dana)</label>
+                                <input type="number" wire:model="promotionLargeImageDays" min="1" max="365"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                                @error('promotionLargeImageDays') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Extended Duration -->
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-clock text-orange-600 mr-2"></i>
+                            Produžena trajnost
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">Produžava vreme isteka oglasa</p>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Cena (RSD)</label>
+                                <input type="number" wire:model="promotionExtendedDurationPrice" min="1" max="10000"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                                @error('promotionExtendedDurationPrice') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Trajanje (dana)</label>
+                                <input type="number" wire:model="promotionExtendedDurationDays" min="1" max="365"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                                @error('promotionExtendedDurationDays') 
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button wire:click="saveGeneralSettings" 
+                        class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        Sačuvaj podešavanja promocija
                     </button>
                 </div>
             </div>

@@ -27,6 +27,20 @@ class Settings extends Component
     public $minimumCreditTransfer;
     public $showLastSeen;
     
+    // Promotion Settings
+    public $promotionFeaturedCategoryPrice;
+    public $promotionFeaturedCategoryDays;
+    public $promotionFeaturedHomepagePrice;
+    public $promotionFeaturedHomepageDays;
+    public $promotionHighlightedPrice;
+    public $promotionHighlightedDays;
+    public $promotionAutoRefreshPrice;
+    public $promotionAutoRefreshDays;
+    public $promotionLargeImagePrice;
+    public $promotionLargeImageDays;
+    public $promotionExtendedDurationPrice;
+    public $promotionExtendedDurationDays;
+    
     // Email Settings
     public $adminEmail;
     public $supportEmail;
@@ -64,6 +78,19 @@ class Settings extends Component
         'monthlyListingLimit' => 'required|integer|min:1|max:1000',
         'minimumCreditTransfer' => 'required|integer|min:1|max:10000',
         'showLastSeen' => 'required|boolean',
+        // Promotion validation
+        'promotionFeaturedCategoryPrice' => 'required|integer|min:1|max:10000',
+        'promotionFeaturedCategoryDays' => 'required|integer|min:1|max:365',
+        'promotionFeaturedHomepagePrice' => 'required|integer|min:1|max:10000',
+        'promotionFeaturedHomepageDays' => 'required|integer|min:1|max:365',
+        'promotionHighlightedPrice' => 'required|integer|min:1|max:10000',
+        'promotionHighlightedDays' => 'required|integer|min:1|max:365',
+        'promotionAutoRefreshPrice' => 'required|integer|min:1|max:10000',
+        'promotionAutoRefreshDays' => 'required|integer|min:1|max:365',
+        'promotionLargeImagePrice' => 'required|integer|min:1|max:10000',
+        'promotionLargeImageDays' => 'required|integer|min:1|max:365',
+        'promotionExtendedDurationPrice' => 'required|integer|min:1|max:10000',
+        'promotionExtendedDurationDays' => 'required|integer|min:1|max:365',
         'adminEmail' => 'required|email|max:255',
         'supportEmail' => 'required|email|max:255',
         'bankAccountNumber' => 'required|string|max:100',
@@ -106,6 +133,20 @@ class Settings extends Component
         $this->monthlyListingLimit = Setting::get('monthly_listing_limit', 50);
         $this->minimumCreditTransfer = Setting::get('minimum_credit_transfer', 10);
         $this->showLastSeen = Setting::get('show_last_seen', true);
+        
+        // Promotion Settings
+        $this->promotionFeaturedCategoryPrice = Setting::get('promotion_featured_category_price', 100);
+        $this->promotionFeaturedCategoryDays = Setting::get('promotion_featured_category_days', 7);
+        $this->promotionFeaturedHomepagePrice = Setting::get('promotion_featured_homepage_price', 200);
+        $this->promotionFeaturedHomepageDays = Setting::get('promotion_featured_homepage_days', 3);
+        $this->promotionHighlightedPrice = Setting::get('promotion_highlighted_price', 50);
+        $this->promotionHighlightedDays = Setting::get('promotion_highlighted_days', 14);
+        $this->promotionAutoRefreshPrice = Setting::get('promotion_auto_refresh_price', 80);
+        $this->promotionAutoRefreshDays = Setting::get('promotion_auto_refresh_days', 30);
+        $this->promotionLargeImagePrice = Setting::get('promotion_large_image_price', 30);
+        $this->promotionLargeImageDays = Setting::get('promotion_large_image_days', 14);
+        $this->promotionExtendedDurationPrice = Setting::get('promotion_extended_duration_price', 60);
+        $this->promotionExtendedDurationDays = Setting::get('promotion_extended_duration_days', 30);
         
         // Email Settings
         $this->adminEmail = Setting::get('admin_email', 'admin@myoglasi.rs');
@@ -168,6 +209,18 @@ class Settings extends Component
             'monthlyListingLimit' => 'required|integer|min:1|max:1000',
             'minimumCreditTransfer' => 'required|integer|min:1|max:10000',
             'showLastSeen' => 'required|boolean',
+            'promotionFeaturedCategoryPrice' => 'required|integer|min:1|max:10000',
+            'promotionFeaturedCategoryDays' => 'required|integer|min:1|max:365',
+            'promotionFeaturedHomepagePrice' => 'required|integer|min:1|max:10000',
+            'promotionFeaturedHomepageDays' => 'required|integer|min:1|max:365',
+            'promotionHighlightedPrice' => 'required|integer|min:1|max:10000',
+            'promotionHighlightedDays' => 'required|integer|min:1|max:365',
+            'promotionAutoRefreshPrice' => 'required|integer|min:1|max:10000',
+            'promotionAutoRefreshDays' => 'required|integer|min:1|max:365',
+            'promotionLargeImagePrice' => 'required|integer|min:1|max:10000',
+            'promotionLargeImageDays' => 'required|integer|min:1|max:365',
+            'promotionExtendedDurationPrice' => 'required|integer|min:1|max:10000',
+            'promotionExtendedDurationDays' => 'required|integer|min:1|max:365',
         ]);
 
         Setting::set('site_name', $this->siteName, 'string', 'general');
@@ -177,6 +230,20 @@ class Settings extends Component
         Setting::set('monthly_listing_limit', $this->monthlyListingLimit, 'integer', 'general');
         Setting::set('minimum_credit_transfer', $this->minimumCreditTransfer, 'integer', 'general');
         Setting::set('show_last_seen', $this->showLastSeen, 'boolean', 'general');
+        
+        // Save promotion settings
+        Setting::set('promotion_featured_category_price', $this->promotionFeaturedCategoryPrice, 'integer', 'promotions');
+        Setting::set('promotion_featured_category_days', $this->promotionFeaturedCategoryDays, 'integer', 'promotions');
+        Setting::set('promotion_featured_homepage_price', $this->promotionFeaturedHomepagePrice, 'integer', 'promotions');
+        Setting::set('promotion_featured_homepage_days', $this->promotionFeaturedHomepageDays, 'integer', 'promotions');
+        Setting::set('promotion_highlighted_price', $this->promotionHighlightedPrice, 'integer', 'promotions');
+        Setting::set('promotion_highlighted_days', $this->promotionHighlightedDays, 'integer', 'promotions');
+        Setting::set('promotion_auto_refresh_price', $this->promotionAutoRefreshPrice, 'integer', 'promotions');
+        Setting::set('promotion_auto_refresh_days', $this->promotionAutoRefreshDays, 'integer', 'promotions');
+        Setting::set('promotion_large_image_price', $this->promotionLargeImagePrice, 'integer', 'promotions');
+        Setting::set('promotion_large_image_days', $this->promotionLargeImageDays, 'integer', 'promotions');
+        Setting::set('promotion_extended_duration_price', $this->promotionExtendedDurationPrice, 'integer', 'promotions');
+        Setting::set('promotion_extended_duration_days', $this->promotionExtendedDurationDays, 'integer', 'promotions');
 
         session()->flash('success', 'Opšta podešavanja su uspešno sačuvana.');
     }
