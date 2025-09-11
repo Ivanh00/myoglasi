@@ -129,72 +129,69 @@ class Bid extends Model
             \Log::info("Found " . $autoBids->count() . " eligible auto-bids");
         }
 
-        // Find the optimal final bid amount by simulating the entire auto-bid battle
+        // Find who should win and calculate step-by-step battle resolution
         if ($autoBids->count() > 0) {
-            // Get the two highest auto-bids for battle simulation
-            $autoBidsByMax = $autoBids->sortByDesc('max_bid');
-            $highestAutoBid = $autoBidsByMax->first();
-            $secondHighestAutoBid = $autoBidsByMax->skip(1)->first();
+            // Find the auto-bid that will ultimately win (highest max_bid)
+            $winnerAutoBid = $autoBids->sortByDesc('max_bid')->first();
             
-            // Calculate final winning bid amount
-            if ($secondHighestAutoBid) {
-                // Two or more auto-bids: winner bids (second_highest_max + increment)
-                $finalBidAmount = $secondHighestAutoBid->max_bid + $auction->bid_increment;
+            // Find what the winner should pay (second highest max_bid + increment)
+            $otherAutoBids = $autoBids->where('user_id', '!=', $winnerAutoBid->user_id);
+            
+            if ($otherAutoBids->count() > 0) {
+                // Multiple auto-bids: winner pays (second_highest_max + increment) 
+                $secondHighestMax = $otherAutoBids->sortByDesc('max_bid')->first()->max_bid;
+                $winningAmount = $secondHighestMax + $auction->bid_increment;
+                
                 if (app()->environment('local')) {
-                    \Log::info("Auto-bid battle: Winner {$highestAutoBid->user_id} (max {$highestAutoBid->max_bid}) vs Runner-up {$secondHighestAutoBid->user_id} (max {$secondHighestAutoBid->max_bid})");
-                    \Log::info("Final auto-bid amount: {$secondHighestAutoBid->max_bid} + {$auction->bid_increment} = {$finalBidAmount}");
+                    \Log::info("Auto-bid battle: Winner user_{$winnerAutoBid->user_id} (max:{$winnerAutoBid->max_bid}) beats others, pays: {$secondHighestMax} + {$auction->bid_increment} = {$winningAmount}");
                 }
             } else {
-                // Only one auto-bid: simple increment from current price
-                $finalBidAmount = $auction->current_price + $auction->bid_increment;
+                // Single auto-bid: just outbid current price
+                $winningAmount = $auction->current_price + $auction->bid_increment;
+                
                 if (app()->environment('local')) {
-                    \Log::info("Single auto-bid: {$auction->current_price} + {$auction->bid_increment} = {$finalBidAmount}");
+                    \Log::info("Single auto-bid: user_{$winnerAutoBid->user_id} bids {$auction->current_price} + {$auction->bid_increment} = {$winningAmount}");
                 }
             }
             
-            // Only place auto-bid if the calculated amount is higher than current price
-            if ($highestAutoBid->max_bid >= $finalBidAmount && $finalBidAmount > $auction->current_price) {
+            // Check if winner can afford the winning amount and it's higher than current
+            if ($winnerAutoBid->max_bid >= $winningAmount && $winningAmount > $auction->current_price) {
                 if (app()->environment('local')) {
-                    \Log::info("Placing final auto-bid for user {$highestAutoBid->user_id}: {$finalBidAmount} RSD");
+                    \Log::info("Executing auto-bid victory for user_{$winnerAutoBid->user_id}: {$winningAmount} RSD");
                 }
                 
-                // Place final winning auto-bid
-                \DB::transaction(function () use ($auction, $highestAutoBid, $finalBidAmount) {
-                    // Mark ALL previous bids as not winning
+                \DB::transaction(function () use ($auction, $winnerAutoBid, $winningAmount) {
+                    // Mark all bids as not winning
                     $auction->bids()->update(['is_winning' => false]);
 
-                    // Create final auto-bid entry
+                    // Create winning auto-bid
                     Bid::create([
                         'auction_id' => $auction->id,
-                        'user_id' => $highestAutoBid->user_id,
-                        'amount' => $finalBidAmount,
+                        'user_id' => $winnerAutoBid->user_id,
+                        'amount' => $winningAmount,
                         'is_winning' => true,
                         'is_auto_bid' => true,
-                        'max_bid' => $highestAutoBid->max_bid,
-                        'ip_address' => $highestAutoBid->ip_address
+                        'max_bid' => $winnerAutoBid->max_bid,
+                        'ip_address' => $winnerAutoBid->ip_address
                     ]);
 
-                    // Update auction current price
+                    // Update auction price
                     $auction->update([
-                        'current_price' => $finalBidAmount,
+                        'current_price' => $winningAmount,
                         'total_bids' => $auction->total_bids + 1
                     ]);
                 });
 
-                // Send notification to winner
+                // Notify winner
                 Message::create([
                     'sender_id' => 1,
-                    'receiver_id' => $highestAutoBid->user_id,
+                    'receiver_id' => $winnerAutoBid->user_id,
                     'listing_id' => $auction->listing_id,
-                    'message' => "Auto-bid pobeda! Ponuda: " . number_format($finalBidAmount, 0, ',', '.') . " RSD protiv konkurencije.",
-                    'subject' => 'Auto-bid pobeda - ' . $auction->listing->title,
+                    'message' => "Auto-bid aktiviran! Vaša ponuda: " . number_format($winningAmount, 0, ',', '.') . " RSD.",
+                    'subject' => 'Auto-bid - ' . $auction->listing->title,
                     'is_system_message' => true,
                     'is_read' => false
                 ]);
-            } else {
-                if (app()->environment('local')) {
-                    \Log::info("No auto-bid needed - current price {$auction->current_price} already higher than calculated {$finalBidAmount}");
-                }
             }
         }
     }
