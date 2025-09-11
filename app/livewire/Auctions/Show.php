@@ -159,6 +159,23 @@ class Show extends Component
             'maxBidAmount' => 'required|numeric|min:' . ($this->auction->current_price + $this->auction->bid_increment)
         ]);
 
+        // Check if this auto-bid can win against existing competition
+        $existingAutoBids = Bid::where('auction_id', $this->auction->id)
+            ->where('user_id', '!=', auth()->id())
+            ->where('is_auto_bid', true)
+            ->whereNotNull('max_bid')
+            ->get();
+            
+        if ($existingAutoBids->count() > 0) {
+            $highestCompetitorMax = $existingAutoBids->max('max_bid');
+            $minimumToWin = $highestCompetitorMax + $this->auction->bid_increment;
+            
+            if ($this->maxBidAmount < $minimumToWin) {
+                session()->flash('warning', 'Vaša maksimalna ponuda (' . number_format($this->maxBidAmount, 0, ',', '.') . ' RSD) je premala za pobedi. Potrebno je najmanje ' . number_format($minimumToWin, 0, ',', '.') . ' RSD da pobedite konkurenciju.');
+                return;
+            }
+        }
+
         // Remove existing auto-bid entries for this user
         Bid::where('auction_id', $this->auction->id)
             ->where('user_id', auth()->id())
