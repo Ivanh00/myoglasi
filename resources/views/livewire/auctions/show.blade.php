@@ -99,19 +99,73 @@
 
                                     <!-- Auto Bid Option -->
                                     <div class="mb-4">
-                                        <label class="flex items-center cursor-pointer">
-                                            <input type="checkbox" wire:model="isAutoBid" 
-                                                class="mr-3 h-4 w-4 text-red-600 focus:ring-red-500 rounded">
-                                            <span class="text-sm text-gray-700">Automatska ponuda</span>
-                                        </label>
+                                        <div class="flex items-center justify-between">
+                                            <label class="flex items-center cursor-pointer">
+                                                <input type="checkbox" wire:model.live="isAutoBid" 
+                                                    class="mr-3 h-4 w-4 text-red-600 focus:ring-red-500 rounded">
+                                                <span class="text-sm text-gray-700">Automatska ponuda</span>
+                                            </label>
+                                            
+                                            @php
+                                                $userAutoBid = \App\Models\Bid::where('auction_id', $auction->id)
+                                                    ->where('user_id', auth()->id())
+                                                    ->where('is_auto_bid', true)
+                                                    ->whereNotNull('max_bid')
+                                                    ->latest()
+                                                    ->first();
+                                            @endphp
+                                            @if($userAutoBid)
+                                                <div class="flex items-center space-x-2">
+                                                    <span class="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">
+                                                        <i class="fas fa-robot mr-1"></i>
+                                                        Auto-bid aktivan (do {{ number_format($userAutoBid->max_bid, 0, ',', '.') }} RSD)
+                                                    </span>
+                                                    <button wire:click="removeAutoBid" 
+                                                        class="inline-flex items-center px-2 py-1 bg-red-100 text-red-700 text-xs font-medium rounded hover:bg-red-200"
+                                                        onclick="return confirm('Da li želite da uklonite automatsku ponudu?')">
+                                                        <i class="fas fa-times mr-1"></i>
+                                                        Ukloni
+                                                    </button>
+                                                </div>
+                                            @endif
+                                        </div>
                                         @if($isAutoBid)
-                                            <div class="mt-3">
-                                                <input type="number" wire:model="maxBidAmount" placeholder="Maksimalna cena" 
-                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
-                                                <p class="text-xs text-gray-500 mt-1">Sistem će automatski licitirati do ove cene</p>
-                                                @error('maxBidAmount') 
-                                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                                                @enderror
+                                            <div class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                                <div class="mb-3">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Maksimalna cena</label>
+                                                    <input type="number" wire:model="maxBidAmount" 
+                                                        placeholder="Unesite maksimalnu cenu"
+                                                        min="{{ $auction->minimum_bid + $auction->bid_increment }}"
+                                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                                    @error('maxBidAmount') 
+                                                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                                
+                                                <!-- Set Auto-Bid Button -->
+                                                <div class="mb-3">
+                                                    <button type="button" wire:click="setAutoBid" 
+                                                        class="w-full px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                        <i class="fas fa-robot mr-2"></i>
+                                                        Postavi automatsku ponudu
+                                                    </button>
+                                                </div>
+                                                
+                                                <div class="text-xs text-blue-800 space-y-1">
+                                                    <div class="flex items-start">
+                                                        <i class="fas fa-info-circle text-blue-600 mt-0.5 mr-2 flex-shrink-0"></i>
+                                                        <div>
+                                                            <strong>Kako funkcioniše automatska ponuda:</strong>
+                                                            <ul class="list-disc list-inside mt-1 space-y-1">
+                                                                <li>Kliknite "Postavi automatsku ponudu" da aktivirate</li>
+                                                                <li>Sistem automatski povećava vašu ponudu kada vas neko nadmaši</li>
+                                                                <li>Povećanje za {{ number_format($auction->bid_increment, 0, ',', '.') }} RSD (minimum korak)</li>
+                                                                <li>Automatsko licitiranje se zaustavlja kad dostignete maksimalnu cenu</li>
+                                                                <li>Dobićete obaveštenje svaki put kada se aktivira</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         @endif
                                     </div>

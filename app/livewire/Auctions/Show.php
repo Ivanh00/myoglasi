@@ -28,6 +28,26 @@ class Show extends Component
         
         // Set minimum bid amount
         $this->bidAmount = $auction->minimum_bid;
+        
+        // Check if user has existing auto-bid
+        if (auth()->check()) {
+            $existingAutoBid = Bid::where('auction_id', $auction->id)
+                ->where('user_id', auth()->id())
+                ->where('is_auto_bid', true)
+                ->whereNotNull('max_bid')
+                ->latest()
+                ->first();
+                
+            if ($existingAutoBid) {
+                $this->isAutoBid = true;
+                $this->maxBidAmount = $existingAutoBid->max_bid;
+            }
+            
+            // Debug info (remove after testing)
+            if (app()->environment('local')) {
+                \Log::info('Auto-bid check for user ' . auth()->id() . ': ' . ($existingAutoBid ? 'Found max=' . $existingAutoBid->max_bid : 'Not found'));
+            }
+        }
     }
 
     public function placeBid()
@@ -75,6 +95,129 @@ class Show extends Component
 
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
+        }
+    }
+    
+    public function removeAutoBid()
+    {
+        if (!auth()->check()) return;
+        
+        // Remove user's auto-bid entries
+        Bid::where('auction_id', $this->auction->id)
+            ->where('user_id', auth()->id())
+            ->where('is_auto_bid', true)
+            ->delete();
+            
+        $this->isAutoBid = false;
+        $this->maxBidAmount = '';
+        
+        session()->flash('info', 'Automatska ponuda je uklonjena.');
+    }
+    
+    public function updatedMaxBidAmount()
+    {
+        // Auto-save auto-bid when max amount is entered
+        if ($this->isAutoBid && $this->maxBidAmount && $this->maxBidAmount > $this->auction->current_price) {
+            try {
+                $this->saveAutoBid();
+            } catch (\Exception $e) {
+                session()->flash('error', $e->getMessage());
+            }
+        }
+    }
+    
+    public function updatedIsAutoBid()
+    {
+        if (!$this->isAutoBid) {
+            $this->removeAutoBid();
+        }
+    }
+    
+    public function setAutoBid()
+    {
+        // Debug info
+        if (app()->environment('local')) {
+            \Log::info('SetAutoBid called - User: ' . (auth()->id() ?? 'not logged in') . ', isAutoBid: ' . ($this->isAutoBid ? 'true' : 'false') . ', maxBidAmount: ' . ($this->maxBidAmount ?: 'empty'));
+        }
+        
+        // Manual method to set auto-bid
+        if ($this->isAutoBid && $this->maxBidAmount) {
+            $this->saveAutoBid();
+        } else {
+            session()->flash('error', 'Molimo unesite maksimalnu cenu za automatsku ponudu.');
+        }
+    }
+    
+    private function saveAutoBid()
+    {
+        if (!auth()->check() || !$this->isAutoBid || !$this->maxBidAmount) {
+            return;
+        }
+        
+        $this->validate([
+            'maxBidAmount' => 'required|numeric|min:' . ($this->auction->current_price + $this->auction->bid_increment)
+        ]);
+
+        // Remove existing auto-bid
+        Bid::where('auction_id', $this->auction->id)
+            ->where('user_id', auth()->id())
+            ->where('is_auto_bid', true)
+            ->delete();
+
+        // Calculate first auto-bid amount (current price + increment)
+        $firstAutoBidAmount = $this->auction->current_price + $this->auction->bid_increment;
+        
+        // Check if user can afford this first bid
+        if ($this->maxBidAmount >= $firstAutoBidAmount) {
+            try {
+                // Place immediate auto-bid directly (without triggering other auto-bids)
+                \DB::transaction(function () use ($firstAutoBidAmount) {
+                    // Mark previous winning bid as not winning
+                    $this->auction->bids()->where('is_winning', true)->update(['is_winning' => false]);
+
+                    // Create immediate auto-bid
+                    Bid::create([
+                        'auction_id' => $this->auction->id,
+                        'user_id' => auth()->id(),
+                        'amount' => $firstAutoBidAmount,
+                        'is_winning' => true,
+                        'is_auto_bid' => true,
+                        'max_bid' => $this->maxBidAmount,
+                        'ip_address' => request()->ip()
+                    ]);
+
+                    // Update auction
+                    $this->auction->update([
+                        'current_price' => $firstAutoBidAmount,
+                        'total_bids' => $this->auction->total_bids + 1
+                    ]);
+                });
+                
+                // Refresh auction data
+                $this->auction = $this->auction->fresh(['bids.user']);
+                
+                // Reset form
+                $this->isAutoBid = false;
+                $this->maxBidAmount = '';
+                
+                session()->flash('success', "Automatska ponuda postavljena! Nova ponuda: " . number_format($firstAutoBidAmount, 0, ',', '.') . " RSD (auto-bid do " . number_format((float)$this->maxBidAmount, 0, ',', '.') . " RSD)");
+                
+            } catch (\Exception $e) {
+                session()->flash('error', 'Greška pri postavljanju automatske ponude: ' . $e->getMessage());
+            }
+        } else {
+            // Just save auto-bid setting without bidding (user wants to wait)
+            Bid::create([
+                'auction_id' => $this->auction->id,
+                'user_id' => auth()->id(),
+                'amount' => $this->auction->current_price, // Placeholder
+                'is_winning' => false,
+                'is_auto_bid' => true,
+                'max_bid' => $this->maxBidAmount,
+                'ip_address' => request()->ip()
+            ]);
+            
+            session()->flash('info', 'Automatska ponuda je postavljena. Aktiviraće se kada neko drugi licitira.');
         }
     }
 
