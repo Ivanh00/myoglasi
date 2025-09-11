@@ -264,7 +264,7 @@
                         class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Omiljeni
                     </a>
-                    <a href="{{ route('messages.index') }}"
+                    <a href="{{ route('messages.inbox') }}"
                         class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Poruke
                         @auth
