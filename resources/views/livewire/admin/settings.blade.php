@@ -253,12 +253,26 @@
                         @enderror
                     </div>
                     
-                    <div class="flex items-center">
-                        <input type="checkbox" id="maintenance_mode" wire:model="maintenanceMode" 
-                            class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
-                        <label for="maintenance_mode" class="ml-2 text-sm text-gray-700">
-                            Režim održavanja
-                        </label>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="maintenance_mode" wire:model="maintenanceMode" 
+                                class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                            <label for="maintenance_mode" class="ml-2 text-sm text-gray-700">
+                                Režim održavanja
+                            </label>
+                        </div>
+
+                        <div class="flex items-center">
+                            <input type="checkbox" id="show_last_seen" wire:model="showLastSeen" 
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="show_last_seen" class="ml-2 text-sm text-gray-700">
+                                Prikaži poslednju aktivnost korisnika
+                            </label>
+                        </div>
+                        <div class="text-xs text-blue-600 mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
+                            💡 <strong>Napomena:</strong> Kada je uključeno, pored imena korisnika će pisati kada je poslednji put bio aktivan (npr. "Online", "Pre 5 min", "Pre 2 sata").
+                        </div>
+                    </div>
                     </div>
                 </div>
                 

@@ -226,7 +226,21 @@
                                                         {{ strtoupper(substr($user->name, 0, 1)) }}
                                                     </div>
                                                     <div>
-                                                        <div class="font-medium">{{ $user->name }}</div>
+                                                        <div class="font-medium">
+                                                            {{ $user->name }}
+                                                            @if($user->shouldShowLastSeen())
+                                                                <span class="font-normal text-xs text-gray-500 ml-1">
+                                                                    @if($user->is_online)
+                                                                        <span class="inline-flex items-center">
+                                                                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span>
+                                                                            {{ $user->last_seen }}
+                                                                        </span>
+                                                                    @else
+                                                                        ({{ $user->last_seen }})
+                                                                    @endif
+                                                                </span>
+                                                            @endif
+                                                        </div>
                                                         <div class="text-xs text-gray-500">{{ $user->email }}</div>
                                                     </div>
                                                 </button>

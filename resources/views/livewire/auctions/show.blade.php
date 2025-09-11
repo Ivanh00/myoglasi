@@ -72,7 +72,21 @@
                             @if($auction->total_bids > 0)
                                 <p class="text-gray-600">{{ $auction->total_bids }} ponuda</p>
                                 @if($auction->winningBid)
-                                    <p class="text-sm text-gray-500">Vodi: {{ $auction->winningBid->user->name }}</p>
+                                    <p class="text-sm text-gray-500">
+                                        Vodi: {{ $auction->winningBid->user->name }}
+                                        @if($auction->winningBid->user->shouldShowLastSeen())
+                                            <span class="text-xs">
+                                                @if($auction->winningBid->user->is_online)
+                                                    <span class="inline-flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-green-500 rounded-full ml-1 mr-1"></span>
+                                                        {{ $auction->winningBid->user->last_seen }}
+                                                    </span>
+                                                @else
+                                                    ({{ $auction->winningBid->user->last_seen }})
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </p>
                                 @endif
                             @else
                                 <p class="text-gray-600">Još nema ponuda</p>
@@ -284,7 +298,21 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <div class="font-medium text-gray-900">{{ $bid->user->name }}</div>
+                                    <div class="font-medium text-gray-900">
+                                        {{ $bid->user->name }}
+                                        @if($bid->user->shouldShowLastSeen())
+                                            <span class="font-normal text-xs text-gray-500 ml-1">
+                                                @if($bid->user->is_online)
+                                                    <span class="inline-flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span>
+                                                        {{ $bid->user->last_seen }}
+                                                    </span>
+                                                @else
+                                                    ({{ $bid->user->last_seen }})
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </div>
                                     <div class="text-xs text-gray-500">{{ $bid->created_at->format('d.m.Y H:i') }}</div>
                                 </div>
                             </div>

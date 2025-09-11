@@ -25,6 +25,7 @@ class Settings extends Component
     public $maintenanceMode;
     public $monthlyListingLimit;
     public $minimumCreditTransfer;
+    public $showLastSeen;
     
     // Email Settings
     public $adminEmail;
@@ -62,6 +63,7 @@ class Settings extends Component
         'maintenanceMode' => 'required|boolean',
         'monthlyListingLimit' => 'required|integer|min:1|max:1000',
         'minimumCreditTransfer' => 'required|integer|min:1|max:10000',
+        'showLastSeen' => 'required|boolean',
         'adminEmail' => 'required|email|max:255',
         'supportEmail' => 'required|email|max:255',
         'bankAccountNumber' => 'required|string|max:100',
@@ -103,6 +105,7 @@ class Settings extends Component
         $this->maintenanceMode = Setting::get('maintenance_mode', false);
         $this->monthlyListingLimit = Setting::get('monthly_listing_limit', 50);
         $this->minimumCreditTransfer = Setting::get('minimum_credit_transfer', 10);
+        $this->showLastSeen = Setting::get('show_last_seen', true);
         
         // Email Settings
         $this->adminEmail = Setting::get('admin_email', 'admin@myoglasi.rs');
@@ -164,6 +167,7 @@ class Settings extends Component
             'maintenanceMode' => 'required|boolean',
             'monthlyListingLimit' => 'required|integer|min:1|max:1000',
             'minimumCreditTransfer' => 'required|integer|min:1|max:10000',
+            'showLastSeen' => 'required|boolean',
         ]);
 
         Setting::set('site_name', $this->siteName, 'string', 'general');
@@ -172,6 +176,7 @@ class Settings extends Component
         Setting::set('maintenance_mode', $this->maintenanceMode, 'boolean', 'general');
         Setting::set('monthly_listing_limit', $this->monthlyListingLimit, 'integer', 'general');
         Setting::set('minimum_credit_transfer', $this->minimumCreditTransfer, 'integer', 'general');
+        Setting::set('show_last_seen', $this->showLastSeen, 'boolean', 'general');
 
         session()->flash('success', 'Opšta podešavanja su uspešno sačuvana.');
     }

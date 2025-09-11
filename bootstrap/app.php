@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\FirewallMiddleware::class,
             \App\Http\Middleware\CheckBannedUser::class,
             \App\Http\Middleware\MaintenanceMode::class,
+            \App\Http\Middleware\UpdateLastSeen::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -44,6 +44,7 @@ class User extends Authenticatable
         'verification_requested_at',
         'verified_at',
         'verified_by',
+        'last_seen_at',
     ];
 
     /**
@@ -72,6 +73,7 @@ class User extends Authenticatable
             'banned_at' => 'datetime',
             'balance' => 'decimal:2',
             'payment_enabled' => 'boolean',
+            'last_seen_at' => 'datetime',
             'plan_expires_at' => 'datetime',
             'free_listings_reset_at' => 'datetime',
             'verification_requested_at' => 'datetime',
@@ -538,5 +540,48 @@ public function getAvatarUrlAttribute()
             ->where('rater_id', $userId)
             ->where('listing_id', $listingId)
             ->exists();
+    }
+
+    // Last seen functionality
+    public function updateLastSeen()
+    {
+        $this->update(['last_seen_at' => now()]);
+    }
+
+    public function getLastSeenAttribute()
+    {
+        if (!$this->last_seen_at) {
+            return 'Nikad';
+        }
+
+        $diffInMinutes = $this->last_seen_at->diffInMinutes(now());
+        
+        if ($diffInMinutes < 5) {
+            return 'Online';
+        } elseif ($diffInMinutes < 60) {
+            return 'Pre ' . $diffInMinutes . ' min';
+        } elseif ($diffInMinutes < 1440) { // 24 hours
+            $hours = floor($diffInMinutes / 60);
+            return 'Pre ' . $hours . ' ' . ($hours == 1 ? 'sat' : ($hours < 5 ? 'sata' : 'sati'));
+        } elseif ($diffInMinutes < 10080) { // 7 days
+            $days = floor($diffInMinutes / 1440);
+            return 'Pre ' . $days . ' ' . ($days == 1 ? 'dan' : 'dana');
+        } else {
+            return $this->last_seen_at->format('d.m.Y');
+        }
+    }
+
+    public function getIsOnlineAttribute()
+    {
+        if (!$this->last_seen_at) {
+            return false;
+        }
+        
+        return $this->last_seen_at->diffInMinutes(now()) < 5;
+    }
+
+    public function shouldShowLastSeen()
+    {
+        return Setting::get('show_last_seen', true);
     }
 }
