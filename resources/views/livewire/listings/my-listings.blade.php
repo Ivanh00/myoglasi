@@ -184,13 +184,9 @@
                                         
                                         @if($listing->isActive())
                                             <button wire:click="$dispatch('openPromotionModal', { listingId: {{ $listing->id }} })" 
-                                                class="inline-flex items-center px-2 py-1 text-yellow-600 hover:text-yellow-900 rounded">
+                                                class="inline-flex items-center px-2 py-1 {{ $listing->hasActivePromotion() ? 'text-green-600 hover:text-green-900' : 'text-yellow-600 hover:text-yellow-900' }} rounded">
                                                 <i class="fas fa-bullhorn mr-1"></i> 
-                                                @if($listing->hasActivePromotion())
-                                                    Promocija ✓
-                                                @else
-                                                    Promocija
-                                                @endif
+                                                Promocija
                                             </button>
                                         @endif
                                     </div>
