@@ -95,6 +95,10 @@
                                     </x-dropdown-link>
                                 @else
                                     <!-- Regular user dropdown menu -->
+                                    <x-dropdown-link href="{{ route('dashboard') }}">
+                                        <i class="fas fa-tachometer-alt mr-2"></i>
+                                        Dashboard
+                                    </x-dropdown-link>
                                     <x-dropdown-link href="{{ route('profile') }}">
                                         Moj profil
                                     </x-dropdown-link>
@@ -245,6 +249,11 @@
                             </div>
                         </div>
                     </div>
+                    <a href="{{ route('dashboard') }}"
+                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        <i class="fas fa-tachometer-alt mr-2"></i>
+                        Dashboard
+                    </a>
                     <a href="{{ route('profile') }}"
                         class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Moj profil
