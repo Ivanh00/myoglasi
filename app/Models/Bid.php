@@ -84,10 +84,7 @@ class Bid extends Model
             }
         });
         
-        // Process auto-bids AFTER transaction (separate transaction)
-        if (!$isAutoBid) { // Only trigger auto-bids for manual bids, not auto-bids
-            self::processAutoBids($auction->fresh(), $userId);
-        }
+        // Note: Auto-bid processing is now handled in Livewire component
 
         return true;
     }
@@ -95,22 +92,38 @@ class Bid extends Model
     // Process auto-bids when a new manual bid is placed
     public static function processAutoBids($auction, $excludeUserId = null)
     {
-        // Debug logging
-        if (app()->environment('local')) {
-            \Log::info("ProcessAutoBids called for auction {$auction->id}, excluding user {$excludeUserId}");
+        // Prevent multiple simultaneous auto-bid processing
+        $cacheKey = "auto_bid_processing_{$auction->id}";
+        if (\Cache::has($cacheKey)) {
+            \Log::info("Auto-bid processing already in progress for auction {$auction->id}, skipping");
+            return;
         }
         
-        // Get active auto-bids for this auction (excluding the user who just bid)
-        $autoBids = self::where('auction_id', $auction->id)
-            ->where('is_auto_bid', true)
-            ->whereNotNull('max_bid')
-            ->when($excludeUserId, function($query, $userId) {
-                return $query->where('user_id', '!=', $userId);
-            })
-            ->whereRaw('max_bid > ?', [$auction->current_price])
-            ->orderBy('max_bid', 'desc') // Highest max bid first
-            ->orderBy('created_at', 'asc') // Earlier auto-bid wins ties
-            ->get();
+        \Cache::put($cacheKey, true, 10); // Lock for 10 seconds
+        
+        try {
+            // Debug logging
+            if (app()->environment('local')) {
+                \Log::info("ProcessAutoBids called for auction {$auction->id}, excluding user {$excludeUserId}");
+            }
+            
+            // Get fresh auction data
+            $auction = $auction->fresh();
+            
+            // Get active auto-bids for this auction (excluding the user who just bid)
+            $autoBids = self::where('auction_id', $auction->id)
+                ->where('is_auto_bid', true)
+                ->whereNotNull('max_bid')
+                ->when($excludeUserId, function($query, $userId) {
+                    return $query->where('user_id', '!=', $userId);
+                })
+                ->whereRaw('max_bid > ?', [$auction->current_price])
+                ->orderBy('max_bid', 'desc') // Highest max bid first
+                ->orderBy('created_at', 'asc') // Earlier auto-bid wins ties
+                ->get();
+        } finally {
+            \Cache::forget($cacheKey);
+        }
             
         if (app()->environment('local')) {
             \Log::info("Found " . $autoBids->count() . " eligible auto-bids");
@@ -121,7 +134,8 @@ class Bid extends Model
             $nextBidAmount = $auction->current_price + $auction->bid_increment;
             
             if (app()->environment('local')) {
-                \Log::info("Auto-bid candidate - User {$autoBid->user_id}, Max: {$autoBid->max_bid}, Next bid: {$nextBidAmount}");
+                \Log::info("Auto-bid calculation - Current: {$auction->current_price}, Increment: {$auction->bid_increment}, Next: {$nextBidAmount}");
+                \Log::info("Auto-bid candidate - User {$autoBid->user_id}, Max: {$autoBid->max_bid}, Can afford: " . ($autoBid->max_bid >= $nextBidAmount ? 'Yes' : 'No'));
             }
             
             // Check if auto-bidder can afford this bid
@@ -135,10 +149,15 @@ class Bid extends Model
                     // Mark ALL previous bids as not winning
                     $auction->bids()->update(['is_winning' => false]);
 
-                    // Update existing auto-bid record with new amount
-                    $autoBid->update([
+                    // Create NEW auto-bid entry (preserve history)
+                    Bid::create([
+                        'auction_id' => $auction->id,
+                        'user_id' => $autoBid->user_id,
                         'amount' => $nextBidAmount,
-                        'is_winning' => true
+                        'is_winning' => true,
+                        'is_auto_bid' => true,
+                        'max_bid' => $autoBid->max_bid,
+                        'ip_address' => $autoBid->ip_address
                     ]);
 
                     // Update auction current price
