@@ -42,7 +42,7 @@
                     @endif
                 @endif
             </div>
-            <div class="relative" x-data="{ open: false }">
+            <div class="relative" x-data="{ open: false }" x-init="open = false">
                 <button @click="open = !open" type="button"
                     class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
                     <span>
@@ -101,7 +101,7 @@
             <!-- Filter Controls -->
             <div class="flex items-center justify-between gap-4">
             <!-- Left: Category dropdown -->
-            <div class="w-60" x-data="{ open: false }">
+            <div class="w-60" x-data="{ open: false }" x-init="open = false">
                 <div class="relative">
                     <button @click="open = !open" type="button"
                         class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
@@ -140,7 +140,7 @@
             <!-- Center: Filters -->
             <div class="flex items-center gap-3">
                 <!-- Sortiranje -->
-                <div class="w-40" x-data="{ open: false }">
+                <div class="w-40" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
@@ -174,7 +174,7 @@
                 </div>
 
                 <!-- Per page -->
-                <div class="w-32" x-data="{ open: false }">
+                <div class="w-32" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
@@ -221,7 +221,7 @@
         <div class="md:hidden">
             <div class="flex gap-3">
                 <!-- Mobile filters (50/50 split) -->
-                <div class="flex-1" x-data="{ open: false }">
+                <div class="flex-1" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
@@ -255,7 +255,7 @@
                 </div>
 
                 <!-- Mobile per page -->
-                <div class="flex-1" x-data="{ open: false }">
+                <div class="flex-1" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">

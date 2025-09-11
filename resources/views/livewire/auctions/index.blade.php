@@ -15,7 +15,7 @@
             
             <div class="flex items-center justify-between gap-4">
                 <!-- Sort Options -->
-                <div class="w-60" x-data="{ open: false }">
+                <div class="w-60" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-yellow-500 transition-colors flex items-center justify-between">
@@ -55,7 +55,7 @@
                 </div>
 
                 <!-- Per page -->
-                <div class="w-32" x-data="{ open: false }">
+                <div class="w-32" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-yellow-500 transition-colors flex items-center justify-between">
@@ -96,7 +96,7 @@
         <!-- Mobile Layout -->
         <div class="md:hidden">
             <div class="flex gap-3">
-                <div class="flex-1" x-data="{ open: false }">
+                <div class="flex-1" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-yellow-500 transition-colors flex items-center justify-between">
@@ -135,7 +135,7 @@
                     </div>
                 </div>
 
-                <div class="flex-1" x-data="{ open: false }">
+                <div class="flex-1" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-yellow-500 transition-colors flex items-center justify-between">

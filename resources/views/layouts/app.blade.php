@@ -55,7 +55,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
                 <!-- X icon (hidden by default) -->
-                <svg id="sidebar-close-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg id="sidebar-close-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
@@ -72,7 +73,8 @@
             </aside>
 
             <!-- Mobile Sidebar -->
-            <aside id="mobile-sidebar" class="fixed left-0 top-16 w-64 bg-white shadow-lg h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+            <aside id="mobile-sidebar"
+                class="fixed left-0 top-16 w-64 bg-white shadow-lg h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
                 <livewire:category-sidebar />
             </aside>
 
@@ -92,7 +94,7 @@
         </div>
     </footer>
     @livewireScripts
-    
+
     <!-- Mobile Sidebar JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -101,12 +103,12 @@
             const sidebarOverlay = document.getElementById('mobile-sidebar-overlay');
             const menuIcon = document.getElementById('sidebar-menu-icon');
             const closeIcon = document.getElementById('sidebar-close-icon');
-            
+
             if (sidebarButton && mobileSidebar && sidebarOverlay) {
                 // Toggle sidebar
                 sidebarButton.addEventListener('click', function() {
                     const isOpen = !mobileSidebar.classList.contains('-translate-x-full');
-                    
+
                     if (isOpen) {
                         // Close sidebar
                         mobileSidebar.classList.add('-translate-x-full');
@@ -121,7 +123,7 @@
                         closeIcon.classList.remove('hidden');
                     }
                 });
-                
+
                 // Close sidebar when clicking overlay
                 sidebarOverlay.addEventListener('click', function() {
                     mobileSidebar.classList.add('-translate-x-full');
@@ -129,7 +131,7 @@
                     menuIcon.classList.remove('hidden');
                     closeIcon.classList.add('hidden');
                 });
-                
+
                 // Close sidebar when clicking on links
                 const sidebarLinks = mobileSidebar.querySelectorAll('a');
                 sidebarLinks.forEach(link => {

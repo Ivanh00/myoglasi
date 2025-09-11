@@ -22,7 +22,7 @@
                 </div>
 
                 <!-- Filter dropdown -->
-                <div class="flex items-center" x-data="{ open: false }">
+                <div class="flex items-center" x-data="{ open: false }" x-init="open = false">
                     <label class="text-sm font-medium text-gray-700 mr-3">Prikaži:</label>
                     <div class="relative">
                         <button @click="open = !open" type="button"
