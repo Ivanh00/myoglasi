@@ -158,6 +158,45 @@ class User extends Authenticatable
         return '';
     }
 
+    // Concurrent listing limit methods
+    public function getActiveListingsCount()
+    {
+        return $this->listings()
+            ->where('status', 'active')
+            ->count();
+    }
+    
+    public function canCreateListing()
+    {
+        // Admin can always create listings
+        if ($this->is_admin) {
+            return true;
+        }
+        
+        // Users with payment enabled have no limits
+        if ($this->payment_enabled) {
+            return true;
+        }
+        
+        // Check concurrent active listings limit for users with payment disabled
+        $activeListingLimit = Setting::get('monthly_listing_limit', 50); // Reusing same setting name
+        $currentActiveListings = $this->getActiveListingsCount();
+        
+        return $currentActiveListings < $activeListingLimit;
+    }
+    
+    public function getRemainingListings()
+    {
+        if ($this->is_admin || $this->payment_enabled) {
+            return 'neograničeno';
+        }
+        
+        $activeListingLimit = Setting::get('monthly_listing_limit', 50);
+        $currentActiveListings = $this->getActiveListingsCount();
+        
+        return max(0, $activeListingLimit - $currentActiveListings);
+    }
+
     // Ostale metode ostaju iste...
     public function listings()
     {

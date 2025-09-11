@@ -23,6 +23,7 @@ class Settings extends Component
     public $maxImagesPerListing;
     public $listingAutoExpireDays;
     public $maintenanceMode;
+    public $monthlyListingLimit;
     
     // Email Settings
     public $adminEmail;
@@ -58,6 +59,7 @@ class Settings extends Component
         'maxImagesPerListing' => 'required|integer|min:1|max:50',
         'listingAutoExpireDays' => 'required|integer|min:7|max:365',
         'maintenanceMode' => 'required|boolean',
+        'monthlyListingLimit' => 'required|integer|min:1|max:1000',
         'adminEmail' => 'required|email|max:255',
         'supportEmail' => 'required|email|max:255',
         'bankAccountNumber' => 'required|string|max:100',
@@ -97,6 +99,7 @@ class Settings extends Component
         $this->maxImagesPerListing = Setting::get('max_images_per_listing', 10);
         $this->listingAutoExpireDays = Setting::get('listing_auto_expire_days', 60);
         $this->maintenanceMode = Setting::get('maintenance_mode', false);
+        $this->monthlyListingLimit = Setting::get('monthly_listing_limit', 50);
         
         // Email Settings
         $this->adminEmail = Setting::get('admin_email', 'admin@myoglasi.rs');
@@ -156,12 +159,14 @@ class Settings extends Component
             'maxImagesPerListing' => 'required|integer|min:1|max:50',
             'listingAutoExpireDays' => 'required|integer|min:7|max:365',
             'maintenanceMode' => 'required|boolean',
+            'monthlyListingLimit' => 'required|integer|min:1|max:1000',
         ]);
 
         Setting::set('site_name', $this->siteName, 'string', 'general');
         Setting::set('max_images_per_listing', $this->maxImagesPerListing, 'integer', 'general');
         Setting::set('listing_auto_expire_days', $this->listingAutoExpireDays, 'integer', 'general');
         Setting::set('maintenance_mode', $this->maintenanceMode, 'boolean', 'general');
+        Setting::set('monthly_listing_limit', $this->monthlyListingLimit, 'integer', 'general');
 
         session()->flash('success', 'Opšta podešavanja su uspešno sačuvana.');
     }

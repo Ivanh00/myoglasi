@@ -223,6 +223,21 @@
                         @enderror
                     </div>
                     
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Maksimalno aktivnih oglasa (besplatni korisnici)</label>
+                        <input type="number" wire:model="monthlyListingLimit" min="1" max="1000"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <p class="text-xs text-gray-500 mt-1">
+                            Koliko aktivnih oglasa mogu istovremeno da imaju korisnici sa isključenim plaćanjem (trenutno: {{ $monthlyListingLimit }} oglasa)
+                        </p>
+                        <div class="text-xs text-blue-600 mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
+                            💡 <strong>Napomena:</strong> Kada oglas istekne ili se obriše, korisnik može postaviti novi. Ograničava se broj aktivnih oglasa, ne ukupan broj postavljenih.
+                        </div>
+                        @error('monthlyListingLimit') 
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    
                     <div class="flex items-center">
                         <input type="checkbox" id="maintenance_mode" wire:model="maintenanceMode" 
                             class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">

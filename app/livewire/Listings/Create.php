@@ -109,6 +109,16 @@ class Create extends Component
 
         $user = auth()->user();
         
+        // Check active listing limit for users with payment disabled
+        if (!$user->payment_enabled && !$user->canCreateListing()) {
+            $activeLimit = \App\Models\Setting::get('monthly_listing_limit', 50);
+            $currentCount = $user->getActiveListingsCount();
+            $remaining = $user->getRemainingListings();
+            
+            session()->flash('error', "Dostigli ste limit aktivnih oglasa ({$currentCount}/{$activeLimit}). Obrišite ili sačekajte da isteknu postojeći oglasi, ili aktivirajte plaćanje za neograničene oglase.");
+            return redirect()->route('listings.my');
+        }
+        
         // Check if user can create listing (payment check)  
         if (!$user->canCreateListingForFree() && $user->payment_plan === 'per_listing') {
             $fee = \App\Models\Setting::get('listing_fee_amount', 10);

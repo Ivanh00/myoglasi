@@ -148,11 +148,24 @@
             
             <div class="space-y-3">
                 <a href="{{ route('listings.create') }}" 
-                   class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors">
-                    <i class="fas fa-plus text-green-600 mr-3"></i>
+                   class="flex items-center p-3 {{ $stats['can_create_listing'] ? 'bg-green-50 border-green-200 hover:bg-green-100' : 'bg-red-50 border-red-200' }} border rounded-lg transition-colors">
+                    <i class="fas fa-plus {{ $stats['can_create_listing'] ? 'text-green-600' : 'text-red-600' }} mr-3"></i>
                     <div>
-                        <div class="font-medium text-green-900">Postavi novi oglas</div>
-                        <div class="text-sm text-green-700">Kreiraj novi oglas za prodaju</div>
+                        <div class="font-medium {{ $stats['can_create_listing'] ? 'text-green-900' : 'text-red-900' }}">
+                            Postavi novi oglas
+                            @if(!auth()->user()->payment_enabled)
+                                <span class="text-xs {{ $stats['can_create_listing'] ? 'text-green-600' : 'text-red-600' }}">
+                                    ({{ $stats['remaining_listings'] }} ostalo)
+                                </span>
+                            @endif
+                        </div>
+                        <div class="text-sm {{ $stats['can_create_listing'] ? 'text-green-700' : 'text-red-700' }}">
+                            @if($stats['can_create_listing'])
+                                Kreiraj novi oglas za prodaju
+                            @else
+                                Dostigli ste mesečni limit
+                            @endif
+                        </div>
                     </div>
                 </a>
                 

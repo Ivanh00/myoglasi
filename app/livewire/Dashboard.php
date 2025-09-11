@@ -39,6 +39,11 @@ class Dashboard extends Component
             'favorites_count' => $user->favorites()->count(),
             'total_ratings' => $user->total_ratings_count ?? 0,
             'positive_ratings' => $user->positive_ratings_count ?? 0,
+            
+            // Active listing limits
+            'active_listings_count' => $user->getActiveListingsCount(),
+            'remaining_listings' => $user->getRemainingListings(),
+            'can_create_listing' => $user->canCreateListing(),
         ];
     }
 
