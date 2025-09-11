@@ -237,6 +237,21 @@
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Minimalni iznos za deljenje kredita (RSD)</label>
+                        <input type="number" wire:model="minimumCreditTransfer" min="1" max="10000"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <p class="text-xs text-gray-500 mt-1">
+                            Najmanji iznos koji korisnik može da podeli sa drugim korisnicima (trenutno: {{ number_format($minimumCreditTransfer, 0, ',', '.') }} RSD)
+                        </p>
+                        <div class="text-xs text-blue-600 mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
+                            💡 <strong>Napomena:</strong> Ovo postavke sprečavaju da se šalje po nekoliko dinara, čuvajući korisnicima vreme i povećavajući kvalitet transfera.
+                        </div>
+                        @error('minimumCreditTransfer') 
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
                     
                     <div class="flex items-center">
                         <input type="checkbox" id="maintenance_mode" wire:model="maintenanceMode" 

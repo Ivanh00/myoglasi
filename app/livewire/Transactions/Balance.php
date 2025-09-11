@@ -97,8 +97,9 @@ class Balance extends Component
             return;
         }
         
-        if ($this->transferAmount < 10) {
-            $this->addError('transferAmount', 'Minimalni transfer je 10 RSD.');
+        $minimumTransfer = \App\Models\Setting::get('minimum_credit_transfer', 10);
+        if ($this->transferAmount < $minimumTransfer) {
+            $this->addError('transferAmount', 'Minimalni transfer je ' . number_format($minimumTransfer, 0, ',', '.') . ' RSD.');
             return;
         }
         

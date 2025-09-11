@@ -256,8 +256,8 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Iznos za transfer</label>
                                 <input type="number" wire:model="transferAmount" 
-                                    min="10" step="10"
-                                    placeholder="Unesite iznos u RSD"
+                                    min="{{ \App\Models\Setting::get('minimum_credit_transfer', 10) }}" step="10"
+                                    placeholder="Unesite iznos u RSD (min. {{ number_format(\App\Models\Setting::get('minimum_credit_transfer', 10), 0, ',', '.') }} RSD)"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
                                 @error('transferAmount') 
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p> 
