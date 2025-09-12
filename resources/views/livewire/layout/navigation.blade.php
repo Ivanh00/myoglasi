@@ -153,11 +153,6 @@
                                         Balans
                                     </x-dropdown-link>
                                     
-                                    <x-dropdown-link href="{{ route('earn-credits.index') }}">
-                                        <i class="fas fa-coins mr-2"></i>
-                                        Zaradi kredit
-                                    </x-dropdown-link>
-                                    
                                     <x-dropdown-link href="{{ route('admin.contact') }}">
                                         Piši Adminu
                                     </x-dropdown-link>
@@ -318,11 +313,6 @@
                     <a href="{{ route('balance.index') }}"
                         class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Balans
-                    </a>
-                    <a href="{{ route('earn-credits.index') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
-                        <i class="fas fa-coins mr-2"></i>
-                        Zaradi kredit
                     </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

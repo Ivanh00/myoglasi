@@ -31,6 +31,12 @@
                         <i class="fas fa-exchange-alt mr-2"></i>
                         Podeli kredit
                     </button>
+                    
+                    <a href="{{ route('earn-credits.index') }}"
+                        class="inline-flex items-center px-6 py-3 bg-yellow-600 text-white font-semibold rounded-lg hover:bg-yellow-700 transition-colors">
+                        <i class="fas fa-coins mr-2"></i>
+                        Zaradi kredit
+                    </a>
                 </div>
             </div>
         </div>
