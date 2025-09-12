@@ -76,6 +76,18 @@ class UnifiedSearch extends Component
             $results = $results->merge($listings->items());
         }
         
+        // Get services if content_type is 'all' or 'services'
+        if (in_array($this->content_type, ['all', 'services'])) {
+            $services = $this->getServices();
+            $results = $results->merge($services->items());
+        }
+        
+        // Get giveaways if content_type is 'all' or 'giveaways'
+        if (in_array($this->content_type, ['all', 'giveaways'])) {
+            $giveaways = $this->getGiveaways();
+            $results = $results->merge($giveaways->items());
+        }
+        
         // Get auctions if content_type is 'all' or 'auctions'
         if (in_array($this->content_type, ['all', 'auctions'])) {
             $auctions = $this->getAuctions();
@@ -127,6 +139,32 @@ class UnifiedSearch extends Component
     private function getListings()
     {
         $query = Listing::where('status', 'active')
+            ->where(function($q) {
+                $q->where('listing_type', 'listing')
+                  ->orWhereNull('listing_type'); // For backward compatibility
+            })
+            ->with(['category', 'condition', 'images', 'subcategory', 'user']);
+            
+        $this->applyFiltersToQuery($query, 'listing');
+        
+        return $query->paginate($this->perPage);
+    }
+
+    private function getServices()
+    {
+        $query = Listing::where('status', 'active')
+            ->where('listing_type', 'service')
+            ->with(['category', 'condition', 'images', 'subcategory', 'user']);
+            
+        $this->applyFiltersToQuery($query, 'listing');
+        
+        return $query->paginate($this->perPage);
+    }
+
+    private function getGiveaways()
+    {
+        $query = Listing::where('status', 'active')
+            ->where('listing_type', 'giveaway')
             ->with(['category', 'condition', 'images', 'subcategory', 'user']);
             
         $this->applyFiltersToQuery($query, 'listing');

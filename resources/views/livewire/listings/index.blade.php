@@ -330,7 +330,13 @@
                             {{-- Seller info --}}
                             @auth
                                 <p class="text-sm font-bold text-gray-700 mb-1">
-                                    Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                    @if($listing->isService())
+                                        Pružalac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                    @elseif($listing->isGiveaway())
+                                        Poklanja: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                    @else
+                                        Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                    @endif
                                     @if($listing->user){!! $listing->user->verified_icon !!}@endif
                                     @if ($listing->user && $listing->user->is_banned)
                                         <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
@@ -365,15 +371,27 @@
                             </p>
 
                             <div class="flex items-center justify-between mb-3">
-                                <div class="text-blue-600 font-bold text-lg">
-                                    {{ number_format($listing->price, 2) }} RSD
-                                </div>
-
-                                @if ($listing->condition)
-                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
-                                        {{ $listing->condition->name }}
-                                    </span>
+                                @if($listing->isGiveaway())
+                                    <div class="text-green-600 font-bold text-lg">BESPLATNO</div>
+                                @else
+                                    <div class="text-blue-600 font-bold text-lg">
+                                        {{ number_format($listing->price, 2) }} RSD
+                                    </div>
                                 @endif
+
+                                <div class="flex items-center gap-2">
+                                    @if($listing->getTypeBadge())
+                                        <span class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
+                                            {{ $listing->getTypeBadge()['text'] }}
+                                        </span>
+                                    @endif
+                                    
+                                    @if ($listing->condition)
+                                        <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                            {{ $listing->condition->name }}
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
 
                             <!-- Stats -->
@@ -448,7 +466,13 @@
                                     {{-- Korisničko ime kreatora --}}
                                     @auth
                                         <p class="text-sm font-bold text-gray-700 mb-1">
-                                            Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                            @if($listing->isService())
+                                                Pružalac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                            @elseif($listing->isGiveaway())
+                                                Poklanja: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                            @else
+                                                Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                            @endif
                                             @if($listing->user){!! $listing->user->verified_icon !!}@endif
                                             @if ($listing->user && $listing->user->is_banned)
                                                 <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
@@ -484,16 +508,27 @@
                                 </div>
 
                                 <div class="flex items-center justify-between">
-                                    <div class="text-blue-600 font-bold text-xl">
-                                        {{ number_format($listing->price, 2) }} RSD
-                                    </div>
-
-                                    @if ($listing->condition)
-                                        <span
-                                            class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
-                                            {{ $listing->condition->name }}
-                                        </span>
+                                    @if($listing->isGiveaway())
+                                        <div class="text-green-600 font-bold text-xl">BESPLATNO</div>
+                                    @else
+                                        <div class="text-blue-600 font-bold text-xl">
+                                            {{ number_format($listing->price, 2) }} RSD
+                                        </div>
                                     @endif
+
+                                    <div class="flex items-center gap-2">
+                                        @if($listing->getTypeBadge())
+                                            <span class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
+                                                {{ $listing->getTypeBadge()['text'] }}
+                                            </span>
+                                        @endif
+                                        
+                                        @if ($listing->condition)
+                                            <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                                {{ $listing->condition->name }}
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
