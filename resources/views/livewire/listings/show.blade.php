@@ -2,8 +2,8 @@
     @if (!$listing)
         <div class="bg-white rounded-lg shadow-lg p-6 text-center">
             <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl mb-4"></i>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">Oglas nije pronađen</h2>
-            <p class="text-gray-600 mb-4">Traženi oglas ne postoji ili je obrisan.</p>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Sadržaj nije pronađen</h2>
+            <p class="text-gray-600 mb-4">Traženi sadržaj ne postoji ili je obrisan.</p>
             <a href="{{ url('/') }}"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 Nazad na početnu
@@ -138,8 +138,22 @@
                     </div>
 
                     <div class="flex items-center mb-4">
-                        <span class="text-3xl font-bold text-blue-600">{{ number_format($listing->price, 2) }}
-                            RSD</span>
+                        @if($listing->isGiveaway())
+                            <span class="text-3xl font-bold text-green-600">BESPLATNO</span>
+                            <span class="ml-4 px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                                POKLON
+                            </span>
+                        @else
+                            <span class="text-3xl font-bold text-blue-600">{{ number_format($listing->price, 2) }}
+                                RSD</span>
+                        @endif
+                        
+                        @if($listing->isService())
+                            <span class="ml-4 px-3 py-1 bg-gray-100 text-gray-800 text-sm font-medium rounded-full">
+                                USLUGA
+                            </span>
+                        @endif
+                        
                         @if ($listing->condition)
                             <span class="ml-4 px-3 py-1 bg-gray-100 text-gray-800 text-sm font-medium rounded-full">
                                 {{ $listing->condition->name }}
@@ -151,7 +165,15 @@
                         @auth
                             <div class="flex items-center mb-1">
                                 <i class="fas fa-user text-gray-500 mr-2"></i>
-                                <span class="text-gray-700 font-bold">Prodavac: {{ $listing->user->name }}</span>
+                                <span class="text-gray-700 font-bold">
+                                    @if($listing->isService())
+                                        Pružalac usluge: {{ $listing->user->name }}
+                                    @elseif($listing->isGiveaway())
+                                        Poklanja: {{ $listing->user->name }}
+                                    @else
+                                        Prodavac: {{ $listing->user->name }}
+                                    @endif
+                                </span>
                                 @if($listing->user){!! $listing->user->verified_icon !!}@endif
                                 @if($listing->user->is_banned)
                                     <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
@@ -266,16 +288,18 @@
                                     <i class="fas fa-edit mr-2"></i> Uredi oglas
                                 </a>
                                 
-                                <!-- Dugme za aukciju -->
-                                @if(!$listing->auction)
-                                    <a href="{{ route('auction.setup', $listing) }}"
-                                        class="flex items-center justify-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
-                                        <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
-                                    </a>
-                                @else
-                                    <span class="flex items-center justify-center px-4 py-3 bg-gray-400 text-white rounded-lg">
-                                        <i class="fas fa-gavel mr-2"></i> Na aukciji
-                                    </span>
+                                <!-- Dugme za aukciju (only for regular listings) -->
+                                @if($listing->isRegularListing())
+                                    @if(!$listing->auction)
+                                        <a href="{{ route('auction.setup', $listing) }}"
+                                            class="flex items-center justify-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                            <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
+                                        </a>
+                                    @else
+                                        <span class="flex items-center justify-center px-4 py-3 bg-gray-400 text-white rounded-lg">
+                                            <i class="fas fa-gavel mr-2"></i> Na aukciji
+                                        </span>
+                                    @endif
                                 @endif
                             @endif
                         @else
@@ -327,16 +351,18 @@
                                     <i class="fas fa-edit mr-2"></i> Uredi oglas
                                 </a>
                                 
-                                <!-- Dugme za aukciju (mobile) -->
-                                @if(!$listing->auction)
-                                    <a href="{{ route('auction.setup', $listing) }}"
-                                        class="w-full flex items-center justify-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
-                                        <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
-                                    </a>
-                                @else
-                                    <span class="w-full flex items-center justify-center px-4 py-3 bg-gray-400 text-white rounded-lg">
-                                        <i class="fas fa-gavel mr-2"></i> Na aukciji
-                                    </span>
+                                <!-- Dugme za aukciju (mobile, only for regular listings) -->
+                                @if($listing->isRegularListing())
+                                    @if(!$listing->auction)
+                                        <a href="{{ route('auction.setup', $listing) }}"
+                                            class="w-full flex items-center justify-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                            <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
+                                        </a>
+                                    @else
+                                        <span class="w-full flex items-center justify-center px-4 py-3 bg-gray-400 text-white rounded-lg">
+                                            <i class="fas fa-gavel mr-2"></i> Na aukciji
+                                        </span>
+                                    @endif
                                 @endif
                             @endif
                         @else
@@ -353,7 +379,15 @@
 
             <!-- Opis oglasa -->
             <div class="border-t border-gray-200 p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Opis oglasa</h2>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                    @if($listing->isService())
+                        Opis usluge
+                    @elseif($listing->isGiveaway())
+                        Opis poklona
+                    @else
+                        Opis oglasa
+                    @endif
+                </h2>
                 <div class="text-gray-700 whitespace-pre-line">{{ $listing->description }}</div>
             </div>
 
@@ -371,7 +405,15 @@
 
             <!-- Informacije o prodavcu -->
             <div class="border-t border-gray-200 p-6 bg-gray-50">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Informacije o prodavcu</h2>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                    @if($listing->isService())
+                        Informacije o pružaocu usluge
+                    @elseif($listing->isGiveaway())
+                        Informacije o davaocу
+                    @else
+                        Informacije o prodavcu
+                    @endif
+                </h2>
                 <div class="flex items-start">
                     <!-- Avatar -->
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
