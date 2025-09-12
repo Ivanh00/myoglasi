@@ -5,7 +5,6 @@
             Dobrodošli, {{ auth()->user()->name }}!
             {!! auth()->user()->verified_icon !!}
         </h1>
-        <p class="text-gray-600 dark:text-gray-300 mt-2">Pregled vaših aktivnosti na MyOglasi platformi</p>
         
         <!-- Listing Limit Indicator (for users with payment disabled) -->
         @if(!auth()->user()->payment_enabled && !auth()->user()->is_admin)
