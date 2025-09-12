@@ -1,13 +1,29 @@
-<div class="messages-container">
+<div class="messages-container bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <style>
+        /* Dark mode hover fixes for ratings */
+        .dark .conversation-item:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        .dark .conversation-item {
+            background-color: rgb(17 24 39) !important; /* gray-900 - same as main background */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        .dark .user-name, .dark .listing-name, .dark .preview-text, .dark .date-info {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        .dark .text-gray-400 {
+            color: rgb(156 163 175) !important; /* gray-400 */
+        }
+    </style>
     <!-- Header -->
     <section class="navigation-holder">
         <div class="messages-header">
-            <h1>Moje ocene</h1>
+            <h1 class="text-gray-900 dark:text-gray-100">Moje ocene</h1>
         </div>
     </section>
 
     <!-- Filter Options (Smiley Filters) -->
-    <div style="padding: 1rem; background: white; border-bottom: 1px solid #eee;">
+    <div class="p-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600">
         <!-- Desktop filters -->
         <div class="hidden md:block">
             <div class="flex justify-center items-center gap-6">
