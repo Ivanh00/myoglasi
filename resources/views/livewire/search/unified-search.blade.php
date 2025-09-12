@@ -1,16 +1,25 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     <!-- Header -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">Pretraga</h1>
-        <p class="text-gray-600">
-            @if($content_type === 'auctions')
-                Rezultati pretrage aukcija
-            @elseif($content_type === 'listings')
-                Rezultati pretrage oglasa
-            @else
-                Rezultati pretrage oglasa i aukcija
-            @endif
-        </p>
+        @if(request()->routeIs('home'))
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Dobrodošli na MyOglasi</h1>
+            <p class="text-gray-600">Pronađite najbolje ponude - oglasi, aukcije, usluge i pokloni</p>
+        @else
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Pretraga</h1>
+            <p class="text-gray-600">
+                @if($content_type === 'auctions')
+                    Rezultati pretrage aukcija
+                @elseif($content_type === 'services')
+                    Rezultati pretrage usluga
+                @elseif($content_type === 'giveaways')
+                    Rezultati pretrage poklona
+                @elseif($content_type === 'listings')
+                    Rezultati pretrage oglasa
+                @else
+                    Rezultati pretrage svih kategorija
+                @endif
+            </p>
+        @endif
     </div>
 
     <!-- Filter Summary -->
@@ -52,13 +61,36 @@
     <div class="bg-white rounded-lg shadow-md p-4 mb-6">
         <div class="flex items-center justify-between mb-4">
             <div class="text-gray-600">
-                Pronađeno: <span class="font-semibold">{{ $results->total() }}</span>
-                @if($content_type === 'all')
-                    rezultata (oglasi i aukcije)
-                @elseif($content_type === 'auctions')
-                    aukcija
+                @if(request()->routeIs('home'))
+                    Ukupno: <span class="font-semibold">{{ $results->total() }}</span>
+                    @if($content_type === 'all')
+                        objava (oglasi, aukcije, usluge, pokloni)
+                    @elseif($content_type === 'auctions')
+                        aukcija
+                    @elseif($content_type === 'services')
+                        usluga
+                    @elseif($content_type === 'giveaways')
+                        poklona
+                    @elseif($content_type === 'listings')
+                        oglasa
+                    @else
+                        objava
+                    @endif
                 @else
-                    oglasa
+                    Pronađeno: <span class="font-semibold">{{ $results->total() }}</span>
+                    @if($content_type === 'all')
+                        rezultata
+                    @elseif($content_type === 'auctions')
+                        aukcija
+                    @elseif($content_type === 'services')
+                        usluga
+                    @elseif($content_type === 'giveaways')
+                        poklona
+                    @elseif($content_type === 'listings')
+                        oglasa
+                    @else
+                        rezultata
+                    @endif
                 @endif
             </div>
             

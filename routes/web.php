@@ -52,7 +52,7 @@ Route::get('/maintenance', function () {
 })->name('maintenance');
 
 // Javne rute
-Route::get('/', HomeComponent::class)->name('home');
+Route::get('/', \App\Livewire\Search\UnifiedSearch::class)->name('home');
 Route::get('/listings', ListingsIndex::class)->name('listings.index');
 Route::get('/auctions', \App\Livewire\Auctions\Index::class)->name('auctions.index');
 Route::get('/listings/create', ListingCreate::class)
