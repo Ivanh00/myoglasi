@@ -168,7 +168,7 @@
             <!-- Grid View -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 @foreach($auctions as $auction)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-yellow-500">
                         <!-- Image with overlay -->
                         <div class="relative">
                             <div class="w-full h-48">
@@ -247,7 +247,7 @@
             <!-- List View -->
             <div class="space-y-4 mb-8">
                 @foreach($auctions as $auction)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-yellow-500">
                         <div class="flex flex-col md:flex-row">
                             <!-- Image -->
                             <div class="w-full md:w-48 md:min-w-48 h-48 relative">
@@ -315,7 +315,7 @@
                             </div>
 
                             <!-- Sidebar -->
-                            <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
+                            <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 bg-yellow-50">
                                 <div class="flex flex-col h-full justify-between">
                                     <div class="text-center mb-4">
                                         <div class="text-lg font-bold text-yellow-600">

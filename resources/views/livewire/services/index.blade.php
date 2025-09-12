@@ -92,7 +92,7 @@
     @if ($services->count() > 0)
         <div class="space-y-4 mb-8">
             @foreach ($services as $service)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-gray-500">
                     <div class="flex flex-col md:flex-row">
                         <!-- Slika usluge -->
                         <div class="w-full md:w-48 md:min-w-48 h-48">
@@ -160,7 +160,7 @@
                         </div>
 
                         <!-- Desna strana - akcije -->
-                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
+                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 bg-gray-50">
                             <div class="flex flex-col h-full justify-between">
                                 <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
                                     <div class="flex items-center">
