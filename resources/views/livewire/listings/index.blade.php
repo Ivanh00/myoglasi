@@ -201,11 +201,11 @@
             <!-- Right: View Mode Toggle -->
             <div class="flex bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm">
                 <button wire:click="setViewMode('list')" 
-                    class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100' }} rounded-l-lg transition-colors">
+                    class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600' }} rounded-l-lg transition-colors">
                     <i class="fas fa-list"></i>
                 </button>
                 <button wire:click="setViewMode('grid')" 
-                    class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100' }} rounded-r-lg transition-colors">
+                    class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600' }} rounded-r-lg transition-colors">
                     <i class="fas fa-th"></i>
                 </button>
             </div>
