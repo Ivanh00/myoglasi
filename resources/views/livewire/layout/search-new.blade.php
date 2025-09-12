@@ -13,6 +13,11 @@ $hasFilters = !empty(array_filter([
 // Check if filters should be open (only when explicitly requested)
 $shouldShowFilters = !empty($urlParams['show_filters']) || !empty($urlParams['filters_open']);
 
+// Don't auto-open filters on search results page
+if (request()->routeIs('search.unified')) {
+    $shouldShowFilters = false;
+}
+
 // Get category and condition names for display (check both possible parameter names)
 $selectedCategoryName = '';
 $categoryId = $urlParams['search_category'] ?? $urlParams['category'] ?? null;
