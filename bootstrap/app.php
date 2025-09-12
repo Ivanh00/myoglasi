@@ -26,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.banned' => \App\Http\Middleware\CheckBannedUser::class,
             'check.listing' => \App\Http\Middleware\CheckUserCanCreateListing::class,
             'maintenance' => \App\Http\Middleware\MaintenanceMode::class,
+            'conditional.verified' => \App\Http\Middleware\ConditionalEmailVerification::class,
         ]);
         
         // Add global middleware to web requests

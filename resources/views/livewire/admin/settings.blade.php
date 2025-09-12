@@ -429,6 +429,34 @@
                     </div>
                 </div>
                 
+                <!-- Email Verification Setting -->
+                <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <h4 class="text-sm font-medium text-blue-800 mb-3">
+                        <i class="fas fa-shield-check mr-2"></i>
+                        Email verifikacija
+                    </h4>
+                    
+                    <div class="flex items-center mb-3">
+                        <input type="checkbox" id="email_verification_enabled" wire:model="emailVerificationEnabled" 
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="email_verification_enabled" class="ml-2 text-sm text-gray-700">
+                            Zahtevaj email verifikaciju za nove korisnike
+                        </label>
+                    </div>
+                    
+                    <div class="text-xs text-blue-600 p-2 bg-blue-100 border border-blue-300 rounded">
+                        <p class="mb-2"><strong>⚠️ NAPOMENA:</strong> Za slanje email-ova potreban je SMTP server.</p>
+                        <p class="mb-2"><strong>Opcije za email slanje:</strong></p>
+                        <ul class="list-disc list-inside ml-2 space-y-1">
+                            <li><strong>Gmail SMTP:</strong> Besplatno do 500 email-ova dnevno</li>
+                            <li><strong>Mailtrap:</strong> Za testiranje (development)</li>
+                            <li><strong>SendGrid:</strong> Profesionalni servis</li>
+                            <li><strong>Mailgun:</strong> Scalable email servis</li>
+                        </ul>
+                        <p class="mt-2"><strong>Bez SMTP-a:</strong> Ostavite verifikaciju isključenu.</p>
+                    </div>
+                </div>
+                
                 <div class="flex justify-end">
                     <button wire:click="saveEmailSettings" 
                         class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">

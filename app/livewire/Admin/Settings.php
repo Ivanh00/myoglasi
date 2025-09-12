@@ -54,6 +54,7 @@ class Settings extends Component
     // Email Settings
     public $adminEmail;
     public $supportEmail;
+    public $emailVerificationEnabled;
     
     // Banking Settings
     public $bankAccountNumber;
@@ -111,6 +112,7 @@ class Settings extends Component
         'promotionExtendedDurationDays' => 'required|integer|min:1|max:365',
         'adminEmail' => 'required|email|max:255',
         'supportEmail' => 'required|email|max:255',
+        'emailVerificationEnabled' => 'required|boolean',
         'bankAccountNumber' => 'required|string|max:100',
         'bankName' => 'required|string|max:255',
         'companyName' => 'required|string|max:255',
@@ -177,6 +179,7 @@ class Settings extends Component
         // Email Settings
         $this->adminEmail = Setting::get('admin_email', 'admin@myoglasi.rs');
         $this->supportEmail = Setting::get('support_email', 'support@myoglasi.rs');
+        $this->emailVerificationEnabled = Setting::get('email_verification_enabled', false);
         
         // Banking Settings
         $this->bankAccountNumber = Setting::get('bank_account_number', '265-0000000003456-78');
@@ -299,6 +302,7 @@ class Settings extends Component
 
         Setting::set('admin_email', $this->adminEmail, 'string', 'email');
         Setting::set('support_email', $this->supportEmail, 'string', 'email');
+        Setting::set('email_verification_enabled', $this->emailVerificationEnabled, 'boolean', 'email');
 
         session()->flash('success', 'Email podešavanja su uspešno sačuvana.');
     }
