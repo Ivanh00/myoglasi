@@ -89,7 +89,7 @@
                     @foreach ($this->transactions as $transaction)
                         <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                             <div class="flex items-center">
-                                @if ($transaction->type === 'credit_topup')
+                                @if (in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']))
                                     <div class="p-2 bg-green-100 rounded-lg mr-3">
                                         <i class="fas fa-plus text-green-600"></i>
                                     </div>
@@ -115,9 +115,8 @@
                             </div>
 
                             <div class="text-right">
-                                <p
-                                    class="font-bold {{ $transaction->type === 'credit_topup' ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $transaction->type === 'credit_topup' ? '+' : '-' }}{{ number_format($transaction->amount, 0, ',', '.') }}
+                                <p class="font-bold {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? '+' : '-' }}{{ number_format(abs($transaction->amount), 0, ',', '.') }}
                                     RSD
                                 </p>
                                 <span
