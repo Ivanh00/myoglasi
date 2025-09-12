@@ -72,6 +72,16 @@
                     class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'listings' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100' }}">
                     Oglasi
                 </button>
+                <button wire:click="$set('content_type', 'services')" 
+                    class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'services' ? 'bg-gray-100 text-gray-700' : 'text-gray-600 hover:bg-gray-100' }}">
+                    <i class="fas fa-tools mr-1"></i>
+                    Usluge
+                </button>
+                <button wire:click="$set('content_type', 'giveaways')" 
+                    class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'giveaways' ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-100' }}">
+                    <i class="fas fa-gift mr-1"></i>
+                    Pokloni
+                </button>
                 <button wire:click="$set('content_type', 'auctions')" 
                     class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'auctions' ? 'bg-yellow-100 text-yellow-700' : 'text-gray-600 hover:bg-gray-100' }}">
                     <i class="fas fa-gavel mr-1"></i>
@@ -238,6 +248,8 @@
                                                     {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
                                                 </div>
                                                 <div class="text-sm text-gray-500">{{ $listing->auction_data->total_bids }} ponuda</div>
+                                            @elseif($listing->isGiveaway())
+                                                <div class="text-xl font-bold text-green-600">BESPLATNO</div>
                                             @else
                                                 <div class="text-xl font-bold text-blue-600">
                                                     {{ number_format($listing->price, 2, ',', '.') }} RSD
@@ -245,11 +257,19 @@
                                             @endif
                                         </div>
 
-                                        @if($listing->condition)
-                                            <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
-                                                {{ $listing->condition->name }}
-                                            </span>
-                                        @endif
+                                        <div class="flex items-center gap-2">
+                                            @if($listing->getTypeBadge())
+                                                <span class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
+                                                    {{ $listing->getTypeBadge()['text'] }}
+                                                </span>
+                                            @endif
+                                            
+                                            @if($listing->condition)
+                                                <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                                    {{ $listing->condition->name }}
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -380,6 +400,8 @@
                                             {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
                                         </div>
                                         <div class="text-sm text-gray-500">{{ $listing->auction_data->total_bids }} ponuda</div>
+                                    @elseif($listing->isGiveaway())
+                                        <div class="text-2xl font-bold text-green-600">BESPLATNO</div>
                                     @else
                                         <div class="text-2xl font-bold text-blue-600">
                                             {{ number_format($listing->price, 2, ',', '.') }} RSD
@@ -387,11 +409,19 @@
                                     @endif
                                 </div>
 
-                                @if($listing->condition)
-                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
-                                        {{ $listing->condition->name }}
-                                    </span>
-                                @endif
+                                <div class="flex items-center gap-2">
+                                    @if($listing->getTypeBadge())
+                                        <span class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
+                                            {{ $listing->getTypeBadge()['text'] }}
+                                        </span>
+                                    @endif
+                                    
+                                    @if($listing->condition)
+                                        <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                            {{ $listing->condition->name }}
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
 
                             <!-- Stats -->
