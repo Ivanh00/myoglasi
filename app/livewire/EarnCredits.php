@@ -275,13 +275,14 @@ class EarnCredits extends Component
     public function initializeMemoryGame()
     {
         $colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
-        $cards = array_merge($colors, $colors); // Duplicate each color
+        $cards = array_merge($colors, $colors); // Duplicate each color (12 cards total)
         shuffle($cards);
         
         $this->memoryCards = $cards;
         $this->memoryFlipped = [];
         $this->memoryMatched = [];
         $this->memoryMoves = 0;
+        $this->memoryBlocked = false;
         $this->timeLeft = 60; // 60 seconds for memory game
     }
 
@@ -324,72 +325,35 @@ class EarnCredits extends Component
     // Snake Game Methods
     public function initializeSnakeGame()
     {
-        $this->snakePosition = [[10, 10], [10, 9], [10, 8]]; // Start with 3 segments
-        $this->snakeDirection = 'right';
-        $this->snakeFood = $this->generateSnakeFood();
         $this->snakeScore = 0;
         $this->snakeGameOver = false;
         $this->timeLeft = 120; // 2 minutes for snake game
+        // JavaScript will handle the actual game state
     }
 
-    public function moveSnake($direction)
+    public function updateSnakeScore($score)
     {
-        if (!$this->gameActive || $this->selectedGame !== 'snake_game' || $this->snakeGameOver) return;
+        $this->snakeScore = $score;
+    }
+
+    public function collectSnakeFood()
+    {
+        if (!$this->gameActive || $this->selectedGame !== 'snake_game') return;
         
-        $this->snakeDirection = $direction;
-    }
-
-    public function updateSnakePosition()
-    {
-        if (!$this->gameActive || $this->snakeGameOver) return;
-
-        $head = $this->snakePosition[0];
-        $newHead = $head;
-
-        // Move head based on direction
-        switch($this->snakeDirection) {
-            case 'up': $newHead[1]--; break;
-            case 'down': $newHead[1]++; break;
-            case 'left': $newHead[0]--; break;
-            case 'right': $newHead[0]++; break;
-        }
-
-        // Check boundaries (20x20 grid)
-        if ($newHead[0] < 0 || $newHead[0] >= 20 || $newHead[1] < 0 || $newHead[1] >= 20) {
-            $this->snakeGameOver = true;
+        $this->snakeScore++;
+        
+        // Complete game after 30 food items or timeout
+        if ($this->snakeScore >= 30) {
             $this->gameScore = $this->snakeScore;
             $this->completeGame();
-            return;
-        }
-
-        // Check self collision
-        if (in_array($newHead, $this->snakePosition)) {
-            $this->snakeGameOver = true;
-            $this->gameScore = $this->snakeScore;
-            $this->completeGame();
-            return;
-        }
-
-        // Add new head
-        array_unshift($this->snakePosition, $newHead);
-
-        // Check food collision
-        if ($newHead === $this->snakeFood) {
-            $this->snakeScore++;
-            $this->snakeFood = $this->generateSnakeFood();
-        } else {
-            // Remove tail if no food eaten
-            array_pop($this->snakePosition);
         }
     }
 
-    private function generateSnakeFood()
+    public function endSnakeGame($finalScore)
     {
-        do {
-            $food = [rand(0, 19), rand(0, 19)];
-        } while (in_array($food, $this->snakePosition));
-        
-        return $food;
+        $this->snakeGameOver = true;
+        $this->gameScore = $finalScore;
+        $this->completeGame();
     }
 
     // Number Game Methods
@@ -559,7 +523,7 @@ class EarnCredits extends Component
 
         // Get today's leaderboard for each game
         $todaysLeaderboard = [];
-        $gameTypes = ['click_game', 'memory_game', 'number_game', 'puzzle_game', 'snake_game', 'reaction_game'];
+        $gameTypes = ['click_game', 'memory_game', 'number_game'];
         
         foreach ($gameTypes as $gameType) {
             $topPlayers = GameSession::where('game_type', $gameType)

@@ -53,7 +53,7 @@
             <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
                 <h2 class="text-xl font-bold text-gray-900 mb-6">Izaberite igru</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Click Game -->
                     <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer"
                          wire:click="startGame('click_game')">
@@ -87,38 +87,6 @@
                         <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Do 20 RSD</span>
                     </div>
 
-                    <!-- Snake Game -->
-                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-red-500 hover:bg-red-50 transition-all cursor-pointer"
-                         wire:click="startGame('snake_game')">
-                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-worm text-red-600 text-2xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Zmija</h3>
-                        <p class="text-sm text-gray-600 mb-3">Skupljaj hranu i rasti</p>
-                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Do 25 RSD</span>
-                    </div>
-
-                    <!-- Puzzle Game -->
-                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-orange-500 hover:bg-orange-50 transition-all cursor-pointer"
-                         wire:click="startGame('puzzle_game')">
-                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-puzzle-piece text-orange-600 text-2xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Slagalica</h3>
-                        <p class="text-sm text-gray-600 mb-3">Složi sliku u što manje poteza</p>
-                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">Do 15 RSD</span>
-                    </div>
-
-                    <!-- Reaction Game -->
-                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-pink-500 hover:bg-pink-50 transition-all cursor-pointer"
-                         wire:click="startGame('reaction_game')">
-                        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-stopwatch text-pink-600 text-2xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Reakcija</h3>
-                        <p class="text-sm text-gray-600 mb-3">Klikni čim se pojavi zeleno</p>
-                        <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded-full">Do 18 RSD</span>
-                    </div>
                 </div>
             </div>
         @endif
@@ -175,22 +143,32 @@
                         <div class="text-lg font-bold text-green-600 mb-2">Potezi: {{ $memoryMoves }}</div>
                     </div>
 
-                    <div class="grid grid-cols-4 gap-2 max-w-md mx-auto mb-6">
-                        @foreach($memoryCards as $index => $color)
-                            <div wire:click="flipMemoryCard({{ $index }})"
-                                 class="w-16 h-16 rounded-lg cursor-pointer transition-all transform hover:scale-105 flex items-center justify-center
-                                 @if(in_array($index, $memoryFlipped) || in_array($index, $memoryMatched))
-                                     bg-{{ $color }}-500
-                                 @else
-                                     bg-gray-300
-                                 @endif">
-                                @if(in_array($index, $memoryFlipped) || in_array($index, $memoryMatched))
-                                    <span class="text-white font-bold">{{ strtoupper(substr($color, 0, 1)) }}</span>
-                                @else
-                                    <i class="fas fa-question text-gray-600"></i>
-                                @endif
-                            </div>
-                        @endforeach
+                    <div class="max-w-sm mx-auto mb-6">
+                        <div class="grid grid-cols-4 gap-2">
+                            @for($i = 0; $i < 12; $i++)
+                                @php $color = $memoryCards[$i] ?? 'gray'; @endphp
+                                <div wire:click="flipMemoryCard({{ $i }})"
+                                     class="w-14 h-14 rounded-lg cursor-pointer transition-all transform hover:scale-105 flex items-center justify-center {{ $memoryBlocked ? 'pointer-events-none' : '' }}
+                                     @if(in_array($i, $memoryFlipped) || in_array($i, $memoryMatched))
+                                         @if($color === 'red') bg-red-500
+                                         @elseif($color === 'blue') bg-blue-500
+                                         @elseif($color === 'green') bg-green-500
+                                         @elseif($color === 'yellow') bg-yellow-500
+                                         @elseif($color === 'purple') bg-purple-500
+                                         @elseif($color === 'orange') bg-orange-500
+                                         @else bg-gray-500
+                                         @endif
+                                     @else
+                                         bg-gray-300 hover:bg-gray-400
+                                     @endif">
+                                    @if(in_array($i, $memoryFlipped) || in_array($i, $memoryMatched))
+                                        <span class="text-white font-bold text-sm">{{ strtoupper(substr($color, 0, 1)) }}</span>
+                                    @else
+                                        <i class="fas fa-question text-gray-600"></i>
+                                    @endif
+                                </div>
+                            @endfor
+                        </div>
                     </div>
                     
                     <div class="text-sm text-gray-600">Kliknite na kartice da ih okrenete i pronađite parove!</div>
@@ -225,119 +203,6 @@
                     </div>
                     
                     <div class="mt-4 text-sm text-gray-600">Koristite dugmad da dostignete ciljni broj!</div>
-                </div>
-            </div>
-        @endif
-
-        <!-- Snake Game -->
-        @if($gameActive && $selectedGame === 'snake_game')
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <div class="text-center">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Zmija</h2>
-                    
-                    <div class="mb-6">
-                        <div class="text-3xl font-bold text-red-600 mb-2">{{ $snakeScore }}</div>
-                        <p class="text-gray-600">pojedio</p>
-                    </div>
-
-                    <div class="max-w-md mx-auto">
-                        <!-- Snake Grid -->
-                        <canvas id="snakeCanvas" width="400" height="400" 
-                                class="border-2 border-gray-400 rounded-lg bg-gray-100"></canvas>
-
-                        <!-- Snake Controls -->
-                        <div class="mt-4">
-                            <div class="flex justify-center">
-                                <button onclick="changeSnakeDirection('up')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                                    <i class="fas fa-arrow-up"></i>
-                                </button>
-                            </div>
-                            <div class="flex justify-center gap-2 mt-2">
-                                <button onclick="changeSnakeDirection('left')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                                    <i class="fas fa-arrow-left"></i>
-                                </button>
-                                <button onclick="changeSnakeDirection('down')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                                    <i class="fas fa-arrow-down"></i>
-                                </button>
-                                <button onclick="changeSnakeDirection('right')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 text-sm text-gray-600">Koristite dugmad ili strelice na tastaturi za upravljanje!</div>
-                </div>
-            </div>
-        @endif
-
-        <!-- Puzzle Game -->
-        @if($gameActive && $selectedGame === 'puzzle_game')
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <div class="text-center">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Slagalica</h2>
-                    
-                    <div class="mb-6">
-                        <div class="text-lg font-bold text-orange-600 mb-2">Potezi: {{ $puzzleMoves }}</div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-1 max-w-xs mx-auto mb-6">
-                        @foreach($puzzleTiles as $index => $tile)
-                            <div wire:click="movePuzzleTile({{ $index }})"
-                                 class="w-16 h-16 border-2 border-gray-300 rounded-lg cursor-pointer transition-all transform hover:scale-105 flex items-center justify-center
-                                 @if($tile === 0)
-                                     bg-gray-100
-                                 @else
-                                     bg-orange-100 hover:bg-orange-200
-                                 @endif">
-                                @if($tile !== 0)
-                                    <span class="text-xl font-bold text-orange-600">{{ $tile }}</span>
-                                @endif
-                            </div>
-                        @endforeach
-                    </div>
-                    
-                    <div class="text-sm text-gray-600">Kliknite na pločice da ih pomerite ka praznom mestu!</div>
-                    <div class="text-xs text-gray-500 mt-2">Cilj: Poređajte brojeve od 1 do 8</div>
-                </div>
-            </div>
-        @endif
-
-        <!-- Reaction Game -->
-        @if($gameActive && $selectedGame === 'reaction_game')
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <div class="text-center">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Igra reakcije</h2>
-                    
-                    <div class="mb-6">
-                        <div class="text-lg font-bold text-pink-600 mb-2">Runda: {{ $reactionRound + 1 }}/5</div>
-                        @if(count($reactionTimes) > 0)
-                            <div class="text-sm text-gray-600">Prosečno vreme: {{ number_format(array_sum($reactionTimes) / count($reactionTimes), 0) }}ms</div>
-                        @endif
-                    </div>
-
-                    <div class="max-w-sm mx-auto mb-6">
-                        @if($reactionWaiting)
-                            <div class="w-32 h-32 bg-red-500 rounded-full flex items-center justify-center mx-auto">
-                                <span class="text-white font-bold text-lg">ČEKAJ...</span>
-                            </div>
-                            <p class="text-gray-600 mt-4">Čekajte da se dugme ozeleni!</p>
-                        @elseif($reactionActive)
-                            <div wire:click="reactionClick" 
-                                 class="w-32 h-32 bg-green-500 rounded-full flex items-center justify-center mx-auto cursor-pointer transform hover:scale-105 transition-all shadow-lg">
-                                <span class="text-white font-bold text-lg">KLIK!</span>
-                            </div>
-                            <p class="text-gray-600 mt-4">KLIKNITE ODMAH!</p>
-                        @else
-                            <button wire:click="startReactionRound" 
-                                    class="w-32 h-32 bg-gray-400 rounded-full flex items-center justify-center mx-auto">
-                                <span class="text-white font-bold text-lg">START</span>
-                            </button>
-                            <p class="text-gray-600 mt-4">Kliknite za početak runde</p>
-                        @endif
-                    </div>
-                    
-                    <div class="text-sm text-gray-600">Kliknite na zeleno dugme što brže možete!</div>
                 </div>
             </div>
         @endif
@@ -389,30 +254,22 @@
             </div>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($todaysLeaderboard as $gameType => $players)
-                <div class="border border-gray-200 rounded-lg p-4">
-                    <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
-                        @if($gameType === 'click_game')
-                            <i class="fas fa-mouse-pointer text-blue-600 mr-2"></i>
-                            Igra klikanja
-                        @elseif($gameType === 'memory_game')
-                            <i class="fas fa-brain text-green-600 mr-2"></i>
-                            Igra memorije
-                        @elseif($gameType === 'number_game')
-                            <i class="fas fa-calculator text-purple-600 mr-2"></i>
-                            Igra brojeva
-                        @elseif($gameType === 'snake_game')
-                            <i class="fas fa-worm text-red-600 mr-2"></i>
-                            Zmija
-                        @elseif($gameType === 'puzzle_game')
-                            <i class="fas fa-puzzle-piece text-orange-600 mr-2"></i>
-                            Slagalica
-                        @else
-                            <i class="fas fa-stopwatch text-pink-600 mr-2"></i>
-                            Reakcija
-                        @endif
-                    </h3>
+                @if(in_array($gameType, ['click_game', 'memory_game', 'number_game']))
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
+                            @if($gameType === 'click_game')
+                                <i class="fas fa-mouse-pointer text-blue-600 mr-2"></i>
+                                Igra klikanja
+                            @elseif($gameType === 'memory_game')
+                                <i class="fas fa-brain text-green-600 mr-2"></i>
+                                Igra memorije
+                            @else
+                                <i class="fas fa-calculator text-purple-600 mr-2"></i>
+                                Igra brojeva
+                            @endif
+                        </h3>
                     
                     @if($players->count() > 0)
                         <div class="space-y-2">
@@ -447,6 +304,7 @@
                         </div>
                     @endif
                 </div>
+                @endif
             @endforeach
         </div>
         
@@ -537,189 +395,13 @@
         }, 3000);
     });
 
-    // Snake Game JavaScript Implementation
-    let snake = {
-        position: [[10, 10], [10, 9], [10, 8]],
-        direction: 'right',
-        food: [15, 15],
-        score: 0,
-        gameOver: false,
-        canvas: null,
-        ctx: null,
-        gridSize: 20,
-        tileCount: 20,
-        interval: null
-    };
-
-    function initSnakeGame() {
-        console.log('Initializing snake game...');
-        snake.canvas = document.getElementById('snakeCanvas');
-        console.log('Canvas found:', snake.canvas);
-        
-        if (!snake.canvas) {
-            console.error('Snake canvas not found!');
-            return;
-        }
-        
-        snake.ctx = snake.canvas.getContext('2d');
-        console.log('Canvas context:', snake.ctx);
-        
-        // Test canvas with simple rect
-        snake.ctx.fillStyle = 'red';
-        snake.ctx.fillRect(10, 10, 50, 50);
-        console.log('Test rect drawn');
-        
-        snake.position = [[10, 10], [10, 9], [10, 8]];
-        snake.direction = 'right';
-        snake.food = [Math.floor(Math.random() * 20), Math.floor(Math.random() * 20)];
-        snake.score = 0;
-        snake.gameOver = false;
-        
-        console.log('Snake initialized, starting game loop...');
-        
-        // Start game loop
-        snake.interval = setInterval(updateSnake, 300); // Slower for testing
-        drawSnake();
-    }
-
-    function updateSnake() {
-        if (snake.gameOver) return;
-
-        // Move head
-        let head = [...snake.position[0]];
-        switch(snake.direction) {
-            case 'up': head[1]--; break;
-            case 'down': head[1]++; break;
-            case 'left': head[0]--; break;
-            case 'right': head[0]++; break;
-        }
-
-        // Check boundaries
-        if (head[0] < 0 || head[0] >= 20 || head[1] < 0 || head[1] >= 20) {
-            endSnakeGame();
-            return;
-        }
-
-        // Check self collision
-        if (snake.position.some(segment => segment[0] === head[0] && segment[1] === head[1])) {
-            endSnakeGame();
-            return;
-        }
-
-        snake.position.unshift(head);
-
-        // Check food collision
-        if (head[0] === snake.food[0] && head[1] === snake.food[1]) {
-            snake.score++;
-            @this.set('snakeScore', snake.score);
-            generateFood();
-        } else {
-            snake.position.pop();
-        }
-
-        drawSnake();
-    }
-
-    function generateFood() {
-        do {
-            snake.food = [Math.floor(Math.random() * 20), Math.floor(Math.random() * 20)];
-        } while (snake.position.some(segment => segment[0] === snake.food[0] && segment[1] === snake.food[1]));
-    }
-
-    function drawSnake() {
-        if (!snake.ctx) {
-            console.error('No canvas context!');
-            return;
-        }
-
-        // Clear canvas
-        snake.ctx.fillStyle = '#f3f4f6';
-        snake.ctx.fillRect(0, 0, 400, 400);
-
-        // Draw grid lines for debugging
-        snake.ctx.strokeStyle = '#e5e7eb';
-        snake.ctx.lineWidth = 0.5;
-        for (let i = 0; i <= 20; i++) {
-            snake.ctx.beginPath();
-            snake.ctx.moveTo(i * 20, 0);
-            snake.ctx.lineTo(i * 20, 400);
-            snake.ctx.stroke();
-            
-            snake.ctx.beginPath();
-            snake.ctx.moveTo(0, i * 20);
-            snake.ctx.lineTo(400, i * 20);
-            snake.ctx.stroke();
-        }
-
-        // Draw snake
-        snake.position.forEach((segment, index) => {
-            snake.ctx.fillStyle = index === 0 ? '#dc2626' : '#ef4444'; // Head darker
-            snake.ctx.fillRect(segment[0] * 20 + 1, segment[1] * 20 + 1, 18, 18);
-        });
-
-        // Draw food
-        snake.ctx.fillStyle = '#fbbf24';
-        snake.ctx.fillRect(snake.food[0] * 20 + 1, snake.food[1] * 20 + 1, 18, 18);
-    }
-
-    function changeSnakeDirection(newDirection) {
-        // Prevent reverse direction
-        const opposites = { up: 'down', down: 'up', left: 'right', right: 'left' };
-        if (snake.direction !== opposites[newDirection]) {
-            snake.direction = newDirection;
-        }
-    }
-
-    function endSnakeGame() {
-        snake.gameOver = true;
-        clearInterval(snake.interval);
-        @this.set('gameScore', snake.score);
-        @this.call('completeGame');
-    }
-
-    // Snake game keyboard controls
-    document.addEventListener('keydown', function(e) {
-        if (@json($gameActive) && @json($selectedGame) === 'snake_game') {
-            switch(e.key) {
-                case 'ArrowUp':
-                    e.preventDefault();
-                    changeSnakeDirection('up');
-                    break;
-                case 'ArrowDown':
-                    e.preventDefault();
-                    changeSnakeDirection('down');
-                    break;
-                case 'ArrowLeft':
-                    e.preventDefault();
-                    changeSnakeDirection('left');
-                    break;
-                case 'ArrowRight':
-                    e.preventDefault();
-                    changeSnakeDirection('right');
-                    break;
-            }
-        }
-    });
-
-    // Initialize snake when game starts
-    Livewire.on('startSnakeGame', () => {
-        console.log('startSnakeGame event received');
-        setTimeout(() => {
-            console.log('Attempting to initialize snake...');
-            initSnakeGame();
-        }, 500); // Longer delay to ensure canvas is rendered
-    });
-
-    Livewire.on('stopSnakeGame', () => {
-        if (snake.interval) {
-            clearInterval(snake.interval);
-        }
-    });
 
     // Memory game card flip delay
-    Livewire.on('clearMemoryCards', (data) => {
-        setTimeout(() => {
-            @this.call('clearMemoryFlipped');
-        }, data.delay || 1000);
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('clearMemoryCards', () => {
+            setTimeout(() => {
+                @this.call('clearMemoryFlipped');
+            }, 1000);
+        });
     });
 </script>
