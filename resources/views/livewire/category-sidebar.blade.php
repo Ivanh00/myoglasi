@@ -1,9 +1,28 @@
-<div class="w-64 bg-white shadow-lg h-screen sticky top-0 overflow-y-auto " x-data="{ openCategory: null }">
-    <div class="p-4 border-b">
+<div class="w-64 bg-white dark:bg-gray-800 shadow-lg h-screen sticky top-0 overflow-y-auto " x-data="{ openCategory: null }">
+    <div class="p-4 border-b border-gray-200 dark:border-gray-700">
         <!-- Header removed for cleaner look -->
     </div>
 
     <div class="p-2">
+        <!-- Theme Switcher -->
+        <div class="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tema</div>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="setTheme('light')" 
+                    class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn light-theme
+                    bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+                    <i class="fas fa-sun mr-1"></i>
+                    Light
+                </button>
+                <button onclick="setTheme('dark')" 
+                    class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn dark-theme
+                    bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700">
+                    <i class="fas fa-moon mr-1"></i>
+                    Dark
+                </button>
+            </div>
+        </div>
+
         <!-- Aukcije -->
         <a href="{{ route('auctions.index') }}"
             class="flex items-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors mb-2 {{ request()->routeIs('auctions.index') ? 'bg-yellow-700' : '' }}">
@@ -53,12 +72,12 @@
         @foreach ($categoryTree as $category)
             <div class="mt-1">
                 <!-- Glavna kategorija - ceo red je klikabilan za otvaranje/zatvaranje -->
-                <div class="flex items-center justify-between group cursor-pointer rounded-lg hover:bg-gray-100 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50' : '' }}"
+                <div class="flex items-center justify-between group cursor-pointer rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50 dark:bg-gray-700' : '' }}"
                     @click="openCategory = openCategory === '{{ $category->id }}' ? null : '{{ $category->id }}'">
 
                     <!-- Levi deo - ikonica i naziv -->
                     <div
-                        class="flex items-center flex-1 px-3 py-2 text-gray-700 {{ request()->get('selectedCategory') == $category->id ? 'text-blue-700' : '' }}">
+                        class="flex items-center flex-1 px-3 py-2 text-gray-700 dark:text-gray-300 {{ request()->get('selectedCategory') == $category->id ? 'text-blue-700 dark:text-blue-400' : '' }}">
                         @if ($category->icon)
                             <div class="w-5 h-5 mr-3 flex items-center justify-center">
                                 <i class="{{ $category->icon }} text-blue-600"></i>
@@ -288,3 +307,45 @@
         @endif
     @endauth
 </div>
+
+<script>
+    // Theme Management
+    function setTheme(theme) {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+        updateThemeButtons();
+    }
+
+    function updateThemeButtons() {
+        const isDark = document.documentElement.classList.contains('dark');
+        const lightBtn = document.querySelector('.light-theme');
+        const darkBtn = document.querySelector('.dark-theme');
+
+        if (lightBtn && darkBtn) {
+            if (isDark) {
+                lightBtn.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50');
+                darkBtn.classList.add('ring-2', 'ring-blue-400', 'bg-gray-700');
+            } else {
+                darkBtn.classList.remove('ring-2', 'ring-blue-400', 'bg-gray-700');
+                lightBtn.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
+            }
+        }
+    }
+
+    // Initialize theme on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    });
+</script>

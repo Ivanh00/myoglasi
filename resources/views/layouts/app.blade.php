@@ -19,6 +19,16 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Dark Mode Script (must be in head to prevent flash) -->
+    <script>
+        // Check for saved theme preference or default to system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1869044751556706"
         crossorigin="anonymous"></script>
 </head>
@@ -71,13 +81,13 @@
         <!-- Main Content with Sidebar -->
         <div class="flex">
             <!-- Desktop Sidebar -->
-            <aside class="hidden md:block w-64 bg-white shadow-md sticky top-16 h-screen">
+            <aside class="hidden md:block w-64 bg-white dark:bg-gray-800 shadow-md sticky top-16 h-screen">
                 <livewire:category-sidebar />
             </aside>
 
             <!-- Mobile Sidebar -->
             <aside id="mobile-sidebar"
-                class="fixed left-0 top-16 w-64 bg-white shadow-lg h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+                class="fixed left-0 top-16 w-64 bg-white dark:bg-gray-800 shadow-lg h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
                 <livewire:category-sidebar />
             </aside>
 

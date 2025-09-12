@@ -1,4 +1,4 @@
-<footer class="bg-gray-900 text-white mt-12">
+<footer class="bg-white dark:bg-gray-900 text-gray-700 dark:text-white border-t border-gray-200 dark:border-gray-700 mt-12">
     <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <!-- About MyOglasi -->
@@ -7,18 +7,18 @@
                     <i class="fas fa-info-circle text-blue-400 mr-2"></i>
                     O MyOglasi
                 </h3>
-                <p class="text-gray-300 text-sm mb-4">
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
                     Moderna platforma za kupovinu, prodaju, aukcije, usluge i poklone. 
                     Povezujemo ljude kroz sigurne i jednostavne transakcije.
                 </p>
                 <div class="flex space-x-3">
-                    <a href="#" class="text-gray-400 hover:text-white">
+                    <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-white">
                         <i class="fab fa-facebook"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-white">
+                    <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-white">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-white">
+                    <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-white">
                         <i class="fab fa-twitter"></i>
                     </a>
                 </div>
@@ -31,13 +31,13 @@
                     Kako da...
                 </h3>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="{{ route('help.create-listing') }}" class="text-gray-300 hover:text-white">📝 Postavim oglas</a></li>
-                    <li><a href="{{ route('help.create-auction') }}" class="text-gray-300 hover:text-white">🔨 Postavim aukciju</a></li>
-                    <li><a href="{{ route('help.create-service') }}" class="text-gray-300 hover:text-white">🔧 Postavim uslugu</a></li>
-                    <li><a href="{{ route('help.create-giveaway') }}" class="text-gray-300 hover:text-white">🎁 Postavim poklon</a></li>
-                    <li><a href="{{ route('help.credit-system') }}" class="text-gray-300 hover:text-white">💰 Uplatim i koristim kredit</a></li>
-                    <li><a href="{{ route('help.earn-credits') }}" class="text-gray-300 hover:text-white">🎮 Zaradim kredit</a></li>
-                    <li><a href="{{ route('help.transfer-credits') }}" class="text-gray-300 hover:text-white">💸 Podelim kredit</a></li>
+                    <li><a href="{{ route('help.create-listing') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">📝 Postavim oglas</a></li>
+                    <li><a href="{{ route('help.create-auction') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">🔨 Postavim aukciju</a></li>
+                    <li><a href="{{ route('help.create-service') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">🔧 Postavim uslugu</a></li>
+                    <li><a href="{{ route('help.create-giveaway') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">🎁 Postavim poklon</a></li>
+                    <li><a href="{{ route('help.credit-system') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">💰 Uplatim i koristim kredit</a></li>
+                    <li><a href="{{ route('help.earn-credits') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">🎮 Zaradim kredit</a></li>
+                    <li><a href="{{ route('help.transfer-credits') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">💸 Podelim kredit</a></li>
                 </ul>
             </div>
 
@@ -48,11 +48,11 @@
                     Cenovnik
                 </h3>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="{{ route('help.pricing') }}" class="text-gray-300 hover:text-white">💵 Cenovnik usluga</a></li>
-                    <li><a href="{{ route('help.plans') }}" class="text-gray-300 hover:text-white">📋 Planovi naplate</a></li>
-                    <li><a href="{{ route('help.promotions') }}" class="text-gray-300 hover:text-white">🚀 Promocije oglasa</a></li>
-                    <li><a href="{{ route('help.payment-methods') }}" class="text-gray-300 hover:text-white">💳 Načini plaćanja</a></li>
-                    <li><a href="{{ route('help.verification') }}" class="text-gray-300 hover:text-white">✅ Verifikacija naloga</a></li>
+                    <li><a href="{{ route('help.pricing') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">💵 Cenovnik usluga</a></li>
+                    <li><a href="{{ route('help.plans') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">📋 Planovi naplate</a></li>
+                    <li><a href="{{ route('help.promotions') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">🚀 Promocije oglasa</a></li>
+                    <li><a href="{{ route('help.payment-methods') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">💳 Načini plaćanja</a></li>
+                    <li><a href="{{ route('help.verification') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">✅ Verifikacija naloga</a></li>
                 </ul>
             </div>
 
@@ -63,32 +63,32 @@
                     Podrška
                 </h3>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="{{ route('help.faq') }}" class="text-gray-300 hover:text-white">❓ Često postavljana pitanja</a></li>
-                    <li><a href="{{ route('help.safety') }}" class="text-gray-300 hover:text-white">🛡️ Bezbednost na sajtu</a></li>
-                    <li><a href="{{ route('help.rules') }}" class="text-gray-300 hover:text-white">📜 Pravila korišćenja</a></li>
-                    <li><a href="{{ route('help.privacy') }}" class="text-gray-300 hover:text-white">🔒 Politika privatnosti</a></li>
-                    <li><a href="{{ route('help.terms') }}" class="text-gray-300 hover:text-white">📋 Uslovi korišćenja</a></li>
-                    <li><a href="{{ route('admin.contact') }}" class="text-gray-300 hover:text-white">📧 Kontaktiraj admin</a></li>
+                    <li><a href="{{ route('help.faq') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">❓ Često postavljana pitanja</a></li>
+                    <li><a href="{{ route('help.safety') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">🛡️ Bezbednost na sajtu</a></li>
+                    <li><a href="{{ route('help.rules') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">📜 Pravila korišćenja</a></li>
+                    <li><a href="{{ route('help.privacy') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">🔒 Politika privatnosti</a></li>
+                    <li><a href="{{ route('help.terms') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">📋 Uslovi korišćenja</a></li>
+                    <li><a href="{{ route('admin.contact') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">📧 Kontaktiraj admin</a></li>
                 </ul>
             </div>
         </div>
 
         <!-- Bottom Bar -->
-        <div class="border-t border-gray-700 mt-8 pt-8">
+        <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="text-sm text-gray-400">
+                <div class="text-sm text-gray-500 dark:text-gray-400">
                     © {{ date('Y') }} MyOglasi. Sva prava zadržana.
                 </div>
                 <div class="flex items-center space-x-6 mt-4 md:mt-0">
-                    <span class="text-sm text-gray-400">
+                    <span class="text-sm text-gray-500 dark:text-gray-400">
                         <i class="fas fa-users mr-1"></i>
                         {{ \App\Models\User::count() }} korisnika
                     </span>
-                    <span class="text-sm text-gray-400">
+                    <span class="text-sm text-gray-500 dark:text-gray-400">
                         <i class="fas fa-list mr-1"></i>
                         {{ \App\Models\Listing::where('status', 'active')->count() }} aktivnih oglasa
                     </span>
-                    <span class="text-sm text-gray-400">
+                    <span class="text-sm text-gray-500 dark:text-gray-400">
                         <i class="fas fa-gavel mr-1"></i>
                         {{ \App\Models\Auction::where('status', 'active')->count() }} aukcija
                     </span>
