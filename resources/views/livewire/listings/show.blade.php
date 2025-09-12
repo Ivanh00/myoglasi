@@ -492,7 +492,14 @@
                 <!-- Lista oglasa (koristi isti layout kao Index stranica) -->
                 <div class="space-y-4">
                     @foreach ($recommendedListings as $relatedListing)
-                        <div class="listing-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        <div class="listing-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 
+                            @if($relatedListing->isGiveaway())
+                                border-l-4 border-green-500
+                            @elseif($relatedListing->isService())
+                                border-l-4 border-gray-500
+                            @else
+                                border-l-4 border-blue-500
+                            @endif">
                             <div class="flex flex-col md:flex-row">
                                 <!-- Slika oglasa - responsive -->
                                 <div class="w-full md:w-48 md:min-w-48 h-48">
@@ -533,21 +540,40 @@
                                         </div>
 
                                         <div class="flex items-center justify-between">
-                                            <div class="text-blue-600 font-bold text-xl">
-                                                {{ number_format($relatedListing->price, 2) }} RSD
-                                            </div>
-
-                                            @if ($relatedListing->condition)
-                                                <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
-                                                    {{ $relatedListing->condition->name }}
-                                                </span>
+                                            @if($relatedListing->isGiveaway())
+                                                <div class="text-green-600 font-bold text-xl">BESPLATNO</div>
+                                            @else
+                                                <div class="text-blue-600 font-bold text-xl">
+                                                    {{ number_format($relatedListing->price, 2) }} RSD
+                                                </div>
                                             @endif
+
+                                            <div class="flex items-center gap-2">
+                                                @if($relatedListing->getTypeBadge())
+                                                    <span class="px-2 py-1 text-xs font-bold rounded-full {{ $relatedListing->getTypeBadge()['class'] }}">
+                                                        {{ $relatedListing->getTypeBadge()['text'] }}
+                                                    </span>
+                                                @endif
+                                                
+                                                @if ($relatedListing->condition)
+                                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                                                        {{ $relatedListing->condition->name }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Desna strana - akcije i dodatne informacije -->
-                                <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
+                                <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 
+                                    @if($relatedListing->isGiveaway())
+                                        bg-green-50
+                                    @elseif($relatedListing->isService())
+                                        bg-gray-50
+                                    @else
+                                        bg-blue-50
+                                    @endif">
                                     <div class="flex flex-col h-full justify-between">
                                         <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
                                             <div class="flex items-center">

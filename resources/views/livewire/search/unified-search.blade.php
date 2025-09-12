@@ -179,7 +179,16 @@
             <!-- List View -->
             <div class="space-y-4">
                 @foreach($results as $listing)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 {{ isset($listing->is_auction) ? 'border-l-4 border-yellow-500' : '' }}">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 
+                        @if(isset($listing->is_auction))
+                            border-l-4 border-yellow-500
+                        @elseif($listing->isGiveaway())
+                            border-l-4 border-green-500
+                        @elseif($listing->isService())
+                            border-l-4 border-gray-500
+                        @else
+                            border-l-4 border-blue-500
+                        @endif">
                         <div class="flex flex-col md:flex-row">
                             <!-- Image -->
                             <div class="w-full md:w-48 md:min-w-48 h-48 relative">
@@ -275,7 +284,16 @@
                             </div>
 
                             <!-- Sidebar -->
-                            <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200">
+                            <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 
+                                @if(isset($listing->is_auction))
+                                    bg-yellow-50
+                                @elseif($listing->isGiveaway())
+                                    bg-green-50
+                                @elseif($listing->isService())
+                                    bg-gray-50
+                                @else
+                                    bg-blue-50
+                                @endif">
                                 <div class="flex flex-col h-full justify-between">
                                     @if(isset($listing->is_auction))
                                         <div class="text-center mb-4">
@@ -335,7 +353,16 @@
             <!-- Grid View -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach($results as $listing)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 {{ isset($listing->is_auction) ? 'border-l-4 border-yellow-500' : '' }}">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 
+                        @if(isset($listing->is_auction))
+                            border-l-4 border-yellow-500
+                        @elseif($listing->isGiveaway())
+                            border-l-4 border-green-500
+                        @elseif($listing->isService())
+                            border-l-4 border-gray-500
+                        @else
+                            border-l-4 border-blue-500
+                        @endif">
                         <!-- Image -->
                         <div class="w-full h-48 relative">
                             <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}">
