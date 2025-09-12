@@ -1,9 +1,4 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-    <!-- Naslov -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">Usluge</h1>
-        <p class="text-gray-600">Pronađite najbolje usluge iz svih kategorija</p>
-    </div>
 
     <!-- Filteri i sortiranje -->
     <div class="bg-white rounded-lg shadow-md p-4 mb-6">

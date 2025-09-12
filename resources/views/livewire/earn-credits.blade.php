@@ -1,12 +1,4 @@
 <div class="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-    <!-- Header -->
-    <div class="mb-8 text-center">
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">
-            <i class="fas fa-coins text-yellow-500 mr-3"></i>
-            Zaradi kredit
-        </h1>
-        <p class="text-gray-600">Igraj igrice i zarađuj kredit za postavljanje oglasa!</p>
-    </div>
 
     <!-- Current Status -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
