@@ -1,11 +1,11 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     <!-- Welcome Header -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
             Dobrodošli, {{ auth()->user()->name }}!
             {!! auth()->user()->verified_icon !!}
         </h1>
-        <p class="text-gray-600 mt-2">Pregled vaših aktivnosti na MyOglasi platformi</p>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Pregled vaših aktivnosti na MyOglasi platformi</p>
         
         <!-- Listing Limit Indicator (for users with payment disabled) -->
         @if(!auth()->user()->payment_enabled && !auth()->user()->is_admin)
@@ -116,8 +116,8 @@
     </div>
 
     <!-- Monthly Overview -->
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
             <i class="fas fa-chart-line text-blue-600 mr-2"></i>
             Ovaj mesec ({{ Carbon\Carbon::now()->format('F Y') }})
         </h2>
@@ -176,8 +176,8 @@
     <!-- Quick Actions -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         <!-- Quick Actions -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 <i class="fas fa-bolt text-orange-600 mr-2"></i>
                 Brze akcije
             </h3>
@@ -226,8 +226,8 @@
         </div>
 
         <!-- Recent Activity -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 <i class="fas fa-clock text-blue-600 mr-2"></i>
                 Poslednje aktivnosti
             </h3>
@@ -246,7 +246,7 @@
                             @endif
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-sm font-medium text-gray-900 truncate">{{ Str::limit($listing->title, 30) }}</p>
+                            <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{{ Str::limit($listing->title, 30) }}</p>
                             <p class="text-xs text-gray-500">{{ $listing->created_at->diffForHumans() }}</p>
                         </div>
                         <div class="text-sm font-bold text-blue-600">
@@ -271,22 +271,22 @@
         </div>
 
         <!-- Account Overview -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 <i class="fas fa-user text-green-600 mr-2"></i>
                 Pregled naloga
             </h3>
             
             <div class="space-y-4">
                 <!-- Account Status -->
-                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <div>
-                        <div class="font-medium text-gray-900">Status naloga</div>
-                        <div class="text-sm text-gray-600">
+                        <div class="font-medium text-gray-900 dark:text-gray-100">Status naloga</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-300">
                             @if(auth()->user()->isVerified())
                                 <span class="text-green-600">✓ Verifikovan</span>
                             @else
-                                <span class="text-gray-600">Standardni</span>
+                                <span class="text-gray-600 dark:text-gray-300">Standardni</span>
                             @endif
                         </div>
                     </div>
@@ -295,10 +295,10 @@
 
                 <!-- Ratings -->
                 @if($stats['total_ratings'] > 0)
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                         <div>
-                            <div class="font-medium text-gray-900">Ocene</div>
-                            <div class="text-sm text-gray-600">{{ $stats['positive_ratings'] }}/{{ $stats['total_ratings'] }} pozitivnih</div>
+                            <div class="font-medium text-gray-900 dark:text-gray-100">Ocene</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-300">{{ $stats['positive_ratings'] }}/{{ $stats['total_ratings'] }} pozitivnih</div>
                         </div>
                         <i class="fas fa-star text-yellow-500"></i>
                     </div>
@@ -329,9 +329,9 @@
 
     <!-- Recent Auctions (if any) -->
     @if($activity['recent_auctions']->count() > 0)
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-900">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                     <i class="fas fa-gavel text-yellow-600 mr-2"></i>
                     Vaše poslednje aukcije
                 </h3>
@@ -353,8 +353,8 @@
                                 </div>
                             @endif
                             <div class="flex-1">
-                                <h4 class="font-medium text-gray-900">{{ Str::limit($auction->listing->title, 25) }}</h4>
-                                <p class="text-sm text-gray-600">{{ $auction->total_bids }} ponuda</p>
+                                <h4 class="font-medium text-gray-900 dark:text-gray-100">{{ Str::limit($auction->listing->title, 25) }}</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">{{ $auction->total_bids }} ponuda</p>
                             </div>
                         </div>
                         
@@ -384,8 +384,8 @@
     <!-- Financial Overview -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Transaction History -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 <i class="fas fa-receipt text-green-600 mr-2"></i>
                 Poslednje transakcije
             </h3>
@@ -400,7 +400,7 @@
                                     <i class="fas {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? 'fa-plus' : 'fa-minus' }}"></i>
                                 </div>
                                 <div>
-                                    <div class="font-medium text-gray-900">{{ Str::limit($transaction->description, 30) }}</div>
+                                    <div class="font-medium text-gray-900 dark:text-gray-100">{{ Str::limit($transaction->description, 30) }}</div>
                                     <div class="text-sm text-gray-500">{{ $transaction->created_at->format('d.m.Y H:i') }}</div>
                                 </div>
                             </div>
@@ -425,8 +425,8 @@
         </div>
 
         <!-- Achievements & Stats -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 <i class="fas fa-trophy text-yellow-600 mr-2"></i>
                 Vaši uspesi
             </h3>
@@ -464,10 +464,10 @@
                 </div>
 
                 <!-- Verification Status -->
-                <div class="flex items-center p-3 {{ auth()->user()->isVerified() ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' }} border rounded-lg">
+                <div class="flex items-center p-3 {{ auth()->user()->isVerified() ? 'bg-green-50 border-green-200' : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600' }} border rounded-lg">
                     <i class="fas fa-shield-check {{ auth()->user()->isVerified() ? 'text-green-600' : 'text-gray-400' }} mr-3"></i>
                     <div>
-                        <div class="font-medium {{ auth()->user()->isVerified() ? 'text-green-900' : 'text-gray-700' }}">Verifikacija</div>
+                        <div class="font-medium {{ auth()->user()->isVerified() ? 'text-green-900' : 'text-gray-700 dark:text-gray-200' }}">Verifikacija</div>
                         <div class="text-sm {{ auth()->user()->isVerified() ? 'text-green-700' : 'text-gray-500' }}">
                             {{ auth()->user()->verification_status_text }}
                         </div>
