@@ -361,6 +361,31 @@
                                         </div>
                                     @endif
                                 </div>
+
+                                <!-- Game Leaderboard Bonus -->
+                                <div>
+                                    <div class="flex items-center mb-2">
+                                        <input type="checkbox" id="game_leaderboard_enabled" wire:model="gameLeaderboardEnabled" 
+                                            class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                                        <label for="game_leaderboard_enabled" class="ml-2 text-sm text-gray-700">
+                                            Omogući bonus za najbolje igrače dnevno
+                                        </label>
+                                    </div>
+                                    
+                                    @if($gameLeaderboardEnabled)
+                                        <div class="ml-6">
+                                            <label class="block text-sm font-medium text-gray-700">Bonus za dnevnog pobednika po igri (RSD)</label>
+                                            <input type="number" wire:model="gameLeaderboardBonus" min="1" max="1000"
+                                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                Koliko dodatnog kredita dobija najbolji igrač po igri dnevno (trenutno: {{ number_format($gameLeaderboardBonus, 0, ',', '.') }} RSD)
+                                            </p>
+                                            @error('gameLeaderboardBonus') 
+                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                             
                             <div class="text-xs text-green-600 mt-3 p-2 bg-green-100 border border-green-300 rounded">

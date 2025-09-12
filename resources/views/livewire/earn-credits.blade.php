@@ -178,25 +178,111 @@
         </div>
     @endif
 
+    <!-- Today's Leaderboard -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-gray-900">
+                <i class="fas fa-trophy text-yellow-500 mr-2"></i>
+                Danas najbolji igrači
+            </h2>
+            <div class="text-sm text-gray-600">
+                Bonus: {{ number_format(\App\Models\Setting::get('game_leaderboard_bonus', 50), 0, ',', '.') }} RSD za #1
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            @foreach($todaysLeaderboard as $gameType => $players)
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
+                        @if($gameType === 'click_game')
+                            <i class="fas fa-mouse-pointer text-blue-600 mr-2"></i>
+                            Igra klikanja
+                        @elseif($gameType === 'memory_game')
+                            <i class="fas fa-brain text-green-600 mr-2"></i>
+                            Igra memorije
+                        @elseif($gameType === 'number_game')
+                            <i class="fas fa-calculator text-purple-600 mr-2"></i>
+                            Igra brojeva
+                        @else
+                            <i class="fas fa-puzzle-piece text-orange-600 mr-2"></i>
+                            Slagalica
+                        @endif
+                    </h3>
+                    
+                    @if($players->count() > 0)
+                        <div class="space-y-2">
+                            @foreach($players->take(5) as $index => $player)
+                                <div class="flex items-center justify-between p-2 rounded {{ $index === 0 ? 'bg-yellow-50 border border-yellow-200' : 'bg-gray-50' }}">
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 rounded-full flex items-center justify-center mr-3 {{ $index === 0 ? 'bg-yellow-500 text-white' : 'bg-gray-400 text-white' }} text-xs font-bold">
+                                            {{ $index + 1 }}
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-gray-900 {{ auth()->id() === $player->user_id ? 'text-blue-600' : '' }}">
+                                                {{ $player->user->name }}
+                                                @if(auth()->id() === $player->user_id)
+                                                    <span class="text-xs text-blue-600">(Vi)</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="font-bold {{ $index === 0 ? 'text-yellow-600' : 'text-gray-600' }}">
+                                        {{ number_format($player->score) }}
+                                        @if($index === 0)
+                                            <i class="fas fa-crown ml-1"></i>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-center py-4 text-gray-500">
+                            <i class="fas fa-users text-2xl mb-2"></i>
+                            <p>Nema igrača danas</p>
+                        </div>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+        
+        @if(\App\Models\Setting::get('game_leaderboard_enabled', true))
+            <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
+                    <span class="text-sm text-yellow-800">
+                        <strong>Dnevni bonus:</strong> Najbolji igrač po igri svaki dan dobija {{ number_format(\App\Models\Setting::get('game_leaderboard_bonus', 50), 0, ',', '.') }} RSD bonus!
+                    </span>
+                </div>
+            </div>
+        @endif
+    </div>
+
     <!-- Recent Earnings -->
     @if($recentEarnings->count() > 0)
         <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-6">Poslednje zarade (7 dana)</h2>
+            <h2 class="text-xl font-bold text-gray-900 mb-6">Vaše zarade (7 dana)</h2>
             
             <div class="space-y-3">
                 @foreach($recentEarnings as $earning)
                     <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                         <div class="flex items-center">
                             <div class="p-2 bg-green-100 rounded-lg mr-3">
-                                <i class="fas fa-gamepad text-green-600"></i>
+                                @if(str_contains($earning->type, 'leaderboard'))
+                                    <i class="fas fa-trophy text-yellow-600"></i>
+                                @else
+                                    <i class="fas fa-gamepad text-green-600"></i>
+                                @endif
                             </div>
                             <div>
                                 <p class="font-medium text-gray-900">{{ $earning->description }}</p>
                                 <p class="text-sm text-gray-600">{{ $earning->date->format('d.m.Y') }}</p>
                             </div>
                         </div>
-                        <div class="text-green-600 font-bold">
+                        <div class="{{ str_contains($earning->type, 'leaderboard') ? 'text-yellow-600' : 'text-green-600' }} font-bold">
                             +{{ number_format($earning->amount, 0, ',', '.') }} RSD
+                            @if(str_contains($earning->type, 'leaderboard'))
+                                <i class="fas fa-crown ml-1"></i>
+                            @endif
                         </div>
                     </div>
                 @endforeach

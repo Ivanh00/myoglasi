@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('date');
-            $table->enum('type', ['games', 'daily_contest_winner', 'referral', 'bonus']);
+            $table->enum('type', ['games', 'daily_contest_winner', 'game_leaderboard_click_game', 'game_leaderboard_memory_game', 'game_leaderboard_number_game', 'game_leaderboard_puzzle_game', 'referral', 'bonus']);
             $table->integer('amount');
             $table->string('description');
             $table->text('details')->nullable(); // JSON data for game details

@@ -34,6 +34,8 @@ class Settings extends Component
     public $gameCreditAmount;
     public $dailyContestEnabled;
     public $dailyContestAmount;
+    public $gameLeaderboardEnabled;
+    public $gameLeaderboardBonus;
     
     // Promotion Settings
     public $promotionFeaturedCategoryPrice;
@@ -92,6 +94,8 @@ class Settings extends Component
         'gameCreditAmount' => 'required|integer|min:1|max:1000',
         'dailyContestEnabled' => 'required|boolean',
         'dailyContestAmount' => 'required|integer|min:1|max:1000',
+        'gameLeaderboardEnabled' => 'required|boolean',
+        'gameLeaderboardBonus' => 'required|integer|min:1|max:1000',
         // Promotion validation
         'promotionFeaturedCategoryPrice' => 'required|integer|min:1|max:10000',
         'promotionFeaturedCategoryDays' => 'required|integer|min:1|max:365',
@@ -153,6 +157,8 @@ class Settings extends Component
         $this->gameCreditAmount = Setting::get('game_credit_amount', 100);
         $this->dailyContestEnabled = Setting::get('daily_contest_enabled', true);
         $this->dailyContestAmount = Setting::get('daily_contest_amount', 100);
+        $this->gameLeaderboardEnabled = Setting::get('game_leaderboard_enabled', true);
+        $this->gameLeaderboardBonus = Setting::get('game_leaderboard_bonus', 50);
         
         // Promotion Settings
         $this->promotionFeaturedCategoryPrice = Setting::get('promotion_featured_category_price', 100);
@@ -235,6 +241,8 @@ class Settings extends Component
             'gameCreditAmount' => 'required|integer|min:1|max:1000',
             'dailyContestEnabled' => 'required|boolean',
             'dailyContestAmount' => 'required|integer|min:1|max:1000',
+            'gameLeaderboardEnabled' => 'required|boolean',
+            'gameLeaderboardBonus' => 'required|integer|min:1|max:1000',
             'promotionFeaturedCategoryPrice' => 'required|integer|min:1|max:10000',
             'promotionFeaturedCategoryDays' => 'required|integer|min:1|max:365',
             'promotionFeaturedHomepagePrice' => 'required|integer|min:1|max:10000',
@@ -262,6 +270,8 @@ class Settings extends Component
         Setting::set('game_credit_amount', $this->gameCreditAmount, 'integer', 'general');
         Setting::set('daily_contest_enabled', $this->dailyContestEnabled, 'boolean', 'general');
         Setting::set('daily_contest_amount', $this->dailyContestAmount, 'integer', 'general');
+        Setting::set('game_leaderboard_enabled', $this->gameLeaderboardEnabled, 'boolean', 'general');
+        Setting::set('game_leaderboard_bonus', $this->gameLeaderboardBonus, 'integer', 'general');
         
         // Save promotion settings
         Setting::set('promotion_featured_category_price', $this->promotionFeaturedCategoryPrice, 'integer', 'promotions');

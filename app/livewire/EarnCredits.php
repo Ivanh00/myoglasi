@@ -80,19 +80,46 @@ class EarnCredits extends Component
             // Add credits to user balance
             auth()->user()->increment('balance', $creditsEarned);
 
-            // Record daily earning
-            DailyEarning::create([
-                'user_id' => auth()->id(),
-                'date' => today(),
-                'type' => 'games',
-                'amount' => $creditsEarned,
-                'description' => 'Zaradio kroz ' . $this->getGameName($this->selectedGame),
-                'details' => json_encode([
-                    'game_type' => $this->selectedGame,
-                    'score' => $this->gameScore,
-                    'clicks' => $this->clickCount
-                ])
-            ]);
+            // Update or create daily earning record
+            $dailyEarning = DailyEarning::where('user_id', auth()->id())
+                ->where('date', today())
+                ->where('type', 'games')
+                ->first();
+
+            if ($dailyEarning) {
+                // Update existing record
+                $dailyEarning->increment('amount', $creditsEarned);
+                $dailyEarning->update([
+                    'description' => 'Zaradio kroz igrice (ukupno: ' . ($dailyEarning->amount) . ' RSD)',
+                    'details' => json_encode([
+                        'total_games' => ($dailyEarning->details['total_games'] ?? 0) + 1,
+                        'latest_game' => [
+                            'game_type' => $this->selectedGame,
+                            'score' => $this->gameScore,
+                            'clicks' => $this->clickCount,
+                            'credits' => $creditsEarned
+                        ]
+                    ])
+                ]);
+            } else {
+                // Create new record
+                DailyEarning::create([
+                    'user_id' => auth()->id(),
+                    'date' => today(),
+                    'type' => 'games',
+                    'amount' => $creditsEarned,
+                    'description' => 'Zaradio kroz ' . $this->getGameName($this->selectedGame),
+                    'details' => json_encode([
+                        'total_games' => 1,
+                        'latest_game' => [
+                            'game_type' => $this->selectedGame,
+                            'score' => $this->gameScore,
+                            'clicks' => $this->clickCount,
+                            'credits' => $creditsEarned
+                        ]
+                    ])
+                ]);
+            }
 
             // Create transaction record
             Transaction::create([
@@ -164,13 +191,30 @@ class EarnCredits extends Component
     public function render()
     {
         $recentEarnings = DailyEarning::where('user_id', auth()->id())
-            ->where('type', 'games')
+            ->whereIn('type', ['games', 'game_leaderboard_click_game', 'game_leaderboard_memory_game', 'game_leaderboard_number_game', 'game_leaderboard_puzzle_game'])
             ->whereDate('date', '>=', now()->subDays(7))
             ->orderBy('date', 'desc')
             ->get();
 
+        // Get today's leaderboard for each game
+        $todaysLeaderboard = [];
+        $gameTypes = ['click_game', 'memory_game', 'number_game', 'puzzle_game'];
+        
+        foreach ($gameTypes as $gameType) {
+            $topPlayers = GameSession::where('game_type', $gameType)
+                ->whereDate('created_at', today())
+                ->whereNotNull('completed_at')
+                ->with('user')
+                ->orderBy('score', 'desc')
+                ->limit(10)
+                ->get();
+                
+            $todaysLeaderboard[$gameType] = $topPlayers;
+        }
+
         return view('livewire.earn-credits', [
-            'recentEarnings' => $recentEarnings
+            'recentEarnings' => $recentEarnings,
+            'todaysLeaderboard' => $todaysLeaderboard
         ])->layout('layouts.app');
     }
 }
