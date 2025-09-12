@@ -242,41 +242,24 @@
 
                     <div class="max-w-md mx-auto">
                         <!-- Snake Grid -->
-                        <div class="grid grid-cols-20 gap-0 border-2 border-gray-400 inline-block" style="grid-template-columns: repeat(20, 1fr);">
-                            @for($y = 0; $y < 20; $y++)
-                                @for($x = 0; $x < 20; $x++)
-                                    <div class="w-4 h-4 border border-gray-200
-                                        @if(in_array([$x, $y], $snakePosition))
-                                            @if([$x, $y] === $snakePosition[0])
-                                                bg-red-600
-                                            @else
-                                                bg-red-400
-                                            @endif
-                                        @elseif([$x, $y] === $snakeFood)
-                                            bg-yellow-400
-                                        @else
-                                            bg-gray-100
-                                        @endif
-                                    "></div>
-                                @endfor
-                            @endfor
-                        </div>
+                        <canvas id="snakeCanvas" width="400" height="400" 
+                                class="border-2 border-gray-400 rounded-lg bg-gray-100"></canvas>
 
                         <!-- Snake Controls -->
                         <div class="mt-4">
                             <div class="flex justify-center">
-                                <button wire:click="moveSnake('up')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                <button onclick="changeSnakeDirection('up')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                                     <i class="fas fa-arrow-up"></i>
                                 </button>
                             </div>
                             <div class="flex justify-center gap-2 mt-2">
-                                <button wire:click="moveSnake('left')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                <button onclick="changeSnakeDirection('left')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                                     <i class="fas fa-arrow-left"></i>
                                 </button>
-                                <button wire:click="moveSnake('down')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                <button onclick="changeSnakeDirection('down')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                                     <i class="fas fa-arrow-down"></i>
                                 </button>
-                                <button wire:click="moveSnake('right')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                <button onclick="changeSnakeDirection('right')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                                     <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
@@ -554,50 +537,189 @@
         }, 3000);
     });
 
+    // Snake Game JavaScript Implementation
+    let snake = {
+        position: [[10, 10], [10, 9], [10, 8]],
+        direction: 'right',
+        food: [15, 15],
+        score: 0,
+        gameOver: false,
+        canvas: null,
+        ctx: null,
+        gridSize: 20,
+        tileCount: 20,
+        interval: null
+    };
+
+    function initSnakeGame() {
+        console.log('Initializing snake game...');
+        snake.canvas = document.getElementById('snakeCanvas');
+        console.log('Canvas found:', snake.canvas);
+        
+        if (!snake.canvas) {
+            console.error('Snake canvas not found!');
+            return;
+        }
+        
+        snake.ctx = snake.canvas.getContext('2d');
+        console.log('Canvas context:', snake.ctx);
+        
+        // Test canvas with simple rect
+        snake.ctx.fillStyle = 'red';
+        snake.ctx.fillRect(10, 10, 50, 50);
+        console.log('Test rect drawn');
+        
+        snake.position = [[10, 10], [10, 9], [10, 8]];
+        snake.direction = 'right';
+        snake.food = [Math.floor(Math.random() * 20), Math.floor(Math.random() * 20)];
+        snake.score = 0;
+        snake.gameOver = false;
+        
+        console.log('Snake initialized, starting game loop...');
+        
+        // Start game loop
+        snake.interval = setInterval(updateSnake, 300); // Slower for testing
+        drawSnake();
+    }
+
+    function updateSnake() {
+        if (snake.gameOver) return;
+
+        // Move head
+        let head = [...snake.position[0]];
+        switch(snake.direction) {
+            case 'up': head[1]--; break;
+            case 'down': head[1]++; break;
+            case 'left': head[0]--; break;
+            case 'right': head[0]++; break;
+        }
+
+        // Check boundaries
+        if (head[0] < 0 || head[0] >= 20 || head[1] < 0 || head[1] >= 20) {
+            endSnakeGame();
+            return;
+        }
+
+        // Check self collision
+        if (snake.position.some(segment => segment[0] === head[0] && segment[1] === head[1])) {
+            endSnakeGame();
+            return;
+        }
+
+        snake.position.unshift(head);
+
+        // Check food collision
+        if (head[0] === snake.food[0] && head[1] === snake.food[1]) {
+            snake.score++;
+            @this.set('snakeScore', snake.score);
+            generateFood();
+        } else {
+            snake.position.pop();
+        }
+
+        drawSnake();
+    }
+
+    function generateFood() {
+        do {
+            snake.food = [Math.floor(Math.random() * 20), Math.floor(Math.random() * 20)];
+        } while (snake.position.some(segment => segment[0] === snake.food[0] && segment[1] === snake.food[1]));
+    }
+
+    function drawSnake() {
+        if (!snake.ctx) {
+            console.error('No canvas context!');
+            return;
+        }
+
+        // Clear canvas
+        snake.ctx.fillStyle = '#f3f4f6';
+        snake.ctx.fillRect(0, 0, 400, 400);
+
+        // Draw grid lines for debugging
+        snake.ctx.strokeStyle = '#e5e7eb';
+        snake.ctx.lineWidth = 0.5;
+        for (let i = 0; i <= 20; i++) {
+            snake.ctx.beginPath();
+            snake.ctx.moveTo(i * 20, 0);
+            snake.ctx.lineTo(i * 20, 400);
+            snake.ctx.stroke();
+            
+            snake.ctx.beginPath();
+            snake.ctx.moveTo(0, i * 20);
+            snake.ctx.lineTo(400, i * 20);
+            snake.ctx.stroke();
+        }
+
+        // Draw snake
+        snake.position.forEach((segment, index) => {
+            snake.ctx.fillStyle = index === 0 ? '#dc2626' : '#ef4444'; // Head darker
+            snake.ctx.fillRect(segment[0] * 20 + 1, segment[1] * 20 + 1, 18, 18);
+        });
+
+        // Draw food
+        snake.ctx.fillStyle = '#fbbf24';
+        snake.ctx.fillRect(snake.food[0] * 20 + 1, snake.food[1] * 20 + 1, 18, 18);
+    }
+
+    function changeSnakeDirection(newDirection) {
+        // Prevent reverse direction
+        const opposites = { up: 'down', down: 'up', left: 'right', right: 'left' };
+        if (snake.direction !== opposites[newDirection]) {
+            snake.direction = newDirection;
+        }
+    }
+
+    function endSnakeGame() {
+        snake.gameOver = true;
+        clearInterval(snake.interval);
+        @this.set('gameScore', snake.score);
+        @this.call('completeGame');
+    }
+
     // Snake game keyboard controls
     document.addEventListener('keydown', function(e) {
         if (@json($gameActive) && @json($selectedGame) === 'snake_game') {
             switch(e.key) {
                 case 'ArrowUp':
                     e.preventDefault();
-                    @this.call('moveSnake', 'up');
+                    changeSnakeDirection('up');
                     break;
                 case 'ArrowDown':
                     e.preventDefault();
-                    @this.call('moveSnake', 'down');
+                    changeSnakeDirection('down');
                     break;
                 case 'ArrowLeft':
                     e.preventDefault();
-                    @this.call('moveSnake', 'left');
+                    changeSnakeDirection('left');
                     break;
                 case 'ArrowRight':
                     e.preventDefault();
-                    @this.call('moveSnake', 'right');
+                    changeSnakeDirection('right');
                     break;
             }
         }
     });
 
-    // Snake game automatic movement
-    let snakeInterval;
+    // Initialize snake when game starts
     Livewire.on('startSnakeGame', () => {
-        snakeInterval = setInterval(() => {
-            if (@json($gameActive) && @json($selectedGame) === 'snake_game' && !@json($snakeGameOver)) {
-                @this.call('updateSnakePosition');
-            }
-        }, 200); // Move every 200ms
+        console.log('startSnakeGame event received');
+        setTimeout(() => {
+            console.log('Attempting to initialize snake...');
+            initSnakeGame();
+        }, 500); // Longer delay to ensure canvas is rendered
     });
 
     Livewire.on('stopSnakeGame', () => {
-        if (snakeInterval) {
-            clearInterval(snakeInterval);
+        if (snake.interval) {
+            clearInterval(snake.interval);
         }
     });
 
     // Memory game card flip delay
-    Livewire.on('clearMemoryCards', () => {
+    Livewire.on('clearMemoryCards', (data) => {
         setTimeout(() => {
             @this.call('clearMemoryFlipped');
-        }, 1000);
+        }, data.delay || 1000);
     });
 </script>

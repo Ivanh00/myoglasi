@@ -22,6 +22,7 @@ class EarnCredits extends Component
     public $memoryFlipped = [];
     public $memoryMatched = [];
     public $memoryMoves = 0;
+    public $memoryBlocked = false;
     
     // Snake game state
     public $snakePosition = [];
@@ -215,6 +216,33 @@ class EarnCredits extends Component
         $this->clickCount = 0;
         $this->timeLeft = 30;
         $this->gameCompleted = false;
+        
+        // Reset all game states
+        $this->memoryCards = [];
+        $this->memoryFlipped = [];
+        $this->memoryMatched = [];
+        $this->memoryMoves = 0;
+        $this->memoryBlocked = false;
+        
+        $this->snakePosition = [];
+        $this->snakeDirection = 'right';
+        $this->snakeFood = [];
+        $this->snakeScore = 0;
+        $this->snakeGameOver = false;
+        
+        $this->numberTarget = 0;
+        $this->numberCurrent = 0;
+        $this->numberMoves = 0;
+        $this->numberCompleted = false;
+        
+        $this->puzzleTiles = [];
+        $this->puzzleMoves = 0;
+        $this->puzzleCompleted = false;
+        
+        $this->reactionActive = false;
+        $this->reactionTimes = [];
+        $this->reactionRound = 0;
+        $this->reactionWaiting = false;
     }
 
     private function getGameName($gameType)
@@ -261,17 +289,19 @@ class EarnCredits extends Component
     {
         if (!$this->gameActive || $this->selectedGame !== 'memory_game') return;
         if (in_array($index, $this->memoryFlipped) || in_array($index, $this->memoryMatched)) return;
-        if (count($this->memoryFlipped) >= 2) return;
+        if (count($this->memoryFlipped) >= 2 || $this->memoryBlocked) return;
 
         $this->memoryFlipped[] = $index;
 
         if (count($this->memoryFlipped) === 2) {
             $this->memoryMoves++;
+            $this->memoryBlocked = true; // Block further clicks
             
             // Check for match
             if ($this->memoryCards[$this->memoryFlipped[0]] === $this->memoryCards[$this->memoryFlipped[1]]) {
                 $this->memoryMatched = array_merge($this->memoryMatched, $this->memoryFlipped);
                 $this->memoryFlipped = [];
+                $this->memoryBlocked = false;
                 
                 // Check if game completed
                 if (count($this->memoryMatched) === count($this->memoryCards)) {
@@ -279,7 +309,7 @@ class EarnCredits extends Component
                     $this->completeGame();
                 }
             } else {
-                // Clear flipped cards after delay (handled by JavaScript)
+                // Clear flipped cards after delay
                 $this->dispatch('clearMemoryCards');
             }
         }
@@ -288,6 +318,7 @@ class EarnCredits extends Component
     public function clearMemoryFlipped()
     {
         $this->memoryFlipped = [];
+        $this->memoryBlocked = false; // Unblock clicking
     }
 
     // Snake Game Methods
