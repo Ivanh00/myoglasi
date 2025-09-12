@@ -310,7 +310,7 @@
                             </div>
 
                             <!-- Sidebar -->
-                            <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 bg-yellow-50">
+                            <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-yellow-50 dark:bg-gray-600">
                                 <div class="flex flex-col h-full justify-between">
                                     <div class="text-center mb-4">
                                         <div class="text-lg font-bold text-yellow-600">

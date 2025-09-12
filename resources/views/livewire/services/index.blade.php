@@ -155,7 +155,7 @@
                         </div>
 
                         <!-- Desna strana - akcije -->
-                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 bg-gray-50">
+                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-600">
                             <div class="flex flex-col h-full justify-between">
                                 <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
                                     <div class="flex items-center">

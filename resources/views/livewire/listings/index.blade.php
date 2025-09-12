@@ -556,9 +556,9 @@
                         </div>
 
                         <!-- Desna strana - akcije i dodatne informacije -->
-                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 {{ $listing->isHighlighted() ? '' : 'bg-blue-50' }}">
+                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 {{ $listing->isHighlighted() ? '' : 'bg-blue-50 dark:bg-gray-600' }}">
                             <div class="flex flex-col h-full justify-between">
-                                <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                                     <div class="flex items-center">
                                         <svg class="w-4 h-4 mr-1 text-gray-700 dark:text-gray-200" fill="currentColor" viewBox="0 0 24 24">
                                             <path
