@@ -89,13 +89,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-white shadow-lg mt-8">
-        <div class="max-w-7xl mx-auto py-6 px-4">
-            <div class="text-center text-gray-500 text-sm">
-                &copy; {{ date('Y') }} MyOglasi. Sva prava zadržana.
-            </div>
-        </div>
-    </footer>
+    <livewire:layout.footer />
     @livewireScripts
 
     <!-- Mobile Sidebar JavaScript -->

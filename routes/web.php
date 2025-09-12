@@ -137,6 +137,27 @@ Route::get('/auth/magic-login/{token}', [App\Http\Controllers\Auth\MagicLoginCon
 Route::get('/auth/{provider}', [App\Http\Controllers\Auth\SocialLoginController::class, 'redirect'])->name('auth.social.redirect');
 Route::get('/auth/{provider}/callback', [App\Http\Controllers\Auth\SocialLoginController::class, 'callback'])->name('auth.social.callback');
 
+// Help Pages Routes (temporary simple routes)
+Route::prefix('help')->name('help.')->group(function () {
+    Route::get('/create-listing', function () { return view('help.coming-soon', ['title' => 'Kako postaviti oglas']); })->name('create-listing');
+    Route::get('/create-auction', function () { return view('help.coming-soon', ['title' => 'Kako postaviti aukciju']); })->name('create-auction');
+    Route::get('/create-service', function () { return view('help.coming-soon', ['title' => 'Kako postaviti uslugu']); })->name('create-service');
+    Route::get('/create-giveaway', function () { return view('help.coming-soon', ['title' => 'Kako postaviti poklon']); })->name('create-giveaway');
+    Route::get('/credit-system', function () { return view('help.coming-soon', ['title' => 'Kredit sistem']); })->name('credit-system');
+    Route::get('/earn-credits', function () { return view('help.coming-soon', ['title' => 'Kako zaraditi kredit']); })->name('earn-credits');
+    Route::get('/transfer-credits', function () { return view('help.coming-soon', ['title' => 'Kako podeliti kredit']); })->name('transfer-credits');
+    Route::get('/pricing', function () { return view('help.coming-soon', ['title' => 'Cenovnik usluga']); })->name('pricing');
+    Route::get('/plans', function () { return view('help.coming-soon', ['title' => 'Planovi naplate']); })->name('plans');
+    Route::get('/promotions', function () { return view('help.coming-soon', ['title' => 'Promocije oglasa']); })->name('promotions');
+    Route::get('/payment-methods', function () { return view('help.coming-soon', ['title' => 'Načini plaćanja']); })->name('payment-methods');
+    Route::get('/verification', function () { return view('help.coming-soon', ['title' => 'Verifikacija naloga']); })->name('verification');
+    Route::get('/faq', function () { return view('help.coming-soon', ['title' => 'Često postavljana pitanja']); })->name('faq');
+    Route::get('/safety', function () { return view('help.coming-soon', ['title' => 'Bezbednost na sajtu']); })->name('safety');
+    Route::get('/rules', function () { return view('help.coming-soon', ['title' => 'Pravila korišćenja']); })->name('rules');
+    Route::get('/privacy', function () { return view('help.coming-soon', ['title' => 'Politika privatnosti']); })->name('privacy');
+    Route::get('/terms', function () { return view('help.coming-soon', ['title' => 'Uslovi korišćenja']); })->name('terms');
+});
+
 // API routes for frontend
 Route::get('/api/categories/{category}/subcategories', function($categoryId) {
     $subcategories = \App\Models\Category::where('parent_id', $categoryId)
