@@ -1,5 +1,5 @@
 <div>
-    @if(!$showEmailSent)
+    @if(\App\Models\Setting::get('magic_link_enabled', false) && !$showEmailSent)
         <!-- Magic Link Form -->
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
             <div class="flex items-center mb-3">
@@ -35,7 +35,7 @@
                 </button>
             </form>
         </div>
-    @else
+    @elseif(\App\Models\Setting::get('magic_link_enabled', false) && $showEmailSent)
         <!-- Email Sent Confirmation -->
         <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
             <div class="flex items-center mb-3">

@@ -55,6 +55,9 @@ class Settings extends Component
     public $adminEmail;
     public $supportEmail;
     public $emailVerificationEnabled;
+    public $magicLinkEnabled;
+    public $googleLoginEnabled;
+    public $facebookLoginEnabled;
     
     // Banking Settings
     public $bankAccountNumber;
@@ -113,6 +116,9 @@ class Settings extends Component
         'adminEmail' => 'required|email|max:255',
         'supportEmail' => 'required|email|max:255',
         'emailVerificationEnabled' => 'required|boolean',
+        'magicLinkEnabled' => 'required|boolean',
+        'googleLoginEnabled' => 'required|boolean',
+        'facebookLoginEnabled' => 'required|boolean',
         'bankAccountNumber' => 'required|string|max:100',
         'bankName' => 'required|string|max:255',
         'companyName' => 'required|string|max:255',
@@ -180,6 +186,9 @@ class Settings extends Component
         $this->adminEmail = Setting::get('admin_email', 'admin@myoglasi.rs');
         $this->supportEmail = Setting::get('support_email', 'support@myoglasi.rs');
         $this->emailVerificationEnabled = Setting::get('email_verification_enabled', false);
+        $this->magicLinkEnabled = Setting::get('magic_link_enabled', false);
+        $this->googleLoginEnabled = Setting::get('google_login_enabled', false);
+        $this->facebookLoginEnabled = Setting::get('facebook_login_enabled', false);
         
         // Banking Settings
         $this->bankAccountNumber = Setting::get('bank_account_number', '265-0000000003456-78');
@@ -298,11 +307,18 @@ class Settings extends Component
         $this->validate([
             'adminEmail' => 'required|email|max:255',
             'supportEmail' => 'required|email|max:255',
+            'emailVerificationEnabled' => 'required|boolean',
+            'magicLinkEnabled' => 'required|boolean',
+            'googleLoginEnabled' => 'required|boolean',
+            'facebookLoginEnabled' => 'required|boolean',
         ]);
 
         Setting::set('admin_email', $this->adminEmail, 'string', 'email');
         Setting::set('support_email', $this->supportEmail, 'string', 'email');
         Setting::set('email_verification_enabled', $this->emailVerificationEnabled, 'boolean', 'email');
+        Setting::set('magic_link_enabled', $this->magicLinkEnabled, 'boolean', 'email');
+        Setting::set('google_login_enabled', $this->googleLoginEnabled, 'boolean', 'email');
+        Setting::set('facebook_login_enabled', $this->facebookLoginEnabled, 'boolean', 'email');
 
         session()->flash('success', 'Email podešavanja su uspešno sačuvana.');
     }
