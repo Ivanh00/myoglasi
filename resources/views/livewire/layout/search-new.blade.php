@@ -309,8 +309,8 @@ x-init="syncFromUrl()">
                         <div class="p-1">
                             <template x-for="cityOption in filteredCities" :key="cityOption">
                                 <button type="button" @click="city = cityOption; cityOpen = false"
-                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-100 dark:hover:bg-gray-600 transition"
-                                    :class="city === cityOption ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition"
+                                    :class="city === cityOption ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                     <span x-text="cityOption"></span>
                                 </button>
                             </template>
@@ -342,14 +342,14 @@ x-init="syncFromUrl()">
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectCategory('', ''); categoryOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-100 dark:hover:bg-gray-600 transition flex items-center"
-                                :class="!category ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
+                                :class="!category ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <span>Sve kategorije</span>
                             </button>
                             @foreach(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
                                 <button type="button" @click="selectCategory('{{ $cat->id }}', '{{ $cat->name }}'); categoryOpen = false"
-                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-100 dark:hover:bg-gray-600 transition flex items-center"
-                                    :class="category === '{{ $cat->id }}' ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
+                                    :class="category === '{{ $cat->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                     @if($cat->icon)
                                         <i class="{{ $cat->icon }} text-blue-600 mr-2"></i>
                                     @else
@@ -402,14 +402,14 @@ x-init="syncFromUrl()">
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectCondition('', ''); conditionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-100 dark:hover:bg-gray-600 transition"
-                                :class="!condition ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition"
+                                :class="!condition ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <span>Sva stanja</span>
                             </button>
                             @foreach(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get() as $cond)
                                 <button type="button" @click="selectCondition('{{ $cond->id }}', '{{ $cond->name }}'); conditionOpen = false"
-                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-100 dark:hover:bg-gray-600 transition"
-                                    :class="condition === '{{ $cond->id }}' ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition"
+                                    :class="condition === '{{ $cond->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                     {{ $cond->name }}
                                 </button>
                             @endforeach
@@ -500,7 +500,7 @@ x-init="syncFromUrl()">
                     class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                     <i class="fas fa-search mr-2"></i>
                     <span>Primeni filtere</span>
-                    <span x-show="hasActiveFilters()" class="ml-1 px-2 py-0.5 bg-blue-100 dark:bg-gray-6000 text-white rounded-full text-xs" 
+                    <span x-show="hasActiveFilters()" class="ml-1 px-2 py-0.5 bg-gray-100 dark:bg-gray-6000 text-white rounded-full text-xs" 
                         x-text="(city ? 1 : 0) + (category ? 1 : 0) + (condition ? 1 : 0) + (price_min ? 1 : 0) + (price_max ? 1 : 0)"></span>
                 </button>
             </div>
