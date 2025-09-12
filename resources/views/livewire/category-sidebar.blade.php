@@ -10,13 +10,13 @@
             <div class="grid grid-cols-2 gap-2">
                 <button onclick="setTheme('light')" 
                     class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn light-theme
-                    bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+                    bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <i class="fas fa-sun mr-1"></i>
                     Light
                 </button>
                 <button onclick="setTheme('dark')" 
                     class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn dark-theme
-                    bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700">
+                    bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700">
                     <i class="fas fa-moon mr-1"></i>
                     Dark
                 </button>
@@ -311,12 +311,16 @@
 <script>
     // Theme Management
     function setTheme(theme) {
+        console.log('Setting theme to:', theme);
+        
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
             localStorage.setItem('theme', 'dark');
+            console.log('Dark mode activated');
         } else {
             document.documentElement.classList.remove('dark');
             localStorage.setItem('theme', 'light');
+            console.log('Light mode activated');
         }
         updateThemeButtons();
     }
