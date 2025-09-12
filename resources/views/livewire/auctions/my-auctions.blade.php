@@ -1,8 +1,8 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     <!-- Naslov -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Moje aukcije</h1>
-        <p class="text-gray-600 mt-2">Upravljajte svojim aukcijama</p>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Moje aukcije</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Upravljajte svojim aukcijama</p>
     </div>
 
     <!-- Filter -->
@@ -11,9 +11,9 @@
         
         <!-- Filter -->
         <div class="flex items-center space-x-4">
-            <label class="text-sm font-medium text-gray-700">Prikaži:</label>
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-200">Prikaži:</label>
             <select wire:model.live="filter" 
-                class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 <option value="all">Sve aukcije</option>
                 <option value="active">Aktivne aukcije</option>
                 <option value="ended">Završene aukcije</option>
@@ -23,9 +23,9 @@
 
     <!-- Desktop Tabela aukcija -->
     @if ($auctions->count() > 0)
-        <div class="hidden lg:block bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oglas</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Početna/Trenutna cena</th>
@@ -35,7 +35,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Akcije</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200">
                     @foreach ($auctions as $auction)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -51,7 +51,7 @@
                                         @endif
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                             {{ Str::limit($auction->listing->title, 30) }}
                                         </div>
                                         <div class="text-sm text-gray-500">{{ $auction->listing->category->name }}</div>
@@ -60,8 +60,8 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm">
-                                    <div class="text-gray-600">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
-                                    <div class="text-gray-900 font-bold">Trenutna: {{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
+                                    <div class="text-gray-600 dark:text-gray-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
+                                    <div class="text-gray-900 dark:text-gray-100 font-bold">Trenutna: {{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
                                     @if($auction->buy_now_price)
                                         <div class="text-green-600 text-xs">Kupi odmah: {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD</div>
                                     @endif
@@ -69,7 +69,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm">
-                                    <div class="text-gray-900 font-semibold">{{ $auction->total_bids }} ponuda</div>
+                                    <div class="text-gray-900 dark:text-gray-100 font-semibold">{{ $auction->total_bids }} ponuda</div>
                                     @if($auction->winningBid)
                                         <div class="text-xs text-gray-500">Vodi: {{ $auction->winningBid->user->name }}</div>
                                     @endif
@@ -138,8 +138,8 @@
         </div>
 
         <!-- Auction Rules Section -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 <i class="fas fa-info-circle text-blue-600 mr-2"></i>
                 Pravila za upravljanje aukcijama
             </h3>
@@ -164,7 +164,7 @@
                             <span><strong>Zaštita kupaca:</strong> Ova pravila štite kupce od nepoštenih prodavaca i osiguravaju fer trgovinu</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-user-shield text-gray-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-user-shield text-gray-600 dark:text-gray-300 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Napomena za administratore:</strong> Administratori mogu ukloniti aukciju u bilo kom trenutku radi rešavanja sporova</span>
                         </li>
                     </ul>
@@ -175,9 +175,9 @@
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
             @foreach ($auctions as $auction)
-                <div class="bg-white shadow rounded-lg overflow-hidden">
+                <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
                     <!-- Card Header -->
-                    <div class="p-4 border-b border-gray-200">
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-600">
                         <div class="flex items-start justify-between">
                             <div class="flex items-start flex-1">
                                 <!-- Image -->
@@ -194,10 +194,10 @@
                                 
                                 <!-- Auction Info -->
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ $auction->listing->title }}</h3>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ $auction->listing->title }}</h3>
                                     <p class="text-sm text-gray-500 mb-2">{{ $auction->listing->category->name }}</p>
                                     <div class="text-sm">
-                                        <div class="text-gray-600">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
+                                        <div class="text-gray-600 dark:text-gray-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
                                         <div class="text-lg font-bold text-red-600">{{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
                                     </div>
                                 </div>
@@ -233,7 +233,7 @@
                         <div class="mb-4">
                             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Ponude</div>
                             <div class="space-y-1">
-                                <div class="text-sm text-gray-900">{{ $auction->total_bids }} ponuda</div>
+                                <div class="text-sm text-gray-900 dark:text-gray-100">{{ $auction->total_bids }} ponuda</div>
                                 @if($auction->winningBid)
                                     <div class="text-xs text-gray-500">Vodi: {{ $auction->winningBid->user->name }}</div>
                                 @endif
@@ -247,8 +247,8 @@
                         <div class="mb-4">
                             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Vreme</div>
                             <div class="space-y-1">
-                                <div class="text-sm text-gray-900">Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</div>
-                                <div class="text-sm text-gray-900">Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</div>
+                                <div class="text-sm text-gray-900 dark:text-gray-100">Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</div>
+                                <div class="text-sm text-gray-900 dark:text-gray-100">Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</div>
                             </div>
                         </div>
 
@@ -290,10 +290,10 @@
             {{ $auctions->links() }}
         </div>
     @else
-        <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-gavel text-gray-400 text-5xl mb-4"></i>
             <h3 class="text-xl font-semibold text-gray-800 mb-2">Nemate nijednu aukciju</h3>
-            <p class="text-gray-600 mb-4">Prvo kreirajte oglas, a zatim možete postaviti aukciju.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Prvo kreirajte oglas, a zatim možete postaviti aukciju.</p>
             @php
                 $hasListings = auth()->user()->listings()->count() > 0;
             @endphp

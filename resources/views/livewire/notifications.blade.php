@@ -23,10 +23,10 @@
 
                 <!-- Filter dropdown -->
                 <div class="flex items-center" x-data="{ open: false }" x-init="open = false">
-                    <label class="text-sm font-medium text-gray-700 mr-3">Prikaži:</label>
+                    <label class="text-sm font-medium text-gray-700 dark:text-gray-200 mr-3">Prikaži:</label>
                     <div class="relative">
                         <button @click="open = !open" type="button"
-                            class="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between min-w-32">
+                            class="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between min-w-32">
                             <span>
                                 @if($filter === 'all') Sve
                                 @elseif($filter === 'unread') Nepročitane
@@ -38,13 +38,13 @@
                         </button>
                         
                         <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 right-0 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            class="absolute z-10 mt-1 right-0 w-40 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('filter', 'all'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg {{ $filter === 'all' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:bg-gray-700 rounded-t-lg {{ $filter === 'all' ? 'bg-blue-50 text-blue-700' : '' }}">
                                 Sve
                             </button>
                             <button @click="$wire.set('filter', 'unread'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-b-lg {{ $filter === 'unread' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:bg-gray-700 rounded-b-lg {{ $filter === 'unread' ? 'bg-blue-50 text-blue-700' : '' }}">
                                 Nepročitane
                             </button>
                         </div>
@@ -61,7 +61,7 @@
                 Označi sve kao pročitano
             </button>
             
-            <select wire:model.live="filter" class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+            <select wire:model.live="filter" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm">
                 <option value="all">Sve</option>
                 <option value="unread">Nepročitane</option>
             </select>
@@ -136,7 +136,7 @@
     <!-- Mobile Card View -->
     <div class="md:hidden">
         @forelse($notifications as $notification)
-            <div class="bg-white border-b border-gray-200 hover:bg-gray-50 cursor-pointer {{ !$notification->is_read ? 'bg-blue-50 border-l-4 border-l-blue-500' : '' }}" 
+            <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:bg-gray-700 cursor-pointer {{ !$notification->is_read ? 'bg-blue-50 border-l-4 border-l-blue-500' : '' }}" 
                  wire:click="selectNotification({{ $notification->id }})" 
                  wire:key="mobile-notification-{{ $notification->id }}">
                 <div class="p-4">
@@ -150,7 +150,7 @@
                             
                             <!-- Notification info -->
                             <div class="flex-1 min-w-0">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-1">
+                                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-1">
                                     @if($notification->listing)
                                         {{ Str::limit($notification->listing->title, 30) }}
                                     @else
@@ -184,14 +184,14 @@
                     
                     <!-- Message preview -->
                     <div class="flex items-start">
-                        <p class="text-sm text-gray-600">
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
                             {{ Str::limit($notification->message, 80) }}
                         </p>
                     </div>
 
                     <!-- Mark as read button (mobile only) -->
                     @if (!$notification->is_read)
-                        <div class="mt-3 pt-3 border-t border-gray-200">
+                        <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
                             <button wire:click="markAsRead({{ $notification->id }})" 
                                 class="text-xs text-blue-600 hover:text-blue-800"
                                 onclick="event.stopPropagation()">
@@ -206,7 +206,7 @@
             <div class="p-8 text-center">
                 <i class="fas fa-bell text-gray-400 text-4xl mb-3"></i>
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Nemate obaveštenja</h3>
-                <p class="text-gray-600">Obaveštenja će se pojaviti kada sistem pošalje poruke.</p>
+                <p class="text-gray-600 dark:text-gray-300">Obaveštenja će se pojaviti kada sistem pošalje poruke.</p>
             </div>
         @endforelse
     </div>

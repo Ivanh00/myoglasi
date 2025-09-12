@@ -14,9 +14,9 @@
                 <!-- Search -->
                 <div class="flex items-center">
                     <input type="text" wire:model.live="search" placeholder="Pretraži po korisniku ili oglasu..." 
-                        class="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors w-80">
+                        class="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors w-80">
                     @if($search)
-                        <button wire:click="clearSearch" class="ml-2 px-2 py-1 text-gray-500 hover:text-gray-700 rounded">
+                        <button wire:click="clearSearch" class="ml-2 px-2 py-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200 rounded">
                             <i class="fas fa-times"></i>
                         </button>
                     @endif
@@ -24,10 +24,10 @@
 
                 <!-- Filter dropdown -->
                 <div class="flex items-center" x-data="{ open: false }" x-init="open = false">
-                    <label class="text-sm font-medium text-gray-700 mr-3">Prikaži:</label>
+                    <label class="text-sm font-medium text-gray-700 dark:text-gray-200 mr-3">Prikaži:</label>
                     <div class="relative">
                         <button @click="open = !open" type="button"
-                            class="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between min-w-32">
+                            class="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between min-w-32">
                             <span>
                                 @if($sortBy === 'all') Sve poruke
                                 @elseif($sortBy === 'unread') Nepročitane
@@ -39,13 +39,13 @@
                         </button>
                         
                         <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 right-0 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            class="absolute z-10 mt-1 right-0 w-40 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('sortBy', 'all').then(() => $wire.call('loadConversations')); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg {{ $sortBy === 'all' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:bg-gray-700 rounded-t-lg {{ $sortBy === 'all' ? 'bg-blue-50 text-blue-700' : '' }}">
                                 Sve poruke
                             </button>
                             <button @click="$wire.set('sortBy', 'unread').then(() => $wire.call('loadConversations')); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-b-lg {{ $sortBy === 'unread' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:bg-gray-700 rounded-b-lg {{ $sortBy === 'unread' ? 'bg-blue-50 text-blue-700' : '' }}">
                                 Nepročitane
                             </button>
                         </div>
@@ -58,16 +58,16 @@
         <div class="md:hidden space-y-3">
             <div>
                 <input type="text" wire:model.live="search" placeholder="Pretraži..." 
-                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm">
                 @if($search)
-                    <button wire:click="clearSearch" class="mt-1 text-gray-500 hover:text-gray-700">
+                    <button wire:click="clearSearch" class="mt-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200">
                         <i class="fas fa-times mr-1"></i> Očisti pretragu
                     </button>
                 @endif
             </div>
             
             <div>
-                <select wire:model.live="sortBy" wire:change="loadConversations" class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+                <select wire:model.live="sortBy" wire:change="loadConversations" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm">
                     <option value="all">Sve poruke</option>
                     <option value="unread">Nepročitane</option>
                 </select>
@@ -103,7 +103,7 @@
                                 @if($conversation['listing'])
                                     {{ $conversation['listing']->title }}
                                 @else
-                                    <span class="text-gray-500">Direktna komunikacija</span>
+                                    <span class="text-gray-500 dark:text-gray-400">Direktna komunikacija</span>
                                 @endif
                             </div>
                         </div>
@@ -157,7 +157,7 @@
     <!-- Mobile Card View -->
     <div class="md:hidden">
         @forelse($conversations as $key => $conversation)
-            <div class="bg-white border-b border-gray-200 hover:bg-gray-50 cursor-pointer" 
+            <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:bg-gray-700 cursor-pointer" 
                  wire:click="selectConversation({{ $key }})" 
                  wire:key="mobile-conversation-{{ $key }}">
                 <div class="p-4">
@@ -173,11 +173,11 @@
                             
                             <!-- User name -->
                             <div class="flex-1 min-w-0">
-                                <h3 class="text-sm font-semibold text-gray-900 truncate">
+                                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
                                     {{ $conversation['other_user']->name }}
                                     {!! $conversation['other_user']->verified_icon !!}
                                 </h3>
-                                <p class="text-xs text-gray-500 truncate">
+                                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
                                     @if($conversation['listing'])
                                         {{ $conversation['listing']->title }}
                                     @else
@@ -210,7 +210,7 @@
                                     <i class="fas fa-eye text-gray-400 text-sm mr-2 flex-shrink-0" title="Dostavljeno"></i>
                                 @endif
                             @endif
-                            <p class="text-sm text-gray-600 truncate">
+                            <p class="text-sm text-gray-600 dark:text-gray-300 truncate">
                                 {{ Str::limit($conversation['last_message']->message, 80) }}
                             </p>
                         </div>
@@ -229,7 +229,7 @@
             <div class="p-8 text-center">
                 <i class="fas fa-envelope text-gray-400 text-4xl mb-3"></i>
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Nemate poruka</h3>
-                <p class="text-gray-600">Poruke će se pojaviti kada kontaktirate prodavce.</p>
+                <p class="text-gray-600 dark:text-gray-300">Poruke će se pojaviti kada kontaktirate prodavce.</p>
             </div>
         @endforelse
     </div>

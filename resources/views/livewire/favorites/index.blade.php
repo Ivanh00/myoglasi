@@ -1,21 +1,21 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     <!-- Naslov -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Omiljeni oglasi</h1>
-        <p class="text-gray-600 mt-2">Vaši sačuvani oglasi</p>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Omiljeni oglasi</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Vaši sačuvani oglasi</p>
     </div>
 
     <!-- Sortiranje i info -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
-        <div class="text-gray-600">
+        <div class="text-gray-600 dark:text-gray-300">
             Ukupno: <span class="font-semibold">{{ $favorites->total() }}</span> omiljenih oglasa
         </div>
         
         <!-- Sortiranje -->
         <div class="flex items-center space-x-4">
-            <label class="text-sm font-medium text-gray-700">Sortiraj po:</label>
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-200">Sortiraj po:</label>
             <select wire:model.live="sortBy" 
-                class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 <option value="newest">Najnovije dodato</option>
                 <option value="oldest">Najstarije dodato</option>
                 <option value="price_asc">Cena ↑</option>
@@ -33,9 +33,9 @@
 
     <!-- Desktop Tabela oglasa -->
     @if ($favorites->count() > 0)
-        <div class="hidden lg:block bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oglas</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cena</th>
@@ -44,7 +44,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Akcije</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200">
                     @foreach ($favorites as $listing)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -60,14 +60,14 @@
                                         @endif
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">{{ Str::limit($listing->title, 40) }}</div>
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ Str::limit($listing->title, 40) }}</div>
                                         <div class="text-sm text-gray-500">{{ $listing->category->name }}</div>
                                         <div class="text-xs text-gray-400">{{ $listing->location }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 font-bold">{{ number_format($listing->price, 2) }} RSD</div>
+                                <div class="text-sm text-gray-900 dark:text-gray-100 font-bold">{{ number_format($listing->price, 2) }} RSD</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($listing->status === 'active')
@@ -120,9 +120,9 @@
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
             @foreach ($favorites as $listing)
-                <div class="bg-white shadow rounded-lg overflow-hidden">
+                <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
                     <!-- Card Header -->
-                    <div class="p-4 border-b border-gray-200">
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-600">
                         <div class="flex items-start justify-between">
                             <div class="flex items-start flex-1">
                                 <!-- Image -->
@@ -139,7 +139,7 @@
                                 
                                 <!-- Listing Info -->
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ $listing->title }}</h3>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ $listing->title }}</h3>
                                     <p class="text-sm text-gray-500 mb-1">{{ $listing->category->name }}</p>
                                     <p class="text-xs text-gray-400 mb-2">{{ $listing->location }}</p>
                                     <p class="text-xl font-bold text-blue-600">{{ number_format($listing->price, 2) }} RSD</p>
@@ -168,14 +168,14 @@
                         <!-- Date Added -->
                         <div class="mb-4">
                             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Dodato u omiljene</div>
-                            <div class="text-sm text-gray-900">{{ $listing->pivot->created_at->format('d.m.Y H:i') }}</div>
+                            <div class="text-sm text-gray-900 dark:text-gray-100">{{ $listing->pivot->created_at->format('d.m.Y H:i') }}</div>
                         </div>
 
                         @if($listing->user)
                             <!-- Seller Info -->
                             <div class="mb-4">
                                 <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Prodavac</div>
-                                <div class="text-sm text-gray-900">
+                                <div class="text-sm text-gray-900 dark:text-gray-100">
                                     {{ $listing->user->name }}
                                     @if($listing->user->is_banned)
                                         <span class="text-red-600 text-xs ml-1">BLOKIRAN</span>
@@ -215,10 +215,10 @@
             {{ $favorites->links() }}
         </div>
     @else
-        <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-heart text-gray-400 text-5xl mb-4"></i>
             <h3 class="text-xl font-semibold text-gray-800 mb-2">Nemate omiljene oglase</h3>
-            <p class="text-gray-600 mb-4">Počnite da čuvate oglase koje volite klikom na srce.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Počnite da čuvate oglase koje volite klikom na srce.</p>
             <a href="{{ route('home') }}"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 Pretraži oglase

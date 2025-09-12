@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     <!-- Naslov -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Moji oglasi</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Moji oglasi</h1>
         <p class="text-gray-600 mt-2">Upravljajte svojim oglasima</p>
     </div>
 
@@ -14,7 +14,7 @@
         
         <!-- Filter -->
         <div class="flex items-center space-x-4">
-            <label class="text-sm font-medium text-gray-700">Prikaži:</label>
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-200">Prikaži:</label>
             <select wire:model.live="filter" 
                 class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 <option value="all">Sve oglase</option>
@@ -26,7 +26,7 @@
 
     <!-- Desktop Tabela oglasa -->
     @if ($listings->count() > 0)
-        <div class="hidden lg:block bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -44,7 +44,7 @@
                             Akcije</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200">
                     @foreach ($listings as $listing)
                         <tr class="{{ $listing->auction ? 'border-l-4 !border-l-yellow-500 bg-yellow-50' : '' }}" style="{{ $listing->auction ? 'border-left: 4px solid #eab308 !important;' : '' }}">
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -61,14 +61,14 @@
                                         @endif
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                             {{ Str::limit($listing->title, 30) }}</div>
                                         <div class="text-sm text-gray-500">{{ $listing->category->name }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 font-bold">{{ number_format($listing->price, 2) }} RSD
+                                <div class="text-sm text-gray-900 dark:text-gray-100 font-bold">{{ number_format($listing->price, 2) }} RSD
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -238,9 +238,9 @@
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
             @foreach ($listings as $listing)
-                <div class="bg-white shadow rounded-lg overflow-hidden {{ $listing->auction ? 'border-l-4 border-yellow-500 bg-yellow-50' : '' }}">
+                <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden {{ $listing->auction ? 'border-l-4 border-yellow-500 bg-yellow-50' : '' }}">
                     <!-- Card Header -->
-                    <div class="p-4 border-b border-gray-200">
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-600">
                         <div class="flex items-start justify-between">
                             <div class="flex items-start flex-1">
                                 <!-- Image -->
@@ -257,7 +257,7 @@
                                 
                                 <!-- Listing Info -->
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ $listing->title }}</h3>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ $listing->title }}</h3>
                                     <p class="text-sm text-gray-500 mb-2">{{ $listing->category->name }}</p>
                                     <p class="text-xl font-bold text-blue-600">{{ number_format($listing->price, 2) }} RSD</p>
                                 </div>
@@ -312,7 +312,7 @@
                         <div class="mb-4">
                             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Informacije o datumu</div>
                             <div class="space-y-1">
-                                <div class="text-sm text-gray-900">Kreiran: {{ $listing->created_at->format('d.m.Y') }}</div>
+                                <div class="text-sm text-gray-900 dark:text-gray-100">Kreiran: {{ $listing->created_at->format('d.m.Y') }}</div>
                                 @if($listing->renewed_at)
                                     <div class="text-xs text-blue-500">Obnovljen: {{ $listing->renewed_at->format('d.m.Y') }}</div>
                                 @endif
@@ -417,7 +417,7 @@
             {{ $listings->links() }}
         </div>
     @else
-        <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-list-alt text-gray-400 text-5xl mb-4"></i>
             <h3 class="text-xl font-semibold text-gray-800 mb-2">Nemate nijedan oglas</h3>
             <p class="text-gray-600 mb-4">Kreirajte svoj prvi oglas i počnite da prodajete.</p>
