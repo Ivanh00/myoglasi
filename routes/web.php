@@ -56,7 +56,7 @@ Route::get('/', HomeComponent::class)->name('home');
 Route::get('/listings', ListingsIndex::class)->name('listings.index');
 Route::get('/auctions', \App\Livewire\Auctions\Index::class)->name('auctions.index');
 Route::get('/listings/create', ListingCreate::class)
-    ->middleware(['auth', 'check.listing'])
+    ->middleware(['auth', 'verified', 'check.listing'])
     ->name('listings.create');
 // Route::get('/listings/{listing}', ListingShow::class)->name('listings.show');
 
@@ -166,12 +166,12 @@ Route::get('/listings/{listing}', Show::class)->name('listings.show');
 
 // Za moje oglase
 Route::get('/my-listings', MyListings::class)
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('listings.my');
 
 // Za editovanje oglasa (ako vam treba)
 Route::get('/listings/{listing}/edit', \App\Livewire\Listings\Edit::class)
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('listings.edit');
 
     // // Za editovanje oglasa
@@ -215,16 +215,16 @@ Route::get('/listings', \App\Livewire\Listings\Index::class)->name('listings.ind
 // Route::get('/oglasi/{listing}', [ListingController::class, 'show'])->name('listing.show');
 
 // Ruta za listu poruka
-Route::middleware('auth')->get('/moj-kp/poruke', MessagesList::class)->name('messages.inbox');
+Route::middleware(['auth', 'verified'])->get('/moj-kp/poruke', MessagesList::class)->name('messages.inbox');
 
 // Ruta za konverzaciju sa dodatnim parametrom za korisnika
-Route::middleware('auth')->get('/oglasi/{slug}/poruka/{user?}', ConversationComponent::class)->name('listing.chat');
+Route::middleware(['auth', 'verified'])->get('/oglasi/{slug}/poruka/{user?}', ConversationComponent::class)->name('listing.chat');
 
 // Ruta za prikaz pojedinačnog oglasa
 Route::get('/oglasi/{listing:slug}', [App\Http\Controllers\ListingController::class, 'show'])->name('listing.show');
 
 // Alternativno, ako želite da koristite jedan namespace:
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/moj-kp/poruke', MessagesList::class)->name('messages.inbox');
     Route::get('/oglasi/{slug}/poruka/{user?}', ConversationComponent::class)->name('listing.chat');
 });
@@ -236,10 +236,10 @@ Route::middleware('auth')->group(function () {
 // Route::get('/oglasi/{slug}/poruka/{user}', ConversationComponent::class)->name('listing.chat.user');
 
 // Ruta za favorites stranicu
-Route::middleware('auth')->get('/moj-kp/omiljeni', FavoritesIndex::class)->name('favorites.index');
+Route::middleware(['auth', 'verified'])->get('/moj-kp/omiljeni', FavoritesIndex::class)->name('favorites.index');
 
 // Opciono: API rute za AJAX pozive
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/favorites/{listing}', function (Listing $listing) {
         Auth::user()->addToFavorites($listing);
         return response()->json(['status' => 'added']);
@@ -252,7 +252,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Notifikacije
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
@@ -263,7 +263,7 @@ Route::middleware('auth')->get('/poruke/{slug}/system', [ConversationComponent::
     ->name('listing.system-chat');
 
     // Obaveštenja
-Route::middleware('auth')->get('/obavestenja', Notifications::class)->name('notifications.index');
+Route::middleware(['auth', 'verified'])->get('/obavestenja', Notifications::class)->name('notifications.index');
 
 
 // Services Routes
@@ -275,7 +275,7 @@ Route::get('/giveaways', \App\Livewire\Giveaways\Index::class)->name('giveaways.
 Route::get('/giveaways/{listing}', \App\Livewire\Listings\Show::class)->name('giveaways.show');
 
 // Earn Credits Routes
-Route::middleware('auth')->get('/earn-credits', \App\Livewire\EarnCredits::class)->name('earn-credits.index');
+Route::middleware(['auth', 'verified'])->get('/earn-credits', \App\Livewire\EarnCredits::class)->name('earn-credits.index');
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
