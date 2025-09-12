@@ -193,17 +193,17 @@ if (!empty($auctionType)) {
 }" 
 x-init="syncFromUrl()">
     <!-- Main Search Bar -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-300 overflow-hidden">
+    <div class="bg-white dark:bg-gray-700 dark:bg-gray-800 rounded-lg shadow-sm border border-gray-300 dark:border-gray-600 dark:border-gray-600 overflow-hidden">
         <div class="flex">
             <div class="relative flex-1">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <form @submit.prevent="quickSearch()">
                     <input type="text" x-model="query" 
-                        class="block w-full pl-10 pr-28 py-3 border-0 bg-transparent placeholder-gray-400 focus:outline-none focus:ring-0 text-sm"
+                        class="block w-full pl-10 pr-28 py-3 border-0 bg-transparent text-gray-900 dark:text-gray-100 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
                         placeholder="Pretraži oglase...">
                 </form>
                 
@@ -217,7 +217,7 @@ x-init="syncFromUrl()">
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
-                        <span x-show="hasActiveFilters()" class="ml-2 w-2 h-2 bg-white rounded-full"></span>
+                        <span x-show="hasActiveFilters()" class="ml-2 w-2 h-2 bg-white dark:bg-gray-700 rounded-full"></span>
                     </button>
                 </div>
             </div>
@@ -237,43 +237,43 @@ x-init="syncFromUrl()">
         x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="ease-in duration-150" 
         x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95"
         @click.away="showFilters = false"
-        class="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-300 z-50 p-6"
+        class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-700 dark:bg-gray-800 rounded-lg shadow-lg border border-gray-300 dark:border-gray-600 dark:border-gray-600 z-50 p-6"
         style="display: none;">
         
         <!-- Content Type Selector -->
-        <div class="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-            <label class="block text-sm font-medium text-gray-700 mb-3">Pretražuj u:</label>
+        <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-gray-300 mb-3">Pretražuj u:</label>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="all" 
-                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                    <span class="ml-2 text-sm text-gray-700">Sve</span>
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-blue-500">
+                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 dark:text-gray-300">Sve</span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="listings" 
-                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                    <span class="ml-2 text-sm text-gray-700">Oglasi</span>
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-blue-500">
+                    <span class="ml-2 text-sm text-blue-700 dark:text-blue-400">Oglasi</span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="auctions" 
-                        class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
-                    <span class="ml-2 text-sm text-yellow-700">
+                        class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-yellow-500">
+                    <span class="ml-2 text-sm text-yellow-700 dark:text-yellow-400">
                         <i class="fas fa-gavel mr-1"></i>
                         Aukcije
                     </span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="services" 
-                        class="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300">
-                    <span class="ml-2 text-sm text-gray-700">
+                        class="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-gray-600">
+                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
                         <i class="fas fa-tools mr-1"></i>
                         Usluge
                     </span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="giveaways" 
-                        class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300">
-                    <span class="ml-2 text-sm text-green-700">
+                        class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-green-500">
+                    <span class="ml-2 text-sm text-green-700 dark:text-green-400">
                         <i class="fas fa-gift mr-1"></i>
                         Poklanjam
                     </span>
@@ -284,30 +284,30 @@ x-init="syncFromUrl()">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Left Column: Location, Category & Condition -->
             <div class="space-y-4">
-                <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Lokacija i kategorija</h4>
+                <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Lokacija i kategorija</h4>
                 
                 <!-- City (full width) -->
                 <div x-data="{ cityOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Grad/Mesto</label>
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Grad/Mesto</label>
                     <button type="button" @click="cityOpen = !cityOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span x-text="city || 'Odaberi grad'" :class="city ? 'text-gray-900' : 'text-gray-500'"></span>
+                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span x-text="city || 'Odaberi grad'" :class="city ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'"></span>
                         <svg class="w-4 h-4 transition-transform" :class="cityOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
                     <div x-show="cityOpen" x-transition @click.away="cityOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-2 border-b">
                             <input type="text" x-model="citySearch" placeholder="Pretraži grad..."
-                                class="w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
                         </div>
                         <div class="p-1">
                             <template x-for="cityOption in filteredCities" :key="cityOption">
                                 <button type="button" @click="city = cityOption; cityOpen = false"
-                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
-                                    :class="city === cityOption ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-100 dark:hover:bg-gray-600 transition"
+                                    :class="city === cityOption ? 'bg-blue-100 dark:bg-gray-600 text-blue-700 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                     <span x-text="cityOption"></span>
                                 </button>
                             </template>
@@ -320,10 +320,10 @@ x-init="syncFromUrl()">
 
                 <!-- Category (full width) -->
                 <div x-data="{ categoryOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Kategorija</label>
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span :class="category ? 'text-gray-900' : 'text-gray-500'">
+                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span :class="category ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
                             @if(!empty($selectedCategoryName))
                                 {{ $selectedCategoryName }}
                             @else
@@ -336,17 +336,17 @@ x-init="syncFromUrl()">
                     </button>
 
                     <div x-show="categoryOpen" x-transition @click.away="categoryOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectCategory('', ''); categoryOpen = false"
                                 class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition flex items-center"
-                                :class="!category ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                :class="!category ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <span>Sve kategorije</span>
                             </button>
                             @foreach(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
                                 <button type="button" @click="selectCategory('{{ $cat->id }}', '{{ $cat->name }}'); categoryOpen = false"
                                     class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition flex items-center"
-                                    :class="category === '{{ $cat->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                    :class="category === '{{ $cat->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                     @if($cat->icon)
                                         <i class="{{ $cat->icon }} text-blue-600 mr-2"></i>
                                     @else
@@ -363,27 +363,27 @@ x-init="syncFromUrl()">
 
             <!-- Middle Column: Price & Condition -->
             <div class="space-y-4">
-                <h4 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Cena i stanje</h4>
+                <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Cena i stanje</h4>
                 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Cena od</label>
+                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Cena od</label>
                         <input type="number" x-model="price_min" placeholder="0"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Cena do</label>
+                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Cena do</label>
                         <input type="number" x-model="price_max" placeholder="∞"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
                 </div>
                 
                 <!-- Condition (full width) -->
                 <div x-data="{ conditionOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Stanje</label>
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Stanje</label>
                     <button type="button" @click="conditionOpen = !conditionOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span :class="condition ? 'text-gray-900' : 'text-gray-500'">
+                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span :class="condition ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
                             @if(!empty($selectedConditionName))
                                 {{ $selectedConditionName }}
                             @else
@@ -396,17 +396,17 @@ x-init="syncFromUrl()">
                     </button>
 
                     <div x-show="conditionOpen" x-transition @click.away="conditionOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectCondition('', ''); conditionOpen = false"
                                 class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
-                                :class="!condition ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                :class="!condition ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <span>Sva stanja</span>
                             </button>
                             @foreach(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get() as $cond)
                                 <button type="button" @click="selectCondition('{{ $cond->id }}', '{{ $cond->name }}'); conditionOpen = false"
                                     class="w-full text-left px-3 py-2 text-sm rounded hover:bg-blue-50 transition"
-                                    :class="condition === '{{ $cond->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'">
+                                    :class="condition === '{{ $cond->id }}' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                     {{ $cond->name }}
                                 </button>
                             @endforeach
@@ -417,14 +417,14 @@ x-init="syncFromUrl()">
 
             <!-- Middle Column: Auctions (Yellow Section) -->
             <div class="space-y-4">
-                <h4 class="text-sm font-semibold text-yellow-700 uppercase tracking-wide">🔥 Aukcije</h4>
+                <h4 class="text-sm font-semibold text-yellow-700 dark:text-yellow-400 uppercase tracking-wide">AUKCIJE</h4>
                 
                 <!-- Auction Sort Type -->
                 <div x-data="{ auctionOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-yellow-700 mb-1">Sortiranje aukcija</label>
+                    <label class="block text-xs font-medium text-yellow-700 dark:text-yellow-400 mb-1">Sortiranje aukcija</label>
                     <button type="button" @click="auctionOpen = !auctionOpen"
-                        class="w-full flex justify-between items-center border border-yellow-300 bg-yellow-50 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
-                        <span :class="auction_type ? 'text-yellow-900' : 'text-yellow-600'">
+                        class="w-full flex justify-between items-center border border-yellow-300 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                        <span :class="auction_type ? 'text-yellow-900 dark:text-yellow-200' : 'text-yellow-600 dark:text-yellow-300'">
                             @if(!empty($selectedAuctionTypeName))
                                 {{ $selectedAuctionTypeName }}
                             @else
@@ -437,35 +437,35 @@ x-init="syncFromUrl()">
                     </button>
 
                     <div x-show="auctionOpen" x-transition @click.away="auctionOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white border border-yellow-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-yellow-50 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectAuctionType('', ''); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
-                                :class="!auction_type ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
+                                :class="!auction_type ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <i class="fas fa-list text-gray-600 mr-2"></i>
                                 <span>Sve aukcije</span>
                             </button>
                             <button type="button" @click="selectAuctionType('ending_soon', 'Završavaju uskoro'); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
-                                :class="auction_type === 'ending_soon' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
+                                :class="auction_type === 'ending_soon' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <i class="fas fa-clock text-red-600 mr-2"></i>
                                 <span>Završavaju uskoro</span>
                             </button>
                             <button type="button" @click="selectAuctionType('newest', 'Najnovije aukcije'); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
-                                :class="auction_type === 'newest' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
+                                :class="auction_type === 'newest' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <i class="fas fa-plus text-green-600 mr-2"></i>
                                 <span>Najnovije aukcije</span>
                             </button>
                             <button type="button" @click="selectAuctionType('highest_price', 'Najviša cena'); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
-                                :class="auction_type === 'highest_price' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
+                                :class="auction_type === 'highest_price' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <i class="fas fa-money-bill text-green-600 mr-2"></i>
                                 <span>Najviša cena</span>
                             </button>
                             <button type="button" @click="selectAuctionType('most_bids', 'Najviše ponuda'); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-50 transition flex items-center"
-                                :class="auction_type === 'most_bids' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
+                                :class="auction_type === 'most_bids' ? 'bg-yellow-50 text-yellow-700 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <i class="fas fa-gavel text-orange-600 mr-2"></i>
                                 <span>Najviše ponuda</span>
                             </button>
@@ -473,7 +473,7 @@ x-init="syncFromUrl()">
                     </div>
                 </div>
                 
-                <div class="text-xs text-yellow-700 p-2 bg-yellow-50 border border-yellow-200 rounded">
+                <div class="text-xs text-yellow-800 dark:text-yellow-200 p-2 bg-yellow-100 dark:bg-yellow-800 border border-yellow-200 dark:border-yellow-600 rounded">
                     <i class="fas fa-info-circle mr-1"></i>
                     Ostavi prazno za prikaz svih oglasa, izaberi opciju za filtriranje samo aukcija
                 </div>
@@ -483,14 +483,14 @@ x-init="syncFromUrl()">
         <!-- Filter Actions -->
         <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
             <button type="button" @click="resetFilters()" 
-                class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                 <i class="fas fa-times mr-2"></i>
                 Resetuj filtere
             </button>
             
             <div class="flex space-x-3">
                 <button type="button" @click="showFilters = false" 
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                     Sakrij filtere
                 </button>
                 <button type="button" @click="submitSearch()" 
