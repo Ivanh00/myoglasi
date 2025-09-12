@@ -213,9 +213,9 @@ x-init="syncFromUrl()">
                         class="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium transition-colors focus:outline-none hover:bg-blue-700 mr-1"
                         :class="showFilters ? 'bg-blue-700' : 'bg-blue-600'">
                         <span>Detaljno</span>
-                        <svg class="w-3 h-3 ml-2 transition-transform" :class="showFilters ? 'rotate-180' : ''" 
+                        <svg class="w-4 h-4 ml-2 transition-transform duration-200" :class="showFilters ? 'rotate-180' : ''" 
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                         <span x-show="hasActiveFilters()" class="ml-2 w-2 h-2 bg-white rounded-full"></span>
                     </button>
@@ -293,7 +293,7 @@ x-init="syncFromUrl()">
                         class="w-full flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <span x-text="city || 'Odaberi grad'" :class="city ? 'text-gray-900' : 'text-gray-500'"></span>
                         <svg class="w-4 h-4 transition-transform" :class="cityOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
@@ -331,7 +331,7 @@ x-init="syncFromUrl()">
                             @endif
                         </span>
                         <svg class="w-4 h-4 transition-transform" :class="categoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
@@ -391,7 +391,7 @@ x-init="syncFromUrl()">
                             @endif
                         </span>
                         <svg class="w-4 h-4 transition-transform" :class="conditionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
@@ -432,7 +432,7 @@ x-init="syncFromUrl()">
                             @endif
                         </span>
                         <svg class="w-4 h-4 transition-transform text-yellow-600" :class="auctionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
