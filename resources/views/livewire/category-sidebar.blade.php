@@ -6,7 +6,7 @@
     <div class="p-2">
         <!-- Theme Switcher -->
         <div class="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tema</div>
+            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Tema</div>
             <div class="grid grid-cols-2 gap-2">
                 <button onclick="setTheme('light')" 
                     class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn light-theme
@@ -77,7 +77,7 @@
 
                     <!-- Levi deo - ikonica i naziv -->
                     <div
-                        class="flex items-center flex-1 px-3 py-2 text-gray-700 dark:text-gray-300 {{ request()->get('selectedCategory') == $category->id ? 'text-blue-600 dark:text-blue-400 dark:text-blue-400' : '' }}">
+                        class="flex items-center flex-1 px-3 py-2 text-gray-700 dark:text-gray-300 {{ request()->get('selectedCategory') == $category->id ? 'text-blue-600 dark:text-blue-400' : '' }}">
                         @if ($category->icon)
                             <div class="w-5 h-5 mr-3 flex items-center justify-center">
                                 <i class="{{ $category->icon }} text-blue-600"></i>
@@ -90,7 +90,7 @@
                             </svg>
                         @endif
                         <span class="flex-1">{{ $category->name }}</span>
-                        <span class="text-xs text-gray-400 ml-2">
+                        <span class="text-xs text-gray-400 dark:text-gray-500 ml-2">
                             (@if (method_exists($category, 'getAllListingsCount'))
                                 {{ $category->getAllListingsCount() }}
                             @else
@@ -101,7 +101,7 @@
 
                     <!-- Desni deo - strelica samo ako ima podkategorija -->
                     @if ($category->children->count() > 0)
-                        <div class="p-2 text-gray-400">
+                        <div class="p-2 text-gray-400 dark:text-gray-500">
                             <svg class="w-4 h-4 transition-transform duration-200"
                                 :class="{ 'transform rotate-90': openCategory === '{{ $category->id }}' }"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,15 +119,15 @@
 
                         <!-- "Svi oglasi" za ovu kategoriju -->
                         <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
-                            class="block px-3 py-2 text-sm text-gray-600 rounded hover:bg-gray-50 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50 text-blue-600' : '' }}">
+                            class="block px-3 py-2 text-sm text-gray-600 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300' : '' }}">
                             📁 Svi oglasi u {{ $category->name }}
                         </a>
 
                         @foreach ($category->children as $child)
                             <a href="{{ route('listings.index', ['selectedCategory' => $child->id]) }}"
-                                class="block px-3 py-2 text-sm text-gray-600 rounded hover:bg-gray-50 {{ request()->get('selectedCategory') == $child->id ? 'bg-blue-50 text-blue-600' : '' }}">
+                                class="block px-3 py-2 text-sm text-gray-600 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-600 {{ request()->get('selectedCategory') == $child->id ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300' : '' }}">
                                 • {{ $child->name }}
-                                <span class="text-xs text-gray-400 ml-1">
+                                <span class="text-xs text-gray-400 dark:text-gray-500 ml-1">
                                     (@if (method_exists($child, 'getAllListingsCount'))
                                         {{ $child->getAllListingsCount() }}
                                     @else
@@ -140,7 +140,7 @@
                 @else
                     <!-- Ako nema podkategorija, "Svi oglasi" link bude uvek vidljiv -->
                     <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
-                        class="block px-3 py-2 text-sm text-gray-600 rounded hover:bg-gray-50 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50 text-blue-600' : '' }}">
+                        class="block px-3 py-2 text-sm text-gray-600 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300' : '' }}">
                         📁 Svi oglasi u {{ $category->name }}
                     </a>
                 @endif
@@ -209,7 +209,7 @@
         @else
             <!-- Regular User Sidebar -->
             <div class="border-t mt-4 pt-4 p-2">
-                <div class="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Brze akcije</div>
+                <div class="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">Brze akcije</div>
 
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700">
@@ -221,7 +221,7 @@
                 </a>
 
                 <a href="{{ route('listings.create') }}"
-                    class="flex items-center px-3 py-2 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-50 dark:hover:bg-gray-700 dark:hover:bg-gray-700 mt-2">
+                    class="flex items-center px-3 py-2 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-50 dark:hover:bg-gray-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
                         </path>
