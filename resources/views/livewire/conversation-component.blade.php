@@ -1,4 +1,32 @@
-<div class="conversation-container">
+<div class="conversation-container bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <style>
+        /* Dark mode fixes for conversation */
+        .dark .conversation-container {
+            background-color: rgb(17 24 39) !important; /* gray-900 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        .dark .chat-box {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+        }
+        .dark .message-bubble {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(229 231 235) !important;
+        }
+        .dark .my-message .message-bubble {
+            background-color: rgb(30 64 175) !important; /* blue-800 */
+        }
+        .dark .message-textfield {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important;
+        }
+        .dark .back-button {
+            color: rgb(156 163 175) !important; /* gray-400 */
+        }
+        .dark .user-name, .dark .listing-name {
+            color: rgb(229 231 235) !important;
+        }
+    </style>
     <!-- Navigacija -->
     <section class="navigation-holder">
         <a class="back-button" href="{{ route('messages.inbox') }}">

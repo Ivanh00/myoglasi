@@ -18,6 +18,72 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- Global Dark Mode Styles for Custom Components -->
+    <style>
+        /* Dark mode for modal popups and custom components */
+        .dark .modal, .dark .popup, .dark .dropdown-menu {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        .dark .modal-content, .dark .popup-content {
+            background-color: rgb(31 41 55) !important;
+            color: rgb(229 231 235) !important;
+        }
+        
+        /* Specific fixes for notification and conversation windows */
+        .dark .notification-popup-header, .dark .conversation-header {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+            color: rgb(229 231 235) !important;
+            border-bottom: 1px solid rgb(75 85 99) !important;
+        }
+        .dark .notification-popup, .dark .conversation-window {
+            background-color: rgb(17 24 39) !important; /* gray-900 */
+        }
+        .dark .notification-cards, .dark .info-cards {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            border: 1px solid rgb(75 85 99) !important;
+        }
+        .dark .message-input-area {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+            border-top: 1px solid rgb(75 85 99) !important;
+        }
+        
+        /* Override any white backgrounds in popups */
+        .dark [class*="bg-white"], .dark div[style*="background: white"], .dark div[style*="background-color: white"],
+        .dark div[style*="background:#fff"], .dark div[style*="background-color:#fff"],
+        .dark div[style*="background: #fff"], .dark div[style*="background-color: #ffffff"] {
+            background-color: rgb(31 41 55) !important;
+            color: rgb(229 231 235) !important;
+        }
+        
+        /* Force dark mode on modals and overlays */
+        .dark .fixed.inset-0 > div, .dark .modal-dialog, .dark .modal-body,
+        .dark [role="dialog"], .dark [role="alertdialog"] {
+            background-color: rgb(31 41 55) !important;
+            color: rgb(229 231 235) !important;
+        }
+        
+        /* Dark mode for any popup content */
+        .dark .popup-body, .dark .modal-header, .dark .modal-footer,
+        .dark .card-body, .dark .panel-body {
+            background-color: rgb(31 41 55) !important;
+            color: rgb(229 231 235) !important;
+            border-color: rgb(75 85 99) !important;
+        }
+        
+        /* Message and admin contact specific */
+        .dark .chat-window, .dark .conversation-view, .dark .admin-chat {
+            background-color: rgb(17 24 39) !important; /* gray-900 */
+        }
+        
+        /* Info sections in popups */
+        .dark .listing-info, .dark .user-info-section, .dark .notification-details {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            border-color: rgb(75 85 99) !important;
+        }
+    </style>
 
     <!-- Dark Mode Script (must be in head to prevent flash) -->
     <script>
