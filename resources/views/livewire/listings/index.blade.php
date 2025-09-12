@@ -341,6 +341,18 @@
                                     @if ($listing->user && $listing->user->is_banned)
                                         <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
                                     @endif
+                                    @if($listing->user && $listing->user->shouldShowLastSeen())
+                                        <span class="text-xs text-gray-500 ml-2">
+                                            @if($listing->user->is_online)
+                                                <span class="inline-flex items-center">
+                                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                    {{ $listing->user->last_seen }}
+                                                </span>
+                                            @else
+                                                {{ $listing->user->last_seen }}
+                                            @endif
+                                        </span>
+                                    @endif
                                 </p>
                                 
                                 {{-- User ratings --}}
@@ -476,6 +488,18 @@
                                             @if($listing->user){!! $listing->user->verified_icon !!}@endif
                                             @if ($listing->user && $listing->user->is_banned)
                                                 <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                            @endif
+                                            @if($listing->user && $listing->user->shouldShowLastSeen())
+                                                <span class="text-xs text-gray-500 ml-2">
+                                                    @if($listing->user->is_online)
+                                                        <span class="inline-flex items-center">
+                                                            <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                            {{ $listing->user->last_seen }}
+                                                        </span>
+                                                    @else
+                                                        {{ $listing->user->last_seen }}
+                                                    @endif
+                                                </span>
                                             @endif
                                         </p>
                                         
