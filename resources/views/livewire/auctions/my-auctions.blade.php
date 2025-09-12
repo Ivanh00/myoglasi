@@ -13,7 +13,7 @@
         <div class="flex items-center space-x-4">
             <label class="text-sm font-medium text-gray-700 dark:text-gray-200">Prikaži:</label>
             <select wire:model.live="filter" 
-                class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                 <option value="all">Sve aukcije</option>
                 <option value="active">Aktivne aukcije</option>
                 <option value="ended">Završene aukcije</option>
@@ -24,18 +24,18 @@
     <!-- Desktop Tabela aukcija -->
     @if ($auctions->count() > 0)
         <div class="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oglas</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Početna/Trenutna cena</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ponude</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Datum/Vreme</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Akcije</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Početna/Trenutna cena</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ponude</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum/Vreme</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-600">
                     @foreach ($auctions as $auction)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -78,19 +78,19 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex flex-col">
                                     @if($auction->isActive())
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 mb-1">Aktivna</span>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1">Aktivna</span>
                                         @if($auction->time_left)
                                             <span class="text-xs text-gray-500">{{ $auction->time_left['formatted'] }} ostalo</span>
                                         @endif
                                     @elseif($auction->hasEnded())
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 mb-1">Završena</span>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">Završena</span>
                                         @if($auction->winner)
                                             <span class="text-xs text-green-600">Pobednik: {{ $auction->winner->name }}</span>
                                         @else
                                             <span class="text-xs text-gray-500">Bez ponuda</span>
                                         @endif
                                     @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">{{ ucfirst($auction->status) }}</span>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200">{{ ucfirst($auction->status) }}</span>
                                     @endif
                                 </div>
                             </td>
@@ -103,12 +103,12 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex items-center space-x-2">
                                     <a href="{{ route('auction.show', $auction) }}"
-                                        class="inline-flex items-center px-2 py-1 text-blue-600 hover:text-blue-900 rounded">
+                                        class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
                                         <i class="fas fa-eye mr-1"></i> Pregled
                                     </a>
                                     
                                     <a href="{{ route('listings.show', $auction->listing) }}"
-                                        class="inline-flex items-center px-2 py-1 text-indigo-600 hover:text-indigo-900 rounded">
+                                        class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
                                         <i class="fas fa-list mr-1"></i> Oglas
                                     </a>
                                     
@@ -120,7 +120,7 @@
                                     @if($canRemove)
                                         <button x-data
                                             x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $auction->id }}) }"
-                                            class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-900 rounded">
+                                            class="inline-flex items-center px-2 py-1 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 rounded">
                                             <i class="fas fa-times mr-1"></i> Ukloni iz aukcije
                                         </button>
                                     @endif
@@ -209,29 +209,29 @@
                     <div class="p-4">
                         <!-- Status Section -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Status aukcije</div>
+                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Status aukcije</div>
                             <div class="flex flex-col space-y-2">
                                 @if($auction->isActive())
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 w-fit">Aktivna</span>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 w-fit">Aktivna</span>
                                     @if($auction->time_left)
                                         <span class="text-xs text-gray-500">{{ $auction->time_left['formatted'] }} ostalo</span>
                                     @endif
                                 @elseif($auction->hasEnded())
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 w-fit">Završena</span>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 w-fit">Završena</span>
                                     @if($auction->winner)
                                         <span class="text-xs text-green-600">Pobednik: {{ $auction->winner->name }}</span>
                                     @else
                                         <span class="text-xs text-gray-500">Bez ponuda</span>
                                     @endif
                                 @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 w-fit">{{ ucfirst($auction->status) }}</span>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 w-fit">{{ ucfirst($auction->status) }}</span>
                                 @endif
                             </div>
                         </div>
 
                         <!-- Bids Info -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Ponude</div>
+                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Ponude</div>
                             <div class="space-y-1">
                                 <div class="text-sm text-gray-900 dark:text-gray-100">{{ $auction->total_bids }} ponuda</div>
                                 @if($auction->winningBid)
@@ -245,7 +245,7 @@
 
                         <!-- Time Info -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Vreme</div>
+                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Vreme</div>
                             <div class="space-y-1">
                                 <div class="text-sm text-gray-900 dark:text-gray-100">Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</div>
                                 <div class="text-sm text-gray-900 dark:text-gray-100">Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</div>
