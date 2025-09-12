@@ -49,7 +49,7 @@
                 </label>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'listing' ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400' }}">
-                        <input type="radio" wire:model="listingType" value="listing" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                        <input type="radio" wire:model.live="listingType" value="listing" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
                         <div class="ml-3">
                             <div class="flex items-center">
                                 <i class="fas fa-shopping-tag text-blue-600 mr-2"></i>
@@ -60,7 +60,7 @@
                     </label>
 
                     <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'service' ? 'border-gray-500 bg-gray-50' : 'border-gray-300 hover:border-gray-400' }}">
-                        <input type="radio" wire:model="listingType" value="service" class="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300">
+                        <input type="radio" wire:model.live="listingType" value="service" class="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300">
                         <div class="ml-3">
                             <div class="flex items-center">
                                 <i class="fas fa-tools text-gray-600 mr-2"></i>
@@ -71,7 +71,7 @@
                     </label>
 
                     <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'giveaway' ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-gray-400' }}">
-                        <input type="radio" wire:model="listingType" value="giveaway" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300">
+                        <input type="radio" wire:model.live="listingType" value="giveaway" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300">
                         <div class="ml-3">
                             <div class="flex items-center">
                                 <i class="fas fa-gift text-green-600 mr-2"></i>

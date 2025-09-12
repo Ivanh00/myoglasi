@@ -4,8 +4,8 @@ namespace App\Livewire\Services;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Service;
-use App\Models\ServiceCategory;
+use App\Models\Listing;
+use App\Models\Category;
 
 class Index extends Component
 {
@@ -18,7 +18,7 @@ class Index extends Component
 
     public function mount()
     {
-        $this->categories = ServiceCategory::whereNull('parent_id')
+        $this->categories = Category::whereNull('parent_id')
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
@@ -38,15 +38,19 @@ class Index extends Component
 
     public function render()
     {
-        $query = Service::where('status', 'active')
+        $query = Listing::where('status', 'active')
+            ->where('listing_type', 'service')
             ->with(['category', 'subcategory', 'images', 'user']);
             
         if ($this->selectedCategory) {
-            $category = ServiceCategory::find($this->selectedCategory);
+            $category = Category::find($this->selectedCategory);
             
             if ($category) {
-                $categoryIds = $category->getAllServiceIds();
-                $query->whereIn('service_category_id', $categoryIds);
+                $categoryIds = $category->getAllCategoryIds();
+                $query->where(function($q) use ($categoryIds) {
+                    $q->whereIn('category_id', $categoryIds)
+                      ->orWhereIn('subcategory_id', $categoryIds);
+                });
             }
         }
         

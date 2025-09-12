@@ -268,9 +268,11 @@ Route::middleware('auth')->get('/obavestenja', Notifications::class)->name('noti
 
 // Services Routes
 Route::get('/services', \App\Livewire\Services\Index::class)->name('services.index');
+Route::get('/services/{listing}', \App\Livewire\Listings\Show::class)->name('services.show');
 
 // Giveaways Routes
 Route::get('/giveaways', \App\Livewire\Giveaways\Index::class)->name('giveaways.index');
+Route::get('/giveaways/{listing}', \App\Livewire\Listings\Show::class)->name('giveaways.show');
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {

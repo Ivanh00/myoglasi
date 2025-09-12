@@ -4,7 +4,7 @@ namespace App\Livewire\Giveaways;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Giveaway;
+use App\Models\Listing;
 use App\Models\Category;
 
 class Index extends Component
@@ -38,8 +38,8 @@ class Index extends Component
 
     public function markAsTaken($giveawayId)
     {
-        $giveaway = Giveaway::find($giveawayId);
-        if ($giveaway && auth()->check()) {
+        $giveaway = Listing::find($giveawayId);
+        if ($giveaway && $giveaway->listing_type === 'giveaway' && auth()->check()) {
             $giveaway->update(['status' => 'taken']);
             session()->flash('success', 'Označeno kao uzeto!');
         }
@@ -47,7 +47,8 @@ class Index extends Component
 
     public function render()
     {
-        $query = Giveaway::where('status', 'active')
+        $query = Listing::where('status', 'active')
+            ->where('listing_type', 'giveaway')
             ->with(['category', 'subcategory', 'images', 'user', 'condition']);
             
         if ($this->selectedCategory) {
