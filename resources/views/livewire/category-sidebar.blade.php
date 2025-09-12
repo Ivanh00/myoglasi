@@ -1,6 +1,6 @@
 <div class="w-64 bg-white shadow-lg h-screen sticky top-0 overflow-y-auto " x-data="{ openCategory: null }">
     <div class="p-4 border-b">
-        <h2 class="text-lg font-semibold text-gray-800">Kategorije</h2>
+        <!-- Header removed for cleaner look -->
     </div>
 
     <div class="p-2">
