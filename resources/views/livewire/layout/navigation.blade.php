@@ -24,12 +24,12 @@
     </div>
 @endif
 
-<nav class="bg-white shadow-lg sticky top-0 z-50">
+<nav class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->
             <div class="flex-shrink-0">
-                <a href="{{ route('home') }}" class="text-xl font-bold text-blue-600">
+                <a href="{{ route('home') }}" class="text-xl font-bold text-blue-600 dark:text-blue-400">
                     MyOglasi
                 </a>
             </div>
@@ -44,7 +44,7 @@
                     @if(!auth()->user()->is_admin)
                         <div>
                             <a href="{{ route('listings.create') }}"
-                                class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-green-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-green-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
                                 <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -56,8 +56,8 @@
                         <!-- Admin Panel Icon Button -->
                         <div>
                             <a href="{{ route('admin.dashboard') }}"
-                                class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 rounded-full shadow-sm bg-white hover:bg-blue-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-                                <i class="fas fa-cog text-gray-700 text-lg"></i>
+                                class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 dark:border-gray-600 rounded-full shadow-sm bg-white dark:bg-gray-700 hover:bg-blue-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                <i class="fas fa-cog text-gray-700 dark:text-gray-200 dark:text-gray-200 text-lg"></i>
                             </a>
                         </div>
                     @endif
@@ -67,7 +67,7 @@
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 <button
-                                    class="flex items-center text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 border border-gray-300 rounded-md hover:border-gray-400">
+                                    class="flex items-center text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:border-gray-400 dark:hover:border-gray-500 bg-white dark:bg-gray-700">
                                     @if (auth()->user()->avatar)
                                         <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
                                             class="w-8 h-8 rounded-full object-cover">
@@ -77,10 +77,10 @@
                                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                         </div>
                                     @endif
-                                    <span class="ml-2 text-gray-700 text-sm font-medium">
+                                    <span class="ml-2 text-gray-700 dark:text-gray-200 dark:text-gray-200 text-sm font-medium">
                                         {{ auth()->user()->name }}
                                     </span>
-                                    <svg class="ml-1 h-4 w-4 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="ml-1 h-4 w-4 text-gray-700 dark:text-gray-200 dark:text-gray-200" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
                                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                             clip-rule="evenodd" />
@@ -175,11 +175,11 @@
                     <!-- Login/Register links -->
                     <div class="flex space-x-2">
                         <a href="{{ route('login') }}"
-                            class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">
+                            class="text-gray-700 dark:text-gray-200 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-sm font-medium">
                             Prijavi se
                         </a>
                         <a href="{{ route('register') }}"
-                            class="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium">
+                            class="bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-600 px-4 py-2 rounded-md text-sm font-medium">
                             Registruj se
                         </a>
                     </div>
@@ -191,8 +191,8 @@
                 @auth
                     <!-- Mobile Add Listing Button -->
                     <a href="{{ route('listings.create') }}"
-                        class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 rounded-full shadow-sm bg-white hover:bg-green-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-                        <svg class="h-5 w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 dark:border-gray-600 rounded-full shadow-sm bg-white dark:bg-gray-700 hover:bg-green-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                        <svg class="h-5 w-5 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                     </a>
@@ -212,7 +212,7 @@
                     <!-- Mobile Login Button -->
                     <a href="{{ route('login') }}"
                         class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 rounded-full shadow-sm bg-white hover:bg-blue-50 focus:outline-none">
-                        <svg class="h-5 w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-5 w-5 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                         </svg>
                     </a>
@@ -222,17 +222,17 @@
 
         <!-- Mobile menu (hidden by default) -->
         <div id="mobile-menu" class="md:hidden hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-800 shadow-lg border-t border-gray-200 dark:border-gray-700">
                 {{-- <a href="{{ route('home') }}"
-                    class="{{ request()->routeIs('home') ? 'bg-gray-100 text-indigo-600' : 'text-gray-700 hover:text-indigo-600' }} block px-3 py-2 rounded-md text-base font-medium">
+                    class="{{ request()->routeIs('home') ? 'bg-gray-100 text-indigo-600' : 'text-gray-700 dark:text-gray-200 hover:text-indigo-600' }} block px-3 py-2 rounded-md text-base font-medium">
                     Početna
                 </a>
                 <a href="{{ route('listings.index') }}"
-                    class="{{ request()->routeIs('listings.index') ? 'bg-gray-100 text-indigo-600' : 'text-gray-700 hover:text-indigo-600' }} block px-3 py-2 rounded-md text-base font-medium">
+                    class="{{ request()->routeIs('listings.index') ? 'bg-gray-100 text-indigo-600' : 'text-gray-700 dark:text-gray-200 hover:text-indigo-600' }} block px-3 py-2 rounded-md text-base font-medium">
                     Svi oglasi
                 </a>
                 <a href="{{ route('categories.index') }}"
-                    class="{{ request()->routeIs('categories.index') ? 'bg-gray-100 text-indigo-600' : 'text-gray-700 hover:text-indigo-600' }} block px-3 py-2 rounded-md text-base font-medium">
+                    class="{{ request()->routeIs('categories.index') ? 'bg-gray-100 text-indigo-600' : 'text-gray-700 dark:text-gray-200 hover:text-indigo-600' }} block px-3 py-2 rounded-md text-base font-medium">
                     Kategorije
                 </a> --}}
 
@@ -245,26 +245,26 @@
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                             </div>
                             <div class="ml-3">
-                                <div class="text-base font-medium text-gray-800">{{ auth()->user()->name }}</div>
-                                <div class="text-sm font-medium text-gray-500">{{ auth()->user()->email }}</div>
+                                <div class="text-base font-medium text-gray-800 dark:text-gray-200">{{ auth()->user()->name }}</div>
+                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ auth()->user()->email }}</div>
                             </div>
                         </div>
                     </div>
                     <a href="{{ route('dashboard') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         <i class="fas fa-tachometer-alt mr-2"></i>
                         Dashboard
                     </a>
                     <a href="{{ route('profile') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Moj profil
                     </a>
                     <a href="{{ route('listings.create') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Postavi oglas
                     </a>
                     <a href="{{ route('listings.my') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Moji oglasi
                     </a>
                     <a href="{{ route('auctions.my') }}"
@@ -273,11 +273,11 @@
                         Moje aukcije
                     </a>
                     <a href="{{ route('favorites.index') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Omiljeni
                     </a>
                     <a href="{{ route('messages.inbox') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Poruke
                         @if ($this->unreadMessagesCount > 0)
                             <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
@@ -287,7 +287,7 @@
                     </a>
 
                     <a href="{{ route('notifications.index') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Obaveštenja
                         @if ($this->unreadNotificationsCount > 0)
                             <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
@@ -297,7 +297,7 @@
                     </a>
                     
                     <a href="{{ route('ratings.my') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Moje ocene
                         @auth
                             @php
@@ -311,7 +311,7 @@
                         @endauth
                     </a>
                     <a href="{{ route('balance.index') }}"
-                        class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
                         Balans
                     </a>
                     <form method="POST" action="{{ route('logout') }}">
@@ -324,7 +324,7 @@
                 @else
                     <div class="border-t border-gray-200 pt-4"></div>
                     <a href="{{ route('login') }}"
-                        class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-gray-700 dark:text-gray-200 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
                         Prijavi se
                     </a>
                     <a href="{{ route('register') }}"
