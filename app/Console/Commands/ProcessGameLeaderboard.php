@@ -36,7 +36,7 @@ class ProcessGameLeaderboard extends Command
 
         $yesterday = now()->subDay();
         $bonusAmount = Setting::get('game_leaderboard_bonus', 50);
-        $gameTypes = ['click_game', 'memory_game', 'number_game', 'puzzle_game'];
+        $gameTypes = ['click_game', 'memory_game', 'number_game', 'puzzle_game', 'snake_game'];
 
         foreach ($gameTypes as $gameType) {
             // Find yesterday's best player for this game type
@@ -112,6 +112,7 @@ class ProcessGameLeaderboard extends Command
             'memory_game' => 'igri memorije',
             'number_game' => 'igri brojeva',
             'puzzle_game' => 'slagalici',
+            'snake_game' => 'zmiji',
             default => 'nepoznatoj igri'
         };
     }

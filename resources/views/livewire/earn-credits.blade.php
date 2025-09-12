@@ -53,7 +53,7 @@
             <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
                 <h2 class="text-xl font-bold text-gray-900 mb-6">Izaberite igru</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                     <!-- Click Game -->
                     <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer"
                          wire:click="startGame('click_game')">
@@ -66,36 +66,36 @@
                     </div>
 
                     <!-- Memory Game -->
-                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-green-500 hover:bg-green-50 transition-all cursor-pointer opacity-50"
-                         title="Uskoro dostupno">
+                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-green-500 hover:bg-green-50 transition-all cursor-pointer"
+                         wire:click="startGame('memory_game')">
                         <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-brain text-green-600 text-2xl"></i>
                         </div>
                         <h3 class="font-semibold text-gray-900 mb-2">Igra memorije</h3>
-                        <p class="text-sm text-gray-600 mb-3">Zapamti redosled boja</p>
-                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Uskoro</span>
+                        <p class="text-sm text-gray-600 mb-3">Zapamti parove boja</p>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Do 15 RSD</span>
                     </div>
 
                     <!-- Number Game -->
-                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-purple-500 hover:bg-purple-50 transition-all cursor-pointer opacity-50"
-                         title="Uskoro dostupno">
+                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-purple-500 hover:bg-purple-50 transition-all cursor-pointer"
+                         wire:click="startGame('number_game')">
                         <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-calculator text-purple-600 text-2xl"></i>
                         </div>
                         <h3 class="font-semibold text-gray-900 mb-2">Igra brojeva</h3>
-                        <p class="text-sm text-gray-600 mb-3">Reši matematičke zadatke</p>
-                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Uskoro</span>
+                        <p class="text-sm text-gray-600 mb-3">Pogodi broj matematički</p>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Do 20 RSD</span>
                     </div>
 
-                    <!-- Puzzle Game -->
-                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-orange-500 hover:bg-orange-50 transition-all cursor-pointer opacity-50"
-                         title="Uskoro dostupno">
-                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-puzzle-piece text-orange-600 text-2xl"></i>
+                    <!-- Snake Game -->
+                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-red-500 hover:bg-red-50 transition-all cursor-pointer"
+                         wire:click="startGame('snake_game')">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-worm text-red-600 text-2xl"></i>
                         </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Slagalica</h3>
-                        <p class="text-sm text-gray-600 mb-3">Složi sliku u što manje poteza</p>
-                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Uskoro</span>
+                        <h3 class="font-semibold text-gray-900 mb-2">Zmija</h3>
+                        <p class="text-sm text-gray-600 mb-3">Skupljaj hranu i rasti</p>
+                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Do 25 RSD</span>
                     </div>
                 </div>
             </div>
@@ -139,6 +139,129 @@
                                  x-bind:style="'width: ' + (timeLeft / 30 * 100) + '%'"></div>
                         </div>
                     </div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Memory Game -->
+        @if($gameActive && $selectedGame === 'memory_game')
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Igra memorije</h2>
+                    
+                    <div class="mb-6">
+                        <div class="text-lg font-bold text-green-600 mb-2">Potezi: {{ $memoryMoves }}</div>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-2 max-w-md mx-auto mb-6">
+                        @foreach($memoryCards as $index => $color)
+                            <div wire:click="flipMemoryCard({{ $index }})"
+                                 class="w-16 h-16 rounded-lg cursor-pointer transition-all transform hover:scale-105 flex items-center justify-center
+                                 @if(in_array($index, $memoryFlipped) || in_array($index, $memoryMatched))
+                                     bg-{{ $color }}-500
+                                 @else
+                                     bg-gray-300
+                                 @endif">
+                                @if(in_array($index, $memoryFlipped) || in_array($index, $memoryMatched))
+                                    <span class="text-white font-bold">{{ strtoupper(substr($color, 0, 1)) }}</span>
+                                @else
+                                    <i class="fas fa-question text-gray-600"></i>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                    <div class="text-sm text-gray-600">Kliknite na kartice da ih okrenete i pronađite parove!</div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Number Game -->
+        @if($gameActive && $selectedGame === 'number_game')
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Igra brojeva</h2>
+                    
+                    <div class="mb-6">
+                        <div class="text-lg text-gray-600 mb-2">Ciljni broj:</div>
+                        <div class="text-4xl font-bold text-purple-600 mb-4">{{ $numberTarget }}</div>
+                        <div class="text-lg text-gray-600 mb-2">Trenutni broj:</div>
+                        <div class="text-3xl font-bold text-gray-900">{{ $numberCurrent }}</div>
+                        <div class="text-sm text-gray-500 mt-2">Potezi: {{ $numberMoves }}</div>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-3 max-w-md mx-auto">
+                        <button wire:click="numberGameAction('add', 1)" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">+1</button>
+                        <button wire:click="numberGameAction('add', 5)" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">+5</button>
+                        <button wire:click="numberGameAction('add', 10)" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">+10</button>
+                        <button wire:click="numberGameAction('multiply', 2)" class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600">×2</button>
+                        
+                        <button wire:click="numberGameAction('subtract', 1)" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">-1</button>
+                        <button wire:click="numberGameAction('subtract', 5)" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">-5</button>
+                        <button wire:click="numberGameAction('subtract', 10)" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">-10</button>
+                        <button wire:click="numberGameAction('divide', 2)" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">÷2</button>
+                    </div>
+                    
+                    <div class="mt-4 text-sm text-gray-600">Koristite dugmad da dostignete ciljni broj!</div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Snake Game -->
+        @if($gameActive && $selectedGame === 'snake_game')
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Zmija</h2>
+                    
+                    <div class="mb-6">
+                        <div class="text-3xl font-bold text-red-600 mb-2">{{ $snakeScore }}</div>
+                        <p class="text-gray-600">pojedio</p>
+                    </div>
+
+                    <div class="max-w-md mx-auto">
+                        <!-- Snake Grid -->
+                        <div class="grid grid-cols-20 gap-0 border-2 border-gray-400 inline-block" style="grid-template-columns: repeat(20, 1fr);">
+                            @for($y = 0; $y < 20; $y++)
+                                @for($x = 0; $x < 20; $x++)
+                                    <div class="w-4 h-4 border border-gray-200
+                                        @if(in_array([$x, $y], $snakePosition))
+                                            @if([$x, $y] === $snakePosition[0])
+                                                bg-red-600
+                                            @else
+                                                bg-red-400
+                                            @endif
+                                        @elseif([$x, $y] === $snakeFood)
+                                            bg-yellow-400
+                                        @else
+                                            bg-gray-100
+                                        @endif
+                                    "></div>
+                                @endfor
+                            @endfor
+                        </div>
+
+                        <!-- Snake Controls -->
+                        <div class="mt-4">
+                            <div class="flex justify-center">
+                                <button wire:click="moveSnake('up')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                    <i class="fas fa-arrow-up"></i>
+                                </button>
+                            </div>
+                            <div class="flex justify-center gap-2 mt-2">
+                                <button wire:click="moveSnake('left')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <button wire:click="moveSnake('down')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                    <i class="fas fa-arrow-down"></i>
+                                </button>
+                                <button wire:click="moveSnake('right')" class="px-3 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-sm text-gray-600">Koristite dugmad ili strelice na tastaturi za upravljanje!</div>
                 </div>
             </div>
         @endif
@@ -203,6 +326,9 @@
                         @elseif($gameType === 'number_game')
                             <i class="fas fa-calculator text-purple-600 mr-2"></i>
                             Igra brojeva
+                        @elseif($gameType === 'snake_game')
+                            <i class="fas fa-worm text-red-600 mr-2"></i>
+                            Zmija
                         @else
                             <i class="fas fa-puzzle-piece text-orange-600 mr-2"></i>
                             Slagalica
@@ -330,5 +456,52 @@
                 setTimeout(() => msg.remove(), 500);
             });
         }, 3000);
+    });
+
+    // Snake game keyboard controls
+    document.addEventListener('keydown', function(e) {
+        if (@json($gameActive) && @json($selectedGame) === 'snake_game') {
+            switch(e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    @this.call('moveSnake', 'up');
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    @this.call('moveSnake', 'down');
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    @this.call('moveSnake', 'left');
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    @this.call('moveSnake', 'right');
+                    break;
+            }
+        }
+    });
+
+    // Snake game automatic movement
+    let snakeInterval;
+    Livewire.on('startSnakeGame', () => {
+        snakeInterval = setInterval(() => {
+            if (@json($gameActive) && @json($selectedGame) === 'snake_game' && !@json($snakeGameOver)) {
+                @this.call('updateSnakePosition');
+            }
+        }, 200); // Move every 200ms
+    });
+
+    Livewire.on('stopSnakeGame', () => {
+        if (snakeInterval) {
+            clearInterval(snakeInterval);
+        }
+    });
+
+    // Memory game card flip delay
+    Livewire.on('clearMemoryCards', () => {
+        setTimeout(() => {
+            @this.call('clearMemoryFlipped');
+        }, 1000);
     });
 </script>
