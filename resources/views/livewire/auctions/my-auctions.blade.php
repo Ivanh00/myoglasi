@@ -144,8 +144,8 @@
                 Pravila za upravljanje aukcijama
             </h3>
             
-            <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <div class="text-sm text-blue-800">
+            <div class="p-4 bg-blue-100 dark:bg-blue-900 border border-blue-300 dark:border-blue-700 rounded-lg">
+                <div class="text-sm text-blue-800 dark:text-blue-200">
                     <ul class="space-y-3">
                         <li class="flex items-start">
                             <i class="fas fa-times-circle text-red-600 mt-1 mr-2 flex-shrink-0"></i>
