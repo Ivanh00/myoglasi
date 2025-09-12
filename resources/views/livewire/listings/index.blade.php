@@ -310,22 +310,24 @@
 
                         <!-- Content -->
                         <div class="p-4">
-                            <a href="{{ route('listings.show', $listing) }}">
-                                <h3 class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-                                    {{ Str::limit($listing->title, 40) }}
-                                </h3>
-                            </a>
-                            
-                            <!-- Promotion Badges -->
-                            @if($listing->hasActivePromotion())
-                                <div class="flex flex-wrap gap-1 mb-2">
-                                    @foreach($listing->getPromotionBadges() as $badge)
-                                        <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
-                                            {{ $badge['text'] }}
-                                        </span>
-                                    @endforeach
-                                </div>
-                            @endif
+                            <div class="flex items-start justify-between mb-2">
+                                <a href="{{ route('listings.show', $listing) }}" class="flex-1">
+                                    <h3 class="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                                        {{ Str::limit($listing->title, 40) }}
+                                    </h3>
+                                </a>
+                                
+                                <!-- Promotion Badges -->
+                                @if($listing->hasActivePromotion())
+                                    <div class="flex flex-wrap gap-1 ml-2">
+                                        @foreach($listing->getPromotionBadges() as $badge)
+                                            <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                {{ $badge['text'] }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
 
                             {{-- Seller info --}}
                             @auth
@@ -457,23 +459,24 @@
                         <div class="flex-1 p-4 md:p-6">
                             <div class="flex flex-col h-full">
                                 <div class="flex-1">
-                                    <a href="{{ route('listings.show', $listing) }}">
-                                        <h3
-                                            class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-                                            {{ $listing->title }}
-                                        </h3>
-                                    </a>
-                                    
-                                    <!-- Promotion Badges -->
-                                    @if($listing->hasActivePromotion())
-                                        <div class="flex flex-wrap gap-1 mb-2">
-                                            @foreach($listing->getPromotionBadges() as $badge)
-                                                <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
-                                                    {{ $badge['text'] }}
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                    @endif
+                                    <div class="flex items-start justify-between mb-2">
+                                        <a href="{{ route('listings.show', $listing) }}" class="flex-1">
+                                            <h3 class="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                                                {{ $listing->title }}
+                                            </h3>
+                                        </a>
+                                        
+                                        <!-- Promotion Badges -->
+                                        @if($listing->hasActivePromotion())
+                                            <div class="flex flex-wrap gap-1 ml-2">
+                                                @foreach($listing->getPromotionBadges() as $badge)
+                                                    <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                        {{ $badge['text'] }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
 
                                     {{-- Korisničko ime kreatora --}}
                                     @auth

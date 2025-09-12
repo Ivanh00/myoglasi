@@ -507,11 +507,24 @@
                                 <div class="flex-1 p-4 md:p-6">
                                     <div class="flex flex-col h-full">
                                         <div class="flex-1">
-                                            <a href="{{ route('listings.show', $relatedListing) }}">
-                                                <h3 class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-                                                    {{ $relatedListing->title }}
-                                                </h3>
-                                            </a>
+                                            <div class="flex items-start justify-between mb-2">
+                                                <a href="{{ route('listings.show', $relatedListing) }}" class="flex-1">
+                                                    <h3 class="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                                                        {{ $relatedListing->title }}
+                                                    </h3>
+                                                </a>
+                                                
+                                                <!-- Promotion Badges -->
+                                                @if($relatedListing->hasActivePromotion())
+                                                    <div class="flex flex-wrap gap-1 ml-2">
+                                                        @foreach($relatedListing->getPromotionBadges() as $badge)
+                                                            <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                                {{ $badge['text'] }}
+                                                            </span>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            </div>
 
                                             <div class="flex items-center text-sm text-gray-600 mb-2">
                                                 <i class="fas fa-map-marker-alt mr-1"></i>
