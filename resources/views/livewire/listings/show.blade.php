@@ -403,17 +403,18 @@
                 @endif
             </div>
 
-            <!-- Informacije o prodavcu -->
-            <div class="border-t border-gray-200 p-6 bg-gray-50">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">
-                    @if($listing->isService())
-                        Informacije o pružaocu usluge
-                    @elseif($listing->isGiveaway())
-                        Informacije o davaocу
-                    @else
-                        Informacije o prodavcu
-                    @endif
-                </h2>
+            <!-- Informacije o prodavcu (only for authenticated users) -->
+            @auth
+                <div class="border-t border-gray-200 p-6 bg-gray-50">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                        @if($listing->isService())
+                            Informacije o pružaocu usluge
+                        @elseif($listing->isGiveaway())
+                            Informacije o davaocu
+                        @else
+                            Informacije o prodavcu
+                        @endif
+                    </h2>
                 <div class="flex items-start">
                     <!-- Avatar -->
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -467,27 +468,14 @@
                     </div>
                 </div>
             </div>
+        @endauth
         </div>
-
 
         <!-- Preporučeni oglasi -->
         @if ($recommendedListings && $recommendedListings->count() > 0)
             <div class="mt-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                    @if ($recommendationType === 'seller')
-                        Ostali oglasi prodavca {{ $listing->user->name }}
-                    @else
-                        Slični oglasi
-                    @endif
-                </h2>
-
-                <p class="text-gray-600 mb-8">
-                    @if ($recommendationType === 'seller')
-                        Pogledajte i druge oglase ovog prodavca
-                    @else
-                        Pronađite slične oglase iz iste kategorije
-                    @endif
-                </p>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Slični oglasi</h2>
+                <p class="text-gray-600 mb-8">Pronađite slične oglase iz iste kategorije</p>
 
                 <!-- Lista oglasa (koristi isti layout kao Index stranica) -->
                 <div class="space-y-4">
