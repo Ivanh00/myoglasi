@@ -45,8 +45,8 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <div class="flex items-center">
-                    <div class="p-2 bg-green-100 rounded-lg">
-                        <i class="fas fa-arrow-up text-green-600"></i>
+                    <div class="p-2 bg-green-200 dark:bg-green-800 rounded-lg">
+                        <i class="fas fa-arrow-up text-green-600 dark:text-green-300"></i>
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-600 dark:text-gray-300">Ukupno dopunjeno</p>
@@ -59,8 +59,8 @@
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <div class="flex items-center">
-                    <div class="p-2 bg-red-100 rounded-lg">
-                        <i class="fas fa-arrow-down text-red-600"></i>
+                    <div class="p-2 bg-red-200 dark:bg-red-800 rounded-lg">
+                        <i class="fas fa-arrow-down text-red-600 dark:text-red-300"></i>
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-600 dark:text-gray-300">Ukupno potrošeno</p>
@@ -73,8 +73,8 @@
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <div class="flex items-center">
-                    <div class="p-2 bg-blue-100 rounded-lg">
-                        <i class="fas fa-list text-blue-600"></i>
+                    <div class="p-2 bg-blue-200 dark:bg-blue-800 rounded-lg">
+                        <i class="fas fa-list text-blue-600 dark:text-blue-300"></i>
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-600 dark:text-gray-300">Aktivni oglasi</p>
@@ -96,12 +96,12 @@
                         <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                             <div class="flex items-center">
                                 @if (in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']))
-                                    <div class="p-2 bg-green-100 rounded-lg mr-3">
-                                        <i class="fas fa-plus text-green-600"></i>
+                                    <div class="p-2 bg-green-200 dark:bg-green-800 rounded-lg mr-3">
+                                        <i class="fas fa-plus text-green-600 dark:text-green-300"></i>
                                     </div>
                                 @else
-                                    <div class="p-2 bg-red-100 rounded-lg mr-3">
-                                        <i class="fas fa-minus text-red-600"></i>
+                                    <div class="p-2 bg-red-200 dark:bg-red-800 rounded-lg mr-3">
+                                        <i class="fas fa-minus text-red-600 dark:text-red-300"></i>
                                     </div>
                                 @endif
 
@@ -121,16 +121,16 @@
                             </div>
 
                             <div class="text-right">
-                                <p class="font-bold {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? 'text-green-600' : 'text-red-600' }}">
+                                <p class="font-bold {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? 'text-green-600 dark:text-green-300' : 'text-red-600 dark:text-red-300' }}">
                                     {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? '+' : '-' }}{{ number_format(abs($transaction->amount), 0, ',', '.') }}
                                     RSD
                                 </p>
                                 <span
                                     class="text-xs px-2 py-1 rounded-full {{ $transaction->status === 'completed'
-                                        ? 'bg-green-100 text-green-800'
+                                        ? 'bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200'
                                         : ($transaction->status === 'pending'
-                                            ? 'bg-yellow-100 text-yellow-800'
-                                            : 'bg-red-100 text-red-800') }}">
+                                            ? 'bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200'
+                                            : 'bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200') }}">
                                     @switch($transaction->status)
                                         @case('completed')
                                             Završeno
@@ -162,7 +162,7 @@
                 </div>
 
                 <div class="mt-6 text-center">
-                    <button class="text-blue-600 hover:text-blue-800 font-semibold">
+                    <button class="text-blue-600 dark:text-blue-300 hover:text-blue-800 font-semibold">
                         Pogledaj sve transakcije
                     </button>
                 </div>
@@ -198,7 +198,7 @@
                     <!-- Current Balance Info -->
                     <div class="{{ auth()->user()->balance > 0 ? 'bg-blue-50 border-blue-200' : 'bg-red-50 border-red-200' }} p-3 rounded-lg mb-4 border">
                         <div class="flex items-center">
-                            <i class="fas fa-wallet {{ auth()->user()->balance > 0 ? 'text-blue-600' : 'text-red-600' }} mr-2"></i>
+                            <i class="fas fa-wallet {{ auth()->user()->balance > 0 ? 'text-blue-600 dark:text-blue-300' : 'text-red-600 dark:text-red-300' }} mr-2"></i>
                             <span class="{{ auth()->user()->balance > 0 ? 'text-blue-900' : 'text-red-900' }} font-medium">
                                 Vaš trenutni balans: {{ number_format(auth()->user()->balance, 0, ',', '.') }} RSD
                             </span>
@@ -257,10 +257,10 @@
                                 <!-- Selected Recipient -->
                                 @if($selectedRecipient)
                                     <div class="mt-2 p-2 bg-green-50 border border-green-200 rounded flex items-center">
-                                        <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                                        <i class="fas fa-check-circle text-green-600 dark:text-green-300 mr-2"></i>
                                         <span class="text-green-900">Izabran: {{ $selectedRecipient->name }}</span>
                                         <button type="button" wire:click="$set('selectedRecipient', null)"
-                                            class="ml-auto text-green-600 hover:text-green-800">
+                                            class="ml-auto text-green-600 dark:text-green-300 hover:text-green-800">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>

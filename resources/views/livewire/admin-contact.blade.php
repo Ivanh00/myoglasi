@@ -59,7 +59,7 @@
                                 <div class="message-status">
                                     @if ($message->is_read)
                                         <!-- Pročitana poruka - zeleno oko -->
-                                        <i class="fas fa-eye text-green-500 text-sm" title="Pročitano"></i>
+                                        <i class="fas fa-eye text-green-600 dark:text-green-300 text-sm" title="Pročitano"></i>
                                     @else
                                         <!-- Dostavljena poruka - sivo oko -->
                                         <i class="fas fa-eye text-gray-400 text-sm" title="Dostavljeno"></i>
@@ -134,7 +134,7 @@
     <!-- Debug info (remove later) -->
     @if(session()->has('success') || session()->has('error'))
         <div class="fixed bottom-4 right-4 p-3 rounded-lg shadow-lg z-50
-            {{ session()->has('success') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+            {{ session()->has('success') ? 'bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200' : 'bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200' }}">
             {{ session('success') ?? session('error') }}
         </div>
     @endif

@@ -1,14 +1,30 @@
 <!-- resources/views/livewire/notifications.blade.php -->
-<div class="messages-container">
+<div class="messages-container bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+    <style>
+        /* Dark mode hover fixes for notifications */
+        .dark .notification-item:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        .dark .notification-item {
+            background-color: rgb(17 24 39) !important; /* gray-900 - same as main background */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        .dark .notification-item.unread {
+            background-color: rgb(30 58 138) !important; /* blue-900 */
+        }
+        .dark .notification-content {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+    </style>
     <!-- Header -->
     <section class="navigation-holder">
         <div class="messages-header">
-            <h1>Obaveštenja</h1>
+            <h1 class="text-gray-900 dark:text-gray-100">Obaveštenja</h1>
         </div>
     </section>
 
     <!-- Filter Options -->
-    <div style="padding: 1rem; background: white; border-bottom: 1px solid #eee;">
+    <div class="p-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600">
         <!-- Desktop filters -->
         <div class="hidden md:block">
             <div class="flex justify-between items-center">
@@ -26,7 +42,7 @@
                     <label class="text-sm font-medium text-gray-700 dark:text-gray-200 mr-3">Prikaži:</label>
                     <div class="relative">
                         <button @click="open = !open" type="button"
-                            class="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between min-w-32">
+                            class="px-3 py-2 bg-white dark:bg-gray-800 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between min-w-32">
                             <span>
                                 @if($filter === 'all') Sve
                                 @elseif($filter === 'unread') Nepročitane
@@ -38,13 +54,13 @@
                         </button>
                         
                         <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 right-0 w-40 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
+                            class="absolute z-10 mt-1 right-0 w-40 bg-white dark:bg-gray-800 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('filter', 'all'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:bg-gray-700 rounded-t-lg {{ $filter === 'all' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-t-lg {{ $filter === 'all' ? 'bg-blue-50 text-blue-700' : '' }}">
                                 Sve
                             </button>
                             <button @click="$wire.set('filter', 'unread'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:bg-gray-700 rounded-b-lg {{ $filter === 'unread' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-b-lg {{ $filter === 'unread' ? 'bg-blue-50 text-blue-700' : '' }}">
                                 Nepročitane
                             </button>
                         </div>
@@ -136,7 +152,7 @@
     <!-- Mobile Card View -->
     <div class="md:hidden">
         @forelse($notifications as $notification)
-            <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:bg-gray-700 cursor-pointer {{ !$notification->is_read ? 'bg-blue-50 border-l-4 border-l-blue-500' : '' }}" 
+            <div class="bg-white dark:bg-gray-800 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer {{ !$notification->is_read ? 'bg-blue-50 border-l-4 border-l-blue-500' : '' }}" 
                  wire:click="selectNotification({{ $notification->id }})" 
                  wire:key="mobile-notification-{{ $notification->id }}">
                 <div class="p-4">
@@ -144,8 +160,8 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center flex-1 min-w-0">
                             <!-- Notification Icon -->
-                            <div class="flex-shrink-0 h-10 w-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
-                                <i class="fas fa-bell text-purple-600"></i>
+                            <div class="flex-shrink-0 h-10 w-10 bg-blue-200 dark:bg-blue-800 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-bell text-blue-600 dark:text-blue-300"></i>
                             </div>
                             
                             <!-- Notification info -->
@@ -164,7 +180,7 @@
                         <!-- Status and date -->
                         <div class="flex flex-col items-end ml-2">
                             @if (!$notification->is_read)
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 mb-1">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">
                                     Novo
                                 </span>
                             @endif
@@ -193,7 +209,7 @@
                     @if (!$notification->is_read)
                         <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
                             <button wire:click="markAsRead({{ $notification->id }})" 
-                                class="text-xs text-blue-600 hover:text-blue-800"
+                                class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
                                 onclick="event.stopPropagation()">
                                 <i class="fas fa-check mr-1"></i>
                                 Označi kao pročitano

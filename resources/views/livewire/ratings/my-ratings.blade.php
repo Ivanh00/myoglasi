@@ -13,7 +13,7 @@
             <div class="flex justify-center items-center gap-6">
                 <!-- All Ratings -->
                 <button wire:click="setFilter('all')" 
-                    class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filter === 'all' ? 'bg-blue-100 text-blue-700 shadow-md' : 'hover:bg-gray-100 dark:bg-gray-600' }}">
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filter === 'all' ? 'bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 shadow-md' : 'hover:bg-gray-100 dark:hover:bg-gray-600' }}">
                     <span class="text-2xl">📊</span>
                     <span class="font-medium">Sve</span>
                     <span class="text-sm text-gray-500 dark:text-gray-400">({{ $user->total_ratings_count }})</span>
@@ -21,7 +21,7 @@
                 
                 <!-- Positive -->
                 <button wire:click="setFilter('positive')" 
-                    class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filter === 'positive' ? 'bg-green-100 text-green-700 shadow-md' : 'hover:bg-green-50' }}">
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filter === 'positive' ? 'bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 shadow-md' : 'hover:bg-green-100 dark:hover:bg-green-700' }}">
                     <span class="text-2xl">😊</span>
                     <span class="font-medium">Pozitivne</span>
                     <span class="text-sm text-gray-500 dark:text-gray-400">({{ $user->positive_ratings_count }})</span>
@@ -29,7 +29,7 @@
                 
                 <!-- Neutral -->
                 <button wire:click="setFilter('neutral')" 
-                    class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filter === 'neutral' ? 'bg-yellow-100 text-yellow-700 shadow-md' : 'hover:bg-yellow-50' }}">
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filter === 'neutral' ? 'bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 shadow-md' : 'hover:bg-yellow-100 dark:hover:bg-yellow-700' }}">
                     <span class="text-2xl">😐</span>
                     <span class="font-medium">Neutralne</span>
                     <span class="text-sm text-gray-500 dark:text-gray-400">({{ $user->neutral_ratings_count }})</span>
@@ -37,7 +37,7 @@
                 
                 <!-- Negative -->
                 <button wire:click="setFilter('negative')" 
-                    class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filter === 'negative' ? 'bg-red-100 text-red-700 shadow-md' : 'hover:bg-red-50' }}">
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filter === 'negative' ? 'bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 shadow-md' : 'hover:bg-red-100 dark:hover:bg-red-700' }}">
                     <span class="text-2xl">😞</span>
                     <span class="font-medium">Negativne</span>
                     <span class="text-sm text-gray-500 dark:text-gray-400">({{ $user->negative_ratings_count }})</span>
@@ -48,25 +48,25 @@
         <!-- Mobile filters -->
         <div class="md:hidden grid grid-cols-2 gap-3">
             <button wire:click="setFilter('all')" 
-                class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg {{ $filter === 'all' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 dark:bg-gray-600' }}">
+                class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg {{ $filter === 'all' ? 'bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200' : 'bg-gray-100 dark:bg-gray-600' }}">
                 <span class="text-lg">📊</span>
                 <span class="text-sm font-medium">Sve ({{ $user->total_ratings_count }})</span>
             </button>
             
             <button wire:click="setFilter('positive')" 
-                class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg {{ $filter === 'positive' ? 'bg-green-100 text-green-700' : 'bg-gray-100 dark:bg-gray-600' }}">
+                class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg {{ $filter === 'positive' ? 'bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200' : 'bg-gray-100 dark:bg-gray-600' }}">
                 <span class="text-lg">😊</span>
                 <span class="text-sm font-medium">{{ $user->positive_ratings_count }}</span>
             </button>
             
             <button wire:click="setFilter('neutral')" 
-                class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg {{ $filter === 'neutral' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 dark:bg-gray-600' }}">
+                class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg {{ $filter === 'neutral' ? 'bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200' : 'bg-gray-100 dark:bg-gray-600' }}">
                 <span class="text-lg">😐</span>
                 <span class="text-sm font-medium">{{ $user->neutral_ratings_count }}</span>
             </button>
             
             <button wire:click="setFilter('negative')" 
-                class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg {{ $filter === 'negative' ? 'bg-red-100 text-red-700' : 'bg-gray-100 dark:bg-gray-600' }}">
+                class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg {{ $filter === 'negative' ? 'bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200' : 'bg-gray-100 dark:bg-gray-600' }}">
                 <span class="text-lg">😞</span>
                 <span class="text-sm font-medium">{{ $user->negative_ratings_count }}</span>
             </button>
@@ -139,7 +139,7 @@
     <!-- Mobile Card View -->
     <div class="md:hidden">
         @forelse($ratings as $rating)
-            <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 {{ $rating->rating === 'positive' ? 'border-l-4 border-l-green-500' : ($rating->rating === 'neutral' ? 'border-l-4 border-l-yellow-500' : 'border-l-4 border-l-red-500') }}" 
+            <div class="bg-white dark:bg-gray-800 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 {{ $rating->rating === 'positive' ? 'border-l-4 border-l-green-500' : ($rating->rating === 'neutral' ? 'border-l-4 border-l-yellow-500' : 'border-l-4 border-l-red-500') }}" 
                  wire:key="mobile-rating-{{ $rating->id }}">
                 <div class="p-4">
                     <!-- Header -->

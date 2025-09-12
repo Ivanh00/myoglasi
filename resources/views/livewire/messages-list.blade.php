@@ -1,13 +1,29 @@
-<div class="messages-container">
+<div class="messages-container bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <style>
+        /* Dark mode hover fixes */
+        .dark .conversation-item:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        .dark .conversation-item {
+            background-color: rgb(17 24 39) !important; /* gray-900 - same as main background */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        .dark .conversation-item.unread {
+            background-color: rgb(30 58 138) !important; /* blue-900 */
+        }
+        .dark .user-name, .dark .listing-name, .dark .preview-text, .dark .date-info {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+    </style>
     <!-- Header -->
     <section class="navigation-holder">
         <div class="messages-header">
-            <h1>Poruke</h1>
+            <h1 class="text-gray-900 dark:text-gray-100">Poruke</h1>
         </div>
     </section>
 
     <!-- Search and Filter Options -->
-    <div style="padding: 1rem; background: white; border-bottom: 1px solid #eee;">
+    <div class="p-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600">
         <!-- Desktop filters -->
         <div class="hidden md:block">
             <div class="flex justify-between items-center">
@@ -41,11 +57,11 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 right-0 w-40 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('sortBy', 'all').then(() => $wire.call('loadConversations')); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:bg-gray-700 rounded-t-lg {{ $sortBy === 'all' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-t-lg {{ $sortBy === 'all' ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
                                 Sve poruke
                             </button>
                             <button @click="$wire.set('sortBy', 'unread').then(() => $wire.call('loadConversations')); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:bg-gray-700 rounded-b-lg {{ $sortBy === 'unread' ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-b-lg {{ $sortBy === 'unread' ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
                                 Nepročitane
                             </button>
                         </div>
@@ -58,7 +74,7 @@
         <div class="md:hidden space-y-3">
             <div>
                 <input type="text" wire:model.live="search" placeholder="Pretraži..." 
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm">
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded text-sm">
                 @if($search)
                     <button wire:click="clearSearch" class="mt-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200">
                         <i class="fas fa-times mr-1"></i> Očisti pretragu
@@ -67,7 +83,7 @@
             </div>
             
             <div>
-                <select wire:model.live="sortBy" wire:change="loadConversations" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm">
+                <select wire:model.live="sortBy" wire:change="loadConversations" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded text-sm">
                     <option value="all">Sve poruke</option>
                     <option value="unread">Nepročitane</option>
                 </select>
@@ -79,7 +95,7 @@
 
     <!-- Results info -->
     @if($search)
-        <div style="padding: 0.5rem 1rem; background: #f8f9fa; font-size: 0.9rem; color: #6c757d;">
+        <div class="p-2 bg-gray-100 dark:bg-gray-700 text-sm text-gray-600 dark:text-gray-300">
             Rezultati za "{{ $search }}": {{ count($conversations) }} konverzacija
         </div>
     @endif
@@ -96,7 +112,7 @@
                                 {{ $conversation['other_user']->name }}
                                 {!! $conversation['other_user']->verified_icon !!}
                                 @if ($conversation['unread_count'] > 0)
-                                    <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $conversation['unread_count'] }}</span>
+                                    <span class="ml-2 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 rounded px-2 py-1 text-xs font-medium">{{ $conversation['unread_count'] }}</span>
                                 @endif
                             </div>
                             <div class="listing-name">
@@ -112,7 +128,7 @@
                         <div class="message-preview">
                             @if ($conversation['last_message']->sender_id == Auth::id())
                                 @if ($conversation['last_message']->is_read)
-                                    <i class="fas fa-eye text-green-500 text-sm mr-2" title="Pročitano"></i>
+                                    <i class="fas fa-eye text-green-600 dark:text-green-300 text-sm mr-2" title="Pročitano"></i>
                                 @else
                                     <i class="fas fa-eye text-gray-400 text-sm mr-2" title="Dostavljeno"></i>
                                 @endif
@@ -157,7 +173,7 @@
     <!-- Mobile Card View -->
     <div class="md:hidden">
         @forelse($conversations as $key => $conversation)
-            <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:bg-gray-700 cursor-pointer" 
+            <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer" 
                  wire:click="selectConversation({{ $key }})" 
                  wire:key="mobile-conversation-{{ $key }}">
                 <div class="p-4">
@@ -165,8 +181,8 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center flex-1 min-w-0">
                             <!-- Avatar -->
-                            <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                                <span class="text-blue-600 font-medium text-sm">
+                            <div class="flex-shrink-0 h-10 w-10 bg-blue-200 dark:bg-blue-800 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-blue-600 dark:text-blue-300 font-medium text-sm">
                                     {{ strtoupper(substr($conversation['other_user']->name, 0, 1)) }}
                                 </span>
                             </div>
@@ -190,7 +206,7 @@
                         <!-- Status and date -->
                         <div class="flex flex-col items-end ml-2">
                             @if ($conversation['unread_count'] > 0)
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 mb-1">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">
                                     {{ $conversation['unread_count'] }}
                                 </span>
                             @endif
@@ -205,7 +221,7 @@
                         <div class="flex items-center flex-1 min-w-0">
                             @if ($conversation['last_message']->sender_id == Auth::id())
                                 @if ($conversation['last_message']->is_read)
-                                    <i class="fas fa-eye text-green-500 text-sm mr-2 flex-shrink-0" title="Pročitano"></i>
+                                    <i class="fas fa-eye text-green-600 dark:text-green-300 text-sm mr-2 flex-shrink-0" title="Pročitano"></i>
                                 @else
                                     <i class="fas fa-eye text-gray-400 text-sm mr-2 flex-shrink-0" title="Dostavljeno"></i>
                                 @endif
