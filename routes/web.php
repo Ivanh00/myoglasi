@@ -274,6 +274,9 @@ Route::get('/services/{listing}', \App\Livewire\Listings\Show::class)->name('ser
 Route::get('/giveaways', \App\Livewire\Giveaways\Index::class)->name('giveaways.index');
 Route::get('/giveaways/{listing}', \App\Livewire\Listings\Show::class)->name('giveaways.show');
 
+// Earn Credits Routes
+Route::middleware('auth')->get('/earn-credits', \App\Livewire\EarnCredits::class)->name('earn-credits.index');
+
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', \App\Livewire\Admin\Dashboard::class)->name('dashboard');

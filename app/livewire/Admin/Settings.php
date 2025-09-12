@@ -29,6 +29,12 @@ class Settings extends Component
     public $serviceFeeEnabled;
     public $serviceFeeAmount;
     
+    // Credit Earning Settings
+    public $gameCreditEnabled;
+    public $gameCreditAmount;
+    public $dailyContestEnabled;
+    public $dailyContestAmount;
+    
     // Promotion Settings
     public $promotionFeaturedCategoryPrice;
     public $promotionFeaturedCategoryDays;
@@ -82,6 +88,10 @@ class Settings extends Component
         'showLastSeen' => 'required|boolean',
         'serviceFeeEnabled' => 'required|boolean',
         'serviceFeeAmount' => 'required|integer|min:1|max:10000',
+        'gameCreditEnabled' => 'required|boolean',
+        'gameCreditAmount' => 'required|integer|min:1|max:1000',
+        'dailyContestEnabled' => 'required|boolean',
+        'dailyContestAmount' => 'required|integer|min:1|max:1000',
         // Promotion validation
         'promotionFeaturedCategoryPrice' => 'required|integer|min:1|max:10000',
         'promotionFeaturedCategoryDays' => 'required|integer|min:1|max:365',
@@ -139,6 +149,10 @@ class Settings extends Component
         $this->showLastSeen = Setting::get('show_last_seen', true);
         $this->serviceFeeEnabled = Setting::get('service_fee_enabled', true);
         $this->serviceFeeAmount = Setting::get('service_fee_amount', 100);
+        $this->gameCreditEnabled = Setting::get('game_credit_enabled', true);
+        $this->gameCreditAmount = Setting::get('game_credit_amount', 100);
+        $this->dailyContestEnabled = Setting::get('daily_contest_enabled', true);
+        $this->dailyContestAmount = Setting::get('daily_contest_amount', 100);
         
         // Promotion Settings
         $this->promotionFeaturedCategoryPrice = Setting::get('promotion_featured_category_price', 100);
@@ -217,6 +231,10 @@ class Settings extends Component
             'showLastSeen' => 'required|boolean',
             'serviceFeeEnabled' => 'required|boolean',
             'serviceFeeAmount' => 'required|integer|min:1|max:10000',
+            'gameCreditEnabled' => 'required|boolean',
+            'gameCreditAmount' => 'required|integer|min:1|max:1000',
+            'dailyContestEnabled' => 'required|boolean',
+            'dailyContestAmount' => 'required|integer|min:1|max:1000',
             'promotionFeaturedCategoryPrice' => 'required|integer|min:1|max:10000',
             'promotionFeaturedCategoryDays' => 'required|integer|min:1|max:365',
             'promotionFeaturedHomepagePrice' => 'required|integer|min:1|max:10000',
@@ -240,6 +258,10 @@ class Settings extends Component
         Setting::set('show_last_seen', $this->showLastSeen, 'boolean', 'general');
         Setting::set('service_fee_enabled', $this->serviceFeeEnabled, 'boolean', 'general');
         Setting::set('service_fee_amount', $this->serviceFeeAmount, 'integer', 'general');
+        Setting::set('game_credit_enabled', $this->gameCreditEnabled, 'boolean', 'general');
+        Setting::set('game_credit_amount', $this->gameCreditAmount, 'integer', 'general');
+        Setting::set('daily_contest_enabled', $this->dailyContestEnabled, 'boolean', 'general');
+        Setting::set('daily_contest_amount', $this->dailyContestAmount, 'integer', 'general');
         
         // Save promotion settings
         Setting::set('promotion_featured_category_price', $this->promotionFeaturedCategoryPrice, 'integer', 'promotions');

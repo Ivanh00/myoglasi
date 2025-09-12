@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('notifications:low-balance')->daily();
         $schedule->command('notifications:listing-expiry')->daily();
         $schedule->command('auctions:process')->everyMinute();
+        $schedule->command('contest:daily')->dailyAt('00:30'); // Run daily contest at 00:30
     })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([

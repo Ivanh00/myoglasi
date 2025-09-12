@@ -303,6 +303,70 @@
                         <div class="text-xs text-blue-600 mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
                             💡 <strong>Napomena:</strong> Pokloni su uvek besplatni za objavljivanje. Ova naknada se odnosi samo na komercijalne usluge.
                         </div>
+
+                        <!-- Credit Earning Settings -->
+                        <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <h4 class="text-sm font-medium text-green-800 mb-3">
+                                <i class="fas fa-coins mr-2"></i>
+                                Zaradjivanje kredita
+                            </h4>
+                            
+                            <div class="space-y-4">
+                                <!-- Game Credits -->
+                                <div>
+                                    <div class="flex items-center mb-2">
+                                        <input type="checkbox" id="game_credit_enabled" wire:model="gameCreditEnabled" 
+                                            class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                                        <label for="game_credit_enabled" class="ml-2 text-sm text-gray-700">
+                                            Omogući zaradjivanje kroz igrice
+                                        </label>
+                                    </div>
+                                    
+                                    @if($gameCreditEnabled)
+                                        <div class="ml-6">
+                                            <label class="block text-sm font-medium text-gray-700">Maksimalno kredita dnevno kroz igrice (RSD)</label>
+                                            <input type="number" wire:model="gameCreditAmount" min="1" max="1000"
+                                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                Koliko kredita mogu da zarade kroz igrice dnevno (trenutno: {{ number_format($gameCreditAmount, 0, ',', '.') }} RSD)
+                                            </p>
+                                            @error('gameCreditAmount') 
+                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Daily Contest -->
+                                <div>
+                                    <div class="flex items-center mb-2">
+                                        <input type="checkbox" id="daily_contest_enabled" wire:model="dailyContestEnabled" 
+                                            class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                                        <label for="daily_contest_enabled" class="ml-2 text-sm text-gray-700">
+                                            Omogući dnevni konkurs za najviše oglasa
+                                        </label>
+                                    </div>
+                                    
+                                    @if($dailyContestEnabled)
+                                        <div class="ml-6">
+                                            <label class="block text-sm font-medium text-gray-700">Nagrada za pobednika dnevnog konkursa (RSD)</label>
+                                            <input type="number" wire:model="dailyContestAmount" min="1" max="1000"
+                                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                Koliko kredita dobija član koji postavi najviše oglasa u danu (trenutno: {{ number_format($dailyContestAmount, 0, ',', '.') }} RSD)
+                                            </p>
+                                            @error('dailyContestAmount') 
+                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="text-xs text-green-600 mt-3 p-2 bg-green-100 border border-green-300 rounded">
+                                💡 <strong>Napomena:</strong> Ove opcije omogućavaju korisnicima da zarađuju kredit kroz aktivnosti na sajtu, povećavajući angažovanost.
+                            </div>
+                        </div>
                     </div>
                     </div>
                 </div>
