@@ -1,14 +1,14 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 
     <!-- Filteri i sortiranje -->
-    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+    <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4 mb-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <!-- Left: Category filter -->
             <div class="flex items-center gap-3">
                 <div class="w-60" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
+                            class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
                             <span>
                                 @if($selectedCategory)
                                     @php $selectedCat = $categories->firstWhere('id', $selectedCategory); @endphp
@@ -23,14 +23,14 @@
                         </button>
                         
                         <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             <button @click="$wire.setCategory(''); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg {{ !$selectedCategory ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-t-lg {{ !$selectedCategory ? 'bg-blue-50 text-blue-700' : '' }}">
                                 Sve kategorije
                             </button>
                             @foreach ($categories as $category)
                                 <button @click="$wire.setCategory('{{ $category->id }}'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center {{ $selectedCategory == $category->id ? 'bg-blue-50 text-blue-700' : '' }}">
+                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 flex items-center {{ $selectedCategory == $category->id ? 'bg-blue-50 text-blue-700' : '' }}">
                                     @if($category->icon)
                                         <i class="{{ $category->icon }} text-blue-600 mr-2"></i>
                                     @endif
@@ -45,7 +45,7 @@
                 <div class="w-40" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
+                            class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
                             <span>
                                 @if($sortBy === 'newest') Najnovije
                                 @elseif($sortBy === 'price_asc') Cena ↑
@@ -58,17 +58,17 @@
                         </button>
                         
                         <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-lg">
                             <button @click="$wire.setSorting('newest'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-t-lg">
                                 Najnovije
                             </button>
                             <button @click="$wire.setSorting('price_asc'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50">
                                 Cena ↑
                             </button>
                             <button @click="$wire.setSorting('price_desc'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 rounded-b-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-b-lg">
                                 Cena ↓
                             </button>
                         </div>
@@ -87,7 +87,7 @@
     @if ($services->count() > 0)
         <div class="space-y-4 mb-8">
             @foreach ($services as $service)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-gray-500">
+                <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-gray-500">
                     <div class="flex flex-col md:flex-row">
                         <!-- Slika usluge -->
                         <div class="w-full md:w-48 md:min-w-48 h-48">
@@ -105,13 +105,13 @@
                         <div class="flex-1 p-4 md:p-6">
                             <div class="flex flex-col h-full">
                                 <div class="flex-1">
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 hover:text-blue-600 transition-colors">
                                         {{ $service->title }}
                                     </h3>
 
                                     <!-- Pružalac usluge -->
                                     @auth
-                                        <p class="text-sm font-bold text-gray-700 mb-1">
+                                        <p class="text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">
                                             Pružalac: {{ $service->user->name ?? 'Nepoznat korisnik' }}
                                             @if($service->user){!! $service->user->verified_icon !!}@endif
                                             @if ($service->user && $service->user->is_banned)
@@ -140,7 +140,7 @@
                                         <span>{{ $service->category->name }}</span>
                                     </div>
 
-                                    <p class="text-gray-700 mb-3"
+                                    <p class="text-gray-700 dark:text-gray-200 mb-3"
                                         style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                         {{ Str::limit(strip_tags($service->description), 120) }}
                                     </p>
@@ -164,7 +164,7 @@
                                     </div>
                                 </div>
 
-                                <div class="text-xs text-gray-700 mb-4">
+                                <div class="text-xs text-gray-700 dark:text-gray-200 mb-4">
                                     <i class="fas fa-clock mr-1"></i>
                                     Postavljeno pre {{ floor($service->created_at->diffInDays()) }} dana
                                 </div>
@@ -183,11 +183,11 @@
         </div>
 
         <!-- Paginacija -->
-        <div class="mt-8 bg-white rounded-lg shadow-sm p-4">
+        <div class="mt-8 bg-white dark:bg-gray-700 rounded-lg shadow-sm p-4">
             {{ $services->links() }}
         </div>
     @else
-        <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-tools text-gray-400 text-5xl mb-4"></i>
             <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema usluga</h3>
             <p class="text-gray-600 mb-4">

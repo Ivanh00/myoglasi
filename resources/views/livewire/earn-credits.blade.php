@@ -42,8 +42,8 @@
     @if($this->remainingCredits > 0)
         <!-- Game Selection -->
         @if(!$gameActive && !$gameCompleted)
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="text-xl font-bold text-gray-900 mb-6">Izaberite igru</h2>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">Izaberite igru</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Click Game -->
@@ -52,7 +52,7 @@
                         <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-mouse-pointer text-blue-600 text-2xl"></i>
                         </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Igra klikanja</h3>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Igra klikanja</h3>
                         <p class="text-sm text-gray-600 mb-3">Klikni što više puta za 30 sekundi</p>
                         <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Do 10 RSD</span>
                     </div>
@@ -63,7 +63,7 @@
                         <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-brain text-green-600 text-2xl"></i>
                         </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Igra memorije</h3>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Igra memorije</h3>
                         <p class="text-sm text-gray-600 mb-3">Zapamti parove boja</p>
                         <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Do 15 RSD</span>
                     </div>
@@ -74,7 +74,7 @@
                         <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-calculator text-purple-600 text-2xl"></i>
                         </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Igra brojeva</h3>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Igra brojeva</h3>
                         <p class="text-sm text-gray-600 mb-3">Pogodi broj matematički</p>
                         <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Do 20 RSD</span>
                     </div>
@@ -85,9 +85,9 @@
 
         <!-- Active Game Area -->
         @if($gameActive && $selectedGame === 'click_game')
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
                 <div class="text-center">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Igra klikanja</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Igra klikanja</h2>
                     
                     <div class="mb-6">
                         <div class="text-3xl font-bold text-blue-600 mb-2">{{ $clickCount }}</div>
@@ -103,7 +103,7 @@
                     </div>
 
                     <div class="mb-6">
-                        <div class="text-lg font-semibold text-gray-900" x-data="{ timeLeft: 30 }" 
+                        <div class="text-lg font-semibold text-gray-900 dark:text-gray-100" x-data="{ timeLeft: 30 }" 
                              x-init="
                                 let interval = setInterval(() => {
                                     timeLeft--;
@@ -127,9 +127,9 @@
 
         <!-- Memory Game -->
         @if($gameActive && $selectedGame === 'memory_game')
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
                 <div class="text-center">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Igra memorije</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Igra memorije</h2>
                     
                     <div class="mb-6">
                         <div class="text-lg font-bold text-green-600 mb-2">Potezi: {{ $memoryMoves }}</div>
@@ -170,15 +170,15 @@
 
         <!-- Number Game -->
         @if($gameActive && $selectedGame === 'number_game')
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
                 <div class="text-center">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Igra brojeva</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Igra brojeva</h2>
                     
                     <div class="mb-6">
                         <div class="text-lg text-gray-600 mb-2">Ciljni broj:</div>
                         <div class="text-4xl font-bold text-purple-600 mb-4">{{ $numberTarget }}</div>
                         <div class="text-lg text-gray-600 mb-2">Trenutni broj:</div>
-                        <div class="text-3xl font-bold text-gray-900">{{ $numberCurrent }}</div>
+                        <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ $numberCurrent }}</div>
                         <div class="text-sm text-gray-500 mt-2">Potezi: {{ $numberMoves }}</div>
                     </div>
 
@@ -201,13 +201,13 @@
 
         <!-- Game Completed -->
         @if($gameCompleted)
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
                 <div class="text-center">
                     <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-trophy text-green-600 text-3xl"></i>
                     </div>
                     
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Igra završena!</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Igra završena!</h2>
                     
                     <div class="mb-6">
                         <div class="text-3xl font-bold text-blue-600 mb-2">{{ $gameScore }}</div>
@@ -224,20 +224,20 @@
         @endif
     @else
         <!-- Daily limit reached -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8 text-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8 text-center">
             <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i class="fas fa-clock text-gray-400 text-3xl"></i>
             </div>
-            <h2 class="text-xl font-bold text-gray-900 mb-4">Dnevni limit dostignut</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Dnevni limit dostignut</h2>
             <p class="text-gray-600 mb-4">Već ste zaradili maksimalno kredita danas ({{ $this->maxDaily }} RSD).</p>
             <p class="text-sm text-gray-500">Vratite se sutra za nove igre!</p>
         </div>
     @endif
 
     <!-- Today's Leaderboard -->
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-bold text-gray-900">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">
                 <i class="fas fa-trophy text-yellow-500 mr-2"></i>
                 Danas najbolji igrači
             </h2>
@@ -250,7 +250,7 @@
             @foreach($todaysLeaderboard as $gameType => $players)
                 @if(in_array($gameType, ['click_game', 'memory_game', 'number_game']))
                     <div class="border border-gray-200 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
                             @if($gameType === 'click_game')
                                 <i class="fas fa-mouse-pointer text-blue-600 mr-2"></i>
                                 Igra klikanja
@@ -272,7 +272,7 @@
                                             {{ $index + 1 }}
                                         </div>
                                         <div>
-                                            <div class="font-medium text-gray-900 {{ auth()->id() === $player->user_id ? 'text-blue-600' : '' }}">
+                                            <div class="font-medium text-gray-900 dark:text-gray-100 {{ auth()->id() === $player->user_id ? 'text-blue-600' : '' }}">
                                                 {{ $player->user->name }}
                                                 @if(auth()->id() === $player->user_id)
                                                     <span class="text-xs text-blue-600">(Vi)</span>
@@ -314,8 +314,8 @@
 
     <!-- Recent Earnings -->
     @if($recentEarnings->count() > 0)
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-6">Vaše zarade (7 dana)</h2>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">Vaše zarade (7 dana)</h2>
             
             <div class="space-y-3">
                 @foreach($recentEarnings as $earning)
@@ -329,7 +329,7 @@
                                 @endif
                             </div>
                             <div>
-                                <p class="font-medium text-gray-900">{{ $earning->description }}</p>
+                                <p class="font-medium text-gray-900 dark:text-gray-100">{{ $earning->description }}</p>
                                 <p class="text-sm text-gray-600">{{ $earning->date->format('d.m.Y') }}</p>
                             </div>
                         </div>
