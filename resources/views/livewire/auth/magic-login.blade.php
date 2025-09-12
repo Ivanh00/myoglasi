@@ -10,7 +10,7 @@
             </div>
             
             <p class="text-xs text-blue-700 mb-3">
-                Unesite email adresu i dobićete link za automatsku prijavu. Ako nemate nalog, kreaće se automatski.
+                Unesite email adresu i dobićete link za automatsku prijavu. Ako nemate nalog, kreiraće se automatski.
             </p>
             
             <form wire:submit.prevent="sendMagicLink" class="space-y-3">

@@ -133,6 +133,10 @@ require __DIR__.'/auth.php';
 // Magic Link Authentication
 Route::get('/auth/magic-login/{token}', [App\Http\Controllers\Auth\MagicLoginController::class, 'login'])->name('auth.magic-login');
 
+// Social Login Routes
+Route::get('/auth/{provider}', [App\Http\Controllers\Auth\SocialLoginController::class, 'redirect'])->name('auth.social.redirect');
+Route::get('/auth/{provider}/callback', [App\Http\Controllers\Auth\SocialLoginController::class, 'callback'])->name('auth.social.callback');
+
 // API routes for frontend
 Route::get('/api/categories/{category}/subcategories', function($categoryId) {
     $subcategories = \App\Models\Category::where('parent_id', $categoryId)
