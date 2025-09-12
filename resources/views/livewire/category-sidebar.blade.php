@@ -77,7 +77,7 @@
 
                     <!-- Levi deo - ikonica i naziv -->
                     <div
-                        class="flex items-center flex-1 px-3 py-2 text-gray-700 dark:text-gray-300 {{ request()->get('selectedCategory') == $category->id ? 'text-blue-700 dark:text-blue-400' : '' }}">
+                        class="flex items-center flex-1 px-3 py-2 text-gray-700 dark:text-gray-300 {{ request()->get('selectedCategory') == $category->id ? 'text-blue-600 dark:text-blue-400 dark:text-blue-400' : '' }}">
                         @if ($category->icon)
                             <div class="w-5 h-5 mr-3 flex items-center justify-center">
                                 <i class="{{ $category->icon }} text-blue-600"></i>
@@ -155,7 +155,7 @@
                 <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Admin opcije</div>
 
                 <a href="{{ route('admin.dashboard') }}"
-                    class="flex items-center px-3 py-2 text-red-700 rounded-lg hover:bg-red-50">
+                    class="flex items-center px-3 py-2 text-red-700 rounded-lg hover:bg-red-50 dark:hover:bg-gray-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                             d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
@@ -165,7 +165,7 @@
                 </a>
 
                 <a href="{{ route('messages.inbox') }}"
-                    class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
+                    class="flex items-center px-3 py-2 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
@@ -186,7 +186,7 @@
                 </a>
 
                 <a href="{{ route('notifications.index') }}"
-                    class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
+                    class="flex items-center px-3 py-2 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
@@ -209,10 +209,10 @@
         @else
             <!-- Regular User Sidebar -->
             <div class="border-t mt-4 pt-4 p-2">
-                <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Brze akcije</div>
+                <div class="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Brze akcije</div>
 
                 <a href="{{ route('dashboard') }}"
-                    class="flex items-center px-3 py-2 text-indigo-700 rounded-lg hover:bg-indigo-50">
+                    class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path>
@@ -221,7 +221,7 @@
                 </a>
 
                 <a href="{{ route('listings.create') }}"
-                    class="flex items-center px-3 py-2 text-green-700 rounded-lg hover:bg-green-50 mt-2">
+                    class="flex items-center px-3 py-2 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-50 dark:hover:bg-gray-700 dark:hover:bg-gray-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
                         </path>
@@ -230,7 +230,7 @@
                 </a>
 
                 <a href="{{ route('listings.my') }}"
-                    class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
+                    class="flex items-center px-3 py-2 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -240,7 +240,7 @@
 
                 <!-- U sidebar.blade.php -->
                 <a href="{{ route('messages.inbox') }}"
-                    class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
+                    class="flex items-center px-3 py-2 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
@@ -263,7 +263,7 @@
                 </a>
 
                 <a href="{{ route('notifications.index') }}"
-                    class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
+                    class="flex items-center px-3 py-2 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
@@ -287,7 +287,7 @@
                 </a>
                 
                 <a href="{{ route('ratings.my') }}"
-                    class="flex items-center px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 mt-2">
+                    class="flex items-center px-3 py-2 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z">
