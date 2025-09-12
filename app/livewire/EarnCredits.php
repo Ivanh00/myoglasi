@@ -35,6 +35,17 @@ class EarnCredits extends Component
     public $numberCurrent = 0;
     public $numberMoves = 0;
     public $numberCompleted = false;
+    
+    // Puzzle game state
+    public $puzzleTiles = [];
+    public $puzzleMoves = 0;
+    public $puzzleCompleted = false;
+    
+    // Reaction game state
+    public $reactionActive = false;
+    public $reactionTimes = [];
+    public $reactionRound = 0;
+    public $reactionWaiting = false;
 
     public function startGame($gameType)
     {
@@ -69,6 +80,12 @@ class EarnCredits extends Component
                 break;
             case 'number_game':
                 $this->initializeNumberGame();
+                break;
+            case 'puzzle_game':
+                $this->initializePuzzleGame();
+                break;
+            case 'reaction_game':
+                $this->initializeReactionGame();
                 break;
         }
 
@@ -208,6 +225,7 @@ class EarnCredits extends Component
             'number_game' => 'Igru brojeva',
             'puzzle_game' => 'Slagalicu',
             'snake_game' => 'Zmiju',
+            'reaction_game' => 'Igru reakcije',
             default => 'Nepoznatu igru'
         };
     }
@@ -218,8 +236,9 @@ class EarnCredits extends Component
             'click_game' => min(10, floor($score / 10)), // 1 credit per 10 clicks, max 10
             'memory_game' => min(15, floor($score / 2)), // More credits for memory, max 15
             'number_game' => min(20, $score), // 1 credit per correct answer, max 20
-            'puzzle_game' => min(12, floor((100 - $score) / 5)), // Fewer moves = more credits, max 12
+            'puzzle_game' => min(15, floor((100 - $score) / 5)), // Fewer moves = more credits, max 15
             'snake_game' => min(25, floor($score / 3)), // 1 credit per 3 food items, max 25
+            'reaction_game' => min(18, floor(1000 / max(1, $score))), // Faster reaction = more credits, max 18
             default => 0
         };
     }
@@ -373,6 +392,117 @@ class EarnCredits extends Component
         }
     }
 
+    // Puzzle Game Methods
+    public function initializePuzzleGame()
+    {
+        // Create shuffled 3x3 puzzle (numbers 1-8 with one empty space)
+        $this->puzzleTiles = [1, 2, 3, 4, 5, 6, 7, 8, 0]; // 0 = empty space
+        
+        // Shuffle the tiles
+        do {
+            shuffle($this->puzzleTiles);
+        } while ($this->isPuzzleSolved()); // Make sure it's not already solved
+        
+        $this->puzzleMoves = 0;
+        $this->puzzleCompleted = false;
+        $this->timeLeft = 180; // 3 minutes for puzzle
+    }
+
+    public function movePuzzleTile($index)
+    {
+        if (!$this->gameActive || $this->selectedGame !== 'puzzle_game') return;
+
+        $emptyIndex = array_search(0, $this->puzzleTiles);
+        
+        // Check if tile can move (adjacent to empty space)
+        $canMove = false;
+        $emptyRow = floor($emptyIndex / 3);
+        $emptyCol = $emptyIndex % 3;
+        $tileRow = floor($index / 3);
+        $tileCol = $index % 3;
+        
+        if (($emptyRow === $tileRow && abs($emptyCol - $tileCol) === 1) ||
+            ($emptyCol === $tileCol && abs($emptyRow - $tileRow) === 1)) {
+            $canMove = true;
+        }
+
+        if ($canMove) {
+            // Swap tiles
+            $temp = $this->puzzleTiles[$index];
+            $this->puzzleTiles[$index] = $this->puzzleTiles[$emptyIndex];
+            $this->puzzleTiles[$emptyIndex] = $temp;
+            
+            $this->puzzleMoves++;
+            
+            // Check if solved
+            if ($this->isPuzzleSolved()) {
+                $this->puzzleCompleted = true;
+                $this->gameScore = max(0, 100 - $this->puzzleMoves); // Fewer moves = higher score
+                $this->completeGame();
+            }
+        }
+    }
+
+    private function isPuzzleSolved()
+    {
+        $solved = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+        return $this->puzzleTiles === $solved;
+    }
+
+    // Reaction Game Methods
+    public function initializeReactionGame()
+    {
+        $this->reactionTimes = [];
+        $this->reactionRound = 0;
+        $this->reactionActive = false;
+        $this->reactionWaiting = false;
+        $this->timeLeft = 60; // 60 seconds for reaction game
+    }
+
+    public function startReactionRound()
+    {
+        if (!$this->gameActive || $this->selectedGame !== 'reaction_game') return;
+
+        $this->reactionWaiting = true;
+        $this->reactionActive = false;
+        
+        // Random delay before showing green button (1-5 seconds)
+        $this->dispatch('startReactionTimer', ['delay' => rand(1000, 5000)]);
+    }
+
+    public function showReactionButton()
+    {
+        $this->reactionActive = true;
+        $this->reactionWaiting = false;
+        $this->dispatch('reactionButtonShown');
+    }
+
+    public function reactionClick()
+    {
+        if (!$this->reactionActive) return;
+
+        $this->reactionActive = false;
+        $this->reactionRound++;
+        
+        // Record reaction time (will be handled by JavaScript)
+        $this->dispatch('recordReactionTime');
+        
+        if ($this->reactionRound >= 5) {
+            // Game completed after 5 rounds
+            $avgTime = array_sum($this->reactionTimes) / count($this->reactionTimes);
+            $this->gameScore = floor($avgTime); // Lower time = better score
+            $this->completeGame();
+        } else {
+            // Start next round
+            $this->startReactionRound();
+        }
+    }
+
+    public function addReactionTime($time)
+    {
+        $this->reactionTimes[] = $time;
+    }
+
     public function getTodaysEarningsProperty()
     {
         return DailyEarning::getTodaysEarnings(auth()->id());
@@ -391,14 +521,14 @@ class EarnCredits extends Component
     public function render()
     {
         $recentEarnings = DailyEarning::where('user_id', auth()->id())
-            ->whereIn('type', ['games', 'game_leaderboard_click_game', 'game_leaderboard_memory_game', 'game_leaderboard_number_game', 'game_leaderboard_puzzle_game', 'game_leaderboard_snake_game'])
+            ->whereIn('type', ['games', 'game_leaderboard_click_game', 'game_leaderboard_memory_game', 'game_leaderboard_number_game', 'game_leaderboard_puzzle_game', 'game_leaderboard_snake_game', 'game_leaderboard_reaction_game'])
             ->whereDate('date', '>=', now()->subDays(7))
             ->orderBy('date', 'desc')
             ->get();
 
         // Get today's leaderboard for each game
         $todaysLeaderboard = [];
-        $gameTypes = ['click_game', 'memory_game', 'number_game', 'puzzle_game', 'snake_game'];
+        $gameTypes = ['click_game', 'memory_game', 'number_game', 'puzzle_game', 'snake_game', 'reaction_game'];
         
         foreach ($gameTypes as $gameType) {
             $topPlayers = GameSession::where('game_type', $gameType)

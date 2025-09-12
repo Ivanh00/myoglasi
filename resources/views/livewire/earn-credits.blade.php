@@ -97,6 +97,28 @@
                         <p class="text-sm text-gray-600 mb-3">Skupljaj hranu i rasti</p>
                         <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Do 25 RSD</span>
                     </div>
+
+                    <!-- Puzzle Game -->
+                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-orange-500 hover:bg-orange-50 transition-all cursor-pointer"
+                         wire:click="startGame('puzzle_game')">
+                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-puzzle-piece text-orange-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Slagalica</h3>
+                        <p class="text-sm text-gray-600 mb-3">Složi sliku u što manje poteza</p>
+                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">Do 15 RSD</span>
+                    </div>
+
+                    <!-- Reaction Game -->
+                    <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-pink-500 hover:bg-pink-50 transition-all cursor-pointer"
+                         wire:click="startGame('reaction_game')">
+                        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-stopwatch text-pink-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Reakcija</h3>
+                        <p class="text-sm text-gray-600 mb-3">Klikni čim se pojavi zeleno</p>
+                        <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded-full">Do 18 RSD</span>
+                    </div>
                 </div>
             </div>
         @endif
@@ -266,6 +288,77 @@
             </div>
         @endif
 
+        <!-- Puzzle Game -->
+        @if($gameActive && $selectedGame === 'puzzle_game')
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Slagalica</h2>
+                    
+                    <div class="mb-6">
+                        <div class="text-lg font-bold text-orange-600 mb-2">Potezi: {{ $puzzleMoves }}</div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-1 max-w-xs mx-auto mb-6">
+                        @foreach($puzzleTiles as $index => $tile)
+                            <div wire:click="movePuzzleTile({{ $index }})"
+                                 class="w-16 h-16 border-2 border-gray-300 rounded-lg cursor-pointer transition-all transform hover:scale-105 flex items-center justify-center
+                                 @if($tile === 0)
+                                     bg-gray-100
+                                 @else
+                                     bg-orange-100 hover:bg-orange-200
+                                 @endif">
+                                @if($tile !== 0)
+                                    <span class="text-xl font-bold text-orange-600">{{ $tile }}</span>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                    <div class="text-sm text-gray-600">Kliknite na pločice da ih pomerite ka praznom mestu!</div>
+                    <div class="text-xs text-gray-500 mt-2">Cilj: Poređajte brojeve od 1 do 8</div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Reaction Game -->
+        @if($gameActive && $selectedGame === 'reaction_game')
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Igra reakcije</h2>
+                    
+                    <div class="mb-6">
+                        <div class="text-lg font-bold text-pink-600 mb-2">Runda: {{ $reactionRound + 1 }}/5</div>
+                        @if(count($reactionTimes) > 0)
+                            <div class="text-sm text-gray-600">Prosečno vreme: {{ number_format(array_sum($reactionTimes) / count($reactionTimes), 0) }}ms</div>
+                        @endif
+                    </div>
+
+                    <div class="max-w-sm mx-auto mb-6">
+                        @if($reactionWaiting)
+                            <div class="w-32 h-32 bg-red-500 rounded-full flex items-center justify-center mx-auto">
+                                <span class="text-white font-bold text-lg">ČEKAJ...</span>
+                            </div>
+                            <p class="text-gray-600 mt-4">Čekajte da se dugme ozeleni!</p>
+                        @elseif($reactionActive)
+                            <div wire:click="reactionClick" 
+                                 class="w-32 h-32 bg-green-500 rounded-full flex items-center justify-center mx-auto cursor-pointer transform hover:scale-105 transition-all shadow-lg">
+                                <span class="text-white font-bold text-lg">KLIK!</span>
+                            </div>
+                            <p class="text-gray-600 mt-4">KLIKNITE ODMAH!</p>
+                        @else
+                            <button wire:click="startReactionRound" 
+                                    class="w-32 h-32 bg-gray-400 rounded-full flex items-center justify-center mx-auto">
+                                <span class="text-white font-bold text-lg">START</span>
+                            </button>
+                            <p class="text-gray-600 mt-4">Kliknite za početak runde</p>
+                        @endif
+                    </div>
+                    
+                    <div class="text-sm text-gray-600">Kliknite na zeleno dugme što brže možete!</div>
+                </div>
+            </div>
+        @endif
+
         <!-- Game Completed -->
         @if($gameCompleted)
             <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
@@ -313,7 +406,7 @@
             </div>
         </div>
         
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($todaysLeaderboard as $gameType => $players)
                 <div class="border border-gray-200 rounded-lg p-4">
                     <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
@@ -329,9 +422,12 @@
                         @elseif($gameType === 'snake_game')
                             <i class="fas fa-worm text-red-600 mr-2"></i>
                             Zmija
-                        @else
+                        @elseif($gameType === 'puzzle_game')
                             <i class="fas fa-puzzle-piece text-orange-600 mr-2"></i>
                             Slagalica
+                        @else
+                            <i class="fas fa-stopwatch text-pink-600 mr-2"></i>
+                            Reakcija
                         @endif
                     </h3>
                     
