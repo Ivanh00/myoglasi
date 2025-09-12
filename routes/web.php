@@ -284,7 +284,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/listings', \App\Livewire\Admin\ListingManagement::class)->name('listings.index');
     Route::get('/auctions', \App\Livewire\Admin\AuctionManagement::class)->name('auctions.index');
     Route::get('/categories', \App\Livewire\Admin\CategoryManagement::class)->name('categories.index');
-    Route::get('/service-categories', \App\Livewire\Admin\ServiceCategoryManagement::class)->name('admin.service-categories.index');
+    Route::get('/service-categories', \App\Livewire\Admin\ServiceCategoryManagement::class)->name('service-categories.index');
     Route::get('/conditions', \App\Livewire\Admin\ConditionManagement::class)->name('conditions.index');
     Route::get('/messages', \App\Livewire\Admin\MessageManagement::class)->name('messages.index');
     Route::get('/transactions', \App\Livewire\Admin\TransactionManagement::class)->name('transactions.index');
