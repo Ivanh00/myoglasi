@@ -54,24 +54,27 @@ $login = function () {
             </label>
         </div>
 
-        <div class="flex items-center justify-between mt-4">
-            <div class="flex items-center space-x-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}" wire:navigate>
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-                
-                @if (Route::has('register'))
-                    <a class="underline text-sm text-blue-600 hover:text-blue-800 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" href="{{ route('register') }}" wire:navigate>
-                        Nema nalog? Registruj se
-                    </a>
-                @endif
-            </div>
-
+        <div class="flex items-center justify-end mt-4">
             <x-primary-button>
                 {{ __('Log in') }}
             </x-primary-button>
+        </div>
+        
+        <!-- Auth Links Below Button -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4 pt-4 border-t border-gray-200">
+            @if (Route::has('password.request'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
+                    <i class="fas fa-key mr-1"></i>
+                    {{ __('Forgot your password?') }}
+                </a>
+            @endif
+            
+            @if (Route::has('register'))
+                <a class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" href="{{ route('register') }}" wire:navigate>
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Nemaš nalog? Registruj se
+                </a>
+            @endif
         </div>
     </form>
 </div>
