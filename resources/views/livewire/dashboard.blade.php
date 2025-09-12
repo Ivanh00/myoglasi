@@ -14,26 +14,26 @@
                 $currentActive = $stats['active_listings_count'];
                 $percentage = ($currentActive / $activeLimit) * 100;
             @endphp
-            <div class="mt-4 p-4 {{ $stats['can_create_listing'] ? 'bg-blue-50 border-blue-200' : 'bg-red-50 border-red-200' }} border rounded-lg">
+            <div class="mt-4 p-4 {{ $stats['can_create_listing'] ? 'bg-blue-100 dark:bg-blue-900 border-blue-300 dark:border-blue-700' : 'bg-red-100 dark:bg-red-900 border-red-300 dark:border-red-700' }} border rounded-lg">
                 <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center">
                         <i class="fas fa-chart-pie {{ $stats['can_create_listing'] ? 'text-blue-600' : 'text-red-600' }} mr-2"></i>
-                        <span class="font-medium {{ $stats['can_create_listing'] ? 'text-blue-900' : 'text-red-900' }}">
+                        <span class="font-medium {{ $stats['can_create_listing'] ? 'text-blue-900 dark:text-blue-200' : 'text-red-900 dark:text-red-200' }}">
                             Aktivni oglasi: {{ $currentActive }} od {{ $activeLimit }} dostupnih
                         </span>
                     </div>
-                    <span class="text-sm {{ $stats['can_create_listing'] ? 'text-blue-700' : 'text-red-700' }} font-medium">
+                    <span class="text-sm {{ $stats['can_create_listing'] ? 'text-blue-700 dark:text-blue-300' : 'text-red-700 dark:text-red-300' }} font-medium">
                         {{ $stats['remaining_listings'] }} slobodno
                     </span>
                 </div>
                 
                 <!-- Progress Bar -->
                 <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="h-2 rounded-full {{ $percentage >= 100 ? 'bg-red-500' : ($percentage >= 80 ? 'bg-yellow-500' : 'bg-blue-500') }}" 
+                    <div class="h-2 rounded-full {{ $percentage >= 100 ? 'bg-red-100 dark:bg-red-9000' : ($percentage >= 80 ? 'bg-yellow-100 dark:bg-yellow-9000' : 'bg-blue-100 dark:bg-blue-9000') }}" 
                          style="width: {{ min($percentage, 100) }}%"></div>
                 </div>
                 
-                <p class="text-xs {{ $stats['can_create_listing'] ? 'text-blue-700' : 'text-red-700' }} mt-2">
+                <p class="text-xs {{ $stats['can_create_listing'] ? 'text-blue-700 dark:text-blue-300' : 'text-red-700 dark:text-red-300' }} mt-2">
                     @if($stats['can_create_listing'])
                         💡 Možete postaviti još {{ $stats['remaining_listings'] }} oglasa. Kada oglas istekne ili se obriše, možete postaviti novi.
                     @else
@@ -123,49 +123,49 @@
         </h2>
         
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg border border-blue-300 dark:border-blue-700">
                 <div class="flex items-center">
                     <div class="p-2 bg-blue-100 rounded-lg mr-3">
                         <i class="fas fa-plus text-blue-600"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-blue-900">Novi oglasi</p>
+                        <p class="text-sm font-medium text-blue-900 dark:text-blue-200">Novi oglasi</p>
                         <p class="text-2xl font-bold text-blue-600">{{ $monthlyStats['listings_this_month'] }}</p>
                     </div>
                 </div>
             </div>
             
-            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+            <div class="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg border border-yellow-300 dark:border-yellow-700">
                 <div class="flex items-center">
                     <div class="p-2 bg-yellow-100 rounded-lg mr-3">
                         <i class="fas fa-gavel text-yellow-600"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-yellow-900">Nove aukcije</p>
+                        <p class="text-sm font-medium text-yellow-900 dark:text-yellow-200">Nove aukcije</p>
                         <p class="text-2xl font-bold text-yellow-600">{{ $monthlyStats['auctions_this_month'] }}</p>
                     </div>
                 </div>
             </div>
             
-            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+            <div class="bg-red-100 dark:bg-red-900 p-4 rounded-lg border border-red-300 dark:border-red-700">
                 <div class="flex items-center">
                     <div class="p-2 bg-red-100 rounded-lg mr-3">
                         <i class="fas fa-shopping-cart text-red-600"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-red-900">Potrošeno</p>
+                        <p class="text-sm font-medium text-red-900 dark:text-red-200">Potrošeno</p>
                         <p class="text-2xl font-bold text-red-600">{{ number_format($monthlyStats['spent_this_month'], 0) }}</p>
                     </div>
                 </div>
             </div>
             
-            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+            <div class="bg-purple-100 dark:bg-purple-900 p-4 rounded-lg border border-purple-300 dark:border-purple-700">
                 <div class="flex items-center">
                     <div class="p-2 bg-purple-100 rounded-lg mr-3">
                         <i class="fas fa-comments text-purple-600"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-purple-900">Poruke</p>
+                        <p class="text-sm font-medium text-purple-900 dark:text-purple-200">Poruke</p>
                         <p class="text-2xl font-bold text-purple-600">{{ $monthlyStats['messages_this_month'] }}</p>
                     </div>
                 </div>
@@ -184,10 +184,10 @@
             
             <div class="space-y-3">
                 <a href="{{ route('listings.create') }}" 
-                   class="flex items-center p-3 {{ $stats['can_create_listing'] ? 'bg-green-50 border-green-200 hover:bg-green-100' : 'bg-red-50 border-red-200' }} border rounded-lg transition-colors">
+                   class="flex items-center p-3 {{ $stats['can_create_listing'] ? 'bg-green-100 dark:bg-green-900 border-green-300 dark:border-green-700 hover:bg-green-100' : 'bg-red-100 dark:bg-red-900 border-red-300 dark:border-red-700' }} border rounded-lg transition-colors">
                     <i class="fas fa-plus {{ $stats['can_create_listing'] ? 'text-green-600' : 'text-red-600' }} mr-3"></i>
                     <div>
-                        <div class="font-medium {{ $stats['can_create_listing'] ? 'text-green-900' : 'text-red-900' }}">
+                        <div class="font-medium {{ $stats['can_create_listing'] ? 'text-green-900 dark:text-green-200' : 'text-red-900 dark:text-red-200' }}">
                             Postavi novi oglas
                             @if(!auth()->user()->payment_enabled)
                                 <span class="text-xs {{ $stats['can_create_listing'] ? 'text-green-600' : 'text-red-600' }}">
@@ -195,7 +195,7 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="text-sm {{ $stats['can_create_listing'] ? 'text-green-700' : 'text-red-700' }}">
+                        <div class="text-sm {{ $stats['can_create_listing'] ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300' }}">
                             @if($stats['can_create_listing'])
                                 Kreiraj novi oglas za prodaju
                             @else
@@ -206,20 +206,20 @@
                 </a>
                 
                 <a href="{{ route('auctions.index') }}" 
-                   class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg hover:bg-yellow-100 transition-colors">
+                   class="flex items-center p-3 bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded-lg hover:bg-yellow-100 transition-colors">
                     <i class="fas fa-search text-yellow-600 mr-3"></i>
                     <div>
-                        <div class="font-medium text-yellow-900">Pretraži aukcije</div>
-                        <div class="text-sm text-yellow-700">Pronađi najbolje ponude</div>
+                        <div class="font-medium text-yellow-900 dark:text-yellow-200">Pretraži aukcije</div>
+                        <div class="text-sm text-yellow-700 dark:text-yellow-300">Pronađi najbolje ponude</div>
                     </div>
                 </a>
                 
                 <a href="{{ route('favorites.index') }}" 
-                   class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors">
+                   class="flex items-center p-3 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-lg hover:bg-red-100 transition-colors">
                     <i class="fas fa-heart text-red-600 mr-3"></i>
                     <div>
-                        <div class="font-medium text-red-900">Omiljeni oglasi</div>
-                        <div class="text-sm text-red-700">{{ $stats['favorites_count'] }} sačuvanih oglasa</div>
+                        <div class="font-medium text-red-900 dark:text-red-200">Omiljeni oglasi</div>
+                        <div class="text-sm text-red-700 dark:text-red-300">{{ $stats['favorites_count'] }} sačuvanih oglasa</div>
                     </div>
                 </a>
             </div>
@@ -234,7 +234,7 @@
             
             <div class="space-y-3">
                 @foreach($activity['recent_listings']->take(3) as $listing)
-                    <div class="flex items-center p-2 border-l-4 border-blue-500 bg-blue-50 rounded">
+                    <div class="flex items-center p-2 border-l-4 border-blue-500 bg-blue-100 dark:bg-blue-900 rounded">
                         <div class="flex-shrink-0 w-10 h-10 mr-3">
                             @if($listing->images->count() > 0)
                                 <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}" 
@@ -306,20 +306,20 @@
 
                 <!-- Notifications -->
                 @if($stats['unread_notifications'] > 0)
-                    <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-200">
+                    <div class="flex items-center justify-between p-3 bg-red-100 dark:bg-red-900 rounded-lg border border-red-300 dark:border-red-700">
                         <div>
-                            <div class="font-medium text-red-900">Obaveštenja</div>
-                            <div class="text-sm text-red-700">{{ $stats['unread_notifications'] }} novo</div>
+                            <div class="font-medium text-red-900 dark:text-red-200">Obaveštenja</div>
+                            <div class="text-sm text-red-700 dark:text-red-300">{{ $stats['unread_notifications'] }} novo</div>
                         </div>
                         <i class="fas fa-bell text-red-600"></i>
                     </div>
                 @endif
 
                 <!-- Balance -->
-                <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
+                <div class="flex items-center justify-between p-3 bg-green-100 dark:bg-green-900 rounded-lg border border-green-300 dark:border-green-700">
                     <div>
-                        <div class="font-medium text-green-900">Balans</div>
-                        <div class="text-sm text-green-700">{{ number_format($stats['current_balance'], 0) }} RSD</div>
+                        <div class="font-medium text-green-900 dark:text-green-200">Balans</div>
+                        <div class="text-sm text-green-700 dark:text-green-300">{{ number_format($stats['current_balance'], 0) }} RSD</div>
                     </div>
                     <i class="fas fa-coins text-green-600"></i>
                 </div>
@@ -342,7 +342,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 @foreach($activity['recent_auctions'] as $auction)
-                    <div class="border border-yellow-200 rounded-lg p-4 bg-yellow-50">
+                    <div class="border border-yellow-300 dark:border-yellow-700 rounded-lg p-4 bg-yellow-100 dark:bg-yellow-900">
                         <div class="flex items-center mb-3">
                             @if($auction->listing->images->count() > 0)
                                 <img src="{{ $auction->listing->images->first()->url }}" alt="{{ $auction->listing->title }}" 
@@ -434,41 +434,41 @@
             <div class="space-y-4">
                 <!-- Auction Wins -->
                 @if($stats['won_auctions'] > 0)
-                    <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <div class="flex items-center p-3 bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded-lg">
                         <i class="fas fa-crown text-yellow-600 mr-3"></i>
                         <div>
-                            <div class="font-medium text-yellow-900">Pobede na aukcijama</div>
-                            <div class="text-sm text-yellow-700">{{ $stats['won_auctions'] }} pobedničkih aukcija</div>
+                            <div class="font-medium text-yellow-900 dark:text-yellow-200">Pobede na aukcijama</div>
+                            <div class="text-sm text-yellow-700 dark:text-yellow-300">{{ $stats['won_auctions'] }} pobedničkih aukcija</div>
                         </div>
                     </div>
                 @endif
 
                 <!-- Ratings Achievement -->
                 @if($stats['total_ratings'] > 0)
-                    <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <div class="flex items-center p-3 bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded-lg">
                         <i class="fas fa-thumbs-up text-green-600 mr-3"></i>
                         <div>
-                            <div class="font-medium text-green-900">Pozitivne ocene</div>
-                            <div class="text-sm text-green-700">{{ round(($stats['positive_ratings'] / $stats['total_ratings']) * 100) }}% pozitivnih ocena</div>
+                            <div class="font-medium text-green-900 dark:text-green-200">Pozitivne ocene</div>
+                            <div class="text-sm text-green-700 dark:text-green-300">{{ round(($stats['positive_ratings'] / $stats['total_ratings']) * 100) }}% pozitivnih ocena</div>
                         </div>
                     </div>
                 @endif
 
                 <!-- Account Age -->
-                <div class="flex items-center p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="flex items-center p-3 bg-blue-100 dark:bg-blue-900 border border-blue-300 dark:border-blue-700 rounded-lg">
                     <i class="fas fa-calendar text-blue-600 mr-3"></i>
                     <div>
-                        <div class="font-medium text-blue-900">Član od</div>
-                        <div class="text-sm text-blue-700">{{ auth()->user()->created_at->format('F Y') }}</div>
+                        <div class="font-medium text-blue-900 dark:text-blue-200">Član od</div>
+                        <div class="text-sm text-blue-700 dark:text-blue-300">{{ auth()->user()->created_at->format('F Y') }}</div>
                     </div>
                 </div>
 
                 <!-- Verification Status -->
-                <div class="flex items-center p-3 {{ auth()->user()->isVerified() ? 'bg-green-50 border-green-200' : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600' }} border rounded-lg">
+                <div class="flex items-center p-3 {{ auth()->user()->isVerified() ? 'bg-green-100 dark:bg-green-900 border-green-300 dark:border-green-700' : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600' }} border rounded-lg">
                     <i class="fas fa-shield-check {{ auth()->user()->isVerified() ? 'text-green-600' : 'text-gray-400' }} mr-3"></i>
                     <div>
-                        <div class="font-medium {{ auth()->user()->isVerified() ? 'text-green-900' : 'text-gray-700 dark:text-gray-200' }}">Verifikacija</div>
-                        <div class="text-sm {{ auth()->user()->isVerified() ? 'text-green-700' : 'text-gray-500' }}">
+                        <div class="font-medium {{ auth()->user()->isVerified() ? 'text-green-900 dark:text-green-200' : 'text-gray-700 dark:text-gray-200' }}">Verifikacija</div>
+                        <div class="text-sm {{ auth()->user()->isVerified() ? 'text-green-700 dark:text-green-300' : 'text-gray-500' }}">
                             {{ auth()->user()->verification_status_text }}
                         </div>
                     </div>

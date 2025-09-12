@@ -44,7 +44,7 @@
                     @if(!auth()->user()->is_admin)
                         <div>
                             <a href="{{ route('listings.create') }}"
-                                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-green-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-green-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
                                 <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -57,7 +57,7 @@
                         <div>
                             <a href="{{ route('admin.dashboard') }}"
                                 class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 dark:border-gray-600 rounded-full shadow-sm bg-white dark:bg-gray-700 hover:bg-blue-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-                                <i class="fas fa-cog text-gray-700 dark:text-gray-200 dark:text-gray-200 text-lg"></i>
+                                <i class="fas fa-cog text-gray-700 dark:text-gray-200 text-lg"></i>
                             </a>
                         </div>
                     @endif
@@ -77,10 +77,10 @@
                                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                         </div>
                                     @endif
-                                    <span class="ml-2 text-gray-700 dark:text-gray-200 dark:text-gray-200 text-sm font-medium">
+                                    <span class="ml-2 text-gray-700 dark:text-gray-200 text-sm font-medium">
                                         {{ auth()->user()->name }}
                                     </span>
-                                    <svg class="ml-1 h-4 w-4 text-gray-700 dark:text-gray-200 dark:text-gray-200" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="ml-1 h-4 w-4 text-gray-700 dark:text-gray-200" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
                                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                             clip-rule="evenodd" />
@@ -175,7 +175,7 @@
                     <!-- Login/Register links -->
                     <div class="flex space-x-2">
                         <a href="{{ route('login') }}"
-                            class="text-gray-700 dark:text-gray-200 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-sm font-medium">
+                            class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-sm font-medium">
                             Prijavi se
                         </a>
                         <a href="{{ route('register') }}"
