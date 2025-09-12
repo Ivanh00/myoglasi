@@ -77,4 +77,9 @@ $login = function () {
             @endif
         </div>
     </form>
+    
+    <!-- Magic Link Component -->
+    <div class="mt-6">
+        @livewire('auth.magic-login')
+    </div>
 </div>

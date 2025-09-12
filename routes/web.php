@@ -130,6 +130,9 @@ Route::get('dashboard', \App\Livewire\Dashboard::class)
 
 require __DIR__.'/auth.php';
 
+// Magic Link Authentication
+Route::get('/auth/magic-login/{token}', [App\Http\Controllers\Auth\MagicLoginController::class, 'login'])->name('auth.magic-login');
+
 // API routes for frontend
 Route::get('/api/categories/{category}/subcategories', function($categoryId) {
     $subcategories = \App\Models\Category::where('parent_id', $categoryId)
