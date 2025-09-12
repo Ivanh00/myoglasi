@@ -396,8 +396,8 @@
                         <div class="flex items-center justify-between p-3 border rounded-lg">
                             <div class="flex items-center">
                                 <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3
-                                    {{ $transaction->amount > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' }}">
-                                    <i class="fas {{ $transaction->amount > 0 ? 'fa-plus' : 'fa-minus' }}"></i>
+                                    {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' }}">
+                                    <i class="fas {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? 'fa-plus' : 'fa-minus' }}"></i>
                                 </div>
                                 <div>
                                     <div class="font-medium text-gray-900">{{ Str::limit($transaction->description, 30) }}</div>
@@ -405,8 +405,8 @@
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="font-bold {{ $transaction->amount > 0 ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $transaction->amount > 0 ? '+' : '' }}{{ number_format($transaction->amount, 0) }} RSD
+                                <div class="font-bold {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? '+' : '-' }}{{ number_format(abs($transaction->amount), 0) }} RSD
                                 </div>
                             </div>
                         </div>
