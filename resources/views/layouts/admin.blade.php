@@ -21,6 +21,242 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- Dark Mode Script (must be in head to prevent flash) -->
+    <script>
+        // Check for saved theme preference or default to system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+    
+    <!-- Admin Panel Dark Mode Styles -->
+    <style>
+        /* Admin Navigation Bar Dark Mode */
+        .dark nav.bg-gray-800 {
+            background-color: rgb(17 24 39) !important; /* gray-900 - darker */
+            border-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        .dark nav .text-gray-300 {
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
+        .dark nav .text-gray-300:hover {
+            color: rgb(255 255 255) !important; /* white */
+        }
+        
+        .dark nav .hover\\:bg-gray-700:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        /* Admin Dropdown Dark Mode */
+        .dark nav .bg-white {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark nav .text-gray-700 {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark nav .hover\\:bg-gray-100:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        /* Mobile User Menu Dark Mode */
+        .dark #mobile-admin-user-menu {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark #mobile-admin-user-menu .text-gray-500 {
+            color: rgb(156 163 175) !important; /* gray-400 */
+        }
+        
+        .dark #mobile-admin-user-menu .text-gray-700 {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark #mobile-admin-user-menu .border-gray-200 {
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark #mobile-admin-user-menu .hover\\:bg-gray-100:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        .dark #mobile-admin-user-menu .hover\\:bg-red-50:hover {
+            background-color: rgb(127 29 29) !important; /* red-900 */
+        }
+        
+        /* Admin Sidebar Dark Mode */
+        .dark aside.bg-white {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+        }
+        
+        .dark aside .text-gray-700 {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark aside .hover\\:bg-gray-100:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        /* Active sidebar item dark mode */
+        .dark aside .bg-blue-50 {
+            background-color: rgb(30 58 138) !important; /* blue-900 */
+        }
+        
+        .dark aside .text-blue-700 {
+            color: rgb(147 197 253) !important; /* blue-300 */
+        }
+        
+        /* Main content area dark mode */
+        .dark main {
+            background-color: rgb(17 24 39) !important; /* gray-900 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        /* Admin notification cards dark mode */
+        .dark .bg-green-500, .dark .bg-red-500, .dark .bg-blue-500, .dark .bg-gray-500 {
+            /* Keep notification colors as they are for visibility */
+        }
+        
+        /* General Admin Content Dark Mode Styles */
+        .dark .bg-white {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+        }
+        
+        .dark .text-gray-900 {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark .text-gray-800 {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark .text-gray-700 {
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
+        .dark .text-gray-600 {
+            color: rgb(156 163 175) !important; /* gray-400 */
+        }
+        
+        .dark .text-gray-500 {
+            color: rgb(156 163 175) !important; /* gray-400 */
+        }
+        
+        .dark .border-gray-200 {
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark .border-gray-300 {
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark .bg-gray-50 {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        .dark .bg-gray-100 {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        .dark .hover\\:bg-gray-50:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        .dark .hover\\:bg-gray-100:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        /* Admin buttons dark mode */
+        .dark .bg-blue-600 {
+            background-color: rgb(37 99 235) !important; /* blue-600 */
+        }
+        
+        .dark .hover\\:bg-blue-700:hover {
+            background-color: rgb(29 78 216) !important; /* blue-700 */
+        }
+        
+        .dark .bg-red-600 {
+            background-color: rgb(220 38 38) !important; /* red-600 */
+        }
+        
+        .dark .hover\\:bg-red-700:hover {
+            background-color: rgb(185 28 28) !important; /* red-700 */
+        }
+        
+        .dark .bg-green-600 {
+            background-color: rgb(22 163 74) !important; /* green-600 */
+        }
+        
+        .dark .hover\\:bg-green-700:hover {
+            background-color: rgb(21 128 61) !important; /* green-700 */
+        }
+        
+        /* Admin form elements dark mode */
+        .dark input[type="text"], 
+        .dark input[type="email"], 
+        .dark input[type="password"], 
+        .dark input[type="number"], 
+        .dark textarea, 
+        .dark select {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark input:focus, .dark textarea:focus, .dark select:focus {
+            border-color: rgb(59 130 246) !important; /* blue-500 */
+            box-shadow: 0 0 0 1px rgb(59 130 246) !important;
+        }
+        
+        /* Admin table dark mode */
+        .dark table {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+        }
+        
+        .dark th {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark td {
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
+        .dark .bg-yellow-50 {
+            background-color: rgb(120 113 108) !important; /* yellow equivalent */
+        }
+        
+        .dark .text-yellow-800 {
+            color: rgb(254 240 138) !important; /* yellow-200 */
+        }
+        
+        /* Admin badges and status indicators */
+        .dark .bg-red-100 {
+            background-color: rgb(127 29 29) !important; /* red-900 */
+        }
+        
+        .dark .text-red-800 {
+            color: rgb(252 165 165) !important; /* red-300 */
+        }
+        
+        .dark .bg-green-100 {
+            background-color: rgb(20 83 45) !important; /* green-900 */
+        }
+        
+        .dark .text-green-800 {
+            color: rgb(134 239 172) !important; /* green-300 */
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
