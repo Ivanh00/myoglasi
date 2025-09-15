@@ -7,7 +7,9 @@ use Livewire\Component;
 use App\Models\Category;
 use Livewire\WithFileUploads;
 use App\Models\ListingCondition;
+use App\Models\Auction;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Create extends Component
 {
@@ -36,6 +38,15 @@ class Create extends Component
     public $startType = 'immediately';
     public $startDate = '';
     public $startTime = '';
+
+    protected $messages = [
+        'startingPrice.required' => 'Početna cena je obavezna.',
+        'startingPrice.min' => 'Početna cena mora biti najmanje 1 RSD.',
+        'startingPrice.max' => 'Početna cena ne može biti veća od 1.000.000 RSD.',
+        'buyNowPrice.gt' => 'Kupi odmah cena mora biti veća od početne cene.',
+        'startDate.after_or_equal' => 'Datum početka ne može biti u prošlosti.',
+        'startTime.required' => 'Vreme početka je obavezno za zakazanu aukciju.'
+    ];
 
     public function updatedTempImages()
     {
@@ -80,6 +91,10 @@ class Create extends Component
         $user = auth()->user();
         $this->location = $user->city; // Koristimo city iz profila
         $this->contact_phone = $user->phone; // Koristimo phone iz profila
+
+        // Default auction values
+        $this->duration = 7;
+        $this->startType = 'immediately';
         
     }
 
@@ -101,6 +116,13 @@ class Create extends Component
 
     public function save()
     {
+        \Log::info('Save method called', [
+            'listingType' => $this->listingType,
+            'startingPrice' => $this->startingPrice,
+            'duration' => $this->duration,
+            'startType' => $this->startType
+        ]);
+
         $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
         
         $rules = [
@@ -219,11 +241,11 @@ class Create extends Component
         if ($this->listingType === 'auction') {
             $startsAt = $this->startType === 'immediately'
                 ? now()
-                : \Carbon\Carbon::createFromFormat('Y-m-d H:i', $this->startDate . ' ' . $this->startTime);
+                : Carbon::createFromFormat('Y-m-d H:i', $this->startDate . ' ' . $this->startTime);
 
-            $endsAt = $startsAt->copy()->addDays($this->duration);
+            $endsAt = $startsAt->copy()->addDays((int)$this->duration);
 
-            $auction = \App\Models\Auction::create([
+            $auction = Auction::create([
                 'listing_id' => $listing->id,
                 'user_id' => $listing->user_id,
                 'starting_price' => $this->startingPrice,

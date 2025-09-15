@@ -99,18 +99,36 @@
                 @error('listingType')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
+
+                {{-- Debug validation errors --}}
+                @if ($errors->any())
+                    <div class="mt-4 p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
+                        <h4 class="text-red-800 dark:text-red-200 font-medium mb-2">Validation Errors:</h4>
+                        <ul class="text-red-700 dark:text-red-300 text-sm">
+                            @foreach ($errors->all() as $error)
+                                <li>• {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
 
             <!-- Basic Information -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Title -->
                 <div class="md:col-span-2">
-                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
-                        Naslov oglasa <span class="text-red-500">*</span>
+                    <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        @if($listingType === 'auction')
+                            Naslov aukcije <span class="text-red-500">*</span>
+                        @elseif($listingType === 'giveaway')
+                            Naslov poklona <span class="text-red-500">*</span>
+                        @else
+                            Naslov oglasa <span class="text-red-500">*</span>
+                        @endif
                     </label>
                     <input type="text" wire:model="title" id="title"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('title') border-red-500 @enderror"
-                        placeholder="Unesite naslov oglasa (npr. iPhone 13 Pro Max 256GB)">
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('title') border-red-500 @enderror"
+                        placeholder="@if($listingType === 'auction')Unesite naslov aukcije (npr. iPhone 13 Pro Max 256GB)@elseif($listingType === 'giveaway')Unesite naslov poklona@elseUnesite naslov oglasa (npr. iPhone 13 Pro Max 256GB)@endif">
                     @error('title')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -118,13 +136,13 @@
 
                 <!-- Category Selection -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Kategorija <span class="text-red-500">*</span>
                     </label>
 
                     <!-- Main Category -->
                     <select wire:model.live="category_id"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('category_id') border-red-500 @enderror">
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('category_id') border-red-500 @enderror">
                         <option value="">Odaberite glavnu kategoriju</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -134,15 +152,15 @@
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
 
-                    <!-- Subcategory (only for regular listings) -->
-                    @if ($category_id && $listingType === 'listing')
+                    <!-- Subcategory (for listings and auctions) -->
+                    @if ($category_id && in_array($listingType, ['listing', 'auction']))
                         @if ($subcategories && $subcategories->count() > 0)
                             <div class="mt-4">
-                                <label for="subcategory_id" class="block text-sm font-medium text-gray-700">
+                                <label for="subcategory_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                     Podkategorija
                                 </label>
                                 <select wire:model="subcategory_id" id="subcategory_id"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('subcategory_id') border-red-500 @enderror">
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('subcategory_id') border-red-500 @enderror">
                                     <option value="">Odaberite podkategoriju</option>
                                     @foreach ($subcategories as $subcategory)
                                         <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
@@ -153,7 +171,7 @@
                                 @enderror
                             </div>
                         @else
-                            <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-sm">
+                            <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg text-blue-700 dark:text-blue-300 text-sm">
                                 <p><strong>Info:</strong> Odabrana kategorija nema dostupne podkategorije.</p>
                             </div>
                         @endif
@@ -186,27 +204,28 @@
                 </div> --}}
             </div>
 
-            <!-- Condition (only for regular listings) -->
-            @if($listingType === 'listing')
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Stanje <span class="text-red-500">*</span>
-                    </label>
-                    <select wire:model="condition_id"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('condition_id') border-red-500 @enderror">
-                        <option value="">Odaberite stanje</option>
-                        @foreach ($conditions as $condition)
-                            <option value="{{ $condition->id }}">{{ $condition->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('condition_id')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-            @endif
+                <!-- Condition (only for regular listings and auctions) -->
+                @if(in_array($listingType, ['listing', 'auction']))
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Stanje <span class="text-red-500">*</span>
+                        </label>
+                        <select wire:model="condition_id"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('condition_id') border-red-500 @enderror">
+                            <option value="">Odaberite stanje</option>
+                            @foreach ($conditions as $condition)
+                                <option value="{{ $condition->id }}">{{ $condition->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('condition_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                @endif
+            </div>
 
-            <!-- Price (hidden for giveaways) -->
-            @if($listingType !== 'giveaway')
+            <!-- Price (hidden for giveaways and auctions) -->
+            @if($listingType === 'listing')
                 <div>
                     <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Cena (RSD) <span class="text-red-500">*</span>
@@ -280,11 +299,11 @@
                             </label>
                             <div class="space-y-2">
                                 <label class="flex items-center">
-                                    <input type="radio" wire:model="startType" value="immediately" class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
+                                    <input type="radio" wire:model.live="startType" value="immediately" class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
                                     <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Odmah posle objave</span>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="radio" wire:model="startType" value="scheduled" class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
+                                    <input type="radio" wire:model.live="startType" value="scheduled" class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
                                     <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Zakazano vreme</span>
                                 </label>
                             </div>
@@ -461,7 +480,7 @@
                     Otkaži
                 </a>
 
-                <button type="submit" wire:loading.attr="disabled"
+                <button type="submit" wire:loading.attr="disabled" onclick="console.log('Form submit clicked')"
                     class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                     <span wire:loading.remove wire:target="save">
                         @if($listingType === 'giveaway')
