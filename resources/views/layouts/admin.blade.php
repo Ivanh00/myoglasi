@@ -105,6 +105,17 @@
             background-color: rgb(55 65 81) !important; /* gray-700 */
         }
         
+        /* Better hover effects for sidebar links */
+        .dark aside a:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        /* Non-active sidebar link colors */
+        .dark aside a:not(.bg-blue-50) {
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
         /* Active sidebar item dark mode */
         .dark aside .bg-blue-50 {
             background-color: rgb(30 58 138) !important; /* blue-900 */
@@ -354,8 +365,27 @@
 
         <div class="flex">
             <!-- Desktop Sidebar -->
-            <aside class="hidden md:block w-64 bg-white shadow-sm min-h-screen">
+            <aside class="hidden md:block w-64 bg-white dark:bg-gray-800 shadow-sm min-h-screen">
                 <div class="p-6">
+                    <!-- Theme Switcher -->
+                    <div class="mb-6 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                        <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tema</div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="setTheme('light')" 
+                                class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn light-theme
+                                bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-500">
+                                <i class="fas fa-sun mr-1"></i>
+                                Light
+                            </button>
+                            <button onclick="setTheme('dark')" 
+                                class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn dark-theme
+                                bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600">
+                                <i class="fas fa-moon mr-1"></i>
+                                Dark
+                            </button>
+                        </div>
+                    </div>
+                    
                     <nav class="space-y-2">
                         <a href="{{ route('admin.dashboard') }}" 
                            class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-700' : '' }}">
@@ -459,8 +489,27 @@
             </aside>
 
             <!-- Mobile Sidebar -->
-            <aside id="mobile-admin-sidebar" class="fixed left-0 top-16 w-64 bg-white shadow-lg min-h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+            <aside id="mobile-admin-sidebar" class="fixed left-0 top-16 w-64 bg-white dark:bg-gray-800 shadow-lg min-h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
                 <div class="p-6">
+                    <!-- Theme Switcher -->
+                    <div class="mb-6 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                        <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tema</div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="setTheme('light')" 
+                                class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn light-theme
+                                bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-500">
+                                <i class="fas fa-sun mr-1"></i>
+                                Light
+                            </button>
+                            <button onclick="setTheme('dark')" 
+                                class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn dark-theme
+                                bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600">
+                                <i class="fas fa-moon mr-1"></i>
+                                Dark
+                            </button>
+                        </div>
+                    </div>
+                    
                     <nav class="space-y-2">
                         <a href="{{ route('admin.dashboard') }}" 
                            class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-700' : '' }}">
@@ -678,6 +727,45 @@
                 }
             });
         }
+    });
+    
+    // Theme Management - same as user pages
+    function setTheme(theme) {
+        console.log('Setting theme to:', theme);
+        
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            console.log('Dark mode activated');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            console.log('Light mode activated');
+        }
+        
+        // Update button states
+        updateThemeButtons();
+    }
+    
+    function updateThemeButtons() {
+        const isDark = document.documentElement.classList.contains('dark');
+        const lightBtn = document.querySelector('.light-theme');
+        const darkBtn = document.querySelector('.dark-theme');
+        
+        if (lightBtn && darkBtn) {
+            if (isDark) {
+                lightBtn.classList.remove('bg-blue-500', 'text-white');
+                darkBtn.classList.add('bg-blue-500', 'text-white');
+            } else {
+                darkBtn.classList.remove('bg-blue-500', 'text-white');
+                lightBtn.classList.add('bg-blue-500', 'text-white');
+            }
+        }
+    }
+    
+    // Initialize theme buttons on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateThemeButtons();
     });
     </script>
 </body>
