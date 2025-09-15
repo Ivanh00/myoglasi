@@ -662,6 +662,18 @@
             color: rgb(229 231 235) !important; /* gray-200 */
         }
         
+        /* Specific fix for user edit modal cancel button */
+        .dark button.text-gray-600.border {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(209 213 219) !important; /* gray-300 */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark button.text-gray-600.border:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
         /* Cancel buttons with bg-white styling */
         .dark button.bg-white {
             background-color: rgb(55 65 81) !important; /* gray-700 */
