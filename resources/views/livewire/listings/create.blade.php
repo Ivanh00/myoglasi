@@ -14,9 +14,7 @@
                     <span class="text-sm font-medium text-yellow-800">
                         Vaš trenutni balans: <strong>{{ number_format(auth()->user()->balance, 2) }} RSD</strong>
                         | Cena objave: <strong>
-                            @if($listingType === 'service')
-                                {{ \App\Models\Setting::get('service_fee_enabled', true) ? number_format(\App\Models\Setting::get('service_fee_amount', 100), 2) . ' RSD' : 'Besplatno' }}
-                            @elseif($listingType === 'giveaway')
+                            @if($listingType === 'giveaway')
                                 Besplatno
                             @else
                                 {{ \App\Models\Setting::get('listing_fee_enabled') ? number_format(\App\Models\Setting::get('listing_fee_amount', 10), 2) . ' RSD' : 'Besplatno' }}
@@ -43,44 +41,50 @@
 
         <form wire:submit.prevent="save" class="space-y-6">
             <!-- Listing Type Selector -->
-            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <label class="block text-sm font-medium text-gray-700 mb-3">
+            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Tip objave <span class="text-red-500">*</span>
                 </label>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'listing' ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400' }}">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'listing' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500' }}">
                         <input type="radio" wire:model.live="listingType" value="listing" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
                         <div class="ml-3">
                             <div class="flex items-center">
                                 <i class="fas fa-shopping-tag text-blue-600 mr-2"></i>
-                                <span class="text-sm font-medium text-gray-900">Oglas</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Oglas</span>
                             </div>
-                            <p class="text-xs text-gray-500 mt-1">Prodaja proizvoda ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Prodaja proizvoda ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})</p>
                         </div>
                     </label>
 
-                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'service' ? 'border-gray-500 bg-gray-50' : 'border-gray-300 hover:border-gray-400' }}">
-                        <input type="radio" wire:model.live="listingType" value="service" class="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300">
-                        <div class="ml-3">
-                            <div class="flex items-center">
-                                <i class="fas fa-tools text-gray-600 mr-2"></i>
-                                <span class="text-sm font-medium text-gray-900">Usluga</span>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1">Pružanje usluga ({{ \App\Models\Setting::get('service_fee_enabled', true) ? \App\Models\Setting::get('service_fee_amount', 100) . ' RSD' : 'Besplatno' }})</p>
-                        </div>
-                    </label>
-
-                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'giveaway' ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-gray-400' }}">
+                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'giveaway' ? 'border-green-500 bg-green-50 dark:bg-green-900' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500' }}">
                         <input type="radio" wire:model.live="listingType" value="giveaway" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300">
                         <div class="ml-3">
                             <div class="flex items-center">
                                 <i class="fas fa-gift text-green-600 mr-2"></i>
-                                <span class="text-sm font-medium text-gray-900">Poklon</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Poklon</span>
                             </div>
-                            <p class="text-xs text-gray-500 mt-1">Besplatno davanje (Besplatno)</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Besplatno davanje (Besplatno)</p>
                         </div>
                     </label>
                 </div>
+
+                <!-- Info box for services -->
+                <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-blue-600 dark:text-blue-400 mr-2 mt-0.5"></i>
+                        <div class="text-sm">
+                            <p class="text-blue-800 dark:text-blue-200 font-medium">Želite da ponudite uslugu?</p>
+                            <p class="text-blue-700 dark:text-blue-300 mt-1">
+                                Usluge imaju svoju dedikovanoj stranicu.
+                                <a href="{{ route('services.create') }}" class="underline hover:text-blue-900 dark:hover:text-blue-100">
+                                    Kliknite ovde da dodate uslugu
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 @error('listingType')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -193,12 +197,8 @@
             <!-- Price (hidden for giveaways) -->
             @if($listingType !== 'giveaway')
                 <div>
-                    <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
-                        @if($listingType === 'service')
-                            Cena usluge (RSD) <span class="text-red-500">*</span>
-                        @else
-                            Cena (RSD) <span class="text-red-500">*</span>
-                        @endif
+                    <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Cena (RSD) <span class="text-red-500">*</span>
                     </label>
                     <input type="number" wire:model="price" id="price" step="0.01"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('price') border-red-500 @enderror"
@@ -211,18 +211,16 @@
 
             <!-- Description -->
             <div class="mb-6">
-                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
-                    @if($listingType === 'service')
-                        Opis usluge <span class="text-red-500">*</span>
-                    @elseif($listingType === 'giveaway')
+                <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    @if($listingType === 'giveaway')
                         Opis poklona <span class="text-red-500">*</span>
                     @else
                         Opis oglasa <span class="text-red-500">*</span>
                     @endif
                 </label>
                 <textarea wire:model="description" id="description" rows="6"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @enderror"
-                    placeholder="@if($listingType === 'service')Detaljno opišite uslugu koju pružate...@elseif($listingType === 'giveaway')Detaljno opišite šta poklanjate...@elseDetaljno opišite vaš proizvod...@endif"></textarea>
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @enderror"
+                    placeholder="@if($listingType === 'giveaway')Detaljno opišite šta poklanjate...@elseDetaljno opišite vaš proizvod...@endif"></textarea>
                 <div class="flex justify-between items-center mt-1">
                     @error('description')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
@@ -335,9 +333,7 @@
                 <button type="submit" wire:loading.attr="disabled"
                     class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                     <span wire:loading.remove wire:target="save">
-                        @if($listingType === 'service')
-                            Objavi uslugu ({{ \App\Models\Setting::get('service_fee_enabled', true) ? \App\Models\Setting::get('service_fee_amount', 100) . ' RSD' : 'Besplatno' }})
-                        @elseif($listingType === 'giveaway')
+                        @if($listingType === 'giveaway')
                             Objavi poklon (Besplatno)
                         @else
                             Objavi oglas ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})

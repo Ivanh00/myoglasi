@@ -25,7 +25,7 @@ class Create extends Component
     public $conditions = [];
     public $category_id;
     public $subcategory_id;
-    public $listingType = 'listing'; // Default to regular listing
+    public $listingType = 'listing'; // Only listing and giveaway allowed
 
     public $subcategories;
 
@@ -96,7 +96,7 @@ class Create extends Component
         $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
         
         $rules = [
-            'listingType' => 'required|in:listing,service,giveaway',
+            'listingType' => 'required|in:listing,giveaway',
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',
             'category_id' => 'required|exists:categories,id',
@@ -133,32 +133,29 @@ class Create extends Component
         
         // Calculate fee based on listing type
         $fee = 0;
-        if ($this->listingType === 'service' && \App\Models\Setting::get('service_fee_enabled', true)) {
-            $fee = \App\Models\Setting::get('service_fee_amount', 100);
-        } elseif ($this->listingType === 'listing' && !$user->canCreateListingForFree() && $user->payment_plan === 'per_listing') {
+        if ($this->listingType === 'listing' && !$user->canCreateListingForFree() && $user->payment_plan === 'per_listing') {
             $fee = \App\Models\Setting::get('listing_fee_amount', 10);
         }
         // Giveaways are always free
         
         // Check balance if fee is required
         if ($fee > 0 && $user->balance < $fee) {
-            $typeText = $this->listingType === 'service' ? 'usluge' : 'oglasa';
-            session()->flash('error', 'Nemate dovoljno kredita za postavljanje ' . $typeText . '. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+            session()->flash('error', 'Nemate dovoljno kredita za postavljanje oglasa. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
             return redirect()->route('balance.payment-options');
         }
-        
+
         // Charge fee if required
         if ($fee > 0) {
             $user->decrement('balance', $fee);
-            
+
             // Create transaction record
             \App\Models\Transaction::create([
                 'user_id' => $user->id,
-                'type' => $this->listingType === 'service' ? 'service_fee' : 'listing_fee',
+                'type' => 'listing_fee',
                 'amount' => $fee,
                 'status' => 'completed',
-                'description' => 'Naplaćivanje za objavljivanje ' . ($this->listingType === 'service' ? 'usluge' : 'oglasa') . ': ' . $this->title,
-                'reference_number' => 'FEE-' . now()->timestamp,
+                'description' => 'Naplaćivanje za objavljivanje oglasa: ' . $this->title,
+                'reference_number' => 'LISTING-FEE-' . now()->timestamp,
             ]);
         }
 
