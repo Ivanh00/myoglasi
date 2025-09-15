@@ -241,6 +241,124 @@
             background-color: rgb(21 128 61) !important; /* green-700 */
         }
         
+        .dark .bg-yellow-600 {
+            background-color: rgb(202 138 4) !important; /* yellow-600 */
+        }
+        
+        .dark .hover\\:bg-yellow-700:hover {
+            background-color: rgb(161 98 7) !important; /* yellow-700 */
+        }
+        
+        .dark .bg-purple-600 {
+            background-color: rgb(147 51 234) !important; /* purple-600 */
+        }
+        
+        .dark .hover\\:bg-purple-700:hover {
+            background-color: rgb(126 34 206) !important; /* purple-700 */
+        }
+        
+        /* Small buttons and links hover effects */
+        .dark .hover\\:bg-gray-50:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        .dark .hover\\:bg-red-50:hover {
+            background-color: rgb(127 29 29) !important; /* red-900 */
+        }
+        
+        .dark .hover\\:text-gray-800:hover {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark .hover\\:text-gray-700:hover {
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        /* Action button text colors - same as user pages */
+        .dark .text-blue-600 {
+            color: rgb(96 165 250) !important; /* blue-400 */
+        }
+        
+        .dark .text-blue-400 {
+            color: rgb(96 165 250) !important; /* blue-400 */
+        }
+        
+        .dark .hover\\:text-blue-800:hover, .dark .hover\\:text-blue-300:hover {
+            color: rgb(191 219 254) !important; /* blue-200 - even lighter on hover */
+        }
+        
+        .dark .text-indigo-600 {
+            color: rgb(129 140 248) !important; /* indigo-400 */
+        }
+        
+        .dark .text-indigo-400 {
+            color: rgb(129 140 248) !important; /* indigo-400 */
+        }
+        
+        .dark .hover\\:text-indigo-800:hover, .dark .hover\\:text-indigo-300:hover {
+            color: rgb(199 210 254) !important; /* indigo-200 - even lighter on hover */
+        }
+        
+        .dark .text-green-600 {
+            color: rgb(74 222 128) !important; /* green-400 */
+        }
+        
+        .dark .text-green-400 {
+            color: rgb(74 222 128) !important; /* green-400 */
+        }
+        
+        .dark .hover\\:text-green-800:hover, .dark .hover\\:text-green-300:hover {
+            color: rgb(187 247 208) !important; /* green-200 - even lighter on hover */
+        }
+        
+        .dark .text-orange-600 {
+            color: rgb(251 146 60) !important; /* orange-400 */
+        }
+        
+        .dark .text-orange-400 {
+            color: rgb(251 146 60) !important; /* orange-400 */
+        }
+        
+        .dark .hover\\:text-orange-800:hover, .dark .hover\\:text-orange-300:hover {
+            color: rgb(254 215 170) !important; /* orange-200 - even lighter on hover */
+        }
+        
+        .dark .text-yellow-600 {
+            color: rgb(250 204 21) !important; /* yellow-400 */
+        }
+        
+        .dark .text-yellow-400 {
+            color: rgb(250 204 21) !important; /* yellow-400 */
+        }
+        
+        .dark .hover\\:text-yellow-800:hover, .dark .hover\\:text-yellow-300:hover {
+            color: rgb(254 240 138) !important; /* yellow-200 - even lighter on hover */
+        }
+        
+        .dark .text-red-600 {
+            color: rgb(248 113 113) !important; /* red-400 */
+        }
+        
+        .dark .text-red-400 {
+            color: rgb(248 113 113) !important; /* red-400 */
+        }
+        
+        .dark .hover\\:text-red-800:hover, .dark .hover\\:text-red-300:hover {
+            color: rgb(254 202 202) !important; /* red-200 - even lighter on hover */
+        }
+        
+        .dark .text-purple-600 {
+            color: rgb(168 85 247) !important; /* purple-400 */
+        }
+        
+        .dark .text-purple-400 {
+            color: rgb(168 85 247) !important; /* purple-400 */
+        }
+        
+        .dark .hover\\:text-purple-800:hover, .dark .hover\\:text-purple-300:hover {
+            color: rgb(221 214 254) !important; /* purple-200 - even lighter on hover */
+        }
+        
         /* Admin form elements dark mode */
         .dark input[type="text"], 
         .dark input[type="email"], 
@@ -297,6 +415,51 @@
         
         .dark .text-green-800 {
             color: rgb(134 239 172) !important; /* green-300 */
+        }
+        
+        .dark .bg-blue-100 {
+            background-color: rgb(30 58 138) !important; /* blue-900 */
+        }
+        
+        .dark .text-blue-800 {
+            color: rgb(147 197 253) !important; /* blue-300 */
+        }
+        
+        .dark .bg-purple-100 {
+            background-color: rgb(88 28 135) !important; /* purple-900 */
+        }
+        
+        .dark .text-purple-800 {
+            color: rgb(196 181 253) !important; /* purple-300 */
+        }
+        
+        .dark .bg-yellow-100 {
+            background-color: rgb(120 113 108) !important; /* yellow equivalent dark */
+        }
+        
+        /* Status badge colors - exactly like user pages */
+        .dark .bg-green-200 {
+            background-color: rgb(20 83 45) !important; /* green-900 */
+        }
+        
+        .dark .text-green-200 {
+            color: rgb(134 239 172) !important; /* green-300 */
+        }
+        
+        .dark .bg-red-200 {
+            background-color: rgb(127 29 29) !important; /* red-900 */
+        }
+        
+        .dark .text-red-200 {
+            color: rgb(252 165 165) !important; /* red-300 */
+        }
+        
+        .dark .bg-yellow-200 {
+            background-color: rgb(120 113 108) !important; /* yellow-900 equivalent */
+        }
+        
+        .dark .text-yellow-200 {
+            color: rgb(253 224 71) !important; /* yellow-300 */
         }
         
         /* Additional consistency styles */
