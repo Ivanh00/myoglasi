@@ -424,7 +424,11 @@
                                     <!-- Owner button -->
                                     <a href="{{ route('listings.edit', $listing) }}"
                                         class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
-                                        <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                        @if($listing->auction)
+                                            <i class="fas fa-gavel mr-2"></i> Uredi aukciju
+                                        @else
+                                            <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                        @endif
                                     </a>
                                 @else
                                     <!-- Regular view button -->
@@ -601,7 +605,11 @@
                                             <!-- Owner button -->
                                             <a href="{{ route('listings.edit', $listing) }}"
                                                 class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
-                                                <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                                @if($listing->auction)
+                                                    <i class="fas fa-gavel mr-2"></i> Uredi aukciju
+                                                @else
+                                                    <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                                @endif
                                             </a>
                                         @else
                                             <!-- Regular view button -->

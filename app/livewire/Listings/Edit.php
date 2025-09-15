@@ -27,6 +27,15 @@ class Edit extends Component
     public $subcategories;
     public $newImages = [];
 
+    // Auction-specific properties
+    public $hasAuction = false;
+    public $startingPrice = '';
+    public $buyNowPrice = '';
+    public $duration = 7;
+    public $startType = 'immediately';
+    public $startDate = '';
+    public $startTime = '';
+
     public function updatedNewImages()
     {
         $maxImages = $this->listing->getMaxImagesCount();
@@ -62,7 +71,20 @@ class Edit extends Component
     $this->condition_id = $listing->condition_id;
     $this->location = $listing->location;
     $this->contact_phone = $listing->contact_phone;
-    
+
+    // Load auction data if exists
+    if ($listing->auction) {
+        $this->hasAuction = true;
+        $this->startingPrice = $listing->auction->starting_price;
+        $this->buyNowPrice = $listing->auction->buy_now_price;
+        $this->duration = $listing->auction->ends_at->diffInDays($listing->auction->starts_at);
+        $this->startType = $listing->auction->starts_at->isPast() ? 'immediately' : 'scheduled';
+        if ($this->startType === 'scheduled') {
+            $this->startDate = $listing->auction->starts_at->format('Y-m-d');
+            $this->startTime = $listing->auction->starts_at->format('H:i');
+        }
+    }
+
     $this->categories = Category::whereNull('parent_id')
         ->where('is_active', true)
         ->orderBy('sort_order')
@@ -173,16 +195,32 @@ class Edit extends Component
         $currentImagesCount = $this->listing->images->count();
         $maxNewImages = max(0, $maxImages - $currentImagesCount);
         
-        $this->validate([
+        $rules = [
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',
-            'price' => 'required|numeric|min:1',
             'category_id' => 'required|exists:categories,id',
-            'condition_id' => 'required|exists:listing_conditions,id',
             'location' => 'required|string|max:255',
             'newImages' => "nullable|array|max:{$maxNewImages}",
             'newImages.*' => 'nullable|image|max:5120',
-        ]);
+        ];
+
+        // Price validation (not for giveaways)
+        if ($this->listing->listing_type !== 'giveaway') {
+            $rules['price'] = 'required|numeric|min:1';
+        }
+
+        // Condition validation (not for giveaways)
+        if ($this->listing->listing_type !== 'giveaway') {
+            $rules['condition_id'] = 'required|exists:listing_conditions,id';
+        }
+
+        // Auction validation if has auction
+        if ($this->hasAuction) {
+            $rules['startingPrice'] = 'required|numeric|min:1|max:1000000';
+            $rules['buyNowPrice'] = 'nullable|numeric|min:1|max:1000000|gt:startingPrice';
+        }
+
+        $this->validate($rules);
 
         // Ažuriraj osnovne podatke
         $this->listing->update([
@@ -208,7 +246,22 @@ class Edit extends Component
             }
         }
 
-        session()->flash('success', 'Oglas je uspešno ažuriran!');
+        // Update auction if exists
+        if ($this->hasAuction && $this->listing->auction) {
+            $this->listing->auction->update([
+                'starting_price' => $this->startingPrice,
+                'buy_now_price' => $this->buyNowPrice ?: null,
+                'current_price' => $this->startingPrice, // Reset current price to new starting price
+            ]);
+        }
+
+        $successMessage = $this->hasAuction ? 'Aukcija je uspešno ažurirana!' : 'Oglas je uspešno ažuriran!';
+        session()->flash('success', $successMessage);
+
+        if ($this->hasAuction) {
+            return redirect()->route('auction.show', $this->listing->auction);
+        }
+
         return redirect()->route('listings.show', $this->listing);
     }
 
