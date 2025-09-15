@@ -217,7 +217,8 @@ x-init="syncFromUrl()">
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
-                        <span x-show="hasActiveFilters()" class="ml-2 w-2 h-2 bg-white dark:bg-gray-700 rounded-full"></span>
+                        <span x-show="hasActiveFilters()" class="ml-2 px-1.5 py-0.5 bg-white dark:bg-gray-200 text-blue-600 dark:text-blue-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
+                            x-text="(city ? 1 : 0) + (category ? 1 : 0) + (condition ? 1 : 0) + (auction_type ? 1 : 0) + (content_type !== 'all' ? 1 : 0) + (price_min ? 1 : 0) + (price_max ? 1 : 0)"></span>
                     </button>
                 </div>
             </div>
@@ -500,8 +501,8 @@ x-init="syncFromUrl()">
                     class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                     <i class="fas fa-search mr-2"></i>
                     <span>Primeni filtere</span>
-                    <span x-show="hasActiveFilters()" class="ml-1 px-2 py-0.5 bg-gray-100 dark:bg-gray-6000 text-white rounded-full text-xs" 
-                        x-text="(city ? 1 : 0) + (category ? 1 : 0) + (condition ? 1 : 0) + (price_min ? 1 : 0) + (price_max ? 1 : 0)"></span>
+                    <span x-show="hasActiveFilters()" class="ml-1 px-1.5 py-0.5 bg-white dark:bg-gray-200 text-blue-600 dark:text-blue-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
+                        x-text="(city ? 1 : 0) + (category ? 1 : 0) + (condition ? 1 : 0) + (auction_type ? 1 : 0) + (content_type !== 'all' ? 1 : 0) + (price_min ? 1 : 0) + (price_max ? 1 : 0)"></span>
                 </button>
             </div>
         </div>
