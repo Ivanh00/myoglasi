@@ -1,18 +1,21 @@
 <!-- resources/views/livewire/notifications.blade.php -->
 <div class="messages-container bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
     <style>
-        /* Dark mode hover fixes for notifications - using conversation-item class */
-        .dark .conversation-item:hover {
+        /* Dark mode hover fixes for notifications - scoped to messages-container to avoid debugbar conflicts */
+        .dark .messages-container .conversation-item:hover {
             background-color: rgb(75 85 99) !important; /* gray-600 */
         }
-        .dark .conversation-item {
+        .dark .messages-container .conversation-item {
             background-color: rgb(17 24 39) !important; /* gray-900 - same as main background */
             border-color: rgb(75 85 99) !important; /* gray-600 */
         }
-        .dark .conversation-item.unread {
+        .dark .messages-container .conversation-item.unread {
             background-color: rgb(30 58 138) !important; /* blue-900 */
         }
-        .dark .user-name, .dark .listing-name, .dark .preview-text, .dark .date-info {
+        .dark .messages-container .user-name, 
+        .dark .messages-container .listing-name, 
+        .dark .messages-container .preview-text, 
+        .dark .messages-container .date-info {
             color: rgb(229 231 235) !important; /* gray-200 */
         }
     </style>
