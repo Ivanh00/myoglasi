@@ -116,13 +116,6 @@ class Create extends Component
 
     public function save()
     {
-        \Log::info('Save method called', [
-            'listingType' => $this->listingType,
-            'startingPrice' => $this->startingPrice,
-            'duration' => $this->duration,
-            'startType' => $this->startType
-        ]);
-
         $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
         
         $rules = [
@@ -254,7 +247,7 @@ class Create extends Component
                 'total_bids' => 0,
                 'starts_at' => $startsAt,
                 'ends_at' => $endsAt,
-                'status' => $this->startType === 'immediately' ? 'active' : 'scheduled',
+                'status' => 'active', // Always active, scheduling is handled by starts_at timestamp
             ]);
 
             session()->flash('success', 'Aukcija je uspešno kreirana!');
