@@ -898,7 +898,13 @@
                             Oglasi
                         </a>
 
-                        <a href="{{ route('admin.auctions.index') }}" 
+                        <a href="{{ route('admin.services.index') }}"
+                           class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.services.*') ? 'bg-blue-50 text-blue-700' : '' }}">
+                            <i class="fas fa-tools w-5 h-5 mr-3"></i>
+                            Usluge
+                        </a>
+
+                        <a href="{{ route('admin.auctions.index') }}"
                            class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.auctions.*') ? 'bg-blue-50 text-blue-700' : '' }}">
                             <i class="fas fa-gavel w-5 h-5 mr-3"></i>
                             Aukcije
@@ -1022,7 +1028,13 @@
                             Oglasi
                         </a>
 
-                        <a href="{{ route('admin.auctions.index') }}" 
+                        <a href="{{ route('admin.services.index') }}"
+                           class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.services.*') ? 'bg-blue-50 text-blue-700' : '' }}">
+                            <i class="fas fa-tools w-5 h-5 mr-3"></i>
+                            Usluge
+                        </a>
+
+                        <a href="{{ route('admin.auctions.index') }}"
                            class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.auctions.*') ? 'bg-blue-50 text-blue-700' : '' }}">
                             <i class="fas fa-gavel w-5 h-5 mr-3"></i>
                             Aukcije

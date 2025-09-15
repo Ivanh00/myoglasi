@@ -297,6 +297,7 @@ Route::middleware(['auth', 'conditional.verified'])->get('/obavestenja', Notific
 // Services Routes
 Route::get('/services', \App\Livewire\Services\Index::class)->name('services.index');
 Route::get('/services/create', \App\Livewire\Services\Create::class)->middleware('auth')->name('services.create');
+Route::get('/services/{service}/edit', \App\Livewire\Services\Edit::class)->middleware('auth')->name('services.edit');
 Route::get('/services/{service}', \App\Livewire\Services\Show::class)->name('services.show');
 
 // Giveaways Routes
@@ -311,6 +312,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', \App\Livewire\Admin\Dashboard::class)->name('dashboard');
     Route::get('/users', \App\Livewire\Admin\UserManagement::class)->name('users.index');
     Route::get('/listings', \App\Livewire\Admin\ListingManagement::class)->name('listings.index');
+    Route::get('/services', \App\Livewire\Admin\ServiceManagement::class)->name('services.index');
     Route::get('/auctions', \App\Livewire\Admin\AuctionManagement::class)->name('auctions.index');
     Route::get('/categories', \App\Livewire\Admin\CategoryManagement::class)->name('categories.index');
     Route::get('/service-categories', \App\Livewire\Admin\ServiceCategoryManagement::class)->name('service-categories.index');

@@ -180,6 +180,11 @@ class ListingManagement extends Component
     public function render()
     {
         $listings = Listing::with(['category', 'subcategory', 'condition', 'user', 'images'])
+            ->where(function ($query) {
+                $query->where('listing_type', 'listing')
+                      ->orWhere('listing_type', 'giveaway')
+                      ->orWhereNull('listing_type');
+            })
             ->when($this->search, function ($query) {
                 $query->where('title', 'like', '%' . $this->search . '%')
                       ->orWhere('description', 'like', '%' . $this->search . '%')
