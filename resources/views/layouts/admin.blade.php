@@ -674,6 +674,26 @@
             color: rgb(229 231 235) !important; /* gray-200 */
         }
         
+        /* Red delete/danger buttons styling */
+        .dark button.text-red-600 {
+            background-color: rgb(127 29 29) !important; /* red-900 - dark red background */
+            color: rgb(252 165 165) !important; /* red-300 - light red text */
+            border-color: rgb(220 38 38) !important; /* red-600 - visible red border */
+        }
+        
+        .dark .border-red-300 {
+            border-color: rgb(220 38 38) !important; /* red-600 - visible red border */
+        }
+        
+        .dark .hover\\:bg-red-50:hover {
+            background-color: rgb(185 28 28) !important; /* red-700 - darker red on hover */
+        }
+        
+        .dark button.text-red-600:hover {
+            background-color: rgb(185 28 28) !important; /* red-700 - darker red on hover */
+            color: rgb(254 202 202) !important; /* red-200 - even lighter text */
+        }
+        
         /* Cancel buttons with bg-white styling */
         .dark button.bg-white {
             background-color: rgb(55 65 81) !important; /* gray-700 */
