@@ -1,9 +1,9 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     @if (!$listing)
-        <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center">
             <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl mb-4"></i>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">Sadržaj nije pronađen</h2>
-            <p class="text-gray-600 mb-4">Traženi sadržaj ne postoji ili je obrisan.</p>
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Sadržaj nije pronađen</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">Traženi sadržaj ne postoji ili je obrisan.</p>
             <a href="{{ url('/') }}"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 Nazad na početnu
@@ -14,34 +14,34 @@
         <nav class="mb-6 flex" aria-label="Breadcrumb">
             <ol class="flex items-center space-x-2">
                 <li>
-                    <a href="{{ route('home') }}" class="text-gray-400 hover:text-gray-500">
+                    <a href="{{ route('home') }}" class="text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400">
                         <i class="fas fa-home"></i>
                     </a>
                 </li>
                 <li class="flex items-center">
-                    <span class="mx-2 text-gray-400">/</span>
+                    <span class="mx-2 text-gray-400 dark:text-gray-500">/</span>
                     <a href="{{ route('category.show', $listing->category->slug) }}"
-                        class="text-gray-500 hover:text-gray-700">
+                        class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                         {{ $listing->category->name }}
                     </a>
                 </li>
                 @if ($listing->subcategory)
                     <li class="flex items-center">
-                        <span class="mx-2 text-gray-400">/</span>
+                        <span class="mx-2 text-gray-400 dark:text-gray-500">/</span>
                         <a href="{{ route('category.show', ['category' => $listing->category->slug, 'subcategory' => $listing->subcategory->slug]) }}"
-                            class="text-gray-500 hover:text-gray-700">
+                            class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                             {{ $listing->subcategory->name }}
                         </a>
                     </li>
                 @endif
                 <li class="flex items-center">
-                    <span class="mx-2 text-gray-400">/</span>
-                    <span class="text-gray-700 font-medium truncate">{{ Str::limit($listing->title, 30) }}</span>
+                    <span class="mx-2 text-gray-400 dark:text-gray-500">/</span>
+                    <span class="text-gray-700 dark:text-gray-300 font-medium truncate">{{ Str::limit($listing->title, 30) }}</span>
                 </li>
             </ol>
         </nav>
 
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
             <!-- Glavni deo - slika i osnovne informacije -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
                 <!-- Slike oglasa -->
@@ -110,7 +110,7 @@
                 <!-- Informacije o oglasu -->
                 <div>
                     <div class="flex items-center justify-between mb-2">
-                        <h1 class="text-2xl font-bold text-gray-900">{{ $listing->title }}</h1>
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $listing->title }}</h1>
                         
                         @auth
                             @if(auth()->id() !== $listing->user_id)
@@ -161,11 +161,11 @@
                         @endif
                     </div>
 
-                    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                         @auth
                             <div class="flex items-center mb-1">
-                                <i class="fas fa-user text-gray-500 mr-2"></i>
-                                <span class="text-gray-700 font-bold">
+                                <i class="fas fa-user text-gray-500 dark:text-gray-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300 font-bold">
                                     @if($listing->isService())
                                         Pružalac usluge: {{ $listing->user->name }}
                                     @elseif($listing->isGiveaway())
@@ -206,29 +206,29 @@
                             @endif
                         @endauth
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-map-marker-alt text-gray-500 mr-2"></i>
-                            <span class="text-gray-700">{{ $listing->location }}</span>
+                            <i class="fas fa-map-marker-alt text-gray-500 dark:text-gray-400 mr-2"></i>
+                            <span class="text-gray-700 dark:text-gray-300">{{ $listing->location }}</span>
                         </div>
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-clock text-gray-500 mr-2"></i>
-                            <span class="text-gray-700">Objavljeno:
+                            <i class="fas fa-clock text-gray-500 dark:text-gray-400 mr-2"></i>
+                            <span class="text-gray-700 dark:text-gray-300">Objavljeno:
                                 {{ $listing->created_at->format('d.m.Y. H:i') }}</span>
                         </div>
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-eye text-gray-500 mr-2"></i>
-                            <span class="text-gray-700">Pregleda: {{ $listing->views ?? 0 }}</span>
+                            <i class="fas fa-eye text-gray-500 dark:text-gray-400 mr-2"></i>
+                            <span class="text-gray-700 dark:text-gray-300">Pregleda: {{ $listing->views ?? 0 }}</span>
                         </div>
                         <!-- Dodajte ovaj div za prikaz broja pratilaca -->
                         <div class="flex items-center">
-                            <i class="fas fa-heart text-gray-500 mr-2"></i>
-                            <span class="text-gray-700">Pratilaca: {{ $listing->favorites_count ?? 0 }}</span>
+                            <i class="fas fa-heart text-gray-500 dark:text-gray-400 mr-2"></i>
+                            <span class="text-gray-700 dark:text-gray-300">Pratilaca: {{ $listing->favorites_count ?? 0 }}</span>
                         </div>
                     </div>
 
                     {{-- Prikaz telefona samo ako je vlasnik dozvolio, korisnik ulogovan i prodavac NIJE blokiran --}}
                     @if ($listing->contact_phone && $listing->user->phone_visible && auth()->check() && !$listing->user->is_banned)
                         <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Kontakt telefon</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Kontakt telefon</h3>
                             <div class="flex items-center">
                                 <i class="fas fa-phone text-green-500 mr-2"></i>
                                 <a href="tel:{{ $listing->contact_phone }}" class="text-xl font-medium text-green-600">
@@ -237,10 +237,10 @@
                             </div>
                         </div>
                     @elseif ($listing->user->is_banned && auth()->check())
-                        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <div class="mb-6 p-4 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
                             <div class="flex items-center">
                                 <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
-                                <span class="text-red-700 font-medium">Kontakt informacije nisu dostupne - prodavac je blokiran</span>
+                                <span class="text-red-700 dark:text-red-300 font-medium">Kontakt informacije nisu dostupne - prodavac je blokiran</span>
                             </div>
                         </div>
                     @endif
@@ -252,7 +252,7 @@
                                 @if(!$listing->user->is_banned)
                                     <!-- Dugme za slanje poruke -->
                                     <a href="{{ route('listing.chat', ['slug' => $listing->slug]) }}"
-                                        class="flex-1 flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        class="flex-1 flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                         <i class="fas fa-envelope mr-2"></i> Pošalji poruku
                                     </a>
 
@@ -263,22 +263,22 @@
 
                                     <!-- Dugme za deljenje -->
                                     <button onclick="shareListing()"
-                                        class="flex-1 flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        class="flex-1 flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                         <i class="fas fa-share-alt mr-2"></i> Podeli
                                     </button>
                                 @else
                                     <!-- Poruka za banovane prodavce - bez dugmadi -->
-                                    <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
+                                    <div class="w-full p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
                                         <div class="flex items-center">
                                             <i class="fas fa-ban text-red-500 mr-2"></i>
-                                            <span class="text-red-700 text-sm">Kontakt sa ovim prodavcem nije moguć jer je blokiran.</span>
+                                            <span class="text-red-700 dark:text-red-300 text-sm">Kontakt sa ovim prodavcem nije moguć jer je blokiran.</span>
                                         </div>
                                     </div>
                                 @endif
                             @else
                                 <!-- Dugme za vlasnike oglasa -->
                                 <div
-                                    class="flex items-center justify-center px-4 py-3 bg-gray-100 text-gray-500 rounded-lg">
+                                    class="flex items-center justify-center px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-lg">
                                     <i class="fas fa-user mr-2"></i> Vaš oglas
                                 </div>
 
@@ -305,7 +305,7 @@
                         @else
                             <!-- Dugmad za neautentifikovane korisnike -->
                             <a href="{{ route('login') }}"
-                                class="flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                class="flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                 <i class="fas fa-envelope mr-2"></i> Prijavite se za slanje poruke
                             </a>
                         @endauth
@@ -327,21 +327,21 @@
 
                                     <!-- Dugme za deljenje -->
                                     <button onclick="shareListing()"
-                                        class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                         <i class="fas fa-share-alt mr-2"></i> Podeli oglas
                                     </button>
                                 @else
                                     <!-- Poruka za banovane prodavce -->
-                                    <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
+                                    <div class="w-full p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
                                         <div class="flex items-center">
                                             <i class="fas fa-ban text-red-500 mr-2"></i>
-                                            <span class="text-red-700 text-sm">Kontakt sa ovim prodavcem nije moguć jer je blokiran.</span>
+                                            <span class="text-red-700 dark:text-red-300 text-sm">Kontakt sa ovim prodavcem nije moguć jer je blokiran.</span>
                                         </div>
                                     </div>
                                 @endif
                             @else
                                 <!-- Dugme za vlasnike oglasa -->
-                                <div class="w-full p-3 bg-gray-100 text-gray-500 rounded-lg text-center">
+                                <div class="w-full p-3 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-lg text-center">
                                     <i class="fas fa-user mr-2"></i> Vaš oglas
                                 </div>
 
@@ -368,7 +368,7 @@
                         @else
                             <!-- Dugme za neautentifikovane korisnike -->
                             <a href="{{ route('login') }}"
-                                class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                 <i class="fas fa-envelope mr-2"></i> Prijavite se za slanje poruke
                             </a>
                         @endauth
@@ -378,8 +378,8 @@
             </div>
 
             <!-- Opis oglasa -->
-            <div class="border-t border-gray-200 p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">
+            <div class="border-t border-gray-200 dark:border-gray-600 p-6">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
                     @if($listing->isService())
                         Opis usluge
                     @elseif($listing->isGiveaway())
@@ -388,15 +388,15 @@
                         Opis oglasa
                     @endif
                 </h2>
-                <div class="text-gray-700 whitespace-pre-line">{{ $listing->description }}</div>
+                <div class="text-gray-700 dark:text-gray-300 whitespace-pre-line">{{ $listing->description }}</div>
             </div>
 
             {{-- Uslovi prodaje – prikaz ako postoje --}}
-            <div class="border-t border-gray-200 p-6">
+            <div class="border-t border-gray-200 dark:border-gray-600 p-6">
                 @if ($listing->user->seller_terms)
                     <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Uslovi prodaje</h3>
-                        <div class="bg-gray-100 p-4 rounded-lg text-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Uslovi prodaje</h3>
+                        <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg text-gray-700 dark:text-gray-300">
                             {!! nl2br(e($listing->user->seller_terms)) !!}
                         </div>
                     </div>
@@ -405,8 +405,8 @@
 
             <!-- Informacije o prodavcu (only for authenticated users) -->
             @auth
-                <div class="border-t border-gray-200 p-6 bg-gray-50">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                <div class="border-t border-gray-200 dark:border-gray-600 p-6 bg-gray-50 dark:bg-gray-700">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
                         @if($listing->isService())
                             Informacije o pružaocu usluge
                         @elseif($listing->isGiveaway())
@@ -429,14 +429,14 @@
                     </div>
                     
                     <div class="flex-1">
-                        <h3 class="font-medium text-gray-900 text-lg">
+                        <h3 class="font-medium text-gray-900 dark:text-gray-100 text-lg">
                             {{ $listing->user->name }}
                             {!! $listing->user->verified_icon !!}
                             @if($listing->user->is_banned)
                                 <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
                             @endif
                             @if($listing->user->shouldShowLastSeen())
-                                <div class="text-sm text-gray-500 mt-1">
+                                <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                     @if($listing->user->is_online)
                                         <span class="inline-flex items-center">
                                             <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -448,22 +448,22 @@
                                 </div>
                             @endif
                         </h3>
-                        <p class="text-gray-600 text-sm mb-3">Član od: {{ $listing->user->created_at->format('m/Y') }}</p>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-3">Član od: {{ $listing->user->created_at->format('m/Y') }}</p>
                         
                         {{-- User ratings --}}
                         @if($listing->user->total_ratings_count > 0)
-                            <a href="{{ route('user.ratings', $listing->user->id) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                            <a href="{{ route('user.ratings', $listing->user->id) }}" class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                                 <span class="text-green-600 mr-2">😊 {{ $listing->user->positive_ratings_count }}</span>
                                 <span class="text-yellow-600 mr-2">😐 {{ $listing->user->neutral_ratings_count }}</span>
                                 <span class="text-red-600 mr-2">😞 {{ $listing->user->negative_ratings_count }}</span>
                                 @if($listing->user->rating_badge)
                                     <span class="ml-1 mr-2">{{ $listing->user->rating_badge }}</span>
                                 @endif
-                                <span class="text-blue-500 hover:text-blue-700">Pogledaj ocene</span>
+                                <span class="text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">Pogledaj ocene</span>
                                 <i class="fas fa-external-link-alt ml-1 text-xs"></i>
                             </a>
                         @else
-                            <p class="text-gray-500 text-sm">Još nema ocena</p>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">Još nema ocena</p>
                         @endif
                     </div>
                 </div>
@@ -474,13 +474,13 @@
         <!-- Preporučeni oglasi -->
         @if ($recommendedListings && $recommendedListings->count() > 0)
             <div class="mt-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Slični oglasi</h2>
-                <p class="text-gray-600 mb-8">Pronađite slične oglase iz iste kategorije</p>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Slični oglasi</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-8">Pronađite slične oglase iz iste kategorije</p>
 
                 <!-- Lista oglasa (koristi isti layout kao Index stranica) -->
                 <div class="space-y-4">
                     @foreach ($recommendedListings as $relatedListing)
-                        <div class="listing-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 
+                        <div class="listing-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300
                             @if($relatedListing->isGiveaway())
                                 border-l-4 border-green-500
                             @elseif($relatedListing->isService())
@@ -509,7 +509,7 @@
                                         <div class="flex-1">
                                             <div class="flex items-start justify-between mb-2">
                                                 <a href="{{ route('listings.show', $relatedListing) }}" class="flex-1">
-                                                    <h3 class="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 transition-colors">
                                                         {{ $relatedListing->title }}
                                                     </h3>
                                                 </a>
@@ -526,7 +526,7 @@
                                                 @endif
                                             </div>
 
-                                            <div class="flex items-center text-sm text-gray-600 mb-2">
+                                            <div class="flex items-center text-sm text-gray-600 dark:text-gray-300 mb-2">
                                                 <i class="fas fa-map-marker-alt mr-1"></i>
                                                 <span>{{ $relatedListing->location }}</span>
                                                 <span class="mx-2">•</span>
@@ -534,7 +534,7 @@
                                                 <span>{{ $relatedListing->category->name }}</span>
                                             </div>
 
-                                            <p class="text-gray-700 mb-3"
+                                            <p class="text-gray-700 dark:text-gray-300 mb-3"
                                                 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                                 {{ Str::limit(strip_tags($relatedListing->description), 120) }}
                                             </p>
@@ -567,29 +567,29 @@
                                 </div>
 
                                 <!-- Desna strana - akcije i dodatne informacije -->
-                                <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 
+                                <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600
                                     @if($relatedListing->isGiveaway())
-                                        bg-green-50
+                                        bg-green-50 dark:bg-green-900
                                     @elseif($relatedListing->isService())
-                                        bg-gray-50
+                                        bg-gray-50 dark:bg-gray-700
                                     @else
-                                        bg-blue-50
+                                        bg-blue-50 dark:bg-gray-600
                                     @endif">
                                     <div class="flex flex-col h-full justify-between">
-                                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                                             <div class="flex items-center">
-                                                <svg class="w-4 h-4 mr-1 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4 mr-1 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M12 4.5C7.5 4.5 3.5 8.5 2 12c1.5 3.5 5.5 7.5 10 7.5s8.5-4 10-7.5c-1.5-3.5-5.5-7.5-10-7.5zm0 12c-2.5 0-4.5-2-4.5-4.5S9.5 8.5 12 8.5 16.5 10.5 16.5 12 14.5 16.5 12 16.5zm0-7c-1.5 0-2.5 1-2.5 2.5S10.5 14.5 12 14.5 14.5 13.5 14.5 12 13.5 9.5 12 9.5z" />
                                                 </svg>
-                                                <span class="text-gray-700">{{ $relatedListing->views ?? 0 }}</span>
+                                                <span class="text-gray-700 dark:text-gray-300">{{ $relatedListing->views ?? 0 }}</span>
                                             </div>
                                             <!-- Favorites count -->
                                             <div class="flex items-center">
-                                                <span class="text-gray-700">❤️ {{ $relatedListing->favorites_count ?? 0 }}</span>
+                                                <span class="text-gray-700 dark:text-gray-300">❤️ {{ $relatedListing->favorites_count ?? 0 }}</span>
                                             </div>
                                         </div>
 
-                                        <div class="text-xs text-gray-700 mb-4">
+                                        <div class="text-xs text-gray-700 dark:text-gray-300 mb-4">
                                             <i class="fas fa-clock mr-1"></i>
                                             Postavljeno pre {{ floor($relatedListing->created_at->diffInDays()) }} dana
                                         </div>

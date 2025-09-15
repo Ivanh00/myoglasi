@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     <!-- Single column layout -->
     <div>
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-6">
                 <!-- Auction Header -->
                 <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-4">
                     <div class="flex items-center justify-between">
@@ -64,15 +64,15 @@
                     <!-- Auction Info -->
                     <div>
                         <!-- Current Price -->
-                        <div class="text-center mb-6 p-6 bg-gray-50 rounded-lg">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Trenutna cena</h3>
+                        <div class="text-center mb-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Trenutna cena</h3>
                             <div class="text-4xl font-bold text-red-600 mb-2">
                                 {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                             </div>
                             @if($auction->total_bids > 0)
-                                <p class="text-gray-600">{{ $auction->total_bids }} ponuda</p>
+                                <p class="text-gray-600 dark:text-gray-300">{{ $auction->total_bids }} ponuda</p>
                                 @if($auction->winningBid)
-                                    <p class="text-sm text-gray-500">
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">
                                         Vodi: {{ $auction->winningBid->user->name }}
                                         @if($auction->winningBid->user->shouldShowLastSeen())
                                             <span class="text-xs">
@@ -89,24 +89,24 @@
                                     </p>
                                 @endif
                             @else
-                                <p class="text-gray-600">Još nema ponuda</p>
+                                <p class="text-gray-600 dark:text-gray-300">Još nema ponuda</p>
                             @endif
                         </div>
 
                         <!-- Bidding Form -->
                         @auth
                             @if(auth()->id() !== $auction->user_id && $auction->isActive())
-                                <div class="mb-6 p-6 bg-white border border-gray-200 rounded-lg">
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Postavite ponudu</h3>
+                                <div class="mb-6 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Postavite ponudu</h3>
                                     
                                     @if(!$isAutoBid)
                                         <div class="mb-4">
-                                            <label for="bidAmount" class="block text-sm font-medium text-gray-700 mb-2">
+                                            <label for="bidAmount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                                 Vaša ponuda (minimum: {{ number_format($auction->minimum_bid, 0, ',', '.') }} RSD)
                                             </label>
-                                            <input type="number" wire:model="bidAmount" id="bidAmount" 
+                                            <input type="number" wire:model="bidAmount" id="bidAmount"
                                                 min="{{ $auction->minimum_bid }}" step="{{ $auction->bid_increment }}"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
                                             @error('bidAmount') 
                                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                                             @enderror
@@ -117,9 +117,9 @@
                                     <div class="mb-4">
                                         <div class="flex items-center justify-between">
                                             <label class="flex items-center cursor-pointer">
-                                                <input type="checkbox" wire:model.live="isAutoBid" 
+                                                <input type="checkbox" wire:model.live="isAutoBid"
                                                     class="mr-3 h-4 w-4 text-red-600 focus:ring-red-500 rounded">
-                                                <span class="text-sm text-gray-700">Automatska ponuda</span>
+                                                <span class="text-sm text-gray-700 dark:text-gray-300">Automatska ponuda</span>
                                             </label>
                                             
                                             @php
@@ -146,13 +146,13 @@
                                             @endif
                                         </div>
                                         @if($isAutoBid)
-                                            <div class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                            <div class="mt-3 p-3 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
                                                 <div class="mb-3">
-                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Maksimalna cena</label>
-                                                    <input type="number" wire:model="maxBidAmount" 
+                                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Maksimalna cena</label>
+                                                    <input type="number" wire:model="maxBidAmount"
                                                         placeholder="Unesite maksimalnu cenu"
                                                         min="{{ $auction->minimum_bid + $auction->bid_increment }}"
-                                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                                     @error('maxBidAmount') 
                                                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                                                     @enderror
@@ -167,9 +167,9 @@
                                                     </button>
                                                 </div>
                                                 
-                                                <div class="text-xs text-blue-800 space-y-1">
+                                                <div class="text-xs text-blue-800 dark:text-blue-200 space-y-1">
                                                     <div class="flex items-start">
-                                                        <i class="fas fa-info-circle text-blue-600 mt-0.5 mr-2 flex-shrink-0"></i>
+                                                        <i class="fas fa-info-circle text-blue-600 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0"></i>
                                                         <div>
                                                             <strong>Kako funkcioniše automatska ponuda:</strong>
                                                             <ul class="list-disc list-inside mt-1 space-y-1">
@@ -236,23 +236,23 @@
                         @endauth
 
                         <!-- Seller Info -->
-                        <div class="p-4 bg-gray-50 rounded-lg">
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                             <div class="flex items-center mb-2">
-                                <i class="fas fa-user text-gray-500 mr-2"></i>
-                                <span class="text-gray-700 font-bold">Prodavac: {{ $auction->seller->name }}</span>
+                                <i class="fas fa-user text-gray-500 dark:text-gray-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300 font-bold">Prodavac: {{ $auction->seller->name }}</span>
                                 {!! $auction->seller->verified_icon !!}
                             </div>
                             <div class="flex items-center mb-2">
-                                <i class="fas fa-map-marker-alt text-gray-500 mr-2"></i>
-                                <span class="text-gray-700">{{ $auction->listing->location }}</span>
+                                <i class="fas fa-map-marker-alt text-gray-500 dark:text-gray-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">{{ $auction->listing->location }}</span>
                             </div>
                             <div class="flex items-center mb-2">
-                                <i class="fas fa-folder text-gray-500 mr-2"></i>
-                                <span class="text-gray-700">{{ $auction->listing->category->name }}</span>
+                                <i class="fas fa-folder text-gray-500 dark:text-gray-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">{{ $auction->listing->category->name }}</span>
                             </div>
                             <div class="flex items-center">
-                                <i class="fas fa-clock text-gray-500 mr-2"></i>
-                                <span class="text-gray-700">
+                                <i class="fas fa-clock text-gray-500 dark:text-gray-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">
                                     @if($auction->isActive())
                                         @if($auction->time_left)
                                             {{ $auction->time_left['formatted'] }} ostalo
@@ -267,17 +267,17 @@
                 </div>
 
                 <!-- Listing Description -->
-                <div class="border-t border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Opis proizvoda</h3>
-                    <div class="text-gray-700 whitespace-pre-line">{{ $auction->listing->description }}</div>
+                <div class="border-t border-gray-200 dark:border-gray-600 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Opis proizvoda</h3>
+                    <div class="text-gray-700 dark:text-gray-300 whitespace-pre-line">{{ $auction->listing->description }}</div>
                 </div>
             </div>
 
         <!-- Bid History Section -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-900">Istorija ponuda</h3>
-                <button wire:click="$refresh" class="text-sm text-blue-600 hover:text-blue-800">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Istorija ponuda</h3>
+                <button wire:click="$refresh" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
                     <i class="fas fa-refresh mr-1"></i> Osvežite
                 </button>
             </div>
@@ -285,11 +285,11 @@
             @if($auction->bids->count() > 0)
                 <div class="space-y-3 max-h-96 overflow-y-auto">
                     @foreach($auction->bids()->orderBy('amount', 'desc')->orderBy('created_at', 'desc')->take(10)->get() as $bid)
-                        <div class="flex items-center justify-between p-3 {{ $bid->is_winning ? 'bg-green-50 border border-green-200' : 'bg-gray-50' }} rounded-lg">
+                        <div class="flex items-center justify-between p-3 {{ $bid->is_winning ? 'bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700' : 'bg-gray-50 dark:bg-gray-700' }} rounded-lg">
                             <div class="flex items-center">
                                 <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
                                     @if($bid->user->avatar)
-                                        <img src="{{ $bid->user->avatar_url }}" alt="{{ $bid->user->name }}" 
+                                        <img src="{{ $bid->user->avatar_url }}" alt="{{ $bid->user->name }}"
                                              class="w-8 h-8 rounded-full object-cover">
                                     @else
                                         <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white font-medium text-xs">
@@ -298,10 +298,10 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <div class="font-medium text-gray-900">
+                                    <div class="font-medium text-gray-900 dark:text-gray-100">
                                         {{ $bid->user->name }}
                                         @if($bid->user->shouldShowLastSeen())
-                                            <span class="font-normal text-xs text-gray-500 ml-1">
+                                            <span class="font-normal text-xs text-gray-500 dark:text-gray-400 ml-1">
                                                 @if($bid->user->is_online)
                                                     <span class="inline-flex items-center">
                                                         <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span>
@@ -313,15 +313,15 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="text-xs text-gray-500">{{ $bid->created_at->format('d.m.Y H:i') }}</div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ $bid->created_at->format('d.m.Y H:i') }}</div>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="font-bold {{ $bid->is_winning ? 'text-green-600' : 'text-gray-900' }}">
+                                <div class="font-bold {{ $bid->is_winning ? 'text-green-600' : 'text-gray-900 dark:text-gray-100' }}">
                                     {{ number_format($bid->amount, 0, ',', '.') }} RSD
                                 </div>
                                 @if($bid->is_auto_bid)
-                                    <div class="text-xs text-blue-500">Auto</div>
+                                    <div class="text-xs text-blue-500 dark:text-blue-400">Auto</div>
                                 @endif
                             </div>
                         </div>
@@ -330,24 +330,24 @@
             @else
                 <div class="text-center py-8">
                     <i class="fas fa-gavel text-gray-400 text-3xl mb-3"></i>
-                    <p class="text-gray-600">Još nema ponuda</p>
-                    <p class="text-gray-500 text-sm">Budite prvi koji će licitirati!</p>
+                    <p class="text-gray-600 dark:text-gray-300">Još nema ponuda</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">Budite prvi koji će licitirati!</p>
                 </div>
             @endif
         </div>
 
         <!-- Auction Rules Section -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                <i class="fas fa-info-circle text-blue-600 dark:text-blue-400 mr-2"></i>
                 Pravila licitiranja
             </h3>
-            
-            <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <div class="text-sm text-blue-800">
+
+            <div class="p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+                <div class="text-sm text-blue-800 dark:text-blue-200">
                     <ul class="space-y-2">
                         <li class="flex items-start">
-                            <i class="fas fa-arrow-up text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-arrow-up text-blue-600 dark:text-blue-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span>Minimalni korak povećanja ponude: <strong>{{ number_format($auction->bid_increment, 0, ',', '.') }} RSD</strong></span>
                         </li>
                         @php
@@ -356,23 +356,23 @@
                             $maxExtensions = \App\Models\Setting::get('auction_max_extensions', 10);
                         @endphp
                         <li class="flex items-start">
-                            <i class="fas fa-clock text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-clock text-blue-600 dark:text-blue-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span>Ako se postavi ponuda u poslednje <strong>{{ $triggerTime }} minuta</strong> aukcije</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-plus text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-plus text-blue-600 dark:text-blue-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span>Aukcija se automatski produžava za <strong>{{ $extensionTime }} minuta</strong></span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-repeat text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-repeat text-blue-600 dark:text-blue-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span>Ovo se može desiti maksimalno <strong>{{ $maxExtensions }} puta</strong> po aukciji</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-shield-alt text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-shield-alt text-blue-600 dark:text-blue-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span>Sprečava "last second sniping" i omogućava fer nadmetanje</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-lock text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-lock text-blue-600 dark:text-blue-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span>Vlasnik ne može otkazati aukciju ako je trenutna cena veća od početne cene aukcije</span>
                         </li>
                     </ul>
