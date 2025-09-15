@@ -50,16 +50,20 @@
             border-top: 1px solid rgb(75 85 99) !important;
         }
         
-        /* Override any white backgrounds in popups */
-        .dark [class*="bg-white"], .dark div[style*="background: white"], .dark div[style*="background-color: white"],
-        .dark div[style*="background:#fff"], .dark div[style*="background-color:#fff"],
-        .dark div[style*="background: #fff"], .dark div[style*="background-color: #ffffff"] {
+        /* Override any white backgrounds in popups - EXCEPT overlays */
+        .dark [class*="bg-white"]:not([class*="bg-opacity"]):not([class*="inset-0"]), 
+        .dark div[style*="background: white"]:not([class*="inset-0"]), 
+        .dark div[style*="background-color: white"]:not([class*="inset-0"]),
+        .dark div[style*="background:#fff"]:not([class*="inset-0"]), 
+        .dark div[style*="background-color:#fff"]:not([class*="inset-0"]),
+        .dark div[style*="background: #fff"]:not([class*="inset-0"]), 
+        .dark div[style*="background-color: #ffffff"]:not([class*="inset-0"]) {
             background-color: rgb(31 41 55) !important;
             color: rgb(229 231 235) !important;
         }
         
-        /* Force dark mode on modals and overlays */
-        .dark .fixed.inset-0 > div, .dark .modal-dialog, .dark .modal-body,
+        /* Force dark mode on modal content only */
+        .dark .modal-dialog, .dark .modal-body,
         .dark [role="dialog"], .dark [role="alertdialog"] {
             background-color: rgb(31 41 55) !important;
             color: rgb(229 231 235) !important;
@@ -82,6 +86,123 @@
         .dark .listing-info, .dark .user-info-section, .dark .notification-details {
             background-color: rgb(55 65 81) !important; /* gray-700 */
             border-color: rgb(75 85 99) !important;
+        }
+        
+        /* Target specific notification popup elements */
+        .dark .modal-content, .dark .modal-header, .dark .modal-body, .dark .modal-footer {
+            background-color: rgb(31 41 55) !important; /* gray-800 */
+            color: rgb(229 231 235) !important;
+            border-color: rgb(75 85 99) !important;
+        }
+        
+        .dark .notification-details {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(229 231 235) !important;
+            border: 1px solid rgb(75 85 99) !important;
+            border-radius: 0.5rem !important;
+            padding: 1rem !important;
+            margin: 0.5rem 0 !important;
+        }
+        
+        .dark .notification-listing-info, .dark .notification-user-info, .dark .notification-time-info {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(229 231 235) !important;
+            border: 1px solid rgb(75 85 99) !important;
+            border-left: 4px solid rgb(59 130 246) !important; /* blue-500 left border */
+            border-radius: 0.5rem !important;
+            padding: 1rem !important;
+            margin: 0.5rem 0 !important;
+        }
+        
+        .dark .listing-link {
+            color: rgb(59 130 246) !important; /* blue-500 - brighter blue */
+        }
+        
+        .dark .view-listing-btn {
+            background-color: rgb(37 99 235) !important; /* blue-600 */
+            color: white !important;
+        }
+        
+        /* Specific red auction button in notification popup only */
+        .dark .modal-footer a[href*="auction"], .dark .modal-body a[href*="auction"] {
+            background-color: rgb(220 38 38) !important; /* red-600 */
+            color: white !important;
+        }
+        
+        .dark .close-btn {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important;
+        }
+        .dark .close-btn:hover {
+            background-color: rgb(107 114 128) !important; /* gray-500 */
+        }
+        
+        /* Specific overrides for white cards in popups */
+        .dark div[class*="bg-white"], .dark div[class*="rounded"],
+        .dark div[style*="background"], .dark section, .dark article {
+            background-color: rgb(55 65 81) !important;
+            color: rgb(229 231 235) !important;
+            border-color: rgb(75 85 99) !important;
+        }
+        
+        /* Headers and titles in popups */
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+            color: rgb(229 231 235) !important;
+        }
+        
+        /* Buttons in popups */
+        .dark button[class*="bg-gray"], .dark .btn-secondary {
+            background-color: rgb(75 85 99) !important;
+            color: rgb(229 231 235) !important;
+            border-color: rgb(107 114 128) !important;
+        }
+        
+        /* Force ALL text to be light in dark mode popups */
+        .dark div[class*="fixed"] *, .dark div[class*="modal"] *, 
+        .dark div[class*="popup"] *, .dark div[class*="overlay"] * {
+            color: rgb(229 231 235) !important;
+        }
+        
+        /* Force all text elements */
+        .dark p, .dark span, .dark div, .dark label, .dark td, .dark th,
+        .dark .text-gray-900, .dark .text-gray-800, .dark .text-gray-700,
+        .dark .text-gray-600, .dark .text-gray-500, .dark .text-black {
+            color: rgb(229 231 235) !important;
+        }
+        
+        /* Preserve colored text (links, buttons, etc) */
+        .dark .text-blue-600, .dark .text-blue-700, .dark .text-blue-800 {
+            color: rgb(147 197 253) !important; /* blue-300 */
+        }
+        .dark .text-green-600, .dark .text-green-700 {
+            color: rgb(134 239 172) !important; /* green-300 */
+        }
+        .dark .text-red-600, .dark .text-red-700 {
+            color: rgb(252 165 165) !important; /* red-300 */
+        }
+        .dark .text-yellow-600, .dark .text-yellow-700 {
+            color: rgb(253 224 71) !important; /* yellow-300 */
+        }
+        
+        /* Close button and Zatvori button styling */
+        .dark button[class*="bg-gray-"], .dark .btn-cancel, .dark .btn-close {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important;
+            border: 1px solid rgb(107 114 128) !important; /* gray-500 */
+        }
+        .dark button[class*="bg-gray-"]:hover, .dark .btn-cancel:hover, .dark .btn-close:hover {
+            background-color: rgb(107 114 128) !important; /* gray-500 - lighter on hover */
+            color: rgb(255 255 255) !important;
+        }
+        
+        /* X close button specific */
+        .dark .close-button, .dark button[type="button"]:not([class*="bg-blue"]):not([class*="bg-red"]):not([class*="bg-green"]):not([class*="bg-yellow"]) {
+            background-color: rgb(75 85 99) !important;
+            color: rgb(229 231 235) !important;
+        }
+        .dark .close-button:hover {
+            background-color: rgb(107 114 128) !important;
+            color: rgb(255 255 255) !important;
         }
     </style>
 
