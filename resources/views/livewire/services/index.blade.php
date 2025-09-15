@@ -1,5 +1,19 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 
+    <!-- Header with Add Service Button -->
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Usluge</h1>
+            <p class="text-gray-600 dark:text-gray-400">Pronađite ili ponudite usluge u vašoj oblasti</p>
+        </div>
+        @auth
+            <a href="{{ route('services.create') }}"
+                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <i class="fas fa-plus mr-2"></i> Dodaj uslugu
+            </a>
+        @endauth
+    </div>
+
     <!-- Filteri i sortiranje -->
     <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4 mb-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -189,14 +203,20 @@
     @else
         <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-tools text-gray-400 text-5xl mb-4"></i>
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema usluga</h3>
-            <p class="text-gray-600 mb-4">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Nema usluga</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
                 @if ($selectedCategory)
                     Trenutno nema aktivnih usluga u ovoj kategoriji.
                 @else
                     Trenutno nema aktivnih usluga.
                 @endif
             </p>
+            @auth
+                <a href="{{ route('services.create') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    Dodaj prvu uslugu
+                </a>
+            @endauth
         </div>
     @endif
 </div>
