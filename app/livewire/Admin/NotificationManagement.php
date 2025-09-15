@@ -14,6 +14,7 @@ class NotificationManagement extends Component
 
     public $showSendModal = false;
     public $showSentNotifications = false;
+    public $embedded = false;
     
     public $notificationData = [
         'recipient_type' => 'single', // single, all, filtered
@@ -30,10 +31,13 @@ class NotificationManagement extends Component
     public $searchUser = '';
     public $foundUsers = [];
 
-    public function mount()
+    protected $listeners = ['openNotificationModal'];
+
+    public function mount($embedded = false)
     {
+        $this->embedded = $embedded;
         $this->foundUsers = collect();
-        
+
         // Auto-populate user if coming from user management
         if (request()->has('user_id')) {
             $userId = request('user_id');
@@ -44,6 +48,18 @@ class NotificationManagement extends Component
                 $this->searchUser = $user->name . ' (' . $user->email . ')';
                 $this->showSendModal = true;
             }
+        }
+    }
+
+    public function openNotificationModal($userId)
+    {
+        $user = User::find($userId);
+        if ($user) {
+            $this->notificationData['recipient_type'] = 'single';
+            $this->notificationData['recipient_id'] = $userId;
+            $this->searchUser = $user->name . ' (' . $user->email . ')';
+            $this->foundUsers = collect();
+            $this->showSendModal = true;
         }
     }
 

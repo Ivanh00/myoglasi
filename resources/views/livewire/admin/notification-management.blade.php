@@ -1,4 +1,5 @@
 <div class="space-y-6">
+    @unless($embedded)
     <!-- Header -->
     <div class="bg-white shadow rounded-lg p-6">
         <div class="flex justify-between items-center">
@@ -12,7 +13,9 @@
             </button>
         </div>
     </div>
+    @endunless
 
+    @unless($embedded)
     <!-- Statistics -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
@@ -32,7 +35,9 @@
             <p class="text-2xl font-bold text-orange-600">{{ \App\Models\User::where('is_banned', false)->where('created_at', '>=', now()->subDays(30))->count() }}</p>
         </div>
     </div>
+    @endunless
 
+    @unless($embedded)
     <!-- Sent Notifications -->
     <div class="hidden lg:block bg-white shadow rounded-lg">
         <div class="px-6 py-4 border-b border-gray-200">
@@ -197,6 +202,7 @@
             {{ $sentNotifications->links() }}
         </div>
     </div>
+    @endunless
 
     <!-- Send Notification Modal -->
     @if ($showSendModal)

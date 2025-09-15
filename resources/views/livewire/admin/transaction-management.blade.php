@@ -149,14 +149,16 @@
             <!-- Datum od -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Datum od</label>
-                <input type="date" wire:model.live="filters.date_from" placeholder="01.01.2024"
+                <input type="date" wire:model.live="filters.date_from"
+                    value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg">
             </div>
 
             <!-- Datum do -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Datum do</label>
-                <input type="date" wire:model.live="filters.date_to" placeholder="31.12.2024"
+                <input type="date" wire:model.live="filters.date_to"
+                    value="{{ request('date_to', now()->endOfMonth()->format('Y-m-d')) }}"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg">
             </div>
 

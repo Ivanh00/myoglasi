@@ -218,7 +218,7 @@ class UserManagement extends Component
 
     public function sendNotificationToUser($userId)
     {
-        return redirect()->route('admin.notifications.index', ['user_id' => $userId]);
+        $this->dispatch('openNotificationModal', userId: $userId);
     }
 
     public function viewUserDetails($userId)
