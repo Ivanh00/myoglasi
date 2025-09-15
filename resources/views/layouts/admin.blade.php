@@ -661,6 +661,46 @@
             background-color: rgb(75 85 99) !important; /* gray-600 */
             color: rgb(229 231 235) !important; /* gray-200 */
         }
+        
+        /* Cancel buttons with bg-white styling */
+        .dark button.bg-white {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(209 213 219) !important; /* gray-300 */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark button.bg-white:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        /* Specific for bg-white + text-gray-700 + border combination */
+        .dark button[class*="bg-white"][class*="text-gray-700"][class*="border-gray-300"] {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(209 213 219) !important; /* gray-300 */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark button[class*="bg-white"][class*="hover:bg-gray-50"]:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        /* Remove focus ring from cancel buttons completely - like other cancel buttons */
+        .dark button[class*="bg-white"][class*="focus:ring-blue-500"]:focus,
+        .dark button[class*="bg-gray-300"][class*="focus:ring-blue-500"]:focus,
+        .dark button[class*="text-gray-600"][class*="focus:ring-blue-500"]:focus {
+            --tw-ring-color: transparent !important; /* no ring */
+            box-shadow: none !important;
+        }
+        
+        /* Also remove in light mode for consistency */
+        button[class*="bg-white"][class*="focus:ring-blue-500"]:focus,
+        button[class*="bg-gray-300"][class*="focus:ring-blue-500"]:focus,
+        button[class*="text-gray-600"][class*="focus:ring-blue-500"]:focus {
+            --tw-ring-color: transparent !important; /* no ring in light mode either */
+            box-shadow: none !important;
+        }
     </style>
 </head>
 
