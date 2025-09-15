@@ -283,6 +283,35 @@
             color: rgb(96 165 250) !important; /* blue-400 */
         }
         
+        /* Tailwind hover classes for action buttons */
+        .dark .text-blue-600.hover\\:text-blue-900:hover {
+            color: rgb(191 219 254) !important; /* blue-200 - lighter */
+        }
+        
+        .dark .text-red-600.hover\\:text-red-900:hover {
+            color: rgb(254 202 202) !important; /* red-200 - lighter */
+        }
+        
+        .dark .text-green-600.hover\\:text-green-900:hover {
+            color: rgb(187 247 208) !important; /* green-200 - lighter */
+        }
+        
+        .dark .text-orange-600.hover\\:text-orange-900:hover {
+            color: rgb(254 215 170) !important; /* orange-200 - lighter */
+        }
+        
+        .dark .text-yellow-600.hover\\:text-yellow-900:hover {
+            color: rgb(254 240 138) !important; /* yellow-200 - lighter */
+        }
+        
+        .dark .text-purple-600.hover\\:text-purple-900:hover {
+            color: rgb(221 214 254) !important; /* purple-200 - lighter */
+        }
+        
+        .dark .text-indigo-600.hover\\:text-indigo-900:hover {
+            color: rgb(199 210 254) !important; /* indigo-200 - lighter */
+        }
+        
         .dark .hover\\:text-blue-800:hover, .dark .hover\\:text-blue-300:hover {
             color: rgb(191 219 254) !important; /* blue-200 - even lighter on hover */
         }
