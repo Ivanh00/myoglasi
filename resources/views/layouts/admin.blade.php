@@ -125,6 +125,19 @@
             color: rgb(147 197 253) !important; /* blue-300 */
         }
         
+        /* Unread messages and notifications styling - same as user pages */
+        .dark .bg-blue-50 {
+            background-color: rgb(30 58 138) !important; /* blue-900 - dark blue for unread */
+        }
+        
+        .dark .text-blue-700 {
+            color: rgb(147 197 253) !important; /* blue-300 - light blue text */
+        }
+        
+        .dark .text-blue-600 {
+            color: rgb(147 197 253) !important; /* blue-300 - consistent blue links */
+        }
+        
         /* Main content area dark mode */
         .dark main {
             background-color: rgb(17 24 39) !important; /* gray-900 */
@@ -183,6 +196,24 @@
         
         .dark .hover\\:bg-gray-100:hover {
             background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        /* Table row hover effects - better styling */
+        .dark tr.hover\\:bg-gray-50:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 - consistent hover */
+        }
+        
+        .dark tbody tr:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 - consistent hover */
+        }
+        
+        /* Table dividers dark mode */
+        .dark .divide-y > * + * {
+            border-top-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark .divide-gray-200 > * + * {
+            border-top-color: rgb(75 85 99) !important; /* gray-600 */
         }
         
         /* Admin buttons dark mode */
@@ -266,6 +297,38 @@
         
         .dark .text-green-800 {
             color: rgb(134 239 172) !important; /* green-300 */
+        }
+        
+        /* Additional consistency styles */
+        .dark .text-gray-400 {
+            color: rgb(156 163 175) !important; /* gray-400 */
+        }
+        
+        .dark .text-gray-300 {
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
+        /* Modal and overlay styles for admin */
+        .dark .fixed.inset-0 {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        /* Scrollbar styling for dark mode */
+        .dark ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: rgb(55 65 81); /* gray-700 */
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: rgb(75 85 99); /* gray-600 */
+            border-radius: 4px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: rgb(107 114 128); /* gray-500 */
         }
     </style>
 </head>
@@ -754,11 +817,13 @@
         
         if (lightBtn && darkBtn) {
             if (isDark) {
-                lightBtn.classList.remove('bg-blue-500', 'text-white');
-                darkBtn.classList.add('bg-blue-500', 'text-white');
+                // Dark mode active
+                lightBtn.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50');
+                darkBtn.classList.add('ring-2', 'ring-blue-400', 'bg-gray-700');
             } else {
-                darkBtn.classList.remove('bg-blue-500', 'text-white');
-                lightBtn.classList.add('bg-blue-500', 'text-white');
+                // Light mode active
+                darkBtn.classList.remove('ring-2', 'ring-blue-400', 'bg-gray-700');
+                lightBtn.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
             }
         }
     }
