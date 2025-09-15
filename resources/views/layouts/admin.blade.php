@@ -520,6 +520,24 @@
             box-shadow: 0 0 0 1px rgb(59 130 246) !important;
         }
         
+        /* Date input fields specific styling */
+        .dark input[type="date"] {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark input[type="date"]:focus {
+            border-color: rgb(59 130 246) !important; /* blue-500 */
+            box-shadow: 0 0 0 1px rgb(59 130 246) !important;
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        /* Date picker calendar styling */
+        .dark input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1); /* Make calendar icon white */
+        }
+        
         /* Admin table dark mode */
         .dark table {
             background-color: rgb(31 41 55) !important; /* gray-800 */

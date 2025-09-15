@@ -75,14 +75,14 @@
                 <!-- Date From -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Od datuma</label>
-                    <input type="date" wire:model.live="filters.date_from"
+                    <input type="date" wire:model.live="filters.date_from" placeholder="01.01.2024"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
 
                 <!-- Date To -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Do datuma</label>
-                    <input type="date" wire:model.live="filters.date_to"
+                    <input type="date" wire:model.live="filters.date_to" placeholder="31.12.2024"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
 
