@@ -53,21 +53,21 @@
 
     <!-- Brza statistika -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <h3 class="text-sm font-medium text-blue-800">Ukupno kategorija</h3>
-            <p class="text-2xl font-bold text-blue-600">{{ \App\Models\Category::whereNull('parent_id')->count() }}</p>
+        <div class="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg border border-blue-200">
+            <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">Ukupno kategorija</h3>
+            <p class="text-2xl font-bold text-blue-700 dark:text-blue-300">{{ \App\Models\Category::whereNull('parent_id')->count() }}</p>
         </div>
-        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-            <h3 class="text-sm font-medium text-green-800">Podkategorije</h3>
-            <p class="text-2xl font-bold text-green-600">{{ \App\Models\Category::whereNotNull('parent_id')->count() }}</p>
+        <div class="bg-green-50 dark:bg-green-900 p-4 rounded-lg border border-green-200">
+            <h3 class="text-sm font-medium text-green-800 dark:text-green-200">Podkategorije</h3>
+            <p class="text-2xl font-bold text-green-700 dark:text-green-300">{{ \App\Models\Category::whereNotNull('parent_id')->count() }}</p>
         </div>
-        <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-            <h3 class="text-sm font-medium text-purple-800">Aktivne kategorije</h3>
-            <p class="text-2xl font-bold text-purple-600">{{ \App\Models\Category::where('is_active', true)->count() }}</p>
+        <div class="bg-purple-50 dark:bg-purple-900 p-4 rounded-lg border border-purple-200">
+            <h3 class="text-sm font-medium text-purple-800 dark:text-purple-200">Aktivne kategorije</h3>
+            <p class="text-2xl font-bold text-purple-700 dark:text-purple-300">{{ \App\Models\Category::where('is_active', true)->count() }}</p>
         </div>
-        <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
-            <h3 class="text-sm font-medium text-orange-800">Sa oglasima</h3>
-            <p class="text-2xl font-bold text-orange-600">{{ \App\Models\Category::has('listings')->count() }}</p>
+        <div class="bg-orange-50 dark:bg-orange-900 p-4 rounded-lg border border-orange-200">
+            <h3 class="text-sm font-medium text-orange-800 dark:text-orange-200">Sa oglasima</h3>
+            <p class="text-2xl font-bold text-orange-700 dark:text-orange-300">{{ \App\Models\Category::has('listings')->count() }}</p>
         </div>
     </div>
 

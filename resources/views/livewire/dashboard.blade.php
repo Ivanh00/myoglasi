@@ -128,7 +128,7 @@
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg border border-blue-300 dark:border-blue-700">
+            <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg border border-blue-200 dark:border-blue-200">
                 <div class="flex items-center">
                     <div class="p-2 bg-blue-100 dark:bg-blue-700 rounded-lg mr-3">
                         <i class="fas fa-plus text-blue-600 dark:text-blue-400"></i>
@@ -142,7 +142,7 @@
             </div>
 
             <div
-                class="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg border border-yellow-300 dark:border-yellow-700">
+                class="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg border border-yellow-200 dark:border-yellow-200">
                 <div class="flex items-center">
                     <div class="p-2 bg-yellow-100 dark:bg-yellow-700 rounded-lg mr-3">
                         <i class="fas fa-gavel text-yellow-600 dark:text-yellow-400"></i>
@@ -155,7 +155,7 @@
                 </div>
             </div>
 
-            <div class="bg-red-100 dark:bg-red-900 p-4 rounded-lg border border-red-300 dark:border-red-700">
+            <div class="bg-red-100 dark:bg-red-900 p-4 rounded-lg border border-red-200 dark:border-red-200">
                 <div class="flex items-center">
                     <div class="p-2 bg-red-100 dark:bg-red-700 rounded-lg mr-3">
                         <i class="fas fa-shopping-cart text-red-600 dark:text-red-400"></i>
@@ -169,7 +169,7 @@
             </div>
 
             <div
-                class="bg-purple-100 dark:bg-purple-900 p-4 rounded-lg border border-purple-300 dark:border-purple-700">
+                class="bg-purple-100 dark:bg-purple-900 p-4 rounded-lg border border-purple-200 dark:border-purple-200">
                 <div class="flex items-center">
                     <div class="p-2 bg-purple-100 dark:bg-purple-700 rounded-lg mr-3">
                         <i class="fas fa-comments text-purple-600 dark:text-purple-400"></i>
