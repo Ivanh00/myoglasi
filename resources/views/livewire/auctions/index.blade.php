@@ -220,17 +220,34 @@
                             </div>
 
                             <div class="space-y-2">
-                                <a href="{{ route('auction.show', $auction) }}"
-                                    class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
-                                    <i class="fas fa-gavel mr-2"></i> Licitiraj
-                                </a>
-                                
-                                @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
-                                    <a href="{{ route('auction.show', $auction) }}"
-                                        class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
-                                        <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
+                                @auth
+                                    @if(auth()->id() === $auction->user_id)
+                                        <!-- Owner buttons -->
+                                        <a href="{{ route('listings.edit', $auction->listing) }}"
+                                            class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                            <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                        </a>
+                                    @else
+                                        <!-- Buyer buttons -->
+                                        <a href="{{ route('auction.show', $auction) }}"
+                                            class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                            <i class="fas fa-gavel mr-2"></i> Licitiraj
+                                        </a>
+
+                                        @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
+                                            <a href="{{ route('auction.show', $auction) }}"
+                                                class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                                <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
+                                            </a>
+                                        @endif
+                                    @endif
+                                @else
+                                    <!-- Guest user buttons -->
+                                    <a href="{{ route('login') }}"
+                                        class="block w-full text-center px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                                        <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
                                     </a>
-                                @endif
+                                @endauth
                             </div>
                         </div>
                     </div>
@@ -322,17 +339,34 @@
                                     </div>
 
                                     <div class="space-y-2">
-                                        <a href="{{ route('auction.show', $auction) }}"
-                                            class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
-                                            <i class="fas fa-gavel mr-2"></i> Licitiraj
-                                        </a>
-                                        
-                                        @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
-                                            <a href="{{ route('auction.show', $auction) }}"
-                                                class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
-                                                <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
+                                        @auth
+                                            @if(auth()->id() === $auction->user_id)
+                                                <!-- Owner button -->
+                                                <a href="{{ route('listings.edit', $auction->listing) }}"
+                                                    class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                    <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                                </a>
+                                            @else
+                                                <!-- Buyer buttons -->
+                                                <a href="{{ route('auction.show', $auction) }}"
+                                                    class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                                    <i class="fas fa-gavel mr-2"></i> Licitiraj
+                                                </a>
+
+                                                @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
+                                                    <a href="{{ route('auction.show', $auction) }}"
+                                                        class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                                        <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
+                                                    </a>
+                                                @endif
+                                            @endif
+                                        @else
+                                            <!-- Guest user button -->
+                                            <a href="{{ route('login') }}"
+                                                class="block w-full text-center px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                                                <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
                                             </a>
-                                        @endif
+                                        @endauth
                                     </div>
                                 </div>
                             </div>

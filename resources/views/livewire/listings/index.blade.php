@@ -419,10 +419,27 @@
                                 Postavljeno pre {{ floor($listing->created_at->diffInDays()) }} dana
                             </div>
 
-                            <a href="{{ route('listings.show', $listing) }}"
-                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                <i class="fas fa-eye mr-2"></i> Pregled
-                            </a>
+                            @auth
+                                @if(auth()->id() === $listing->user_id)
+                                    <!-- Owner button -->
+                                    <a href="{{ route('listings.edit', $listing) }}"
+                                        class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                        <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                    </a>
+                                @else
+                                    <!-- Regular view button -->
+                                    <a href="{{ route('listings.show', $listing) }}"
+                                        class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                        <i class="fas fa-eye mr-2"></i> Pregled
+                                    </a>
+                                @endif
+                            @else
+                                <!-- Guest user button -->
+                                <a href="{{ route('listings.show', $listing) }}"
+                                    class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                    <i class="fas fa-eye mr-2"></i> Pregled
+                                </a>
+                            @endauth
                         </div>
                     </div>
                 @endforeach
@@ -579,10 +596,27 @@
                                 </div>
 
                                 <div class="space-y-2">
-                                    <a href="{{ route('listings.show', $listing) }}"
-                                        class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                        <i class="fas fa-eye mr-2"></i> Pregled
-                                    </a>
+                                    @auth
+                                        @if(auth()->id() === $listing->user_id)
+                                            <!-- Owner button -->
+                                            <a href="{{ route('listings.edit', $listing) }}"
+                                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                            </a>
+                                        @else
+                                            <!-- Regular view button -->
+                                            <a href="{{ route('listings.show', $listing) }}"
+                                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                <i class="fas fa-eye mr-2"></i> Pregled
+                                            </a>
+                                        @endif
+                                    @else
+                                        <!-- Guest user button -->
+                                        <a href="{{ route('listings.show', $listing) }}"
+                                            class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                            <i class="fas fa-eye mr-2"></i> Pregled
+                                        </a>
+                                    @endauth
                                 </div>
                             </div>
                         </div>
