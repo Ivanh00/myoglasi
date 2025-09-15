@@ -423,7 +423,7 @@
                                 @if(auth()->id() === $listing->user_id)
                                     <!-- Owner button -->
                                     <a href="{{ route('listings.edit', $listing) }}"
-                                        class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
+                                        class="block w-full text-center px-3 py-2 {{ $listing->auction ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-blue-600 hover:bg-blue-700' }} text-white rounded-lg transition-colors text-sm">
                                         @if($listing->auction)
                                             <i class="fas fa-gavel mr-2"></i> Uredi aukciju
                                         @else
@@ -604,7 +604,7 @@
                                         @if(auth()->id() === $listing->user_id)
                                             <!-- Owner button -->
                                             <a href="{{ route('listings.edit', $listing) }}"
-                                                class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
+                                                class="block w-full text-center px-3 py-2 {{ $listing->auction ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-blue-600 hover:bg-blue-700' }} text-white rounded-lg transition-colors text-sm">
                                                 @if($listing->auction)
                                                     <i class="fas fa-gavel mr-2"></i> Uredi aukciju
                                                 @else
