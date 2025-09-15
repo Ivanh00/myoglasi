@@ -11,7 +11,7 @@
                         </div>
                         <div class="text-right">
                             @if($auction->isActive())
-                                <div class="text-2xl font-bold auction-countdown" 
+                                <div class="text-2xl font-bold auction-countdown"
                                      data-end-time="{{ $auction->ends_at->timestamp }}"
                                      data-total-seconds="{{ $auction->time_left['total_seconds'] ?? 0 }}">
                                     @if($auction->time_left)
@@ -19,6 +19,9 @@
                                     @endif
                                 </div>
                                 <p class="text-yellow-100 text-sm">vremena ostalo</p>
+                            @elseif($auction->status === 'active' && $auction->starts_at->isFuture())
+                                <div class="text-2xl font-bold">ZAKAZANO</div>
+                                <p class="text-yellow-100 text-sm">Počinje: {{ $auction->starts_at->format('d.m. H:i') }}</p>
                             @else
                                 <div class="text-2xl font-bold">ZAVRŠENO</div>
                                 @if($auction->winner)
@@ -95,8 +98,9 @@
 
                         <!-- Bidding Form -->
                         @auth
-                            @if(auth()->id() !== $auction->user_id && $auction->isActive())
-                                <div class="mb-6 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg">
+                            @if(auth()->id() !== $auction->user_id)
+                                @if($auction->isActive())
+                                    <div class="mb-6 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg">
                                     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Postavite ponudu</h3>
                                     
                                     @if(!$isAutoBid)
@@ -274,9 +278,26 @@
                                             </div>
                                         @endif
                                     </div>
-                                </div>
                             @endif
                         @endauth
+
+                        <!-- Scheduled Auction Info (for non-owners) -->
+                        @if(!auth()->check() || auth()->id() !== $auction->user_id)
+                            @if($auction->status === 'active' && $auction->starts_at->isFuture())
+                                <div class="mb-6 p-6 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg text-center">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                                        <i class="fas fa-clock text-blue-600 mr-2"></i>
+                                        Aukcija je zakazana
+                                    </h3>
+                                    <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                        Aukcija počinje: <strong>{{ $auction->starts_at->format('d.m.Y u H:i') }}</strong>
+                                    </p>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">
+                                        Licitiranje će biti omogućeno kada aukcija počne.
+                                    </p>
+                                </div>
+                            @endif
+                        @endif
 
                         <!-- Seller Info -->
                         <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -423,6 +444,7 @@
             </div>
         </div>
     </div>
+@endif
 </div>
 
 <!-- Real-time countdown script using Carbon data -->

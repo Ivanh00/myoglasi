@@ -383,12 +383,125 @@
     @else
         <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-gavel text-gray-400 text-5xl mb-4"></i>
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema aktivnih aukcija</h3>
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Nema aktivnih aukcija</h3>
             <p class="text-gray-600 dark:text-gray-300 mb-4">Trenutno nema aukcija na kojima možete licitirati.</p>
             <a href="{{ route('listings.index') }}"
                 class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
                 Pregledaj oglase
             </a>
+        </div>
+    @endif
+
+    <!-- Ended Auctions Section -->
+    @if($endedAuctions->count() > 0)
+        <div class="mt-12">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Završene aukcije</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Poslednje završene aukcije sa pobednicima</p>
+                </div>
+                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-sm">
+                    {{ $endedAuctions->count() }} završenih
+                </span>
+            </div>
+
+            <div class="space-y-4">
+                @foreach($endedAuctions as $auction)
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-yellow-700">
+                        <div class="flex flex-col md:flex-row">
+                            <!-- Image -->
+                            <div class="w-full md:w-48 md:min-w-48 h-48 relative">
+                                @if($auction->listing->images->count() > 0)
+                                    <img src="{{ $auction->listing->images->first()->url }}" alt="{{ $auction->listing->title }}"
+                                        class="w-full h-full object-cover opacity-75">
+                                @else
+                                    <div class="w-full h-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center opacity-75">
+                                        <i class="fas fa-gavel text-gray-400 text-3xl"></i>
+                                    </div>
+                                @endif
+
+                                <!-- Ended badge -->
+                                <div class="absolute top-2 right-2">
+                                    <span class="px-2 py-1 bg-yellow-700 bg-opacity-90 text-white text-xs font-medium rounded">
+                                        ZAVRŠENO
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex-1 p-4 md:p-6">
+                                <div class="flex flex-col h-full">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ $auction->listing->title }}</h3>
+
+                                        <div class="flex items-center text-sm text-gray-600 dark:text-gray-300 mb-2">
+                                            <i class="fas fa-map-marker-alt mr-1"></i>
+                                            <span>{{ $auction->listing->location }}</span>
+                                            <span class="mx-2">•</span>
+                                            <i class="fas fa-folder mr-1"></i>
+                                            <span>{{ $auction->listing->category->name }}</span>
+                                        </div>
+
+                                        <div class="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                                            Prodavac: <span class="font-medium">{{ $auction->seller->name }}</span>
+                                            {!! $auction->seller->verified_icon !!}
+                                        </div>
+
+                                        @if($auction->winner)
+                                            <div class="mt-2 p-2 bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded">
+                                                <div class="flex items-center text-sm">
+                                                    <i class="fas fa-crown text-yellow-500 mr-2"></i>
+                                                    <span class="text-green-800 dark:text-green-200 font-medium">
+                                                        Pobednik: {{ $auction->winner->name }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="flex items-center justify-between mt-4">
+                                        <div>
+                                            <div class="text-2xl font-bold text-gray-700 dark:text-gray-300">
+                                                {{ number_format($auction->current_price, 0, ',', '.') }} RSD
+                                            </div>
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ $auction->total_bids }} ponuda</div>
+                                        </div>
+
+                                        <div class="text-right">
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">Završeno:</div>
+                                            <div class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                {{ $auction->ends_at->format('d.m.Y H:i') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sidebar -->
+                            <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-yellow-50 dark:bg-yellow-900">
+                                <div class="flex flex-col h-full justify-between">
+                                    <div class="text-center mb-4">
+                                        <div class="text-lg font-bold text-yellow-700 dark:text-yellow-300">
+                                            <i class="fas fa-flag-checkered mr-1"></i>
+                                            Završeno
+                                        </div>
+                                        <div class="text-xs text-yellow-600 dark:text-yellow-400">
+                                            {{ $auction->ends_at->diffForHumans() }}
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <a href="{{ route('auction.show', $auction) }}"
+                                            class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
+                                            <i class="fas fa-eye mr-2"></i> Pregled rezultata
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     @endif
 </div>

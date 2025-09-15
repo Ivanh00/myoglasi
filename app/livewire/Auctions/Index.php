@@ -38,29 +38,45 @@ class Index extends Component
 
     public function render()
     {
-        $query = Auction::with(['listing.images', 'listing.user', 'listing.category', 'winningBid.user'])
-            ->where('status', 'active');
+        // Active auctions query
+        $activeQuery = Auction::with(['listing.images', 'listing.user', 'listing.category', 'winningBid.user'])
+            ->where('status', 'active')
+            ->where(function($query) {
+                $query->where('starts_at', '<=', now())
+                      ->where('ends_at', '>', now());
+            });
 
-        // Sorting
+        // Sorting for active auctions
         switch ($this->sortBy) {
             case 'ending_soon':
-                $query->orderBy('ends_at', 'asc');
+                $activeQuery->orderBy('ends_at', 'asc');
                 break;
             case 'newest':
-                $query->orderBy('created_at', 'desc');
+                $activeQuery->orderBy('created_at', 'desc');
                 break;
             case 'highest_price':
-                $query->orderBy('current_price', 'desc');
+                $activeQuery->orderBy('current_price', 'desc');
                 break;
             case 'most_bids':
-                $query->orderBy('total_bids', 'desc');
+                $activeQuery->orderBy('total_bids', 'desc');
                 break;
         }
 
-        $auctions = $query->paginate($this->perPage);
+        $auctions = $activeQuery->paginate($this->perPage);
+
+        // Ended auctions (last 10)
+        $endedAuctions = Auction::with(['listing.images', 'listing.user', 'listing.category', 'winningBid.user', 'winner'])
+            ->where(function($query) {
+                $query->where('status', 'ended')
+                      ->orWhere('ends_at', '<=', now());
+            })
+            ->orderBy('ends_at', 'desc')
+            ->limit(10)
+            ->get();
 
         return view('livewire.auctions.index', [
-            'auctions' => $auctions
+            'auctions' => $auctions,
+            'endedAuctions' => $endedAuctions
         ])->layout('layouts.app');
     }
 }
