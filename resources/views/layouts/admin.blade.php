@@ -720,6 +720,7 @@
         
         /* Remove focus ring from cancel buttons completely - like other cancel buttons */
         .dark button[class*="bg-white"][class*="focus:ring-blue-500"]:focus,
+        .dark button[class*="bg-white"][class*="focus:ring-indigo-500"]:focus,
         .dark button[class*="bg-gray-300"][class*="focus:ring-blue-500"]:focus,
         .dark button[class*="text-gray-600"][class*="focus:ring-blue-500"]:focus {
             --tw-ring-color: transparent !important; /* no ring */
@@ -728,6 +729,7 @@
         
         /* Also remove in light mode for consistency */
         button[class*="bg-white"][class*="focus:ring-blue-500"]:focus,
+        button[class*="bg-white"][class*="focus:ring-indigo-500"]:focus,
         button[class*="bg-gray-300"][class*="focus:ring-blue-500"]:focus,
         button[class*="text-gray-600"][class*="focus:ring-blue-500"]:focus {
             --tw-ring-color: transparent !important; /* no ring in light mode either */
