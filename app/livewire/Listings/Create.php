@@ -25,9 +25,17 @@ class Create extends Component
     public $conditions = [];
     public $category_id;
     public $subcategory_id;
-    public $listingType = 'listing'; // Only listing and giveaway allowed
+    public $listingType = 'listing'; // listing, giveaway, or auction allowed
 
     public $subcategories;
+
+    // Auction-specific properties
+    public $startingPrice = '';
+    public $buyNowPrice = '';
+    public $duration = 7;
+    public $startType = 'immediately';
+    public $startDate = '';
+    public $startTime = '';
 
     public function updatedTempImages()
     {
@@ -96,7 +104,7 @@ class Create extends Component
         $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
         
         $rules = [
-            'listingType' => 'required|in:listing,giveaway',
+            'listingType' => 'required|in:listing,giveaway,auction',
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',
             'category_id' => 'required|exists:categories,id',
@@ -107,14 +115,27 @@ class Create extends Component
             'tempImages.*' => 'nullable|image|max:5120',
         ];
         
-        // Price is required only for listings and services
-        if ($this->listingType !== 'giveaway') {
+        // Price is required only for regular listings (not giveaways or auctions)
+        if ($this->listingType === 'listing') {
             $rules['price'] = 'required|numeric|min:1';
         }
-        
-        // Condition is required only for regular listings
-        if ($this->listingType === 'listing') {
+
+        // Condition is required only for regular listings and auctions
+        if (in_array($this->listingType, ['listing', 'auction'])) {
             $rules['condition_id'] = 'required|exists:listing_conditions,id';
+        }
+
+        // Auction-specific validation
+        if ($this->listingType === 'auction') {
+            $rules['startingPrice'] = 'required|numeric|min:1|max:1000000';
+            $rules['buyNowPrice'] = 'nullable|numeric|min:1|max:1000000|gt:startingPrice';
+            $rules['duration'] = 'required|in:1,3,5,7,10';
+            $rules['startType'] = 'required|in:immediately,scheduled';
+
+            if ($this->startType === 'scheduled') {
+                $rules['startDate'] = 'required|date|after_or_equal:today';
+                $rules['startTime'] = 'required';
+            }
         }
         
         $this->validate($rules);
@@ -174,11 +195,11 @@ class Create extends Component
             'user_id' => auth()->id(),
             'title' => $this->title,
             'description' => $this->description,
-            'price' => $this->listingType === 'giveaway' ? null : $this->price,
-            'listing_type' => $this->listingType,
+            'price' => $this->listingType === 'giveaway' ? null : ($this->listingType === 'auction' ? $this->startingPrice : $this->price),
+            'listing_type' => $this->listingType === 'auction' ? 'listing' : $this->listingType, // Auctions are stored as listings
             'category_id' => $this->category_id,
-            'subcategory_id' => $this->listingType === 'listing' ? $this->subcategory_id : null,
-            'condition_id' => $this->listingType === 'listing' ? $this->condition_id : null,
+            'subcategory_id' => in_array($this->listingType, ['listing', 'auction']) ? $this->subcategory_id : null,
+            'condition_id' => in_array($this->listingType, ['listing', 'auction']) ? $this->condition_id : null,
             'location' => $this->location,
             'contact_phone' => $this->contact_phone,
             'slug' => Str::slug($this->title) . '-' . Str::random(6),
@@ -194,7 +215,32 @@ class Create extends Component
             ]);
         }
 
-        session()->flash('success', 'Oglas je uspešno kreiran!');
+        // Create auction if listing type is auction
+        if ($this->listingType === 'auction') {
+            $startsAt = $this->startType === 'immediately'
+                ? now()
+                : \Carbon\Carbon::createFromFormat('Y-m-d H:i', $this->startDate . ' ' . $this->startTime);
+
+            $endsAt = $startsAt->copy()->addDays($this->duration);
+
+            $auction = \App\Models\Auction::create([
+                'listing_id' => $listing->id,
+                'user_id' => $listing->user_id,
+                'starting_price' => $this->startingPrice,
+                'buy_now_price' => $this->buyNowPrice ?: null,
+                'current_price' => $this->startingPrice,
+                'total_bids' => 0,
+                'starts_at' => $startsAt,
+                'ends_at' => $endsAt,
+                'status' => $this->startType === 'immediately' ? 'active' : 'scheduled',
+            ]);
+
+            session()->flash('success', 'Aukcija je uspešno kreirana!');
+            return redirect()->route('auction.show', $auction);
+        }
+
+        $successMessage = $this->listingType === 'giveaway' ? 'Poklon je uspešno kreiran!' : 'Oglas je uspešno kreiran!';
+        session()->flash('success', $successMessage);
         return redirect()->route('listings.show', $listing);
     }
 

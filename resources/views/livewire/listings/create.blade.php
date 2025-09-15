@@ -45,7 +45,7 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Tip objave <span class="text-red-500">*</span>
                 </label>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'listing' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500' }}">
                         <input type="radio" wire:model.live="listingType" value="listing" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
                         <div class="ml-3">
@@ -54,6 +54,17 @@
                                 <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Oglas</span>
                             </div>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Prodaja proizvoda ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})</p>
+                        </div>
+                    </label>
+
+                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all {{ $listingType === 'auction' ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500' }}">
+                        <input type="radio" wire:model.live="listingType" value="auction" class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
+                        <div class="ml-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-gavel text-yellow-600 mr-2"></i>
+                                <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Aukcija</span>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Licitiranje ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})</p>
                         </div>
                     </label>
 
@@ -209,18 +220,138 @@
                 </div>
             @endif
 
+            <!-- Auction Settings (only for auctions) -->
+            @if($listingType === 'auction')
+                <div class="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg border border-yellow-200 dark:border-yellow-700">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                        <i class="fas fa-gavel text-yellow-600 mr-2"></i>
+                        Podešavanja aukcije
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Starting Price -->
+                        <div>
+                            <label for="startingPrice" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Početna cena (RSD) <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" wire:model="startingPrice" id="startingPrice" step="0.01" min="1"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 @error('startingPrice') border-red-500 @enderror"
+                                placeholder="1.00">
+                            @error('startingPrice')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Buy Now Price -->
+                        <div>
+                            <label for="buyNowPrice" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Kupi odmah cena (RSD) <span class="text-gray-500 text-xs">(opciono)</span>
+                            </label>
+                            <input type="number" wire:model="buyNowPrice" id="buyNowPrice" step="0.01" min="1"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 @error('buyNowPrice') border-red-500 @enderror"
+                                placeholder="Opciono - mora biti veća od početne cene">
+                            @error('buyNowPrice')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Duration -->
+                        <div>
+                            <label for="duration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Trajanje aukcije <span class="text-red-500">*</span>
+                            </label>
+                            <select wire:model="duration" id="duration"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 @error('duration') border-red-500 @enderror">
+                                <option value="1">1 dan</option>
+                                <option value="3">3 dana</option>
+                                <option value="5">5 dana</option>
+                                <option value="7" selected>7 dana</option>
+                                <option value="10">10 dana</option>
+                            </select>
+                            @error('duration')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Start Type -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Početak aukcije <span class="text-red-500">*</span>
+                            </label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" wire:model="startType" value="immediately" class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
+                                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Odmah posle objave</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" wire:model="startType" value="scheduled" class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300">
+                                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Zakazano vreme</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scheduled Start Time (only if scheduled) -->
+                    @if($startType === 'scheduled')
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <label for="startDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Datum početka <span class="text-red-500">*</span>
+                                </label>
+                                <input type="date" wire:model="startDate" id="startDate" min="{{ date('Y-m-d') }}"
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 @error('startDate') border-red-500 @enderror">
+                                @error('startDate')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="startTime" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Vreme početka <span class="text-red-500">*</span>
+                                </label>
+                                <input type="time" wire:model="startTime" id="startTime"
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 @error('startTime') border-red-500 @enderror">
+                                @error('startTime')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Auction Info -->
+                    <div class="mt-4 p-3 bg-yellow-100 dark:bg-yellow-800 border border-yellow-300 dark:border-yellow-600 rounded-lg">
+                        <div class="text-sm text-yellow-800 dark:text-yellow-200">
+                            <div class="flex items-start">
+                                <i class="fas fa-info-circle text-yellow-600 dark:text-yellow-400 mr-2 mt-0.5"></i>
+                                <div>
+                                    <p class="font-medium">Kako funkcionišu aukcije:</p>
+                                    <ul class="list-disc list-inside mt-1 space-y-1 text-xs">
+                                        <li>Aukcija počinje sa vašom početnom cenom</li>
+                                        <li>Korisnici licitiraju u koracima od {{ number_format(\App\Models\Setting::get('auction_bid_increment', 10), 0) }} RSD</li>
+                                        <li>Aukcija se automatski produžava ako se licitira u poslednje {{ \App\Models\Setting::get('auction_extension_trigger_time', 3) }} minuta</li>
+                                        <li>Ako postavite "Kupi odmah" cenu, kupci mogu odmah da kupe po toj ceni</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Description -->
             <div class="mb-6">
                 <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     @if($listingType === 'giveaway')
                         Opis poklona <span class="text-red-500">*</span>
+                    @elseif($listingType === 'auction')
+                        Opis proizvoda za aukciju <span class="text-red-500">*</span>
                     @else
                         Opis oglasa <span class="text-red-500">*</span>
                     @endif
                 </label>
                 <textarea wire:model="description" id="description" rows="6"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @enderror"
-                    placeholder="@if($listingType === 'giveaway')Detaljno opišite šta poklanjate...@elseDetaljno opišite vaš proizvod...@endif"></textarea>
+                    placeholder="@if($listingType === 'giveaway')Detaljno opišite šta poklanjate...@elseif($listingType === 'auction')Detaljno opišite proizvod koji prodajete na aukciji...@elseDetaljno opišite vaš proizvod...@endif"></textarea>
                 <div class="flex justify-between items-center mt-1">
                     @error('description')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
@@ -335,6 +466,8 @@
                     <span wire:loading.remove wire:target="save">
                         @if($listingType === 'giveaway')
                             Objavi poklon (Besplatno)
+                        @elseif($listingType === 'auction')
+                            Kreiraj aukciju ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})
                         @else
                             Objavi oglas ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})
                         @endif
