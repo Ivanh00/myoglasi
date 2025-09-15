@@ -423,7 +423,7 @@
                                 @if(auth()->id() === $listing->user_id)
                                     <!-- Owner button -->
                                     <a href="{{ route('listings.edit', $listing) }}"
-                                        class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                        class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
                                         <i class="fas fa-edit mr-2"></i> Uredi oglas
                                     </a>
                                 @else
@@ -600,7 +600,7 @@
                                         @if(auth()->id() === $listing->user_id)
                                             <!-- Owner button -->
                                             <a href="{{ route('listings.edit', $listing) }}"
-                                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
                                                 <i class="fas fa-edit mr-2"></i> Uredi oglas
                                             </a>
                                         @else
