@@ -27,8 +27,8 @@
                 </div>
                 
                 <!-- Progress Bar -->
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="h-2 rounded-full {{ $percentage >= 100 ? 'bg-red-100 dark:bg-red-9000' : ($percentage >= 80 ? 'bg-yellow-100 dark:bg-yellow-9000' : 'bg-blue-100 dark:bg-blue-9000') }}" 
+                <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                    <div class="h-2 rounded-full {{ $percentage >= 100 ? 'bg-red-600' : ($percentage >= 80 ? 'bg-yellow-500' : 'bg-blue-600') }}"
                          style="width: {{ min($percentage, 100) }}%"></div>
                 </div>
                 
