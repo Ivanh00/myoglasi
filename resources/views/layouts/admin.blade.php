@@ -359,6 +359,78 @@
             color: rgb(221 214 254) !important; /* purple-200 - even lighter on hover */
         }
         
+        /* Admin action buttons use *-900 hover classes - make them lighter */
+        .dark .hover\\:text-blue-900:hover {
+            color: rgb(191 219 254) !important; /* blue-200 - lighter on hover */
+        }
+        
+        .dark .hover\\:text-red-900:hover {
+            color: rgb(254 202 202) !important; /* red-200 - lighter on hover */
+        }
+        
+        .dark .hover\\:text-green-900:hover {
+            color: rgb(187 247 208) !important; /* green-200 - lighter on hover */
+        }
+        
+        .dark .hover\\:text-orange-900:hover {
+            color: rgb(254 215 170) !important; /* orange-200 - lighter on hover */
+        }
+        
+        .dark .hover\\:text-yellow-900:hover {
+            color: rgb(254 240 138) !important; /* yellow-200 - lighter on hover */
+        }
+        
+        .dark .hover\\:text-purple-900:hover {
+            color: rgb(221 214 254) !important; /* purple-200 - lighter on hover */
+        }
+        
+        .dark .hover\\:text-indigo-900:hover {
+            color: rgb(199 210 254) !important; /* indigo-200 - lighter on hover */
+        }
+        
+        /* Force hover effects for admin action buttons with maximum specificity */
+        .dark button.text-blue-600:hover,
+        .dark a.text-blue-600:hover,
+        .dark .text-blue-600:hover {
+            color: rgb(191 219 254) !important; /* blue-200 */
+        }
+        
+        .dark button.text-red-600:hover,
+        .dark a.text-red-600:hover,
+        .dark .text-red-600:hover {
+            color: rgb(254 202 202) !important; /* red-200 */
+        }
+        
+        .dark button.text-green-600:hover,
+        .dark a.text-green-600:hover,
+        .dark .text-green-600:hover {
+            color: rgb(187 247 208) !important; /* green-200 */
+        }
+        
+        .dark button.text-orange-600:hover,
+        .dark a.text-orange-600:hover,
+        .dark .text-orange-600:hover {
+            color: rgb(254 215 170) !important; /* orange-200 */
+        }
+        
+        .dark button.text-yellow-600:hover,
+        .dark a.text-yellow-600:hover,
+        .dark .text-yellow-600:hover {
+            color: rgb(254 240 138) !important; /* yellow-200 */
+        }
+        
+        .dark button.text-purple-600:hover,
+        .dark a.text-purple-600:hover,
+        .dark .text-purple-600:hover {
+            color: rgb(221 214 254) !important; /* purple-200 */
+        }
+        
+        .dark button.text-indigo-600:hover,
+        .dark a.text-indigo-600:hover,
+        .dark .text-indigo-600:hover {
+            color: rgb(199 210 254) !important; /* indigo-200 */
+        }
+        
         /* Admin form elements dark mode */
         .dark input[type="text"], 
         .dark input[type="email"], 
