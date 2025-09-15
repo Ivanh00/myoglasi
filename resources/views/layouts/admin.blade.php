@@ -312,6 +312,15 @@
             color: rgb(199 210 254) !important; /* indigo-200 - lighter */
         }
         
+        /* Firewall visitor table specific styling */
+        .dark tbody tr.bg-blue-50 {
+            background-color: rgb(30 58 138) !important; /* blue-900 - same as unread messages */
+        }
+        
+        .dark tbody tr.bg-red-50 {
+            background-color: rgb(127 29 29) !important; /* red-900 - for suspicious visitors */
+        }
+        
         /* Green elements in earning credit section */
         .dark .text-green-800 {
             color: rgb(134 239 172) !important; /* green-300 - readable green */
@@ -627,6 +636,30 @@
         
         .dark ::-webkit-scrollbar-thumb:hover {
             background: rgb(107 114 128); /* gray-500 */
+        }
+        
+        /* Cancel/Close/Otkaži buttons in admin popups */
+        .dark .bg-gray-300 {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        .dark .text-gray-700 {
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
+        .dark .hover\\:bg-gray-400:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        /* Direct targeting for cancel buttons */
+        .dark button.bg-gray-300 {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
+        .dark button.bg-gray-300:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important; /* gray-200 */
         }
     </style>
 </head>

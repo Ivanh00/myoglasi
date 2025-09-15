@@ -223,6 +223,84 @@
             background-color: rgb(107 114 128) !important;
             color: rgb(255 255 255) !important;
         }
+        
+        /* Fix popup buttons in all modals and forms */
+        .dark .bg-blue-600 {
+            background-color: rgb(37 99 235) !important; /* blue-600 */
+        }
+        
+        .dark .hover\\:bg-blue-700:hover {
+            background-color: rgb(29 78 216) !important; /* blue-700 */
+        }
+        
+        .dark .bg-gray-600 {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        .dark .hover\\:bg-gray-50:hover {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+        }
+        
+        .dark .text-gray-600 {
+            color: rgb(156 163 175) !important; /* gray-400 */
+        }
+        
+        .dark .border-gray-300 {
+            border-color: rgb(75 85 99) !important; /* gray-600 */
+        }
+        
+        /* Secondary/Cancel buttons styling */
+        .dark button[class*="text-gray-600"][class*="border-gray-300"],
+        .dark a[class*="text-gray-600"][class*="border-gray-300"] {
+            background-color: rgb(55 65 81) !important; /* gray-700 - dark background */
+            color: rgb(209 213 219) !important; /* gray-300 - light text */
+            border-color: rgb(75 85 99) !important; /* gray-600 - visible border */
+        }
+        
+        .dark button[class*="text-gray-600"][class*="hover:bg-gray-50"]:hover,
+        .dark a[class*="text-gray-600"][class*="hover:bg-gray-50"]:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 - lighter on hover */
+            color: rgb(229 231 235) !important; /* gray-200 - even lighter text */
+        }
+        
+        /* Cancel/Close buttons with bg-gray-300 styling - direct approach */
+        .dark .bg-gray-300 {
+            background-color: rgb(55 65 81) !important; /* gray-700 - dark background */
+        }
+        
+        .dark .text-gray-700 {
+            color: rgb(209 213 219) !important; /* gray-300 - light text */
+        }
+        
+        .dark .hover\\:bg-gray-400:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 - lighter on hover */
+        }
+        
+        /* Direct targeting for all gray buttons in dark mode */
+        .dark button.bg-gray-300 {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
+        .dark button.bg-gray-300:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 */
+            color: rgb(229 231 235) !important; /* gray-200 */
+        }
+        
+        .dark button.text-gray-700 {
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
+        /* Specific styling for cancel buttons */
+        .dark button[class*="bg-gray-300"][class*="text-gray-700"] {
+            background-color: rgb(55 65 81) !important; /* gray-700 */
+            color: rgb(209 213 219) !important; /* gray-300 */
+        }
+        
+        .dark button[class*="bg-gray-300"][class*="hover:bg-gray-400"]:hover {
+            background-color: rgb(75 85 99) !important; /* gray-600 - lighter on hover */
+            color: rgb(229 231 235) !important; /* gray-200 - even lighter text */
+        }
     </style>
 
     <!-- Dark Mode Script (must be in head to prevent flash) -->

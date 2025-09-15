@@ -333,7 +333,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($visitors as $visitor)
-                                    <tr class="hover:bg-gray-50 {{ $visitor->is_suspicious ? 'bg-red-50' : '' }}">
+                                    <tr class="hover:bg-gray-50 {{ $visitor->is_suspicious ? 'bg-red-50' : 'bg-blue-50' }}">
                                         <td class="px-6 py-4">
                                             <div>
                                                 <code class="text-sm bg-gray-100 px-2 py-1 rounded">{{ $visitor->ip_address }}</code>
