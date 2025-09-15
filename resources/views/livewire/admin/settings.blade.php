@@ -396,7 +396,7 @@
                     </div>
                 </div>
                 
-                <div class="flex justify-end">
+                <div class="flex justify-end mt-10">
                     <button wire:click="saveGeneralSettings" 
                         class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-save mr-2"></i>

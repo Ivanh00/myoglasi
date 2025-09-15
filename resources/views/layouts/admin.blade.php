@@ -312,6 +312,40 @@
             color: rgb(199 210 254) !important; /* indigo-200 - lighter */
         }
         
+        /* Green elements in earning credit section */
+        .dark .text-green-800 {
+            color: rgb(134 239 172) !important; /* green-300 - readable green */
+        }
+        
+        .dark .bg-green-100 {
+            background-color: rgb(20 83 45) !important; /* green-900 - dark green background */
+        }
+        
+        .dark .bg-green-50 {
+            background-color: rgb(20 83 45) !important; /* green-900 - dark green background for sections */
+        }
+        
+        .dark .border-green-200 {
+            border-color: rgb(34 197 94) !important; /* green-500 - visible green border */
+        }
+        
+        .dark .border-green-300 {
+            border-color: rgb(34 197 94) !important; /* green-500 - visible green border */
+        }
+        
+        .dark .text-green-600 {
+            color: rgb(134 239 172) !important; /* green-300 - readable green text */
+        }
+        
+        /* Focus ring colors for green elements */
+        .dark input:focus.focus\\:ring-green-500 {
+            --tw-ring-color: rgb(34 197 94) !important; /* green-500 */
+        }
+        
+        .dark .focus\\:border-green-500:focus {
+            border-color: rgb(34 197 94) !important; /* green-500 */
+        }
+        
         .dark .hover\\:text-blue-800:hover, .dark .hover\\:text-blue-300:hover {
             color: rgb(191 219 254) !important; /* blue-200 - even lighter on hover */
         }
