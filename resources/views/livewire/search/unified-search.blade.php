@@ -22,21 +22,26 @@
     @endphp
 
     @if (!empty($activeFilters))
-        <div class="bg-blue-50 dark:bg-gray-600 border border-blue-200 rounded-lg p-4 mb-6">
+        <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4 mb-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-sm font-medium text-blue-900 mb-2">Aktivni filteri:</h3>
+                    <h3 class="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">
+                        Aktivni filteri:
+                        <span class="text-xs text-gray-600">
+                            (debug: search_category={{ $search_category }})
+                        </span>
+                    </h3>
                     <div class="flex flex-wrap gap-2">
                         @foreach ($activeFilters as $filter)
                             <span
-                                class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
+                                class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200">
                                 {{ $filter }}
                             </span>
                         @endforeach
                     </div>
                 </div>
                 <button onclick="window.location.href = '{{ route('search.unified') }}'"
-                    class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium">
                     <i class="fas fa-times mr-1"></i>
                     Poništi sve filtere
                 </button>

@@ -189,6 +189,16 @@ if (!empty($auctionType)) {
     
     hasActiveFilters() {
         return this.city || this.category || this.condition || this.auction_type || this.content_type !== 'all' || this.price_min || this.price_max;
+    },
+
+    getActiveFilterCount() {
+        return (this.city ? 1 : 0) +
+               (this.category ? 1 : 0) +
+               (this.condition ? 1 : 0) +
+               (this.auction_type ? 1 : 0) +
+               (this.content_type !== 'all' ? 1 : 0) +
+               (this.price_min ? 1 : 0) +
+               (this.price_max ? 1 : 0);
     }
 }" 
 x-init="syncFromUrl()">
@@ -218,7 +228,7 @@ x-init="syncFromUrl()">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                         <span x-show="hasActiveFilters()" class="ml-2 px-1.5 py-0.5 bg-white dark:bg-gray-200 text-blue-600 dark:text-blue-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
-                            x-text="(city ? 1 : 0) + (category ? 1 : 0) + (condition ? 1 : 0) + (auction_type ? 1 : 0) + (content_type !== 'all' ? 1 : 0) + (price_min ? 1 : 0) + (price_max ? 1 : 0)"></span>
+                            x-text="getActiveFilterCount()"></span>
                     </button>
                 </div>
             </div>
@@ -502,7 +512,7 @@ x-init="syncFromUrl()">
                     <i class="fas fa-search mr-2"></i>
                     <span>Primeni filtere</span>
                     <span x-show="hasActiveFilters()" class="ml-1 px-1.5 py-0.5 bg-white dark:bg-gray-200 text-blue-600 dark:text-blue-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
-                        x-text="(city ? 1 : 0) + (category ? 1 : 0) + (condition ? 1 : 0) + (auction_type ? 1 : 0) + (content_type !== 'all' ? 1 : 0) + (price_min ? 1 : 0) + (price_max ? 1 : 0)"></span>
+                        x-text="getActiveFilterCount()"></span>
                 </button>
             </div>
         </div>
