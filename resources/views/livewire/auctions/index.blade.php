@@ -585,8 +585,82 @@
                 </span>
             </div>
 
-            <div class="space-y-4">
-                @foreach($endedAuctions as $auction)
+            @if($viewMode === 'grid')
+                <!-- Grid View -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    @foreach($endedAuctions as $auction)
+                        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-gray-500">
+                            <!-- Image with overlay -->
+                            <div class="relative">
+                                <div class="w-full h-48">
+                                    @if($auction->listing->images->count() > 0)
+                                        <img src="{{ $auction->listing->images->first()->url }}" alt="{{ $auction->listing->title }}"
+                                            class="w-full h-full object-cover opacity-75">
+                                    @else
+                                        <div class="w-full h-full bg-gray-200 flex items-center justify-center opacity-75">
+                                            <i class="fas fa-gavel text-gray-400 text-3xl"></i>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Ended badge -->
+                                <div class="absolute top-2 right-2">
+                                    <span class="px-2 py-1 bg-gray-700 bg-opacity-90 text-white text-xs font-medium rounded">
+                                        ZAVRŠENO
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="p-4">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ Str::limit($auction->listing->title, 40) }}</h3>
+
+                                <div class="flex items-center text-sm text-gray-600 dark:text-gray-300 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>{{ Str::limit($auction->listing->location, 20) }}</span>
+                                </div>
+
+                                <div class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                                    Prodavac: {{ $auction->listing->user->name }}
+                                    {!! $auction->listing->user->verified_icon ?? '' !!}
+                                </div>
+
+                                @if($auction->winner)
+                                    <div class="mb-3 p-2 bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded">
+                                        <div class="flex items-center text-sm">
+                                            <i class="fas fa-crown text-yellow-500 mr-2"></i>
+                                            <span class="text-green-800 dark:text-green-200 font-medium">
+                                                Pobednik: {{ Str::limit($auction->winner->name, 15) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <div class="mb-3">
+                                    <div class="text-2xl font-bold text-gray-700 dark:text-gray-300">
+                                        {{ number_format($auction->current_price, 0, ',', '.') }} RSD
+                                    </div>
+                                    <div class="text-sm text-gray-500">{{ $auction->total_bids }} ponuda</div>
+                                </div>
+
+                                <div class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                                    Završeno: {{ $auction->ends_at->format('d.m.Y H:i') }}
+                                </div>
+
+                                <a href="{{ route('auction.show', $auction) }}"
+                                    class="block w-full text-center px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                                    <i class="fas fa-eye mr-2"></i> Pregled rezultata
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
+            @if($viewMode === 'list')
+                <!-- List View -->
+                <div class="space-y-4">
+                    @foreach($endedAuctions as $auction)
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-yellow-700">
                         <div class="flex flex-col md:flex-row">
                             <!-- Image -->
@@ -682,6 +756,7 @@
                     </div>
                 @endforeach
             </div>
+            @endif
         </div>
     @endif
 </div>

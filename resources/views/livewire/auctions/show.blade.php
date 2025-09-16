@@ -245,8 +245,22 @@
                                     </h3>
 
                                     <div class="space-y-3">
-                                        @if($auction->isActive())
-                                            <!-- Edit auction link -->
+                                        @if($auction->status === 'active' && $auction->starts_at->isFuture())
+                                            <!-- Scheduled auction controls -->
+                                            <a href="{{ route('auction.setup', $auction->listing) }}"
+                                                class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                                <i class="fas fa-edit mr-2"></i>
+                                                Uredi aukciju
+                                            </a>
+
+                                            <button wire:click="cancelAuction"
+                                                wire:confirm="Da li ste sigurni da želite da otkažete aukciju?"
+                                                class="w-full flex items-center justify-center px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                                                <i class="fas fa-times mr-2"></i>
+                                                Otkaži aukciju
+                                            </button>
+                                        @elseif($auction->isActive())
+                                            <!-- Active auction controls -->
                                             <a href="{{ route('auction.setup', $auction->listing) }}"
                                                 class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                                 <i class="fas fa-edit mr-2"></i>
@@ -317,7 +331,9 @@
                             <div class="flex items-center">
                                 <i class="fas fa-clock text-gray-500 dark:text-gray-400 mr-2"></i>
                                 <span class="text-gray-700 dark:text-gray-300">
-                                    @if($auction->isActive())
+                                    @if($auction->status === 'active' && $auction->starts_at->isFuture())
+                                        Počinje: {{ $auction->starts_at->format('d.m.Y u H:i') }}
+                                    @elseif($auction->isActive())
                                         @if($auction->time_left)
                                             {{ $auction->time_left['formatted'] }} ostalo
                                         @endif
