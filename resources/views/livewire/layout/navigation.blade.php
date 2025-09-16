@@ -39,18 +39,51 @@
 
             <!-- Right Section - Desktop -->
             <div class="hidden md:flex items-center space-x-4">
-                <!-- Postavi oglas dugme - samo za obične korisnike (ne admin) -->
+                <!-- Postavi dropdown - samo za obične korisnike (ne admin) -->
                 @auth
                     @if(!auth()->user()->is_admin)
-                        <div>
-                            <a href="{{ route('listings.create') }}"
-                                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-green-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" type="button"
+                                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
                                 <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
-                                Postavi oglas
-                            </a>
+                                Postavi
+                                <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5 z-50">
+                                <div class="py-1">
+                                    <a href="{{ route('listings.create') }}" @click="open = false"
+                                        class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                        <i class="fas fa-shopping-tag text-blue-600 mr-3"></i>
+                                        Oglas
+                                    </a>
+                                    <a href="{{ route('services.create') }}" @click="open = false"
+                                        class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                                        <i class="fas fa-tools text-gray-600 mr-3"></i>
+                                        Usluga
+                                    </a>
+                                    <div class="border-t border-gray-100 dark:border-gray-600"></div>
+                                    <div class="px-4 py-2">
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Kroz oglas možete kreirati:</p>
+                                        <a href="{{ route('listings.create') }}?type=auction" @click="open = false"
+                                            class="flex items-center px-2 py-1 text-sm text-gray-700 dark:text-gray-200 hover:bg-yellow-50 dark:hover:bg-yellow-900 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors rounded">
+                                            <i class="fas fa-gavel text-yellow-600 mr-2"></i>
+                                            Aukcija
+                                        </a>
+                                        <a href="{{ route('listings.create') }}?type=giveaway" @click="open = false"
+                                            class="flex items-center px-2 py-1 text-sm text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors rounded">
+                                            <i class="fas fa-gift text-green-600 mr-2"></i>
+                                            Poklon
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     @else
                         <!-- Admin Panel Icon Button -->

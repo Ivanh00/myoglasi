@@ -95,6 +95,12 @@ class Create extends Component
         // Default auction values
         $this->duration = 7;
         $this->startType = 'immediately';
+
+        // Set listing type from URL parameter
+        $type = request('type');
+        if (in_array($type, ['auction', 'giveaway'])) {
+            $this->listingType = $type;
+        }
         
     }
 
