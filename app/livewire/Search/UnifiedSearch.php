@@ -66,6 +66,31 @@ class UnifiedSearch extends Component
         $this->resetPage();
     }
 
+    // Livewire lifecycle hooks - auto-trigger when properties change
+    public function updatedAuctionType()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSortBy()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedContentType()
+    {
+        // Reset auction_type when switching content types
+        if ($this->content_type !== 'auctions') {
+            $this->auction_type = '';
+        }
+        $this->resetPage();
+    }
+
     public function render()
     {
         $results = collect();
@@ -174,30 +199,45 @@ class UnifiedSearch extends Component
 
     private function getAuctions()
     {
-        $query = Auction::where('status', 'active')
-            ->with(['listing.category', 'listing.condition', 'listing.images', 'listing.subcategory', 'listing.user', 'bids']);
-            
+        $query = Auction::where('status', 'active');
+
+        // Filter based on auction type - separate scheduled from active
+        if ($this->auction_type === 'scheduled') {
+            // Only scheduled auctions (not yet started)
+            $query->where('starts_at', '>', now());
+        } else {
+            // Only active auctions (started but not ended) - exclude scheduled
+            $query->where('starts_at', '<=', now())
+                  ->where('ends_at', '>', now());
+        }
+
+        $query->with(['listing.category', 'listing.condition', 'listing.images', 'listing.subcategory', 'listing.user', 'bids']);
+
         $this->applyFiltersToQuery($query, 'auction');
-        
+
         // Auction-specific sorting
-        if ($this->auction_type) {
-            switch ($this->auction_type) {
-                case 'ending_soon':
-                    $query->orderBy('ends_at', 'asc');
-                    break;
-                case 'newest':
-                    $query->orderBy('created_at', 'desc');
-                    break;
-                case 'highest_price':
-                    $query->orderBy('current_price', 'desc');
-                    break;
-                case 'most_bids':
-                    $query->orderBy('total_bids', 'desc');
-                    break;
-                default:
-                    $query->orderBy('ends_at', 'asc');
-                    break;
-            }
+        $auctionType = $this->auction_type ?: 'ending_soon';
+
+        switch ($auctionType) {
+            case 'scheduled':
+                // For scheduled auctions, sort by start date
+                $query->orderBy('starts_at', 'asc');
+                break;
+            case 'ending_soon':
+                $query->orderBy('ends_at', 'asc');
+                break;
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'highest_price':
+                $query->orderBy('current_price', 'desc');
+                break;
+            case 'most_bids':
+                $query->orderBy('total_bids', 'desc');
+                break;
+            default:
+                $query->orderBy('ends_at', 'asc');
+                break;
         }
         
         return $query->paginate($this->perPage);

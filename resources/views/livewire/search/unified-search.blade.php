@@ -14,6 +14,7 @@
                         'newest' => 'Najnovije',
                         'highest_price' => 'Najviša cena',
                         'most_bids' => 'Najviše ponuda',
+                        'scheduled' => 'Zakazane aukcije',
                     ][$auction_type]
                 : null,
             $price_min ? 'Cena od: ' . number_format($price_min, 0, ',', '.') . ' RSD' : null,
@@ -123,22 +124,41 @@
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
                             <span>
-                                @switch($sortBy)
-                                    @case('newest')
-                                        Najnovije
-                                    @break
-
-                                    @case('price_asc')
-                                        Cena ↑
-                                    @break
-
-                                    @case('price_desc')
-                                        Cena ↓
-                                    @break
-
-                                    @default
-                                        Najnovije
-                                @endswitch
+                                @if($content_type === 'auctions')
+                                    @switch($auction_type ?: 'ending_soon')
+                                        @case('scheduled')
+                                            Zakazane aukcije
+                                        @break
+                                        @case('ending_soon')
+                                            Završavaju uskoro
+                                        @break
+                                        @case('newest')
+                                            Najnovije
+                                        @break
+                                        @case('highest_price')
+                                            Najviša cena
+                                        @break
+                                        @case('most_bids')
+                                            Najviše ponuda
+                                        @break
+                                        @default
+                                            Završavaju uskoro
+                                    @endswitch
+                                @else
+                                    @switch($sortBy)
+                                        @case('newest')
+                                            Najnovije
+                                        @break
+                                        @case('price_asc')
+                                            Cena ↑
+                                        @break
+                                        @case('price_desc')
+                                            Cena ↓
+                                        @break
+                                        @default
+                                            Najnovije
+                                    @endswitch
+                                @endif
                             </span>
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -148,18 +168,46 @@
 
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-lg">
-                            <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg">
-                                Najnovije
-                            </button>
-                            <button @click="$wire.set('sortBy', 'price_asc'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                Cena ↑
-                            </button>
-                            <button @click="$wire.set('sortBy', 'price_desc'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg">
-                                Cena ↓
-                            </button>
+                            @if($content_type === 'auctions')
+                                <button @click="$wire.set('auction_type', 'ending_soon'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg">
+                                    <i class="fas fa-clock text-red-500 mr-2"></i>
+                                    Završavaju uskoro
+                                </button>
+                                <button @click="$wire.set('auction_type', 'newest'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <i class="fas fa-plus text-green-500 mr-2"></i>
+                                    Najnovije
+                                </button>
+                                <button @click="$wire.set('auction_type', 'highest_price'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
+                                    Najviša cena
+                                </button>
+                                <button @click="$wire.set('auction_type', 'most_bids'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <i class="fas fa-gavel text-orange-500 mr-2"></i>
+                                    Najviše ponuda
+                                </button>
+                                <button @click="$wire.set('auction_type', 'scheduled'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg">
+                                    <i class="fas fa-calendar text-yellow-500 mr-2"></i>
+                                    Zakazane aukcije
+                                </button>
+                            @else
+                                <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg">
+                                    Najnovije
+                                </button>
+                                <button @click="$wire.set('sortBy', 'price_asc'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    Cena ↑
+                                </button>
+                                <button @click="$wire.set('sortBy', 'price_desc'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg">
+                                    Cena ↓
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -178,15 +226,15 @@
 
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-lg">
-                            <button @click="$wire.set('perPage', '20'); open = false" type="button"
+                            <button @click="$wire.set('perPage', 20); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg">
                                 20
                             </button>
-                            <button @click="$wire.set('perPage', '50'); open = false" type="button"
+                            <button @click="$wire.set('perPage', 50); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 50
                             </button>
-                            <button @click="$wire.set('perPage', '100'); open = false" type="button"
+                            <button @click="$wire.set('perPage', 100); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg">
                                 100
                             </button>

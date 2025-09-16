@@ -41,7 +41,8 @@ if (!empty($auctionType)) {
         'ending_soon' => 'Završavaju uskoro',
         'newest' => 'Najnovije aukcije',
         'highest_price' => 'Najviša cena',
-        'most_bids' => 'Najviše ponuda'
+        'most_bids' => 'Najviše ponuda',
+        'scheduled' => 'Zakazane aukcije'
     ];
     $selectedAuctionTypeName = $auctionTypes[$auctionType] ?? '';
 }
@@ -128,9 +129,10 @@ if (!empty($auctionType)) {
         // Update auction type name
         const auctionTypeMap = {
             'ending_soon': 'Završavaju uskoro',
-            'newest': 'Najnovije aukcije', 
+            'newest': 'Najnovije aukcije',
             'highest_price': 'Najviša cena',
-            'most_bids': 'Najviše ponuda'
+            'most_bids': 'Najviše ponuda',
+            'scheduled': 'Zakazane aukcije'
         };
         if (this.auction_type) {
             this.auctionTypeName = auctionTypeMap[this.auction_type] || '';
@@ -482,6 +484,12 @@ x-init="syncFromUrl()">
                                 :class="auction_type === 'most_bids' ? 'bg-yellow-100 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <i class="fas fa-gavel text-orange-600 mr-2"></i>
                                 <span>Najviše ponuda</span>
+                            </button>
+                            <button type="button" @click="selectAuctionType('scheduled', 'Zakazane aukcije'); auctionOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
+                                :class="auction_type === 'scheduled' ? 'bg-yellow-100 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                <i class="fas fa-calendar text-yellow-600 mr-2"></i>
+                                <span>Zakazane aukcije</span>
                             </button>
                         </div>
                     </div>
