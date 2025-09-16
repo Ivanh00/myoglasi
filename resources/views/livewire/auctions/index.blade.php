@@ -261,13 +261,13 @@
                                     @else
                                         <!-- Buyer buttons -->
                                         <a href="{{ route('auction.show', $auction) }}"
-                                            class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                            class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
                                             <i class="fas fa-gavel mr-2"></i> Licitiraj
                                         </a>
 
                                         @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                             <a href="{{ route('auction.show', $auction) }}"
-                                                class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                                class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
                                                 <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
                                             </a>
                                         @endif
@@ -275,7 +275,7 @@
                                 @else
                                     <!-- Guest user buttons -->
                                     <a href="{{ route('login') }}"
-                                        class="block w-full text-center px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                                        class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
                                         <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
                                     </a>
                                 @endauth
@@ -385,13 +385,13 @@
                                             @else
                                                 <!-- Buyer buttons -->
                                                 <a href="{{ route('auction.show', $auction) }}"
-                                                    class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                                    class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
                                                     <i class="fas fa-gavel mr-2"></i> Licitiraj
                                                 </a>
 
                                                 @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                                     <a href="{{ route('auction.show', $auction) }}"
-                                                        class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                                        class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
                                                         <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
                                                     </a>
                                                 @endif
@@ -399,7 +399,7 @@
                                         @else
                                             <!-- Guest user button -->
                                             <a href="{{ route('login') }}"
-                                                class="block w-full text-center px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                                                class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
                                                 <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
                                             </a>
                                         @endauth
@@ -504,7 +504,7 @@
                                 </div>
 
                                 <a href="{{ route('auction.show', $auction) }}"
-                                    class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                    class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
                                     <i class="fas fa-eye mr-2"></i> Pogledaj detalje
                                 </a>
                             </div>
@@ -606,7 +606,7 @@
                                         </div>
 
                                         <a href="{{ route('auction.show', $auction) }}"
-                                            class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                            class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
                                             <i class="fas fa-eye mr-2"></i> Pogledaj detalje
                                         </a>
                                     </div>
@@ -638,7 +638,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     @foreach ($endedAuctions as $auction)
                         <div
-                            class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-gray-500">
+                            class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-yellow-700">
                             <!-- Image with overlay -->
                             <div class="relative">
                                 <div class="w-full h-48">
@@ -702,7 +702,7 @@
                                 </div>
 
                                 <a href="{{ route('auction.show', $auction) }}"
-                                    class="block w-full text-center px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                                    class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
                                     <i class="fas fa-eye mr-2"></i> Pregled rezultata
                                 </a>
                             </div>
