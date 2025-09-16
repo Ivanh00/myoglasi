@@ -363,15 +363,15 @@
 
                             <!-- Sidebar -->
                             <div
-                                class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-yellow-50 dark:bg-gray-600">
+                                class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-yellow-50 dark:bg-yellow-900">
                                 <div class="flex flex-col h-full justify-between">
                                     <div class="text-center mb-4">
-                                        <div class="text-lg font-bold text-yellow-600">
+                                        <div class="text-lg font-bold text-yellow-700 dark:text-yellow-300">
                                             @if ($auction->time_left)
                                                 {{ $auction->time_left['formatted'] }}
                                             @endif
                                         </div>
-                                        <div class="text-xs text-gray-500">vremena ostalo</div>
+                                        <div class="text-xs text-yellow-600 dark:text-yellow-400">vremena ostalo</div>
                                     </div>
 
                                     <div class="space-y-2">
@@ -590,7 +590,7 @@
 
                                 <!-- Sidebar -->
                                 <div
-                                    class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-yellow-50 dark:bg-gray-600">
+                                    class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-yellow-50 dark:bg-yellow-900">
                                     <div class="flex flex-col h-full justify-between">
                                         <div class="text-center mb-4">
                                             <div class="text-sm font-bold text-yellow-600 dark:text-yellow-300">
