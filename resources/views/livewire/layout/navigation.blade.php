@@ -179,14 +179,15 @@
                                     <x-dropdown-link href="{{ route('profile') }}">
                                         Moj profil
                                     </x-dropdown-link>
-                                    <x-dropdown-link href="{{ route('listings.my') }}">
+                                    <x-dropdown-link href="{{ route('listings.my') }}" class="!bg-blue-600 !text-white hover:!bg-blue-700 dark:hover:!bg-gray-800">
+                                        <i class="fas fa-list mr-2"></i>
                                         Moji oglasi
                                     </x-dropdown-link>
-                                    <x-dropdown-link href="{{ route('auctions.my') }}" class="bg-yellow-600 text-white hover:bg-yellow-700">
+                                    <x-dropdown-link href="{{ route('auctions.my') }}" class="!bg-yellow-600 !text-white hover:!bg-yellow-700 dark:hover:!bg-gray-800">
                                         <i class="fas fa-gavel mr-2"></i>
                                         Moje aukcije
                                     </x-dropdown-link>
-                                    <x-dropdown-link href="{{ route('services.my') }}" class="bg-gray-600 text-white hover:bg-gray-700">
+                                    <x-dropdown-link href="{{ route('services.my') }}" class="!bg-gray-600 !text-white hover:!bg-gray-700 dark:hover:!bg-gray-800">
                                         <i class="fas fa-tools mr-2"></i>
                                         Moje usluge
                                     </x-dropdown-link>
@@ -231,7 +232,7 @@
                                     @csrf
                                     <x-dropdown-link href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); this.closest('form').submit();"
-                                        class="bg-red-600 text-white hover:bg-red-700">
+                                        class="!bg-red-600 !text-white hover:!bg-red-700 dark:hover:!bg-gray-800">
                                         <i class="fas fa-sign-out-alt mr-2"></i>
                                         Odjavi se
                                     </x-dropdown-link>

@@ -44,14 +44,14 @@
             Poklanjam
         </a>
         
-        <!-- Globalni "Svi oglasi" -->
+        <!-- Globalni "Oglasi" -->
         <a href="{{ route('listings.index') }}"
             class="flex items-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mb-2 {{ request()->routeIs('listings.index') && !request()->get('selectedCategory') ? 'bg-blue-700' : '' }}">
             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M19 11H5m14-8H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"></path>
             </svg>
-            Svi oglasi
+            Oglasi
         </a>
 
         @php
