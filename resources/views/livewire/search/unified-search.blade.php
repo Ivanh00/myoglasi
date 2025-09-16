@@ -451,7 +451,7 @@
                                         </div>
 
                                         <div class="flex items-center gap-2">
-                                            @if ($listing->getTypeBadge())
+                                            @if ($listing instanceof \App\Models\Listing && $listing->getTypeBadge())
                                                 <span
                                                     class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
                                                     {{ $listing->getTypeBadge()['text'] }}
@@ -644,7 +644,7 @@
                                 </div>
 
                                 <div class="flex items-center gap-2">
-                                    @if ($listing->getTypeBadge())
+                                    @if ($listing instanceof \App\Models\Listing && $listing->getTypeBadge())
                                         <span
                                             class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
                                             {{ $listing->getTypeBadge()['text'] }}
