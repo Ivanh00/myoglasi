@@ -1,17 +1,33 @@
 <div class="max-w-4xl mx-auto py-6 px-4">
-    <div class="bg-white rounded-lg shadow-lg p-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
         <!-- Header -->
-        <div class="mb-6 border-b pb-4">
-            <h1 class="text-2xl font-bold text-gray-900">Dodaj novi oglas</h1>
-            <p class="text-gray-600 mt-2">Popunite sva polja i dodajte slike vašeg proizvoda</p>
-            <div class="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded">
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-600 pb-4">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                @if(request('type') === 'auction')
+                    Dodaj novu aukciju
+                @elseif(request('type') === 'giveaway')
+                    Dodaj novi poklon
+                @else
+                    Dodaj novi oglas
+                @endif
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-2">
+                @if(request('type') === 'auction')
+                    Popunite sva polja i dodajte slike proizvoda za aukciju
+                @elseif(request('type') === 'giveaway')
+                    Popunite sva polja i dodajte slike vašeg poklona
+                @else
+                    Popunite sva polja i dodajte slike vašeg proizvoda
+                @endif
+            </p>
+            <div class="mt-2 p-3 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded">
                 <div class="flex items-center">
-                    <svg class="w-5 h-5 text-yellow-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    <span class="text-sm font-medium text-yellow-800">
+                    <span class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
                         Vaš trenutni balans: <strong>{{ number_format(auth()->user()->balance, 2) }} RSD</strong>
                         | Cena objave: <strong>
                             @if($listingType === 'giveaway')
