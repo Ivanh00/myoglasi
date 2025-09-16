@@ -64,18 +64,26 @@ class Index extends Component
 
         $auctions = $activeQuery->paginate($this->perPage);
 
-        // Ended auctions (last 10)
+        // Scheduled auctions (not yet started)
+        $scheduledAuctions = Auction::with(['listing.images', 'listing.user', 'listing.category'])
+            ->where('status', 'active')
+            ->where('starts_at', '>', now())
+            ->orderBy('starts_at', 'asc')
+            ->get();
+
+        // Ended auctions (last 5)
         $endedAuctions = Auction::with(['listing.images', 'listing.user', 'listing.category', 'winningBid.user', 'winner'])
             ->where(function($query) {
                 $query->where('status', 'ended')
                       ->orWhere('ends_at', '<=', now());
             })
             ->orderBy('ends_at', 'desc')
-            ->limit(10)
+            ->limit(5)
             ->get();
 
         return view('livewire.auctions.index', [
             'auctions' => $auctions,
+            'scheduledAuctions' => $scheduledAuctions,
             'endedAuctions' => $endedAuctions
         ])->layout('layouts.app');
     }

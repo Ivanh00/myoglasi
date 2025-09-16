@@ -392,13 +392,193 @@
         </div>
     @endif
 
+    <!-- Scheduled Auctions Section -->
+    @if($scheduledAuctions->count() > 0)
+        <div class="mt-12">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Zakazane aukcije</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Aukcije koje će uskoro početi</p>
+                </div>
+                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-700 text-blue-600 dark:text-blue-300 rounded-full text-sm">
+                    {{ $scheduledAuctions->count() }} zakazanih
+                </span>
+            </div>
+
+            @if($viewMode === 'grid')
+                <!-- Grid View -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    @foreach($scheduledAuctions as $auction)
+                        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-blue-500">
+                            <!-- Image with overlay -->
+                            <div class="relative">
+                                <div class="w-full h-48">
+                                    @if($auction->listing->images->count() > 0)
+                                        <img src="{{ $auction->listing->images->first()->url }}" alt="{{ $auction->listing->title }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                            <i class="fas fa-clock text-gray-400 text-3xl"></i>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Scheduled badge -->
+                                <div class="absolute top-2 right-2">
+                                    <span class="px-2 py-1 bg-blue-600 bg-opacity-90 text-white text-xs font-medium rounded">
+                                        ZAKAZANO
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="p-4">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ Str::limit($auction->listing->title, 40) }}</h3>
+
+                                <div class="mb-3">
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">Početna cena:</div>
+                                    <div class="text-xl font-bold text-blue-600">
+                                        {{ number_format($auction->starting_price, 0, ',', '.') }} RSD
+                                    </div>
+                                    @if($auction->buy_now_price)
+                                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Kupi odmah:</div>
+                                        <div class="text-lg font-bold text-green-600">
+                                            {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                                    Prodavac: {{ $auction->listing->user->name }}
+                                    {!! $auction->listing->user->verified_icon ?? '' !!}
+                                </div>
+
+                                <div class="p-3 bg-blue-50 dark:bg-blue-900 rounded-lg mb-3">
+                                    <div class="text-sm text-blue-800 dark:text-blue-200 font-medium">
+                                        <i class="fas fa-calendar-alt mr-1"></i>
+                                        Počinje: {{ $auction->starts_at->format('d.m.Y u H:i') }}
+                                    </div>
+                                    <div class="text-xs text-blue-600 dark:text-blue-300 mt-1">
+                                        ({{ $auction->starts_at->diffForHumans() }})
+                                    </div>
+                                </div>
+
+                                <a href="{{ route('auction.show', $auction) }}"
+                                    class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                    <i class="fas fa-eye mr-2"></i> Pogledaj detalje
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
+            @if($viewMode === 'list')
+                <!-- List View -->
+                <div class="space-y-4">
+                    @foreach($scheduledAuctions as $auction)
+                        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-blue-500">
+                            <div class="flex flex-col md:flex-row">
+                                <!-- Image -->
+                                <div class="w-full md:w-48 md:min-w-48 h-48 relative">
+                                    @if($auction->listing->images->count() > 0)
+                                        <img src="{{ $auction->listing->images->first()->url }}" alt="{{ $auction->listing->title }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                            <i class="fas fa-clock text-gray-400 text-3xl"></i>
+                                        </div>
+                                    @endif
+
+                                    <!-- Scheduled overlay -->
+                                    <div class="absolute top-2 right-2">
+                                        <span class="px-2 py-1 bg-blue-600 bg-opacity-90 text-white text-xs font-medium rounded">
+                                            ZAKAZANO
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="flex-1 p-4 md:p-6">
+                                    <div class="flex flex-col h-full">
+                                        <div class="flex-1">
+                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ $auction->listing->title }}</h3>
+
+                                            <div class="flex items-center text-sm text-gray-600 dark:text-gray-300 mb-2">
+                                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                                <span>{{ $auction->listing->location }}</span>
+                                                <span class="mx-2">•</span>
+                                                <i class="fas fa-folder mr-1"></i>
+                                                <span>{{ $auction->listing->category->name }}</span>
+                                            </div>
+
+                                            <p class="text-gray-700 dark:text-gray-200 mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                                {{ Str::limit(strip_tags($auction->listing->description), 120) }}
+                                            </p>
+
+                                            <div class="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                                                Prodavac: <span class="font-medium">{{ $auction->listing->user->name }}</span>
+                                                {!! $auction->listing->user->verified_icon ?? '' !!}
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <div class="text-sm text-gray-500">Početna cena:</div>
+                                                <div class="text-2xl font-bold text-blue-600">
+                                                    {{ number_format($auction->starting_price, 0, ',', '.') }} RSD
+                                                </div>
+                                            </div>
+
+                                            @if($auction->buy_now_price)
+                                                <div class="text-right">
+                                                    <div class="text-sm text-gray-500">Kupi odmah:</div>
+                                                    <div class="text-lg font-bold text-green-600">
+                                                        {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sidebar -->
+                                <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-blue-50 dark:bg-gray-600">
+                                    <div class="flex flex-col h-full justify-between">
+                                        <div class="text-center mb-4">
+                                            <div class="text-sm font-bold text-blue-600 dark:text-blue-300">
+                                                <i class="fas fa-calendar-alt mr-1"></i>
+                                                Počinje za:
+                                            </div>
+                                            <div class="text-lg font-bold text-blue-700 dark:text-blue-200">
+                                                {{ $auction->starts_at->diffForHumans() }}
+                                            </div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                {{ $auction->starts_at->format('d.m.Y u H:i') }}
+                                            </div>
+                                        </div>
+
+                                        <a href="{{ route('auction.show', $auction) }}"
+                                            class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                            <i class="fas fa-eye mr-2"></i> Pogledaj detalje
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+    @endif
+
     <!-- Ended Auctions Section -->
     @if($endedAuctions->count() > 0)
         <div class="mt-12">
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Završene aukcije</h2>
-                    <p class="text-gray-600 dark:text-gray-400">Poslednje završene aukcije sa pobednicima</p>
+                    <p class="text-gray-600 dark:text-gray-400">Poslednjih 5 završenih aukcija</p>
                 </div>
                 <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-sm">
                     {{ $endedAuctions->count() }} završenih
