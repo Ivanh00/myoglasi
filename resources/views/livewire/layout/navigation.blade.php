@@ -60,28 +60,26 @@
                                 <div class="py-1">
                                     <a href="{{ route('listings.create') }}" @click="open = false"
                                         class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                        <i class="fas fa-shopping-tag text-blue-600 mr-3"></i>
+                                        <svg class="w-5 h-5 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                        </svg>
                                         Oglas
+                                    </a>
+                                    <a href="{{ route('listings.create') }}?type=auction" @click="open = false"
+                                        class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-yellow-50 dark:hover:bg-yellow-900 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors">
+                                        <i class="fas fa-gavel text-yellow-600 mr-3"></i>
+                                        Aukcija
                                     </a>
                                     <a href="{{ route('services.create') }}" @click="open = false"
                                         class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
                                         <i class="fas fa-tools text-gray-600 mr-3"></i>
                                         Usluga
                                     </a>
-                                    <div class="border-t border-gray-100 dark:border-gray-600"></div>
-                                    <div class="px-4 py-2">
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Kroz oglas možete kreirati:</p>
-                                        <a href="{{ route('listings.create') }}?type=auction" @click="open = false"
-                                            class="flex items-center px-2 py-1 text-sm text-gray-700 dark:text-gray-200 hover:bg-yellow-50 dark:hover:bg-yellow-900 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors rounded">
-                                            <i class="fas fa-gavel text-yellow-600 mr-2"></i>
-                                            Aukcija
-                                        </a>
-                                        <a href="{{ route('listings.create') }}?type=giveaway" @click="open = false"
-                                            class="flex items-center px-2 py-1 text-sm text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors rounded">
-                                            <i class="fas fa-gift text-green-600 mr-2"></i>
-                                            Poklon
-                                        </a>
-                                    </div>
+                                    <a href="{{ route('listings.create') }}?type=giveaway" @click="open = false"
+                                        class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                                        <i class="fas fa-gift text-green-600 mr-3"></i>
+                                        Poklon
+                                    </a>
                                 </div>
                             </div>
                         </div>
