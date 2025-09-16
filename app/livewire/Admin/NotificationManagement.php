@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\Listing;
+use App\Models\PublicNotification;
 
 class NotificationManagement extends Component
 {
@@ -131,7 +132,7 @@ class NotificationManagement extends Component
         $rules = [
             'notificationData.title' => 'required|string|max:255',
             'notificationData.message' => 'required|string|max:1000',
-            'notificationData.recipient_type' => 'required|in:single,all,filtered',
+            'notificationData.recipient_type' => 'required|in:single,all,filtered,public',
         ];
 
         // Add recipient_id validation only for single type
@@ -142,6 +143,23 @@ class NotificationManagement extends Component
         $this->validate($rules);
 
         try {
+            // Handle public notifications differently
+            if ($this->notificationData['recipient_type'] === 'public') {
+                PublicNotification::create([
+                    'title' => $this->notificationData['title'],
+                    'message' => $this->notificationData['message'],
+                    'type' => 'info',
+                    'is_active' => true,
+                    'created_by' => auth()->id(),
+                    'expires_at' => null, // No expiry for now
+                ]);
+
+                $this->showSendModal = false;
+                $this->resetNotificationForm();
+                $this->dispatch('notify', type: 'success', message: 'Javno obaveštenje je uspešno kreirano i prikazaće se svim korisnicima!');
+                return;
+            }
+
             $recipients = $this->getRecipients();
             
             if ($recipients->isEmpty()) {

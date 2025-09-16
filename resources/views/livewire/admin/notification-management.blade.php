@@ -270,6 +270,12 @@
                                         <span class="text-sm">Filtriranim korisnicima</span>
                                         <span class="text-xs text-gray-500 ml-2">(custom grupe)</span>
                                     </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" wire:model.live="notificationData.recipient_type"
+                                            value="public" class="mr-2">
+                                        <span class="text-sm text-green-600 font-medium">Javno obaveštenje</span>
+                                        <span class="text-xs text-green-500 ml-2">(prikazuje se svim korisnicima u navigation bar-u)</span>
+                                    </label>
                                 </div>
                             </div>
 

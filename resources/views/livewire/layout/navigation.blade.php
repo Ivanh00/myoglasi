@@ -1,5 +1,38 @@
 <!-- Start of Selection -->
-<!-- Credit Received Toast Notification -->
+<div>
+    <!-- Public Notifications -->
+    @php
+        $publicNotification = \App\Models\PublicNotification::active()->latest()->first();
+    @endphp
+
+    @if($publicNotification)
+        <div x-data="{
+            show: !localStorage.getItem('hidden_public_notification_' + {{ $publicNotification->id }}),
+            hideNotification() {
+                this.show = false;
+                localStorage.setItem('hidden_public_notification_' + {{ $publicNotification->id }}, 'true');
+            }
+        }"
+        x-show="show" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 transform -translate-y-2"
+        x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100 transform translate-y-0" x-transition:leave-end="opacity-0 transform -translate-y-2"
+        class="bg-green-700 text-white text-center py-3 px-4 relative z-[60]" style="display: none;">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div class="flex-1 flex items-center justify-center">
+                    <i class="fas fa-bullhorn mr-3"></i>
+                    <div>
+                        <div class="font-semibold">{{ $publicNotification->title }}</div>
+                        <div class="text-sm text-green-100">{{ $publicNotification->message }}</div>
+                    </div>
+                </div>
+                <button @click="hideNotification()" class="text-green-200 hover:text-white ml-4 p-1">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    @endif
+
+    <!-- Credit Received Toast Notification -->
 @if(session()->has('credit_received'))
     <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)" 
          class="fixed top-4 right-4 z-[9999] bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg max-w-sm">
@@ -397,3 +430,4 @@
         });
     </script>
 </nav>
+</div>
