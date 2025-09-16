@@ -59,7 +59,7 @@ class MyServices extends Component
     public function render()
     {
         $query = Service::where('user_id', auth()->id())
-            ->with(['category', 'images']);
+            ->with(['category', 'images', 'promotions']);
 
         if ($this->search) {
             $query->where('title', 'like', '%' . $this->search . '%');

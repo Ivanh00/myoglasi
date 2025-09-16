@@ -101,7 +101,9 @@
     @if ($services->count() > 0)
         <div class="space-y-4 mb-8">
             @foreach ($services as $service)
-                <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-gray-500">
+                <div class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4
+                    {{ $service->hasActivePromotion('urgent') ? 'border-red-500' : ($service->hasActivePromotion('featured') ? 'border-blue-500' : ($service->hasActivePromotion('top') ? 'border-purple-500' : 'border-gray-500')) }}
+                    {{ $service->hasActivePromotion('highlighted') ? 'bg-yellow-50 dark:bg-yellow-900' : 'bg-white dark:bg-gray-700' }}">
                     <div class="flex flex-col md:flex-row">
                         <!-- Slika usluge -->
                         <div class="w-full md:w-48 md:min-w-48 h-48">
@@ -119,9 +121,22 @@
                         <div class="flex-1 p-4 md:p-6">
                             <div class="flex flex-col h-full">
                                 <div class="flex-1">
-                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 hover:text-blue-600 transition-colors">
-                                        {{ $service->title }}
-                                    </h3>
+                                    <div class="flex items-start">
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 hover:text-blue-600 transition-colors">
+                                            {{ $service->title }}
+                                        </h3>
+
+                                        <!-- Promotion Badges -->
+                                        @if($service->hasActivePromotion())
+                                            <div class="flex flex-wrap gap-1 ml-2">
+                                                @foreach($service->getPromotionBadges() as $badge)
+                                                    <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                        {{ $badge['text'] }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
 
                                     <!-- Pružalac usluge -->
                                     @auth

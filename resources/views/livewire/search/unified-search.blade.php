@@ -212,6 +212,85 @@
                     </div>
                 </div>
 
+                <!-- Category Dropdown -->
+                @if($content_type === 'services')
+                    <!-- Service Category Dropdown -->
+                    <div class="w-60" x-data="{ open: false }" x-init="open = false">
+                        <div class="relative">
+                            <button @click="open = !open" type="button"
+                                class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
+                                <span>
+                                    @if($service_category)
+                                        @php $selectedCat = $serviceCategories->firstWhere('id', $service_category); @endphp
+                                        {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
+                                    @else
+                                        Sve kategorije
+                                    @endif
+                                </span>
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                <button @click="$wire.setServiceCategory(''); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg {{ !$service_category ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-gray-200' : 'text-gray-700 dark:text-gray-200' }}">
+                                    Sve kategorije
+                                </button>
+                                @foreach ($serviceCategories as $category)
+                                    <button @click="$wire.setServiceCategory('{{ $category->id }}'); open = false" type="button"
+                                        class="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-600 flex items-center {{ $service_category == $category->id ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-gray-200' : 'text-gray-700 dark:text-gray-200' }}">
+                                        @if($category->icon)
+                                            <i class="{{ $category->icon }} text-blue-600 mr-2"></i>
+                                        @endif
+                                        {{ $category->name }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @elseif($content_type !== 'auctions')
+                    <!-- Regular Category Dropdown for Listings/Giveaways -->
+                    <div class="w-56" x-data="{ open: false }" x-init="open = false">
+                        <div class="relative">
+                            <button @click="open = !open" type="button"
+                                class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 focus:outline-none focus:border-blue-500 transition-colors flex items-center justify-between">
+                                <span>
+                                    @if($search_category)
+                                        @php $selectedCat = $categories->firstWhere('id', $search_category); @endphp
+                                        {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
+                                    @else
+                                        Sve kategorije
+                                    @endif
+                                </span>
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                <button @click="$wire.set('search_category', ''); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg {{ !$search_category ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-gray-200' : 'text-gray-700 dark:text-gray-200' }}">
+                                    Sve kategorije
+                                </button>
+                                @foreach ($categories as $category)
+                                    <button @click="$wire.set('search_category', '{{ $category->id }}'); open = false"
+                                        type="button"
+                                        class="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-600 flex items-center {{ $search_category == $category->id ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-gray-200' : 'text-gray-700 dark:text-gray-200' }}">
+                                        @if($category->icon)
+                                            <i class="{{ $category->icon }} text-gray-600 mr-2"></i>
+                                        @endif
+                                        {{ $category->name }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 <!-- Per Page -->
                 <div class="w-32" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
@@ -266,17 +345,17 @@
                     <div
                         class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 
                         @if (isset($listing->is_auction)) border-l-4 border-yellow-500
-                        @elseif($listing->isGiveaway())
-                            border-l-4 border-green-500
-                        @elseif($listing->isService())
+                        @elseif($listing instanceof \App\Models\Service)
                             border-l-4 border-gray-500
+                        @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
+                            border-l-4 border-green-500
                         @else
                             border-l-4 border-blue-500 @endif">
                         <div class="flex flex-col md:flex-row">
                             <!-- Image -->
                             <div class="w-full md:w-48 md:min-w-48 h-48 relative">
                                 <a
-                                    href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}">
+                                    href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : ($listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing)) }}">
                                     @if ($listing->images->count() > 0)
                                         <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
                                             class="w-full h-full object-cover">
@@ -313,7 +392,7 @@
                                 <div class="flex flex-col h-full">
                                     <div class="flex-1">
                                         <div class="flex items-start justify-between mb-2">
-                                            <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}"
+                                            <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : ($listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing)) }}"
                                                 class="flex-1">
                                                 <h3
                                                     class="text-lg font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 transition-colors">
@@ -322,7 +401,7 @@
                                             </a>
 
                                             <!-- Promotion Badges -->
-                                            @if ($listing->hasActivePromotion())
+                                            @if (($listing instanceof \App\Models\Listing || $listing instanceof \App\Models\Service) && $listing->hasActivePromotion())
                                                 <div class="flex flex-wrap gap-1 ml-2">
                                                     @foreach ($listing->getPromotionBadges() as $badge)
                                                         <span
@@ -362,7 +441,7 @@
                                                 </div>
                                                 <div class="text-sm text-gray-500">
                                                     {{ $listing->auction_data->total_bids }} ponuda</div>
-                                            @elseif($listing->isGiveaway())
+                                            @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
                                                 <div class="text-xl font-bold text-green-600">BESPLATNO</div>
                                             @else
                                                 <div class="text-xl font-bold text-blue-600">
@@ -394,9 +473,9 @@
                             <div
                                 class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 
                                 @if (isset($listing->is_auction)) bg-yellow-50 dark:bg-gray-600
-                                @elseif($listing->isGiveaway())
+                                @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
                                     bg-green-50 dark:bg-gray-600
-                                @elseif($listing->isService())
+                                @elseif($listing instanceof \App\Models\Service)
                                     bg-gray-50 dark:bg-gray-600
                                 @else
                                     bg-blue-50 dark:bg-gray-600 @endif">
@@ -443,7 +522,7 @@
                                                 </a>
                                             @endif
                                         @else
-                                            <a href="{{ route('listings.show', $listing) }}"
+                                            <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
                                                 class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                                                 <i class="fas fa-eye mr-2"></i> Pregled
                                             </a>
@@ -464,10 +543,10 @@
                     <div
                         class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 
                         @if (isset($listing->is_auction)) border-l-4 border-yellow-500
-                        @elseif($listing->isGiveaway())
-                            border-l-4 border-green-500
-                        @elseif($listing->isService())
+                        @elseif($listing instanceof \App\Models\Service)
                             border-l-4 border-gray-500
+                        @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
+                            border-l-4 border-green-500
                         @else
                             border-l-4 border-blue-500 @endif">
                         <!-- Image -->
@@ -517,7 +596,7 @@
                                 </a>
 
                                 <!-- Promotion Badges -->
-                                @if ($listing->hasActivePromotion())
+                                @if (($listing instanceof \App\Models\Listing || $listing instanceof \App\Models\Service) && $listing->hasActivePromotion())
                                     <div class="flex flex-wrap gap-1 ml-2">
                                         @foreach ($listing->getPromotionBadges() as $badge)
                                             <span
@@ -555,7 +634,7 @@
                                         </div>
                                         <div class="text-sm text-gray-500">{{ $listing->auction_data->total_bids }}
                                             ponuda</div>
-                                    @elseif($listing->isGiveaway())
+                                    @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
                                         <div class="text-2xl font-bold text-green-600">BESPLATNO</div>
                                     @else
                                         <div class="text-2xl font-bold text-blue-600">
@@ -617,7 +696,7 @@
                                     @endif
                                 </div>
                             @else
-                                <a href="{{ route('listings.show', $listing) }}"
+                                <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
                                     class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                                     <i class="fas fa-eye mr-2"></i> Pregled
                                 </a>

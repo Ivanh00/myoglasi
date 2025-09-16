@@ -9,6 +9,7 @@ class ListingPromotion extends Model
 {
     protected $fillable = [
         'listing_id',
+        'service_id',
         'type',
         'starts_at',
         'expires_at',
@@ -26,6 +27,11 @@ class ListingPromotion extends Model
     public function listing()
     {
         return $this->belongsTo(Listing::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
     }
 
     // Scopes
@@ -100,5 +106,37 @@ class ListingPromotion extends Model
         ];
 
         return $durations[$type] ?? 7;
+    }
+
+    public function getBadgeDetails()
+    {
+        $badges = [
+            'featured_category' => [
+                'text' => 'TOP',
+                'class' => 'bg-blue-600 text-white'
+            ],
+            'featured_homepage' => [
+                'text' => 'ISTAKNUT',
+                'class' => 'bg-red-600 text-white'
+            ],
+            'highlighted' => [
+                'text' => 'OZNAČEN',
+                'class' => 'bg-yellow-500 text-black'
+            ],
+            'auto_refresh' => [
+                'text' => 'AUTO',
+                'class' => 'bg-green-600 text-white'
+            ],
+            'double_images' => [
+                'text' => '2X SLIKE',
+                'class' => 'bg-purple-600 text-white'
+            ],
+            'extended_duration' => [
+                'text' => 'PRODUŽEN',
+                'class' => 'bg-orange-600 text-white'
+            ]
+        ];
+
+        return $badges[$this->type] ?? [];
     }
 }

@@ -39,7 +39,7 @@ class Index extends Component
     public function render()
     {
         $query = Service::where('status', 'active')
-            ->with(['category', 'subcategory', 'images', 'user']);
+            ->with(['category', 'subcategory', 'images', 'user', 'promotions']);
 
         if ($this->selectedCategory) {
             $category = ServiceCategory::find($this->selectedCategory);

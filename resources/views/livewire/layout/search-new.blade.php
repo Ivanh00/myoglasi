@@ -55,6 +55,8 @@ if (!empty($auctionType)) {
     city: '{{ $urlParams['city'] ?? '' }}',
     category: '{{ $categoryId ?? '' }}',
     categoryName: '{{ $selectedCategoryName }}',
+    serviceCategory: '{{ $urlParams['service_category'] ?? '' }}',
+    serviceCategoryName: '',
     condition: '{{ $conditionId ?? '' }}',
     conditionName: '{{ $selectedConditionName }}',
     auction_type: '{{ $auctionType ?? '' }}',
@@ -83,6 +85,8 @@ if (!empty($auctionType)) {
         this.city = '';
         this.category = '';
         this.categoryName = '';
+        this.serviceCategory = '';
+        this.serviceCategoryName = '';
         this.condition = '';
         this.conditionName = '';
         this.auction_type = '';
@@ -102,6 +106,7 @@ if (!empty($auctionType)) {
         this.query = urlParams.get('query') || '';
         this.city = urlParams.get('city') || '';
         this.category = urlParams.get('search_category') || urlParams.get('category') || '';
+        this.serviceCategory = urlParams.get('service_category') || '';
         this.condition = urlParams.get('condition_id') || urlParams.get('condition') || '';
         this.auction_type = urlParams.get('auction_type') || '';
         this.content_type = urlParams.get('content_type') || 'all';
@@ -110,13 +115,21 @@ if (!empty($auctionType)) {
         
         // Get the mapping data
         const categoryMap = @js(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
+        const serviceCategoryMap = @js(\App\Models\ServiceCategory::whereNull('parent_id')->where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
         const conditionMap = @js(\App\Models\ListingCondition::where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
-        
+
         // Update category name
         if (this.category) {
             this.categoryName = categoryMap[this.category] || '';
         } else {
             this.categoryName = '';
+        }
+
+        // Update service category name
+        if (this.serviceCategory) {
+            this.serviceCategoryName = serviceCategoryMap[this.serviceCategory] || '';
+        } else {
+            this.serviceCategoryName = '';
         }
         
         // Update condition name
@@ -145,7 +158,12 @@ if (!empty($auctionType)) {
         this.category = id;
         this.categoryName = name;
     },
-    
+
+    selectServiceCategory(id, name) {
+        this.serviceCategory = id;
+        this.serviceCategoryName = name;
+    },
+
     selectCondition(id, name) {
         this.condition = id;
         this.conditionName = name;
@@ -173,8 +191,15 @@ if (!empty($auctionType)) {
         const params = new URLSearchParams();
         if (this.query) params.set('query', this.query);
         if (this.city) params.set('city', this.city);
-        if (this.category) params.set('search_category', this.category); // Changed to match backend
-        if (this.condition) params.set('condition_id', this.condition); // Changed to match backend  
+
+        // Use appropriate category based on content type
+        if (this.content_type === 'services' && this.serviceCategory) {
+            params.set('service_category', this.serviceCategory);
+        } else if (this.category) {
+            params.set('search_category', this.category);
+        }
+
+        if (this.condition) params.set('condition_id', this.condition); // Changed to match backend
         if (this.auction_type) params.set('auction_type', this.auction_type);
         if (this.content_type && this.content_type !== 'all') params.set('content_type', this.content_type);
         if (this.price_min) params.set('price_min', this.price_min);
@@ -335,7 +360,7 @@ x-init="syncFromUrl()">
                 </div>
 
                 <!-- Category (full width) -->
-                <div x-data="{ categoryOpen: false }" class="relative">
+                <div x-data="{ categoryOpen: false }" class="relative" x-show="content_type !== 'services'">
                     <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
                         class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -367,6 +392,43 @@ x-init="syncFromUrl()">
                                         <i class="{{ $cat->icon }} text-blue-600 mr-2"></i>
                                     @else
                                         <i class="fas fa-folder text-blue-600 mr-2"></i>
+                                    @endif
+                                    {{ $cat->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Category (full width) -->
+                <div x-data="{ serviceCategoryOpen: false }" class="relative" x-show="content_type === 'services'">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Kategorija</label>
+                    <button type="button" @click="serviceCategoryOpen = !serviceCategoryOpen"
+                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span :class="serviceCategory ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
+                            <span x-text="serviceCategoryName || 'Sve kategorije'"></span>
+                        </span>
+                        <svg class="w-4 h-4 transition-transform" :class="serviceCategoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="serviceCategoryOpen" x-transition @click.away="serviceCategoryOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-1">
+                            <button type="button" @click="selectServiceCategory('', ''); serviceCategoryOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
+                                :class="!serviceCategory ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                <span>Sve kategorije</span>
+                            </button>
+                            @foreach(\App\Models\ServiceCategory::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
+                                <button type="button" @click="selectServiceCategory('{{ $cat->id }}', '{{ $cat->name }}'); serviceCategoryOpen = false"
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
+                                    :class="serviceCategory === '{{ $cat->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                    @if($cat->icon)
+                                        <i class="{{ $cat->icon }} text-blue-600 mr-2"></i>
+                                    @else
+                                        <i class="fas fa-tools text-blue-600 mr-2"></i>
                                     @endif
                                     {{ $cat->name }}
                                 </button>

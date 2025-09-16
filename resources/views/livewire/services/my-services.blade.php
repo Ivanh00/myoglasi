@@ -68,8 +68,18 @@
                                         </div>
                                     @endif
                                     <div>
-                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center">
                                             {{ Str::limit($service->title, 40) }}
+                                            <!-- Promotion Badges -->
+                                            @if($service->hasActivePromotion())
+                                                <div class="flex flex-wrap gap-1 ml-2">
+                                                    @foreach($service->getPromotionBadges() as $badge)
+                                                        <span class="px-1 py-0.5 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                            {{ $badge['text'] }}
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="text-sm text-gray-500 dark:text-gray-400">
                                             {{ $service->category->name ?? 'Bez kategorije' }}
@@ -117,6 +127,12 @@
                                             <i class="fas fa-play"></i>
                                         @endif
                                     </button>
+                                    @if($service->status === 'active')
+                                        <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
+                                            class="text-green-600 hover:text-green-900 dark:hover:text-green-400">
+                                            <i class="fas fa-bullhorn"></i>
+                                        </button>
+                                    @endif
                                     <button wire:click="deleteService({{ $service->id }})"
                                         wire:confirm="Da li ste sigurni da želite da obrišete ovu uslugu?"
                                         class="text-red-600 hover:text-red-900 dark:hover:text-red-400">
@@ -153,4 +169,7 @@
             @endif
         </div>
     @endif
+
+    <!-- Service Promotion Manager Modal -->
+    @livewire('services.promotion-manager')
 </div>

@@ -6,7 +6,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Listing;
 use App\Models\Auction;
+use App\Models\Service;
 use App\Models\Category;
+use App\Models\ServiceCategory;
 use App\Models\ListingCondition;
 
 class UnifiedSearch extends Component
@@ -17,11 +19,12 @@ class UnifiedSearch extends Component
     public $query = '';
     public $city = '';
     public $search_category = '';
+    public $service_category = ''; // For service categories
     public $condition_id = '';
     public $auction_type = '';
     public $price_min = '';
     public $price_max = '';
-    public $content_type = 'all'; // all, listings, auctions
+    public $content_type = 'all'; // all, listings, auctions, services
     
     // Display options
     public $viewMode = 'list';
@@ -33,6 +36,7 @@ class UnifiedSearch extends Component
         'query' => ['except' => ''],
         'city' => ['except' => ''],
         'search_category' => ['except' => ''],
+        'service_category' => ['except' => ''],
         'condition_id' => ['except' => ''],
         'auction_type' => ['except' => ''],
         'content_type' => ['except' => 'all'],
@@ -82,12 +86,31 @@ class UnifiedSearch extends Component
         $this->resetPage();
     }
 
+    public function updatedServiceCategory()
+    {
+        $this->resetPage();
+    }
+
+    public function setServiceCategory($categoryId)
+    {
+        $this->service_category = $categoryId;
+        $this->resetPage();
+    }
+
     public function updatedContentType()
     {
-        // Reset auction_type when switching content types
+        // Reset type-specific filters when switching content types
         if ($this->content_type !== 'auctions') {
             $this->auction_type = '';
         }
+
+        // Clear category filters when switching between listing types
+        if ($this->content_type === 'services') {
+            $this->search_category = '';  // Clear listing category
+        } elseif ($this->content_type === 'listings' || $this->content_type === 'giveaways') {
+            $this->service_category = '';  // Clear service category
+        }
+
         $this->resetPage();
     }
 
@@ -149,7 +172,13 @@ class UnifiedSearch extends Component
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
-            
+
+        $serviceCategories = ServiceCategory::whereNull('parent_id')
+            ->where('is_active', true)
+            ->with('children')
+            ->orderBy('sort_order')
+            ->get();
+
         $conditions = ListingCondition::where('is_active', true)
             ->orderBy('name')
             ->get();
@@ -157,6 +186,7 @@ class UnifiedSearch extends Component
         return view('livewire.search.unified-search', [
             'results' => $paginator,
             'categories' => $categories,
+            'serviceCategories' => $serviceCategories,
             'conditions' => $conditions
         ])->layout('layouts.app');
     }
@@ -177,12 +207,59 @@ class UnifiedSearch extends Component
 
     private function getServices()
     {
-        $query = Listing::where('status', 'active')
-            ->where('listing_type', 'service')
-            ->with(['category', 'condition', 'images', 'subcategory', 'user']);
-            
-        $this->applyFiltersToQuery($query, 'listing');
-        
+        $query = Service::where('status', 'active')
+            ->with(['category', 'subcategory', 'images', 'user', 'promotions']);
+
+        // Apply service-specific filters
+        if ($this->query) {
+            $query->where(function($q) {
+                $q->where('title', 'like', '%' . $this->query . '%')
+                  ->orWhere('description', 'like', '%' . $this->query . '%');
+            });
+        }
+
+        if ($this->city) {
+            $query->where('location', 'like', '%' . $this->city . '%');
+        }
+
+        if ($this->service_category) {
+            // Get all category IDs including children
+            $category = ServiceCategory::find($this->service_category);
+            if ($category) {
+                $categoryIds = collect([$category->id]);
+                if ($category->children->count() > 0) {
+                    $categoryIds = $categoryIds->merge($category->children->pluck('id'));
+                }
+
+                $query->where(function($q) use ($categoryIds) {
+                    $q->whereIn('service_category_id', $categoryIds)
+                      ->orWhereIn('subcategory_id', $categoryIds);
+                });
+            }
+        }
+
+        if ($this->price_min) {
+            $query->where('price', '>=', $this->price_min);
+        }
+
+        if ($this->price_max) {
+            $query->where('price', '<=', $this->price_max);
+        }
+
+        // Apply sorting
+        switch ($this->sortBy) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
         return $query->paginate($this->perPage);
     }
 
