@@ -12,7 +12,9 @@
             $query ? "Pretraga: '{$query}'" : null,
             $city ? "Grad: {$city}" : null,
             $search_category && $content_type === 'listings' ? 'Kategorija: ' . ($categories->firstWhere('id', $search_category)->name ?? 'N/A') : null,
+            $search_subcategory && $content_type === 'listings' ? 'Podkategorija: ' . ($subcategories->firstWhere('id', $search_subcategory)->name ?? 'N/A') : null,
             $service_category && $content_type === 'services' ? 'Kategorija usluga: ' . ($serviceCategories->firstWhere('id', $service_category)->name ?? 'N/A') : null,
+            $service_subcategory && $content_type === 'services' ? 'Podkategorija usluga: ' . ($serviceSubcategories->firstWhere('id', $service_subcategory)->name ?? 'N/A') : null,
             $condition_id ? 'Stanje: ' . ($conditions->firstWhere('id', $condition_id)->name ?? 'N/A') : null,
             $auction_type
                 ? 'Aukcije: ' .

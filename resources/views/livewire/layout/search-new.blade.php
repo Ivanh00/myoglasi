@@ -55,8 +55,12 @@ if (!empty($auctionType)) {
     city: '{{ $urlParams['city'] ?? '' }}',
     category: '{{ $categoryId ?? '' }}',
     categoryName: '{{ $selectedCategoryName }}',
+    subcategory: '{{ $urlParams['search_subcategory'] ?? '' }}',
+    subcategoryName: '',
     serviceCategory: '{{ $urlParams['service_category'] ?? '' }}',
     serviceCategoryName: '',
+    serviceSubcategory: '{{ $urlParams['service_subcategory'] ?? '' }}',
+    serviceSubcategoryName: '',
     condition: '{{ $conditionId ?? '' }}',
     conditionName: '{{ $selectedConditionName }}',
     auction_type: '{{ $auctionType ?? '' }}',
@@ -157,11 +161,27 @@ if (!empty($auctionType)) {
     selectCategory(id, name) {
         this.category = id;
         this.categoryName = name;
+        // Reset subcategory when category changes
+        this.subcategory = '';
+        this.subcategoryName = '';
+    },
+
+    selectSubcategory(id, name) {
+        this.subcategory = id;
+        this.subcategoryName = name;
     },
 
     selectServiceCategory(id, name) {
         this.serviceCategory = id;
         this.serviceCategoryName = name;
+        // Reset service subcategory when category changes
+        this.serviceSubcategory = '';
+        this.serviceSubcategoryName = '';
+    },
+
+    selectServiceSubcategory(id, name) {
+        this.serviceSubcategory = id;
+        this.serviceSubcategoryName = name;
     },
 
     selectCondition(id, name) {
@@ -193,10 +213,12 @@ if (!empty($auctionType)) {
         if (this.city) params.set('city', this.city);
 
         // Use appropriate category based on content type
-        if (this.content_type === 'services' && this.serviceCategory) {
-            params.set('service_category', this.serviceCategory);
-        } else if (this.category) {
-            params.set('search_category', this.category);
+        if (this.content_type === 'services') {
+            if (this.serviceCategory) params.set('service_category', this.serviceCategory);
+            if (this.serviceSubcategory) params.set('service_subcategory', this.serviceSubcategory);
+        } else {
+            if (this.category) params.set('search_category', this.category);
+            if (this.subcategory) params.set('search_subcategory', this.subcategory);
         }
 
         if (this.condition) params.set('condition_id', this.condition); // Changed to match backend
@@ -400,6 +422,49 @@ x-init="syncFromUrl()">
                     </div>
                 </div>
 
+                <!-- Subcategory (full width) -->
+                <div x-data="{ subcategoryOpen: false }" class="relative" x-show="content_type !== 'services' && category">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Podkategorija</label>
+                    <button type="button" @click="subcategoryOpen = !subcategoryOpen"
+                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span :class="subcategory ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
+                            <span x-text="subcategoryName || 'Sve podkategorije'"></span>
+                        </span>
+                        <svg class="w-4 h-4 transition-transform" :class="subcategoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="subcategoryOpen" x-transition @click.away="subcategoryOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-1">
+                            <button type="button" @click="selectSubcategory('', ''); subcategoryOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
+                                :class="!subcategory ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                <span>Sve podkategorije</span>
+                            </button>
+                            @php
+                                $categoryId = request('search_category') ?? request('category') ?? '';
+                            @endphp
+                            @if($categoryId)
+                                @foreach(\App\Models\Category::where('parent_id', $categoryId)->where('is_active', true)->orderBy('sort_order')->get() as $subcat)
+                                    <button type="button" @click="selectSubcategory('{{ $subcat->id }}', '{{ $subcat->name }}'); subcategoryOpen = false"
+                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center pl-6"
+                                        :class="subcategory === '{{ $subcat->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                        <i class="fas fa-angle-right text-gray-400 mr-2"></i>
+                                        {{ $subcat->name }}
+                                    </button>
+                                @endforeach
+                            @endif
+                            <template x-if="category && !{{ $categoryId ? 'true' : 'false' }}">
+                                <div class="text-center text-gray-500 py-3 text-sm">
+                                    Molimo osvežite stranicu da vidite podkategorije
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Service Category (full width) -->
                 <div x-data="{ serviceCategoryOpen: false }" class="relative" x-show="content_type === 'services'">
                     <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Kategorija</label>
@@ -433,6 +498,49 @@ x-init="syncFromUrl()">
                                     {{ $cat->name }}
                                 </button>
                             @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Subcategory (full width) -->
+                <div x-data="{ serviceSubcategoryOpen: false }" class="relative" x-show="content_type === 'services' && serviceCategory">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Podkategorija</label>
+                    <button type="button" @click="serviceSubcategoryOpen = !serviceSubcategoryOpen"
+                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span :class="serviceSubcategory ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
+                            <span x-text="serviceSubcategoryName || 'Sve podkategorije'"></span>
+                        </span>
+                        <svg class="w-4 h-4 transition-transform" :class="serviceSubcategoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="serviceSubcategoryOpen" x-transition @click.away="serviceSubcategoryOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-1">
+                            <button type="button" @click="selectServiceSubcategory('', ''); serviceSubcategoryOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
+                                :class="!serviceSubcategory ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                <span>Sve podkategorije</span>
+                            </button>
+                            @php
+                                $serviceCategoryId = request('service_category') ?? '';
+                            @endphp
+                            @if($serviceCategoryId)
+                                @foreach(\App\Models\ServiceCategory::where('parent_id', $serviceCategoryId)->where('is_active', true)->orderBy('sort_order')->get() as $subcat)
+                                    <button type="button" @click="selectServiceSubcategory('{{ $subcat->id }}', '{{ $subcat->name }}'); serviceSubcategoryOpen = false"
+                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center pl-6"
+                                        :class="serviceSubcategory === '{{ $subcat->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                        <i class="fas fa-angle-right text-gray-400 mr-2"></i>
+                                        {{ $subcat->name }}
+                                    </button>
+                                @endforeach
+                            @endif
+                            <template x-if="serviceCategory && !{{ $serviceCategoryId ? 'true' : 'false' }}">
+                                <div class="text-center text-gray-500 py-3 text-sm">
+                                    Molimo osvežite stranicu da vidite podkategorije
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </div>

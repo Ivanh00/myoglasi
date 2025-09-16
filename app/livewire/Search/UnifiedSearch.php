@@ -19,7 +19,9 @@ class UnifiedSearch extends Component
     public $query = '';
     public $city = '';
     public $search_category = '';
+    public $search_subcategory = ''; // For listing subcategories
     public $service_category = ''; // For service categories
+    public $service_subcategory = ''; // For service subcategories
     public $condition_id = '';
     public $auction_type = '';
     public $price_min = '';
@@ -36,7 +38,9 @@ class UnifiedSearch extends Component
         'query' => ['except' => ''],
         'city' => ['except' => ''],
         'search_category' => ['except' => ''],
+        'search_subcategory' => ['except' => ''],
         'service_category' => ['except' => ''],
+        'service_subcategory' => ['except' => ''],
         'condition_id' => ['except' => ''],
         'auction_type' => ['except' => ''],
         'content_type' => ['except' => 'all'],
@@ -88,12 +92,30 @@ class UnifiedSearch extends Component
 
     public function updatedServiceCategory()
     {
+        $this->service_subcategory = ''; // Reset subcategory when category changes
+        $this->resetPage();
+    }
+
+    public function updatedSearchCategory()
+    {
+        $this->search_subcategory = ''; // Reset subcategory when category changes
+        $this->resetPage();
+    }
+
+    public function updatedSearchSubcategory()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedServiceSubcategory()
+    {
         $this->resetPage();
     }
 
     public function setServiceCategory($categoryId)
     {
         $this->service_category = $categoryId;
+        $this->service_subcategory = ''; // Reset subcategory
         $this->resetPage();
     }
 
@@ -107,8 +129,10 @@ class UnifiedSearch extends Component
         // Clear category filters when switching between listing types
         if ($this->content_type === 'services') {
             $this->search_category = '';  // Clear listing category
+            $this->search_subcategory = ''; // Clear listing subcategory
         } elseif ($this->content_type === 'listings' || $this->content_type === 'giveaways') {
             $this->service_category = '';  // Clear service category
+            $this->service_subcategory = ''; // Clear service subcategory
         }
 
         $this->resetPage();
@@ -173,11 +197,29 @@ class UnifiedSearch extends Component
             ->orderBy('sort_order')
             ->get();
 
+        // Get subcategories if a category is selected
+        $subcategories = collect();
+        if ($this->search_category) {
+            $subcategories = Category::where('parent_id', $this->search_category)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        }
+
         $serviceCategories = ServiceCategory::whereNull('parent_id')
             ->where('is_active', true)
             ->with('children')
             ->orderBy('sort_order')
             ->get();
+
+        // Get service subcategories if a service category is selected
+        $serviceSubcategories = collect();
+        if ($this->service_category) {
+            $serviceSubcategories = ServiceCategory::where('parent_id', $this->service_category)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        }
 
         $conditions = ListingCondition::where('is_active', true)
             ->orderBy('name')
@@ -186,7 +228,9 @@ class UnifiedSearch extends Component
         return view('livewire.search.unified-search', [
             'results' => $paginator,
             'categories' => $categories,
+            'subcategories' => $subcategories,
             'serviceCategories' => $serviceCategories,
+            'serviceSubcategories' => $serviceSubcategories,
             'conditions' => $conditions
         ])->layout('layouts.app');
     }
@@ -236,6 +280,11 @@ class UnifiedSearch extends Component
                       ->orWhereIn('subcategory_id', $categoryIds);
                 });
             }
+        }
+
+        // Apply subcategory filter for services
+        if ($this->service_subcategory) {
+            $query->where('subcategory_id', $this->service_subcategory);
         }
 
         if ($this->price_min) {
@@ -342,7 +391,14 @@ class UnifiedSearch extends Component
                     $q->where('category_id', $this->search_category);
                 });
             }
-            
+
+            // Apply subcategory filter for auctions
+            if ($this->search_subcategory) {
+                $query->whereHas('listing', function($q) {
+                    $q->where('subcategory_id', $this->search_subcategory);
+                });
+            }
+
             if ($this->condition_id) {
                 $query->whereHas('listing', function($q) {
                     $q->where('condition_id', $this->condition_id);
@@ -372,7 +428,12 @@ class UnifiedSearch extends Component
             if ($this->search_category) {
                 $query->where('category_id', $this->search_category);
             }
-            
+
+            // Apply subcategory filter for listings
+            if ($this->search_subcategory) {
+                $query->where('subcategory_id', $this->search_subcategory);
+            }
+
             if ($this->condition_id) {
                 $query->where('condition_id', $this->condition_id);
             }
