@@ -56,12 +56,12 @@
                 <div x-show="open" @click.away="open = false" x-transition
                     class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                     <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
-                        class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-t-lg {{ !$selectedCategory ? 'bg-blue-50 text-blue-700' : '' }}">
+                        class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg {{ !$selectedCategory ? 'bg-blue-50 text-blue-700' : '' }}">
                         Sve kategorije
                     </button>
                     @foreach ($categories as $category)
                         <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false" type="button"
-                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 flex items-center {{ $selectedCategory == $category->id ? 'bg-blue-50 text-blue-700' : '' }}">
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-blue-50 text-blue-700' : '' }}">
                             @if($category->icon)
                                 <i class="{{ $category->icon }} text-blue-600 mr-2"></i>
                             @endif
@@ -116,12 +116,12 @@
                     <div x-show="open" @click.away="open = false" x-transition
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                         <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
-                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-t-lg {{ !$selectedCategory ? 'bg-blue-50 text-blue-700' : '' }}">
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg {{ !$selectedCategory ? 'bg-blue-50 text-blue-700' : '' }}">
                             Sve kategorije
                         </button>
                         @foreach ($categories as $category)
                             <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 flex items-center {{ $selectedCategory == $category->id ? 'bg-blue-50 text-blue-700' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-blue-50 text-blue-700' : '' }}">
                                 @if($category->icon)
                                     <i class="{{ $category->icon }} text-blue-600 mr-2"></i>
                                 @endif
@@ -153,15 +153,15 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-t-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg">
                                 Najnovije
                             </button>
                             <button @click="$wire.set('sortBy', 'price_asc'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 Cena ↑
                             </button>
                             <button @click="$wire.set('sortBy', 'price_desc'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-b-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg">
                                 Cena ↓
                             </button>
                         </div>
@@ -182,15 +182,15 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('perPage', '20'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-t-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg">
                                 20
                             </button>
                             <button @click="$wire.set('perPage', '50'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 50
                             </button>
                             <button @click="$wire.set('perPage', '100'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-b-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg">
                                 100
                             </button>
                         </div>
@@ -234,15 +234,15 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-t-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg">
                                 Najnovije
                             </button>
                             <button @click="$wire.set('sortBy', 'price_asc'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 Cena ↑
                             </button>
                             <button @click="$wire.set('sortBy', 'price_desc'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-b-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg">
                                 Cena ↓
                             </button>
                         </div>
@@ -263,15 +263,15 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('perPage', '20'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-t-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg">
                                 20 po strani
                             </button>
                             <button @click="$wire.set('perPage', '50'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 50 po strani
                             </button>
                             <button @click="$wire.set('perPage', '100'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 rounded-b-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg">
                                 100 po strani
                             </button>
                         </div>
