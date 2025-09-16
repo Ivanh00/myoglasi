@@ -169,25 +169,39 @@
                         </div>
 
                         <!-- Desna strana - akcije -->
-                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-600">
+                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800">
                             <div class="flex flex-col h-full justify-between">
-                                <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                                     <div class="flex items-center">
                                         <i class="fas fa-eye mr-1"></i>
                                         <span>{{ $service->views ?? 0 }}</span>
                                     </div>
                                 </div>
 
-                                <div class="text-xs text-gray-700 dark:text-gray-200 mb-4">
+                                <div class="text-xs text-gray-700 dark:text-gray-400 mb-4">
                                     <i class="fas fa-clock mr-1"></i>
                                     Postavljeno pre {{ floor($service->created_at->diffInDays()) }} dana
                                 </div>
 
                                 <div class="space-y-2">
-                                    <a href="{{ route('services.show', $service) }}"
-                                        class="block w-full text-center px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm">
-                                        <i class="fas fa-eye mr-2"></i> Pregled
-                                    </a>
+                                    @auth
+                                        @if($service->user_id === auth()->id())
+                                            <a href="{{ route('services.edit', $service->slug) }}"
+                                                class="block w-full text-center px-3 py-2 bg-gray-600 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-500 transition-colors text-sm">
+                                                <i class="fas fa-edit mr-2"></i> Uredi uslugu
+                                            </a>
+                                        @else
+                                            <a href="{{ route('services.show', $service) }}"
+                                                class="block w-full text-center px-3 py-2 bg-gray-600 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-500 transition-colors text-sm">
+                                                <i class="fas fa-eye mr-2"></i> Pregled
+                                            </a>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('services.show', $service) }}"
+                                            class="block w-full text-center px-3 py-2 bg-gray-600 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-500 transition-colors text-sm">
+                                            <i class="fas fa-eye mr-2"></i> Pregled
+                                        </a>
+                                    @endauth
                                 </div>
                             </div>
                         </div>
