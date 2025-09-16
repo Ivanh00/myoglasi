@@ -3,9 +3,16 @@
     <!-- Filter Summary -->
     @php
         $activeFilters = array_filter([
-            $query ? "'{$query}'" : null,
+            $content_type !== 'all' ? 'Tip: ' . [
+                'listings' => 'Oglasi',
+                'auctions' => 'Aukcije',
+                'services' => 'Usluge',
+                'giveaways' => 'Pokloni'
+            ][$content_type] : null,
+            $query ? "Pretraga: '{$query}'" : null,
             $city ? "Grad: {$city}" : null,
-            $search_category ? 'Kategorija: ' . ($categories->firstWhere('id', $search_category)->name ?? 'N/A') : null,
+            $search_category && $content_type === 'listings' ? 'Kategorija: ' . ($categories->firstWhere('id', $search_category)->name ?? 'N/A') : null,
+            $service_category && $content_type === 'services' ? 'Kategorija usluga: ' . ($serviceCategories->firstWhere('id', $service_category)->name ?? 'N/A') : null,
             $condition_id ? 'Stanje: ' . ($conditions->firstWhere('id', $condition_id)->name ?? 'N/A') : null,
             $auction_type
                 ? 'Aukcije: ' .
@@ -20,17 +27,17 @@
             $price_min ? 'Cena od: ' . number_format($price_min, 0, ',', '.') . ' RSD' : null,
             $price_max ? 'Cena do: ' . number_format($price_max, 0, ',', '.') . ' RSD' : null,
         ]);
+
+        // Check if we have any filters (including content type)
+        $hasFilters = !empty($activeFilters) || $query || $city || $search_category || $service_category || $condition_id || $auction_type || $price_min || $price_max || $content_type !== 'all';
     @endphp
 
-    @if (!empty($activeFilters))
+    @if ($hasFilters && !empty($activeFilters))
         <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4 mb-6">
             <div class="flex items-center justify-between">
                 <div>
                     <h3 class="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">
                         Aktivni filteri:
-                        <span class="text-xs text-gray-600">
-                            (debug: search_category={{ $search_category }})
-                        </span>
                     </h3>
                     <div class="flex flex-wrap gap-2">
                         @foreach ($activeFilters as $filter)
