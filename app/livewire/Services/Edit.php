@@ -62,12 +62,19 @@ class Edit extends Component
         }
     }
 
-    public function mount(Service $service)
+    public function mount($service)
     {
-        $this->service = $service;
+        // Ako je prosleđen slug, nađi service po slug-u
+        if (is_string($service)) {
+            $this->service = Service::where('slug', $service)->firstOrFail();
+        }
+        // Ako je prosleđen Service model
+        else if ($service instanceof Service) {
+            $this->service = $service;
+        }
 
         // Check if user owns this service
-        if ($service->user_id !== auth()->id()) {
+        if ($this->service && $this->service->user_id !== auth()->id()) {
             abort(403);
         }
 
@@ -77,8 +84,8 @@ class Edit extends Component
             ->get() ?? collect();
 
         // Load subcategories if service has category
-        if ($service->service_category_id) {
-            $this->subcategories = ServiceCategory::where('parent_id', $service->service_category_id)
+        if ($this->service->service_category_id) {
+            $this->subcategories = ServiceCategory::where('parent_id', $this->service->service_category_id)
                 ->where('is_active', true)
                 ->orderBy('sort_order')
                 ->get();
@@ -87,16 +94,16 @@ class Edit extends Component
         }
 
         // Populate form with existing data
-        $this->title = $service->title;
-        $this->description = $service->description;
-        $this->price = $service->price;
-        $this->service_category_id = $service->service_category_id;
-        $this->subcategory_id = $service->subcategory_id;
-        $this->location = $service->location;
-        $this->contact_phone = $service->contact_phone;
+        $this->title = $this->service->title;
+        $this->description = $this->service->description;
+        $this->price = $this->service->price;
+        $this->service_category_id = $this->service->service_category_id;
+        $this->subcategory_id = $this->service->subcategory_id;
+        $this->location = $this->service->location;
+        $this->contact_phone = $this->service->contact_phone;
 
         // Load existing images as URLs (not file uploads)
-        $this->images = $service->images->map(function ($image) {
+        $this->images = $this->service->images->map(function ($image) {
             return $image->url;
         })->toArray();
     }
@@ -155,7 +162,7 @@ class Edit extends Component
         }
 
         session()->flash('success', 'Usluga je uspešno ažurirana!');
-        return redirect()->route('services.show', $this->service);
+        return redirect()->route('services.show', $this->service->slug);
     }
 
     public function render()

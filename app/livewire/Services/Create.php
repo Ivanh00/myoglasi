@@ -156,7 +156,7 @@ class Create extends Component
         }
 
         session()->flash('success', 'Usluga je uspešno kreirana!');
-        return redirect()->route('services.show', $service);
+        return redirect()->route('services.show', $service->slug);
     }
 
     public function render()

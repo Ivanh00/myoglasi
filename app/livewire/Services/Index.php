@@ -4,8 +4,8 @@ namespace App\Livewire\Services;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Listing;
-use App\Models\Category;
+use App\Models\Service;
+use App\Models\ServiceCategory;
 
 class Index extends Component
 {
@@ -18,7 +18,7 @@ class Index extends Component
 
     public function mount()
     {
-        $this->categories = Category::whereNull('parent_id')
+        $this->categories = ServiceCategory::whereNull('parent_id')
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
@@ -38,22 +38,26 @@ class Index extends Component
 
     public function render()
     {
-        $query = Listing::where('status', 'active')
-            ->where('listing_type', 'service')
+        $query = Service::where('status', 'active')
             ->with(['category', 'subcategory', 'images', 'user']);
-            
+
         if ($this->selectedCategory) {
-            $category = Category::find($this->selectedCategory);
-            
+            $category = ServiceCategory::find($this->selectedCategory);
+
             if ($category) {
-                $categoryIds = $category->getAllCategoryIds();
+                // Get all category IDs (including children)
+                $categoryIds = [$category->id];
+                foreach ($category->children as $child) {
+                    $categoryIds[] = $child->id;
+                }
+
                 $query->where(function($q) use ($categoryIds) {
-                    $q->whereIn('category_id', $categoryIds)
+                    $q->whereIn('service_category_id', $categoryIds)
                       ->orWhereIn('subcategory_id', $categoryIds);
                 });
             }
         }
-        
+
         // Sorting
         switch ($this->sortBy) {
             case 'price_asc':
@@ -67,9 +71,9 @@ class Index extends Component
                 $query->orderBy('created_at', 'desc');
                 break;
         }
-        
+
         $services = $query->paginate($this->perPage);
-        
+
         return view('livewire.services.index', [
             'services' => $services,
             'categories' => $this->categories

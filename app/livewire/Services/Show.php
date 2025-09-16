@@ -8,19 +8,28 @@ use Livewire\Component;
 
 class Show extends Component
 {
-    public Service $service;
+    public $service;
     public $recommendedListings;
     public $recommendationType;
 
-    public function mount(Service $service)
+    public function mount($service)
     {
-        $this->service = $service;
+        // Ako je prosleđen slug, nađi service po slug-u
+        if (is_string($service)) {
+            $this->service = Service::where('slug', $service)
+                ->with(['user', 'category', 'subcategory', 'images'])
+                ->firstOrFail();
+        }
+        // Ako je prosleđen Service model
+        else if ($service instanceof Service) {
+            $this->service = $service->load(['user', 'category', 'subcategory', 'images']);
+        }
 
         // Increment views
-        $service->increment('views');
-
-        // Load recommended listings
-        $this->loadRecommendedListings();
+        if ($this->service) {
+            $this->service->increment('views');
+            $this->loadRecommendedListings();
+        }
     }
 
     protected function loadRecommendedListings()
@@ -30,15 +39,7 @@ class Show extends Component
         }
 
         if (auth()->check()) {
-            // Za ulogovane korisnike - prikaži ostale oglase/usluge istog korisnika
-            $userListings = Listing::where('user_id', $this->service->user_id)
-                ->where('status', 'active')
-                ->with(['category', 'condition', 'images'])
-                ->orderBy('created_at', 'desc')
-                ->take(4)
-                ->get();
-
-            // Takođe učitaj i druge usluge istog korisnika
+            // Za ulogovane korisnike - prikaži samo ostale usluge istog korisnika
             $userServices = Service::where('user_id', $this->service->user_id)
                 ->where('id', '!=', $this->service->id)
                 ->where('status', 'active')
@@ -47,23 +48,18 @@ class Show extends Component
                 ->take(4)
                 ->get();
 
-            // Kombinuj oglase i usluge
-            $allUserItems = $userListings->concat($userServices)
-                ->sortByDesc('created_at')
-                ->take(4);
-
-            if ($allUserItems->count() > 0) {
-                $this->recommendedListings = $allUserItems;
+            if ($userServices->count() > 0) {
+                $this->recommendedListings = $userServices;
                 $this->recommendationType = 'seller';
             } else {
-                // Ako korisnik nema drugih oglasa/usluga, ne prikazuj ništa
+                // Ako korisnik nema drugih usluga, ne prikazuj ništa
                 $this->recommendedListings = collect();
                 $this->recommendationType = null;
             }
         } else {
             // Za neulogovane korisnike - prikaži slične usluge iz iste kategorije
             $similarServices = Service::where('id', '!=', $this->service->id)
-                ->where('category_id', $this->service->category_id)
+                ->where('service_category_id', $this->service->service_category_id)
                 ->where('status', 'active')
                 ->with(['category', 'images'])
                 ->orderBy('created_at', 'desc')

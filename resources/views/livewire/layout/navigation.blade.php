@@ -186,6 +186,10 @@
                                         <i class="fas fa-gavel mr-2"></i>
                                         Moje aukcije
                                     </x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('services.my') }}" class="bg-gray-600 text-white hover:bg-gray-700">
+                                        <i class="fas fa-tools mr-2"></i>
+                                        Moje usluge
+                                    </x-dropdown-link>
                                     <x-dropdown-link href="{{ route('favorites.index') }}">
                                         Omiljeni
                                     </x-dropdown-link>
@@ -335,6 +339,11 @@
                         class="bg-yellow-600 text-white hover:bg-yellow-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                         <i class="fas fa-gavel mr-2"></i>
                         Moje aukcije
+                    </a>
+                    <a href="{{ route('services.my') }}"
+                        class="bg-gray-600 text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                        <i class="fas fa-tools mr-2"></i>
+                        Moje usluge
                     </a>
                     <a href="{{ route('favorites.index') }}"
                         class="text-gray-700 dark:text-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">

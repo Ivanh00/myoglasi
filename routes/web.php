@@ -297,6 +297,7 @@ Route::middleware(['auth', 'conditional.verified'])->get('/obavestenja', Notific
 // Services Routes
 Route::get('/services', \App\Livewire\Services\Index::class)->name('services.index');
 Route::get('/services/create', \App\Livewire\Services\Create::class)->middleware('auth')->name('services.create');
+Route::get('/my-services', \App\Livewire\Services\MyServices::class)->middleware('auth')->name('services.my');
 Route::get('/services/{service}/edit', \App\Livewire\Services\Edit::class)->middleware('auth')->name('services.edit');
 Route::get('/services/{service}', \App\Livewire\Services\Show::class)->name('services.show');
 
