@@ -41,20 +41,26 @@ class Show extends Component
 
     protected function loadRecommendedListings()
     {
-        // Prvo pokušajte da nađete oglase istog prodavca
-        $sellerListings = Listing::where('user_id', $this->listing->user_id)
-            ->where('id', '!=', $this->listing->id)
-            ->where('status', 'active')
-            ->with(['category', 'condition', 'images'])
-            ->orderBy('created_at', 'desc')
-            ->take(4)
-            ->get();
+        if (auth()->check()) {
+            // Za ulogovane korisnike - prikaži ostale oglase istog prodavca
+            $sellerListings = Listing::where('user_id', $this->listing->user_id)
+                ->where('id', '!=', $this->listing->id)
+                ->where('status', 'active')
+                ->with(['category', 'condition', 'images'])
+                ->orderBy('created_at', 'desc')
+                ->take(4)
+                ->get();
 
-        if ($sellerListings->count() > 0) {
-            $this->recommendedListings = $sellerListings;
-            $this->recommendationType = 'seller';
+            if ($sellerListings->count() > 0) {
+                $this->recommendedListings = $sellerListings;
+                $this->recommendationType = 'seller';
+            } else {
+                // Ako prodavac nema drugih oglasa, ne prikazuj ništa
+                $this->recommendedListings = collect();
+                $this->recommendationType = null;
+            }
         } else {
-            // Ako nema oglasa istog prodavca, uzmite slične oglase
+            // Za neulogovane korisnike - prikaži slične oglase iz iste kategorije
             $this->recommendedListings = Listing::where('id', '!=', $this->listing->id)
                 ->where(function($query) {
                     $query->where('category_id', $this->listing->category_id)
@@ -65,7 +71,7 @@ class Show extends Component
                 ->orderBy('created_at', 'desc')
                 ->take(4)
                 ->get();
-                
+
             $this->recommendationType = 'similar';
         }
     }

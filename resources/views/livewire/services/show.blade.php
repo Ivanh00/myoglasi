@@ -321,6 +321,116 @@
             </div>
         @endauth
     </div>
+
+    <!-- Preporučeni oglasi/usluge -->
+    @if ($recommendedListings && $recommendedListings->count() > 0)
+        <div class="mt-12">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                @if($recommendationType === 'seller')
+                    Ostali oglasi ovog korisnika
+                @else
+                    Slične usluge
+                @endif
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-8">
+                @if($recommendationType === 'seller')
+                    Pogledajte i druge oglase i usluge ovog korisnika
+                @else
+                    Pronađite slične usluge iz iste kategorije
+                @endif
+            </p>
+
+            <!-- Lista oglasa/usluga -->
+            <div class="space-y-4">
+                @foreach ($recommendedListings as $relatedItem)
+                    <div class="listing-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300
+                        @if($relatedItem instanceof \App\Models\Service)
+                            border-l-4 border-gray-500
+                        @elseif($relatedItem->isGiveaway())
+                            border-l-4 border-green-500
+                        @else
+                            border-l-4 border-blue-500
+                        @endif">
+                        <div class="flex flex-col md:flex-row">
+                            <!-- Slika -->
+                            <div class="w-full md:w-48 md:min-w-48 h-48">
+                                @if($relatedItem instanceof \App\Models\Service)
+                                    <a href="{{ route('services.show', $relatedItem) }}">
+                                @else
+                                    <a href="{{ route('listings.show', $relatedItem) }}">
+                                @endif
+                                    @if ($relatedItem->images->count() > 0)
+                                        <img src="{{ $relatedItem->images->first()->url }}" alt="{{ $relatedItem->title }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                            @if($relatedItem instanceof \App\Models\Service)
+                                                <i class="fas fa-tools text-gray-400 text-3xl"></i>
+                                            @else
+                                                <i class="fas fa-image text-gray-400 text-3xl"></i>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </a>
+                            </div>
+
+                            <!-- Informacije -->
+                            <div class="flex-1 p-4 md:p-6">
+                                <div class="flex flex-col h-full">
+                                    <div class="flex-1">
+                                        <div class="flex items-start justify-between mb-2">
+                                            @if($relatedItem instanceof \App\Models\Service)
+                                                <a href="{{ route('services.show', $relatedItem) }}" class="flex-1">
+                                            @else
+                                                <a href="{{ route('listings.show', $relatedItem) }}" class="flex-1">
+                                            @endif
+                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 transition-colors">
+                                                    {{ $relatedItem->title }}
+                                                </h3>
+                                            </a>
+                                        </div>
+
+                                        <div class="flex items-center text-sm text-gray-600 dark:text-gray-300 mb-2">
+                                            <i class="fas fa-map-marker-alt mr-1"></i>
+                                            <span>{{ $relatedItem->location }}</span>
+                                            <span class="mx-2">•</span>
+                                            <i class="fas fa-folder mr-1"></i>
+                                            <span>{{ $relatedItem->category->name ?? '' }}</span>
+                                        </div>
+
+                                        <p class="text-gray-700 dark:text-gray-300 mb-3"
+                                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                            {{ Str::limit(strip_tags($relatedItem->description), 120) }}
+                                        </p>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        @if($relatedItem instanceof \App\Models\Service)
+                                            <div class="text-blue-600 font-bold text-xl">
+                                                {{ number_format($relatedItem->price, 2) }} RSD
+                                            </div>
+                                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm font-medium rounded-full">
+                                                USLUGA
+                                            </span>
+                                        @elseif($relatedItem->isGiveaway())
+                                            <div class="text-green-600 font-bold text-xl">BESPLATNO</div>
+                                            <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                                                POKLON
+                                            </span>
+                                        @else
+                                            <div class="text-blue-600 font-bold text-xl">
+                                                {{ number_format($relatedItem->price, 2) }} RSD
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
 </div>
 
 <script>

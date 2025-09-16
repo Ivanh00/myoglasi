@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Auction;
 use App\Models\Bid;
 use App\Models\Message;
+use App\Models\Listing;
 
 class Show extends Component
 {
@@ -14,6 +15,8 @@ class Show extends Component
     public $isAutoBid = false;
     public $maxBidAmount = '';
     public $showBidForm = false;
+    public $recommendedListings;
+    public $recommendationType;
 
     protected $listeners = ['refreshAuction' => '$refresh'];
 
@@ -25,10 +28,10 @@ class Show extends Component
     public function mount(Auction $auction)
     {
         $this->auction = $auction->load(['listing.images', 'listing.user', 'seller', 'bids.user']);
-        
+
         // Set minimum bid amount
         $this->bidAmount = $auction->minimum_bid;
-        
+
         // Check if user has existing auto-bid
         if (auth()->check()) {
             $existingAutoBid = Bid::where('auction_id', $auction->id)
@@ -37,13 +40,15 @@ class Show extends Component
                 ->whereNotNull('max_bid')
                 ->latest()
                 ->first();
-                
+
             if ($existingAutoBid) {
                 $this->isAutoBid = true;
                 $this->maxBidAmount = $existingAutoBid->max_bid;
             }
-            
         }
+
+        // Load recommended listings
+        $this->loadRecommendedListings();
     }
 
     public function placeBid()
@@ -318,6 +323,44 @@ class Show extends Component
             'is_system_message' => true,
             'is_read' => false
         ]);
+    }
+
+    protected function loadRecommendedListings()
+    {
+        if (!$this->auction || !$this->auction->listing) {
+            return;
+        }
+
+        if (auth()->check()) {
+            // Za ulogovane korisnike - prikaži ostale oglase istog prodavca
+            $sellerListings = Listing::where('user_id', $this->auction->listing->user_id)
+                ->where('id', '!=', $this->auction->listing_id)
+                ->where('status', 'active')
+                ->with(['category', 'condition', 'images'])
+                ->orderBy('created_at', 'desc')
+                ->take(4)
+                ->get();
+
+            if ($sellerListings->count() > 0) {
+                $this->recommendedListings = $sellerListings;
+                $this->recommendationType = 'seller';
+            } else {
+                // Ako prodavac nema drugih oglasa, ne prikazuj ništa
+                $this->recommendedListings = collect();
+                $this->recommendationType = null;
+            }
+        } else {
+            // Za neulogovane korisnike - prikaži slične oglase iz iste kategorije
+            $this->recommendedListings = Listing::where('id', '!=', $this->auction->listing_id)
+                ->where('category_id', $this->auction->listing->category_id)
+                ->where('status', 'active')
+                ->with(['category', 'condition', 'images'])
+                ->orderBy('created_at', 'desc')
+                ->take(4)
+                ->get();
+
+            $this->recommendationType = 'similar';
+        }
     }
 
     public function render()
