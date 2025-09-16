@@ -327,3 +327,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/firewall', \App\Livewire\Admin\Firewall::class)->name('firewall.index');
     Route::get('/settings', \App\Livewire\Admin\Settings::class)->name('settings');
 });
+
+// API Routes for subcategories
+Route::get('/api/subcategories/listings/{categoryId}', [\App\Http\Controllers\Api\SubcategoryController::class, 'getListingSubcategories']);
+Route::get('/api/subcategories/services/{categoryId}', [\App\Http\Controllers\Api\SubcategoryController::class, 'getServiceSubcategories']);

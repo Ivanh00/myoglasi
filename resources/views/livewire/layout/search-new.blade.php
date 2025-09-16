@@ -57,10 +57,14 @@ if (!empty($auctionType)) {
     categoryName: '{{ $selectedCategoryName }}',
     subcategory: '{{ $urlParams['search_subcategory'] ?? '' }}',
     subcategoryName: '',
+    subcategories: [],
+    loadingSubcategories: false,
     serviceCategory: '{{ $urlParams['service_category'] ?? '' }}',
     serviceCategoryName: '',
     serviceSubcategory: '{{ $urlParams['service_subcategory'] ?? '' }}',
     serviceSubcategoryName: '',
+    serviceSubcategories: [],
+    loadingServiceSubcategories: false,
     condition: '{{ $conditionId ?? '' }}',
     conditionName: '{{ $selectedConditionName }}',
     auction_type: '{{ $auctionType ?? '' }}',
@@ -69,7 +73,39 @@ if (!empty($auctionType)) {
     price_min: '{{ $urlParams['price_min'] ?? '' }}',
     price_max: '{{ $urlParams['price_max'] ?? '' }}',
     citySearch: '',
-    
+
+    async init() {
+        // Load subcategories on init if category is already selected
+        if (this.category) {
+            this.loadingSubcategories = true;
+            try {
+                const response = await fetch(`/api/subcategories/listings/${this.category}`);
+                if (response.ok) {
+                    this.subcategories = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading subcategories:', error);
+            } finally {
+                this.loadingSubcategories = false;
+            }
+        }
+
+        // Load service subcategories on init if service category is already selected
+        if (this.serviceCategory) {
+            this.loadingServiceSubcategories = true;
+            try {
+                const response = await fetch(`/api/subcategories/services/${this.serviceCategory}`);
+                if (response.ok) {
+                    this.serviceSubcategories = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading service subcategories:', error);
+            } finally {
+                this.loadingServiceSubcategories = false;
+            }
+        }
+    },
+
     get filteredCities() {
         const normalize = (str) => {
             const map = {'š': 's', 'ć': 'c', 'č': 'c', 'ž': 'z', 'đ': 'dj'};
@@ -158,12 +194,28 @@ if (!empty($auctionType)) {
         }
     },
     
-    selectCategory(id, name) {
+    async selectCategory(id, name) {
         this.category = id;
         this.categoryName = name;
         // Reset subcategory when category changes
         this.subcategory = '';
         this.subcategoryName = '';
+        this.subcategories = [];
+
+        // Load subcategories if category is selected
+        if (id) {
+            this.loadingSubcategories = true;
+            try {
+                const response = await fetch(`/api/subcategories/listings/${id}`);
+                if (response.ok) {
+                    this.subcategories = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading subcategories:', error);
+            } finally {
+                this.loadingSubcategories = false;
+            }
+        }
     },
 
     selectSubcategory(id, name) {
@@ -171,12 +223,28 @@ if (!empty($auctionType)) {
         this.subcategoryName = name;
     },
 
-    selectServiceCategory(id, name) {
+    async selectServiceCategory(id, name) {
         this.serviceCategory = id;
         this.serviceCategoryName = name;
         // Reset service subcategory when category changes
         this.serviceSubcategory = '';
         this.serviceSubcategoryName = '';
+        this.serviceSubcategories = [];
+
+        // Load service subcategories if category is selected
+        if (id) {
+            this.loadingServiceSubcategories = true;
+            try {
+                const response = await fetch(`/api/subcategories/services/${id}`);
+                if (response.ok) {
+                    this.serviceSubcategories = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading service subcategories:', error);
+            } finally {
+                this.loadingServiceSubcategories = false;
+            }
+        }
     },
 
     selectServiceSubcategory(id, name) {
@@ -443,22 +511,25 @@ x-init="syncFromUrl()">
                                 :class="!subcategory ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <span>Sve podkategorije</span>
                             </button>
-                            @php
-                                $categoryId = request('search_category') ?? request('category') ?? '';
-                            @endphp
-                            @if($categoryId)
-                                @foreach(\App\Models\Category::where('parent_id', $categoryId)->where('is_active', true)->orderBy('sort_order')->get() as $subcat)
-                                    <button type="button" @click="selectSubcategory('{{ $subcat->id }}', '{{ $subcat->name }}'); subcategoryOpen = false"
-                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center pl-6"
-                                        :class="subcategory === '{{ $subcat->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
-                                        <i class="fas fa-angle-right text-gray-400 mr-2"></i>
-                                        {{ $subcat->name }}
-                                    </button>
-                                @endforeach
-                            @endif
-                            <template x-if="category && !{{ $categoryId ? 'true' : 'false' }}">
+                            <template x-if="loadingSubcategories">
                                 <div class="text-center text-gray-500 py-3 text-sm">
-                                    Molimo osvežite stranicu da vidite podkategorije
+                                    <i class="fas fa-spinner fa-spin"></i> Učitavanje...
+                                </div>
+                            </template>
+                            <template x-if="!loadingSubcategories && subcategories.length > 0">
+                                <template x-for="subcat in subcategories" :key="subcat.id">
+                                    <button type="button"
+                                        @click="selectSubcategory(subcat.id, subcat.name); subcategoryOpen = false"
+                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center pl-6"
+                                        :class="subcategory == subcat.id ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                        <i class="fas fa-angle-right text-gray-400 mr-2"></i>
+                                        <span x-text="subcat.name"></span>
+                                    </button>
+                                </template>
+                            </template>
+                            <template x-if="!loadingSubcategories && subcategories.length === 0 && category">
+                                <div class="text-center text-gray-500 py-3 text-sm">
+                                    Nema podkategorija
                                 </div>
                             </template>
                         </div>
@@ -523,22 +594,25 @@ x-init="syncFromUrl()">
                                 :class="!serviceSubcategory ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
                                 <span>Sve podkategorije</span>
                             </button>
-                            @php
-                                $serviceCategoryId = request('service_category') ?? '';
-                            @endphp
-                            @if($serviceCategoryId)
-                                @foreach(\App\Models\ServiceCategory::where('parent_id', $serviceCategoryId)->where('is_active', true)->orderBy('sort_order')->get() as $subcat)
-                                    <button type="button" @click="selectServiceSubcategory('{{ $subcat->id }}', '{{ $subcat->name }}'); serviceSubcategoryOpen = false"
-                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center pl-6"
-                                        :class="serviceSubcategory === '{{ $subcat->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
-                                        <i class="fas fa-angle-right text-gray-400 mr-2"></i>
-                                        {{ $subcat->name }}
-                                    </button>
-                                @endforeach
-                            @endif
-                            <template x-if="serviceCategory && !{{ $serviceCategoryId ? 'true' : 'false' }}">
+                            <template x-if="loadingServiceSubcategories">
                                 <div class="text-center text-gray-500 py-3 text-sm">
-                                    Molimo osvežite stranicu da vidite podkategorije
+                                    <i class="fas fa-spinner fa-spin"></i> Učitavanje...
+                                </div>
+                            </template>
+                            <template x-if="!loadingServiceSubcategories && serviceSubcategories.length > 0">
+                                <template x-for="subcat in serviceSubcategories" :key="subcat.id">
+                                    <button type="button"
+                                        @click="selectServiceSubcategory(subcat.id, subcat.name); serviceSubcategoryOpen = false"
+                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center pl-6"
+                                        :class="serviceSubcategory == subcat.id ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                        <i class="fas fa-angle-right text-gray-400 mr-2"></i>
+                                        <span x-text="subcat.name"></span>
+                                    </button>
+                                </template>
+                            </template>
+                            <template x-if="!loadingServiceSubcategories && serviceSubcategories.length === 0 && serviceCategory">
+                                <div class="text-center text-gray-500 py-3 text-sm">
+                                    Nema podkategorija
                                 </div>
                             </template>
                         </div>
