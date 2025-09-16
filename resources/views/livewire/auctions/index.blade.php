@@ -179,7 +179,7 @@
                             
                             <!-- Time badge -->
                             <div class="absolute top-2 right-2">
-                                <span class="px-2 py-1 bg-red-600 bg-opacity-90 text-white text-xs font-medium rounded">
+                                <span class="px-2 py-1 bg-green-600 bg-opacity-90 text-white text-xs font-medium rounded">
                                     @if($auction->time_left)
                                         {{ $auction->time_left['formatted'] }}
                                     @endif
@@ -236,7 +236,7 @@
 
                                         @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                             <a href="{{ route('auction.show', $auction) }}"
-                                                class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                                class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
                                                 <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
                                             </a>
                                         @endif
@@ -274,7 +274,7 @@
                                 
                                 <!-- Time overlay -->
                                 <div class="absolute top-2 right-2">
-                                    <span class="px-2 py-1 bg-red-600 bg-opacity-90 text-white text-xs font-medium rounded">
+                                    <span class="px-2 py-1 bg-green-600 bg-opacity-90 text-white text-xs font-medium rounded">
                                         @if($auction->time_left)
                                             {{ $auction->time_left['formatted'] }}
                                         @endif
@@ -355,7 +355,7 @@
 
                                                 @if($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                                     <a href="{{ route('auction.show', $auction) }}"
-                                                        class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                                        class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
                                                         <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
                                                     </a>
                                                 @endif
@@ -400,7 +400,7 @@
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Zakazane aukcije</h2>
                     <p class="text-gray-600 dark:text-gray-400">Aukcije koje će uskoro početi</p>
                 </div>
-                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-700 text-blue-600 dark:text-blue-300 rounded-full text-sm">
+                <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-700 text-yellow-600 dark:text-yellow-300 rounded-full text-sm">
                     {{ $scheduledAuctions->count() }} zakazanih
                 </span>
             </div>
@@ -409,7 +409,7 @@
                 <!-- Grid View -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     @foreach($scheduledAuctions as $auction)
-                        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-blue-500">
+                        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-yellow-500">
                             <!-- Image with overlay -->
                             <div class="relative">
                                 <div class="w-full h-48">
@@ -425,7 +425,7 @@
 
                                 <!-- Scheduled badge -->
                                 <div class="absolute top-2 right-2">
-                                    <span class="px-2 py-1 bg-blue-600 bg-opacity-90 text-white text-xs font-medium rounded">
+                                    <span class="px-2 py-1 bg-yellow-700 bg-opacity-90 text-white text-xs font-medium rounded">
                                         ZAKAZANO
                                     </span>
                                 </div>
@@ -453,13 +453,13 @@
                                     {!! $auction->listing->user->verified_icon ?? '' !!}
                                 </div>
 
-                                <div class="p-3 bg-blue-50 dark:bg-blue-900 rounded-lg mb-3">
-                                    <div class="text-sm text-blue-800 dark:text-blue-200 font-medium">
+                                <div class="p-3 bg-yellow-50 dark:bg-yellow-900 rounded-lg mb-3">
+                                    <div class="text-sm text-yellow-800 dark:text-yellow-200 font-medium">
                                         <i class="fas fa-calendar-alt mr-1"></i>
                                         Počinje: {{ $auction->starts_at->format('d.m.Y u H:i') }}
                                     </div>
-                                    <div class="text-xs text-blue-600 dark:text-blue-300 mt-1">
-                                        ({{ $auction->starts_at->diffForHumans() }})
+                                    <div class="text-xs text-yellow-600 dark:text-yellow-300 mt-1">
+                                        ({{ \App\Helpers\DateHelper::diffForHumansSr($auction->starts_at) }})
                                     </div>
                                 </div>
 
@@ -477,7 +477,7 @@
                 <!-- List View -->
                 <div class="space-y-4">
                     @foreach($scheduledAuctions as $auction)
-                        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-blue-500">
+                        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-yellow-500">
                             <div class="flex flex-col md:flex-row">
                                 <!-- Image -->
                                 <div class="w-full md:w-48 md:min-w-48 h-48 relative">
@@ -492,7 +492,7 @@
 
                                     <!-- Scheduled overlay -->
                                     <div class="absolute top-2 right-2">
-                                        <span class="px-2 py-1 bg-blue-600 bg-opacity-90 text-white text-xs font-medium rounded">
+                                        <span class="px-2 py-1 bg-yellow-700 bg-opacity-90 text-white text-xs font-medium rounded">
                                             ZAKAZANO
                                         </span>
                                     </div>
@@ -543,15 +543,15 @@
                                 </div>
 
                                 <!-- Sidebar -->
-                                <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-blue-50 dark:bg-gray-600">
+                                <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-600 bg-yellow-50 dark:bg-gray-600">
                                     <div class="flex flex-col h-full justify-between">
                                         <div class="text-center mb-4">
-                                            <div class="text-sm font-bold text-blue-600 dark:text-blue-300">
+                                            <div class="text-sm font-bold text-yellow-600 dark:text-yellow-300">
                                                 <i class="fas fa-calendar-alt mr-1"></i>
                                                 Počinje za:
                                             </div>
-                                            <div class="text-lg font-bold text-blue-700 dark:text-blue-200">
-                                                {{ $auction->starts_at->diffForHumans() }}
+                                            <div class="text-lg font-bold text-yellow-700 dark:text-yellow-200">
+                                                {{ \App\Helpers\DateHelper::diffForHumansSr($auction->starts_at) }}
                                             </div>
                                             <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                                 {{ $auction->starts_at->format('d.m.Y u H:i') }}
@@ -605,7 +605,7 @@
 
                                 <!-- Ended badge -->
                                 <div class="absolute top-2 right-2">
-                                    <span class="px-2 py-1 bg-gray-700 bg-opacity-90 text-white text-xs font-medium rounded">
+                                    <span class="px-2 py-1 bg-red-600 bg-opacity-90 text-white text-xs font-medium rounded">
                                         ZAVRŠENO
                                     </span>
                                 </div>
@@ -676,7 +676,7 @@
 
                                 <!-- Ended badge -->
                                 <div class="absolute top-2 right-2">
-                                    <span class="px-2 py-1 bg-yellow-700 bg-opacity-90 text-white text-xs font-medium rounded">
+                                    <span class="px-2 py-1 bg-red-600 bg-opacity-90 text-white text-xs font-medium rounded">
                                         ZAVRŠENO
                                     </span>
                                 </div>
@@ -740,7 +740,7 @@
                                             Završeno
                                         </div>
                                         <div class="text-xs text-yellow-600 dark:text-yellow-400">
-                                            {{ $auction->ends_at->diffForHumans() }}
+                                            {{ \App\Helpers\DateHelper::diffForHumansSr($auction->ends_at) }}
                                         </div>
                                     </div>
 

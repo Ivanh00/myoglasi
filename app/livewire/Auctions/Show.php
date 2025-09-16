@@ -325,6 +325,58 @@ class Show extends Component
         ]);
     }
 
+    public function removeFromAuction()
+    {
+        try {
+            // Check if current price exceeds starting price (minimum protection rule)
+            // Only applies to regular users, not admins
+            if (!auth()->user()->is_admin && $this->auction->current_price > $this->auction->starting_price) {
+                session()->flash('error', 'Ne možete ukloniti aukciju jer je trenutna cena (' .
+                    number_format($this->auction->current_price, 0, ',', '.') .
+                    ' RSD) veća od početne cene aukcije (' .
+                    number_format($this->auction->starting_price, 0, ',', '.') . ' RSD).');
+                return;
+            }
+
+            // Send notifications to all bidders before deleting
+            if ($this->auction->bids->count() > 0) {
+                $this->notifyBiddersOfAuctionCancellation($this->auction);
+            }
+
+            // Delete all auction data
+            $this->auction->bids()->delete();
+            $this->auction->delete();
+
+            session()->flash('success', 'Aukcija je uspešno uklonjena. Oglas je vraćen u redovan prodajni režim.');
+
+            // Redirect to listings page
+            return redirect()->route('listings.show', $this->auction->listing);
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri uklanjanju iz aukcije: ' . $e->getMessage());
+        }
+    }
+
+    private function notifyBiddersOfAuctionCancellation($auction)
+    {
+        // Get all unique bidders
+        $bidders = $auction->bids()->with('user')->get()->unique('user_id');
+
+        foreach ($bidders as $bid) {
+            Message::create([
+                'sender_id' => 1, // System
+                'receiver_id' => $bid->user_id,
+                'listing_id' => $auction->listing_id,
+                'message' => "Aukcija za '{$auction->listing->title}' je otkazana od strane vlasnika oglasa. " .
+                            "Oglas možete i dalje pronaći u njihovim oglasima po ceni od " .
+                            number_format($auction->listing->price, 2, ',', '.') . ' RSD.',
+                'subject' => 'Aukcija otkazana - ' . $auction->listing->title,
+                'is_system_message' => true,
+                'is_read' => false
+            ]);
+        }
+    }
+
     protected function loadRecommendedListings()
     {
         if (!$this->auction || !$this->auction->listing) {

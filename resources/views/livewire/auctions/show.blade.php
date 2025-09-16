@@ -98,7 +98,64 @@
 
                         <!-- Bidding Form -->
                         @auth
-                            @if(auth()->id() !== $auction->user_id)
+                            @if(auth()->id() === $auction->user_id)
+                                <!-- Owner Controls -->
+                                <div class="mb-6 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                                        <i class="fas fa-crown text-yellow-600 mr-2"></i>
+                                        Vaša aukcija
+                                    </h3>
+
+                                    <div class="space-y-3">
+                                        @if($auction->status === 'active' && $auction->starts_at->isFuture())
+                                            <!-- Scheduled auction controls -->
+                                            <a href="{{ route('listings.edit', $auction->listing) }}"
+                                                class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                                <i class="fas fa-edit mr-2"></i>
+                                                Uredi aukciju
+                                            </a>
+
+                                            <button wire:click="removeFromAuction"
+                                                wire:confirm="Da li ste sigurni da želite da uklonite aukciju?"
+                                                class="w-full flex items-center justify-center px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                                                <i class="fas fa-times mr-2"></i>
+                                                Ukloni iz aukcija
+                                            </button>
+                                        @elseif($auction->isActive())
+                                            <!-- Active auction controls -->
+                                            <a href="{{ route('listings.edit', $auction->listing) }}"
+                                                class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                                <i class="fas fa-edit mr-2"></i>
+                                                Uredi aukciju
+                                            </a>
+
+                                            <!-- Cancel auction (if no bids or current price = starting price) -->
+                                            @if($auction->total_bids == 0 || $auction->current_price == $auction->starting_price)
+                                                <button wire:click="removeFromAuction"
+                                                    wire:confirm="Da li ste sigurni da želite da uklonite aukciju?"
+                                                    class="w-full flex items-center justify-center px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                                                    <i class="fas fa-times mr-2"></i>
+                                                    Ukloni iz aukcija
+                                                </button>
+                                            @else
+                                                <div class="w-full p-3 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
+                                                        <span class="text-yellow-800 dark:text-yellow-200 text-sm">
+                                                            Aukcija se ne može otkazati jer već ima ponude veće od početne cene.
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="w-full p-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-center">
+                                                <i class="fas fa-flag-checkered mr-2"></i>
+                                                Aukcija je završena
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            @elseif(auth()->id() !== $auction->user_id)
                                 @if($auction->isActive())
                                     <div class="mb-6 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg">
                                     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Postavite ponudu</h3>
@@ -236,62 +293,6 @@
                                     </div>
                                     </div>
                                 </div>
-                            @else
-                                <!-- Owner Controls -->
-                                <div class="mb-6 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg">
-                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                                        <i class="fas fa-crown text-yellow-600 mr-2"></i>
-                                        Vaša aukcija
-                                    </h3>
-
-                                    <div class="space-y-3">
-                                        @if($auction->status === 'active' && $auction->starts_at->isFuture())
-                                            <!-- Scheduled auction controls -->
-                                            <a href="{{ route('auction.setup', $auction->listing) }}"
-                                                class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                                <i class="fas fa-edit mr-2"></i>
-                                                Uredi aukciju
-                                            </a>
-
-                                            <button wire:click="cancelAuction"
-                                                wire:confirm="Da li ste sigurni da želite da otkažete aukciju?"
-                                                class="w-full flex items-center justify-center px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                                                <i class="fas fa-times mr-2"></i>
-                                                Otkaži aukciju
-                                            </button>
-                                        @elseif($auction->isActive())
-                                            <!-- Active auction controls -->
-                                            <a href="{{ route('auction.setup', $auction->listing) }}"
-                                                class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                                <i class="fas fa-edit mr-2"></i>
-                                                Uredi aukciju
-                                            </a>
-
-                                            <!-- Cancel auction (if no bids or current price = starting price) -->
-                                            @if($auction->total_bids == 0 || $auction->current_price == $auction->starting_price)
-                                                <button wire:click="cancelAuction"
-                                                    wire:confirm="Da li ste sigurni da želite da otkažete aukciju?"
-                                                    class="w-full flex items-center justify-center px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                                                    <i class="fas fa-times mr-2"></i>
-                                                    Otkaži aukciju
-                                                </button>
-                                            @else
-                                                <div class="w-full p-3 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg">
-                                                    <div class="flex items-center">
-                                                        <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
-                                                        <span class="text-yellow-800 dark:text-yellow-200 text-sm">
-                                                            Aukcija se ne može otkazati jer već ima ponude veće od početne cene.
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @else
-                                            <div class="w-full p-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-center">
-                                                <i class="fas fa-flag-checkered mr-2"></i>
-                                                Aukcija je završena
-                                            </div>
-                                        @endif
-                                    </div>
                             @endif
                         @endauth
 
