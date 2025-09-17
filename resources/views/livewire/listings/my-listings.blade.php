@@ -61,27 +61,22 @@
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <table class="w-full">
-                    <thead class="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 30%">Oglas</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Cena</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Datum</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 25%">Akcije</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="grid grid-cols-[30%_15%_15%_15%_25%] bg-gray-50 dark:bg-gray-700">
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</div>
+                </div>
             </div>
 
             <!-- Data Rows -->
             @foreach ($listings as $listing)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-blue-500">
-                    <table class="w-full">
-                        <tbody>
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                            <td class="px-6 py-2" style="width: 30%">
-                                <div class="flex items-center">
+                    <div class="grid grid-cols-[30%_15%_15%_15%_25%] hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <!-- Oglas Column -->
+                        <div class="px-6 py-2">
+                            <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
                                         @if ($listing->images->count() > 0)
                                             <img class="h-10 w-10 rounded-lg object-cover"
@@ -98,13 +93,15 @@
                                             {{ Str::limit($listing->title, 40) }}</div>
                                         <div class="text-sm text-gray-500 dark:text-gray-400">{{ $listing->category->name }}</div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap" style="width: 15%">
-                                <div class="text-sm text-gray-900 dark:text-gray-100 font-bold">{{ number_format($listing->price, 2) }} RSD
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap" style="width: 15%">
+                            </div>
+                        </div>
+                        <!-- Cena Column -->
+                        <div class="px-6 py-2">
+                            <div class="text-sm text-gray-900 dark:text-gray-100 font-bold whitespace-nowrap">{{ number_format($listing->price, 2) }} RSD
+                            </div>
+                        </div>
+                        <!-- Status Column -->
+                        <div class="px-6 py-2">
                                 <div class="flex flex-col">
                                     @if ($listing->isExpired() || $listing->status == 'expired')
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">Istekao</span>
@@ -140,20 +137,22 @@
                                     @else
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">{{ ucfirst($listing->status) }}</span>
                                     @endif
-                                </div>
-                            </td>
-                            <td class="w-[15%] px-6 py-1 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                <div class="flex flex-col">
-                                    <span>{{ $listing->created_at->format('d.m.Y') }}</span>
-                                    @if($listing->renewed_at)
-                                        <span class="text-xs text-blue-500">Obnovljen {{ $listing->renewed_at->format('d.m.Y') }}</span>
-                                    @endif
-                                    @if($listing->renewal_count > 0)
-                                        <span class="text-xs text-gray-400">({{ $listing->renewal_count }}x obnovljen)</span>
-                                    @endif
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 text-sm font-medium" style="width: 25%">
+                            </div>
+                        </div>
+                        <!-- Datum Column -->
+                        <div class="px-6 py-2 text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex flex-col">
+                                <span>{{ $listing->created_at->format('d.m.Y') }}</span>
+                                @if($listing->renewed_at)
+                                    <span class="text-xs text-blue-500">Obnovljen {{ $listing->renewed_at->format('d.m.Y') }}</span>
+                                @endif
+                                @if($listing->renewal_count > 0)
+                                    <span class="text-xs text-gray-400">({{ $listing->renewal_count }}x obnovljen)</span>
+                                @endif
+                            </div>
+                        </div>
+                        <!-- Akcije Column -->
+                        <div class="px-6 py-2 text-sm font-medium">
                                 <div class="space-y-2">
                                     <!-- First row: Primary actions -->
                                     <div class="flex items-center space-x-2">
@@ -200,10 +199,8 @@
                                         </button>
                                     </div>
                                 </div>
-                            </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>

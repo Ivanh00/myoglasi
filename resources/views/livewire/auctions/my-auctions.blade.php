@@ -72,28 +72,23 @@
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <table class="w-full">
-                    <thead class="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 25%">Oglas</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 20%">Početna/Trenutna cena</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 10%">Ponude</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Datum/Vreme</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Akcije</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="grid grid-cols-[25%_20%_10%_15%_15%_15%] bg-gray-50 dark:bg-gray-700">
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Početna/Trenutna cena</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ponude</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum/Vreme</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</div>
+                </div>
             </div>
 
             <!-- Data Rows -->
             @foreach ($auctions as $auction)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-yellow-500">
-                    <table class="w-full">
-                        <tbody>
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                            <td class="px-6 py-2" style="width: 25%">
-                                <div class="flex items-center">
+                    <div class="grid grid-cols-[25%_20%_10%_15%_15%_15%] hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <!-- Oglas Column -->
+                        <div class="px-6 py-2">
+                            <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
                                         @if ($auction->listing->images->count() > 0)
                                             <img class="h-10 w-10 rounded-lg object-cover"
@@ -110,26 +105,29 @@
                                         </div>
                                         <div class="text-sm text-gray-500">{{ $auction->listing->category->name }}</div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap" style="width: 20%">
-                                <div class="text-sm">
-                                    <div class="text-gray-600 dark:text-gray-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
-                                    <div class="text-gray-900 dark:text-gray-100 font-bold">Trenutna: {{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
-                                    @if($auction->buy_now_price)
-                                        <div class="text-green-600 text-xs">Kupi odmah: {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD</div>
-                                    @endif
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap" style="width: 20%">
-                                <div class="text-sm">
-                                    <div class="text-gray-900 dark:text-gray-100 font-semibold">{{ $auction->total_bids }} ponuda</div>
-                                    @if($auction->winningBid)
-                                        <div class="text-xs text-gray-500">Vodi: {{ $auction->winningBid->user->name }}</div>
-                                    @endif
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap" style="width: 20%">
+                            </div>
+                        </div>
+                        <!-- Početna/Trenutna cena Column -->
+                        <div class="px-6 py-2">
+                            <div class="text-sm">
+                                <div class="text-gray-600 dark:text-gray-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
+                                <div class="text-gray-900 dark:text-gray-100 font-bold">Trenutna: {{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
+                                @if($auction->buy_now_price)
+                                    <div class="text-green-600 text-xs">Kupi odmah: {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD</div>
+                                @endif
+                            </div>
+                        </div>
+                        <!-- Ponude Column -->
+                        <div class="px-6 py-2">
+                            <div class="text-sm">
+                                <div class="text-gray-900 dark:text-gray-100 font-semibold">{{ $auction->total_bids }} ponuda</div>
+                                @if($auction->winningBid)
+                                    <div class="text-xs text-gray-500">Vodi: {{ $auction->winningBid->user->name }}</div>
+                                @endif
+                            </div>
+                        </div>
+                        <!-- Status Column -->
+                        <div class="px-6 py-2">
                                 <div class="flex flex-col">
                                     @if($auction->isActive())
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1">Aktivna</span>
@@ -146,15 +144,17 @@
                                     @else
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200">{{ ucfirst($auction->status) }}</span>
                                     @endif
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500" style="width: 15%">
-                                <div class="flex flex-col">
-                                    <span>Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</span>
-                                    <span>Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 text-sm font-medium" style="width: 15%">
+                            </div>
+                        </div>
+                        <!-- Datum/Vreme Column -->
+                        <div class="px-6 py-2 text-sm text-gray-500">
+                            <div class="flex flex-col">
+                                <span>Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</span>
+                                <span>Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</span>
+                            </div>
+                        </div>
+                        <!-- Akcije Column -->
+                        <div class="px-6 py-2 text-sm font-medium">
                                 <div class="flex flex-col space-y-2">
                                     <div class="flex items-center space-x-2">
                                         <a href="{{ route('auction.show', $auction) }}"
@@ -193,11 +193,9 @@
                                             </button>
                                         @endif
                                     </div>
-                                </div>
-                            </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>

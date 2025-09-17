@@ -66,28 +66,23 @@
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                <table class="w-full">
-                    <thead class="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 30%">Usluga</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Cena</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 10%">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 10%">Pregledi</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 10%">Datum</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 25%">Akcije</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] bg-gray-50 dark:bg-gray-700">
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Usluga</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pregledi</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</div>
+                </div>
             </div>
 
             <!-- Data Rows -->
             @foreach($services as $service)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border-l-4 border-gray-500">
-                    <table class="w-full">
-                        <tbody>
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                            <td class="px-6 py-2" style="width: 30%">
-                                <div class="flex items-center">
+                    <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <!-- Usluga Column -->
+                        <div class="px-6 py-2">
+                            <div class="flex items-center">
                                     @if($service->images->count() > 0)
                                         <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
                                             class="w-10 h-10 rounded-lg object-cover mr-3">
@@ -112,15 +107,17 @@
                                             {{ $service->category->name ?? 'Bez kategorije' }}
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap" style="width: 15%">
-                                <div class="text-sm text-gray-900 dark:text-gray-100">
-                                    {{ number_format($service->price, 2) }} RSD
-                                </div>
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap" style="width: 10%">
-                                @if($service->status === 'active')
+                            </div>
+                        </div>
+                        <!-- Cena Column -->
+                        <div class="px-6 py-2">
+                            <div class="text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
+                                {{ number_format($service->price, 2) }} RSD
+                            </div>
+                        </div>
+                        <!-- Status Column -->
+                        <div class="px-6 py-2">
+                            @if($service->status === 'active')
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                         Aktivna
                                     </span>
@@ -128,16 +125,19 @@
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
                                         Neaktivna
                                     </span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" style="width: 10%">
-                                {{ $service->views ?? 0 }}
-                            </td>
-                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" style="width: 10%">
-                                {{ $service->created_at->format('d.m.Y') }}
-                            </td>
-                            <td class="px-6 py-2 text-sm font-medium" style="width: 25%">
-                                <div class="space-y-2">
+                            @endif
+                        </div>
+                        <!-- Pregledi Column -->
+                        <div class="px-6 py-2 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                            {{ $service->views ?? 0 }}
+                        </div>
+                        <!-- Datum Column -->
+                        <div class="px-6 py-2 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                            {{ $service->created_at->format('d.m.Y') }}
+                        </div>
+                        <!-- Akcije Column -->
+                        <div class="px-6 py-2 text-sm font-medium">
+                            <div class="space-y-2">
                                     <!-- First row: Primary actions -->
                                     <div class="flex items-center space-x-2">
                                         <a href="{{ route('services.show', $service->slug) }}"
@@ -175,11 +175,9 @@
                                             <i class="fas fa-trash mr-1"></i> Obriši
                                         </button>
                                     </div>
-                                </div>
-                            </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>
