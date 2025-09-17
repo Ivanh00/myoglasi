@@ -144,31 +144,31 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex items-center justify-end space-x-2">
                                     <a href="{{ route('services.show', $service->slug) }}"
-                                        class="text-blue-600 hover:text-blue-900 dark:hover:text-blue-400">
-                                        <i class="fas fa-eye"></i>
+                                        class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
+                                        <i class="fas fa-eye mr-1"></i> Pregled
                                     </a>
                                     <a href="{{ route('services.edit', $service->slug) }}"
-                                        class="text-indigo-600 hover:text-indigo-900 dark:hover:text-indigo-400">
-                                        <i class="fas fa-edit"></i>
+                                        class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
+                                        <i class="fas fa-edit mr-1"></i> Izmeni
                                     </a>
                                     <button wire:click="toggleStatus({{ $service->id }})"
-                                        class="text-yellow-600 hover:text-yellow-900 dark:hover:text-yellow-400">
+                                        class="inline-flex items-center px-2 py-1 text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 rounded">
                                         @if($service->status === 'active')
-                                            <i class="fas fa-pause"></i>
+                                            <i class="fas fa-pause mr-1"></i> Pauziraj
                                         @else
-                                            <i class="fas fa-play"></i>
+                                            <i class="fas fa-play mr-1"></i> Aktiviraj
                                         @endif
                                     </button>
                                     @if($service->status === 'active')
                                         <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
-                                            class="text-green-600 hover:text-green-900 dark:hover:text-green-400">
-                                            <i class="fas fa-bullhorn"></i>
+                                            class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
+                                            <i class="fas fa-bullhorn mr-1"></i> Promocija
                                         </button>
                                     @endif
-                                    <button wire:click="deleteService({{ $service->id }})"
-                                        wire:confirm="Da li ste sigurni da želite da obrišete ovu uslugu?"
-                                        class="text-red-600 hover:text-red-900 dark:hover:text-red-400">
-                                        <i class="fas fa-trash"></i>
+                                    <button x-data
+                                        @click="$dispatch('open-delete-modal', { serviceId: {{ $service->id }} })"
+                                        class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
+                                        <i class="fas fa-trash mr-1"></i> Obriši
                                     </button>
                                 </div>
                             </td>
@@ -204,4 +204,142 @@
 
     <!-- Service Promotion Manager Modal -->
     @livewire('services.promotion-manager')
+
+    <!-- Delete Service Modal -->
+    <div x-data="{
+            showDeleteModal: false,
+            selectedService: null,
+            deleteService() {
+                if (this.selectedService) {
+                    @this.deleteService(this.selectedService.id);
+                    this.showDeleteModal = false;
+                }
+            }
+        }"
+        @open-delete-modal.window="
+            showDeleteModal = true;
+            selectedService = $services.find(s => s.id === $event.detail.serviceId);
+        "
+        x-show="showDeleteModal"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        style="display: none;"
+        class="fixed inset-0 z-50 overflow-y-auto">
+
+        <!-- Background overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="showDeleteModal = false"></div>
+
+        <!-- Modal content -->
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+
+                <!-- Modal header with delete icon -->
+                <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
+                                <i class="fas fa-trash text-white text-xl"></i>
+                            </div>
+                            <h3 class="ml-3 text-xl font-bold text-white">Brisanje usluge</h3>
+                        </div>
+                        <button @click="showDeleteModal = false" class="text-white hover:text-gray-200">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal body -->
+                <div class="px-6 py-5">
+                    <!-- Warning message -->
+                    <div class="mb-4">
+                        <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                            Da li ste sigurni?
+                        </h4>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Ova usluga će biti trajno obrisana. Ova akcija se ne može poništiti.
+                        </p>
+                    </div>
+
+                    <!-- Service info -->
+                    <template x-if="selectedService">
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Naziv:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedService?.title || 'N/A'"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Kategorija:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedService?.category?.name || 'Bez kategorije'"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Cena:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                        <span x-text="new Intl.NumberFormat('sr-RS').format(selectedService?.price || 0)"></span> RSD
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Status:</span>
+                                    <span class="text-sm font-medium" :class="{
+                                        'text-green-600 dark:text-green-400': selectedService?.status === 'active',
+                                        'text-gray-600 dark:text-gray-400': selectedService?.status !== 'active'
+                                    }" x-text="selectedService?.status === 'active' ? 'Aktivna' : 'Neaktivna'"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Pregledi:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedService?.views || 0"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Warning notice -->
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-3">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-red-800 dark:text-red-200">
+                                    <strong>Upozorenje:</strong> Brisanjem usluge gubite sve podatke vezane za nju, uključujući slike i statistiku pregleda.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer with actions -->
+                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4">
+                    <div class="flex space-x-3">
+                        <button type="button"
+                                @click="showDeleteModal = false"
+                                class="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                            <i class="fas fa-times mr-2"></i>
+                            Otkaži
+                        </button>
+                        <button type="button"
+                                @click="deleteService()"
+                                class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105">
+                            <i class="fas fa-trash mr-2"></i>
+                            Obriši uslugu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.$services = @json($services->items());
+    </script>
 </div>

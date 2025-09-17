@@ -190,7 +190,7 @@
                                     <!-- Second row: Delete action -->
                                     <div class="flex items-center space-x-2">
                                         <button x-data
-                                            x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
+                                            @click="$dispatch('open-delete-modal', { listingId: {{ $listing->id }} })"
                                             class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
                                             <i class="fas fa-trash mr-1"></i> Obriši
                                         </button>
@@ -329,7 +329,7 @@
 
                             
                             <button x-data
-                                x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
+                                @click="$dispatch('open-delete-modal', { listingId: {{ $listing->id }} })"
                                 class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
                                 <i class="fas fa-trash mr-1"></i>
                                 Obriši
@@ -358,4 +358,139 @@
     
     <!-- Single Promotion Manager Modal -->
     @livewire('listings.promotion-manager')
+
+    <!-- Delete Listing Modal -->
+    <div x-data="{
+            showDeleteModal: false,
+            selectedListing: null,
+            deleteListing() {
+                if (this.selectedListing) {
+                    @this.deleteListing(this.selectedListing.id);
+                    this.showDeleteModal = false;
+                }
+            }
+        }"
+        @open-delete-modal.window="
+            showDeleteModal = true;
+            selectedListing = $listings.find(l => l.id === $event.detail.listingId);
+        "
+        x-show="showDeleteModal"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        style="display: none;"
+        class="fixed inset-0 z-50 overflow-y-auto">
+
+        <!-- Background overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="showDeleteModal = false"></div>
+
+        <!-- Modal content -->
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+
+                <!-- Modal header with delete icon -->
+                <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
+                                <i class="fas fa-trash text-white text-xl"></i>
+                            </div>
+                            <h3 class="ml-3 text-xl font-bold text-white">Brisanje oglasa</h3>
+                        </div>
+                        <button @click="showDeleteModal = false" class="text-white hover:text-gray-200">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal body -->
+                <div class="px-6 py-5">
+                    <!-- Warning message -->
+                    <div class="mb-4">
+                        <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                            Da li ste sigurni?
+                        </h4>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Ovaj oglas će biti trajno obrisan. Ova akcija se ne može poništiti.
+                        </p>
+                    </div>
+
+                    <!-- Listing info -->
+                    <template x-if="selectedListing">
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Naziv:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedListing?.title || 'N/A'"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Kategorija:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedListing?.category?.name || 'N/A'"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Cena:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                        <span x-text="new Intl.NumberFormat('sr-RS').format(selectedListing?.price || 0)"></span> RSD
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Status:</span>
+                                    <span class="text-sm font-medium" :class="{
+                                        'text-green-600 dark:text-green-400': selectedListing?.status === 'active',
+                                        'text-red-600 dark:text-red-400': selectedListing?.status === 'expired',
+                                        'text-gray-600 dark:text-gray-400': selectedListing?.status !== 'active' && selectedListing?.status !== 'expired'
+                                    }" x-text="selectedListing?.status === 'active' ? 'Aktivan' : (selectedListing?.status === 'expired' ? 'Istekao' : 'Neaktivan')"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Warning notice -->
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-3">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-red-800 dark:text-red-200">
+                                    <strong>Upozorenje:</strong> Brisanjem oglasa gubite sve podatke vezane za njega, uključujući slike i statistiku pregleda.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer with actions -->
+                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4">
+                    <div class="flex space-x-3">
+                        <button type="button"
+                                @click="showDeleteModal = false"
+                                class="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                            <i class="fas fa-times mr-2"></i>
+                            Otkaži
+                        </button>
+                        <button type="button"
+                                @click="deleteListing()"
+                                class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105">
+                            <i class="fas fa-trash mr-2"></i>
+                            Obriši oglas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.$listings = @json($listings->items());
+    </script>
 </div>
