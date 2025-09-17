@@ -27,12 +27,19 @@ class Show extends Component
         'maxBidAmount' => 'required_if:isAutoBid,true|nullable|numeric|gt:bidAmount'
     ];
 
-    public function mount(Auction $auction)
+    public function mount($auction)
     {
-        $this->auction = $auction->load(['listing.images', 'listing.user', 'seller', 'bids.user']);
+        // If admin, include soft-deleted auctions
+        if (auth()->check() && auth()->user()->is_admin) {
+            $this->auction = Auction::withTrashed()->findOrFail($auction);
+        } else {
+            $this->auction = Auction::findOrFail($auction);
+        }
+
+        $this->auction->load(['listing.images', 'listing.user', 'seller', 'bids.user']);
 
         // Set minimum bid amount
-        $this->bidAmount = $auction->minimum_bid;
+        $this->bidAmount = $this->auction->minimum_bid;
 
         // Check if user has favorited this auction listing
         if (auth()->check()) {
@@ -45,7 +52,7 @@ class Show extends Component
 
         // Check if user has existing auto-bid
         if (auth()->check()) {
-            $existingAutoBid = Bid::where('auction_id', $auction->id)
+            $existingAutoBid = Bid::where('auction_id', $this->auction->id)
                 ->where('user_id', auth()->id())
                 ->where('is_auto_bid', true)
                 ->whereNotNull('max_bid')

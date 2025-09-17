@@ -53,10 +53,11 @@ class Setup extends Component
             return redirect()->route('listings.show', $listing);
         }
 
-        // Check if auction already exists
-        if ($listing->auction) {
+        // Check if auction already exists (excluding soft-deleted)
+        $existingAuction = $listing->auction()->withoutTrashed()->first();
+        if ($existingAuction) {
             session()->flash('info', 'Ovaj oglas već ima aktivnu aukciju.');
-            return redirect()->route('auction.show', $listing->auction);
+            return redirect()->route('auction.show', $existingAuction);
         }
         
         // Set default starting price based on listing price
@@ -73,8 +74,15 @@ class Setup extends Component
         $this->validate();
 
         try {
-            $startDateTime = $this->startType === 'immediately' 
-                ? now() 
+            // First, permanently delete any soft-deleted auctions for this listing
+            // This is needed because of the unique constraint on listing_id
+            Auction::withTrashed()
+                ->where('listing_id', $this->listing->id)
+                ->whereNotNull('deleted_at')
+                ->forceDelete();
+
+            $startDateTime = $this->startType === 'immediately'
+                ? now()
                 : Carbon::parse($this->startDate . ' ' . $this->startTime);
 
             $endDateTime = $startDateTime->copy()->addDays((int) $this->duration);
