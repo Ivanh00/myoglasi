@@ -64,21 +64,26 @@
     @if($services->count() > 0)
         <!-- Desktop Table View -->
         <div class="hidden lg:block space-y-1">
-            @foreach($services as $index => $service)
+            <!-- Header -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                <table class="min-w-full table-fixed">
+                    <thead class="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th class="w-[30%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Usluga</th>
+                            <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</th>
+                            <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                            <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pregledi</th>
+                            <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</th>
+                            <th class="w-[25%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <!-- Data rows -->
+            @foreach($services as $service)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border-l-4 border-gray-500">
                     <table class="min-w-full table-fixed">
-                        @if($index == 0)
-                        <thead class="bg-gray-50 dark:bg-gray-700">
-                            <tr>
-                                <th class="w-[30%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Usluga</th>
-                                <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</th>
-                                <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                                <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pregledi</th>
-                                <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</th>
-                                <th class="w-[25%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
-                            </tr>
-                        </thead>
-                        @endif
                         <tbody>
                             <tr>
                             <td class="w-[30%] px-6 py-1 whitespace-nowrap">
