@@ -100,41 +100,45 @@
                                     <span>Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex items-center space-x-2">
-                                    <a href="{{ route('auction.show', $auction) }}"
-                                        class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
-                                        <i class="fas fa-eye mr-1"></i> Pregled
-                                    </a>
+                            <td class="px-6 py-4 text-sm font-medium">
+                                <div class="flex flex-col space-y-2">
+                                    <div class="flex items-center space-x-2">
+                                        <a href="{{ route('auction.show', $auction) }}"
+                                            class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
+                                            <i class="fas fa-eye mr-1"></i> Pregled
+                                        </a>
 
-                                    <a href="{{ route('listings.show', $auction->listing) }}"
-                                        class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
-                                        <i class="fas fa-list mr-1"></i> Oglas
-                                    </a>
+                                        <a href="{{ route('listings.show', $auction->listing) }}"
+                                            class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
+                                            <i class="fas fa-list mr-1"></i> Oglas
+                                        </a>
+                                    </div>
 
-                                    <a href="{{ route('listings.edit', $auction->listing) }}"
-                                        class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
-                                        <i class="fas fa-edit mr-1"></i> Uredi
-                                    </a>
+                                    <div class="flex items-center space-x-2">
+                                        <a href="{{ route('listings.edit', $auction->listing) }}"
+                                            class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
+                                            <i class="fas fa-edit mr-1"></i> Uredi
+                                        </a>
 
-                                    @php
-                                        $canRemove = !auth()->user()->is_admin ?
-                                            $auction->current_price <= $auction->starting_price :
-                                            true;
-                                    @endphp
-                                    @if($auction->hasEnded())
-                                        <button x-data
-                                            x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovu završenu aukciju iz vaše liste?')) { $wire.deleteAuction({{ $auction->id }}) }"
-                                            class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
-                                            <i class="fas fa-trash mr-1"></i> Obriši
-                                        </button>
-                                    @elseif($canRemove)
-                                        <button x-data
-                                            x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $auction->id }}) }"
-                                            class="inline-flex items-center px-2 py-1 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 rounded">
-                                            <i class="fas fa-times mr-1"></i> Ukloni iz aukcije
-                                        </button>
-                                    @endif
+                                        @php
+                                            $canRemove = !auth()->user()->is_admin ?
+                                                $auction->current_price <= $auction->starting_price :
+                                                true;
+                                        @endphp
+                                        @if($auction->hasEnded())
+                                            <button x-data
+                                                x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovu završenu aukciju iz vaše liste?')) { $wire.deleteAuction({{ $auction->id }}) }"
+                                                class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
+                                                <i class="fas fa-trash mr-1"></i> Obriši
+                                            </button>
+                                        @elseif($canRemove)
+                                            <button x-data
+                                                x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $auction->id }}) }"
+                                                class="inline-flex items-center px-2 py-1 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 rounded">
+                                                <i class="fas fa-times mr-1"></i> Ukloni iz aukcije
+                                            </button>
+                                        @endif
+                                    </div>
                                 </div>
                             </td>
                         </tr>
