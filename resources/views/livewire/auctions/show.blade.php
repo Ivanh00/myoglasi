@@ -3,7 +3,7 @@
     <div>
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-6">
                 <!-- Auction Header -->
-                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-4">
+                <div class="bg-gradient-to-r from-orange-600 via-yellow-400 to-orange-600 dark:from-orange-800 dark:via-yellow-600 dark:to-orange-800 text-white p-4">
                     <div class="flex items-center justify-between">
                         <div>
                             <h1 class="text-xl font-bold">{{ $auction->listing->title }}</h1>
