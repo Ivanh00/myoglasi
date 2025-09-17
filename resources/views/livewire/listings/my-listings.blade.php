@@ -58,22 +58,29 @@
 
     <!-- Desktop Tabela oglasa -->
     @if ($listings->count() > 0)
-        <div class="hidden lg:block">
+        <div class="hidden lg:block space-y-1">
+            <!-- Header -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
                 <table class="w-full">
                     <thead class="bg-gray-50 dark:bg-gray-700">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 30%">Oglas</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Cena</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 15%">Datum</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width: 25%">Akcije</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                        @foreach ($listings as $listing)
-                            <tr class="border-l-4 border-blue-500 hover:bg-gray-50 dark:hover:bg-gray-700">
-                            <td class="px-6 py-2">
+                </table>
+            </div>
+
+            <!-- Data Rows -->
+            @foreach ($listings as $listing)
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-blue-500">
+                    <table class="w-full">
+                        <tbody>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td class="px-6 py-2" style="width: 30%">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
                                         @if ($listing->images->count() > 0)
@@ -93,11 +100,11 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-2 whitespace-nowrap">
+                            <td class="px-6 py-2 whitespace-nowrap" style="width: 15%">
                                 <div class="text-sm text-gray-900 dark:text-gray-100 font-bold">{{ number_format($listing->price, 2) }} RSD
                                 </div>
                             </td>
-                            <td class="px-6 py-2 whitespace-nowrap">
+                            <td class="px-6 py-2 whitespace-nowrap" style="width: 15%">
                                 <div class="flex flex-col">
                                     @if ($listing->isExpired() || $listing->status == 'expired')
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">Istekao</span>
@@ -146,7 +153,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-6 py-2 text-sm font-medium">
+                            <td class="px-6 py-2 text-sm font-medium" style="width: 25%">
                                 <div class="space-y-2">
                                     <!-- First row: Primary actions -->
                                     <div class="flex items-center space-x-2">
@@ -195,10 +202,10 @@
                                 </div>
                             </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            @endforeach
         </div>
 
         <!-- Desktop Paginacija -->
