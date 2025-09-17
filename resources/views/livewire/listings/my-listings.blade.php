@@ -64,9 +64,9 @@
                 <table class="min-w-full table-fixed">
                     <thead class="bg-gray-50 dark:bg-gray-700">
                         <tr>
-                            <th class="w-[25%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</th>
+                            <th class="w-[30%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</th>
                             <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</th>
-                            <th class="w-[20%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                            <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
                             <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</th>
                             <th class="w-[25%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
                         </tr>
@@ -80,7 +80,7 @@
                     <table class="min-w-full table-fixed">
                         <tbody>
                             <tr>
-                            <td class="w-[25%] px-6 py-1 whitespace-nowrap">
+                            <td class="w-[30%] px-6 py-1 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
                                         @if ($listing->images->count() > 0)
@@ -104,7 +104,7 @@
                                 <div class="text-sm text-gray-900 dark:text-gray-100 font-bold">{{ number_format($listing->price, 2) }} RSD
                                 </div>
                             </td>
-                            <td class="w-[20%] px-6 py-1 whitespace-nowrap">
+                            <td class="w-[15%] px-6 py-1 whitespace-nowrap">
                                 <div class="flex flex-col">
                                     @if ($listing->isExpired() || $listing->status == 'expired')
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">Istekao</span>
