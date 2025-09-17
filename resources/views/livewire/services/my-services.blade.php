@@ -63,30 +63,23 @@
     <!-- Services list -->
     @if($services->count() > 0)
         <!-- Desktop Table View -->
-        <div class="hidden lg:block space-y-1">
-            <!-- Header -->
+        <div class="hidden lg:block">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                <table class="min-w-full table-fixed">
+                <table class="w-full">
                     <thead class="bg-gray-50 dark:bg-gray-700">
                         <tr>
-                            <th class="w-[30%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Usluga</th>
-                            <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</th>
-                            <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                            <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pregledi</th>
-                            <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</th>
-                            <th class="w-[25%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Usluga</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pregledi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
                         </tr>
                     </thead>
-                </table>
-            </div>
-
-            <!-- Data rows -->
-            @foreach($services as $service)
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border-l-4 border-gray-500">
-                    <table class="min-w-full table-fixed">
-                        <tbody>
-                            <tr>
-                            <td class="w-[30%] px-6 py-1 whitespace-nowrap">
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        @foreach($services as $service)
+                            <tr class="border-l-4 border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td class="px-6 py-2">
                                 <div class="flex items-center">
                                     @if($service->images->count() > 0)
                                         <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
@@ -114,12 +107,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="w-[15%] px-6 py-1 whitespace-nowrap">
+                            <td class="px-6 py-2 whitespace-nowrap">
                                 <div class="text-sm text-gray-900 dark:text-gray-100">
                                     {{ number_format($service->price, 2) }} RSD
                                 </div>
                             </td>
-                            <td class="w-[10%] px-6 py-1 whitespace-nowrap">
+                            <td class="px-6 py-2 whitespace-nowrap">
                                 @if($service->status === 'active')
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                         Aktivna
@@ -136,7 +129,7 @@
                             <td class="w-[10%] px-6 py-1 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 {{ $service->created_at->format('d.m.Y') }}
                             </td>
-                            <td class="w-[25%] px-6 py-1 text-sm font-medium">
+                            <td class="px-6 py-2 text-sm font-medium">
                                 <div class="space-y-2">
                                     <!-- First row: Primary actions -->
                                     <div class="flex items-center space-x-2">
@@ -178,10 +171,10 @@
                                 </div>
                             </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-            @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Desktop Pagination -->
