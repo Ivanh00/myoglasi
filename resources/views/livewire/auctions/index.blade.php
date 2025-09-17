@@ -498,7 +498,7 @@
                                 <div class="p-3 bg-yellow-50 dark:bg-yellow-900 rounded-lg mb-3">
                                     <div class="text-sm text-yellow-800 dark:text-yellow-200 font-medium">
                                         <i class="fas fa-calendar-alt mr-1"></i>
-                                        Počinje: {{ $auction->starts_at->format('d.m.Y u H:i') }}
+                                        Počinje: {{ $auction->starts_at->format('d.m.Y \\u H:i') }}
                                     </div>
                                     <div class="text-xs text-yellow-600 dark:text-yellow-300 mt-1">
                                         ({{ \App\Helpers\DateHelper::diffForHumansSr($auction->starts_at) }})
@@ -611,8 +611,8 @@
                                             <div class="text-lg font-bold text-yellow-700 dark:text-yellow-200">
                                                 {{ \App\Helpers\DateHelper::diffForHumansSr($auction->starts_at) }}
                                             </div>
-                                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                {{ $auction->starts_at->format('d.m.Y u H:i') }}
+                                            <div class="text-xs text-yellow-700 dark:text-yellow-400 mt-1">
+                                                {{ $auction->starts_at->format('d.m.Y \\u H:i') }}
                                             </div>
                                         </div>
 

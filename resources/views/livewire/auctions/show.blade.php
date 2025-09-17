@@ -302,7 +302,7 @@
                                         Aukcija je zakazana
                                     </h3>
                                     <p class="text-gray-700 dark:text-gray-300 mb-2">
-                                        Aukcija počinje: <strong>{{ $auction->starts_at->format('d.m.Y u H:i') }}</strong>
+                                        Aukcija počinje: <strong>{{ $auction->starts_at->format('d.m.Y \\u H:i') }}</strong>
                                     </p>
                                     <p class="text-gray-600 dark:text-gray-400 text-sm">
                                         Licitiranje će biti omogućeno kada aukcija počne.
@@ -330,7 +330,7 @@
                                 <i class="fas fa-clock text-gray-500 dark:text-gray-400 mr-2"></i>
                                 <span class="text-gray-700 dark:text-gray-300">
                                     @if($auction->status === 'active' && $auction->starts_at->isFuture())
-                                        Počinje: {{ $auction->starts_at->format('d.m.Y u H:i') }}
+                                        Počinje: {{ $auction->starts_at->format('d.m.Y \\u H:i') }}
                                     @elseif($auction->isActive())
                                         @if($auction->time_left)
                                             {{ $auction->time_left['formatted'] }} ostalo
