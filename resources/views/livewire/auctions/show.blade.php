@@ -355,9 +355,10 @@
 
             <!-- Seller Information Section -->
             @auth
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-6">
-                    <div class="p-6 bg-gray-50 dark:bg-gray-700">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Informacije o prodavcu</h2>
+                @if(auth()->id() !== $auction->user_id)
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-6">
+                        <div class="p-6 bg-gray-50 dark:bg-gray-700">
+                            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Informacije o prodavcu</h2>
                         <div class="flex items-start">
                             <!-- Avatar -->
                             <div class="w-16 h-16 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -372,14 +373,16 @@
                             </div>
 
                             <div class="flex-1">
-                                <h3 class="font-medium text-gray-900 dark:text-gray-100 text-lg">
-                                    {{ $auction->seller->name }}
-                                    {!! $auction->seller->verified_icon !!}
-                                    @if($auction->seller->is_banned)
-                                        <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
-                                    @endif
+                                <div class="flex items-center">
+                                    <h3 class="font-medium text-gray-900 dark:text-gray-100 text-lg">
+                                        {{ $auction->seller->name }}
+                                        {!! $auction->seller->verified_icon !!}
+                                        @if($auction->seller->is_banned)
+                                            <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                        @endif
+                                    </h3>
                                     @if($auction->seller->shouldShowLastSeen())
-                                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                        <span class="text-sm text-gray-500 dark:text-gray-400 ml-3">
                                             @if($auction->seller->is_online)
                                                 <span class="inline-flex items-center">
                                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -388,9 +391,9 @@
                                             @else
                                                 {{ $auction->seller->last_seen }}
                                             @endif
-                                        </div>
+                                        </span>
                                     @endif
-                                </h3>
+                                </div>
 
                                 <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">Član od: {{ $auction->seller->created_at->format('m/Y') }}</p>
 
@@ -427,7 +430,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    </div>
+                @endif
             @endauth
 
         <!-- Bid History Section -->
