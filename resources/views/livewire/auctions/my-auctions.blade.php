@@ -8,16 +8,62 @@
     <!-- Filter -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
         <div></div> <!-- Empty div for spacing -->
-        
+
         <!-- Filter -->
         <div class="flex items-center space-x-4">
             <label class="text-sm font-medium text-gray-700 dark:text-gray-200">Prikaži:</label>
-            <select wire:model.live="filter" 
-                class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
-                <option value="all">Sve aukcije</option>
-                <option value="active">Aktivne aukcije</option>
-                <option value="ended">Završene aukcije</option>
-            </select>
+            <div class="w-60" x-data="{ open: false }" x-init="open = false">
+                <div class="relative">
+                    <button @click="open = !open" type="button"
+                        class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-colors flex items-center justify-between">
+                        <span>
+                            @switch($filter)
+                                @case('active')
+                                    Aktivne aukcije
+                                    @break
+                                @case('ended')
+                                    Sve završene aukcije
+                                    @break
+                                @case('ended_with_bids')
+                                    Završene sa ponudama
+                                    @break
+                                @case('ended_without_bids')
+                                    Završene bez ponuda
+                                    @break
+                                @default
+                                    Sve aukcije
+                            @endswitch
+                        </span>
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
+                        <button @click="$wire.set('filter', 'all'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg {{ $filter === 'all' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            Sve aukcije
+                        </button>
+                        <button @click="$wire.set('filter', 'active'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 {{ $filter === 'active' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            Aktivne aukcije
+                        </button>
+                        <button @click="$wire.set('filter', 'ended'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 {{ $filter === 'ended' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            Sve završene aukcije
+                        </button>
+                        <button @click="$wire.set('filter', 'ended_with_bids'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 {{ $filter === 'ended_with_bids' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            Završene sa ponudama
+                        </button>
+                        <button @click="$wire.set('filter', 'ended_without_bids'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg {{ $filter === 'ended_without_bids' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            Završene bez ponuda
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -14,13 +14,51 @@
         <!-- Sortiranje -->
         <div class="flex items-center space-x-4">
             <label class="text-sm font-medium text-gray-700 dark:text-gray-200">Sortiraj po:</label>
-            <select wire:model.live="sortBy" 
-                class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
-                <option value="newest">Najnovije dodato</option>
-                <option value="oldest">Najstarije dodato</option>
-                <option value="price_asc">Cena ↑</option>
-                <option value="price_desc">Cena ↓</option>
-            </select>
+            <div class="w-60" x-data="{ open: false }" x-init="open = false">
+                <div class="relative">
+                    <button @click="open = !open" type="button"
+                        class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-colors flex items-center justify-between">
+                        <span>
+                            @switch($sortBy)
+                                @case('oldest')
+                                    Najstarije dodato
+                                    @break
+                                @case('price_asc')
+                                    Cena ↑
+                                    @break
+                                @case('price_desc')
+                                    Cena ↓
+                                    @break
+                                @default
+                                    Najnovije dodato
+                            @endswitch
+                        </span>
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
+                        <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg {{ $sortBy === 'newest' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            Najnovije dodato
+                        </button>
+                        <button @click="$wire.set('sortBy', 'oldest'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 {{ $sortBy === 'oldest' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            Najstarije dodato
+                        </button>
+                        <button @click="$wire.set('sortBy', 'price_asc'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 {{ $sortBy === 'price_asc' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            Cena ↑
+                        </button>
+                        <button @click="$wire.set('sortBy', 'price_desc'); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg {{ $sortBy === 'price_desc' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            Cena ↓
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

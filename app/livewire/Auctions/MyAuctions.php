@@ -10,7 +10,7 @@ class MyAuctions extends Component
 {
     use WithPagination;
     
-    public $filter = 'all'; // all, active, ended
+    public $filter = 'all'; // all, active, ended, ended_with_bids, ended_without_bids
 
     public function deleteAuction($id)
     {
@@ -98,9 +98,27 @@ class MyAuctions extends Component
             
         // Apply filters
         if ($this->filter === 'active') {
-            $query->where('status', 'active');
+            // Show only truly active auctions (active status AND future end time)
+            $query->where('status', 'active')
+                  ->where('ends_at', '>', now());
         } elseif ($this->filter === 'ended') {
-            $query->where('status', 'ended');
+            // Show all ended auctions (ended status OR past end time)
+            $query->where(function($q) {
+                $q->where('status', 'ended')
+                  ->orWhere('ends_at', '<=', now());
+            });
+        } elseif ($this->filter === 'ended_with_bids') {
+            // Ended auctions with bids
+            $query->where(function($q) {
+                $q->where('status', 'ended')
+                  ->orWhere('ends_at', '<=', now());
+            })->where('total_bids', '>', 0);
+        } elseif ($this->filter === 'ended_without_bids') {
+            // Ended auctions without bids
+            $query->where(function($q) {
+                $q->where('status', 'ended')
+                  ->orWhere('ends_at', '<=', now());
+            })->where('total_bids', 0);
         }
         
         $auctions = $query->orderBy('created_at', 'desc')->paginate(10);
