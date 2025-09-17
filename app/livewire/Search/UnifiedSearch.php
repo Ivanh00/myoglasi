@@ -141,30 +141,30 @@ class UnifiedSearch extends Component
     public function render()
     {
         $results = collect();
-        
+
         // Get listings if content_type is 'all' or 'listings'
         if (in_array($this->content_type, ['all', 'listings'])) {
             $listings = $this->getListings();
-            $results = $results->merge($listings->items());
+            $results = $results->merge($listings);
         }
-        
+
         // Get services if content_type is 'all' or 'services'
         if (in_array($this->content_type, ['all', 'services'])) {
             $services = $this->getServices();
-            $results = $results->merge($services->items());
+            $results = $results->merge($services);
         }
-        
+
         // Get giveaways if content_type is 'all' or 'giveaways'
         if (in_array($this->content_type, ['all', 'giveaways'])) {
             $giveaways = $this->getGiveaways();
-            $results = $results->merge($giveaways->items());
+            $results = $results->merge($giveaways);
         }
-        
+
         // Get auctions if content_type is 'all' or 'auctions'
         if (in_array($this->content_type, ['all', 'auctions'])) {
             $auctions = $this->getAuctions();
             // Transform auctions to unified format
-            $auctionListings = $auctions->getCollection()->map(function ($auction) {
+            $auctionListings = $auctions->map(function ($auction) {
                 $listing = $auction->listing;
                 $listing->is_auction = true;
                 $listing->auction_data = $auction;
@@ -247,7 +247,8 @@ class UnifiedSearch extends Component
 
         $this->applyFiltersToQuery($query, 'listing');
 
-        return $query->paginate($this->perPage);
+        // Return all results, not paginated - pagination will be done in render()
+        return $query->get();
     }
 
     private function getServices()
@@ -310,7 +311,7 @@ class UnifiedSearch extends Component
                 break;
         }
 
-        return $query->paginate($this->perPage);
+        return $query->get();
     }
 
     private function getGiveaways()
@@ -321,7 +322,7 @@ class UnifiedSearch extends Component
             
         $this->applyFiltersToQuery($query, 'listing');
         
-        return $query->paginate($this->perPage);
+        return $query->get();
     }
 
     private function getAuctions()
@@ -367,7 +368,7 @@ class UnifiedSearch extends Component
                 break;
         }
         
-        return $query->paginate($this->perPage);
+        return $query->get();
     }
 
     private function applyFiltersToQuery($query, $type)
