@@ -62,7 +62,8 @@
 
     <!-- Services list -->
     @if($services->count() > 0)
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <!-- Desktop Table View -->
+        <div class="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
@@ -178,8 +179,134 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="mt-4">
+        <!-- Desktop Pagination -->
+        <div class="hidden lg:block mt-4">
+            {{ $services->links() }}
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="lg:hidden space-y-4">
+            @foreach ($services as $service)
+                <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+                    <!-- Card Header -->
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-600">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start flex-1">
+                                <!-- Image -->
+                                <div class="flex-shrink-0 h-16 w-16 mr-3">
+                                    @if ($service->images->count() > 0)
+                                        <img class="h-16 w-16 rounded-lg object-cover"
+                                             src="{{ $service->images->first()->url }}" alt="{{ $service->title }}">
+                                    @else
+                                        <div class="h-16 w-16 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                            <i class="fas fa-tools text-gray-400"></i>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Service Info -->
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                                        {{ $service->title }}
+                                        <!-- Promotion Badges -->
+                                        @if($service->hasActivePromotion())
+                                            <div class="inline-flex flex-wrap gap-1 ml-2">
+                                                @foreach($service->getPromotionBadges() as $badge)
+                                                    <span class="px-1 py-0.5 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                        {{ $badge['text'] }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">{{ $service->category->name ?? 'Bez kategorije' }}</p>
+                                    <p class="text-xl font-bold text-blue-600">{{ number_format($service->price, 2) }} RSD</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-4">
+                        <!-- Status Section -->
+                        <div class="mb-4">
+                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Status usluge</div>
+                            <div class="flex items-center space-x-4">
+                                @if($service->status === 'active')
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200">
+                                        Aktivna
+                                    </span>
+                                @else
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                        Neaktivna
+                                    </span>
+                                @endif
+                                <span class="text-sm text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-eye mr-1"></i>{{ $service->views ?? 0 }} pregleda
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Date Info -->
+                        <div class="mb-4">
+                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Informacije o datumu</div>
+                            <div class="text-sm text-gray-900 dark:text-gray-100">
+                                Kreirana: {{ $service->created_at->format('d.m.Y') }}
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap gap-2">
+                            <a href="{{ route('services.show', $service->slug) }}"
+                                class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                                <i class="fas fa-eye mr-1"></i>
+                                Pregled
+                            </a>
+
+                            <a href="{{ route('services.edit', $service->slug) }}"
+                                class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
+                                <i class="fas fa-edit mr-1"></i>
+                                Izmeni
+                            </a>
+
+                            <button wire:click="toggleStatus({{ $service->id }})"
+                                class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg transition-colors
+                                    @if($service->status === 'active')
+                                        bg-yellow-100 text-yellow-700 hover:bg-yellow-200
+                                    @else
+                                        bg-green-100 text-green-700 hover:bg-green-200
+                                    @endif">
+                                @if($service->status === 'active')
+                                    <i class="fas fa-pause mr-1"></i>
+                                    Pauziraj
+                                @else
+                                    <i class="fas fa-play mr-1"></i>
+                                    Aktiviraj
+                                @endif
+                            </button>
+
+                            @if($service->status === 'active')
+                                <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
+                                    class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                                    <i class="fas fa-bullhorn mr-1"></i>
+                                    Promocija
+                                </button>
+                            @endif
+
+                            <button x-data
+                                @click="$dispatch('open-delete-modal', { serviceId: {{ $service->id }} })"
+                                class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                                <i class="fas fa-trash mr-1"></i>
+                                Obriši
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <!-- Mobile Pagination -->
+        <div class="lg:hidden mt-6">
             {{ $services->links() }}
         </div>
     @else
