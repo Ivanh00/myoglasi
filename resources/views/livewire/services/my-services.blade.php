@@ -75,13 +75,13 @@
                                 <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
                                 <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pregledi</th>
                                 <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</th>
-                                <th class="w-[25%] px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
+                                <th class="w-[25%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
                             </tr>
                         </thead>
                         @endif
                         <tbody>
                             <tr>
-                            <td class="w-[30%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[30%] px-6 py-1 whitespace-nowrap">
                                 <div class="flex items-center">
                                     @if($service->images->count() > 0)
                                         <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
@@ -92,17 +92,15 @@
                                         </div>
                                     @endif
                                     <div>
-                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                            {{ Str::limit($service->title, 50) }}
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center">
+                                            <span>{{ Str::limit($service->title, 50) }}</span>
                                             <!-- Promotion Badges -->
                                             @if($service->hasActivePromotion())
-                                                <div class="flex flex-wrap gap-1 ml-2">
-                                                    @foreach($service->getPromotionBadges() as $badge)
-                                                        <span class="px-1 py-0.5 text-xs font-bold rounded-full {{ $badge['class'] }}">
-                                                            {{ $badge['text'] }}
-                                                        </span>
-                                                    @endforeach
-                                                </div>
+                                                @foreach($service->getPromotionBadges() as $badge)
+                                                    <span class="ml-2 px-1 py-0.5 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                        {{ $badge['text'] }}
+                                                    </span>
+                                                @endforeach
                                             @endif
                                         </div>
                                         <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -111,12 +109,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="w-[15%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[15%] px-6 py-1 whitespace-nowrap">
                                 <div class="text-sm text-gray-900 dark:text-gray-100">
                                     {{ number_format($service->price, 2) }} RSD
                                 </div>
                             </td>
-                            <td class="w-[10%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[10%] px-6 py-1 whitespace-nowrap">
                                 @if($service->status === 'active')
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                         Aktivna
@@ -127,41 +125,51 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="w-[10%] px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                            <td class="w-[10%] px-6 py-1 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 {{ $service->views ?? 0 }}
                             </td>
-                            <td class="w-[10%] px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                            <td class="w-[10%] px-6 py-1 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 {{ $service->created_at->format('d.m.Y') }}
                             </td>
-                            <td class="w-[25%] px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <div class="flex items-center justify-end space-x-2">
-                                    <a href="{{ route('services.show', $service->slug) }}"
-                                        class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
-                                        <i class="fas fa-eye mr-1"></i> Pregled
-                                    </a>
-                                    <a href="{{ route('services.edit', $service->slug) }}"
-                                        class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
-                                        <i class="fas fa-edit mr-1"></i> Izmeni
-                                    </a>
-                                    <button wire:click="toggleStatus({{ $service->id }})"
-                                        class="inline-flex items-center px-2 py-1 text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 rounded">
-                                        @if($service->status === 'active')
-                                            <i class="fas fa-pause mr-1"></i> Pauziraj
-                                        @else
-                                            <i class="fas fa-play mr-1"></i> Aktiviraj
-                                        @endif
-                                    </button>
-                                    @if($service->status === 'active')
-                                        <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
-                                            class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
-                                            <i class="fas fa-bullhorn mr-1"></i> Promocija
+                            <td class="w-[25%] px-6 py-1 text-sm font-medium">
+                                <div class="space-y-2">
+                                    <!-- First row: Primary actions -->
+                                    <div class="flex items-center space-x-2">
+                                        <a href="{{ route('services.show', $service->slug) }}"
+                                            class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
+                                            <i class="fas fa-eye mr-1"></i> Pregled
+                                        </a>
+
+                                        <a href="{{ route('services.edit', $service->slug) }}"
+                                            class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
+                                            <i class="fas fa-edit mr-1"></i> Izmeni
+                                        </a>
+
+                                        <button wire:click="toggleStatus({{ $service->id }})"
+                                            class="inline-flex items-center px-2 py-1 text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 rounded">
+                                            @if($service->status === 'active')
+                                                <i class="fas fa-pause mr-1"></i> Pauziraj
+                                            @else
+                                                <i class="fas fa-play mr-1"></i> Aktiviraj
+                                            @endif
                                         </button>
-                                    @endif
-                                    <button x-data
-                                        @click="$dispatch('open-delete-modal', { serviceId: {{ $service->id }} })"
-                                        class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
-                                        <i class="fas fa-trash mr-1"></i> Obriši
-                                    </button>
+                                    </div>
+
+                                    <!-- Second row: Promotion and Delete -->
+                                    <div class="flex items-center space-x-2">
+                                        @if($service->status === 'active')
+                                            <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
+                                                class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
+                                                <i class="fas fa-bullhorn mr-1"></i> Promocija
+                                            </button>
+                                        @endif
+
+                                        <button x-data
+                                            @click="$dispatch('open-delete-modal', { serviceId: {{ $service->id }} })"
+                                            class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
+                                            <i class="fas fa-trash mr-1"></i> Obriši
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
                             </tr>
@@ -363,7 +371,7 @@
                  class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 
                 <!-- Modal header with delete icon -->
-                <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
+                <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-1">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
@@ -438,7 +446,7 @@
                 </div>
 
                 <!-- Modal footer with actions -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4">
+                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-1">
                     <div class="flex space-x-3">
                         <button type="button"
                                 @click="showDeleteModal = false"

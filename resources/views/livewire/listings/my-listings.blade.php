@@ -75,7 +75,7 @@
                         @endif
                         <tbody>
                             <tr>
-                            <td class="w-[25%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[25%] px-6 py-1 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
                                         @if ($listing->images->count() > 0)
@@ -95,11 +95,11 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="w-[15%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[15%] px-6 py-1 whitespace-nowrap">
                                 <div class="text-sm text-gray-900 dark:text-gray-100 font-bold">{{ number_format($listing->price, 2) }} RSD
                                 </div>
                             </td>
-                            <td class="w-[20%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[20%] px-6 py-1 whitespace-nowrap">
                                 <div class="flex flex-col">
                                     @if ($listing->isExpired() || $listing->status == 'expired')
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">Istekao</span>
@@ -137,7 +137,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="w-[15%] px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                            <td class="w-[15%] px-6 py-1 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 <div class="flex flex-col">
                                     <span>{{ $listing->created_at->format('d.m.Y') }}</span>
                                     @if($listing->renewed_at)
@@ -148,7 +148,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="w-[25%] px-6 py-4 text-sm font-medium">
+                            <td class="w-[25%] px-6 py-1 text-sm font-medium">
                                 <div class="space-y-2">
                                     <!-- First row: Primary actions -->
                                     <div class="flex items-center space-x-2">
@@ -398,7 +398,7 @@
                  class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 
                 <!-- Modal header with delete icon -->
-                <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
+                <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-1">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
@@ -470,7 +470,7 @@
                 </div>
 
                 <!-- Modal footer with actions -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4">
+                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-1">
                     <div class="flex space-x-3">
                         <button type="button"
                                 @click="showDeleteModal = false"

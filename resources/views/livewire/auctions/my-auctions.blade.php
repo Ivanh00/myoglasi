@@ -87,7 +87,7 @@
                         @endif
                         <tbody>
                             <tr>
-                            <td class="w-[20%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[20%] px-6 py-1 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
                                         @if ($auction->listing->images->count() > 0)
@@ -107,7 +107,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="w-[18%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[18%] px-6 py-1 whitespace-nowrap">
                                 <div class="text-sm">
                                     <div class="text-gray-600 dark:text-gray-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
                                     <div class="text-gray-900 dark:text-gray-100 font-bold">Trenutna: {{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
@@ -116,7 +116,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="w-[12%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[12%] px-6 py-1 whitespace-nowrap">
                                 <div class="text-sm">
                                     <div class="text-gray-900 dark:text-gray-100 font-semibold">{{ $auction->total_bids }} ponuda</div>
                                     @if($auction->winningBid)
@@ -124,7 +124,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="w-[15%] px-6 py-4 whitespace-nowrap">
+                            <td class="w-[15%] px-6 py-1 whitespace-nowrap">
                                 <div class="flex flex-col">
                                     @if($auction->isActive())
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1">Aktivna</span>
@@ -143,13 +143,13 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="w-[15%] px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="w-[15%] px-6 py-1 whitespace-nowrap text-sm text-gray-500">
                                 <div class="flex flex-col">
                                     <span>Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</span>
                                     <span>Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</span>
                                 </div>
                             </td>
-                            <td class="w-[20%] px-6 py-4 text-sm font-medium">
+                            <td class="w-[20%] px-6 py-1 text-sm font-medium">
                                 <div class="flex flex-col space-y-2">
                                     <div class="flex items-center space-x-2">
                                         <a href="{{ route('auction.show', $auction) }}"
@@ -463,7 +463,7 @@
                  class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 
                 <!-- Modal header with warning icon -->
-                <div class="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4">
+                <div class="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-1">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
@@ -544,7 +544,7 @@
                 </div>
 
                 <!-- Modal footer with actions -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4">
+                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-1">
                     <div class="flex space-x-3">
                         <button type="button"
                                 @click="showRemoveModal = false"
@@ -610,7 +610,7 @@
                  class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 
                 <!-- Modal header with delete icon -->
-                <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
+                <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-1">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
@@ -680,7 +680,7 @@
                 </div>
 
                 <!-- Modal footer with actions -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4">
+                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-1">
                     <div class="flex space-x-3">
                         <button type="button"
                                 @click="showDeleteModal = false"
