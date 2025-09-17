@@ -242,10 +242,11 @@ class UnifiedSearch extends Component
                 $q->where('listing_type', 'listing')
                   ->orWhereNull('listing_type'); // For backward compatibility
             })
+            ->whereDoesntHave('auction') // Exclude listings that have been converted to auctions
             ->with(['category', 'condition', 'images', 'subcategory', 'user']);
-            
+
         $this->applyFiltersToQuery($query, 'listing');
-        
+
         return $query->paginate($this->perPage);
     }
 
