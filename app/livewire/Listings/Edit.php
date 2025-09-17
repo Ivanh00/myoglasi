@@ -55,11 +55,17 @@ class Edit extends Component
     public function mount(Listing $listing)
 {
     $this->listing = $listing;
-    
+
     // Prevent editing of inactive listings (except by admins)
     if ($listing->status === 'inactive' && (!auth()->check() || !auth()->user()->is_admin)) {
         session()->flash('error', 'Ovaj oglas je uklonjen i ne može se uređivati.');
         return redirect()->route('listings.my');
+    }
+
+    // Prevent editing if listing has an auction with bids
+    if ($listing->auction && $listing->auction->total_bids > 0) {
+        session()->flash('error', 'Ne možete uređivati oglas koji ima aktivnu aukciju sa ponudama.');
+        return redirect()->route('auction.show', $listing->auction);
     }
     
     // Popuni polja sa postojećim vrednostima iz oglasa
@@ -191,10 +197,16 @@ class Edit extends Component
 
     public function update()
     {
+        // Double-check: Prevent updating if listing has an auction with bids
+        if ($this->listing->auction && $this->listing->auction->total_bids > 0) {
+            session()->flash('error', 'Ne možete uređivati oglas koji ima aktivnu aukciju sa ponudama.');
+            return redirect()->route('auction.show', $this->listing->auction);
+        }
+
         $maxImages = $this->listing->getMaxImagesCount();
         $currentImagesCount = $this->listing->images->count();
         $maxNewImages = max(0, $maxImages - $currentImagesCount);
-        
+
         $rules = [
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',

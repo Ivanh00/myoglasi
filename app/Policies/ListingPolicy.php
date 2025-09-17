@@ -36,7 +36,16 @@ class ListingPolicy
     public function update(User $user, Listing $listing)
     {
         // Samo vlasnik može da edituje
-        return $user->id === $listing->user_id;
+        if ($user->id !== $listing->user_id) {
+            return false;
+        }
+
+        // Ne može da edituje ako ima aukciju sa ponudama
+        if ($listing->auction && $listing->auction->total_bids > 0) {
+            return false;
+        }
+
+        return true;
     }
     
     public function contact(?User $user, Listing $listing)

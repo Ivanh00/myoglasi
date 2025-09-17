@@ -161,11 +161,6 @@
                                             <i class="fas fa-eye mr-1"></i> Pregled
                                         </a>
 
-                                        <a href="{{ route('listings.show', $auction->listing) }}"
-                                            class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
-                                            <i class="fas fa-list mr-1"></i> Oglas
-                                        </a>
-
                                         @if($auction->total_bids == 0)
                                             <a href="{{ route('listings.edit', $auction->listing) }}"
                                                 class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
@@ -340,12 +335,6 @@
                                 class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
                                 <i class="fas fa-eye mr-1"></i>
                                 Pregled aukcije
-                            </a>
-
-                            <a href="{{ route('listings.show', $auction->listing) }}"
-                                class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
-                                <i class="fas fa-list mr-1"></i>
-                                Oglas
                             </a>
 
                             @if($auction->total_bids == 0)

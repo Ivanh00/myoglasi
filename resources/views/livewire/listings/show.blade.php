@@ -283,10 +283,17 @@
                                 </div>
 
                                 <!-- Dugme za uređivanje svog oglasa -->
-                                <a href="{{ route('listings.edit', $listing) }}"
-                                    class="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                    <i class="fas fa-edit mr-2"></i> Uredi oglas
-                                </a>
+                                @if(!$listing->auction || ($listing->auction && $listing->auction->total_bids == 0))
+                                    <a href="{{ route('listings.edit', $listing) }}"
+                                        class="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                        <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                    </a>
+                                @elseif($listing->auction)
+                                    <a href="{{ route('auction.show', $listing->auction) }}"
+                                        class="flex items-center justify-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                        <i class="fas fa-gavel mr-2"></i> Pogledaj aukciju
+                                    </a>
+                                @endif
                                 
                                 <!-- Dugme za aukciju (only for regular listings) -->
                                 @if($listing->isRegularListing())
@@ -346,10 +353,17 @@
                                 </div>
 
                                 <!-- Dugme za uređivanje svog oglasa -->
-                                <a href="{{ route('listings.edit', $listing) }}"
-                                    class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                    <i class="fas fa-edit mr-2"></i> Uredi oglas
-                                </a>
+                                @if(!$listing->auction || ($listing->auction && $listing->auction->total_bids == 0))
+                                    <a href="{{ route('listings.edit', $listing) }}"
+                                        class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                        <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                    </a>
+                                @elseif($listing->auction)
+                                    <a href="{{ route('auction.show', $listing->auction) }}"
+                                        class="w-full flex items-center justify-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                        <i class="fas fa-gavel mr-2"></i> Pogledaj aukciju
+                                    </a>
+                                @endif
                                 
                                 <!-- Dugme za aukciju (mobile, only for regular listings) -->
                                 @if($listing->isRegularListing())

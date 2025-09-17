@@ -159,10 +159,15 @@
                                             <i class="fas fa-eye mr-1"></i> Pregled
                                         </a>
                                         
-                                        @if($listing->isActive())
+                                        @if($listing->isActive() && !$listing->auction)
                                             <a href="{{ route('listings.edit', $listing) }}"
                                                 class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
                                                 <i class="fas fa-edit mr-1"></i> Izmeni
+                                            </a>
+                                        @elseif($listing->auction)
+                                            <a href="{{ route('auction.show', $listing->auction) }}"
+                                                class="inline-flex items-center px-2 py-1 text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 rounded">
+                                                <i class="fas fa-gavel mr-1"></i> Aukcija
                                             </a>
                                         @endif
                                         
@@ -300,11 +305,17 @@
                                 Pregled
                             </a>
                             
-                            @if($listing->isActive())
+                            @if($listing->isActive() && !$listing->auction)
                                 <a href="{{ route('listings.edit', $listing) }}"
                                     class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
                                     <i class="fas fa-edit mr-1"></i>
                                     Izmeni
+                                </a>
+                            @elseif($listing->auction)
+                                <a href="{{ route('auction.show', $listing->auction) }}"
+                                    class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-lg hover:bg-yellow-200 transition-colors">
+                                    <i class="fas fa-gavel mr-1"></i>
+                                    Aukcija
                                 </a>
                             @endif
                             
