@@ -170,7 +170,7 @@ class Create extends Component
             $remaining = $user->getRemainingListings();
             
             session()->flash('error', "Dostigli ste limit aktivnih oglasa ({$currentCount}/{$activeLimit}). Obrišite ili sačekajte da isteknu postojeći oglasi, ili aktivirajte plaćanje za neograničene oglase.");
-            return redirect()->route('listings.my');
+            return $this->redirect(route('listings.my'), navigate: true);
         }
         
         // Calculate fee based on listing type
@@ -183,7 +183,7 @@ class Create extends Component
         // Check balance if fee is required
         if ($fee > 0 && $user->balance < $fee) {
             session()->flash('error', 'Nemate dovoljno kredita za postavljanje oglasa. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
-            return redirect()->route('balance.payment-options');
+            return $this->redirect(route('balance.payment-options'), navigate: true);
         }
 
         // Charge fee if required
@@ -257,12 +257,12 @@ class Create extends Component
             ]);
 
             session()->flash('success', 'Aukcija je uspešno kreirana!');
-            return redirect()->route('auction.show', $auction);
+            return $this->redirect(route('auction.show', $auction), navigate: true);
         }
 
         $successMessage = $this->listingType === 'giveaway' ? 'Poklon je uspešno kreiran!' : 'Oglas je uspešno kreiran!';
         session()->flash('success', $successMessage);
-        return redirect()->route('listings.show', $listing);
+        return $this->redirect(route('listings.show', $listing), navigate: true);
     }
 
     public function updated($propertyName)
