@@ -166,10 +166,16 @@
                                             <i class="fas fa-list mr-1"></i> Oglas
                                         </a>
 
-                                        <a href="{{ route('listings.edit', $auction->listing) }}"
-                                            class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
-                                            <i class="fas fa-edit mr-1"></i> Uredi
-                                        </a>
+                                        @if($auction->total_bids == 0)
+                                            <a href="{{ route('listings.edit', $auction->listing) }}"
+                                                class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
+                                                <i class="fas fa-edit mr-1"></i> Uredi
+                                            </a>
+                                        @else
+                                            <span class="inline-flex items-center px-2 py-1 text-gray-400 dark:text-gray-500 rounded cursor-not-allowed" title="Ne možete uređivati aukciju koja ima ponude">
+                                                <i class="fas fa-edit mr-1"></i> Uredi
+                                            </span>
+                                        @endif
 
                                         @if($auction->listing && $auction->status === 'active')
                                             <button wire:click="$dispatch('openPromotionModal', { listingId: {{ $auction->listing->id }} })"
@@ -181,7 +187,7 @@
 
                                         @php
                                             $canRemove = !auth()->user()->is_admin ?
-                                                $auction->current_price <= $auction->starting_price :
+                                                $auction->total_bids == 0 :
                                                 true;
                                         @endphp
                                         @if($auction->hasEnded())
@@ -221,7 +227,11 @@
                     <ul class="space-y-3">
                         <li class="flex items-start">
                             <i class="fas fa-times-circle text-red-600 mt-1 mr-2 flex-shrink-0"></i>
-                            <span><strong>Uklanjanje aukcije:</strong> Aukcija se može ukloniti samo ukoliko trenutna cena nije premašila početnu cenu aukcije</span>
+                            <span><strong>Uklanjanje aukcije:</strong> Aukcija se može ukloniti samo ukoliko nema ponuda</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-edit text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span><strong>Uređivanje aukcije:</strong> Aukcija se ne može uređivati nakon što primi prvu ponudu</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-handshake text-green-600 mt-1 mr-2 flex-shrink-0"></i>
@@ -338,15 +348,22 @@
                                 Oglas
                             </a>
 
-                            <a href="{{ route('listings.edit', $auction->listing) }}"
-                                class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
-                                <i class="fas fa-edit mr-1"></i>
-                                Uredi
-                            </a>
+                            @if($auction->total_bids == 0)
+                                <a href="{{ route('listings.edit', $auction->listing) }}"
+                                    class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                                    <i class="fas fa-edit mr-1"></i>
+                                    Uredi
+                                </a>
+                            @else
+                                <span class="inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-400 text-xs font-medium rounded-lg cursor-not-allowed" title="Ne možete uređivati aukciju koja ima ponude">
+                                    <i class="fas fa-edit mr-1"></i>
+                                    Uredi
+                                </span>
+                            @endif
 
                             @php
                                 $canRemove = !auth()->user()->is_admin ?
-                                    $auction->current_price <= $auction->starting_price :
+                                    $auction->total_bids == 0 :
                                     true;
                             @endphp
                             @if($auction->hasEnded())
@@ -387,7 +404,11 @@
                     <ul class="space-y-3">
                         <li class="flex items-start">
                             <i class="fas fa-times-circle text-red-600 mt-1 mr-2 flex-shrink-0"></i>
-                            <span><strong>Uklanjanje aukcije:</strong> Aukcija se može ukloniti samo ukoliko trenutna cena nije premašila početnu cenu aukcije</span>
+                            <span><strong>Uklanjanje aukcije:</strong> Aukcija se može ukloniti samo ukoliko nema ponuda</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-edit text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <span><strong>Uređivanje aukcije:</strong> Aukcija se ne može uređivati nakon što primi prvu ponudu</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-handshake text-green-600 mt-1 mr-2 flex-shrink-0"></i>

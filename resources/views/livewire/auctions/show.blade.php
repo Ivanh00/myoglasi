@@ -133,14 +133,13 @@
                                             </button>
                                         @elseif($auction->isActive())
                                             <!-- Active auction controls -->
-                                            <a href="{{ route('listings.edit', $auction->listing) }}"
-                                                class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                                <i class="fas fa-edit mr-2"></i>
-                                                Uredi aukciju
-                                            </a>
+                                            @if($auction->total_bids == 0)
+                                                <a href="{{ route('listings.edit', $auction->listing) }}"
+                                                    class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                                    <i class="fas fa-edit mr-2"></i>
+                                                    Uredi aukciju
+                                                </a>
 
-                                            <!-- Cancel auction (if no bids or current price = starting price) -->
-                                            @if($auction->total_bids == 0 || $auction->current_price == $auction->starting_price)
                                                 <button type="button"
                                                     x-data
                                                     @click="$dispatch('open-remove-auction-modal')"
@@ -153,7 +152,7 @@
                                                     <div class="flex items-center">
                                                         <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
                                                         <span class="text-yellow-800 dark:text-yellow-200 text-sm">
-                                                            Aukcija se ne može otkazati jer već ima ponude veće od početne cene.
+                                                            Aukcija se ne može uređivati ili otkazati jer već ima ponude.
                                                         </span>
                                                     </div>
                                                 </div>
@@ -559,6 +558,10 @@
                         <li class="flex items-start">
                             <i class="fas fa-lock text-blue-600 dark:text-blue-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span>Vlasnik ne može otkazati aukciju ako je trenutna cena veća od početne cene aukcije</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-edit text-blue-600 dark:text-blue-400 mt-1 mr-2 flex-shrink-0"></i>
+                            <span>Vlasnik ne može uređivati aukciju nakon što primi prvu ponudu</span>
                         </li>
                     </ul>
                 </div>
