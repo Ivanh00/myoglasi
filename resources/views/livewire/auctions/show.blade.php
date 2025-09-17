@@ -8,6 +8,15 @@
                         <div>
                             <h1 class="text-xl font-bold">{{ $auction->listing->title }}</h1>
                             <p class="text-yellow-100">Aukcija #{{ $auction->id }}</p>
+                            <!-- Category display -->
+                            <div class="flex items-center text-yellow-100 text-sm mt-1">
+                                <i class="fas fa-folder mr-1"></i>
+                                <span>{{ $auction->listing->category->name }}</span>
+                                @if($auction->listing->subcategory)
+                                    <span class="mx-1">></span>
+                                    <span>{{ $auction->listing->subcategory->name }}</span>
+                                @endif
+                            </div>
                         </div>
                         <div class="text-right">
                             @if($auction->isActive())
@@ -293,63 +302,46 @@
                             @endif
                         @endauth
 
-                        <!-- Scheduled Auction Info (for non-owners) -->
+                        <!-- Scheduled Auction Info and Actions (for non-owners) -->
                         @if(!auth()->check() || auth()->id() !== $auction->user_id)
                             @if($auction->status === 'active' && $auction->starts_at->isFuture())
-                                <div class="mb-6 p-6 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg text-center">
-                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                                <div class="mb-6 p-6 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 text-center">
                                         <i class="fas fa-clock text-blue-600 mr-2"></i>
                                         Aukcija je zakazana
                                     </h3>
-                                    <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                    <p class="text-gray-700 dark:text-gray-300 mb-2 text-center">
                                         Aukcija počinje: <strong>{{ $auction->starts_at->format('d.m.Y \\u H:i') }}</strong>
                                     </p>
-                                    <p class="text-gray-600 dark:text-gray-400 text-sm">
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 text-center">
                                         Licitiranje će biti omogućeno kada aukcija počne.
                                     </p>
+
+                                    <!-- Action Buttons -->
+                                    <div class="space-y-2">
+                                        <!-- Notify about auction start -->
+                                        <button class="w-full px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg transition-colors">
+                                            <i class="fas fa-bell mr-2"></i>
+                                            Obavesti me o početku aukcije
+                                        </button>
+
+                                        <!-- Add to favorites -->
+                                        <button class="w-full px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors">
+                                            <i class="fas fa-heart mr-2"></i>
+                                            Dodaj u omiljene
+                                        </button>
+
+                                        <!-- Share link -->
+                                        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link je kopiran!')"
+                                                class="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors">
+                                            <i class="fas fa-share-alt mr-2"></i>
+                                            Podeli link
+                                        </button>
+                                    </div>
                                 </div>
                             @endif
                         @endif
 
-                        <!-- Seller Info -->
-                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                            <div class="flex items-center mb-2">
-                                <i class="fas fa-user text-gray-500 dark:text-gray-400 mr-2"></i>
-                                <span class="text-gray-700 dark:text-gray-300 font-bold">Prodavac: {{ $auction->seller->name }}</span>
-                                {!! $auction->seller->verified_icon !!}
-                            </div>
-                            <div class="flex items-center mb-2">
-                                <i class="fas fa-map-marker-alt text-gray-500 dark:text-gray-400 mr-2"></i>
-                                <span class="text-gray-700 dark:text-gray-300">{{ $auction->listing->location }}</span>
-                            </div>
-                            {{-- Prikaz telefona samo ako je vlasnik dozvolio, korisnik ulogovan i prodavac NIJE blokiran --}}
-                            @if ($auction->listing->contact_phone && $auction->seller->phone_visible && auth()->check() && !$auction->seller->is_banned)
-                                <div class="flex items-center mb-2">
-                                    <i class="fas fa-phone text-gray-500 dark:text-gray-400 mr-2"></i>
-                                    <a href="tel:{{ $auction->listing->contact_phone }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600">
-                                        {{ $auction->listing->contact_phone }}
-                                    </a>
-                                </div>
-                            @endif
-                            <div class="flex items-center mb-2">
-                                <i class="fas fa-folder text-gray-500 dark:text-gray-400 mr-2"></i>
-                                <span class="text-gray-700 dark:text-gray-300">{{ $auction->listing->category->name }}</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-clock text-gray-500 dark:text-gray-400 mr-2"></i>
-                                <span class="text-gray-700 dark:text-gray-300">
-                                    @if($auction->status === 'active' && $auction->starts_at->isFuture())
-                                        Počinje: {{ $auction->starts_at->format('d.m.Y \\u H:i') }}
-                                    @elseif($auction->isActive())
-                                        @if($auction->time_left)
-                                            {{ $auction->time_left['formatted'] }} ostalo
-                                        @endif
-                                    @else
-                                        Završeno
-                                    @endif
-                                </span>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
