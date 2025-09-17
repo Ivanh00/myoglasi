@@ -136,10 +136,8 @@
                             {{ $service->created_at->format('d.m.Y') }}
                         </div>
                         <!-- Akcije Column -->
-                        <div class="px-6 py-2 text-sm font-medium">
-                            <div class="space-y-2">
-                                    <!-- First row: Primary actions -->
-                                    <div class="flex items-center space-x-2">
+                        <div class="px-6 py-1 text-sm font-medium">
+                            <div class="flex flex-wrap gap-1">
                                         <a href="{{ route('services.show', $service->slug) }}"
                                             class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
                                             <i class="fas fa-eye mr-1"></i> Pregled
@@ -158,10 +156,7 @@
                                                 <i class="fas fa-play mr-1"></i> Aktiviraj
                                             @endif
                                         </button>
-                                    </div>
 
-                                    <!-- Second row: Promotion and Delete -->
-                                    <div class="flex items-center space-x-2">
                                         @if($service->status === 'active')
                                             <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
                                                 class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
@@ -174,7 +169,6 @@
                                             class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
                                             <i class="fas fa-trash mr-1"></i> Obriši
                                         </button>
-                                    </div>
                             </div>
                         </div>
                     </div>

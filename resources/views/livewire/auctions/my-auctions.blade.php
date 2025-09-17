@@ -154,9 +154,8 @@
                             </div>
                         </div>
                         <!-- Akcije Column -->
-                        <div class="px-6 py-2 text-sm font-medium">
-                                <div class="flex flex-col space-y-2">
-                                    <div class="flex items-center space-x-2">
+                        <div class="px-6 py-1 text-sm font-medium">
+                                <div class="flex flex-wrap gap-1">
                                         <a href="{{ route('auction.show', $auction) }}"
                                             class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
                                             <i class="fas fa-eye mr-1"></i> Pregled
@@ -166,9 +165,7 @@
                                             class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
                                             <i class="fas fa-list mr-1"></i> Oglas
                                         </a>
-                                    </div>
 
-                                    <div class="flex items-center space-x-2">
                                         <a href="{{ route('listings.edit', $auction->listing) }}"
                                             class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
                                             <i class="fas fa-edit mr-1"></i> Uredi
@@ -192,7 +189,6 @@
                                                 <i class="fas fa-times mr-1"></i> Ukloni iz aukcije
                                             </button>
                                         @endif
-                                    </div>
                             </div>
                         </div>
                     </div>

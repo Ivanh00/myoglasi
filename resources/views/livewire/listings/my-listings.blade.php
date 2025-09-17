@@ -152,10 +152,8 @@
                             </div>
                         </div>
                         <!-- Akcije Column -->
-                        <div class="px-6 py-2 text-sm font-medium">
-                                <div class="space-y-2">
-                                    <!-- First row: Primary actions -->
-                                    <div class="flex items-center space-x-2">
+                        <div class="px-6 py-1 text-sm font-medium">
+                                <div class="flex flex-wrap gap-1">
                                         <a href="{{ route('listings.show', $listing) }}"
                                             class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
                                             <i class="fas fa-eye mr-1"></i> Pregled
@@ -188,16 +186,12 @@
                                                 Promocija
                                             </button>
                                         @endif
-                                    </div>
 
-                                    <!-- Second row: Delete action -->
-                                    <div class="flex items-center space-x-2">
                                         <button x-data
                                             @click="$dispatch('open-delete-modal', { listingId: {{ $listing->id }} })"
                                             class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
                                             <i class="fas fa-trash mr-1"></i> Obriši
                                         </button>
-                                    </div>
                                 </div>
                         </div>
                     </div>
