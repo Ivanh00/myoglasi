@@ -557,10 +557,34 @@
                                                 </a>
                                             @endauth
                                         @else
-                                            <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
-                                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                                <i class="fas fa-eye mr-2"></i> Pregled
-                                            </a>
+                                            @auth
+                                                @if($listing instanceof \App\Models\Listing && auth()->id() === $listing->user_id)
+                                                    <!-- Owner buttons for listings -->
+                                                    @if($listing->listing_type === 'listing' && !$listing->auction)
+                                                        <a href="{{ route('auction.setup', $listing) }}"
+                                                            class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
+                                                            <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
+                                                        </a>
+                                                    @endif
+
+                                                    <a href="{{ route('listings.edit', $listing) }}"
+                                                        class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                        <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                                    </a>
+                                                @else
+                                                    <!-- Regular view button -->
+                                                    <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
+                                                        class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                        <i class="fas fa-eye mr-2"></i> Pregled
+                                                    </a>
+                                                @endif
+                                            @else
+                                                <!-- Guest user buttons -->
+                                                <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
+                                                    class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                    <i class="fas fa-eye mr-2"></i> Pregled
+                                                </a>
+                                            @endauth
                                         @endif
                                     </div>
                                 </div>
@@ -748,10 +772,36 @@
                                     @endauth
                                 </div>
                             @else
-                                <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
-                                    class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                    <i class="fas fa-eye mr-2"></i> Pregled
-                                </a>
+                                <div class="space-y-2">
+                                    @auth
+                                        @if($listing instanceof \App\Models\Listing && auth()->id() === $listing->user_id)
+                                            <!-- Owner buttons for listings -->
+                                            @if($listing->listing_type === 'listing' && !$listing->auction)
+                                                <a href="{{ route('auction.setup', $listing) }}"
+                                                    class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
+                                                    <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
+                                                </a>
+                                            @endif
+
+                                            <a href="{{ route('listings.edit', $listing) }}"
+                                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                            </a>
+                                        @else
+                                            <!-- Regular view button -->
+                                            <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
+                                                class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                <i class="fas fa-eye mr-2"></i> Pregled
+                                            </a>
+                                        @endif
+                                    @else
+                                        <!-- Guest user buttons -->
+                                        <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
+                                            class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                            <i class="fas fa-eye mr-2"></i> Pregled
+                                        </a>
+                                    @endauth
+                                </div>
                             @endif
                         </div>
                     </div>
