@@ -64,7 +64,7 @@ class ShowCategories extends Component
 
     public function render()
     {
-        $query = Listing::where('status', 'active')
+        $query = Listing::whereIn('status', ['active', 'inactive'])
             ->whereDoesntHave('auction') // Exclude listings that have been converted to auctions
             ->with(['category', 'condition', 'images', 'subcategory']);
             

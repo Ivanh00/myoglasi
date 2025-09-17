@@ -194,7 +194,7 @@ class Index extends Component
                 ->with(['listing.category', 'listing.condition', 'listing.images', 'listing.subcategory', 'listing.user', 'bids']);
         } else {
             // Regular listings query - EXCLUDE auctions
-            $query = Listing::where('status', 'active')
+            $query = Listing::whereIn('status', ['active', 'inactive'])
                 ->whereDoesntHave('auction') // Exclude listings that have auctions
                 ->with(['category', 'condition', 'images', 'subcategory', 'user']);
         }

@@ -237,7 +237,7 @@ class UnifiedSearch extends Component
 
     private function getListings()
     {
-        $query = Listing::where('status', 'active')
+        $query = Listing::whereIn('status', ['active', 'inactive'])
             ->where(function($q) {
                 $q->where('listing_type', 'listing')
                   ->orWhereNull('listing_type'); // For backward compatibility
