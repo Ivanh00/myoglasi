@@ -115,8 +115,9 @@
                                                 Uredi aukciju
                                             </a>
 
-                                            <button wire:click="removeFromAuction"
-                                                wire:confirm="Da li ste sigurni da želite da uklonite aukciju?"
+                                            <button type="button"
+                                                x-data
+                                                @click="$dispatch('open-remove-auction-modal')"
                                                 class="w-full flex items-center justify-center px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
                                                 <i class="fas fa-times mr-2"></i>
                                                 Ukloni iz aukcija
@@ -131,8 +132,9 @@
 
                                             <!-- Cancel auction (if no bids or current price = starting price) -->
                                             @if($auction->total_bids == 0 || $auction->current_price == $auction->starting_price)
-                                                <button wire:click="removeFromAuction"
-                                                    wire:confirm="Da li ste sigurni da želite da uklonite aukciju?"
+                                                <button type="button"
+                                                    x-data
+                                                    @click="$dispatch('open-remove-auction-modal')"
                                                     class="w-full flex items-center justify-center px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
                                                     <i class="fas fa-times mr-2"></i>
                                                     Ukloni iz aukcija
@@ -666,6 +668,145 @@
         </div>
     </div>
 </div>
+        @endif
+
+        <!-- Remove from Auction Confirmation Modal -->
+        @if(auth()->check() && auth()->id() === $auction->user_id)
+        <div x-data="{ showRemoveAuctionModal: false }"
+             x-show="showRemoveAuctionModal"
+             x-on:open-remove-auction-modal.window="showRemoveAuctionModal = true"
+             x-on:close-remove-auction-modal.window="showRemoveAuctionModal = false"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             style="display: none;"
+             class="fixed inset-0 z-50 overflow-y-auto">
+
+            <!-- Background overlay -->
+            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="showRemoveAuctionModal = false"></div>
+
+            <!-- Modal content -->
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+                <div x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                     class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+
+                    <!-- Modal header with warning icon -->
+                    <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
+                                    <i class="fas fa-exclamation-triangle text-white text-xl"></i>
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Uklanjanje aukcije</h3>
+                            </div>
+                            <button @click="showRemoveAuctionModal = false" class="text-white hover:text-gray-200">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="px-6 py-5">
+                        <!-- Warning message -->
+                        <div class="mb-4">
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                                Da li ste sigurni?
+                            </h4>
+                            <p class="text-gray-600 dark:text-gray-400">
+                                Ova akcija će ukloniti vašu uslugu iz aukcija i vratiti je u obične oglase.
+                            </p>
+                        </div>
+
+                        <!-- Auction info -->
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Naziv:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $auction->listing->title }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Trenutna cena:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ number_format($auction->current_price, 0, ',', '.') }} RSD</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-300">Broj ponuda:</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $auction->total_bids }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Important notice -->
+                        @if($auction->total_bids > 0 && $auction->current_price > $auction->starting_price)
+                            <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-3">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-info-circle text-yellow-600 dark:text-yellow-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-yellow-800 dark:text-yellow-200">
+                                            <strong>Napomena:</strong> Ova aukcija već ima ponude veće od početne cene. Uklanjanje aukcije može razočarati učesnike koji su već licitirali.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @elseif($auction->status === 'active' && $auction->starts_at->isFuture())
+                            <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-info-circle text-blue-600 dark:text-blue-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-blue-800 dark:text-blue-200">
+                                            Ova aukcija je zakazana i još nije počela. Možete je ukloniti bez posledica.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-3">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-check-circle text-green-600 dark:text-green-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-green-800 dark:text-green-200">
+                                            Aukcija još nema ponude ili je trenutna cena jednaka početnoj. Možete je bezbedno ukloniti.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Modal footer with actions -->
+                    <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4">
+                        <div class="flex space-x-3">
+                            <button type="button"
+                                    @click="showRemoveAuctionModal = false"
+                                    class="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-times mr-2"></i>
+                                Otkaži
+                            </button>
+                            <button type="button"
+                                    wire:click="removeFromAuction"
+                                    @click="showRemoveAuctionModal = false"
+                                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105">
+                                <i class="fas fa-trash mr-2"></i>
+                                Ukloni aukciju
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         @endif
     </div>
 
