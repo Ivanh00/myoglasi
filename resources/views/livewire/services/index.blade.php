@@ -226,9 +226,11 @@
         </div>
 
         <!-- Paginacija -->
-        <div class="mt-8 bg-white dark:bg-gray-700 rounded-lg shadow-sm p-4">
-            {{ $services->links() }}
-        </div>
+        @if($services->hasPages())
+            <div class="mt-8 bg-white dark:bg-gray-700 rounded-lg shadow-sm p-4">
+                {{ $services->links() }}
+            </div>
+        @endif
     @else
         <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-tools text-gray-400 text-5xl mb-4"></i>
