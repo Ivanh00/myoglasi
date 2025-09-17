@@ -72,7 +72,7 @@
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <div class="grid grid-cols-[25%_18%_10%_14%_18%_15%] bg-gray-50 dark:bg-gray-700">
+                <div class="grid grid-cols-[20%_15%_12%_10%_18%_25%] bg-gray-50 dark:bg-gray-700">
                     <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</div>
                     <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Početna/Trenutna cena</div>
                     <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ponude</div>
@@ -85,7 +85,7 @@
             <!-- Data Rows -->
             @foreach ($auctions as $auction)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-yellow-500">
-                    <div class="grid grid-cols-[25%_18%_10%_14%_18%_15%] hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <div class="grid grid-cols-[20%_15%_12%_10%_18%_25%] hover:bg-gray-50 dark:hover:bg-gray-700">
                         <!-- Oglas Column -->
                         <div class="px-6 py-2">
                             <div class="flex items-center">
@@ -170,6 +170,14 @@
                                             class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
                                             <i class="fas fa-edit mr-1"></i> Uredi
                                         </a>
+
+                                        @if($auction->listing && $auction->status === 'active')
+                                            <button wire:click="$dispatch('openPromotionModal', { listingId: {{ $auction->listing->id }} })"
+                                                class="inline-flex items-center px-2 py-1 {{ $auction->listing->hasActivePromotion() ? 'text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300' : 'text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300' }} rounded">
+                                                <i class="fas fa-bullhorn mr-1"></i>
+                                                Promocija
+                                            </button>
+                                        @endif
 
                                         @php
                                             $canRemove = !auth()->user()->is_admin ?
@@ -698,4 +706,7 @@
             </div>
         </div>
     </div>
+
+    <!-- Promotion Manager Modal -->
+    @livewire('listings.promotion-manager')
 </div>

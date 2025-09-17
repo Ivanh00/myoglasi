@@ -159,7 +159,7 @@
 
                                         @if($service->status === 'active')
                                             <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
-                                                class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
+                                                class="inline-flex items-center px-2 py-1 {{ $service->hasActivePromotion() ? 'text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300' : 'text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300' }} rounded">
                                                 <i class="fas fa-bullhorn mr-1"></i> Promocija
                                             </button>
                                         @endif
