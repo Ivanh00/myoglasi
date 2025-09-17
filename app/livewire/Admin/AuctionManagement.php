@@ -24,7 +24,8 @@ class AuctionManagement extends Component
         'pending' => 'Na čekanju',
         'active' => 'Aktivna',
         'ended' => 'Završena',
-        'cancelled' => 'Otkazana'
+        'cancelled' => 'Otkazana',
+        'deleted' => 'Obrisana'
     ];
 
     public $editState = [
@@ -57,7 +58,11 @@ class AuctionManagement extends Component
     {
         return $query
             ->when($this->filters['status'], function ($query, $status) {
-                return $query->where('status', $status);
+                if ($status === 'deleted') {
+                    return $query->whereNotNull('deleted_at');
+                } else {
+                    return $query->where('status', $status);
+                }
             })
             ->when($this->filters['has_bids'] !== '', function ($query) {
                 if ($this->filters['has_bids'] == '1') {

@@ -166,15 +166,15 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($auction->deleted_at)
-                                <div>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                                        Obrisana
-                                    </span>
+                                <div class="flex flex-col space-y-1">
                                     @if($auction->status === 'ended')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 ml-1">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 w-fit">
                                             Završena
                                         </span>
                                     @endif
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 w-fit">
+                                        Obrisana
+                                    </span>
                                 </div>
                             @else
                                 @switch($auction->status)
