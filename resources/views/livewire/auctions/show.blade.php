@@ -346,14 +346,17 @@
                 </div>
 
                 <!-- Listing Description -->
-                <div class="border-t border-gray-200 dark:border-gray-600 p-6">
+                <div class="border-t border-gray-200 dark:border-gray-600 p-6 bg-white dark:bg-gray-800">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Opis proizvoda</h3>
                     <div class="text-gray-700 dark:text-gray-300 whitespace-pre-line">{{ $auction->listing->description }}</div>
                 </div>
 
-                <!-- Seller Information Section -->
-                @auth
-                    <div class="border-t border-gray-200 dark:border-gray-600 p-6 bg-gray-50 dark:bg-gray-700">
+            </div>
+
+            <!-- Seller Information Section -->
+            @auth
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-6">
+                    <div class="p-6 bg-gray-50 dark:bg-gray-700">
                         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Informacije o prodavcu</h2>
                         <div class="flex items-start">
                             <!-- Avatar -->
@@ -424,8 +427,8 @@
                             </div>
                         </div>
                     </div>
-                @endauth
-            </div>
+                </div>
+            @endauth
 
         <!-- Bid History Section -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
