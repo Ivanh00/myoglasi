@@ -68,8 +68,6 @@
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Aukcija</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -78,7 +76,7 @@
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-600">
                     @foreach ($listings as $listing)
-                        <tr class="{{ $listing->auction ? 'border-l-4 !border-l-yellow-500 bg-yellow-100 dark:bg-yellow-900' : '' }}" style="{{ $listing->auction ? 'border-left: 4px solid #eab308 !important;' : '' }}">
+                        <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
@@ -141,40 +139,6 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if($listing->auction)
-                                    @if($listing->auction->isActive())
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200">
-                                            <i class="fas fa-gavel mr-1"></i>
-                                            Aktivna aukcija
-                                        </span>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                            {{ $listing->auction->total_bids }} ponuda
-                                        </div>
-                                        @if($listing->auction->current_price > $listing->auction->starting_price)
-                                            <div class="text-xs text-green-600">
-                                                {{ number_format($listing->auction->current_price, 0, ',', '.') }} RSD
-                                            </div>
-                                        @endif
-                                    @elseif($listing->auction->hasEnded())
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-                                            <i class="fas fa-flag-checkered mr-1"></i>
-                                            Završena
-                                        </span>
-                                        @if($listing->auction->winner)
-                                            <div class="text-xs text-green-600">
-                                                Pobednik: {{ $listing->auction->winner->name }}
-                                            </div>
-                                        @endif
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                            {{ ucfirst($listing->auction->status) }}
-                                        </span>
-                                    @endif
-                                @else
-                                    <span class="text-gray-400 text-xs">Nije na aukciji</span>
-                                @endif
-                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 <div class="flex flex-col">
                                     <span>{{ $listing->created_at->format('d.m.Y') }}</span>
@@ -223,37 +187,14 @@
                                         @endif
                                     </div>
 
-                                    <!-- Second row: Auction and delete actions (only if auction exists) -->
-                                    @if($listing->auction)
-                                        <div class="flex items-center space-x-2">
-                                            @if($listing->auction->isActive())
-                                                <a href="{{ route('auction.show', $listing->auction) }}"
-                                                    class="inline-flex items-center px-2 py-1 text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 rounded">
-                                                    <i class="fas fa-gavel mr-1"></i> Aukcija
-                                                </a>
-                                            @endif
-                                            <button x-data
-                                                x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $listing->id }}) }"
-                                                class="inline-flex items-center px-2 py-1 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 rounded">
-                                                <i class="fas fa-times mr-1"></i> Ukloni
-                                            </button>
-                                            
-                                            <button x-data
-                                                x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
-                                                class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
-                                                <i class="fas fa-trash mr-1"></i> Obriši
-                                            </button>
-                                        </div>
-                                    @else
-                                        <!-- No auction - delete button on same row -->
-                                        <div class="flex items-center space-x-2">
-                                            <button x-data
-                                                x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
-                                                class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
-                                                <i class="fas fa-trash mr-1"></i> Obriši
-                                            </button>
-                                        </div>
-                                    @endif
+                                    <!-- Second row: Delete action -->
+                                    <div class="flex items-center space-x-2">
+                                        <button x-data
+                                            x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
+                                            class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
+                                            <i class="fas fa-trash mr-1"></i> Obriši
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -270,7 +211,7 @@
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
             @foreach ($listings as $listing)
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden {{ $listing->auction ? 'border-l-4 border-yellow-500 bg-yellow-50' : '' }}">
+                <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
                     <!-- Card Header -->
                     <div class="p-4 border-b border-gray-200 dark:border-gray-600">
                         <div class="flex items-start justify-between">
@@ -354,36 +295,6 @@
                             </div>
                         </div>
 
-                        <!-- Auction Info -->
-                        @if($listing->auction)
-                            <div class="mb-4">
-                                <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Status aukcije</div>
-                                <div class="space-y-2">
-                                    @if($listing->auction->isActive())
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 w-fit">
-                                            <i class="fas fa-gavel mr-1"></i>
-                                            Aktivna aukcija
-                                        </span>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ $listing->auction->total_bids }} ponuda</div>
-                                        @if($listing->auction->current_price > $listing->auction->starting_price)
-                                            <div class="text-xs text-green-600">{{ number_format($listing->auction->current_price, 0, ',', '.') }} RSD</div>
-                                        @endif
-                                    @elseif($listing->auction->hasEnded())
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 w-fit">
-                                            <i class="fas fa-flag-checkered mr-1"></i>
-                                            Završena
-                                        </span>
-                                        @if($listing->auction->winner)
-                                            <div class="text-xs text-green-600">Pobednik: {{ $listing->auction->winner->name }}</div>
-                                        @endif
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 w-fit">
-                                            {{ ucfirst($listing->auction->status) }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                        @endif
 
                         <!-- Action Buttons -->
                         <div class="flex flex-wrap gap-2">
@@ -416,21 +327,6 @@
                                 Podeli
                             </button>
 
-                            @if($listing->auction)
-                                @if($listing->auction->isActive())
-                                    <a href="{{ route('auction.show', $listing->auction) }}"
-                                        class="inline-flex items-center px-3 py-1.5 bg-yellow-200 dark:bg-yellow-800 text-yellow-700 dark:text-yellow-200 text-xs font-medium rounded-lg hover:bg-yellow-300 dark:hover:bg-yellow-700 transition-colors">
-                                        <i class="fas fa-gavel mr-1"></i>
-                                        Aukcija
-                                    </a>
-                                @endif
-                                <button x-data
-                                    x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $listing->id }}) }"
-                                    class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
-                                    <i class="fas fa-times mr-1"></i>
-                                    Ukloni iz aukcije
-                                </button>
-                            @endif
                             
                             <button x-data
                                 x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovaj oglas?')) { $wire.deleteListing({{ $listing->id }}) }"
