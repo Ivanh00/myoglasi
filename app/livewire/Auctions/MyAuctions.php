@@ -11,7 +11,32 @@ class MyAuctions extends Component
     use WithPagination;
     
     public $filter = 'all'; // all, active, ended
-    
+
+    public function deleteAuction($id)
+    {
+        try {
+            $auction = Auction::where('id', $id)
+                ->where('user_id', auth()->id())
+                ->firstOrFail();
+
+            // Only allow deleting ended auctions
+            if (!$auction->hasEnded()) {
+                session()->flash('error', 'Možete obrisati samo završene aukcije.');
+                return;
+            }
+
+            // Soft delete the auction with user tracking
+            $auction->deleted_by = auth()->id();
+            $auction->save();
+            $auction->delete();
+
+            session()->flash('success', 'Aukcija je uspešno obrisana iz vaše liste.');
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri brisanju aukcije: ' . $e->getMessage());
+        }
+    }
+
     public function removeFromAuction($id)
     {
         try {

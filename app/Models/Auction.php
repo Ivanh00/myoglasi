@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 class Auction extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'listing_id',
@@ -22,16 +23,18 @@ class Auction extends Model
         'extended_at',
         'extension_count',
         'status',
-        'winner_id'
+        'winner_id',
+        'deleted_by'
     ];
 
     protected $casts = [
         'starting_price' => 'decimal:2',
-        'buy_now_price' => 'decimal:2', 
+        'buy_now_price' => 'decimal:2',
         'current_price' => 'decimal:2',
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
-        'extended_at' => 'datetime'
+        'extended_at' => 'datetime',
+        'deleted_at' => 'datetime'
     ];
 
     // Relationships

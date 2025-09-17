@@ -106,18 +106,29 @@
                                         class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
                                         <i class="fas fa-eye mr-1"></i> Pregled
                                     </a>
-                                    
+
                                     <a href="{{ route('listings.show', $auction->listing) }}"
                                         class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
                                         <i class="fas fa-list mr-1"></i> Oglas
                                     </a>
-                                    
+
+                                    <a href="{{ route('listings.edit', $auction->listing) }}"
+                                        class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
+                                        <i class="fas fa-edit mr-1"></i> Uredi
+                                    </a>
+
                                     @php
-                                        $canRemove = !auth()->user()->is_admin ? 
-                                            $auction->current_price <= $auction->starting_price : 
+                                        $canRemove = !auth()->user()->is_admin ?
+                                            $auction->current_price <= $auction->starting_price :
                                             true;
                                     @endphp
-                                    @if($canRemove)
+                                    @if($auction->hasEnded())
+                                        <button x-data
+                                            x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovu završenu aukciju iz vaše liste?')) { $wire.deleteAuction({{ $auction->id }}) }"
+                                            class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
+                                            <i class="fas fa-trash mr-1"></i> Obriši
+                                        </button>
+                                    @elseif($canRemove)
                                         <button x-data
                                             x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $auction->id }}) }"
                                             class="inline-flex items-center px-2 py-1 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 rounded">
@@ -259,19 +270,32 @@
                                 <i class="fas fa-eye mr-1"></i>
                                 Pregled aukcije
                             </a>
-                            
+
                             <a href="{{ route('listings.show', $auction->listing) }}"
                                 class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
                                 <i class="fas fa-list mr-1"></i>
                                 Oglas
                             </a>
-                            
+
+                            <a href="{{ route('listings.edit', $auction->listing) }}"
+                                class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                                <i class="fas fa-edit mr-1"></i>
+                                Uredi
+                            </a>
+
                             @php
-                                $canRemove = !auth()->user()->is_admin ? 
-                                    $auction->current_price <= $auction->starting_price : 
+                                $canRemove = !auth()->user()->is_admin ?
+                                    $auction->current_price <= $auction->starting_price :
                                     true;
                             @endphp
-                            @if($canRemove)
+                            @if($auction->hasEnded())
+                                <button x-data
+                                    x-on:click.prevent="if (confirm('Da li ste sigurni da želite da obrišete ovu završenu aukciju iz vaše liste?')) { $wire.deleteAuction({{ $auction->id }}) }"
+                                    class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    Obriši
+                                </button>
+                            @elseif($canRemove)
                                 <button x-data
                                     x-on:click.prevent="if (confirm('Da li ste sigurni da želite da uklonite ovaj oglas iz aukcije?')) { $wire.removeFromAuction({{ $auction->id }}) }"
                                     class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">

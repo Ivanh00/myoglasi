@@ -165,28 +165,41 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            @switch($auction->status)
-                                @case('pending')
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                        Na čekanju
+                            @if($auction->deleted_at)
+                                <div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                        Obrisana
                                     </span>
-                                    @break
-                                @case('active')
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        Aktivna
-                                    </span>
-                                    @break
-                                @case('ended')
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                        Završena
-                                    </span>
-                                    @break
-                                @case('cancelled')
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                        Otkazana
-                                    </span>
-                                    @break
-                            @endswitch
+                                    @if($auction->status === 'ended')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 ml-1">
+                                            Završena
+                                        </span>
+                                    @endif
+                                </div>
+                            @else
+                                @switch($auction->status)
+                                    @case('pending')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            Na čekanju
+                                        </span>
+                                        @break
+                                    @case('active')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Aktivna
+                                        </span>
+                                        @break
+                                    @case('ended')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                            Završena
+                                        </span>
+                                        @break
+                                    @case('cancelled')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            Otkazana
+                                        </span>
+                                        @break
+                                @endswitch
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             {{ $auction->ends_at->format('d.m.Y H:i') }}

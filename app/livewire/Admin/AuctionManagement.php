@@ -161,7 +161,8 @@ class AuctionManagement extends Component
 
     public function render()
     {
-        $auctions = Auction::with(['listing.images', 'listing.user', 'seller', 'winner', 'bids'])
+        $auctions = Auction::withTrashed()
+            ->with(['listing.images', 'listing.user', 'seller', 'winner', 'bids'])
             ->when($this->search, function ($query) {
                 $query->whereHas('listing', function ($q) {
                     $q->where('title', 'like', '%' . $this->search . '%')
