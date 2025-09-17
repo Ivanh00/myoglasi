@@ -529,17 +529,10 @@
                                             @auth
                                                 @if (auth()->id() === $listing->auction_data->user_id)
                                                     <!-- Owner buttons -->
-                                                    @if($listing->auction_data->total_bids == 0)
-                                                        <a href="{{ route('listings.edit', $listing) }}"
-                                                            class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
-                                                            <i class="fas fa-edit mr-2"></i> Uredi aukciju
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('auction.show', $listing->auction_data) }}"
-                                                            class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                                            <i class="fas fa-eye mr-2"></i> Pogledaj detalje
-                                                        </a>
-                                                    @endif
+                                                    <a href="{{ route('listings.edit', $listing) }}"
+                                                        class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
+                                                        <i class="fas fa-edit mr-2"></i> Uredi aukciju
+                                                    </a>
                                                 @else
                                                     <!-- Buyer buttons -->
                                                     <a href="{{ route('auction.show', $listing->auction_data) }}"
@@ -726,17 +719,10 @@
                                     @auth
                                         @if (auth()->id() === $listing->auction_data->user_id)
                                             <!-- Owner buttons -->
-                                            @if($listing->auction_data->total_bids == 0)
-                                                <a href="{{ route('listings.edit', $listing) }}"
-                                                    class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
-                                                    <i class="fas fa-edit mr-2"></i> Uredi aukciju
-                                                </a>
-                                            @else
-                                                <a href="{{ route('auction.show', $listing->auction_data) }}"
-                                                    class="block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                                    <i class="fas fa-eye mr-2"></i> Pogledaj detalje
-                                                </a>
-                                            @endif
+                                            <a href="{{ route('listings.edit', $listing) }}"
+                                                class="block w-full text-center px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
+                                                <i class="fas fa-edit mr-2"></i> Uredi aukciju
+                                            </a>
                                         @else
                                             <!-- Buyer buttons -->
                                             <a href="{{ route('auction.show', $listing->auction_data) }}"
