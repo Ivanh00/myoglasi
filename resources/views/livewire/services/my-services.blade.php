@@ -63,7 +63,8 @@
     <!-- Services list -->
     @if($services->count() > 0)
         <!-- Desktop Table View -->
-        <div class="hidden lg:block">
+        <div class="hidden lg:block space-y-1">
+            <!-- Header -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                 <table class="min-w-full table-fixed">
                     <thead class="bg-gray-50 dark:bg-gray-700">
@@ -76,9 +77,15 @@
                             <th class="w-[25%] px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        @foreach($services as $service)
-                            <tr class="border-l-4 border-gray-500">
+                </table>
+            </div>
+
+            <!-- Data Rows -->
+            @foreach($services as $service)
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border-l-4 border-gray-500">
+                    <table class="min-w-full table-fixed">
+                        <tbody>
+                            <tr>
                             <td class="w-[30%] px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     @if($service->images->count() > 0)
@@ -163,10 +170,10 @@
                                 </div>
                             </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            @endforeach
         </div>
 
         <!-- Desktop Pagination -->

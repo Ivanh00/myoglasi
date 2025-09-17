@@ -58,7 +58,8 @@
 
     <!-- Desktop Tabela oglasa -->
     @if ($listings->count() > 0)
-        <div class="hidden lg:block">
+        <div class="hidden lg:block space-y-1">
+            <!-- Header -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
                 <table class="min-w-full table-fixed">
                     <thead class="bg-gray-50 dark:bg-gray-700">
@@ -70,9 +71,15 @@
                             <th class="w-[25%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        @foreach ($listings as $listing)
-                            <tr class="border-l-4 border-blue-500">
+                </table>
+            </div>
+
+            <!-- Data Rows -->
+            @foreach ($listings as $listing)
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-blue-500">
+                    <table class="min-w-full table-fixed">
+                        <tbody>
+                            <tr>
                             <td class="w-[25%] px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
@@ -195,10 +202,10 @@
                                 </div>
                             </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            @endforeach
         </div>
 
         <!-- Desktop Paginacija -->
