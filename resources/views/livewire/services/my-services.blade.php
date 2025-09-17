@@ -63,33 +63,12 @@
     <!-- Services list -->
     @if($services->count() > 0)
         <!-- Desktop Table View -->
-        <div class="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Usluga
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Cena
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Status
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Pregledi
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Datum
-                        </th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Akcije
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    @foreach($services as $service)
-                        <tr>
+        <div class="hidden lg:block space-y-2">
+            @foreach($services as $service)
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border-l-4 border-gray-500">
+                    <table class="min-w-full">
+                        <tbody>
+                            <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     @if($service->images->count() > 0)
@@ -173,10 +152,11 @@
                                     </button>
                                 </div>
                             </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            @endforeach
         </div>
 
         <!-- Desktop Pagination -->
@@ -187,7 +167,7 @@
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
             @foreach ($services as $service)
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+                <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-500 shadow rounded-lg overflow-hidden">
                     <!-- Card Header -->
                     <div class="p-4 border-b border-gray-200 dark:border-gray-600">
                         <div class="flex items-start justify-between">
