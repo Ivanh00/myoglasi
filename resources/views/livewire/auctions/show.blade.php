@@ -322,6 +322,15 @@
                                 <i class="fas fa-map-marker-alt text-gray-500 dark:text-gray-400 mr-2"></i>
                                 <span class="text-gray-700 dark:text-gray-300">{{ $auction->listing->location }}</span>
                             </div>
+                            {{-- Prikaz telefona samo ako je vlasnik dozvolio, korisnik ulogovan i prodavac NIJE blokiran --}}
+                            @if ($auction->listing->contact_phone && $auction->seller->phone_visible && auth()->check() && !$auction->seller->is_banned)
+                                <div class="flex items-center mb-2">
+                                    <i class="fas fa-phone text-gray-500 dark:text-gray-400 mr-2"></i>
+                                    <a href="tel:{{ $auction->listing->contact_phone }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600">
+                                        {{ $auction->listing->contact_phone }}
+                                    </a>
+                                </div>
+                            @endif
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-folder text-gray-500 dark:text-gray-400 mr-2"></i>
                                 <span class="text-gray-700 dark:text-gray-300">{{ $auction->listing->category->name }}</span>
@@ -349,6 +358,81 @@
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Opis proizvoda</h3>
                     <div class="text-gray-700 dark:text-gray-300 whitespace-pre-line">{{ $auction->listing->description }}</div>
                 </div>
+
+                <!-- Seller Information Section -->
+                @auth
+                    <div class="border-t border-gray-200 dark:border-gray-600 p-6 bg-gray-50 dark:bg-gray-700">
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Informacije o prodavcu</h2>
+                        <div class="flex items-start">
+                            <!-- Avatar -->
+                            <div class="w-16 h-16 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                @if($auction->seller->avatar)
+                                    <img src="{{ $auction->seller->avatar_url }}" alt="{{ $auction->seller->name }}"
+                                         class="w-16 h-16 rounded-full object-cover">
+                                @else
+                                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                                        {{ strtoupper(substr($auction->seller->name, 0, 1)) }}
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900 dark:text-gray-100 text-lg">
+                                    {{ $auction->seller->name }}
+                                    {!! $auction->seller->verified_icon !!}
+                                    @if($auction->seller->is_banned)
+                                        <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                    @endif
+                                    @if($auction->seller->shouldShowLastSeen())
+                                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                            @if($auction->seller->is_online)
+                                                <span class="inline-flex items-center">
+                                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                    {{ $auction->seller->last_seen }}
+                                                </span>
+                                            @else
+                                                {{ $auction->seller->last_seen }}
+                                            @endif
+                                        </div>
+                                    @endif
+                                </h3>
+
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">Član od: {{ $auction->seller->created_at->format('m/Y') }}</p>
+
+                                <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    <span>{{ $auction->listing->location }}</span>
+                                </div>
+
+                                {{-- Prikaz telefona samo ako je vlasnik dozvolio, korisnik ulogovan i prodavac NIJE blokiran --}}
+                                @if ($auction->listing->contact_phone && $auction->seller->phone_visible && !$auction->seller->is_banned)
+                                    <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">
+                                        <i class="fas fa-phone mr-2"></i>
+                                        <a href="tel:{{ $auction->listing->contact_phone }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600">
+                                            {{ $auction->listing->contact_phone }}
+                                        </a>
+                                    </div>
+                                @endif
+
+                                {{-- User ratings --}}
+                                @if($auction->seller->total_ratings_count > 0)
+                                    <a href="{{ route('user.ratings', $auction->seller->id) }}" class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                        <span class="text-green-600 mr-2">😊 {{ $auction->seller->positive_ratings_count }}</span>
+                                        <span class="text-yellow-600 mr-2">😐 {{ $auction->seller->neutral_ratings_count }}</span>
+                                        <span class="text-red-600 mr-2">😞 {{ $auction->seller->negative_ratings_count }}</span>
+                                        @if($auction->seller->rating_badge)
+                                            <span class="ml-1 mr-2">{{ $auction->seller->rating_badge }}</span>
+                                        @endif
+                                        <span class="text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">Pogledaj ocene</span>
+                                        <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                                    </a>
+                                @else
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm">Još nema ocena</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endauth
             </div>
 
         <!-- Bid History Section -->
