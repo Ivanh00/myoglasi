@@ -1,5 +1,32 @@
-<!-- Start of Selection -->
 <div>
+    <!-- Placeholder to maintain layout when nav is fixed -->
+    <div class="h-16"></div>
+
+    <!-- Credit Received Toast Notification -->
+    @if(session()->has('credit_received'))
+        <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
+             class="fixed top-4 right-4 z-[9999] bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg max-w-sm">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-coins text-lg"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm font-medium">
+                        Kredit primljen!
+                    </p>
+                    <p class="text-xs opacity-90">
+                        {{ session('credit_received')['sender_name'] }} vam je poslao {{ session('credit_received')['amount'] }}
+                    </p>
+                </div>
+                <div class="ml-4">
+                    <button @click="show = false" class="text-green-200 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- Public Notifications -->
     @php
         $publicNotification = \App\Models\PublicNotification::active()->latest()->first();
@@ -16,7 +43,7 @@
         x-show="show" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 transform -translate-y-2"
         x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="ease-in duration-200"
         x-transition:leave-start="opacity-100 transform translate-y-0" x-transition:leave-end="opacity-0 transform -translate-y-2"
-        class="bg-green-700 text-white text-center py-3 px-4 relative z-[60]" style="display: none;">
+        class="bg-green-700 text-white text-center py-3 px-4 fixed top-0 left-0 right-0 z-[60]" style="display: none;">
             <div class="max-w-7xl mx-auto flex items-center justify-between">
                 <div class="flex-1 flex items-center justify-center">
                     <i class="fas fa-bullhorn mr-3"></i>
@@ -32,32 +59,7 @@
         </div>
     @endif
 
-    <!-- Credit Received Toast Notification -->
-@if(session()->has('credit_received'))
-    <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)" 
-         class="fixed top-4 right-4 z-[9999] bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg max-w-sm">
-        <div class="flex items-center">
-            <div class="flex-shrink-0">
-                <i class="fas fa-coins text-lg"></i>
-            </div>
-            <div class="ml-3">
-                <p class="text-sm font-medium">
-                    Kredit primljen!
-                </p>
-                <p class="text-xs opacity-90">
-                    {{ session('credit_received')['sender_name'] }} vam je poslao {{ session('credit_received')['amount'] }}
-                </p>
-            </div>
-            <div class="ml-4">
-                <button @click="show = false" class="text-green-200 hover:text-white">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-@endif
-
-<nav class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
+    <nav class="bg-white dark:bg-gray-800 shadow-lg fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->
@@ -439,5 +441,5 @@
             }
         });
     </script>
-</nav>
+    </nav>
 </div>

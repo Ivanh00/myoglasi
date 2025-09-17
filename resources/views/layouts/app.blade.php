@@ -358,9 +358,9 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <livewire:layout.navigation />
+<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <livewire:layout.navigation />
+    <div class="min-h-screen">
 
         <!-- Page Heading -->
         @if (isset($header))
