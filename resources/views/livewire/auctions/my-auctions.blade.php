@@ -69,33 +69,43 @@
 
     <!-- Desktop Tabela aukcija -->
     @if ($auctions->count() > 0)
-        <div class="hidden lg:block space-y-2">
-            @foreach ($auctions as $auction)
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-yellow-500">
-                    <table class="min-w-full">
-                        <tbody>
-                            <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
+        <div class="hidden lg:block">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <table class="min-w-full table-fixed">
+                    <thead class="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th class="w-[20%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</th>
+                            <th class="w-[18%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Početna/Trenutna cena</th>
+                            <th class="w-[12%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ponude</th>
+                            <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                            <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum/Vreme</th>
+                            <th class="w-[20%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        @foreach ($auctions as $auction)
+                            <tr class="border-l-4 border-yellow-500">
+                            <td class="w-[20%] px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
                                         @if ($auction->listing->images->count() > 0)
-                                            <img class="h-10 w-10 rounded-full object-cover"
+                                            <img class="h-10 w-10 rounded-lg object-cover"
                                                 src="{{ $auction->listing->images->first()->url }}" alt="{{ $auction->listing->title }}">
                                         @else
-                                            <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                            <div class="h-10 w-10 rounded-lg bg-gray-200 flex items-center justify-center">
                                                 <i class="fas fa-gavel text-gray-400"></i>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                            {{ Str::limit($auction->listing->title, 30) }}
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">
+                                            {{ Str::limit($auction->listing->title, 40) }}
                                         </div>
                                         <div class="text-sm text-gray-500">{{ $auction->listing->category->name }}</div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="w-[18%] px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm">
                                     <div class="text-gray-600 dark:text-gray-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
                                     <div class="text-gray-900 dark:text-gray-100 font-bold">Trenutna: {{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
@@ -104,7 +114,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="w-[12%] px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm">
                                     <div class="text-gray-900 dark:text-gray-100 font-semibold">{{ $auction->total_bids }} ponuda</div>
                                     @if($auction->winningBid)
@@ -112,7 +122,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="w-[15%] px-6 py-4 whitespace-nowrap">
                                 <div class="flex flex-col">
                                     @if($auction->isActive())
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1">Aktivna</span>
@@ -131,13 +141,13 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="w-[15%] px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="flex flex-col">
                                     <span>Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</span>
                                     <span>Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 text-sm font-medium">
+                            <td class="w-[20%] px-6 py-4 text-sm font-medium">
                                 <div class="flex flex-col space-y-2">
                                     <div class="flex items-center space-x-2">
                                         <a href="{{ route('auction.show', $auction) }}"
@@ -179,10 +189,10 @@
                                 </div>
                             </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-            @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Desktop Paginacija -->

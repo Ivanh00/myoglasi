@@ -63,13 +63,23 @@
     <!-- Services list -->
     @if($services->count() > 0)
         <!-- Desktop Table View -->
-        <div class="hidden lg:block space-y-2">
-            @foreach($services as $service)
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border-l-4 border-gray-500">
-                    <table class="min-w-full">
-                        <tbody>
-                            <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
+        <div class="hidden lg:block">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                <table class="min-w-full table-fixed">
+                    <thead class="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th class="w-[30%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Usluga</th>
+                            <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</th>
+                            <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                            <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pregledi</th>
+                            <th class="w-[10%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</th>
+                            <th class="w-[25%] px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        @foreach($services as $service)
+                            <tr class="border-l-4 border-gray-500">
+                            <td class="w-[30%] px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     @if($service->images->count() > 0)
                                         <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
@@ -80,8 +90,8 @@
                                         </div>
                                     @endif
                                     <div>
-                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center">
-                                            {{ Str::limit($service->title, 40) }}
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                            {{ Str::limit($service->title, 50) }}
                                             <!-- Promotion Badges -->
                                             @if($service->hasActivePromotion())
                                                 <div class="flex flex-wrap gap-1 ml-2">
@@ -99,12 +109,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="w-[15%] px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900 dark:text-gray-100">
                                     {{ number_format($service->price, 2) }} RSD
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="w-[10%] px-6 py-4 whitespace-nowrap">
                                 @if($service->status === 'active')
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                         Aktivna
@@ -115,13 +125,13 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                            <td class="w-[10%] px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 {{ $service->views ?? 0 }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                            <td class="w-[10%] px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 {{ $service->created_at->format('d.m.Y') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <td class="w-[25%] px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex items-center justify-end space-x-2">
                                     <a href="{{ route('services.show', $service->slug) }}"
                                         class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
@@ -153,10 +163,10 @@
                                 </div>
                             </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-            @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Desktop Pagination -->
