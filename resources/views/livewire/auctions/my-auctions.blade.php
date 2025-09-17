@@ -70,26 +70,21 @@
     <!-- Desktop Tabela aukcija -->
     @if ($auctions->count() > 0)
         <div class="hidden lg:block space-y-1">
-            <!-- Header -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <table class="min-w-full table-fixed">
-                    <thead class="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <th class="w-[20%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</th>
-                            <th class="w-[18%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Početna/Trenutna cena</th>
-                            <th class="w-[12%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ponude</th>
-                            <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                            <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum/Vreme</th>
-                            <th class="w-[20%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-
-            <!-- Data Rows -->
-            @foreach ($auctions as $auction)
+            @foreach ($auctions as $index => $auction)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-yellow-500">
                     <table class="min-w-full table-fixed">
+                        @if($index == 0)
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th class="w-[20%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</th>
+                                <th class="w-[18%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Početna/Trenutna cena</th>
+                                <th class="w-[12%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ponude</th>
+                                <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                                <th class="w-[15%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum/Vreme</th>
+                                <th class="w-[20%] px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</th>
+                            </tr>
+                        </thead>
+                        @endif
                         <tbody>
                             <tr>
                             <td class="w-[20%] px-6 py-4 whitespace-nowrap">
