@@ -319,19 +319,43 @@
 
                                     <!-- Action Buttons -->
                                     <div class="space-y-2">
-                                        <!-- Notify about auction start -->
-                                        <button class="w-full px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg transition-colors">
-                                            <i class="fas fa-bell mr-2"></i>
-                                            Obavesti me o početku aukcije
-                                        </button>
+                                        @auth
+                                            <!-- Notify about auction start -->
+                                            <button wire:click="toggleNotification"
+                                                    class="w-full px-4 py-2 {{ $isNotificationSet ? 'bg-gray-500 hover:bg-gray-600' : 'bg-yellow-500 hover:bg-yellow-600' }} text-white font-medium rounded-lg transition-colors">
+                                                <i class="fas {{ $isNotificationSet ? 'fa-bell-slash' : 'fa-bell' }} mr-2"></i>
+                                                {{ $isNotificationSet ? 'Ukloni obaveštenje' : 'Obavesti me o početku aukcije' }}
+                                            </button>
 
-                                        <!-- Add to favorites -->
-                                        <button class="w-full px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors">
-                                            <i class="fas fa-heart mr-2"></i>
-                                            Dodaj u omiljene
-                                        </button>
+                                            <!-- Add to favorites -->
+                                            <button wire:click="toggleFavorite"
+                                                    class="w-full px-4 py-2 {{ $isFavorited ? 'bg-gray-500 hover:bg-gray-600' : 'bg-red-500 hover:bg-red-600' }} text-white font-medium rounded-lg transition-colors">
+                                                <i class="fas fa-heart mr-2"></i>
+                                                {{ $isFavorited ? 'Ukloni iz omiljenih' : 'Dodaj u omiljene' }}
+                                            </button>
 
-                                        <!-- Share link -->
+                                            <!-- Message seller button -->
+                                            @if(!$auction->seller->is_banned)
+                                                <a href="{{ route('listing.chat', ['slug' => $auction->listing->slug]) }}"
+                                                   class="w-full block text-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors">
+                                                    <i class="fas fa-envelope mr-2"></i>
+                                                    Pošaljite poruku prodavcu
+                                                </a>
+                                            @else
+                                                <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
+                                                    <div class="flex items-center justify-center">
+                                                        <i class="fas fa-ban text-red-500 mr-2"></i>
+                                                        <span class="text-red-700 text-sm">Prodavac je blokiran</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="text-center text-gray-600 dark:text-gray-400 text-sm mb-2">
+                                                <a href="{{ route('login') }}" class="text-blue-500 hover:text-blue-700">Prijavite se</a> da biste koristili ove opcije
+                                            </div>
+                                        @endauth
+
+                                        <!-- Share link (available to all) -->
                                         <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link je kopiran!')"
                                                 class="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors">
                                             <i class="fas fa-share-alt mr-2"></i>

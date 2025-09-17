@@ -17,6 +17,8 @@ class Show extends Component
     public $showBidForm = false;
     public $recommendedListings;
     public $recommendationType;
+    public $isFavorited = false;
+    public $isNotificationSet = false;
 
     protected $listeners = ['refreshAuction' => '$refresh'];
 
@@ -31,6 +33,15 @@ class Show extends Component
 
         // Set minimum bid amount
         $this->bidAmount = $auction->minimum_bid;
+
+        // Check if user has favorited this auction listing
+        if (auth()->check()) {
+            $this->isFavorited = auth()->user()->hasFavorited($this->auction->listing);
+            // Check if user has set notification for auction start
+            $this->isNotificationSet = \App\Models\AuctionNotification::where('auction_id', $this->auction->id)
+                ->where('user_id', auth()->id())
+                ->exists();
+        }
 
         // Check if user has existing auto-bid
         if (auth()->check()) {
@@ -133,6 +144,71 @@ class Show extends Component
         // Only respond to manual bids, not auto-bid setup
         if (!$this->isAutoBid) {
             Bid::processAutoBids($this->auction->fresh(), auth()->id());
+        }
+    }
+
+    public function toggleFavorite()
+    {
+        if (!auth()->check()) {
+            session()->flash('error', 'Morate se prijaviti da biste dodali aukciju u omiljene.');
+            return;
+        }
+
+        if (auth()->id() === $this->auction->user_id) {
+            session()->flash('error', 'Ne možete dodati svoju aukciju u omiljene.');
+            return;
+        }
+
+        if ($this->isFavorited) {
+            auth()->user()->removeFromFavorites($this->auction->listing);
+            $this->isFavorited = false;
+            session()->flash('success', 'Aukcija je uklonjena iz omiljenih.');
+        } else {
+            auth()->user()->addToFavorites($this->auction->listing);
+            $this->isFavorited = true;
+
+            // Send notification to auction owner
+            if ($this->auction->user_id !== auth()->id()) {
+                Message::create([
+                    'sender_id' => auth()->id(),
+                    'receiver_id' => $this->auction->user_id,
+                    'listing_id' => $this->auction->listing_id,
+                    'message' => "Korisnik " . auth()->user()->name . " je dodao vašu aukciju '" . $this->auction->listing->title . "' u omiljene.",
+                    'is_system_message' => true,
+                    'is_read' => false,
+                ]);
+            }
+
+            session()->flash('success', 'Aukcija je dodata u omiljene.');
+        }
+    }
+
+    public function toggleNotification()
+    {
+        if (!auth()->check()) {
+            session()->flash('error', 'Morate se prijaviti da biste postavili obaveštenja.');
+            return;
+        }
+
+        if (auth()->id() === $this->auction->user_id) {
+            session()->flash('error', 'Ne možete postaviti obaveštenje za svoju aukciju.');
+            return;
+        }
+
+        if ($this->isNotificationSet) {
+            \App\Models\AuctionNotification::where('auction_id', $this->auction->id)
+                ->where('user_id', auth()->id())
+                ->delete();
+            $this->isNotificationSet = false;
+            session()->flash('success', 'Obaveštenje o početku aukcije je uklonjeno.');
+        } else {
+            \App\Models\AuctionNotification::create([
+                'auction_id' => $this->auction->id,
+                'user_id' => auth()->id(),
+                'type' => 'start',
+            ]);
+            $this->isNotificationSet = true;
+            session()->flash('success', 'Bićete obavešteni kada aukcija počne.');
         }
     }
     
