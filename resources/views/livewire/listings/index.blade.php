@@ -421,7 +421,14 @@
 
                             @auth
                                 @if(auth()->id() === $listing->user_id)
-                                    <!-- Owner button -->
+                                    <!-- Owner buttons -->
+                                    @if($listing->isRegularListing() && !$listing->auction)
+                                        <a href="{{ route('auction.setup', $listing) }}"
+                                            class="block w-full text-center px-3 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors text-sm mb-2">
+                                            <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
+                                        </a>
+                                    @endif
+
                                     <a href="{{ route('listings.edit', $listing) }}"
                                         class="block w-full text-center px-3 py-2 {{ $listing->auction ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-blue-600 hover:bg-blue-700' }} text-white rounded-lg transition-colors text-sm">
                                         @if($listing->auction)
@@ -602,7 +609,14 @@
                                 <div class="space-y-2">
                                     @auth
                                         @if(auth()->id() === $listing->user_id)
-                                            <!-- Owner button -->
+                                            <!-- Owner buttons -->
+                                            @if($listing->isRegularListing() && !$listing->auction)
+                                                <a href="{{ route('auction.setup', $listing) }}"
+                                                    class="block w-full text-center px-3 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors text-sm mb-2">
+                                                    <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
+                                                </a>
+                                            @endif
+
                                             <a href="{{ route('listings.edit', $listing) }}"
                                                 class="block w-full text-center px-3 py-2 {{ $listing->auction ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-blue-600 hover:bg-blue-700' }} text-white rounded-lg transition-colors text-sm">
                                                 @if($listing->auction)
