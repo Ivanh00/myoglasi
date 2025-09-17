@@ -56,7 +56,7 @@ Route::get('/', \App\Livewire\Search\UnifiedSearch::class)->name('home');
 Route::get('/listings', ListingsIndex::class)->name('listings.index');
 Route::get('/auctions', \App\Livewire\Auctions\Index::class)->name('auctions.index');
 Route::get('/listings/create', ListingCreate::class)
-    ->middleware(['auth', 'verified', 'check.listing'])
+    ->middleware(['auth', 'conditional.verified', 'check.listing'])
     ->name('listings.create');
 // Route::get('/listings/{listing}', ListingShow::class)->name('listings.show');
 
@@ -96,7 +96,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/contact-admin', \App\Livewire\AdminContact::class)->name('admin.contact');
     
     // Auction routes
-    Route::get('/auction/setup/{listing}', \App\Livewire\Auctions\Setup::class)->name('auction.setup');
+    Route::get('/auction/setup/{listing}', \App\Livewire\Auctions\Setup::class)
+        ->middleware('conditional.verified')
+        ->name('auction.setup');
     Route::get('/auction/{auction}', \App\Livewire\Auctions\Show::class)->name('auction.show');
     Route::get('/my-auctions', \App\Livewire\Auctions\MyAuctions::class)->name('auctions.my');
 
