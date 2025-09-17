@@ -72,7 +72,7 @@
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <div class="grid grid-cols-[25%_20%_10%_15%_15%_15%] bg-gray-50 dark:bg-gray-700">
+                <div class="grid grid-cols-[25%_18%_10%_14%_18%_15%] bg-gray-50 dark:bg-gray-700">
                     <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</div>
                     <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Početna/Trenutna cena</div>
                     <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ponude</div>
@@ -85,7 +85,7 @@
             <!-- Data Rows -->
             @foreach ($auctions as $auction)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-yellow-500">
-                    <div class="grid grid-cols-[25%_20%_10%_15%_15%_15%] hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <div class="grid grid-cols-[25%_18%_10%_14%_18%_15%] hover:bg-gray-50 dark:hover:bg-gray-700">
                         <!-- Oglas Column -->
                         <div class="px-6 py-2">
                             <div class="flex items-center">
@@ -148,9 +148,9 @@
                         </div>
                         <!-- Datum/Vreme Column -->
                         <div class="px-6 py-2 text-sm text-gray-500">
-                            <div class="flex flex-col">
-                                <span>Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</span>
-                                <span>Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</span>
+                            <div class="flex flex-col space-y-1">
+                                <div>Počinje: {{ $auction->starts_at->format('d.m.Y') }} {{ $auction->starts_at->format('H:i') }}</div>
+                                <div>Završava: {{ $auction->ends_at->format('d.m.Y') }} {{ $auction->ends_at->format('H:i') }}</div>
                             </div>
                         </div>
                         <!-- Akcije Column -->
