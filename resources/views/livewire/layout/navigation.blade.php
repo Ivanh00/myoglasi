@@ -32,15 +32,25 @@
         $publicNotification = \App\Models\PublicNotification::active()->latest()->first();
     @endphp
 
+    <nav x-data="{
+        notificationShown: @if($publicNotification) !localStorage.getItem('hidden_public_notification_' + {{ $publicNotification->id }}) @else false @endif
+    }"
+    :class="notificationShown ? 'top-[60px]' : 'top-0'"
+    class="bg-white dark:bg-gray-800 shadow-lg fixed left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700 transition-all duration-300">
+
     @if($publicNotification)
         <div x-data="{
             show: !localStorage.getItem('hidden_public_notification_' + {{ $publicNotification->id }}),
             hideNotification() {
                 this.show = false;
                 localStorage.setItem('hidden_public_notification_' + {{ $publicNotification->id }}, 'true');
+                $dispatch('notification-hidden');
             }
         }"
-        x-show="show" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 transform -translate-y-2"
+        x-show="show"
+        x-init="$watch('show', value => { notificationShown = value })"
+        @notification-hidden.window="notificationShown = false"
+        x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 transform -translate-y-2"
         x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="ease-in duration-200"
         x-transition:leave-start="opacity-100 transform translate-y-0" x-transition:leave-end="opacity-0 transform -translate-y-2"
         class="bg-green-700 text-white text-center py-3 px-4 fixed top-0 left-0 right-0 z-[60]" style="display: none;">
@@ -58,8 +68,6 @@
             </div>
         </div>
     @endif
-
-    <nav class="bg-white dark:bg-gray-800 shadow-lg fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->
