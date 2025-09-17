@@ -505,10 +505,19 @@
                                     </div>
                                 </div>
 
-                                <a href="{{ route('auction.show', $auction) }}"
-                                    class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
-                                    <i class="fas fa-eye mr-2"></i> Pogledaj detalje
-                                </a>
+                                <div class="space-y-2">
+                                    <a href="{{ route('auction.show', $auction) }}"
+                                        class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
+                                        <i class="fas fa-eye mr-2"></i> Pogledaj detalje
+                                    </a>
+
+                                    @if ($auction->buy_now_price)
+                                        <button disabled
+                                            class="block w-full text-center px-3 py-2 bg-gray-400 text-gray-300 rounded-lg cursor-not-allowed text-sm">
+                                            <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah (počinje {{ $auction->starts_at->format('d.m') }})
+                                        </button>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -607,10 +616,19 @@
                                             </div>
                                         </div>
 
-                                        <a href="{{ route('auction.show', $auction) }}"
-                                            class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
-                                            <i class="fas fa-eye mr-2"></i> Pogledaj detalje
-                                        </a>
+                                        <div class="space-y-2">
+                                            <a href="{{ route('auction.show', $auction) }}"
+                                                class="block w-full text-center px-3 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-800 transition-colors text-sm">
+                                                <i class="fas fa-eye mr-2"></i> Pogledaj detalje
+                                            </a>
+
+                                            @if ($auction->buy_now_price)
+                                                <button disabled
+                                                    class="block w-full text-center px-3 py-2 bg-gray-400 text-gray-300 rounded-lg cursor-not-allowed text-sm">
+                                                    <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah (počinje {{ $auction->starts_at->format('d.m') }})
+                                                </button>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
