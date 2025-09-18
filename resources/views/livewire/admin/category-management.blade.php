@@ -13,17 +13,17 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div id="seeder-menu" class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                    <div id="seeder-menu" class="hidden origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                         <div class="py-1">
-                            <button wire:click="runCategorySeeder" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left">
+                            <button wire:click="runCategorySeeder" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left whitespace-nowrap">
                                 <i class="fas fa-database mr-2"></i> Učitaj kategorije iz seeder-a
                             </button>
                             <button wire:click="writeToSeeder"
                                 onclick="return confirm('Da li ste sigurni? Ovo će prepisati postojeći CategorySeeder.php fajl sa trenutnim kategorijama iz baze.')"
-                                class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left">
+                                class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left whitespace-nowrap">
                                 <i class="fas fa-save mr-2"></i> Upiši u seeder
                             </button>
-                            <button wire:click="exportCategories" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left">
+                            <button wire:click="exportCategories" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left whitespace-nowrap">
                                 <i class="fas fa-download mr-2"></i> Eksportuj kategorije (JSON)
                             </button>
                         </div>
