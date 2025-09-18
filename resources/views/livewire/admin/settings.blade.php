@@ -34,10 +34,15 @@
                     <i class="fas fa-gavel mr-1"></i>
                     Aukcije
                 </button>
-                <button wire:click="switchTab('promotions')" 
+                <button wire:click="switchTab('promotions')"
                     class="py-2 px-1 border-b-2 font-medium text-sm {{ $activeTab === 'promotions' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
                     <i class="fas fa-bullhorn mr-1"></i>
                     Promocije
+                </button>
+                <button wire:click="switchTab('data')"
+                    class="py-2 px-1 border-b-2 font-medium text-sm {{ $activeTab === 'data' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
+                    <i class="fas fa-database mr-1"></i>
+                    Podaci
                 </button>
             </nav>
         </div>
@@ -1013,5 +1018,186 @@
                 </div>
             </div>
         @endif
+
+        <!-- Data Backup/Restore Tab -->
+        @if($activeTab === 'data')
+            <div class="space-y-6">
+                <!-- Database Backup Section -->
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-download mr-2 text-green-600"></i>
+                        Backup baze podataka
+                    </h3>
+
+                    <p class="text-gray-600 mb-6">
+                        Preuzmite potpunu kopiju baze podataka sa svim tabelama i podacima.
+                        Slike koje se čuvaju na S3 servisu će biti sačuvane samo kao linkovi/putanje.
+                    </p>
+
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                        <div class="flex">
+                            <svg class="w-5 h-5 text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div class="text-sm text-blue-700">
+                                <p class="font-medium">Backup uključuje:</p>
+                                <ul class="list-disc list-inside mt-1 space-y-1">
+                                    <li>Sve korisnike i njihove profile</li>
+                                    <li>Sve oglase, aukcije i usluge</li>
+                                    <li>Kategorije i podkategorije</li>
+                                    <li>Poruke i obaveštenja</li>
+                                    <li>Transakcije i balanse</li>
+                                    <li>Sistemska podešavanja</li>
+                                    <li>Linkove ka slikama (S3/lokalne)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button wire:click="exportDatabase" wire:loading.attr="disabled"
+                        class="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span wire:loading.remove wire:target="exportDatabase">
+                            <i class="fas fa-download mr-2"></i>
+                            Preuzmi backup baze
+                        </span>
+                        <span wire:loading wire:target="exportDatabase">
+                            <i class="fas fa-spinner fa-spin mr-2"></i>
+                            Priprema backup-a...
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Database Restore Section -->
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-upload mr-2 text-orange-600"></i>
+                        Vraćanje baze podataka
+                    </h3>
+
+                    <p class="text-gray-600 mb-6">
+                        Vratite prethodno sačuvanu kopiju baze podataka. Ova opcija će zameniti sve postojeće podatke.
+                    </p>
+
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                        <div class="flex">
+                            <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div class="text-sm text-red-700">
+                                <p class="font-bold">UPOZORENJE!</p>
+                                <p>Vraćanje backup-a će:</p>
+                                <ul class="list-disc list-inside mt-1 space-y-1">
+                                    <li>Obrisati sve postojeće podatke</li>
+                                    <li>Zameniti ih podacima iz backup fajla</li>
+                                    <li>Ova akcija je nepovratna!</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Preporučujemo da prvo napravite backup trenutnih podataka.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Izaberite backup fajl (SQL ili JSON format)
+                        </label>
+                        <input type="file" wire:model="backupFile" accept=".sql,.json"
+                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+
+                        @error('backupFile')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+
+                        <div wire:loading wire:target="backupFile" class="mt-2">
+                            <p class="text-sm text-gray-500">
+                                <i class="fas fa-spinner fa-spin mr-2"></i>
+                                Učitavanje fajla...
+                            </p>
+                        </div>
+                    </div>
+
+                    @if($backupFile)
+                        <div class="mt-4">
+                            <button wire:click="$set('showRestoreConfirmation', true)"
+                                class="px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors">
+                                <i class="fas fa-upload mr-2"></i>
+                                Vrati backup
+                            </button>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Database Info -->
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-info-circle mr-2 text-blue-600"></i>
+                        Informacije o bazi
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-600">Tip baze:</p>
+                            <p class="font-medium">{{ $databaseType }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Veličina baze:</p>
+                            <p class="font-medium">{{ $databaseSize }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Broj tabela:</p>
+                            <p class="font-medium">{{ $tableCount }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Poslednji backup:</p>
+                            <p class="font-medium">{{ $lastBackupDate ?? 'Nikada' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Restore Confirmation Modal -->
+        @if($showRestoreConfirmation ?? false)
+            <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div class="mt-3 text-center">
+                        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                            <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Potvrdite vraćanje backup-a</h3>
+
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <p class="text-sm text-red-800">
+                                Da li ste sigurni da želite da vratite backup?
+                                <br><br>
+                                <strong>Svi trenutni podaci će biti obrisani!</strong>
+                            </p>
+                        </div>
+
+                        <div class="flex justify-center space-x-3">
+                            <button wire:click="$set('showRestoreConfirmation', false)"
+                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                                Otkaži
+                            </button>
+                            <button wire:click="importDatabase"
+                                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                <i class="fas fa-upload mr-2"></i>
+                                Nastavi sa vraćanjem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
+
+    <!-- JavaScript for redirect after restore -->
+    <script>
+        window.addEventListener('redirect-after-restore', event => {
+            setTimeout(function() {
+                window.location.href = '/login';
+            }, 3000);
+        });
+    </script>
 </div>

@@ -3,10 +3,17 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use App\Models\Setting;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 
 class Settings extends Component
 {
+    use WithFileUploads;
+
     public $activeTab = 'payments';
     
     // Payment Settings
@@ -77,6 +84,14 @@ class Settings extends Component
     public $auctionExtensionTime;
     public $auctionExtensionTriggerTime;
 
+    // Database Backup/Restore
+    public $backupFile;
+    public $showRestoreConfirmation = false;
+    public $databaseType = '';
+    public $databaseSize = '';
+    public $tableCount = 0;
+    public $lastBackupDate = null;
+
     protected $rules = [
         'listingFeeEnabled' => 'required|boolean',
         'listingFeeAmount' => 'required|integer|min:1|max:10000',
@@ -138,6 +153,11 @@ class Settings extends Component
     public function mount()
     {
         $this->loadSettings();
+
+        // Load database info when data tab is active
+        if ($this->activeTab === 'data') {
+            $this->loadDatabaseInfo();
+        }
     }
 
     public function loadSettings()
@@ -212,6 +232,11 @@ class Settings extends Component
     public function switchTab($tab)
     {
         $this->activeTab = $tab;
+
+        // Load database info when switching to data tab
+        if ($tab === 'data') {
+            $this->loadDatabaseInfo();
+        }
     }
 
     public function savePaymentSettings()
@@ -367,6 +392,238 @@ class Settings extends Component
         Setting::set('auction_extension_trigger_time', $this->auctionExtensionTriggerTime, 'integer', 'auctions');
 
         session()->flash('success', 'Podešavanja aukcija su uspešno sačuvana.');
+    }
+
+    // Database Backup/Restore Methods
+    public function exportDatabase()
+    {
+        try {
+            // Get database connection details
+            $connection = config('database.default');
+            $database = config("database.connections.{$connection}.database");
+
+            // Prepare backup data
+            $backup = [
+                'app' => 'PazAriO',
+                'version' => '1.0',
+                'backup_date' => now()->toDateTimeString(),
+                'database_type' => $connection,
+                'tables' => []
+            ];
+
+            // Get all tables based on database type
+            if ($connection === 'sqlite') {
+                // For SQLite
+                $tables = DB::select("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");
+
+                foreach ($tables as $table) {
+                    $tableName = $table->name;
+
+                    // Get table structure for SQLite
+                    $createTable = DB::select("SELECT sql FROM sqlite_master WHERE type='table' AND name=?", [$tableName])[0];
+                    $createStatement = $createTable->sql;
+
+                    // Get table data
+                    $data = DB::table($tableName)->get()->toArray();
+
+                    $backup['tables'][$tableName] = [
+                        'structure' => $createStatement,
+                        'data' => $data,
+                        'count' => count($data)
+                    ];
+                }
+            } else {
+                // For MySQL
+                $tables = DB::select('SHOW TABLES');
+                $tableKey = 'Tables_in_' . $database;
+
+                foreach ($tables as $table) {
+                    $tableName = $table->$tableKey;
+
+                    // Get table structure
+                    $createTable = DB::select("SHOW CREATE TABLE `{$tableName}`")[0];
+                    $createStatement = $createTable->{'Create Table'} ?? $createTable->{'Create View'} ?? '';
+
+                    // Get table data
+                    $data = DB::table($tableName)->get()->toArray();
+
+                    $backup['tables'][$tableName] = [
+                        'structure' => $createStatement,
+                        'data' => $data,
+                        'count' => count($data)
+                    ];
+                }
+            }
+
+            // Convert to JSON
+            $json = json_encode($backup, JSON_PRETTY_PRINT);
+
+            // Generate filename
+            $filename = 'backup-pazario-' . date('Y-m-d-His') . '.json';
+
+            // Store last backup date
+            Setting::set('last_backup_date', now()->toDateTimeString(), 'string', 'database');
+
+            // Return download response
+            return response()->streamDownload(function() use ($json) {
+                echo $json;
+            }, $filename, [
+                'Content-Type' => 'application/json',
+            ]);
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri kreiranju backup-a: ' . $e->getMessage());
+        }
+    }
+
+    public function importDatabase()
+    {
+        $this->validate([
+            'backupFile' => 'required|file|mimes:json,sql|max:51200', // Max 50MB
+        ]);
+
+        try {
+            // Read the uploaded file
+            $content = file_get_contents($this->backupFile->getRealPath());
+
+            // Check if it's JSON or SQL
+            if ($this->backupFile->getClientOriginalExtension() === 'json') {
+                $this->restoreFromJson($content);
+            } else {
+                $this->restoreFromSql($content);
+            }
+
+            // Clear the file
+            $this->backupFile = null;
+            $this->showRestoreConfirmation = false;
+
+            session()->flash('success', 'Backup je uspešno vraćen! Molimo vas da se ponovo ulogujete.');
+
+            // Clear all sessions and cache
+            Artisan::call('cache:clear');
+            Artisan::call('config:clear');
+
+            // Redirect to login after a delay
+            $this->dispatch('redirect-after-restore');
+
+        } catch (\Exception $e) {
+            $this->showRestoreConfirmation = false;
+            session()->flash('error', 'Greška pri vraćanju backup-a: ' . $e->getMessage());
+        }
+    }
+
+    private function restoreFromJson($content)
+    {
+        $backup = json_decode($content, true);
+
+        if (!$backup || !isset($backup['tables'])) {
+            throw new \Exception('Neispravan format backup fajla.');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            // Disable foreign key checks based on database type
+            $connection = config('database.default');
+
+            if ($connection === 'sqlite') {
+                DB::statement('PRAGMA foreign_keys = OFF');
+            } else {
+                DB::statement('SET FOREIGN_KEY_CHECKS=0');
+            }
+
+            // Drop and recreate all tables
+            foreach ($backup['tables'] as $tableName => $tableData) {
+                // Drop existing table
+                if ($connection === 'sqlite') {
+                    DB::statement("DROP TABLE IF EXISTS {$tableName}");
+                } else {
+                    DB::statement("DROP TABLE IF EXISTS `{$tableName}`");
+                }
+
+                // Create table structure
+                if (isset($tableData['structure']) && !empty($tableData['structure'])) {
+                    DB::statement($tableData['structure']);
+                }
+
+                // Insert data
+                if (isset($tableData['data']) && !empty($tableData['data'])) {
+                    foreach (array_chunk($tableData['data'], 100) as $chunk) {
+                        // Convert objects to arrays
+                        $insertData = array_map(function($item) {
+                            return (array) $item;
+                        }, $chunk);
+
+                        DB::table($tableName)->insert($insertData);
+                    }
+                }
+            }
+
+            // Re-enable foreign key checks
+            if ($connection === 'sqlite') {
+                DB::statement('PRAGMA foreign_keys = ON');
+            } else {
+                DB::statement('SET FOREIGN_KEY_CHECKS=1');
+            }
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+            throw $e;
+        }
+    }
+
+    private function restoreFromSql($content)
+    {
+        // Execute SQL commands
+        DB::unprepared($content);
+    }
+
+    private function loadDatabaseInfo()
+    {
+        try {
+            // Get database type
+            $this->databaseType = ucfirst(config('database.default'));
+
+            // Get database size
+            $connection = config('database.default');
+            $database = config("database.connections.{$connection}.database");
+
+            if ($this->databaseType === 'Mysql') {
+                $size = DB::select("
+                    SELECT
+                        ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS size_mb
+                    FROM information_schema.tables
+                    WHERE table_schema = ?
+                ", [$database])[0]->size_mb ?? 0;
+
+                $this->databaseSize = $size . ' MB';
+            } else {
+                // For SQLite
+                $dbPath = config("database.connections.{$connection}.database");
+                if (file_exists($dbPath)) {
+                    $this->databaseSize = round(filesize($dbPath) / 1024 / 1024, 2) . ' MB';
+                }
+            }
+
+            // Get table count
+            if ($this->databaseType === 'Sqlite') {
+                $tables = DB::select("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");
+            } else {
+                $tables = DB::select('SHOW TABLES');
+            }
+            $this->tableCount = count($tables);
+
+            // Get last backup date
+            $this->lastBackupDate = Setting::get('last_backup_date');
+
+        } catch (\Exception $e) {
+            $this->databaseType = 'Nepoznat';
+            $this->databaseSize = 'Nepoznato';
+            $this->tableCount = 0;
+        }
     }
 
     public function render()
