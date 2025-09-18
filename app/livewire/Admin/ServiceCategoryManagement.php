@@ -19,6 +19,7 @@ class ServiceCategoryManagement extends Component
     public $selectedCategory = null;
     public $showEditModal = false;
     public $showDeleteModal = false;
+    public $showWriteSeederModal = false;
     public $showChildren = false;
     public $forceDelete = false;
 
@@ -257,6 +258,11 @@ class ServiceCategoryManagement extends Component
         }
     }
 
+    public function confirmWriteToSeeder()
+    {
+        $this->showWriteSeederModal = true;
+    }
+
     public function writeToSeeder()
     {
         try {
@@ -295,9 +301,11 @@ class ServiceCategoryManagement extends Component
             file_put_contents($seederPath, $seederContent);
 
             session()->flash('success', 'Kategorije uspešno upisane u seeder fajl! (' . count($categories) . ' glavnih kategorija sa ' . ServiceCategory::whereNotNull('parent_id')->count() . ' podkategorija)');
+            $this->showWriteSeederModal = false;
 
         } catch (\Exception $e) {
             session()->flash('error', 'Greška pri upisivanju u seeder: ' . $e->getMessage());
+            $this->showWriteSeederModal = false;
         }
     }
 

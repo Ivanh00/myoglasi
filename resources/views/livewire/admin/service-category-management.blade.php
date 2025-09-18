@@ -18,8 +18,7 @@
                             <button wire:click="runCategorySeeder" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left whitespace-nowrap">
                                 <i class="fas fa-database mr-2"></i> Učitaj kategorije iz seeder-a
                             </button>
-                            <button wire:click="writeToSeeder"
-                                onclick="return confirm('Da li ste sigurni? Ovo će prepisati postojeći ServiceCategorySeeder.php fajl sa trenutnim kategorijama iz baze.')"
+                            <button wire:click="confirmWriteToSeeder"
                                 class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left whitespace-nowrap">
                                 <i class="fas fa-save mr-2"></i> Upiši u seeder
                             </button>
@@ -663,6 +662,45 @@
                                 Obriši kategoriju
                             </button>
                         @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Write to Seeder Confirmation Modal -->
+    @if ($showWriteSeederModal)
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div class="mt-3 text-center">
+                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 mb-4">
+                        <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Potvrda upisa u seeder</h3>
+
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                        <div class="text-sm text-yellow-800">
+                            <p class="font-medium mb-2">Upozorenje!</p>
+                            <p>Ova akcija će prepisati postojeći ServiceCategorySeeder.php fajl sa trenutnim kategorijama usluga iz baze podataka.</p>
+                            <p class="mt-2">Postojeći seeder fajl će biti zamenjen novim podacima.</p>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-500 mb-4">
+                        Da li ste sigurni da želite da upišete trenutne kategorije usluga u seeder fajl?
+                    </p>
+
+                    <div class="flex justify-center space-x-3">
+                        <button wire:click="$set('showWriteSeederModal', false)"
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            Otkaži
+                        </button>
+                        <button wire:click="writeToSeeder"
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                            <i class="fas fa-save mr-2"></i>Upiši u seeder
+                        </button>
                     </div>
                 </div>
             </div>
