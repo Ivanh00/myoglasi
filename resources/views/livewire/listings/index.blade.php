@@ -22,7 +22,7 @@
 
     <!-- Mobile kategorija dropdown -->
     <div class="md:hidden mb-6">
-        <div class="bg-white dark:bg-gray-700 dark:bg-gray-800 rounded-lg shadow-md p-4">
+        <div class="bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md p-4">
             <div class="text-gray-600 dark:text-gray-300 mb-2">
                 Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
                 @if ($selectedCategory)
@@ -74,7 +74,7 @@
     </div>
 
     <!-- Filteri i sortiranje -->
-    <div class="bg-white dark:bg-gray-700 dark:bg-gray-800 rounded-lg shadow-md p-4 mb-6">
+    <div class="bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md p-4 mb-6">
         <!-- Desktop Layout -->
         <div class="hidden md:block">
             <!-- Results Info (Desktop - Left aligned) -->

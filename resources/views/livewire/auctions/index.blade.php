@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 
     <!-- Filters -->
-    <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4 mb-6">
+    <div class="bg-yellow-50 dark:bg-gray-700 rounded-lg shadow-md p-4 mb-6">
         <!-- Desktop Layout -->
         <div class="hidden md:block">
             <div class="text-gray-600 dark:text-gray-300 mb-4">

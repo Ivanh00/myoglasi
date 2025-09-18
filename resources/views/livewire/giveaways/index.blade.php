@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 
     <!-- Filteri i sortiranje -->
-    <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4 mb-6">
+    <div class="bg-green-50 dark:bg-gray-700 rounded-lg shadow-md p-4 mb-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <!-- Left: Category filter -->
             <div class="flex items-center gap-3">
