@@ -257,6 +257,111 @@ class ServiceCategoryManagement extends Component
         }
     }
 
+    public function writeToSeeder()
+    {
+        try {
+            $categories = ServiceCategory::with('children')
+                ->whereNull('parent_id')
+                ->orderBy('sort_order')
+                ->get();
+
+            $categoriesArray = [];
+
+            foreach ($categories as $category) {
+                $categoryData = [
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'icon' => $category->icon ?: 'fas fa-folder',
+                    'sort_order' => $category->sort_order,
+                    'subcategories' => []
+                ];
+
+                foreach ($category->children->sortBy('sort_order') as $child) {
+                    $categoryData['subcategories'][] = [
+                        'name' => $child->name,
+                        'slug' => $child->slug,
+                        'icon' => $child->icon ?: 'fas fa-circle'
+                    ];
+                }
+
+                $categoriesArray[] = $categoryData;
+            }
+
+            // Generate the seeder content
+            $seederContent = $this->generateSeederContent($categoriesArray);
+
+            // Write to seeder file
+            $seederPath = database_path('seeders/ServiceCategorySeeder.php');
+            file_put_contents($seederPath, $seederContent);
+
+            session()->flash('success', 'Kategorije uspešno upisane u seeder fajl! (' . count($categories) . ' glavnih kategorija sa ' . ServiceCategory::whereNotNull('parent_id')->count() . ' podkategorija)');
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri upisivanju u seeder: ' . $e->getMessage());
+        }
+    }
+
+    private function generateSeederContent($categories)
+    {
+        $categoriesString = var_export($categories, true);
+
+        // Format the array output for better readability
+        $categoriesString = preg_replace('/array \(/', '[', $categoriesString);
+        $categoriesString = preg_replace('/\)/', ']', $categoriesString);
+        $categoriesString = preg_replace('/=> \n\s+\[/', '=> [', $categoriesString);
+        $categoriesString = str_replace('  ', '    ', $categoriesString);
+
+        return <<<PHP
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\ServiceCategory;
+
+class ServiceCategorySeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        \$categories = $categoriesString;
+
+        foreach (\$categories as \$categoryData) {
+            \$subcategories = \$categoryData['subcategories'];
+            unset(\$categoryData['subcategories']);
+
+            \$category = ServiceCategory::create([
+                'name' => \$categoryData['name'],
+                'slug' => \$categoryData['slug'],
+                'icon' => \$categoryData['icon'],
+                'sort_order' => \$categoryData['sort_order'],
+                'is_active' => true,
+            ]);
+
+            foreach (\$subcategories as \$index => \$subcategoryData) {
+                ServiceCategory::create([
+                    'parent_id' => \$category->id,
+                    'name' => \$subcategoryData['name'],
+                    'slug' => \$subcategoryData['slug'],
+                    'icon' => \$subcategoryData['icon'],
+                    'sort_order' => \$index + 1,
+                    'is_active' => true,
+                ]);
+            }
+        }
+
+        // Only show info if running from command line
+        if (\$this->command) {
+            \$this->command->info('Service categories seeded successfully!');
+        }
+    }
+}
+PHP;
+    }
+
     public function render()
     {
         $query = ServiceCategory::with(['parent', 'children'])
