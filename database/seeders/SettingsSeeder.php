@@ -64,7 +64,7 @@ class SettingsSeeder extends Seeder
             // General Settings
             [
                 'key' => 'site_name',
-                'value' => 'MyOglasi',
+                'value' => 'PazAriO',
                 'type' => 'string',
                 'group' => 'general',
                 'description' => 'Naziv sajta'
@@ -94,14 +94,14 @@ class SettingsSeeder extends Seeder
             // Email Settings
             [
                 'key' => 'admin_email',
-                'value' => 'admin@myoglasi.rs',
+                'value' => 'admin@pazario.rs',
                 'type' => 'string',
                 'group' => 'email',
                 'description' => 'Email adresa administratora'
             ],
             [
                 'key' => 'support_email',
-                'value' => 'support@myoglasi.rs',
+                'value' => 'support@pazario.rs',
                 'type' => 'string',
                 'group' => 'email',
                 'description' => 'Email adresa podrške'
@@ -124,7 +124,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'key' => 'company_name',
-                'value' => 'MyOglasi d.o.o.',
+                'value' => 'PazAriO d.o.o.',
                 'type' => 'string',
                 'group' => 'banking',
                 'description' => 'Naziv kompanije'

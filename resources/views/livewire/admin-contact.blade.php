@@ -37,7 +37,7 @@
         <div class="chat-box" id="chat-box">
             <section class="user-response-info text-center">
                 <b>{{ $admin->name }}</b>
-                <div>Administrator MyOglasi platforme</div>
+                <div>Administrator PazAriO platforme</div>
                 <div style="font-size: 0.9rem; color: #6b7280; margin-top: 0.5rem;">
                     Pišite nam za podršku, pitanja ili predloge
                 </div>

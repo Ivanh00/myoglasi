@@ -27,7 +27,7 @@ class BankTransfer extends Component
         
         // Set bank details
         $this->bankDetails = [
-            'recipient_name' => 'MyOglasi d.o.o.',
+            'recipient_name' => 'PazAriO d.o.o.',
             'recipient_address' => 'Bulevar Oslobođenja 123, 11000 Beograd',
             'recipient_pib' => '123456789',
             'recipient_account' => '265-0000000003456-78',
@@ -35,8 +35,8 @@ class BankTransfer extends Component
             'bank_code' => '265',
             'swift' => 'DBDBRSBG',
             'payment_code' => '289', // Ostale uplate
-            'reference_number' => 'MyOglasi-' . $this->transaction->id . '-' . auth()->id(),
-            'payment_purpose' => 'Dopuna kredita na MyOglasi platformi',
+            'reference_number' => 'PazAriO-' . $this->transaction->id . '-' . auth()->id(),
+            'payment_purpose' => 'Dopuna kredita na PazAriO platformi',
         ];
     }
 

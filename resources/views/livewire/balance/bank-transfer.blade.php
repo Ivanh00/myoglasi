@@ -111,7 +111,7 @@
                             <p>Vreme: {{ now()->format('H:i:s') }}</p>
                         </div>
                         <div class="text-right">
-                            <p>MyOglasi.rs</p>
+                            <p>PazAriO.rs</p>
                             <p>ID: {{ $transaction->id }}</p>
                         </div>
                     </div>
@@ -157,7 +157,7 @@
                             <li>• Uplatite tačan iznos sa pozivom na broj</li>
                             <li>• Kredit će biti uveličan automatski kada sistem verifikuje uplatu</li>
                             <li>• Verifikacija može da traje 1-2 radna dana</li>
-                            <li>• Za hitne slučajeve kontaktirajte podršku na support@myoglasi.rs</li>
+                            <li>• Za hitne slučajeve kontaktirajte podršku na support@pazario.rs</li>
                         </ul>
                     </div>
                 </div>

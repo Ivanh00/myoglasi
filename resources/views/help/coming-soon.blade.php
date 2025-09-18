@@ -11,7 +11,7 @@
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                 <p class="text-blue-800 text-sm">
                     <i class="fas fa-info-circle mr-2"></i>
-                    Radimo na detaljnim vodičima i objašnjenjima za sve funkcionalnosti MyOglasi platforme.
+                    Radimo na detaljnim vodičima i objašnjenjima za sve funkcionalnosti PazAriO platforme.
                 </p>
             </div>
             

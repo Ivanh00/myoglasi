@@ -152,7 +152,7 @@ class Settings extends Component
         $this->freeListingsPerMonth = Setting::get('free_listings_per_month', 0);
         
         // General Settings
-        $this->siteName = Setting::get('site_name', 'MyOglasi');
+        $this->siteName = Setting::get('site_name', 'PazAriO');
         $this->maxImagesPerListing = Setting::get('max_images_per_listing', 10);
         $this->listingAutoExpireDays = Setting::get('listing_auto_expire_days', 60);
         $this->maintenanceMode = Setting::get('maintenance_mode', false);
@@ -183,8 +183,8 @@ class Settings extends Component
         $this->promotionExtendedDurationDays = Setting::get('promotion_extended_duration_days', 30);
         
         // Email Settings
-        $this->adminEmail = Setting::get('admin_email', 'admin@myoglasi.rs');
-        $this->supportEmail = Setting::get('support_email', 'support@myoglasi.rs');
+        $this->adminEmail = Setting::get('admin_email', 'admin@pazario.rs');
+        $this->supportEmail = Setting::get('support_email', 'support@pazario.rs');
         $this->emailVerificationEnabled = Setting::get('email_verification_enabled', false);
         $this->magicLinkEnabled = Setting::get('magic_link_enabled', false);
         $this->googleLoginEnabled = Setting::get('google_login_enabled', false);
@@ -193,7 +193,7 @@ class Settings extends Component
         // Banking Settings
         $this->bankAccountNumber = Setting::get('bank_account_number', '265-0000000003456-78');
         $this->bankName = Setting::get('bank_name', 'Intesa Banka a.d. Beograd');
-        $this->companyName = Setting::get('company_name', 'MyOglasi d.o.o.');
+        $this->companyName = Setting::get('company_name', 'PazAriO d.o.o.');
         $this->companyAddress = Setting::get('company_address', 'Bulevar Oslobođenja 123, 11000 Beograd');
         $this->companyPib = Setting::get('company_pib', '123456789');
         $this->paymentCodePhysical = Setting::get('payment_code_physical', '289');

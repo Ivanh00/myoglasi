@@ -1,11 +1,11 @@
 <footer class="bg-white dark:bg-gray-900 text-gray-700 dark:text-white border-t border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- About MyOglasi -->
+            <!-- About PazAriO -->
             <div>
                 <h3 class="text-lg font-semibold mb-4">
                     <i class="fas fa-info-circle text-blue-400 mr-2"></i>
-                    O MyOglasi
+                    O PazAriO
                 </h3>
                 <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
                     Moderna platforma za kupovinu, prodaju, aukcije, usluge i poklone. 
@@ -77,7 +77,7 @@
         <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="text-sm text-gray-500 dark:text-gray-400">
-                    © {{ date('Y') }} MyOglasi. Sva prava zadržana.
+                    © {{ date('Y') }} PazAriO. Sva prava zadržana.
                 </div>
                 <div class="flex items-center space-x-6 mt-4 md:mt-0">
                     <span class="text-sm text-gray-500 dark:text-gray-400">

@@ -37,7 +37,7 @@ $logout = function (Logout $logout) {
     </div>
 
     <div class="mb-6 text-sm text-gray-600 dark:text-gray-400 text-center">
-        <p class="mb-3">Hvala što ste se registrovali! Pre nego što počnete da koristite MyOglasi, molimo vas da verifikujete vašu email adresu klikom na link koji smo vam poslali.</p>
+        <p class="mb-3">Hvala što ste se registrovali! Pre nego što počnete da koristite PazAriO, molimo vas da verifikujete vašu email adresu klikom na link koji smo vam poslali.</p>
         <p>Ako niste dobili email, možemo vam poslati novi.</p>
     </div>
 

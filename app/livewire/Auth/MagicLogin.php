@@ -34,7 +34,7 @@ class MagicLogin extends Component
             // Send email
             Mail::send('emails.magic-link', ['magicLink' => $magicLink], function ($message) {
                 $message->to($this->email)
-                        ->subject('Prijavite se na MyOglasi - Magic Link');
+                        ->subject('Prijavite se na PazAriO - Magic Link');
             });
 
             $this->showEmailSent = true;

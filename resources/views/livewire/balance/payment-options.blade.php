@@ -375,7 +375,7 @@
                                         <p>Vreme: {{ $this->paymentSlipData['time'] }}</p>
                                     </div>
                                     <div class="text-right">
-                                        <p>MyOglasi.rs</p>
+                                        <p>PazAriO.rs</p>
                                         <p class="text-red-600 font-semibold">
                                             {{ $this->paymentSlipData['slip_title'] === 'NALOG ZA PRENOS' ? 'Uplate bez unetog poziva na broj neće biti proknjižene!' : 'Uplate bez unetog poziva na broj neće biti proknjižene!' }}
                                         </p>
@@ -416,7 +416,7 @@
                                         <li>• Uplatite tačan iznos sa pozivom na broj</li>
                                         <li>• Kredit će biti uvećan automatski kada sistem verifikuje uplatu</li>
                                         <li>• Verifikacija može da traje 1-2 radna dana</li>
-                                        <li>• Za hitne slučajeve kontaktirajte podršku na support@myoglasi.rs</li>
+                                        <li>• Za hitne slučajeve kontaktirajte podršku na support@pazario.rs</li>
                                         <li>• Uplate bez poziva na broj neće biti proknjižene!</li>
                                     </ul>
                                 </div>

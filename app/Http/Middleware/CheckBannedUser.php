@@ -31,7 +31,7 @@ class CheckBannedUser
                 // Redirect with error message
                 return redirect()->route('login')
                     ->withErrors([
-                        'email' => 'Vaš nalog je blokiran. Molimo kontaktirajte administratora na admin@myoglasi.com za više informacija.'
+                        'email' => 'Vaš nalog je blokiran. Molimo kontaktirajte administratora na admin@pazario.rs za više informacija.'
                     ]);
             }
         }

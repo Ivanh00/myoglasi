@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prijavite se na MyOglasi</title>
+    <title>Prijavite se na PazAriO</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f3f4f6; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
@@ -16,7 +16,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 style="color: white; margin: 0; font-size: 28px;">MyOglasi</h1>
+            <h1 style="color: white; margin: 0; font-size: 28px;">PazAriO</h1>
             <p style="color: #e0e7ff; margin: 10px 0 0 0;">Brz pristup vašem nalogu</p>
         </div>
         
@@ -24,7 +24,7 @@
             <h2 style="color: #1f2937; margin-bottom: 20px;">Prijavite se jednim klikom</h2>
             
             <p style="color: #4b5563; line-height: 1.6; margin-bottom: 30px;">
-                Zatražili ste pristup MyOglasi platformi. Kliknite na dugme ispod da se prijavite ili kreirate nalog automatski.
+                Zatražili ste pristup PazAriO platformi. Kliknite na dugme ispod da se prijavite ili kreirate nalog automatski.
             </p>
             
             <div style="text-align: center; margin: 40px 0;">
@@ -47,7 +47,7 @@
         </div>
         
         <div class="footer">
-            <p>MyOglasi - Kupuj i prodavaj bez ograničenja</p>
+            <p>PazAriO - Kupuj i prodavaj bez ograničenja</p>
             <p>Ovaj email je automatski kreiran. Ne odgovarajte na njega.</p>
         </div>
     </div>

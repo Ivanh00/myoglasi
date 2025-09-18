@@ -44,7 +44,7 @@ class LoginForm extends Form
             Auth::logout();
             
             throw ValidationException::withMessages([
-                'form.email' => 'Vaš nalog je blokiran. Molimo kontaktirajte administratora na admin@myoglasi.com za više informacija.',
+                'form.email' => 'Vaš nalog je blokiran. Molimo kontaktirajte administratora na admin@pazario.rs za više informacija.',
             ]);
         }
 

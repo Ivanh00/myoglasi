@@ -73,7 +73,7 @@
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="{{ route('home') }}" class="text-xl font-bold text-blue-600 dark:text-blue-400">
-                    MyOglasi
+                    PazAriO
                 </a>
             </div>
 

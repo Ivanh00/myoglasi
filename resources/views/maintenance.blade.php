@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Radovi u toku - {{ config('app.name', 'MyOglasi') }}</title>
+    <title>Radovi u toku - {{ config('app.name', 'PazAriO') }}</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -21,7 +21,7 @@
             <div class="text-center">
             <!-- Logo -->
             <div class="mb-8">
-                <h1 class="text-4xl font-bold text-blue-600 mb-2">MyOglasi</h1>
+                <h1 class="text-4xl font-bold text-blue-600 mb-2">PazAriO</h1>
                 <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
             </div>
             
@@ -72,7 +72,7 @@
                 <div class="mt-2 space-y-1">
                     <p class="text-blue-800 font-medium">
                         <i class="fas fa-envelope mr-2"></i>
-                        {{ \App\Models\Setting::get('support_email', 'support@myoglasi.rs') }}
+                        {{ \App\Models\Setting::get('support_email', 'support@pazario.rs') }}
                     </p>
                 </div>
             </div>
@@ -108,7 +108,7 @@
     <!-- Footer -->
     <footer class="text-center py-4 bg-white border-t">
         <p class="text-gray-500 text-sm">
-            &copy; {{ date('Y') }} MyOglasi. Sva prava zadržana.
+            &copy; {{ date('Y') }} PazAriO. Sva prava zadržana.
         </p>
     </footer>
     

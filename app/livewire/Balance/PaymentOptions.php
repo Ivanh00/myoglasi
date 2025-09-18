@@ -159,7 +159,7 @@ class PaymentOptions extends Component
         $isLegal = $this->payerType === 'legal';
         
         return [
-            'company_name' => Setting::get('company_name', 'MyOglasi d.o.o.'),
+            'company_name' => Setting::get('company_name', 'PazAriO d.o.o.'),
             'company_address' => Setting::get('company_address', 'Bulevar Oslobođenja 123, 11000 Beograd'),
             'company_pib' => Setting::get('company_pib', '123456789'),
             'bank_name' => Setting::get('bank_name', 'Intesa Banka a.d. Beograd'),
@@ -174,7 +174,7 @@ class PaymentOptions extends Component
             'amount' => $this->amount,
             'slip_title' => $isLegal ? 'NALOG ZA PRENOS' : 'NALOG ZA UPLATU',
             'payer_name' => auth()->user()->name,
-            'payment_purpose' => 'Dopuna kredita na MyOglasi platformi',
+            'payment_purpose' => 'Dopuna kredita na PazAriO platformi',
             'date' => now()->format('d.m.Y'),
             'time' => now()->format('H:i:s'),
         ];
