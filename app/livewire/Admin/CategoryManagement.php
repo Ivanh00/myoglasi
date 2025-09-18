@@ -206,50 +206,169 @@ class CategoryManagement extends Component
     public function runCategorySeeder()
     {
         try {
-            \Artisan::call('db:seed', ['--class' => 'CategorySeeder', '--force' => true]);
-            $this->dispatch('notify', type: 'success', message: 'Kategorije iz seeder-a uspešno učitane!');
+            // Disable foreign key checks temporarily
+            \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+            // Clear existing categories
+            Category::truncate();
+
+            // Re-enable foreign key checks
+            \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+            // Run the seeder
+            $seeder = new \Database\Seeders\CategorySeeder();
+            $seeder->run();
+
+            session()->flash('success', 'Kategorije uspešno učitane iz seedera!');
+            $this->dispatch('refreshCategories');
         } catch (\Exception $e) {
-            $this->dispatch('notify', type: 'error', message: 'Greška pri učitavanju kategorija: ' . $e->getMessage());
+            session()->flash('error', 'Greška pri učitavanju kategorija: ' . $e->getMessage());
         }
     }
 
-    public function runConditionSeeder()
+    public function writeToSeeder()
     {
         try {
-            \Artisan::call('db:seed', ['--class' => 'ListingConditionSeeder', '--force' => true]);
-            $this->dispatch('notify', type: 'success', message: 'Uslovi oglasa iz seeder-a uspešno učitani!');
+            $categories = Category::with('children')
+                ->whereNull('parent_id')
+                ->orderBy('sort_order')
+                ->get();
+
+            $categoriesArray = [];
+
+            foreach ($categories as $category) {
+                $categoryData = [
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'icon' => $category->icon ?: 'fas fa-folder',
+                    'sort_order' => $category->sort_order,
+                    'subcategories' => []
+                ];
+
+                foreach ($category->children->sortBy('sort_order') as $child) {
+                    $categoryData['subcategories'][] = [
+                        'name' => $child->name,
+                        'slug' => $child->slug,
+                        'icon' => $child->icon ?: 'fas fa-circle'
+                    ];
+                }
+
+                $categoriesArray[] = $categoryData;
+            }
+
+            // Generate the seeder content
+            $seederContent = $this->generateSeederContent($categoriesArray);
+
+            // Write to seeder file
+            $seederPath = database_path('seeders/CategorySeeder.php');
+            file_put_contents($seederPath, $seederContent);
+
+            session()->flash('success', 'Kategorije uspešno upisane u seeder fajl! (' . count($categories) . ' glavnih kategorija sa ' . Category::whereNotNull('parent_id')->count() . ' podkategorija)');
+
         } catch (\Exception $e) {
-            $this->dispatch('notify', type: 'error', message: 'Greška pri učitavanju uslova: ' . $e->getMessage());
+            session()->flash('error', 'Greška pri upisivanju u seeder: ' . $e->getMessage());
         }
+    }
+
+    private function generateSeederContent($categories)
+    {
+        $categoriesString = var_export($categories, true);
+
+        // Format the array output for better readability
+        $categoriesString = preg_replace('/array \(/', '[', $categoriesString);
+        $categoriesString = preg_replace('/\)/', ']', $categoriesString);
+        $categoriesString = preg_replace('/=> \n\s+\[/', '=> [', $categoriesString);
+        $categoriesString = str_replace('  ', '    ', $categoriesString);
+
+        return <<<PHP
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\Category;
+
+class CategorySeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        \$categories = $categoriesString;
+
+        foreach (\$categories as \$categoryData) {
+            \$subcategories = \$categoryData['subcategories'];
+            unset(\$categoryData['subcategories']);
+
+            \$category = Category::create([
+                'name' => \$categoryData['name'],
+                'slug' => \$categoryData['slug'],
+                'icon' => \$categoryData['icon'],
+                'sort_order' => \$categoryData['sort_order'],
+                'is_active' => true,
+            ]);
+
+            foreach (\$subcategories as \$index => \$subcategoryData) {
+                Category::create([
+                    'parent_id' => \$category->id,
+                    'name' => \$subcategoryData['name'],
+                    'slug' => \$subcategoryData['slug'],
+                    'icon' => \$subcategoryData['icon'],
+                    'sort_order' => \$index + 1,
+                    'is_active' => true,
+                ]);
+            }
+        }
+
+        // Only show info if running from command line
+        if (\$this->command) {
+            \$this->command->info('Categories seeded successfully!');
+        }
+    }
+}
+PHP;
     }
 
     public function exportCategories()
     {
-        $categories = Category::with(['children'])->whereNull('parent_id')->get();
-        $exportData = [];
+        try {
+            $categories = Category::with('children')
+                ->whereNull('parent_id')
+                ->orderBy('sort_order')
+                ->get()
+                ->map(function ($category) {
+                    return [
+                        'name' => $category->name,
+                        'slug' => $category->slug,
+                        'icon' => $category->icon,
+                        'description' => $category->description,
+                        'sort_order' => $category->sort_order,
+                        'is_active' => $category->is_active,
+                        'children' => $category->children->map(function ($child) {
+                            return [
+                                'name' => $child->name,
+                                'slug' => $child->slug,
+                                'icon' => $child->icon,
+                                'description' => $child->description,
+                                'sort_order' => $child->sort_order,
+                                'is_active' => $child->is_active,
+                            ];
+                        })->toArray()
+                    ];
+                });
 
-        foreach ($categories as $category) {
-            $categoryData = [
-                'name' => $category->name,
-                'description' => $category->description,
-                'icon' => $category->icon,
-                'sort_order' => $category->sort_order,
-                'children' => []
-            ];
+            $json = json_encode($categories, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            $filename = 'categories-' . date('Y-m-d-His') . '.json';
 
-            foreach ($category->children as $child) {
-                $categoryData['children'][] = [
-                    'name' => $child->name,
-                    'description' => $child->description,
-                    'icon' => $child->icon,
-                    'sort_order' => $child->sort_order,
-                ];
-            }
+            return response()->streamDownload(function() use ($json) {
+                echo $json;
+            }, $filename);
 
-            $exportData[] = $categoryData;
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri eksportovanju kategorija: ' . $e->getMessage());
         }
-
-        $this->dispatch('downloadCategories', json_encode($exportData, JSON_PRETTY_PRINT));
     }
 
     public function render()
