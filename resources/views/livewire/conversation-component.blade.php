@@ -26,6 +26,25 @@
         .dark .user-name, .dark .listing-name {
             color: rgb(229 231 235) !important;
         }
+
+        /* Chat box holder needs to be positioned for the button */
+        .chat-box-holder {
+            position: relative;
+            width: 100%;
+        }
+
+        .chat-box {
+            position: relative;
+            max-height: 500px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1rem;
+        }
+
+        /* Ensure the scroll button is visible in dark mode */
+        .dark #scrollToBottomBtn {
+            background-color: #3b82f6 !important;
+        }
     </style>
     <!-- Navigacija -->
     <section class="navigation-holder">
@@ -204,16 +223,16 @@
 
         </div>
 
-        <div class="scroll-to-bottom">
-            <button wire:click="scrollToBottom">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M22.5 7L12.4947 16.7991C12.3635 16.9277 12.1856 17 12 17C11.8144 17 11.6365 16.9277 11.5053 16.7991L1.5 7"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </button>
-        </div>
+        <!-- Scroll to bottom button (FORCED VISIBLE FOR TESTING) -->
+        <button id="scrollToBottomBtn"
+                onclick="scrollToBottom()"
+                style="position: fixed; bottom: 80px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background-color: #3b82f6 !important; color: white; border: 1px solid #2563eb; cursor: pointer; display: flex !important; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 99999; transition: all 0.2s ease;"
+                onmouseover="this.style.backgroundColor='#2563eb !important'; this.style.transform='scale(1.1)';"
+                onmouseout="this.style.backgroundColor='#3b82f6 !important'; this.style.transform='scale(1)';">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="pointer-events: none;">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        </button>
     </div>
 
     <!-- Lista adresa (sakrivena po defaultu) -->
@@ -308,26 +327,116 @@
         });
 
         // Funkcija za automatsko skrolovanje na dno chata
-        function scrollToBottom() {
+        window.scrollToBottom = function() {
             const chatBox = document.getElementById('chat-box');
             if (chatBox) {
-                chatBox.scrollTop = chatBox.scrollHeight;
+                chatBox.scrollTo({
+                    top: chatBox.scrollHeight,
+                    behavior: 'smooth'
+                });
+                // Sakrij dugme nakon skrolovanja
+                setTimeout(() => {
+                    updateScrollButton();
+                }, 300);
+            }
+        }
+
+        // Funkcija za prikaz/sakrivanje dugmeta za scroll
+        window.updateScrollButton = function() {
+            const chatBox = document.getElementById('chat-box');
+            const scrollBtn = document.getElementById('scrollToBottomBtn');
+
+            console.log('updateScrollButton called', {
+                chatBox: !!chatBox,
+                scrollBtn: !!scrollBtn
+            });
+
+            if (chatBox && scrollBtn) {
+                // Proveri da li chat box ima scrollbar
+                const hasScrollbar = chatBox.scrollHeight > chatBox.clientHeight;
+                const scrolledFromBottom = chatBox.scrollHeight - chatBox.scrollTop - chatBox.clientHeight;
+
+                console.log('Scroll metrics:', {
+                    scrollHeight: chatBox.scrollHeight,
+                    clientHeight: chatBox.clientHeight,
+                    scrollTop: chatBox.scrollTop,
+                    hasScrollbar: hasScrollbar,
+                    scrolledFromBottom: scrolledFromBottom
+                });
+
+                // Prikaži dugme ako ima scrollbar i korisnik je skrolovao više od 50px od dna
+                if (hasScrollbar && scrolledFromBottom > 50) {
+                    scrollBtn.style.display = 'flex';
+                    console.log('Button should be visible');
+                } else {
+                    // TEMPORARILY DISABLED FOR TESTING
+                    // scrollBtn.style.display = 'none';
+                    console.log('Button would be hidden, but hiding is disabled for testing');
+                }
+            } else {
+                console.error('Chat box or scroll button not found!');
             }
         }
 
         // Poziv kada se komponenta učita
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded fired');
+
+            // Check if button exists
+            let scrollBtn = document.getElementById('scrollToBottomBtn');
+            console.log('Button found on load:', !!scrollBtn);
+
+            // If button doesn't exist, create it
+            if (!scrollBtn) {
+                console.log('Creating scroll button dynamically');
+                const chatBoxHolder = document.querySelector('.chat-box-holder');
+                if (chatBoxHolder) {
+                    scrollBtn = document.createElement('button');
+                    scrollBtn.id = 'scrollToBottomBtn';
+                    scrollBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>';
+                    scrollBtn.style.cssText = 'position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background-color: #3b82f6; color: white; border: 2px solid #1e40af; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 99999;';
+                    scrollBtn.onclick = function() { scrollToBottom(); };
+                    chatBoxHolder.appendChild(scrollBtn);
+                    console.log('Button created and added to DOM');
+                } else {
+                    console.error('Chat box holder not found!');
+                }
+            }
+
             scrollToBottom();
+
+            // Initialize scroll button visibility
+            setTimeout(() => {
+                updateScrollButton();
+            }, 100);
 
             // Pratite skrolovanje i označite poruke kao pročitane
             const chatBox = document.getElementById('chat-box');
             if (chatBox) {
                 chatBox.addEventListener('scroll', function() {
+                    // Update scroll button visibility
+                    updateScrollButton();
+
                     // Proverite da li je korisnik skrolovao do dna
                     if (chatBox.scrollTop + chatBox.clientHeight >= chatBox.scrollHeight - 50) {
                         // Emitujte event da su poruke pročitane
                         Livewire.dispatch('markAllMessagesAsRead');
                     }
+                });
+
+                // Dodaj event listener za resize da bi se ažurirao button pri promeni veličine prozora
+                window.addEventListener('resize', updateScrollButton);
+
+                // Dodaj MutationObserver za praćenje promena u chat boxu (nove poruke)
+                const observer = new MutationObserver(() => {
+                    setTimeout(() => {
+                        updateScrollButton();
+                    }, 100);
+                });
+
+                observer.observe(chatBox, {
+                    childList: true,
+                    subtree: true
                 });
             }
 
@@ -381,13 +490,48 @@
             }
         }
 
+        // Create button after Livewire loads if it doesn't exist
+        document.addEventListener('livewire:initialized', () => {
+            console.log('Livewire initialized');
+
+            let scrollBtn = document.getElementById('scrollToBottomBtn');
+            if (!scrollBtn) {
+                console.log('Creating button after Livewire init');
+                const container = document.querySelector('.conversation-container');
+                if (container) {
+                    scrollBtn = document.createElement('button');
+                    scrollBtn.id = 'scrollToBottomBtn';
+                    scrollBtn.innerHTML = '↓';
+                    scrollBtn.style.cssText = 'position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background-color: #3b82f6; color: white; font-size: 24px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); z-index: 99999;';
+                    scrollBtn.onclick = function() {
+                        const chatBox = document.getElementById('chat-box');
+                        if (chatBox) {
+                            chatBox.scrollTo({
+                                top: chatBox.scrollHeight,
+                                behavior: 'smooth'
+                            });
+                        }
+                    };
+                    document.body.appendChild(scrollBtn);
+                    console.log('Button added to body');
+                }
+            }
+        });
+
         // Livewire event listeneri
         Livewire.on('scrollToBottom', () => {
-            setTimeout(scrollToBottom, 100);
+            setTimeout(() => {
+                scrollToBottom();
+                updateScrollButton();
+            }, 100);
         });
 
         Livewire.on('refreshMessages', () => {
             Livewire.dispatch('loadMessages');
+            setTimeout(() => {
+                scrollToBottom();
+                updateScrollButton();
+            }, 200);
         });
 
         // Traži dozvolu za notifikacije

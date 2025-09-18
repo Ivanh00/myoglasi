@@ -76,12 +76,12 @@
                     <!-- Light theme logo -->
                     <img src="{{ asset('images/logo-light.svg') }}"
                          alt="PazAriO"
-                         class="h-10 w-auto dark:hidden"
+                         class="h-8 md:h-10 w-auto dark:hidden"
                          loading="eager">
                     <!-- Dark theme logo -->
                     <img src="{{ asset('images/logo-dark.svg') }}"
                          alt="PazAriO"
-                         class="h-10 w-auto hidden dark:block"
+                         class="h-8 md:h-10 w-auto hidden dark:block"
                          loading="eager">
                 </a>
             </div>
