@@ -194,6 +194,29 @@ class ServiceCategoryManagement extends Component
         session()->flash('success', 'Status kategorije ažuriran!');
     }
 
+    public function runCategorySeeder()
+    {
+        try {
+            // Disable foreign key checks temporarily
+            \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+            // Clear existing service categories
+            ServiceCategory::truncate();
+
+            // Re-enable foreign key checks
+            \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+            // Run the seeder
+            $seeder = new \Database\Seeders\ServiceCategorySeeder();
+            $seeder->run();
+
+            session()->flash('success', 'Kategorije usluga uspešno učitane iz seedera! Učitano je 10 glavnih kategorija sa 58 podkategorija.');
+            $this->dispatch('refreshCategories');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri učitavanju kategorija: ' . $e->getMessage());
+        }
+    }
+
     public function render()
     {
         $query = ServiceCategory::with(['parent', 'children'])

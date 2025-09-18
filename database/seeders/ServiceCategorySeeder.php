@@ -178,6 +178,9 @@ class ServiceCategorySeeder extends Seeder
             }
         }
 
-        $this->command->info('Service categories seeded successfully!');
+        // Only show info if running from command line
+        if ($this->command) {
+            $this->command->info('Service categories seeded successfully!');
+        }
     }
 }
