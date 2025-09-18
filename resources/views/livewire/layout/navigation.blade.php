@@ -72,8 +72,17 @@
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->
             <div class="flex-shrink-0">
-                <a href="{{ route('home') }}" class="text-xl font-bold text-blue-600 dark:text-blue-400">
-                    PazAriO
+                <a href="{{ route('home') }}" class="flex items-center">
+                    <!-- Light theme logo -->
+                    <img src="{{ asset('images/logo-light.svg') }}"
+                         alt="PazAriO"
+                         class="h-10 w-auto dark:hidden"
+                         loading="eager">
+                    <!-- Dark theme logo -->
+                    <img src="{{ asset('images/logo-dark.svg') }}"
+                         alt="PazAriO"
+                         class="h-10 w-auto hidden dark:block"
+                         loading="eager">
                 </a>
             </div>
 
