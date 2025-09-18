@@ -54,8 +54,8 @@ $login = function () {
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
+        <div class="mt-6">
+            <x-primary-button class="w-full justify-center py-3 px-4 text-base font-semibold">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
