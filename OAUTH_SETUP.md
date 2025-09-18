@@ -1,8 +1,8 @@
-# OAuth Social Login Setup za MyOglasi
+# OAuth Social Login Setup za PazAriO
 
 ## Pregled
 
-MyOglasi podržava login preko Google i Facebook naloga. Korisnici mogu da se prijave jednim klikom, a nalog se automatski kreira sa podacima iz social mreže.
+PazAriO podržava login preko Google i Facebook naloga. Korisnici mogu da se prijave jednim klikom, a nalog se automatski kreira sa podacima iz social mreže.
 
 ## Google OAuth Setup
 
@@ -13,11 +13,11 @@ MyOglasi podržava login preko Google i Facebook naloga. Korisnici mogu da se pr
 3. **APIs & Services → Credentials**
 4. **Create Credentials → OAuth 2.0 Client ID**
 5. **Application type:** Web application
-6. **Authorized redirect URIs:** 
-   ```
-   http://localhost:8000/auth/google/callback
-   https://yourdomain.com/auth/google/callback
-   ```
+6. **Authorized redirect URIs:**
+    ```
+    http://localhost:8000/auth/google/callback
+    https://yourdomain.com/auth/google/callback
+    ```
 
 ### 2. .env Konfiguracija
 
@@ -46,14 +46,14 @@ GOOGLE_REDIRECT_URL="${APP_URL}/auth/google/callback"
 3. **Consumer ili Business** tip aplikacije
 4. **Add Facebook Login product**
 5. **Settings → Basic:**
-   - App Domains: `yourdomain.com`
-   - Website URL: `https://yourdomain.com`
+    - App Domains: `yourdomain.com`
+    - Website URL: `https://yourdomain.com`
 6. **Facebook Login → Settings:**
-   - Valid OAuth Redirect URIs:
-     ```
-     http://localhost:8000/auth/facebook/callback
-     https://yourdomain.com/auth/facebook/callback
-     ```
+    - Valid OAuth Redirect URIs:
+        ```
+        http://localhost:8000/auth/facebook/callback
+        https://yourdomain.com/auth/facebook/callback
+        ```
 
 ### 2. .env Konfiguracija
 
@@ -98,6 +98,7 @@ return [
 ## Kako funkcioniše
 
 ### User Flow:
+
 1. **Korisnik klikne** "Google" ili "Facebook" dugme
 2. **Redirect** na OAuth provider
 3. **Korisnik odobri** pristup
@@ -107,35 +108,38 @@ return [
 7. **Redirect** na dashboard
 
 ### Automatic User Creation:
-- **Email** iz social naloga
-- **Name** iz social naloga (unique username)
-- **Avatar** iz social naloga (ako dostupno)
-- **Email verified** automatski
-- **Random password** (korisnik ne zna, koristi social login)
+
+-   **Email** iz social naloga
+-   **Name** iz social naloga (unique username)
+-   **Avatar** iz social naloga (ako dostupno)
+-   **Email verified** automatski
+-   **Random password** (korisnik ne zna, koristi social login)
 
 ## Development Testing
 
 ### Bez OAuth Setup:
-- **Social dugmad** će biti vidljiva
-- **Klik** će resultovati u grešku
-- **Fallback** na obični login
+
+-   **Social dugmad** će biti vidljiva
+-   **Klik** će resultovati u grešku
+-   **Fallback** na obični login
 
 ### Sa OAuth Setup:
-- **Funkcionalan social login**
-- **Automatsko kreiranje naloga**
-- **Smooth user experience**
+
+-   **Funkcionalan social login**
+-   **Automatsko kreiranje naloga**
+-   **Smooth user experience**
 
 ## Security Features
 
-- **Unique username generation**
-- **Email verification bypass** za social users
-- **Avatar import** iz social platformi
-- **Error handling** sa fallback na obični login
-- **Provider validation** (samo google/facebook)
+-   **Unique username generation**
+-   **Email verification bypass** za social users
+-   **Avatar import** iz social platformi
+-   **Error handling** sa fallback na obični login
+-   **Provider validation** (samo google/facebook)
 
 ## Troubleshooting
 
-- **"Client ID not configured":** Proverite GOOGLE_CLIENT_ID u .env
-- **"Redirect URI mismatch":** Proverite redirect URL u OAuth aplikaciji
-- **"App not approved":** Facebook aplikacije trebaju review za production
-- **"Invalid scopes":** Proverite da li ste omogućili email permission
+-   **"Client ID not configured":** Proverite GOOGLE_CLIENT_ID u .env
+-   **"Redirect URI mismatch":** Proverite redirect URL u OAuth aplikaciji
+-   **"App not approved":** Facebook aplikacije trebaju review za production
+-   **"Invalid scopes":** Proverite da li ste omogućili email permission

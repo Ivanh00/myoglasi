@@ -53,7 +53,7 @@ php artisan migrate:fresh --seed  # Fresh database with seeders
 - **Build Tool**: Vite 7.0
 
 ### Application Domain
-This is a classified ads platform (`myoglasi` = "my ads" in Serbian) with:
+This is a classified ads platform (`PazAriO` = "my ads" in Serbian) with:
 - User-to-user messaging system
 - Transaction/balance system with posting fees
 - Multi-image listing support

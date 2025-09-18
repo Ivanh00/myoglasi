@@ -1,8 +1,8 @@
-# Email Setup za MyOglasi
+# Email Setup za PazAriO
 
 ## Pregled
 
-MyOglasi podržava opciono email verifikaciju za nove korisnike. Admin može da uključi/isključi ovu funkcionalnost u **Admin Panel → Podešavanja → Email**.
+PazAriO podržava opciono email verifikaciju za nove korisnike. Admin može da uključi/isključi ovu funkcionalnost u **Admin Panel → Podešavanja → Email**.
 
 ## SMTP Setup Opcije
 
@@ -18,13 +18,14 @@ MAIL_USERNAME=your-email@gmail.com
 MAIL_PASSWORD=your-app-password
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=your-email@gmail.com
-MAIL_FROM_NAME="MyOglasi"
+MAIL_FROM_NAME="PazAriO"
 ```
 
 **Napomene:**
-- Koristite **App Password**, ne običnu šifru
-- Limit: 500 email-ova dnevno
-- [Setup guide](https://support.google.com/accounts/answer/185833)
+
+-   Koristite **App Password**, ne običnu šifru
+-   Limit: 500 email-ova dnevno
+-   [Setup guide](https://support.google.com/accounts/answer/185833)
 
 ### 2. Mailtrap (Za testiranje)
 
@@ -35,13 +36,14 @@ MAIL_PORT=2525
 MAIL_USERNAME=your-mailtrap-username
 MAIL_PASSWORD=your-mailtrap-password
 MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=admin@myoglasi.rs
-MAIL_FROM_NAME="MyOglasi"
+MAIL_FROM_ADDRESS=admin@pazario.rs
+MAIL_FROM_NAME="PazAriO"
 ```
 
 **Napomene:**
-- Besplatno za development
-- Email-ovi se ne šalju stvarno, samo se prikazuju u Mailtrap inbox-u
+
+-   Besplatno za development
+-   Email-ovi se ne šalju stvarno, samo se prikazuju u Mailtrap inbox-u
 
 ### 3. SendGrid (Profesionalno)
 
@@ -53,7 +55,7 @@ MAIL_USERNAME=apikey
 MAIL_PASSWORD=your-sendgrid-api-key
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=noreply@yourdomain.com
-MAIL_FROM_NAME="MyOglasi"
+MAIL_FROM_NAME="PazAriO"
 ```
 
 ### 4. Mailgun (Scalable)
@@ -66,7 +68,7 @@ MAIL_USERNAME=your-mailgun-username
 MAIL_PASSWORD=your-mailgun-password
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=noreply@yourdomain.com
-MAIL_FROM_NAME="MyOglasi"
+MAIL_FROM_NAME="PazAriO"
 ```
 
 ## Email Verification Kontrola
@@ -86,13 +88,14 @@ Mail::raw('Test email', function($message) {
 
 ## Troubleshooting
 
-- **Email se ne šalju:** Proverite SMTP credentials u `.env`
-- **"Connection refused":** Proverite host i port
-- **"Authentication failed":** Proverite username/password
+-   **Email se ne šalju:** Proverite SMTP credentials u `.env`
+-   **"Connection refused":** Proverite host i port
+-   **"Authentication failed":** Proverite username/password
 
 ## Bez Email Servisa
 
 Ako nemate SMTP setup:
+
 1. **Ostavite email verifikaciju isključenu** u admin panel-u
 2. **Korisnici će moći** da koriste sve funkcionalnosti odmah
 3. **Možete kasnije** uključiti kada setupujete email servis
