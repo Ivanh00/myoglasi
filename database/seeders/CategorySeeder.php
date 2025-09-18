@@ -2,130 +2,283 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-use Illuminate\Support\Str;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
         $categories = [
-            [
-                'name' => 'Automobili',
-                'description' => 'Automobili, motori, delovi i oprema',
+    0 => [
+        'name' => 'Automobili',
+        'slug' => 'automobili',
+        'icon' => 'fas fa-car',
+        'sort_order' => 0,
+        'subcategories' => [
+            0 => [
+                'name' => 'Modeli',
+                'slug' => 'modeli-1',
                 'icon' => 'fas fa-car',
-                'children' => [
-                    ['name' => 'Modeli', 'icon' => 'fas fa-car'],
-                    ['name' => 'Delovi i oprema', 'icon' => 'fas fa-cog'],
-                    ['name' => 'Gume i felne', 'icon' => 'fas fa-circle'],
-                    ['name' => 'Tuning i styling', 'icon' => 'fas fa-paint-brush']
-                ]
             ],
-            [
-                'name' => 'Mobilni telefoni',
-                'description' => 'Mobilni telefoni i oprema',
-                'icon' => 'fas fa-mobile-alt',
-                'children' => [
-                    ['name' => 'Telefoni', 'icon' => 'fas fa-mobile'],
-                    ['name' => 'Oprema i dodaci', 'icon' => 'fas fa-headphones'],
-                    ['name' => 'Servis i popravka', 'icon' => 'fas fa-wrench']
-                ]
+            1 => [
+                'name' => 'Delovi i oprema',
+                'slug' => 'delovi-i-oprema-1',
+                'icon' => 'fas fa-cog',
             ],
-            [
-                'name' => 'Kompjuteri',
-                'description' => 'Računari, laptopovi i IT oprema',
+            2 => [
+                'name' => 'Gume i felne',
+                'slug' => 'gume-i-felne-1',
+                'icon' => 'fas fa-circle',
+            ],
+            3 => [
+                'name' => 'Tuning i styling',
+                'slug' => 'tuning-i-styling-1',
+                'icon' => 'fas fa-paint-brush',
+            ],
+        ],
+    ],
+    1 => [
+        'name' => 'Mobilni telefoni',
+        'slug' => 'mobilni-telefoni',
+        'icon' => 'fas fa-mobile-alt',
+        'sort_order' => 0,
+        'subcategories' => [
+            0 => [
+                'name' => 'Telefoni',
+                'slug' => 'telefoni-6',
+                'icon' => 'fas fa-mobile',
+            ],
+            1 => [
+                'name' => 'Oprema i dodaci',
+                'slug' => 'oprema-i-dodaci-6',
+                'icon' => 'fas fa-headphones',
+            ],
+            2 => [
+                'name' => 'Servis i popravka',
+                'slug' => 'servis-i-popravka-6',
+                'icon' => 'fas fa-wrench',
+            ],
+        ],
+    ],
+    2 => [
+        'name' => 'Kompjuteri',
+        'slug' => 'kompjuteri',
+        'icon' => 'fas fa-laptop',
+        'sort_order' => 0,
+        'subcategories' => [
+            0 => [
+                'name' => 'Desktop računari',
+                'slug' => 'desktop-racunari-10',
+                'icon' => 'fas fa-desktop',
+            ],
+            1 => [
+                'name' => 'Laptopovi',
+                'slug' => 'laptopovi-10',
                 'icon' => 'fas fa-laptop',
-                'children' => [
-                    ['name' => 'Desktop računari', 'icon' => 'fas fa-desktop'],
-                    ['name' => 'Laptopovi', 'icon' => 'fas fa-laptop'],
-                    ['name' => 'Komponente', 'icon' => 'fas fa-microchip'],
-                    ['name' => 'Gejmerska oprema', 'icon' => 'fas fa-gamepad'],
-                    ['name' => 'Periferije', 'icon' => 'fas fa-mouse']
-                ]
             ],
-            [
-                'name' => 'Nekretnine',
-                'description' => 'Stanovi, kuće, poslovni prostori',
+            2 => [
+                'name' => 'Komponente',
+                'slug' => 'komponente-10',
+                'icon' => 'fas fa-microchip',
+            ],
+            3 => [
+                'name' => 'Gejmerska oprema',
+                'slug' => 'gejmerska-oprema-10',
+                'icon' => 'fas fa-gamepad',
+            ],
+            4 => [
+                'name' => 'Periferije',
+                'slug' => 'periferije-10',
+                'icon' => 'fas fa-mouse',
+            ],
+        ],
+    ],
+    3 => [
+        'name' => 'Nekretnine',
+        'slug' => 'nekretnine',
+        'icon' => 'fas fa-home',
+        'sort_order' => 0,
+        'subcategories' => [
+            0 => [
+                'name' => 'Stanovi - prodaja',
+                'slug' => 'stanovi-prodaja-16',
+                'icon' => 'fas fa-building',
+            ],
+            1 => [
+                'name' => 'Stanovi - izdavanje',
+                'slug' => 'stanovi-izdavanje-16',
+                'icon' => 'fas fa-key',
+            ],
+            2 => [
+                'name' => 'Kuće - prodaja',
+                'slug' => 'kuce-prodaja-16',
                 'icon' => 'fas fa-home',
-                'children' => [
-                    ['name' => 'Stanovi - prodaja', 'icon' => 'fas fa-building'],
-                    ['name' => 'Stanovi - izdavanje', 'icon' => 'fas fa-key'],
-                    ['name' => 'Kuće - prodaja', 'icon' => 'fas fa-home'],
-                    ['name' => 'Kuće - izdavanje', 'icon' => 'fas fa-home'],
-                    ['name' => 'Placevi', 'icon' => 'fas fa-map'],
-                    ['name' => 'Vikendice', 'icon' => 'fas fa-mountain'],
-                    ['name' => 'Poslovni prostori', 'icon' => 'fas fa-store']
-                ]
             ],
-            [
-                'name' => 'Alati',
-                'description' => 'Alati za rad i konstrukciju',
-                'icon' => 'fas fa-tools',
-                'children' => [
-                    ['name' => 'Električni alati', 'icon' => 'fas fa-plug'],
-                    ['name' => 'Alati na baterije', 'icon' => 'fas fa-battery-full'],
-                    ['name' => 'Ručni alati', 'icon' => 'fas fa-hammer'],
-                    ['name' => 'Merne sprave', 'icon' => 'fas fa-ruler'],
-                    ['name' => 'Radioničko oprema', 'icon' => 'fas fa-industry']
-                ]
+            3 => [
+                'name' => 'Kuće - izdavanje',
+                'slug' => 'kuce-izdavanje-16',
+                'icon' => 'fas fa-home',
             ],
-            [
-                'name' => 'Sport i rekreacija',
-                'description' => 'Sportska oprema i rekreativne aktivnosti',
+            4 => [
+                'name' => 'Placevi',
+                'slug' => 'placevi-16',
+                'icon' => 'fas fa-map',
+            ],
+            5 => [
+                'name' => 'Vikendice',
+                'slug' => 'vikendice-16',
+                'icon' => 'fas fa-mountain',
+            ],
+            6 => [
+                'name' => 'Poslovni prostori',
+                'slug' => 'poslovni-prostori-16',
+                'icon' => 'fas fa-store',
+            ],
+        ],
+    ],
+    4 => [
+        'name' => 'Alati',
+        'slug' => 'alati',
+        'icon' => 'fas fa-tools',
+        'sort_order' => 0,
+        'subcategories' => [
+            0 => [
+                'name' => 'Električni alati',
+                'slug' => 'elektricni-alati-24',
+                'icon' => 'fas fa-plug',
+            ],
+            1 => [
+                'name' => 'Alati na baterije',
+                'slug' => 'alati-na-baterije-24',
+                'icon' => 'fas fa-battery-full',
+            ],
+            2 => [
+                'name' => 'Ručni alati',
+                'slug' => 'rucni-alati-24',
+                'icon' => 'fas fa-hammer',
+            ],
+            3 => [
+                'name' => 'Merne sprave',
+                'slug' => 'merne-sprave-24',
+                'icon' => 'fas fa-ruler',
+            ],
+            4 => [
+                'name' => 'Radioničko oprema',
+                'slug' => 'radionicko-oprema-24',
+                'icon' => 'fas fa-industry',
+            ],
+        ],
+    ],
+    5 => [
+        'name' => 'Sport i rekreacija',
+        'slug' => 'sport-i-rekreacija',
+        'icon' => 'fas fa-futbol',
+        'sort_order' => 0,
+        'subcategories' => [
+            0 => [
+                'name' => 'Fitness oprema',
+                'slug' => 'fitness-oprema-30',
+                'icon' => 'fas fa-dumbbell',
+            ],
+            1 => [
+                'name' => 'Fudbal',
+                'slug' => 'fudbal-30',
                 'icon' => 'fas fa-futbol',
-                'children' => [
-                    ['name' => 'Fitness oprema', 'icon' => 'fas fa-dumbbell'],
-                    ['name' => 'Fudbal', 'icon' => 'fas fa-futbol'],
-                    ['name' => 'Košarka', 'icon' => 'fas fa-basketball-ball'],
-                    ['name' => 'Tenis', 'icon' => 'fas fa-table-tennis'],
-                    ['name' => 'Bicikli', 'icon' => 'fas fa-bicycle'],
-                    ['name' => 'Kampovanje', 'icon' => 'fas fa-campground']
-                ]
             ],
-            [
-                'name' => 'Moda',
-                'description' => 'Odeća, obuća i modni dodaci',
-                'icon' => 'fas fa-tshirt',
-                'children' => [
-                    ['name' => 'Ženska odeća', 'icon' => 'fas fa-female'],
-                    ['name' => 'Muška odeća', 'icon' => 'fas fa-male'],
-                    ['name' => 'Dečja odeća', 'icon' => 'fas fa-child'],
-                    ['name' => 'Obuća', 'icon' => 'fas fa-shoe-prints'],
-                    ['name' => 'Torbe i tašne', 'icon' => 'fas fa-shopping-bag'],
-                    ['name' => 'Nakit i satovi', 'icon' => 'fas fa-gem']
-                ]
-            ]
-        ];
+            2 => [
+                'name' => 'Košarka',
+                'slug' => 'kosarka-30',
+                'icon' => 'fas fa-basketball-ball',
+            ],
+            3 => [
+                'name' => 'Tenis',
+                'slug' => 'tenis-30',
+                'icon' => 'fas fa-table-tennis',
+            ],
+            4 => [
+                'name' => 'Bicikli',
+                'slug' => 'bicikli-30',
+                'icon' => 'fas fa-bicycle',
+            ],
+            5 => [
+                'name' => 'Kampovanje',
+                'slug' => 'kampovanje-30',
+                'icon' => 'fas fa-campground',
+            ],
+        ],
+    ],
+    6 => [
+        'name' => 'Moda',
+        'slug' => 'moda',
+        'icon' => 'fas fa-tshirt',
+        'sort_order' => 0,
+        'subcategories' => [
+            0 => [
+                'name' => 'Ženska odeća',
+                'slug' => 'zenska-odeca-37',
+                'icon' => 'fas fa-female',
+            ],
+            1 => [
+                'name' => 'Muška odeća',
+                'slug' => 'muska-odeca-37',
+                'icon' => 'fas fa-male',
+            ],
+            2 => [
+                'name' => 'Dečja odeća',
+                'slug' => 'decja-odeca-37',
+                'icon' => 'fas fa-child',
+            ],
+            3 => [
+                'name' => 'Obuća',
+                'slug' => 'obuca-37',
+                'icon' => 'fas fa-shoe-prints',
+            ],
+            4 => [
+                'name' => 'Torbe i tašne',
+                'slug' => 'torbe-i-tasne-37',
+                'icon' => 'fas fa-shopping-bag',
+            ],
+            5 => [
+                'name' => 'Nakit i satovi',
+                'slug' => 'nakit-i-satovi-37',
+                'icon' => 'fas fa-gem',
+            ],
+        ],
+    ],
+];
 
         foreach ($categories as $categoryData) {
-            $children = $categoryData['children'] ?? [];
-            unset($categoryData['children']);
-        
-            // Kreiraj glavnu kategoriju samo ako ne postoji
-            $parent = Category::firstOrCreate(
-                ['slug' => Str::slug($categoryData['name'])],
-                $categoryData
-            );
-        
-            // Dodaj podkategorije sa ikonama
-            foreach ($children as $index => $childData) {
-                if (is_string($childData)) {
-                    $childData = ['name' => $childData];
-                }
-                
-                Category::firstOrCreate(
-                    ['slug' => Str::slug($childData['name']) . '-' . $parent->id],
-                    [
-                        'name' => $childData['name'],
-                        'slug' => Str::slug($childData['name']) . '-' . $parent->id,
-                        'parent_id' => $parent->id,
-                        'sort_order' => $index + 1,
-                        'icon' => $childData['icon'] ?? 'fas fa-tag',
-                        'is_active' => true,
-                    ]
-                );
+            $subcategories = $categoryData['subcategories'];
+            unset($categoryData['subcategories']);
+
+            $category = Category::create([
+                'name' => $categoryData['name'],
+                'slug' => $categoryData['slug'],
+                'icon' => $categoryData['icon'],
+                'sort_order' => $categoryData['sort_order'],
+                'is_active' => true,
+            ]);
+
+            foreach ($subcategories as $index => $subcategoryData) {
+                Category::create([
+                    'parent_id' => $category->id,
+                    'name' => $subcategoryData['name'],
+                    'slug' => $subcategoryData['slug'],
+                    'icon' => $subcategoryData['icon'],
+                    'sort_order' => $index + 1,
+                    'is_active' => true,
+                ]);
             }
+        }
+
+        // Only show info if running from command line
+        if ($this->command) {
+            $this->command->info('Categories seeded successfully!');
         }
     }
 }
