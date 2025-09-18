@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             CategorySeeder::class,
+            ServiceCategorySeeder::class,
             ListingConditionSeeder::class,
             FakeDataSeeder::class,
         ]);
