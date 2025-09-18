@@ -217,6 +217,46 @@ class ServiceCategoryManagement extends Component
         }
     }
 
+    public function exportCategories()
+    {
+        try {
+            $categories = ServiceCategory::with('children')
+                ->whereNull('parent_id')
+                ->orderBy('sort_order')
+                ->get()
+                ->map(function ($category) {
+                    return [
+                        'name' => $category->name,
+                        'slug' => $category->slug,
+                        'icon' => $category->icon,
+                        'description' => $category->description,
+                        'sort_order' => $category->sort_order,
+                        'is_active' => $category->is_active,
+                        'children' => $category->children->map(function ($child) {
+                            return [
+                                'name' => $child->name,
+                                'slug' => $child->slug,
+                                'icon' => $child->icon,
+                                'description' => $child->description,
+                                'sort_order' => $child->sort_order,
+                                'is_active' => $child->is_active,
+                            ];
+                        })->toArray()
+                    ];
+                });
+
+            $json = json_encode($categories, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            $filename = 'service-categories-' . date('Y-m-d-His') . '.json';
+
+            return response()->streamDownload(function() use ($json) {
+                echo $json;
+            }, $filename);
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri eksportovanju kategorija: ' . $e->getMessage());
+        }
+    }
+
     public function render()
     {
         $query = ServiceCategory::with(['parent', 'children'])

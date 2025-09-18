@@ -16,13 +16,10 @@
                     <div id="seeder-menu" class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                         <div class="py-1">
                             <button wire:click="runCategorySeeder" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left">
-                                Učitaj kategorije iz seeder-a
-                            </button>
-                            <button wire:click="runConditionSeeder" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left">
-                                Učitaj uslove iz seeder-a
+                                <i class="fas fa-database mr-2"></i> Učitaj kategorije iz seeder-a
                             </button>
                             <button wire:click="exportCategories" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left">
-                                Eksportuj kategorije (JSON)
+                                <i class="fas fa-download mr-2"></i> Eksportuj kategorije (JSON)
                             </button>
                         </div>
                     </div>
