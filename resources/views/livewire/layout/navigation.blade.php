@@ -86,8 +86,10 @@
                 </a>
             </div>
 
-            <!-- Search Bar -->
-            @include('livewire.layout.search-new')
+            <!-- Search Bar - Desktop only -->
+            <div class="hidden md:flex flex-1 px-4">
+                @include('livewire.layout.search-new')
+            </div>
 
             <!-- Right Section - Desktop -->
             <div class="hidden md:flex items-center space-x-4">
@@ -306,6 +308,11 @@
                     </a>
                 @endauth
             </div>
+        </div>
+
+        <!-- Mobile Search Bar - Full width below navigation -->
+        <div class="md:hidden px-4 py-3 border-t border-gray-200 dark:border-gray-700 relative z-40">
+            @include('livewire.layout.search-new')
         </div>
 
         <!-- Mobile menu (hidden by default) -->

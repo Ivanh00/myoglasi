@@ -49,7 +49,7 @@ if (!empty($auctionType)) {
 
 @endphp
 
-<div class="relative flex-1 max-w-4xl mx-4" x-data="{
+<div class="relative w-full" x-data="{
     showFilters: {{ $shouldShowFilters ? 'true' : 'false' }},
     query: '{{ $urlParams['query'] ?? '' }}',
     city: '{{ $urlParams['city'] ?? '' }}',
@@ -365,7 +365,7 @@ x-init="syncFromUrl()">
         x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="ease-in duration-150" 
         x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95"
         @click.away="showFilters = false"
-        class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-700 dark:bg-gray-800 rounded-lg shadow-lg border border-gray-300 dark:border-gray-600 dark:border-gray-600 z-50 p-6"
+        class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-700 dark:bg-gray-800 rounded-lg shadow-lg border border-gray-300 dark:border-gray-600 dark:border-gray-600 z-[100] p-6"
         style="display: none;">
         
         <!-- Content Type Selector -->
