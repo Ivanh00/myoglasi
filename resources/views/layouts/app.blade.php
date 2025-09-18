@@ -384,7 +384,7 @@
         @endauth
 
         <!-- Mobile Sidebar Toggle Button -->
-        <div class="md:hidden fixed top-20 left-2 z-40">
+        <div class="md:hidden fixed top-36 left-2 z-40">
             <button type="button" id="mobile-sidebar-button"
                 class="bg-white p-2 rounded-md shadow-lg border border-gray-300 text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <span class="sr-only">Open sidebar</span>
@@ -412,7 +412,7 @@
 
             <!-- Mobile Sidebar -->
             <aside id="mobile-sidebar"
-                class="fixed left-0 top-16 w-64 bg-white dark:bg-gray-800 shadow-lg h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+                class="fixed left-0 top-28 w-64 bg-white dark:bg-gray-800 shadow-lg h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
                 <livewire:category-sidebar />
             </aside>
 

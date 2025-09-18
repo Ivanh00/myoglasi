@@ -36,7 +36,7 @@
         notificationShown: @if($publicNotification) !localStorage.getItem('hidden_public_notification_' + {{ $publicNotification->id }}) @else false @endif
     }"
     :class="notificationShown ? 'top-[60px]' : 'top-0'"
-    class="bg-white dark:bg-gray-800 shadow-lg fixed left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700 transition-all duration-300">
+    class="bg-white dark:bg-gray-800 shadow-lg fixed left-0 right-0 z-[90] border-b border-gray-200 dark:border-gray-700 transition-all duration-300">
 
     @if($publicNotification)
         <div x-data="{
@@ -277,7 +277,7 @@
             </div>
 
             <!-- Mobile buttons -->
-            <div class="md:hidden flex items-center space-x-3">
+            <div class="md:hidden flex items-center space-x-3 relative z-50">
                 @auth
                     <!-- Mobile Add Listing Button -->
                     <a href="{{ route('listings.create') }}"
@@ -311,7 +311,7 @@
         </div>
 
         <!-- Mobile Search Bar - Full width below navigation -->
-        <div class="md:hidden px-4 py-3 border-t border-gray-200 dark:border-gray-700 relative z-40">
+        <div class="md:hidden px-4 py-3 border-t border-gray-200 dark:border-gray-700">
             @include('livewire.layout.search-new')
         </div>
 
