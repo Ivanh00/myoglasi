@@ -6,15 +6,17 @@
     <div class="p-2">
         <!-- Theme Switcher -->
         <div class="mb-4 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-            <div class="text-xs font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Tema</div>
+            <div
+                class="text-xs font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">
+                Tema</div>
             <div class="grid grid-cols-2 gap-2">
-                <button onclick="setTheme('light')" 
+                <button onclick="setTheme('light')"
                     class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn light-theme
                     bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
                     <i class="fas fa-sun mr-1"></i>
                     Light
                 </button>
-                <button onclick="setTheme('dark')" 
+                <button onclick="setTheme('dark')"
                     class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn dark-theme
                     bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700">
                     <i class="fas fa-moon mr-1"></i>
@@ -29,21 +31,21 @@
             <i class="fas fa-gavel mr-3"></i>
             Aukcije
         </a>
-        
+
         <!-- Usluge -->
         <a href="{{ route('services.index') }}"
             class="flex items-center px-4 py-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors mb-2 {{ request()->routeIs('services.*') ? 'bg-slate-700' : '' }}">
             <i class="fas fa-tools mr-3"></i>
             Usluge
         </a>
-        
+
         <!-- Poklanjam -->
         <a href="{{ route('giveaways.index') }}"
             class="flex items-center px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mb-2 {{ request()->routeIs('giveaways.*') ? 'bg-green-700' : '' }}">
             <i class="fas fa-gift mr-3"></i>
             Poklanjam
         </a>
-        
+
         <!-- Globalni "Oglasi" -->
         <a href="{{ route('listings.index') }}"
             class="flex items-center px-4 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors mb-2 {{ request()->routeIs('listings.index') && !request()->get('selectedCategory') ? 'bg-sky-700' : '' }}">
@@ -80,7 +82,7 @@
                         class="flex items-center flex-1 px-3 py-2 text-slate-700 dark:text-slate-300 {{ request()->get('selectedCategory') == $category->id ? 'text-sky-600 dark:text-sky-400' : '' }}">
                         @if ($category->icon)
                             <div class="w-5 h-5 mr-3 flex items-center justify-center">
-                                <i class="{{ $category->icon }} text-sky-600"></i>
+                                <i class="{{ $category->icon }} text-sky-400"></i>
                             </div>
                         @else
                             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -149,7 +151,7 @@
     </div>
 
     @auth
-        @if(auth()->user()->is_admin)
+        @if (auth()->user()->is_admin)
             <!-- Admin Sidebar -->
             <div class="border-t mt-4 pt-4 p-2">
                 <div class="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Admin opcije</div>
@@ -157,7 +159,7 @@
                 <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center px-3 py-2 text-red-500 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
                         </path>
                     </svg>
@@ -209,13 +211,17 @@
         @else
             <!-- Regular User Sidebar -->
             <div class="border-t mt-4 pt-4 p-2">
-                <div class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 uppercase tracking-wider">Brze akcije</div>
+                <div
+                    class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                    Brze akcije</div>
 
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center px-3 py-2 text-red-500 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path>
                     </svg>
                     Dashboard
                 </a>
@@ -223,7 +229,8 @@
                 <a href="{{ route('listings.create') }}"
                     class="flex items-center px-3 py-2 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-50 dark:hover:bg-slate-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6">
                         </path>
                     </svg>
                     Dodaj oglas
@@ -295,7 +302,7 @@
     // Theme Management
     function setTheme(theme) {
         console.log('Setting theme to:', theme);
-        
+
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
             localStorage.setItem('theme', 'dark');
@@ -328,7 +335,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const savedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
+
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             setTheme('dark');
         } else {
