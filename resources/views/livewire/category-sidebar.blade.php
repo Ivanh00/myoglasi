@@ -1,22 +1,22 @@
-<div class="w-64 bg-white dark:bg-gray-800 shadow-lg h-screen sticky top-0 overflow-y-auto " x-data="{ openCategory: null }">
-    <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+<div class="w-64 bg-white dark:bg-slate-800 shadow-lg h-screen sticky top-0 overflow-y-auto " x-data="{ openCategory: null }">
+    <div class="p-4 border-b border-slate-200 dark:border-slate-700">
         <!-- Header removed for cleaner look -->
     </div>
 
     <div class="p-2">
         <!-- Theme Switcher -->
-        <div class="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Tema</div>
+        <div class="mb-4 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+            <div class="text-xs font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Tema</div>
             <div class="grid grid-cols-2 gap-2">
                 <button onclick="setTheme('light')" 
                     class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn light-theme
-                    bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
                     <i class="fas fa-sun mr-1"></i>
                     Light
                 </button>
                 <button onclick="setTheme('dark')" 
                     class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn dark-theme
-                    bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700">
+                    bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700">
                     <i class="fas fa-moon mr-1"></i>
                     Dark
                 </button>
@@ -25,14 +25,14 @@
 
         <!-- Aukcije -->
         <a href="{{ route('auctions.index') }}"
-            class="flex items-center px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors mb-2 {{ request()->routeIs('auctions.index') ? 'bg-yellow-700' : '' }}">
+            class="flex items-center px-4 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors mb-2 {{ request()->routeIs('auctions.index') ? 'bg-amber-700' : '' }}">
             <i class="fas fa-gavel mr-3"></i>
             Aukcije
         </a>
         
         <!-- Usluge -->
         <a href="{{ route('services.index') }}"
-            class="flex items-center px-4 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors mb-2 {{ request()->routeIs('services.*') ? 'bg-gray-700' : '' }}">
+            class="flex items-center px-4 py-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors mb-2 {{ request()->routeIs('services.*') ? 'bg-slate-700' : '' }}">
             <i class="fas fa-tools mr-3"></i>
             Usluge
         </a>
@@ -46,7 +46,7 @@
         
         <!-- Globalni "Oglasi" -->
         <a href="{{ route('listings.index') }}"
-            class="flex items-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mb-2 {{ request()->routeIs('listings.index') && !request()->get('selectedCategory') ? 'bg-blue-700' : '' }}">
+            class="flex items-center px-4 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors mb-2 {{ request()->routeIs('listings.index') && !request()->get('selectedCategory') ? 'bg-sky-700' : '' }}">
             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M19 11H5m14-8H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"></path>
@@ -72,15 +72,15 @@
         @foreach ($categoryTree as $category)
             <div class="mt-1">
                 <!-- Glavna kategorija - ceo red je klikabilan za otvaranje/zatvaranje -->
-                <div class="flex items-center justify-between group cursor-pointer rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-50 dark:bg-gray-700' : '' }}"
+                <div class="flex items-center justify-between group cursor-pointer rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 {{ request()->get('selectedCategory') == $category->id ? 'bg-sky-50 dark:bg-slate-700' : '' }}"
                     @click="openCategory = openCategory === '{{ $category->id }}' ? null : '{{ $category->id }}'">
 
                     <!-- Levi deo - ikonica i naziv -->
                     <div
-                        class="flex items-center flex-1 px-3 py-2 text-gray-700 dark:text-gray-300 {{ request()->get('selectedCategory') == $category->id ? 'text-blue-600 dark:text-blue-400' : '' }}">
+                        class="flex items-center flex-1 px-3 py-2 text-slate-700 dark:text-slate-300 {{ request()->get('selectedCategory') == $category->id ? 'text-sky-600 dark:text-sky-400' : '' }}">
                         @if ($category->icon)
                             <div class="w-5 h-5 mr-3 flex items-center justify-center">
-                                <i class="{{ $category->icon }} text-blue-600"></i>
+                                <i class="{{ $category->icon }} text-sky-600"></i>
                             </div>
                         @else
                             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,7 +90,7 @@
                             </svg>
                         @endif
                         <span class="flex-1">{{ $category->name }}</span>
-                        <span class="text-xs text-gray-400 dark:text-gray-500 ml-2">
+                        <span class="text-xs text-slate-400 dark:text-slate-500 ml-2">
                             (@if (method_exists($category, 'getAllListingsCount'))
                                 {{ $category->getAllListingsCount() }}
                             @else
@@ -101,7 +101,7 @@
 
                     <!-- Desni deo - strelica samo ako ima podkategorija -->
                     @if ($category->children->count() > 0)
-                        <div class="p-2 text-gray-400 dark:text-gray-500">
+                        <div class="p-2 text-slate-400 dark:text-slate-500">
                             <svg class="w-4 h-4 transition-transform duration-200"
                                 :class="{ 'transform rotate-90': openCategory === '{{ $category->id }}' }"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,15 +119,15 @@
 
                         <!-- "Svi oglasi" za ovu kategoriju -->
                         <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
-                            class="block px-3 py-2 text-sm text-gray-600 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300' : '' }}">
+                            class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
                             📁 Svi oglasi u {{ $category->name }}
                         </a>
 
                         @foreach ($category->children as $child)
                             <a href="{{ route('listings.index', ['selectedCategory' => $child->id]) }}"
-                                class="block px-3 py-2 text-sm text-gray-600 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-600 {{ request()->get('selectedCategory') == $child->id ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300' : '' }}">
+                                class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $child->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
                                 • {{ $child->name }}
-                                <span class="text-xs text-gray-400 dark:text-gray-500 ml-1">
+                                <span class="text-xs text-slate-400 dark:text-slate-500 ml-1">
                                     (@if (method_exists($child, 'getAllListingsCount'))
                                         {{ $child->getAllListingsCount() }}
                                     @else
@@ -140,7 +140,7 @@
                 @else
                     <!-- Ako nema podkategorija, "Svi oglasi" link bude uvek vidljiv -->
                     <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
-                        class="block px-3 py-2 text-sm text-gray-600 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-blue-100 dark:bg-gray-600 text-blue-600 dark:text-blue-300' : '' }}">
+                        class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
                         📁 Svi oglasi u {{ $category->name }}
                     </a>
                 @endif
@@ -152,10 +152,10 @@
         @if(auth()->user()->is_admin)
             <!-- Admin Sidebar -->
             <div class="border-t mt-4 pt-4 p-2">
-                <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Admin opcije</div>
+                <div class="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Admin opcije</div>
 
                 <a href="{{ route('admin.dashboard') }}"
-                    class="flex items-center px-3 py-2 text-red-500 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-gray-700">
+                    class="flex items-center px-3 py-2 text-red-500 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                             d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
@@ -165,7 +165,7 @@
                 </a>
 
                 <a href="{{ route('messages.inbox') }}"
-                    class="flex items-center px-3 py-2 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mt-2">
+                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
@@ -186,7 +186,7 @@
                 </a>
 
                 <a href="{{ route('notifications.index') }}"
-                    class="flex items-center px-3 py-2 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mt-2">
+                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
@@ -209,10 +209,10 @@
         @else
             <!-- Regular User Sidebar -->
             <div class="border-t mt-4 pt-4 p-2">
-                <div class="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 dark:text-gray-500 uppercase tracking-wider">Brze akcije</div>
+                <div class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 uppercase tracking-wider">Brze akcije</div>
 
                 <a href="{{ route('dashboard') }}"
-                    class="flex items-center px-3 py-2 text-red-500 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-gray-700">
+                    class="flex items-center px-3 py-2 text-red-500 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path>
@@ -221,7 +221,7 @@
                 </a>
 
                 <a href="{{ route('listings.create') }}"
-                    class="flex items-center px-3 py-2 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-50 dark:hover:bg-gray-700 mt-2">
+                    class="flex items-center px-3 py-2 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-50 dark:hover:bg-slate-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
                         </path>
@@ -230,7 +230,7 @@
                 </a>
 
                 <a href="{{ route('listings.my') }}"
-                    class="flex items-center px-3 py-2 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mt-2">
+                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -240,7 +240,7 @@
 
                 <!-- U sidebar.blade.php -->
                 <a href="{{ route('messages.inbox') }}"
-                    class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 mt-2">
+                    class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-slate-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
@@ -263,7 +263,7 @@
                 </a>
 
                 <a href="{{ route('notifications.index') }}"
-                    class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 mt-2">
+                    class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-slate-700 mt-2">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
@@ -315,11 +315,11 @@
 
         if (lightBtn && darkBtn) {
             if (isDark) {
-                lightBtn.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50');
-                darkBtn.classList.add('ring-2', 'ring-blue-400', 'bg-gray-700');
+                lightBtn.classList.remove('ring-2', 'ring-sky-500', 'bg-sky-50');
+                darkBtn.classList.add('ring-2', 'ring-sky-400', 'bg-slate-700');
             } else {
-                darkBtn.classList.remove('ring-2', 'ring-blue-400', 'bg-gray-700');
-                lightBtn.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
+                darkBtn.classList.remove('ring-2', 'ring-sky-400', 'bg-slate-700');
+                lightBtn.classList.add('ring-2', 'ring-sky-500', 'bg-sky-50');
             }
         }
     }

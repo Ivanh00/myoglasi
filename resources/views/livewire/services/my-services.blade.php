@@ -1,27 +1,27 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     <div class="mb-6 flex justify-between items-center">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Moje usluge</h1>
-            <p class="text-gray-600 dark:text-gray-400">Upravljajte svojim uslugama</p>
+            <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Moje usluge</h1>
+            <p class="text-slate-600 dark:text-slate-400">Upravljajte svojim uslugama</p>
         </div>
         <a href="{{ route('services.create') }}"
-            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            class="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
             <i class="fas fa-plus mr-2"></i> Dodaj novu uslugu
         </a>
     </div>
 
     <!-- Search and filters -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 mb-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex-1">
                 <input type="text" wire:model.live="search" placeholder="Pretraži usluge..."
-                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    class="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
             </div>
             <div class="flex gap-2">
                 <div class="w-48" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-gray-900 dark:text-gray-100 text-sm text-left hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-colors flex items-center justify-between">
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-900 dark:text-slate-100 text-sm text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
                             <span>
                                 @switch($status)
                                     @case('active')
@@ -34,23 +34,23 @@
                                         Sve
                                 @endswitch
                             </span>
-                            <svg class="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
 
                         <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('status', 'all'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg {{ $status === 'all' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ $status === 'all' ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-sky-300' : '' }}">
                                 Sve
                             </button>
                             <button @click="$wire.set('status', 'active'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 {{ $status === 'active' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $status === 'active' ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-sky-300' : '' }}">
                                 Aktivne
                             </button>
                             <button @click="$wire.set('status', 'inactive'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg {{ $status === 'inactive' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg {{ $status === 'inactive' ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-sky-300' : '' }}">
                                 Neaktivne
                             </button>
                         </div>
@@ -65,21 +65,21 @@
         <!-- Desktop Table View -->
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] bg-gray-50 dark:bg-gray-700">
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Usluga</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cena</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pregledi</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</div>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
+                <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] bg-slate-50 dark:bg-slate-700">
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Usluga</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Cena</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pregledi</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Datum</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Akcije</div>
                 </div>
             </div>
 
             <!-- Data Rows -->
             @foreach($services as $service)
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border-l-4 border-gray-500">
-                    <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] hover:bg-gray-50 dark:hover:bg-gray-700">
+                <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden border-l-4 border-slate-500">
+                    <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Usluga Column -->
                         <div class="px-6 py-2">
                             <div class="flex items-center">
@@ -87,12 +87,12 @@
                                         <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
                                             class="w-10 h-10 rounded-lg object-cover mr-3">
                                     @else
-                                        <div class="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center mr-3">
-                                            <i class="fas fa-tools text-gray-400"></i>
+                                        <div class="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center mr-3">
+                                            <i class="fas fa-tools text-slate-400"></i>
                                         </div>
                                     @endif
                                     <div>
-                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center">
+                                        <div class="text-sm font-medium text-slate-900 dark:text-slate-100 flex items-center">
                                             <span>{{ Str::limit($service->title, 50) }}</span>
                                             <!-- Promotion Badges -->
                                             @if($service->hasActivePromotion())
@@ -103,7 +103,7 @@
                                                 @endforeach
                                             @endif
                                         </div>
-                                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        <div class="text-sm text-slate-500 dark:text-slate-400">
                                             {{ $service->category->name ?? 'Bez kategorije' }}
                                         </div>
                                     </div>
@@ -111,7 +111,7 @@
                         </div>
                         <!-- Cena Column -->
                         <div class="px-6 py-2">
-                            <div class="text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
+                            <div class="text-sm text-slate-900 dark:text-slate-100 whitespace-nowrap">
                                 {{ number_format($service->price, 2) }} RSD
                             </div>
                         </div>
@@ -122,24 +122,24 @@
                                         Aktivna
                                     </span>
                                 @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 text-slate-800">
                                         Neaktivna
                                     </span>
                             @endif
                         </div>
                         <!-- Pregledi Column -->
-                        <div class="px-6 py-2 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                        <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">
                             {{ $service->views ?? 0 }}
                         </div>
                         <!-- Datum Column -->
-                        <div class="px-6 py-2 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                        <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">
                             {{ $service->created_at->format('d.m.Y') }}
                         </div>
                         <!-- Akcije Column -->
                         <div class="px-6 py-1 text-sm font-medium">
                             <div class="flex flex-wrap gap-1">
                                         <a href="{{ route('services.show', $service->slug) }}"
-                                            class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
+                                            class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
                                             <i class="fas fa-eye mr-1"></i> Pregled
                                         </a>
 
@@ -149,7 +149,7 @@
                                         </a>
 
                                         <button wire:click="toggleStatus({{ $service->id }})"
-                                            class="inline-flex items-center px-2 py-1 text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 rounded">
+                                            class="inline-flex items-center px-2 py-1 text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 rounded">
                                             @if($service->status === 'active')
                                                 <i class="fas fa-pause mr-1"></i> Pauziraj
                                             @else
@@ -159,7 +159,7 @@
 
                                         @if($service->status === 'active')
                                             <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
-                                                class="inline-flex items-center px-2 py-1 {{ $service->hasActivePromotion() ? 'text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300' : 'text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300' }} rounded">
+                                                class="inline-flex items-center px-2 py-1 {{ $service->hasActivePromotion() ? 'text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300' : 'text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300' }} rounded">
                                                 <i class="fas fa-bullhorn mr-1"></i> Promocija
                                             </button>
                                         @endif
@@ -184,9 +184,9 @@
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
             @foreach ($services as $service)
-                <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-500 shadow rounded-lg overflow-hidden">
+                <div class="bg-white dark:bg-slate-800 border-l-4 border-slate-500 shadow rounded-lg overflow-hidden">
                     <!-- Card Header -->
-                    <div class="p-4 border-b border-gray-200 dark:border-gray-600">
+                    <div class="p-4 border-b border-slate-200 dark:border-slate-600">
                         <div class="flex items-start justify-between">
                             <div class="flex items-start flex-1">
                                 <!-- Image -->
@@ -195,15 +195,15 @@
                                         <img class="h-16 w-16 rounded-lg object-cover"
                                              src="{{ $service->images->first()->url }}" alt="{{ $service->title }}">
                                     @else
-                                        <div class="h-16 w-16 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                                            <i class="fas fa-tools text-gray-400"></i>
+                                        <div class="h-16 w-16 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                                            <i class="fas fa-tools text-slate-400"></i>
                                         </div>
                                     @endif
                                 </div>
 
                                 <!-- Service Info -->
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
                                         {{ $service->title }}
                                         <!-- Promotion Badges -->
                                         @if($service->hasActivePromotion())
@@ -216,8 +216,8 @@
                                             </div>
                                         @endif
                                     </h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">{{ $service->category->name ?? 'Bez kategorije' }}</p>
-                                    <p class="text-xl font-bold text-blue-600">{{ number_format($service->price, 2) }} RSD</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">{{ $service->category->name ?? 'Bez kategorije' }}</p>
+                                    <p class="text-xl font-bold text-sky-600">{{ number_format($service->price, 2) }} RSD</p>
                                 </div>
                             </div>
                         </div>
@@ -227,18 +227,18 @@
                     <div class="p-4">
                         <!-- Status Section -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Status usluge</div>
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Status usluge</div>
                             <div class="flex items-center space-x-4">
                                 @if($service->status === 'active')
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200">
                                         Aktivna
                                     </span>
                                 @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
                                         Neaktivna
                                     </span>
                                 @endif
-                                <span class="text-sm text-gray-500 dark:text-gray-400">
+                                <span class="text-sm text-slate-500 dark:text-slate-400">
                                     <i class="fas fa-eye mr-1"></i>{{ $service->views ?? 0 }} pregleda
                                 </span>
                             </div>
@@ -246,8 +246,8 @@
 
                         <!-- Date Info -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Informacije o datumu</div>
-                            <div class="text-sm text-gray-900 dark:text-gray-100">
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Informacije o datumu</div>
+                            <div class="text-sm text-slate-900 dark:text-slate-100">
                                 Kreirana: {{ $service->created_at->format('d.m.Y') }}
                             </div>
                         </div>
@@ -255,7 +255,7 @@
                         <!-- Action Buttons -->
                         <div class="flex flex-wrap gap-2">
                             <a href="{{ route('services.show', $service->slug) }}"
-                                class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                                class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
                                 <i class="fas fa-eye mr-1"></i>
                                 Pregled
                             </a>
@@ -269,7 +269,7 @@
                             <button wire:click="toggleStatus({{ $service->id }})"
                                 class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg transition-colors
                                     @if($service->status === 'active')
-                                        bg-yellow-100 text-yellow-700 hover:bg-yellow-200
+                                        bg-amber-100 text-amber-700 hover:bg-amber-200
                                     @else
                                         bg-green-100 text-green-700 hover:bg-green-200
                                     @endif">
@@ -307,10 +307,10 @@
             {{ $services->links() }}
         </div>
     @else
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-8 text-center">
-            <i class="fas fa-tools text-gray-400 text-5xl mb-4"></i>
-            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Nemate usluga</h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-8 text-center">
+            <i class="fas fa-tools text-slate-400 text-5xl mb-4"></i>
+            <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">Nemate usluga</h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-4">
                 @if($search)
                     Nema rezultata za vašu pretragu.
                 @else
@@ -319,7 +319,7 @@
             </p>
             @if(!$search)
                 <a href="{{ route('services.create') }}"
-                    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    class="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
                     <i class="fas fa-plus mr-2"></i> Dodaj prvu uslugu
                 </a>
             @endif
@@ -365,7 +365,7 @@
                  x-transition:leave="transition ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                 class="relative inline-block align-bottom bg-white dark:bg-slate-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 
                 <!-- Modal header with delete icon -->
                 <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-1">
@@ -376,7 +376,7 @@
                             </div>
                             <h3 class="ml-3 text-xl font-bold text-white">Brisanje usluge</h3>
                         </div>
-                        <button @click="showDeleteModal = false" class="text-white hover:text-gray-200">
+                        <button @click="showDeleteModal = false" class="text-white hover:text-slate-200">
                             <i class="fas fa-times text-xl"></i>
                         </button>
                     </div>
@@ -386,42 +386,42 @@
                 <div class="px-6 py-5">
                     <!-- Warning message -->
                     <div class="mb-4">
-                        <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Da li ste sigurni?
                         </h4>
-                        <p class="text-gray-600 dark:text-gray-400">
+                        <p class="text-slate-600 dark:text-slate-400">
                             Ova usluga će biti trajno obrisana. Ova akcija se ne može poništiti.
                         </p>
                     </div>
 
                     <!-- Service info -->
                     <template x-if="selectedService">
-                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                        <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 mb-4">
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Naziv:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedService?.title || 'N/A'"></span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Naziv:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedService?.title || 'N/A'"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Kategorija:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedService?.category?.name || 'Bez kategorije'"></span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Kategorija:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedService?.category?.name || 'Bez kategorije'"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Cena:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Cena:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100">
                                         <span x-text="new Intl.NumberFormat('sr-RS').format(selectedService?.price || 0)"></span> RSD
                                     </span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Status:</span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Status:</span>
                                     <span class="text-sm font-medium" :class="{
                                         'text-green-600 dark:text-green-400': selectedService?.status === 'active',
-                                        'text-gray-600 dark:text-gray-400': selectedService?.status !== 'active'
+                                        'text-slate-600 dark:text-slate-400': selectedService?.status !== 'active'
                                     }" x-text="selectedService?.status === 'active' ? 'Aktivna' : 'Neaktivna'"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Pregledi:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedService?.views || 0"></span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Pregledi:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedService?.views || 0"></span>
                                 </div>
                             </div>
                         </div>
@@ -443,11 +443,11 @@
                 </div>
 
                 <!-- Modal footer with actions -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-1">
+                <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-1">
                     <div class="flex space-x-3">
                         <button type="button"
                                 @click="showDeleteModal = false"
-                                class="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                                class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                             <i class="fas fa-times mr-2"></i>
                             Otkaži
                         </button>

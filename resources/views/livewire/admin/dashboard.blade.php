@@ -2,22 +2,22 @@
     <div class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-900">Admin Dashboard</h2>
-                <button wire:click="refreshData" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                <h2 class="text-2xl font-bold text-slate-900">Admin Dashboard</h2>
+                <button wire:click="refreshData" class="bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700">
                     Osveži podatke
                 </button>
             </div>
 
             <!-- Main Statistics Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-                <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white">
+                <div class="bg-gradient-to-r from-sky-500 to-sky-600 rounded-lg p-6 text-white">
                     <div class="flex items-center">
                         <div class="flex-1">
-                            <p class="text-blue-100 text-sm">Ukupno korisnika</p>
+                            <p class="text-sky-100 text-sm">Ukupno korisnika</p>
                             <p class="text-3xl font-bold">{{ number_format($stats['total_users']) }}</p>
-                            <p class="text-blue-100 text-xs mt-1">+{{ $stats['recent_users'] }} u 7 dana</p>
+                            <p class="text-sky-100 text-xs mt-1">+{{ $stats['recent_users'] }} u 7 dana</p>
                         </div>
-                        <svg class="w-8 h-8 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-sky-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
                     </div>
@@ -78,21 +78,21 @@
 
             <!-- Additional Statistics -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-white border border-gray-200 rounded-lg p-4">
-                    <h3 class="text-sm font-medium text-gray-500">Danas registracija</h3>
-                    <p class="text-2xl font-bold text-gray-900">{{ $stats['today_registrations'] }}</p>
+                <div class="bg-white border border-slate-200 rounded-lg p-4">
+                    <h3 class="text-sm font-medium text-slate-500">Danas registracija</h3>
+                    <p class="text-2xl font-bold text-slate-900">{{ $stats['today_registrations'] }}</p>
                 </div>
-                <div class="bg-white border border-gray-200 rounded-lg p-4">
-                    <h3 class="text-sm font-medium text-gray-500">Danas oglasa</h3>
-                    <p class="text-2xl font-bold text-gray-900">{{ $stats['today_listings'] }}</p>
+                <div class="bg-white border border-slate-200 rounded-lg p-4">
+                    <h3 class="text-sm font-medium text-slate-500">Danas oglasa</h3>
+                    <p class="text-2xl font-bold text-slate-900">{{ $stats['today_listings'] }}</p>
                 </div>
-                <div class="bg-white border border-gray-200 rounded-lg p-4">
-                    <h3 class="text-sm font-medium text-gray-500">Prosečno stanje</h3>
-                    <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['avg_user_balance'], 0) }} RSD</p>
+                <div class="bg-white border border-slate-200 rounded-lg p-4">
+                    <h3 class="text-sm font-medium text-slate-500">Prosečno stanje</h3>
+                    <p class="text-2xl font-bold text-slate-900">{{ number_format($stats['avg_user_balance'], 0) }} RSD</p>
                 </div>
-                <div class="bg-white border border-gray-200 rounded-lg p-4">
-                    <h3 class="text-sm font-medium text-gray-500">Korisnici sa kreditima</h3>
-                    <p class="text-2xl font-bold text-gray-900">{{ $stats['users_with_balance'] }}</p>
+                <div class="bg-white border border-slate-200 rounded-lg p-4">
+                    <h3 class="text-sm font-medium text-slate-500">Korisnici sa kreditima</h3>
+                    <p class="text-2xl font-bold text-slate-900">{{ $stats['users_with_balance'] }}</p>
                 </div>
             </div>
         </div>
@@ -102,25 +102,25 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- User Registrations Chart -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Registracije korisnika (30 dana)</h3>
+            <h3 class="text-lg font-medium text-slate-900 mb-4">Registracije korisnika (30 dana)</h3>
             <canvas id="usersChart" width="400" height="200"></canvas>
         </div>
 
         <!-- Listings Chart -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Novi oglasi (30 dana)</h3>
+            <h3 class="text-lg font-medium text-slate-900 mb-4">Novi oglasi (30 dana)</h3>
             <canvas id="listingsChart" width="400" height="200"></canvas>
         </div>
 
         <!-- Revenue Chart -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Prihodi (30 dana)</h3>
+            <h3 class="text-lg font-medium text-slate-900 mb-4">Prihodi (30 dana)</h3>
             <canvas id="revenueChart" width="400" height="200"></canvas>
         </div>
 
         <!-- Category Distribution -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Distribucija po kategorijama</h3>
+            <h3 class="text-lg font-medium text-slate-900 mb-4">Distribucija po kategorijama</h3>
             <canvas id="categoriesChart" width="400" height="200"></canvas>
         </div>
     </div>
@@ -129,25 +129,25 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Recent Users -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Poslednji korisnici</h3>
+            <h3 class="text-lg font-medium text-slate-900 mb-4">Poslednji korisnici</h3>
             <div class="space-y-3">
                 @foreach ($recentUsers as $user)
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                         <div class="flex items-center">
                             @if($user->avatar)
                                 <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="w-8 h-8 rounded-full object-cover">
                             @else
-                                <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                     {{ strtoupper(substr($user->name, 0, 1)) }}
                                 </div>
                             @endif
                             <div class="ml-3">
-                                <p class="text-sm font-medium text-gray-900">{{ $user->name }}</p>
-                                <p class="text-sm text-gray-500">{{ $user->email }}</p>
-                                <p class="text-xs text-gray-400">Balans: {{ number_format($user->balance ?? 0, 0) }} RSD</p>
+                                <p class="text-sm font-medium text-slate-900">{{ $user->name }}</p>
+                                <p class="text-sm text-slate-500">{{ $user->email }}</p>
+                                <p class="text-xs text-slate-400">Balans: {{ number_format($user->balance ?? 0, 0) }} RSD</p>
                             </div>
                         </div>
-                        <span class="text-xs text-gray-400">{{ $user->created_at->diffForHumans() }}</span>
+                        <span class="text-xs text-slate-400">{{ $user->created_at->diffForHumans() }}</span>
                     </div>
                 @endforeach
             </div>
@@ -155,22 +155,22 @@
 
         <!-- Recent Listings -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Poslednji oglasi</h3>
+            <h3 class="text-lg font-medium text-slate-900 mb-4">Poslednji oglasi</h3>
             <div class="space-y-3">
                 @foreach ($recentListings as $listing)
-                    <div class="p-3 bg-gray-50 rounded-lg">
+                    <div class="p-3 bg-slate-50 rounded-lg">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-sm font-medium text-gray-900">{{ Str::limit($listing->title, 20) }}</p>
-                                <p class="text-sm text-gray-500">{{ $listing->category->name ?? 'Bez kategorije' }}</p>
-                                <p class="text-xs text-gray-400">{{ $listing->user->name }}</p>
+                                <p class="text-sm font-medium text-slate-900">{{ Str::limit($listing->title, 20) }}</p>
+                                <p class="text-sm text-slate-500">{{ $listing->category->name ?? 'Bez kategorije' }}</p>
+                                <p class="text-xs text-slate-400">{{ $listing->user->name }}</p>
                             </div>
-                            <span class="text-xs text-gray-400">{{ $listing->created_at->diffForHumans() }}</span>
+                            <span class="text-xs text-slate-400">{{ $listing->created_at->diffForHumans() }}</span>
                         </div>
                         <div class="mt-2 flex justify-between items-center">
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                 @if($listing->status === 'active') bg-green-100 text-green-800
-                                @elseif($listing->status === 'pending') bg-yellow-100 text-yellow-800
+                                @elseif($listing->status === 'pending') bg-amber-100 text-amber-800
                                 @else bg-red-100 text-red-800 @endif">
                                 {{ ucfirst($listing->status) }}
                             </span>
@@ -183,26 +183,26 @@
 
         <!-- Top Users by Listings -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Najaktivniji korisnici</h3>
+            <h3 class="text-lg font-medium text-slate-900 mb-4">Najaktivniji korisnici</h3>
             <div class="space-y-3">
                 @foreach ($topUsers as $user)
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                         <div class="flex items-center">
                             @if($user->avatar)
                                 <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="w-8 h-8 rounded-full object-cover">
                             @else
-                                <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                     {{ strtoupper(substr($user->name, 0, 1)) }}
                                 </div>
                             @endif
                             <div class="ml-3">
-                                <p class="text-sm font-medium text-gray-900">{{ $user->name }}</p>
-                                <p class="text-xs text-gray-400">{{ $user->email }}</p>
+                                <p class="text-sm font-medium text-slate-900">{{ $user->name }}</p>
+                                <p class="text-xs text-slate-400">{{ $user->email }}</p>
                             </div>
                         </div>
                         <div class="text-right">
                             <p class="text-sm font-semibold text-purple-600">{{ $user->listings_count }}</p>
-                            <p class="text-xs text-gray-400">oglasa</p>
+                            <p class="text-xs text-slate-400">oglasa</p>
                         </div>
                     </div>
                 @endforeach

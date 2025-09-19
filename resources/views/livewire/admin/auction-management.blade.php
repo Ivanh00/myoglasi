@@ -1,8 +1,8 @@
 <div>
     <!-- Header -->
     <div class="mb-6">
-        <h1 class="text-2xl font-semibold text-gray-900">Upravljanje aukcijama</h1>
-        <p class="mt-2 text-sm text-gray-600">Pregled i upravljanje svim aukcijama u sistemu</p>
+        <h1 class="text-2xl font-semibold text-slate-900">Upravljanje aukcijama</h1>
+        <p class="mt-2 text-sm text-slate-600">Pregled i upravljanje svim aukcijama u sistemu</p>
     </div>
 
     <!-- Filters and Search -->
@@ -10,17 +10,17 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <!-- Search -->
             <div>
-                <label for="search" class="block text-sm font-medium text-gray-700">Pretraga</label>
+                <label for="search" class="block text-sm font-medium text-slate-700">Pretraga</label>
                 <input type="text" wire:model.live="search" id="search" 
                     placeholder="Naslov, opis ili prodavac..." 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
             </div>
 
             <!-- Status Filter -->
             <div>
-                <label for="status-filter" class="block text-sm font-medium text-gray-700">Status</label>
+                <label for="status-filter" class="block text-sm font-medium text-slate-700">Status</label>
                 <select wire:model.live="filters.status" id="status-filter" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">Svi statusi</option>
                     @foreach($statusOptions as $key => $label)
                         <option value="{{ $key }}">{{ $label }}</option>
@@ -30,9 +30,9 @@
 
             <!-- Bids Filter -->
             <div>
-                <label for="bids-filter" class="block text-sm font-medium text-gray-700">Ponude</label>
+                <label for="bids-filter" class="block text-sm font-medium text-slate-700">Ponude</label>
                 <select wire:model.live="filters.has_bids" id="bids-filter" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">Sve aukcije</option>
                     <option value="1">Sa ponudama</option>
                     <option value="0">Bez ponuda</option>
@@ -41,9 +41,9 @@
 
             <!-- Per Page -->
             <div>
-                <label for="per-page" class="block text-sm font-medium text-gray-700">Po strani</label>
+                <label for="per-page" class="block text-sm font-medium text-slate-700">Po strani</label>
                 <select wire:model.live="perPage" id="per-page" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -52,7 +52,7 @@
         </div>
 
         <div class="flex justify-between items-center">
-            <div class="text-sm text-gray-600">
+            <div class="text-sm text-slate-600">
                 Ukupno aukcija: {{ $auctions->total() }}
             </div>
             <button wire:click="resetFilters" 
@@ -64,10 +64,10 @@
 
     <!-- Auctions Table -->
     <div class="bg-white shadow rounded-lg overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+        <table class="min-w-full divide-y divide-slate-200">
+            <thead class="bg-slate-50">
                 <tr>
-                    <th wire:click="sortBy('id')" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                    <th wire:click="sortBy('id')" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
                         ID
                         @if($sortField === 'id')
                             <span class="text-indigo-500">
@@ -75,10 +75,10 @@
                             </span>
                         @endif
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                         Oglas
                     </th>
-                    <th wire:click="sortBy('current_price')" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                    <th wire:click="sortBy('current_price')" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
                         Cene
                         @if($sortField === 'current_price')
                             <span class="text-indigo-500">
@@ -86,10 +86,10 @@
                             </span>
                         @endif
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                         Ponude
                     </th>
-                    <th wire:click="sortBy('status')" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                    <th wire:click="sortBy('status')" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
                         Status
                         @if($sortField === 'status')
                             <span class="text-indigo-500">
@@ -97,7 +97,7 @@
                             </span>
                         @endif
                     </th>
-                    <th wire:click="sortBy('ends_at')" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                    <th wire:click="sortBy('ends_at')" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
                         Završava
                         @if($sortField === 'ends_at')
                             <span class="text-indigo-500">
@@ -105,18 +105,18 @@
                             </span>
                         @endif
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                         Prodavac
                     </th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
                         Akcije
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white divide-y divide-slate-200">
                 @forelse($auctions as $auction)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
                             #{{ $auction->id }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -127,32 +127,32 @@
                                             src="{{ $auction->listing->images->first()->url }}" 
                                             alt="{{ $auction->listing->title }}">
                                     @else
-                                        <div class="h-10 w-10 rounded bg-gray-200 flex items-center justify-center">
-                                            <i class="fas fa-gavel text-gray-400"></i>
+                                        <div class="h-10 w-10 rounded bg-slate-200 flex items-center justify-center">
+                                            <i class="fas fa-gavel text-slate-400"></i>
                                         </div>
                                     @endif
                                 </div>
                                 <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-900">
+                                    <div class="text-sm font-medium text-slate-900">
                                         {{ Str::limit($auction->listing->title, 30) }}
                                     </div>
-                                    <div class="text-sm text-gray-500">
+                                    <div class="text-sm text-slate-500">
                                         {{ $auction->listing->category->name ?? 'N/A' }}
                                     </div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">
+                            <div class="text-sm text-slate-900">
                                 <div>Trenutna: <strong>{{ number_format($auction->current_price, 0, ',', '.') }} RSD</strong></div>
-                                <div class="text-gray-500">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
+                                <div class="text-slate-500">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
                                 @if($auction->buy_now_price)
                                     <div class="text-green-600">Kupi odmah: {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD</div>
                                 @endif
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $auction->total_bids }} ponuda</div>
+                            <div class="text-sm text-slate-900">{{ $auction->total_bids }} ponuda</div>
                             @if($auction->winner)
                                 <div class="text-sm text-green-600">Pobednik: {{ $auction->winner->name }}</div>
                             @elseif($auction->total_bids > 0)
@@ -160,7 +160,7 @@
                                     $winningBid = $auction->bids()->where('is_winning', true)->first();
                                 @endphp
                                 @if($winningBid)
-                                    <div class="text-sm text-blue-600">Vodi: {{ $winningBid->user->name }}</div>
+                                    <div class="text-sm text-sky-600">Vodi: {{ $winningBid->user->name }}</div>
                                 @endif
                             @endif
                         </td>
@@ -168,7 +168,7 @@
                             @if($auction->deleted_at)
                                 <div class="flex flex-col space-y-1">
                                     @if($auction->status === 'ended')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 w-fit">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 w-fit">
                                             Završena
                                         </span>
                                     @endif
@@ -179,7 +179,7 @@
                             @else
                                 @switch($auction->status)
                                     @case('pending')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
                                             Na čekanju
                                         </span>
                                         @break
@@ -189,7 +189,7 @@
                                         </span>
                                         @break
                                     @case('ended')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
                                             Završena
                                         </span>
                                         @break
@@ -201,10 +201,10 @@
                                 @endswitch
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900">
                             {{ $auction->ends_at->format('d.m.Y H:i') }}
                             @if($auction->isActive())
-                                <div class="text-xs text-gray-500">
+                                <div class="text-xs text-slate-500">
                                     @php
                                         $timeLeft = $auction->time_left;
                                     @endphp
@@ -215,8 +215,8 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $auction->seller->name }}</div>
-                            <div class="text-sm text-gray-500">{{ $auction->seller->email }}</div>
+                            <div class="text-sm text-slate-900">{{ $auction->seller->name }}</div>
+                            <div class="text-sm text-slate-500">{{ $auction->seller->email }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex items-center justify-end space-x-2">
@@ -228,7 +228,7 @@
                                     </svg>
                                 </a>
                                 <button wire:click="editAuction({{ $auction->id }})" 
-                                    class="text-blue-600 hover:text-blue-900">
+                                    class="text-sky-600 hover:text-sky-900">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                     </svg>
@@ -254,7 +254,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                        <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 text-center">
                             Nema aukcija koje odgovaraju filterima.
                         </td>
                     </tr>
@@ -270,10 +270,10 @@
 
     <!-- Edit Modal -->
     @if ($showEditModal)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
                 <div class="mt-3">
-                    <h3 class=" font-medium text-gray-900 mb-4">
+                    <h3 class=" font-medium text-slate-900 mb-4">
                         Uredi aukciju #{{ $selectedAuction->id ?? '' }}
                     </h3>
 
@@ -282,33 +282,33 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Starting Price -->
                                 <div>
-                                    <label for="starting_price" class="block text-sm font-medium text-gray-700">Početna cena (RSD)</label>
+                                    <label for="starting_price" class="block text-sm font-medium text-slate-700">Početna cena (RSD)</label>
                                     <input type="number" wire:model="editState.starting_price" id="starting_price" min="1" step="1"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                     @error('editState.starting_price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
 
                                 <!-- Buy Now Price -->
                                 <div>
-                                    <label for="buy_now_price" class="block text-sm font-medium text-gray-700">Kupi odmah cena (RSD)</label>
+                                    <label for="buy_now_price" class="block text-sm font-medium text-slate-700">Kupi odmah cena (RSD)</label>
                                     <input type="number" wire:model="editState.buy_now_price" id="buy_now_price" min="1" step="1"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                     @error('editState.buy_now_price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
 
                                 <!-- Current Price -->
                                 <div>
-                                    <label for="current_price" class="block text-sm font-medium text-gray-700">Trenutna cena (RSD)</label>
+                                    <label for="current_price" class="block text-sm font-medium text-slate-700">Trenutna cena (RSD)</label>
                                     <input type="number" wire:model="editState.current_price" id="current_price" min="1" step="1"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                     @error('editState.current_price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
 
                                 <!-- Status -->
                                 <div>
-                                    <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                    <label for="status" class="block text-sm font-medium text-slate-700">Status</label>
                                     <select wire:model="editState.status" id="status"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                         @foreach($statusOptions as $key => $label)
                                             <option value="{{ $key }}">{{ $label }}</option>
                                         @endforeach
@@ -318,28 +318,28 @@
 
                                 <!-- Starts At -->
                                 <div>
-                                    <label for="starts_at" class="block text-sm font-medium text-gray-700">Počinje</label>
+                                    <label for="starts_at" class="block text-sm font-medium text-slate-700">Počinje</label>
                                     <input type="datetime-local" wire:model="editState.starts_at" id="starts_at"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                     @error('editState.starts_at') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
 
                                 <!-- Ends At -->
                                 <div>
-                                    <label for="ends_at" class="block text-sm font-medium text-gray-700">Završava</label>
+                                    <label for="ends_at" class="block text-sm font-medium text-slate-700">Završava</label>
                                     <input type="datetime-local" wire:model="editState.ends_at" id="ends_at"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                     @error('editState.ends_at') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
                             <div class="mt-6 flex items-center justify-end space-x-3">
                                 <button type="button" wire:click="$set('showEditModal', false)"
-                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                                    class="px-4 py-2 bg-slate-300 text-slate-700 rounded-md hover:bg-slate-400">
                                     Otkaži
                                 </button>
                                 <button type="submit"
-                                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                    class="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700">
                                     Sačuvaj izmene
                                 </button>
                             </div>
@@ -352,11 +352,11 @@
 
     <!-- Delete Modal -->
     @if ($showDeleteModal)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
-                    <h3 class=" font-medium text-gray-900 mb-4">Potvrda brisanja aukcije</h3>
-                    <p class="text-sm text-gray-500 mb-4">
+                    <h3 class=" font-medium text-slate-900 mb-4">Potvrda brisanja aukcije</h3>
+                    <p class="text-sm text-slate-500 mb-4">
                         Da li ste sigurni da želite da obrišete aukciju za "{{ $selectedAuction->listing->title ?? '' }}"?
                         <br>Ovo će obrisati samo aukciju, oglas će ostati netaknut.
                         @if($selectedAuction && $selectedAuction->total_bids > 0)
@@ -366,7 +366,7 @@
 
                     <div class="flex justify-center space-x-3">
                         <button wire:click="$set('showDeleteModal', false)"
-                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            class="px-4 py-2 bg-slate-300 text-slate-700 rounded-md hover:bg-slate-400">
                             Otkaži
                         </button>
                         <button wire:click="deleteAuction"

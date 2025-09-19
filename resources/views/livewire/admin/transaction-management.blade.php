@@ -2,8 +2,8 @@
     <div class="mb-6">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Upravljanje transakcijama</h1>
-                <p class="text-gray-600">Pregled i upravljanje svim transakcijama u sistemu</p>
+                <h1 class="text-2xl font-bold text-slate-900">Upravljanje transakcijama</h1>
+                <p class="text-slate-600">Pregled i upravljanje svim transakcijama u sistemu</p>
             </div>
             <button wire:click="exportTransactions"
                 class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
@@ -16,16 +16,16 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
-                <div class="p-3 bg-blue-100 rounded-lg">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="p-3 bg-sky-100 rounded-lg">
+                    <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                         </path>
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Ukupno transakcija</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stats['total'] }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Ukupno transakcija</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $stats['total'] }}</p>
                 </div>
             </div>
         </div>
@@ -40,23 +40,23 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Završene</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stats['completed'] }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Završene</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $stats['completed'] }}</p>
                 </div>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
-                <div class="p-3 bg-yellow-100 rounded-lg">
-                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="p-3 bg-amber-100 rounded-lg">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Na čekanju</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stats['pending'] }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Na čekanju</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $stats['pending'] }}</p>
                 </div>
             </div>
         </div>
@@ -70,8 +70,8 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Neuspešne</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stats['failed'] }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Neuspešne</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $stats['failed'] }}</p>
                 </div>
             </div>
         </div>
@@ -81,21 +81,21 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow p-4">
             <div class="text-center">
-                <h3 class="text-sm font-medium text-gray-500">Ukupan iznos</h3>
+                <h3 class="text-sm font-medium text-slate-500">Ukupan iznos</h3>
                 <p class="text-2xl font-semibold text-green-600">{{ number_format($stats['totalAmount'], 2) }} RSD</p>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow p-4">
             <div class="text-center">
-                <h3 class="text-sm font-medium text-gray-500">Ukupne uplate</h3>
-                <p class="text-2xl font-semibold text-blue-600">{{ number_format($stats['totalDeposits'], 2) }} RSD</p>
+                <h3 class="text-sm font-medium text-slate-500">Ukupne uplate</h3>
+                <p class="text-2xl font-semibold text-sky-600">{{ number_format($stats['totalDeposits'], 2) }} RSD</p>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow p-4">
             <div class="text-center">
-                <h3 class="text-sm font-medium text-gray-500">Ukupne naknade</h3>
+                <h3 class="text-sm font-medium text-slate-500">Ukupne naknade</h3>
                 <p class="text-2xl font-semibold text-red-600">{{ number_format($stats['totalFees'], 2) }} RSD</p>
             </div>
         </div>
@@ -106,15 +106,15 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
             <!-- Pretraga -->
             <div class="lg:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pretraga</label>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Pretraga</label>
                 <input type="text" wire:model.live="search" placeholder="Pretraži transakcije..."
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
             </div>
 
             <!-- Tip transakcije -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Tip</label>
-                <select wire:model.live="filters.type" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Tip</label>
+                <select wire:model.live="filters.type" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi tipovi</option>
                     @foreach ($typeOptions as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
@@ -124,8 +124,8 @@
 
             <!-- Status -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <select wire:model.live="filters.status" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Status</label>
+                <select wire:model.live="filters.status" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi statusi</option>
                     @foreach ($statusOptions as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
@@ -135,8 +135,8 @@
 
             <!-- Korisnik -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Korisnik</label>
-                <select wire:model.live="filters.user_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Korisnik</label>
+                <select wire:model.live="filters.user_id" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi korisnici</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -148,24 +148,24 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <!-- Datum od -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Datum od</label>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Datum od</label>
                 <input type="date" wire:model.live="filters.date_from"
                     value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                    class="w-full px-3 py-2 border border-slate-300 rounded-lg">
             </div>
 
             <!-- Datum do -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Datum do</label>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Datum do</label>
                 <input type="date" wire:model.live="filters.date_to"
                     value="{{ request('date_to', now()->endOfMonth()->format('Y-m-d')) }}"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                    class="w-full px-3 py-2 border border-slate-300 rounded-lg">
             </div>
 
             <!-- Broj stavki -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Po strani</label>
-                <select wire:model.live="perPage" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Po strani</label>
+                <select wire:model.live="perPage" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="20">20</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
@@ -174,12 +174,12 @@
         </div>
 
         <div class="flex justify-between items-center">
-            <div class="text-sm text-gray-600">
+            <div class="text-sm text-slate-600">
                 Pronađeno: {{ $transactions->total() }} transakcija
             </div>
             <div>
                 <button wire:click="resetFilters"
-                    class="px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded hover:bg-gray-50">
+                    class="px-3 py-1 text-sm text-slate-600 border border-slate-300 rounded hover:bg-slate-50">
                     Resetuj filtere
                 </button>
             </div>
@@ -189,67 +189,67 @@
     <!-- Desktop Tabela transakcija -->
     <div class="hidden lg:block bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('created_at')">
                             Datum
                             @if ($sortField === 'created_at')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Korisnik</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tip
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Tip
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('amount')">
                             Iznos
                             @if ($sortField === 'amount')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Opis
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Opis
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-slate-200">
                     @forelse($transactions as $transaction)
-                        <tr class="hover:bg-gray-50">
+                        <tr class="hover:bg-slate-50">
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ $transaction->created_at->format('d.m.Y.') }}
+                                <div class="text-sm text-slate-900">{{ $transaction->created_at->format('d.m.Y.') }}
                                 </div>
-                                <div class="text-xs text-gray-500">{{ $transaction->created_at->format('H:i') }}</div>
+                                <div class="text-xs text-slate-500">{{ $transaction->created_at->format('H:i') }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     @if($transaction->user->avatar)
                                         <img src="{{ $transaction->user->avatar_url }}" alt="{{ $transaction->user->name }}" class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($transaction->user->name, 0, 1)) }}
                                         </div>
                                     @endif
                                     <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">{{ $transaction->user->name }}
+                                        <div class="text-sm font-medium text-slate-900">{{ $transaction->user->name }}
                                         </div>
-                                        <div class="text-xs text-gray-500">{{ $transaction->user->email }}</div>
+                                        <div class="text-xs text-slate-500">{{ $transaction->user->email }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span
                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                @if ($transaction->type === 'deposit') bg-blue-100 text-blue-800
+                                @if ($transaction->type === 'deposit') bg-sky-100 text-sky-800
                                 @elseif($transaction->type === 'withdrawal') bg-green-100 text-green-800
                                 @elseif($transaction->type === 'fee') bg-red-100 text-red-800
-                                @elseif($transaction->type === 'refund') bg-yellow-100 text-yellow-800
-                                @else bg-gray-100 text-gray-800 @endif">
+                                @elseif($transaction->type === 'refund') bg-amber-100 text-amber-800
+                                @else bg-slate-100 text-slate-800 @endif">
                                     {{ $typeOptions[$transaction->type] ?? $transaction->type }}
                                 </span>
                             </td>
@@ -261,11 +261,11 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="text-sm text-gray-900">
+                                <div class="text-sm text-slate-900">
                                     {{ Str::limit($transaction->description, 40) }}
                                     @if (strlen($transaction->description) > 40)
                                         <button wire:click="viewTransaction({{ $transaction->id }})"
-                                            class="text-blue-600 text-xs ml-1">
+                                            class="text-sky-600 text-xs ml-1">
                                             više...
                                         </button>
                                     @endif
@@ -275,7 +275,7 @@
                                 <span
                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                                 @if ($transaction->status === 'completed' || in_array($transaction->id, $processedTransactions)) bg-green-100 text-green-800
-                                @elseif($transaction->status === 'pending') bg-yellow-100 text-yellow-800
+                                @elseif($transaction->status === 'pending') bg-amber-100 text-amber-800
                                 @elseif($transaction->status === 'failed') bg-red-100 text-red-800 @endif">
                                     @if (in_array($transaction->id, $processedTransactions))
                                         Završeno
@@ -287,7 +287,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-2">
                                     <button wire:click="viewTransaction({{ $transaction->id }})"
-                                        class="text-blue-600 hover:text-blue-900" title="Pregled">
+                                        class="text-sky-600 hover:text-sky-900" title="Pregled">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -300,7 +300,7 @@
 
                                     @if ($transaction->status !== 'completed' && !in_array($transaction->id, $processedTransactions))
                                         <button wire:click="editTransaction({{ $transaction->id }})"
-                                            class="text-yellow-600 hover:text-yellow-900" title="Izmeni">
+                                            class="text-amber-600 hover:text-amber-900" title="Izmeni">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -334,7 +334,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+                            <td colspan="7" class="px-6 py-4 text-center text-sm text-slate-500">
                                 Nema pronađenih transakcija.
                             </td>
                         </tr>
@@ -344,7 +344,7 @@
         </div>
 
         <!-- Pagination -->
-        <div class="px-6 py-4 border-t border-gray-200">
+        <div class="px-6 py-4 border-t border-slate-200">
             {{ $transactions->links() }}
         </div>
     </div>
@@ -370,14 +370,14 @@
                             <div class="text-lg font-bold {{ $transaction->amount > 0 ? 'text-green-600' : 'text-red-600' }}">
                                 {{ $transaction->amount > 0 ? '+' : '' }}{{ number_format($transaction->amount, 0, ',', '.') }} RSD
                             </div>
-                            <div class="text-sm text-gray-500">ID: {{ $transaction->id }}</div>
+                            <div class="text-sm text-slate-500">ID: {{ $transaction->id }}</div>
                         </div>
                     </div>
                     
                     <!-- Status -->
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                         @if ($transaction->status === 'completed' || in_array($transaction->id, $processedTransactions)) bg-green-100 text-green-800
-                        @elseif($transaction->status === 'pending') bg-yellow-100 text-yellow-800
+                        @elseif($transaction->status === 'pending') bg-amber-100 text-amber-800
                         @elseif($transaction->status === 'failed') bg-red-100 text-red-800 @endif">
                         @if (in_array($transaction->id, $processedTransactions))
                             Završeno
@@ -389,29 +389,29 @@
 
                 <!-- Description -->
                 <div class="mb-4">
-                    <div class="text-sm text-gray-900">{{ $transaction->description }}</div>
+                    <div class="text-sm text-slate-900">{{ $transaction->description }}</div>
                     @if($transaction->type)
-                        <div class="text-xs text-gray-500 mt-1">{{ $typeOptions[$transaction->type] ?? ucfirst($transaction->type) }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ $typeOptions[$transaction->type] ?? ucfirst($transaction->type) }}</div>
                     @endif
                 </div>
 
                 <!-- User Info -->
                 @if($transaction->user)
-                    <div class="bg-gray-50 p-3 rounded-lg mb-4">
-                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Korisnik</div>
+                    <div class="bg-slate-50 p-3 rounded-lg mb-4">
+                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Korisnik</div>
                         <div class="flex items-center">
                             <div class="flex-shrink-0 h-8 w-8">
                                 @if ($transaction->user->avatar)
                                     <img class="h-8 w-8 rounded-full object-cover" src="{{ $transaction->user->avatar_url }}" alt="{{ $transaction->user->name }}">
                                 @else
-                                    <div class="h-8 w-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-xs">
+                                    <div class="h-8 w-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-xs">
                                         {{ strtoupper(substr($transaction->user->name, 0, 1)) }}
                                     </div>
                                 @endif
                             </div>
                             <div class="ml-3">
-                                <div class="text-sm font-medium text-gray-900">{{ $transaction->user->name }}</div>
-                                <div class="text-xs text-gray-500">{{ $transaction->user->email }}</div>
+                                <div class="text-sm font-medium text-slate-900">{{ $transaction->user->name }}</div>
+                                <div class="text-xs text-slate-500">{{ $transaction->user->email }}</div>
                             </div>
                         </div>
                     </div>
@@ -419,21 +419,21 @@
 
                 <!-- Date -->
                 <div class="mb-4">
-                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Datum</div>
-                    <div class="text-sm text-gray-900">{{ $transaction->created_at->format('d.m.Y H:i') }}</div>
+                    <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Datum</div>
+                    <div class="text-sm text-slate-900">{{ $transaction->created_at->format('d.m.Y H:i') }}</div>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-2">
                     <button wire:click="viewTransaction({{ $transaction->id }})" 
-                        class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                        class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
                         <i class="fas fa-eye mr-1"></i>
                         Pregled
                     </button>
 
                     @if ($transaction->status !== 'completed' && !in_array($transaction->id, $processedTransactions))
                         <button wire:click="editTransaction({{ $transaction->id }})"
-                            class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-lg hover:bg-yellow-200 transition-colors">
+                            class="inline-flex items-center px-3 py-1.5 bg-amber-100 text-amber-700 text-xs font-medium rounded-lg hover:bg-amber-200 transition-colors">
                             <i class="fas fa-edit mr-1"></i>
                             Izmeni
                         </button>
@@ -456,9 +456,9 @@
             </div>
         @empty
             <div class="bg-white rounded-lg shadow p-8 text-center">
-                <i class="fas fa-receipt text-gray-400 text-5xl mb-4"></i>
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema transakcija</h3>
-                <p class="text-gray-600">Nema transakcija koje odgovaraju kriterijumima pretrage.</p>
+                <i class="fas fa-receipt text-slate-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema transakcija</h3>
+                <p class="text-slate-600">Nema transakcija koje odgovaraju kriterijumima pretrage.</p>
             </div>
         @endforelse
         
@@ -470,33 +470,33 @@
 
     <!-- View Modal -->
     @if ($showViewModal && $selectedTransaction)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
                 <div class="mt-3">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Detalji transakcije</h3>
+                    <h3 class="text-lg font-medium text-slate-900 mb-4">Detalji transakcije</h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500">Korisnik:</h4>
+                            <h4 class="text-sm font-medium text-slate-500">Korisnik:</h4>
                             <div class="flex items-center mt-1">
                                 @if($selectedTransaction->user->avatar)
                                     <img src="{{ $selectedTransaction->user->avatar_url }}" alt="{{ $selectedTransaction->user->name }}" class="w-8 h-8 rounded-full object-cover">
                                 @else
-                                    <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                    <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                         {{ strtoupper(substr($selectedTransaction->user->name, 0, 1)) }}
                                     </div>
                                 @endif
                                 <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-900">
+                                    <p class="text-sm font-medium text-slate-900">
                                         {{ $selectedTransaction->user->name }}</p>
-                                    <p class="text-xs text-gray-500">{{ $selectedTransaction->user->email }}</p>
+                                    <p class="text-xs text-slate-500">{{ $selectedTransaction->user->email }}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500">Datum:</h4>
-                            <p class="text-sm text-gray-900 mt-1">
+                            <h4 class="text-sm font-medium text-slate-500">Datum:</h4>
+                            <p class="text-sm text-slate-900 mt-1">
                                 {{ $selectedTransaction->created_at->format('d.m.Y. H:i') }}
                             </p>
                         </div>
@@ -504,24 +504,24 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500">Tip transakcije:</h4>
+                            <h4 class="text-sm font-medium text-slate-500">Tip transakcije:</h4>
                             <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                            @if ($selectedTransaction->type === 'deposit') bg-blue-100 text-blue-800
+                            @if ($selectedTransaction->type === 'deposit') bg-sky-100 text-sky-800
                             @elseif($selectedTransaction->type === 'withdrawal') bg-green-100 text-green-800
                             @elseif($selectedTransaction->type === 'fee') bg-red-100 text-red-800
-                            @elseif($selectedTransaction->type === 'refund') bg-yellow-100 text-yellow-800
-                            @else bg-gray-100 text-gray-800 @endif">
+                            @elseif($selectedTransaction->type === 'refund') bg-amber-100 text-amber-800
+                            @else bg-slate-100 text-slate-800 @endif">
                                 {{ $typeOptions[$selectedTransaction->type] ?? $selectedTransaction->type }}
                             </span>
                         </div>
 
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500">Status:</h4>
+                            <h4 class="text-sm font-medium text-slate-500">Status:</h4>
                             <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                             @if ($selectedTransaction->status === 'completed') bg-green-100 text-green-800
-                            @elseif($selectedTransaction->status === 'pending') bg-yellow-100 text-yellow-800
+                            @elseif($selectedTransaction->status === 'pending') bg-amber-100 text-amber-800
                             @elseif($selectedTransaction->status === 'failed') bg-red-100 text-red-800 @endif">
                                 {{ $statusOptions[$selectedTransaction->status] }}
                             </span>
@@ -529,7 +529,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <h4 class="text-sm font-medium text-gray-500">Iznos:</h4>
+                        <h4 class="text-sm font-medium text-slate-500">Iznos:</h4>
                         <p
                             class="text-2xl font-semibold 
                         @if ($selectedTransaction->amount < 0) text-red-600 @else text-green-600 @endif">
@@ -538,13 +538,13 @@
                     </div>
 
                     <div class="mb-4">
-                        <h4 class="text-sm font-medium text-gray-500">Opis:</h4>
-                        <p class="text-sm text-gray-900 mt-1">{{ $selectedTransaction->description }}</p>
+                        <h4 class="text-sm font-medium text-slate-500">Opis:</h4>
+                        <p class="text-sm text-slate-900 mt-1">{{ $selectedTransaction->description }}</p>
                     </div>
 
                     <div class="flex justify-end">
                         <button wire:click="$set('showViewModal', false)"
-                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            class="px-4 py-2 bg-slate-300 text-slate-700 rounded-md hover:bg-slate-400">
                             Zatvori
                         </button>
                     </div>
@@ -555,17 +555,17 @@
 
     <!-- Update Modal -->
     @if ($showUpdateModal && $selectedTransaction)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
                 <div class="mt-3">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Izmeni transakciju</h3>
+                    <h3 class="text-lg font-medium text-slate-900 mb-4">Izmeni transakciju</h3>
 
                     <form wire:submit.prevent="updateTransaction">
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Status *</label>
+                                <label class="block text-sm font-medium text-slate-700">Status *</label>
                                 <select wire:model="updateState.status"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                                    class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                     @foreach ($statusOptions as $value => $label)
                                         <option value="{{ $value }}">{{ $label }}</option>
                                     @endforeach
@@ -576,9 +576,9 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Opis</label>
+                                <label class="block text-sm font-medium text-slate-700">Opis</label>
                                 <textarea wire:model="updateState.description" rows="3"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"></textarea>
+                                    class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2"></textarea>
                                 @error('updateState.description')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -587,11 +587,11 @@
 
                         <div class="flex justify-end space-x-3 mt-6">
                             <button type="button" wire:click="$set('showUpdateModal', false)"
-                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                                class="px-4 py-2 bg-slate-300 text-slate-700 rounded-md hover:bg-slate-400">
                                 Otkaži
                             </button>
                             <button type="submit"
-                                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                class="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700">
                                 Sačuvaj izmene
                             </button>
                         </div>

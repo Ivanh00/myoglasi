@@ -2,8 +2,8 @@
     <div class="mb-6">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Upravljanje ocenama</h1>
-                <p class="text-gray-600">Pregled i upravljanje svim korisničkim ocenama u sistemu</p>
+                <h1 class="text-2xl font-bold text-slate-900">Upravljanje ocenama</h1>
+                <p class="text-slate-600">Pregled i upravljanje svim korisničkim ocenama u sistemu</p>
             </div>
         </div>
     </div>
@@ -12,12 +12,12 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
-                <div class="p-3 bg-blue-100 rounded-lg">
+                <div class="p-3 bg-sky-100 rounded-lg">
                     <span class="text-2xl">📊</span>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Ukupno ocena</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stats['total'] }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Ukupno ocena</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $stats['total'] }}</p>
                 </div>
             </div>
         </div>
@@ -28,21 +28,21 @@
                     <span class="text-2xl">😊</span>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Pozitivne</h3>
+                    <h3 class="text-sm font-medium text-slate-500">Pozitivne</h3>
                     <p class="text-2xl font-semibold text-green-600">{{ $stats['positive'] }}</p>
-                    <p class="text-xs text-gray-400">{{ $stats['positive_percentage'] }}%</p>
+                    <p class="text-xs text-slate-400">{{ $stats['positive_percentage'] }}%</p>
                 </div>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
-                <div class="p-3 bg-yellow-100 rounded-lg">
+                <div class="p-3 bg-amber-100 rounded-lg">
                     <span class="text-2xl">😐</span>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Neutralne</h3>
-                    <p class="text-2xl font-semibold text-yellow-600">{{ $stats['neutral'] }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Neutralne</h3>
+                    <p class="text-2xl font-semibold text-amber-600">{{ $stats['neutral'] }}</p>
                 </div>
             </div>
         </div>
@@ -53,9 +53,9 @@
                     <span class="text-2xl">😞</span>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Negativne</h3>
+                    <h3 class="text-sm font-medium text-slate-500">Negativne</h3>
                     <p class="text-2xl font-semibold text-red-600">{{ $stats['negative'] }}</p>
-                    <p class="text-xs text-gray-400">{{ $stats['negative_percentage'] }}%</p>
+                    <p class="text-xs text-slate-400">{{ $stats['negative_percentage'] }}%</p>
                 </div>
             </div>
         </div>
@@ -67,31 +67,31 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Search -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Pretraži</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Pretraži</label>
                     <input type="text" wire:model.live="search" placeholder="Korisnik, komentar, oglas..."
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
                 </div>
 
                 <!-- Date From -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Od datuma</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Od datuma</label>
                     <input type="date" wire:model.live="filters.date_from" 
                         value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}"
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
                 </div>
 
                 <!-- Date To -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Do datuma</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Do datuma</label>
                     <input type="date" wire:model.live="filters.date_to"
                         value="{{ request('date_to', now()->endOfMonth()->format('Y-m-d')) }}"
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
                 </div>
 
                 <!-- Reset Filters -->
                 <div class="flex items-end">
                     <button wire:click="resetFilters"
-                        class="w-full bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                        class="w-full bg-slate-500 text-white px-4 py-2 rounded-md hover:bg-slate-600">
                         Resetuj filtere
                     </button>
                 </div>
@@ -99,28 +99,28 @@
 
             <!-- Rating Type Filter (Smiley Buttons) -->
             <div class="mt-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Tip ocene</label>
+                <label class="block text-sm font-medium text-slate-700 mb-2">Tip ocene</label>
                 <div class="flex flex-wrap gap-2">
                     <button wire:click="setRatingFilter('')"
-                        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filters['rating_type'] === '' ? 'bg-blue-100 text-blue-700 shadow-md' : 'bg-gray-100 hover:bg-gray-200' }}">
+                        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filters['rating_type'] === '' ? 'bg-sky-100 text-sky-700 shadow-md' : 'bg-slate-100 hover:bg-slate-200' }}">
                         <span class="text-xl">📊</span>
                         <span>Sve ({{ $stats['total'] }})</span>
                     </button>
 
                     <button wire:click="setRatingFilter('positive')"
-                        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filters['rating_type'] === 'positive' ? 'bg-green-100 text-green-700 shadow-md' : 'bg-gray-100 hover:bg-green-50' }}">
+                        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filters['rating_type'] === 'positive' ? 'bg-green-100 text-green-700 shadow-md' : 'bg-slate-100 hover:bg-green-50' }}">
                         <span class="text-xl">😊</span>
                         <span>Pozitivne ({{ $stats['positive'] }})</span>
                     </button>
 
                     <button wire:click="setRatingFilter('neutral')"
-                        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filters['rating_type'] === 'neutral' ? 'bg-yellow-100 text-yellow-700 shadow-md' : 'bg-gray-100 hover:bg-yellow-50' }}">
+                        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filters['rating_type'] === 'neutral' ? 'bg-amber-100 text-amber-700 shadow-md' : 'bg-slate-100 hover:bg-amber-50' }}">
                         <span class="text-xl">😐</span>
                         <span>Neutralne ({{ $stats['neutral'] }})</span>
                     </button>
 
                     <button wire:click="setRatingFilter('negative')"
-                        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filters['rating_type'] === 'negative' ? 'bg-red-100 text-red-700 shadow-md' : 'bg-gray-100 hover:bg-red-50' }}">
+                        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filters['rating_type'] === 'negative' ? 'bg-red-100 text-red-700 shadow-md' : 'bg-slate-100 hover:bg-red-50' }}">
                         <span class="text-xl">😞</span>
                         <span>Negativne ({{ $stats['negative'] }})</span>
                     </button>
@@ -132,43 +132,43 @@
     <!-- Desktop Table View -->
     <div class="hidden md:block bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
                             wire:click="sortBy('rating')">
                             Ocena
                             @if($sortField === 'rating')
                                 @if($sortDirection === 'asc') ↑ @else ↓ @endif
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Ocenio
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Ocenjen
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Oglas
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Komentar
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
                             wire:click="sortBy('created_at')">
                             Datum
                             @if($sortField === 'created_at')
                                 @if($sortDirection === 'asc') ↑ @else ↓ @endif
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Akcije
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-slate-200">
                     @forelse($ratings as $rating)
-                        <tr class="hover:bg-gray-50">
+                        <tr class="hover:bg-slate-50">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <span class="text-2xl mr-2">{{ $rating->rating_icon }}</span>
@@ -178,34 +178,34 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">{{ $rating->rater->name }}</div>
-                                <div class="text-sm text-gray-500">{{ $rating->rater->email }}</div>
+                                <div class="text-sm font-medium text-slate-900">{{ $rating->rater->name }}</div>
+                                <div class="text-sm text-slate-500">{{ $rating->rater->email }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">{{ $rating->ratedUser->name }}</div>
-                                <div class="text-sm text-gray-500">{{ $rating->ratedUser->email }}</div>
+                                <div class="text-sm font-medium text-slate-900">{{ $rating->ratedUser->name }}</div>
+                                <div class="text-sm text-slate-500">{{ $rating->ratedUser->email }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($rating->listing)
-                                    <div class="text-sm font-medium text-gray-900">{{ Str::limit($rating->listing->title, 30) }}</div>
+                                    <div class="text-sm font-medium text-slate-900">{{ Str::limit($rating->listing->title, 30) }}</div>
                                 @else
-                                    <span class="text-sm text-gray-400">Oglas obrisan</span>
+                                    <span class="text-sm text-slate-400">Oglas obrisan</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4">
                                 @if($rating->comment)
-                                    <div class="text-sm text-gray-900">{{ Str::limit($rating->comment, 50) }}</div>
+                                    <div class="text-sm text-slate-900">{{ Str::limit($rating->comment, 50) }}</div>
                                 @else
-                                    <span class="text-sm text-gray-400 italic">Bez komentara</span>
+                                    <span class="text-sm text-slate-400 italic">Bez komentara</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                                 {{ $rating->created_at->format('d.m.Y. H:i') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-2">
                                     <button wire:click="editRating({{ $rating->id }})"
-                                        class="text-blue-600 hover:text-blue-900">
+                                        class="text-sky-600 hover:text-sky-900">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
@@ -225,7 +225,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                            <td colspan="7" class="px-6 py-4 text-center text-slate-500">
                                 Nema pronađenih ocena za zadati filter.
                             </td>
                         </tr>
@@ -238,18 +238,18 @@
     <!-- Mobile Card View -->
     <div class="md:hidden space-y-4">
         @forelse($ratings as $rating)
-            <div class="bg-white rounded-lg shadow border-l-4 {{ $rating->rating === 'positive' ? 'border-green-500' : ($rating->rating === 'neutral' ? 'border-yellow-500' : 'border-red-500') }}">
+            <div class="bg-white rounded-lg shadow border-l-4 {{ $rating->rating === 'positive' ? 'border-green-500' : ($rating->rating === 'neutral' ? 'border-amber-500' : 'border-red-500') }}">
                 <div class="p-4">
                     <!-- Header -->
                     <div class="flex items-center justify-between mb-3">
                         <div class="flex items-center">
                             <span class="text-2xl mr-3">{{ $rating->rating_icon }}</span>
                             <div>
-                                <h3 class="text-sm font-semibold text-gray-900">{{ $rating->rater->name }}</h3>
-                                <p class="text-xs text-gray-500">ocenio {{ $rating->ratedUser->name }}</p>
+                                <h3 class="text-sm font-semibold text-slate-900">{{ $rating->rater->name }}</h3>
+                                <p class="text-xs text-slate-500">ocenio {{ $rating->ratedUser->name }}</p>
                             </div>
                         </div>
-                        <div class="text-xs text-gray-400">
+                        <div class="text-xs text-slate-400">
                             {{ $rating->created_at->format('d.m.Y') }}
                         </div>
                     </div>
@@ -257,23 +257,23 @@
                     <!-- Listing -->
                     @if($rating->listing)
                         <div class="mb-3">
-                            <p class="text-xs text-gray-500 mb-1">Oglas:</p>
-                            <p class="text-sm font-medium text-gray-800">{{ $rating->listing->title }}</p>
+                            <p class="text-xs text-slate-500 mb-1">Oglas:</p>
+                            <p class="text-sm font-medium text-slate-800">{{ $rating->listing->title }}</p>
                         </div>
                     @endif
 
                     <!-- Comment -->
                     @if($rating->comment)
                         <div class="mb-4">
-                            <p class="text-xs text-gray-500 mb-1">Komentar:</p>
-                            <p class="text-sm text-gray-700">"{{ $rating->comment }}"</p>
+                            <p class="text-xs text-slate-500 mb-1">Komentar:</p>
+                            <p class="text-sm text-slate-700">"{{ $rating->comment }}"</p>
                         </div>
                     @endif
 
                     <!-- Actions -->
                     <div class="flex justify-end space-x-3">
                         <button wire:click="editRating({{ $rating->id }})"
-                            class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                            class="text-sky-600 hover:text-sky-800 text-sm font-medium">
                             Izmeni
                         </button>
                         <button wire:click="confirmDelete({{ $rating->id }})"
@@ -286,8 +286,8 @@
         @empty
             <div class="bg-white rounded-lg shadow p-8 text-center">
                 <div class="text-4xl mb-3">😊</div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Nema pronađenih ocena</h3>
-                <p class="text-gray-600">Trenutno nema ocena koje odgovaraju vašoj pretrazi.</p>
+                <h3 class="text-lg font-semibold text-slate-800 mb-2">Nema pronađenih ocena</h3>
+                <p class="text-slate-600">Trenutno nema ocena koje odgovaraju vašoj pretrazi.</p>
             </div>
         @endforelse
     </div>
@@ -311,7 +311,7 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"></div>
 
             <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
                  x-show="open"
@@ -323,18 +323,18 @@
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
-                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                 </path>
                             </svg>
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Izmeni ocenu</h3>
+                            <h3 class="text-lg leading-6 font-medium text-slate-900 mb-4">Izmeni ocenu</h3>
                             
                             @if($selectedRating)
-                                <div class="mb-4 p-3 bg-gray-50 rounded">
+                                <div class="mb-4 p-3 bg-slate-50 rounded">
                                     <p class="text-sm"><strong>Ocenio:</strong> {{ $selectedRating->rater->name }}</p>
                                     <p class="text-sm"><strong>Ocenjen:</strong> {{ $selectedRating->ratedUser->name }}</p>
                                     @if($selectedRating->listing)
@@ -345,8 +345,8 @@
 
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Tip ocene</label>
-                                    <select wire:model="editState.rating" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Tip ocene</label>
+                                    <select wire:model="editState.rating" class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
                                         <option value="">Izaberi tip ocene</option>
                                         @foreach($ratingOptions as $value => $label)
                                             <option value="{{ $value }}">{{ $label }}</option>
@@ -356,9 +356,9 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Komentar</label>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Komentar</label>
                                     <textarea wire:model="editState.comment" rows="4" 
-                                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                         placeholder="Opcioni komentar..."></textarea>
                                     @error('editState.comment') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
@@ -366,13 +366,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <div class="bg-slate-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button wire:click="updateRating" type="button"
-                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-600 text-base font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm">
                         Sačuvaj
                     </button>
                     <button wire:click="closeModals" type="button"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-slate-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                         Otkaži
                     </button>
                 </div>
@@ -386,7 +386,7 @@
          x-cloak
          class="fixed inset-0 z-50 overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"></div>
 
             <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -397,9 +397,9 @@
                             </svg>
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900">Obriši ocenu</h3>
+                            <h3 class="text-lg leading-6 font-medium text-slate-900">Obriši ocenu</h3>
                             <div class="mt-2">
-                                <p class="text-sm text-gray-500">
+                                <p class="text-sm text-slate-500">
                                     Da li ste sigurni da želite da obrišete ovu ocenu? Ova akcija se ne može poništiti.
                                 </p>
                                 
@@ -414,13 +414,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <div class="bg-slate-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button wire:click="deleteRating" type="button"
                         class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
                         Obriši
                     </button>
                     <button wire:click="closeModals" type="button"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-slate-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                         Otkaži
                     </button>
                 </div>

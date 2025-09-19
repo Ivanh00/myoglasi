@@ -40,21 +40,21 @@ return $next($request);
         <p class="text-2xl font-bold text-green-600 mb-2">
             {{ number_format($listing->price, 0) }} RSD
         </p>
-        <p class="text-gray-600 text-sm mb-3">{{ $listing->category->name }}</p>
+        <p class="text-slate-600 text-sm mb-3">{{ $listing->category->name }}</p>
 
         <!-- Seller info - visible to all -->
         <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-500">{{ $listing->user->name }}</span>
-            <span class="text-xs text-gray-400">{{ $listing->created_at->diffForHumans() }}</span>
+            <span class="text-sm text-slate-500">{{ $listing->user->name }}</span>
+            <span class="text-xs text-slate-400">{{ $listing->created_at->diffForHumans() }}</span>
         </div>
 
         <!-- Phone number - only if visible and user allows it -->
         @if ($listing->user->phone_visible && $listing->user->phone)
-            <div class="mt-2 text-sm text-gray-600">
+            <div class="mt-2 text-sm text-slate-600">
                 @auth
                     📞 {{ $listing->user->phone }}
                 @else
-                    📞 <span class="text-blue-600">Registruj se za broj</span>
+                    📞 <span class="text-sky-600">Registruj se za broj</span>
                 @endauth
             </div>
         @endif
@@ -64,18 +64,18 @@ return $next($request);
             @auth
                 @if (auth()->id() !== $listing->user_id)
                     <a href="{{ route('listings.show', $listing) }}"
-                        class="block w-full bg-blue-600 text-white text-center py-2 rounded hover:bg-blue-700 transition">
+                        class="block w-full bg-sky-600 text-white text-center py-2 rounded hover:bg-sky-700 transition">
                         Pogledaj detaljno
                     </a>
                 @else
                     <a href="{{ route('listings.edit', $listing) }}"
-                        class="block w-full bg-gray-600 text-white text-center py-2 rounded hover:bg-gray-700 transition">
+                        class="block w-full bg-slate-600 text-white text-center py-2 rounded hover:bg-slate-700 transition">
                         Edituj oglas
                     </a>
                 @endif
             @else
                 <a href="{{ route('listings.show', $listing) }}"
-                    class="block w-full bg-blue-600 text-white text-center py-2 rounded hover:bg-blue-700 transition">
+                    class="block w-full bg-sky-600 text-white text-center py-2 rounded hover:bg-sky-700 transition">
                     Pogledaj detaljno
                 </a>
             @endauth
@@ -89,7 +89,7 @@ return $next($request);
 <!-- resources/views/livewire/home.blade.php -->
 <div>
     <!-- Hero Section -->
-    <div class="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-12">
+    <div class="bg-gradient-to-r from-sky-600 to-purple-700 text-white py-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h1 class="text-4xl font-bold mb-4">Dobrodošli na MarketPlace</h1>
             <p class="text-xl mb-8">Kupuj i prodavaj bez ograničenja</p>
@@ -97,8 +97,8 @@ return $next($request);
             <!-- Search Bar -->
             <div class="max-w-2xl mx-auto relative">
                 <input wire:model="searchTerm" type="text" placeholder="Pretražite oglase..."
-                    class="w-full px-6 py-4 text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
-                <button class="absolute right-2 top-2 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                    class="w-full px-6 py-4 text-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
+                <button class="absolute right-2 top-2 bg-sky-600 text-white px-6 py-2 rounded hover:bg-sky-700">
                     🔍
                 </button>
             </div>
@@ -106,11 +106,11 @@ return $next($request);
             @guest
                 <div class="mt-6 space-x-4">
                     <a href="{{ route('register') }}"
-                        class="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-gray-100 transition">
+                        class="bg-white text-sky-600 px-6 py-3 rounded-lg hover:bg-slate-100 transition">
                         Registruj se besplatno
                     </a>
                     <a href="{{ route('login') }}"
-                        class="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition">
+                        class="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-sky-600 transition">
                         Prijavi se
                     </a>
                 </div>
@@ -127,7 +127,7 @@ return $next($request);
                     class="bg-white p-4 rounded-lg shadow hover:shadow-md transition text-center">
                     <div class="text-2xl mb-2">{{ $category->icon ?? '📦' }}</div>
                     <h3 class="font-medium">{{ $category->name }}</h3>
-                    <p class="text-sm text-gray-500">{{ $category->listings_count ?? 0 }} oglasa</p>
+                    <p class="text-sm text-slate-500">{{ $category->listings_count ?? 0 }} oglasa</p>
                 </a>
             @endforeach
         </div>
@@ -135,7 +135,7 @@ return $next($request);
 
     <!-- Featured Listings -->
     @if ($featuredListings->count() > 0)
-        <div class="bg-gray-50 py-8">
+        <div class="bg-slate-50 py-8">
             <div class="max-w-7xl mx-auto px-4">
                 <h2 class="text-2xl font-bold mb-6">Izdvojeni oglasi</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -151,7 +151,7 @@ return $next($request);
     <div class="max-w-7xl mx-auto px-4 py-8">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">Najnoviji oglasi</h2>
-            <a href="{{ route('search') }}" class="text-blue-600 hover:text-blue-800">
+            <a href="{{ route('search') }}" class="text-sky-600 hover:text-sky-800">
                 Vidi sve →
             </a>
         </div>
@@ -164,13 +164,13 @@ return $next($request);
 
     <!-- Call to Action for Guests -->
     @guest
-        <div class="bg-blue-600 text-white py-12">
+        <div class="bg-sky-600 text-white py-12">
             <div class="max-w-4xl mx-auto px-4 text-center">
                 <h2 class="text-3xl font-bold mb-4">Želiš da prodaš nešto?</h2>
                 <p class="text-xl mb-6">Registruj se i počni da objavljuješ oglase već danas!</p>
                 <div class="space-x-4">
                     <a href="{{ route('register') }}"
-                        class="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition inline-block">
+                        class="bg-white text-sky-600 px-8 py-3 rounded-lg hover:bg-slate-100 transition inline-block">
                         Registruj se besplatno
                     </a>
                 </div>
@@ -188,15 +188,15 @@ return $next($request);
 ### Registration form sa phone_visible
 ```blade
 <!-- resources/views/livewire/register.blade.php -->
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
         <div>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">
                 Kreiraj nalog
             </h2>
-            <p class="mt-2 text-center text-sm text-gray-600">
+            <p class="mt-2 text-center text-sm text-slate-600">
                 Ili se
-                <a href="{{ route('login') }}" class="font-medium text-blue-600 hover:text-blue-500">
+                <a href="{{ route('login') }}" class="font-medium text-sky-600 hover:text-sky-500">
                     prijavi ako imaš nalog
                 </a>
             </p>
@@ -206,11 +206,11 @@ return $next($request);
             <div class="space-y-4">
                 <!-- Name -->
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">
+                    <label for="name" class="block text-sm font-medium text-slate-700">
                         Ime i prezime *
                     </label>
                     <input wire:model="name" type="text" id="name"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500">
                     @error('name')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
@@ -218,11 +218,11 @@ return $next($request);
 
                 <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">
+                    <label for="email" class="block text-sm font-medium text-slate-700">
                         Email adresa *
                     </label>
                     <input wire:model="email" type="email" id="email"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500">
                     @error('email')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
@@ -230,11 +230,11 @@ return $next($request);
 
                 <!-- Phone -->
                 <div>
-                    <label for="phone" class="block text-sm font-medium text-gray-700">
+                    <label for="phone" class="block text-sm font-medium text-slate-700">
                         Broj telefona
                     </label>
                     <input wire:model="phone" type="text" id="phone" placeholder="064/123-456"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500">
                     @error('phone')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
@@ -243,12 +243,12 @@ return $next($request);
                     <div class="mt-2">
                         <label class="flex items-center">
                             <input wire:model="phone_visible" type="checkbox"
-                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-600">
+                                class="rounded border-slate-300 text-sky-600 shadow-sm focus:border-sky-300 focus:ring focus:ring-sky-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-slate-600">
                                 Prikaži broj telefona u oglasima (preporučeno)
                             </span>
                         </label>
-                        <p class="text-xs text-gray-500 mt-1">
+                        <p class="text-xs text-slate-500 mt-1">
                             Kupci će moći direktno da te kontaktiraju
                         </p>
                     </div>
@@ -256,11 +256,11 @@ return $next($request);
 
                 <!-- Password -->
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">
+                    <label for="password" class="block text-sm font-medium text-slate-700">
                         Lozinka *
                     </label>
                     <input wire:model="password" type="password" id="password"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500">
                     @error('password')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
@@ -268,11 +268,11 @@ return $next($request);
 
                 <!-- Password Confirmation -->
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
+                    <label for="password_confirmation" class="block text-sm font-medium text-slate-700">
                         Potvrdi lozinku *
                     </label>
                     <input wire:model="password_confirmation" type="password" id="password_confirmation"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500">
                     @error('password_confirmation')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
@@ -281,13 +281,13 @@ return $next($request);
 
             <div>
                 <button type="submit"
-                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
                     Registruj se
                 </button>
             </div>
 
             <div class="text-center">
-                <p class="text-sm text-gray-600">
+                <p class="text-sm text-slate-600">
                     Registracijom se slažeš sa našim uslovima korišćenja
                 </p>
             </div>
@@ -894,11 +894,11 @@ Route::get('/register', RegisterComponent::class)->name('register');
 <div class="max-w-6xl mx-auto px-4 py-6">
     <!-- Breadcrumbs -->
     <nav class="text-sm mb-4">
-        <a href="{{ route('home') }}" class="text-blue-600">Početna</a> >
-        <a href="{{ route('category.show', $listing->category) }}" class="text-blue-600">
+        <a href="{{ route('home') }}" class="text-sky-600">Početna</a> >
+        <a href="{{ route('category.show', $listing->category) }}" class="text-sky-600">
             {{ $listing->category->name }}
         </a> >
-        <span class="text-gray-500">{{ $listing->title }}</span>
+        <span class="text-slate-500">{{ $listing->title }}</span>
     </nav>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -915,15 +915,15 @@ Route::get('/register', RegisterComponent::class)->name('register');
                             @foreach ($listing->images as $index => $image)
                                 <img src="{{ Storage::url($image->image_path) }}"
                                     @click="activeImage = {{ $index }}"
-                                    :class="{ 'ring-2 ring-blue-500': activeImage === {{ $index }} }"
+                                    :class="{ 'ring-2 ring-sky-500': activeImage === {{ $index }} }"
                                     class="w-full h-16 object-cover rounded cursor-pointer">
                             @endforeach
                         </div>
                     @endif
                 </div>
             @else
-                <div class="bg-gray-200 h-96 rounded-lg flex items-center justify-center">
-                    <span class="text-gray-500">Nema slika</span>
+                <div class="bg-slate-200 h-96 rounded-lg flex items-center justify-center">
+                    <span class="text-slate-500">Nema slika</span>
                 </div>
             @endif
         </div>
@@ -938,17 +938,17 @@ Route::get('/register', RegisterComponent::class)->name('register');
             </div>
 
             <!-- Seller Info -->
-            <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="bg-slate-50 p-4 rounded-lg">
                 <h3 class="font-semibold mb-2">Prodavac</h3>
-                <p class="text-gray-700">{{ $listing->user->name }}</p>
+                <p class="text-slate-700">{{ $listing->user->name }}</p>
 
                 @if ($showPhoneNumber)
-                    <p class="text-gray-700 mt-1">
+                    <p class="text-slate-700 mt-1">
                         📞 {{ $listing->user->phone }}
                     </p>
                 @endif
 
-                <p class="text-sm text-gray-500 mt-2">
+                <p class="text-sm text-slate-500 mt-2">
                     Član od {{ $listing->user->created_at->format('M Y') }}
                 </p>
             </div>
@@ -957,40 +957,40 @@ Route::get('/register', RegisterComponent::class)->name('register');
             <div class="space-y-3">
                 @if ($canContact)
                     <button wire:click="contactSeller"
-                        class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition">
+                        class="w-full bg-sky-600 text-white py-3 px-4 rounded-lg hover:bg-sky-700 transition">
                         💬 Pošalji poruku
                     </button>
                 @elseif(!auth()->check())
                     <a href="{{ route('login') }}"
-                        class="block w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition text-center">
+                        class="block w-full bg-sky-600 text-white py-3 px-4 rounded-lg hover:bg-sky-700 transition text-center">
                         Prijaviť se za kontakt
                     </a>
                 @elseif(auth()->id() === $listing->user_id)
                     <a href="{{ route('listings.edit', $listing) }}"
-                        class="block w-full bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700 transition text-center">
+                        class="block w-full bg-slate-600 text-white py-3 px-4 rounded-lg hover:bg-slate-700 transition text-center">
                         ✏️ Edituj oglas
                     </a>
                 @endif
 
                 @if (!$showPhoneNumber && !auth()->check())
-                    <div class="text-center text-sm text-gray-500 bg-yellow-50 p-3 rounded">
+                    <div class="text-center text-sm text-slate-500 bg-amber-50 p-3 rounded">
                         <p>📞 Registruj se da vidiš broj telefona</p>
                     </div>
                 @endif
             </div>
 
             <!-- Listing Details -->
-            <div class="bg-gray-50 p-4 rounded-lg space-y-2">
+            <div class="bg-slate-50 p-4 rounded-lg space-y-2">
                 <div class="flex justify-between">
-                    <span class="text-gray-600">Kategorija:</span>
+                    <span class="text-slate-600">Kategorija:</span>
                     <span class="font-medium">{{ $listing->category->name }}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-gray-600">Objavljeno:</span>
+                    <span class="text-slate-600">Objavljeno:</span>
                     <span class="font-medium">{{ $listing->created_at->diffForHumans() }}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-gray-600">Ističe:</span>
+                    <span class="text-slate-600">Ističe:</span>
                     <span class="font-medium">{{ $listing->expires_at->diffForHumans() }}</span>
                 </div>
             </div>

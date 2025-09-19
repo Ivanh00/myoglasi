@@ -62,7 +62,7 @@
                                         <i class="fas fa-eye text-green-600 dark:text-green-300 text-sm" title="Pročitano"></i>
                                     @else
                                         <!-- Dostavljena poruka - sivo oko -->
-                                        <i class="fas fa-eye text-gray-400 text-sm" title="Dostavljeno"></i>
+                                        <i class="fas fa-eye text-slate-400 text-sm" title="Dostavljeno"></i>
                                     @endif
                                 </div>
                             @endif
@@ -76,7 +76,7 @@
                     </div>
                 @endif
             @empty
-                <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                <div class="text-center py-8 text-slate-500 dark:text-slate-400">
                     <i class="fas fa-comments text-4xl mb-4"></i>
                     <p>Počnite konverzaciju sa administratorom</p>
                     <p class="text-sm">Pišite za podršku, prijave problema ili predloge</p>
@@ -91,7 +91,7 @@
         @if(count($conversation) == 0)
             <div class="text-field-holder">
                 <input type="text" wire:model="subject" 
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg mb-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg mb-3 focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                     placeholder="Naslov poruke (npr. Pitanje o funkcionalnosti, Prijava problema...)">
                 @error('subject')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -110,7 +110,7 @@
         </div>
 
         <section class="form-buttons">
-            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+            <div class="flex items-center text-sm text-slate-500 dark:text-slate-400">
                 <i class="fas fa-shield-alt mr-2"></i>
                 Direktna komunikacija sa administratorom
             </div>

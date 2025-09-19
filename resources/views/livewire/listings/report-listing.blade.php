@@ -1,10 +1,10 @@
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen bg-slate-50 py-8">
     <div class="max-w-2xl mx-auto px-4">
         <div class="bg-white rounded-lg shadow-lg p-6">
             <!-- Header -->
             <div class="text-center mb-8">
-                <h1 class="text-2xl font-bold text-gray-900 mb-2">Prijavite oglas</h1>
-                <p class="text-gray-600">Pomoći ćete nam da održimo sigurnu i pouzdanu platformu</p>
+                <h1 class="text-2xl font-bold text-slate-900 mb-2">Prijavite oglas</h1>
+                <p class="text-slate-600">Pomoći ćete nam da održimo sigurnu i pouzdanu platformu</p>
             </div>
 
             <!-- Listing Info -->
@@ -15,8 +15,8 @@
                             <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}" 
                                  class="h-16 w-16 rounded-lg object-cover">
                         @else
-                            <div class="h-16 w-16 rounded-lg bg-gray-200 flex items-center justify-center">
-                                <i class="fas fa-image text-gray-400"></i>
+                            <div class="h-16 w-16 rounded-lg bg-slate-200 flex items-center justify-center">
+                                <i class="fas fa-image text-slate-400"></i>
                             </div>
                         @endif
                     </div>
@@ -32,29 +32,29 @@
             <form wire:submit.prevent="submitReport">
                 <!-- Report Reason -->
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                    <label class="block text-sm font-medium text-slate-700 mb-3">
                         Razlog prijave <span class="text-red-500">*</span>
                     </label>
                     
                     <div class="space-y-2">
                         @foreach($reportReasons as $key => $reason)
-                            <label class="flex items-center cursor-pointer p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors {{ $reportReason === $key ? 'border-red-500 bg-red-50' : '' }}">
+                            <label class="flex items-center cursor-pointer p-3 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors {{ $reportReason === $key ? 'border-red-500 bg-red-50' : '' }}">
                                 <input type="radio" wire:model.live="reportReason" value="{{ $key }}" 
                                        class="mr-3 text-red-600 focus:ring-red-500">
                                 <div class="flex-1">
-                                    <div class="font-medium text-gray-900">{{ $reason }}</div>
+                                    <div class="font-medium text-slate-900">{{ $reason }}</div>
                                     @switch($key)
                                         @case('inappropriate_content')
-                                            <div class="text-sm text-gray-500">Uvredljiv, diskriminirajući ili neprikladan sadržaj</div>
+                                            <div class="text-sm text-slate-500">Uvredljiv, diskriminirajući ili neprikladan sadržaj</div>
                                             @break
                                         @case('fake_listing') 
-                                            <div class="text-sm text-gray-500">Lažne informacije ili nepostojеći proizvod</div>
+                                            <div class="text-sm text-slate-500">Lažne informacije ili nepostojеći proizvod</div>
                                             @break
                                         @case('scam')
-                                            <div class="text-sm text-gray-500">Sumnja na prevaru ili malicioznu aktivnost</div>
+                                            <div class="text-sm text-slate-500">Sumnja na prevaru ili malicioznu aktivnost</div>
                                             @break
                                         @case('duplicate')
-                                            <div class="text-sm text-gray-500">Isti oglas je već postavljen</div>
+                                            <div class="text-sm text-slate-500">Isti oglas je već postavljen</div>
                                             @break
                                     @endswitch
                                 </div>
@@ -69,29 +69,29 @@
 
                 <!-- Report Details -->
                 <div class="mb-8">
-                    <label for="reportDetails" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="reportDetails" class="block text-sm font-medium text-slate-700 mb-2">
                         Detaljno objašnjenje <span class="text-red-500">*</span>
                     </label>
                     <textarea wire:model="reportDetails" id="reportDetails" rows="5" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                         placeholder="Molimo opišite detaljno problem sa ovim oglasom..."></textarea>
                     <div class="flex justify-between items-center mt-1">
                         @error('reportDetails') 
                             <p class="text-red-600 text-sm">{{ $message }}</p>
                         @else
-                            <p class="text-gray-500 text-sm">Vaš izveštaj će biti poslat administratorima</p>
+                            <p class="text-slate-500 text-sm">Vaš izveštaj će biti poslat administratorima</p>
                         @enderror
-                        <p class="text-gray-400 text-sm">{{ strlen($reportDetails ?? '') }}/1000</p>
+                        <p class="text-slate-400 text-sm">{{ strlen($reportDetails ?? '') }}/1000</p>
                     </div>
                 </div>
 
                 <!-- Warning Notice -->
-                <div class="mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div class="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                     <div class="flex items-start">
-                        <i class="fas fa-exclamation-triangle text-yellow-600 mr-3 mt-1"></i>
+                        <i class="fas fa-exclamation-triangle text-amber-600 mr-3 mt-1"></i>
                         <div>
-                            <h4 class="text-yellow-900 font-semibold mb-1">Napomena</h4>
-                            <ul class="text-yellow-800 text-sm space-y-1">
+                            <h4 class="text-amber-900 font-semibold mb-1">Napomena</h4>
+                            <ul class="text-amber-800 text-sm space-y-1">
                                 <li>• Lažne prijave mogu dovesti do ograničavanja vašeg naloga</li>
                                 <li>• Administratori će pregledati vašu prijavu u najkraćem roku</li>
                                 <li>• Za hitne slučajeve kontaktirajte nas direktno</li>
@@ -103,7 +103,7 @@
                 <!-- Action Buttons -->
                 <div class="flex justify-between items-center">
                     <a href="{{ route('listings.show', $listing) }}" 
-                       class="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+                       class="px-6 py-3 border border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-colors">
                         <i class="fas fa-arrow-left mr-2"></i>
                         Nazad na oglas
                     </a>
@@ -120,20 +120,20 @@
 
     <!-- Success Modal -->
     @if($showSuccessModal)
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 flex items-center justify-center">
+        <div class="fixed inset-0 bg-slate-500 bg-opacity-75 z-50 flex items-center justify-center">
             <div class="bg-white rounded-lg shadow-xl p-6 max-w-md mx-4">
                 <div class="text-center">
                     <div class="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
                         <i class="fas fa-check text-green-600 text-2xl"></i>
                     </div>
                     
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Prijava je poslata</h3>
-                    <p class="text-gray-600 mb-6">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-2">Prijava je poslata</h3>
+                    <p class="text-slate-600 mb-6">
                         Hvala vam na ukazanoj pažnji. Administratori će pregledati vašu prijavu u najkraćem roku.
                     </p>
                     
                     <button wire:click="closeSuccessModal" 
-                        class="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                        class="w-full px-4 py-2 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition-colors">
                         Nazad na oglas
                     </button>
                 </div>

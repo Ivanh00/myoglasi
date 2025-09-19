@@ -1,8 +1,8 @@
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     <!-- Naslov -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Moje aukcije</h1>
-        <p class="text-gray-600 dark:text-gray-300 mt-2">Upravljajte svojim aukcijama</p>
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Moje aukcije</h1>
+        <p class="text-slate-600 dark:text-slate-300 mt-2">Upravljajte svojim aukcijama</p>
     </div>
 
     <!-- Filter -->
@@ -11,11 +11,11 @@
 
         <!-- Filter -->
         <div class="flex items-center space-x-4">
-            <label class="text-sm font-medium text-gray-700 dark:text-gray-200">Prikaži:</label>
+            <label class="text-sm font-medium text-slate-700 dark:text-slate-200">Prikaži:</label>
             <div class="w-60" x-data="{ open: false }" x-init="open = false">
                 <div class="relative">
                     <button @click="open = !open" type="button"
-                        class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 text-sm text-left hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-colors flex items-center justify-between">
+                        class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
                         <span>
                             @switch($filter)
                                 @case('active')
@@ -34,31 +34,31 @@
                                     Sve aukcije
                             @endswitch
                         </span>
-                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
 
                     <div x-show="open" @click.away="open = false" x-transition
-                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                         <button @click="$wire.set('filter', 'all'); open = false" type="button"
-                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-t-lg {{ $filter === 'all' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ $filter === 'all' ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-sky-300' : '' }}">
                             Sve aukcije
                         </button>
                         <button @click="$wire.set('filter', 'active'); open = false" type="button"
-                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 {{ $filter === 'active' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $filter === 'active' ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-sky-300' : '' }}">
                             Aktivne aukcije
                         </button>
                         <button @click="$wire.set('filter', 'ended'); open = false" type="button"
-                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 {{ $filter === 'ended' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $filter === 'ended' ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-sky-300' : '' }}">
                             Sve završene aukcije
                         </button>
                         <button @click="$wire.set('filter', 'ended_with_bids'); open = false" type="button"
-                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 {{ $filter === 'ended_with_bids' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $filter === 'ended_with_bids' ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-sky-300' : '' }}">
                             Završene sa ponudama
                         </button>
                         <button @click="$wire.set('filter', 'ended_without_bids'); open = false" type="button"
-                            class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-b-lg {{ $filter === 'ended_without_bids' ? 'bg-blue-50 dark:bg-gray-600 text-blue-700 dark:text-blue-300' : '' }}">
+                            class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg {{ $filter === 'ended_without_bids' ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-sky-300' : '' }}">
                             Završene bez ponuda
                         </button>
                     </div>
@@ -71,21 +71,21 @@
     @if ($auctions->count() > 0)
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <div class="grid grid-cols-[20%_15%_12%_10%_18%_25%] bg-gray-50 dark:bg-gray-700">
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Oglas</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Početna/Trenutna cena</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ponude</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum/Vreme</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Akcije</div>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+                <div class="grid grid-cols-[20%_15%_12%_10%_18%_25%] bg-slate-50 dark:bg-slate-700">
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Oglas</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Početna/Trenutna cena</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ponude</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Datum/Vreme</div>
+                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Akcije</div>
                 </div>
             </div>
 
             <!-- Data Rows -->
             @foreach ($auctions as $auction)
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border-l-4 border-yellow-500">
-                    <div class="grid grid-cols-[20%_15%_12%_10%_18%_25%] hover:bg-gray-50 dark:hover:bg-gray-700">
+                <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-amber-500">
+                    <div class="grid grid-cols-[20%_15%_12%_10%_18%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Oglas Column -->
                         <div class="px-6 py-2">
                             <div class="flex items-center">
@@ -94,24 +94,24 @@
                                             <img class="h-10 w-10 rounded-lg object-cover"
                                                 src="{{ $auction->listing->images->first()->url }}" alt="{{ $auction->listing->title }}">
                                         @else
-                                            <div class="h-10 w-10 rounded-lg bg-gray-200 flex items-center justify-center">
-                                                <i class="fas fa-gavel text-gray-400"></i>
+                                            <div class="h-10 w-10 rounded-lg bg-slate-200 flex items-center justify-center">
+                                                <i class="fas fa-gavel text-slate-400"></i>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">
+                                        <div class="text-sm font-medium text-slate-900 dark:text-slate-100 break-words">
                                             {{ Str::limit($auction->listing->title, 40) }}
                                         </div>
-                                        <div class="text-sm text-gray-500">{{ $auction->listing->category->name }}</div>
+                                        <div class="text-sm text-slate-500">{{ $auction->listing->category->name }}</div>
                                     </div>
                             </div>
                         </div>
                         <!-- Početna/Trenutna cena Column -->
                         <div class="px-6 py-2">
                             <div class="text-sm">
-                                <div class="text-gray-600 dark:text-gray-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
-                                <div class="text-gray-900 dark:text-gray-100 font-bold">Trenutna: {{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
+                                <div class="text-slate-600 dark:text-slate-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
+                                <div class="text-slate-900 dark:text-slate-100 font-bold">Trenutna: {{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
                                 @if($auction->buy_now_price)
                                     <div class="text-green-600 text-xs">Kupi odmah: {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD</div>
                                 @endif
@@ -120,9 +120,9 @@
                         <!-- Ponude Column -->
                         <div class="px-6 py-2">
                             <div class="text-sm">
-                                <div class="text-gray-900 dark:text-gray-100 font-semibold">{{ $auction->total_bids }} ponuda</div>
+                                <div class="text-slate-900 dark:text-slate-100 font-semibold">{{ $auction->total_bids }} ponuda</div>
                                 @if($auction->winningBid)
-                                    <div class="text-xs text-gray-500">Vodi: {{ $auction->winningBid->user->name }}</div>
+                                    <div class="text-xs text-slate-500">Vodi: {{ $auction->winningBid->user->name }}</div>
                                 @endif
                             </div>
                         </div>
@@ -132,22 +132,22 @@
                                     @if($auction->isActive())
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1">Aktivna</span>
                                         @if($auction->time_left)
-                                            <span class="text-xs text-gray-500">{{ $auction->time_left['formatted'] }} ostalo</span>
+                                            <span class="text-xs text-slate-500">{{ $auction->time_left['formatted'] }} ostalo</span>
                                         @endif
                                     @elseif($auction->hasEnded())
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">Završena</span>
                                         @if($auction->winner)
                                             <span class="text-xs text-green-600">Pobednik: {{ $auction->winner->name }}</span>
                                         @else
-                                            <span class="text-xs text-gray-500">Bez ponuda</span>
+                                            <span class="text-xs text-slate-500">Bez ponuda</span>
                                         @endif
                                     @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200">{{ ucfirst($auction->status) }}</span>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200">{{ ucfirst($auction->status) }}</span>
                                     @endif
                             </div>
                         </div>
                         <!-- Datum/Vreme Column -->
-                        <div class="px-6 py-2 text-sm text-gray-500">
+                        <div class="px-6 py-2 text-sm text-slate-500">
                             <div class="flex flex-col space-y-1">
                                 <div>Počinje: {{ $auction->starts_at->format('d.m.Y') }} {{ $auction->starts_at->format('H:i') }}</div>
                                 <div>Završava: {{ $auction->ends_at->format('d.m.Y') }} {{ $auction->ends_at->format('H:i') }}</div>
@@ -157,7 +157,7 @@
                         <div class="px-6 py-1 text-sm font-medium">
                                 <div class="flex flex-wrap gap-1">
                                         <a href="{{ route('auction.show', $auction) }}"
-                                            class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded">
+                                            class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
                                             <i class="fas fa-eye mr-1"></i> Pregled
                                         </a>
 
@@ -167,14 +167,14 @@
                                                 <i class="fas fa-edit mr-1"></i> Uredi
                                             </a>
                                         @else
-                                            <span class="inline-flex items-center px-2 py-1 text-gray-400 dark:text-gray-500 rounded cursor-not-allowed" title="Ne možete uređivati aukciju koja ima ponude">
+                                            <span class="inline-flex items-center px-2 py-1 text-slate-400 dark:text-slate-500 rounded cursor-not-allowed" title="Ne možete uređivati aukciju koja ima ponude">
                                                 <i class="fas fa-edit mr-1"></i> Uredi
                                             </span>
                                         @endif
 
                                         @if($auction->listing && $auction->status === 'active')
                                             <button wire:click="$dispatch('openPromotionModal', { listingId: {{ $auction->listing->id }} })"
-                                                class="inline-flex items-center px-2 py-1 {{ $auction->listing->hasActivePromotion() ? 'text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300' : 'text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300' }} rounded">
+                                                class="inline-flex items-center px-2 py-1 {{ $auction->listing->hasActivePromotion() ? 'text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300' : 'text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300' }} rounded">
                                                 <i class="fas fa-bullhorn mr-1"></i>
                                                 Promocija
                                             </button>
@@ -211,21 +211,21 @@
         </div>
 
         <!-- Auction Rules Section - Desktop only (after desktop table) -->
-        <div class="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mt-6">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+        <div class="hidden lg:block bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
+                <i class="fas fa-info-circle text-sky-600 mr-2"></i>
                 Pravila za upravljanje aukcijama
             </h3>
 
-            <div class="p-4 bg-blue-100 dark:bg-blue-900 border border-blue-300 dark:border-blue-700 rounded-lg">
-                <div class="text-sm text-blue-800 dark:text-blue-200">
+            <div class="p-4 bg-sky-100 dark:bg-sky-900 border border-sky-300 dark:border-sky-700 rounded-lg">
+                <div class="text-sm text-sky-800 dark:text-sky-200">
                     <ul class="space-y-3">
                         <li class="flex items-start">
                             <i class="fas fa-times-circle text-red-600 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Uklanjanje aukcije:</strong> Aukcija se može ukloniti samo ukoliko nema ponuda</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-edit text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-edit text-sky-600 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Uređivanje aukcije:</strong> Aukcija se ne može uređivati nakon što primi prvu ponudu</span>
                         </li>
                         <li class="flex items-start">
@@ -233,7 +233,7 @@
                             <span><strong>Obaveza prodavca:</strong> Nakon što aukcija premaši početnu cenu, prodavac se obavezuje da proda predmet kupcu sa najboljom ponudom</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-star text-yellow-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-star text-amber-600 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Posledice nepoštovanja:</strong> Ukoliko prodavac ne ispoštuje obavezu, suočava se sa negativnom ocenom od strane člana</span>
                         </li>
                         <li class="flex items-start">
@@ -241,7 +241,7 @@
                             <span><strong>Zaštita kupaca:</strong> Ova pravila štite kupce od nepoštenih prodavaca i osiguravaju fer trgovinu</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-user-shield text-gray-600 dark:text-gray-300 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-user-shield text-slate-600 dark:text-slate-300 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Napomena za administratore:</strong> Administratori mogu ukloniti aukciju u bilo kom trenutku radi rešavanja sporova</span>
                         </li>
                     </ul>
@@ -252,9 +252,9 @@
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
             @foreach ($auctions as $auction)
-                <div class="bg-white dark:bg-gray-800 border-l-4 border-yellow-500 shadow rounded-lg overflow-hidden">
+                <div class="bg-white dark:bg-slate-800 border-l-4 border-amber-500 shadow rounded-lg overflow-hidden">
                     <!-- Card Header -->
-                    <div class="p-4 border-b border-gray-200 dark:border-gray-600">
+                    <div class="p-4 border-b border-slate-200 dark:border-slate-600">
                         <div class="flex items-start justify-between">
                             <div class="flex items-start flex-1">
                                 <!-- Image -->
@@ -263,18 +263,18 @@
                                         <img class="h-16 w-16 rounded-lg object-cover" 
                                              src="{{ $auction->listing->images->first()->url }}" alt="{{ $auction->listing->title }}">
                                     @else
-                                        <div class="h-16 w-16 rounded-lg bg-gray-200 flex items-center justify-center">
-                                            <i class="fas fa-gavel text-gray-400"></i>
+                                        <div class="h-16 w-16 rounded-lg bg-slate-200 flex items-center justify-center">
+                                            <i class="fas fa-gavel text-slate-400"></i>
                                         </div>
                                     @endif
                                 </div>
                                 
                                 <!-- Auction Info -->
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ $auction->listing->title }}</h3>
-                                    <p class="text-sm text-gray-500 mb-2">{{ $auction->listing->category->name }}</p>
+                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">{{ $auction->listing->title }}</h3>
+                                    <p class="text-sm text-slate-500 mb-2">{{ $auction->listing->category->name }}</p>
                                     <div class="text-sm">
-                                        <div class="text-gray-600 dark:text-gray-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
+                                        <div class="text-slate-600 dark:text-slate-300">Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
                                         <div class="text-lg font-bold text-red-600">{{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
                                     </div>
                                 </div>
@@ -286,33 +286,33 @@
                     <div class="p-4">
                         <!-- Status Section -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Status aukcije</div>
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Status aukcije</div>
                             <div class="flex flex-col space-y-2">
                                 @if($auction->isActive())
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 w-fit">Aktivna</span>
                                     @if($auction->time_left)
-                                        <span class="text-xs text-gray-500">{{ $auction->time_left['formatted'] }} ostalo</span>
+                                        <span class="text-xs text-slate-500">{{ $auction->time_left['formatted'] }} ostalo</span>
                                     @endif
                                 @elseif($auction->hasEnded())
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 w-fit">Završena</span>
                                     @if($auction->winner)
                                         <span class="text-xs text-green-600">Pobednik: {{ $auction->winner->name }}</span>
                                     @else
-                                        <span class="text-xs text-gray-500">Bez ponuda</span>
+                                        <span class="text-xs text-slate-500">Bez ponuda</span>
                                     @endif
                                 @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 w-fit">{{ ucfirst($auction->status) }}</span>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200 w-fit">{{ ucfirst($auction->status) }}</span>
                                 @endif
                             </div>
                         </div>
 
                         <!-- Bids Info -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Ponude</div>
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Ponude</div>
                             <div class="space-y-1">
-                                <div class="text-sm text-gray-900 dark:text-gray-100">{{ $auction->total_bids }} ponuda</div>
+                                <div class="text-sm text-slate-900 dark:text-slate-100">{{ $auction->total_bids }} ponuda</div>
                                 @if($auction->winningBid)
-                                    <div class="text-xs text-gray-500">Vodi: {{ $auction->winningBid->user->name }}</div>
+                                    <div class="text-xs text-slate-500">Vodi: {{ $auction->winningBid->user->name }}</div>
                                 @endif
                                 @if($auction->buy_now_price)
                                     <div class="text-xs text-green-600">Kupi odmah: {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD</div>
@@ -322,17 +322,17 @@
 
                         <!-- Time Info -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Vreme</div>
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Vreme</div>
                             <div class="space-y-1">
-                                <div class="text-sm text-gray-900 dark:text-gray-100">Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</div>
-                                <div class="text-sm text-gray-900 dark:text-gray-100">Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</div>
+                                <div class="text-sm text-slate-900 dark:text-slate-100">Počinje: {{ $auction->starts_at->format('d.m.Y H:i') }}</div>
+                                <div class="text-sm text-slate-900 dark:text-slate-100">Završava: {{ $auction->ends_at->format('d.m.Y H:i') }}</div>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
                         <div class="flex flex-wrap gap-2">
                             <a href="{{ route('auction.show', $auction) }}"
-                                class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                                class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
                                 <i class="fas fa-eye mr-1"></i>
                                 Pregled aukcije
                             </a>
@@ -344,7 +344,7 @@
                                     Uredi
                                 </a>
                             @else
-                                <span class="inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-400 text-xs font-medium rounded-lg cursor-not-allowed" title="Ne možete uređivati aukciju koja ima ponude">
+                                <span class="inline-flex items-center px-3 py-1.5 bg-slate-100 text-slate-400 text-xs font-medium rounded-lg cursor-not-allowed" title="Ne možete uređivati aukciju koja ima ponude">
                                     <i class="fas fa-edit mr-1"></i>
                                     Uredi
                                 </span>
@@ -382,21 +382,21 @@
         </div>
 
         <!-- Auction Rules Section - Mobile only (after mobile cards) -->
-        <div class="lg:hidden bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mt-6">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+        <div class="lg:hidden bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
+                <i class="fas fa-info-circle text-sky-600 mr-2"></i>
                 Pravila za upravljanje aukcijama
             </h3>
 
-            <div class="p-4 bg-blue-100 dark:bg-blue-900 border border-blue-300 dark:border-blue-700 rounded-lg">
-                <div class="text-sm text-blue-800 dark:text-blue-200">
+            <div class="p-4 bg-sky-100 dark:bg-sky-900 border border-sky-300 dark:border-sky-700 rounded-lg">
+                <div class="text-sm text-sky-800 dark:text-sky-200">
                     <ul class="space-y-3">
                         <li class="flex items-start">
                             <i class="fas fa-times-circle text-red-600 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Uklanjanje aukcije:</strong> Aukcija se može ukloniti samo ukoliko nema ponuda</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-edit text-blue-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-edit text-sky-600 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Uređivanje aukcije:</strong> Aukcija se ne može uređivati nakon što primi prvu ponudu</span>
                         </li>
                         <li class="flex items-start">
@@ -404,7 +404,7 @@
                             <span><strong>Obaveza prodavca:</strong> Nakon što aukcija premaši početnu cenu, prodavac se obavezuje da proda predmet kupcu sa najboljom ponudom</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-star text-yellow-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-star text-amber-600 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Posledice nepoštovanja:</strong> Ukoliko prodavac ne ispoštuje obavezu, suočava se sa negativnom ocenom od strane člana</span>
                         </li>
                         <li class="flex items-start">
@@ -412,7 +412,7 @@
                             <span><strong>Zaštita kupaca:</strong> Ova pravila štite kupce od nepoštenih prodavaca i osiguravaju fer trgovinu</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-user-shield text-gray-600 dark:text-gray-300 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-user-shield text-slate-600 dark:text-slate-300 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Napomena za administratore:</strong> Administratori mogu ukloniti aukciju u bilo kom trenutku radi rešavanja sporova</span>
                         </li>
                     </ul>
@@ -420,21 +420,21 @@
             </div>
         </div>
     @else
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
-            <i class="fas fa-gavel text-gray-400 text-5xl mb-4"></i>
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">Nemate nijednu aukciju</h3>
-            <p class="text-gray-600 dark:text-gray-300 mb-4">Prvo kreirajte oglas, a zatim možete postaviti aukciju.</p>
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-8 text-center">
+            <i class="fas fa-gavel text-slate-400 text-5xl mb-4"></i>
+            <h3 class="text-xl font-semibold text-slate-800 mb-2">Nemate nijednu aukciju</h3>
+            <p class="text-slate-600 dark:text-slate-300 mb-4">Prvo kreirajte oglas, a zatim možete postaviti aukciju.</p>
             @php
                 $hasListings = auth()->user()->listings()->count() > 0;
             @endphp
             @if($hasListings)
                 <a href="{{ route('listings.my') }}"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mr-2">
+                    class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors mr-2">
                     Moji oglasi
                 </a>
             @else
                 <a href="{{ route('listings.create') }}"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
                     Kreiraj oglas
                 </a>
             @endif
@@ -477,7 +477,7 @@
                  x-transition:leave="transition ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                 class="relative inline-block align-bottom bg-white dark:bg-slate-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 
                 <!-- Modal header with warning icon -->
                 <div class="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-1">
@@ -488,7 +488,7 @@
                             </div>
                             <h3 class="ml-3 text-xl font-bold text-white">Uklanjanje aukcije</h3>
                         </div>
-                        <button @click="showRemoveModal = false" class="text-white hover:text-gray-200">
+                        <button @click="showRemoveModal = false" class="text-white hover:text-slate-200">
                             <i class="fas fa-times text-xl"></i>
                         </button>
                     </div>
@@ -498,31 +498,31 @@
                 <div class="px-6 py-5">
                     <!-- Warning message -->
                     <div class="mb-4">
-                        <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Da li ste sigurni?
                         </h4>
-                        <p class="text-gray-600 dark:text-gray-400">
+                        <p class="text-slate-600 dark:text-slate-400">
                             Ova akcija će ukloniti vaš oglas iz aukcija i vratiti ga u obične oglase.
                         </p>
                     </div>
 
                     <!-- Auction info -->
                     <template x-if="selectedAuction">
-                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                        <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 mb-4">
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Naziv:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedAuction.listing?.title || 'N/A'"></span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Naziv:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedAuction.listing?.title || 'N/A'"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Trenutna cena:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Trenutna cena:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100">
                                         <span x-text="new Intl.NumberFormat('sr-RS').format(selectedAuction?.current_price || 0)"></span> RSD
                                     </span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Broj ponuda:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedAuction?.total_bids || 0"></span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Broj ponuda:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedAuction?.total_bids || 0"></span>
                                 </div>
                             </div>
                         </div>
@@ -561,11 +561,11 @@
                 </div>
 
                 <!-- Modal footer with actions -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-1">
+                <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-1">
                     <div class="flex space-x-3">
                         <button type="button"
                                 @click="showRemoveModal = false"
-                                class="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                                class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                             <i class="fas fa-times mr-2"></i>
                             Otkaži
                         </button>
@@ -573,7 +573,7 @@
                                 @click="removeFromAuction()"
                                 :disabled="selectedAuction && selectedAuction.current_price > selectedAuction.starting_price"
                                 :class="selectedAuction && selectedAuction.current_price > selectedAuction.starting_price ?
-                                    'flex-1 px-4 py-2.5 bg-gray-300 text-gray-500 font-medium rounded-lg cursor-not-allowed' :
+                                    'flex-1 px-4 py-2.5 bg-slate-300 text-slate-500 font-medium rounded-lg cursor-not-allowed' :
                                     'flex-1 px-4 py-2.5 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-medium rounded-lg hover:from-orange-700 hover:to-orange-800 transition-all transform hover:scale-105'">
                             <i class="fas fa-trash mr-2"></i>
                             Ukloni aukciju
@@ -624,7 +624,7 @@
                  x-transition:leave="transition ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                 class="relative inline-block align-bottom bg-white dark:bg-slate-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 
                 <!-- Modal header with delete icon -->
                 <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-1">
@@ -635,7 +635,7 @@
                             </div>
                             <h3 class="ml-3 text-xl font-bold text-white">Brisanje završene aukcije</h3>
                         </div>
-                        <button @click="showDeleteModal = false" class="text-white hover:text-gray-200">
+                        <button @click="showDeleteModal = false" class="text-white hover:text-slate-200">
                             <i class="fas fa-times text-xl"></i>
                         </button>
                     </div>
@@ -645,35 +645,35 @@
                 <div class="px-6 py-5">
                     <!-- Warning message -->
                     <div class="mb-4">
-                        <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Da li ste sigurni?
                         </h4>
-                        <p class="text-gray-600 dark:text-gray-400">
+                        <p class="text-slate-600 dark:text-slate-400">
                             Ova završena aukcija će biti obrisana iz vaše liste. Aukcija će ostati vidljiva administratorima sa statusom "Obrisana".
                         </p>
                     </div>
 
                     <!-- Auction info -->
                     <template x-if="selectedAuction">
-                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                        <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 mb-4">
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Naziv:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedAuction.listing?.title || 'N/A'"></span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Naziv:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedAuction.listing?.title || 'N/A'"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Završna cena:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Završna cena:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100">
                                         <span x-text="new Intl.NumberFormat('sr-RS').format(selectedAuction?.current_price || 0)"></span> RSD
                                     </span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600 dark:text-gray-300">Broj ponuda:</span>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selectedAuction?.total_bids || 0"></span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Broj ponuda:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedAuction?.total_bids || 0"></span>
                                 </div>
                                 <template x-if="selectedAuction?.winner">
                                     <div class="flex justify-between items-center">
-                                        <span class="text-sm text-gray-600 dark:text-gray-300">Pobednik:</span>
+                                        <span class="text-sm text-slate-600 dark:text-slate-300">Pobednik:</span>
                                         <span class="text-sm font-medium text-green-600 dark:text-green-400" x-text="selectedAuction.winner?.name || 'N/A'"></span>
                                     </div>
                                 </template>
@@ -682,13 +682,13 @@
                     </template>
 
                     <!-- Notice -->
-                    <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-3">
+                    <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-3">
                         <div class="flex">
                             <div class="flex-shrink-0">
-                                <i class="fas fa-info-circle text-yellow-600 dark:text-yellow-500"></i>
+                                <i class="fas fa-info-circle text-amber-600 dark:text-amber-500"></i>
                             </div>
                             <div class="ml-3">
-                                <p class="text-sm text-yellow-800 dark:text-yellow-200">
+                                <p class="text-sm text-amber-800 dark:text-amber-200">
                                     <strong>Napomena:</strong> Završene aukcije možete obrisati radi bolje preglednosti vaše liste. Brisanje neće uticati na istoriju transakcija.
                                 </p>
                             </div>
@@ -697,11 +697,11 @@
                 </div>
 
                 <!-- Modal footer with actions -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-1">
+                <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-1">
                     <div class="flex space-x-3">
                         <button type="button"
                                 @click="showDeleteModal = false"
-                                class="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                                class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                             <i class="fas fa-times mr-2"></i>
                             Otkaži
                         </button>

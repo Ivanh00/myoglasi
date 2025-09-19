@@ -30,13 +30,13 @@ $logout = function (Logout $logout) {
 
 <div>
     <div class="text-center mb-6">
-        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i class="fas fa-envelope text-blue-600 text-3xl"></i>
+        <div class="w-20 h-20 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-envelope text-sky-600 text-3xl"></i>
         </div>
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Verifikuj svoj email</h2>
+        <h2 class="text-2xl font-bold text-slate-900 mb-2">Verifikuj svoj email</h2>
     </div>
 
-    <div class="mb-6 text-sm text-gray-600 dark:text-gray-400 text-center">
+    <div class="mb-6 text-sm text-slate-600 dark:text-slate-400 text-center">
         <p class="mb-3">Hvala što ste se registrovali! Pre nego što počnete da koristite PazAriO, molimo vas da verifikujete vašu email adresu klikom na link koji smo vam poslali.</p>
         <p>Ako niste dobili email, možemo vam poslati novi.</p>
     </div>
@@ -59,7 +59,7 @@ $logout = function (Logout $logout) {
         </x-primary-button>
 
         <div class="text-center">
-            <button wire:click="logout" type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button wire:click="logout" type="submit" class="underline text-sm text-slate-600 hover:text-slate-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <i class="fas fa-sign-out-alt mr-1"></i>
                 Odjavi se
             </button>

@@ -1,29 +1,29 @@
 <div>
     @if(\App\Models\Setting::get('magic_link_enabled', false) && !$showEmailSent)
         <!-- Magic Link Form -->
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+        <div class="bg-sky-50 border border-sky-200 rounded-lg p-4 mb-4">
             <div class="flex items-center mb-3">
-                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                    <i class="fas fa-magic text-blue-600"></i>
+                <div class="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center mr-3">
+                    <i class="fas fa-magic text-sky-600"></i>
                 </div>
-                <h3 class="text-sm font-medium text-blue-900">Brza prijava preko email-a</h3>
+                <h3 class="text-sm font-medium text-sky-900">Brza prijava preko email-a</h3>
             </div>
             
-            <p class="text-xs text-blue-700 mb-3">
+            <p class="text-xs text-sky-700 mb-3">
                 Unesite email adresu i dobićete link za automatsku prijavu. Ako nemate nalog, kreiraće se automatski.
             </p>
             
             <form wire:submit.prevent="sendMagicLink" class="space-y-3">
                 <div>
                     <input type="email" wire:model="email" placeholder="unesite@email.com"
-                           class="w-full px-3 py-2 border border-blue-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm">
+                           class="w-full px-3 py-2 border border-sky-300 rounded-md focus:ring-sky-500 focus:border-sky-500 text-sm">
                     @error('email')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
                 
                 <button type="submit" wire:loading.attr="disabled"
-                        class="w-full px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 transition-colors">
+                        class="w-full px-4 py-2 bg-sky-600 text-white text-sm font-medium rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 disabled:opacity-50 transition-colors">
                     <span wire:loading.remove>
                         <i class="fas fa-paper-plane mr-1"></i>
                         Pošalji magic link
@@ -56,7 +56,7 @@
                     Pošalji ponovo
                 </button>
                 <button wire:click="resetForm" 
-                        class="px-3 py-1 bg-gray-600 text-white text-xs rounded hover:bg-gray-700">
+                        class="px-3 py-1 bg-slate-600 text-white text-xs rounded hover:bg-slate-700">
                     <i class="fas fa-arrow-left mr-1"></i>
                     Nazad
                 </button>

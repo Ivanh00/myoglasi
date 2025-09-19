@@ -2,8 +2,8 @@
     <div class="mb-6">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Upravljanje slikama</h1>
-                <p class="text-gray-600">Pregled i upravljanje svim slikama oglasa</p>
+                <h1 class="text-2xl font-bold text-slate-900">Upravljanje slikama</h1>
+                <p class="text-slate-600">Pregled i upravljanje svim slikama oglasa</p>
             </div>
         </div>
     </div>
@@ -12,16 +12,16 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
-                <div class="p-3 bg-blue-100 rounded-lg">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="p-3 bg-sky-100 rounded-lg">
+                    <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
                         </path>
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Ukupno slika</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stats['total'] }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Ukupno slika</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $stats['total'] }}</p>
                 </div>
             </div>
         </div>
@@ -36,8 +36,8 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Primarne slike</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stats['primary'] }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Primarne slike</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $stats['primary'] }}</p>
                 </div>
             </div>
         </div>
@@ -52,8 +52,8 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Ukupna veličina</h3>
-                    <p class="text-2xl font-semibold text-gray-900">
+                    <h3 class="text-sm font-medium text-slate-500">Ukupna veličina</h3>
+                    <p class="text-2xl font-semibold text-slate-900">
                         {{ $stats['totalSize'] > 0 ? number_format($stats['totalSize'] / 1024 / 1024, 2) : '0' }} MB
                     </p>
                 </div>
@@ -66,15 +66,15 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <!-- Pretraga -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pretraga po oglasu</label>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Pretraga po oglasu</label>
                 <input type="text" wire:model.live="search" placeholder="Pretraži po naslovu oglasa..."
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
             </div>
 
             <!-- Oglas -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Filter po oglasu</label>
-                <select wire:model.live="filters.listing_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Filter po oglasu</label>
+                <select wire:model.live="filters.listing_id" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi oglasi</option>
                     @foreach ($listings as $listing)
                         <option value="{{ $listing->id }}">{{ Str::limit($listing->title, 40) }}</option>
@@ -84,8 +84,8 @@
 
             <!-- Primarna slika -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Tip slike</label>
-                <select wire:model.live="filters.is_primary" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Tip slike</label>
+                <select wire:model.live="filters.is_primary" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Sve slike</option>
                     <option value="1">Samo primarne</option>
                     <option value="0">Samo dodatne</option>
@@ -94,12 +94,12 @@
         </div>
 
         <div class="flex justify-between items-center">
-            <div class="text-sm text-gray-600">
+            <div class="text-sm text-slate-600">
                 Pronađeno: {{ $images->total() }} slika
             </div>
             <div>
                 <button wire:click="resetFilters"
-                    class="px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded hover:bg-gray-50">
+                    class="px-3 py-1 text-sm text-slate-600 border border-slate-300 rounded hover:bg-slate-50">
                     Resetuj filtere
                 </button>
             </div>
@@ -112,9 +112,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-4">
                 @foreach ($images as $image)
                     <div
-                        class="relative group bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                        class="relative group bg-slate-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                         <!-- Slika -->
-                        <div class="aspect-w-16 aspect-h-12 bg-gray-200">
+                        <div class="aspect-w-16 aspect-h-12 bg-slate-200">
                             <img src="{{ Storage::disk('public')->exists($image->image_path) ? Storage::url($image->image_path) : 'https://via.placeholder.com/300x200?text=Slika+obrisana' }}"
                                 alt="Slika oglasa" class="w-full h-48 object-cover cursor-pointer"
                                 wire:click="viewImage({{ $image->id }})">
@@ -135,10 +135,10 @@
                                     @if ($image->is_primary)
                                         <span class="bg-green-500 text-white px-2 py-1 rounded-full">Primarna</span>
                                     @else
-                                        <span class="bg-gray-500 text-white px-2 py-1 rounded-full">Dodatna</span>
+                                        <span class="bg-slate-500 text-white px-2 py-1 rounded-full">Dodatna</span>
                                     @endif
 
-                                    <span class="text-gray-300">{{ $image->created_at->format('d.m.Y.') }}</span>
+                                    <span class="text-slate-300">{{ $image->created_at->format('d.m.Y.') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -180,20 +180,20 @@
             </div>
         @else
             <div class="p-8 text-center">
-                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor"
+                <svg class="w-16 h-16 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
                     </path>
                 </svg>
-                <p class="text-gray-500">Nema pronađenih slika</p>
-                <p class="text-gray-400 text-sm mt-1">Pokušajte da promenite filtere ili pretragu</p>
+                <p class="text-slate-500">Nema pronađenih slika</p>
+                <p class="text-slate-400 text-sm mt-1">Pokušajte da promenite filtere ili pretragu</p>
             </div>
         @endif
 
         <!-- Pagination -->
         @if ($images->hasPages())
-            <div class="px-6 py-4 border-t border-gray-200">
+            <div class="px-6 py-4 border-t border-slate-200">
                 {{ $images->links() }}
             </div>
         @endif
@@ -201,12 +201,12 @@
 
     <!-- View Modal -->
     @if ($showViewModal && $selectedImage)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-75 overflow-y-auto h-full w-full z-50">
             <div class="relative top-20 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white">
                 <div class="mt-3">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-medium text-gray-900">Pregled slike</h3>
-                        <button wire:click="$set('showViewModal', false)" class="text-gray-400 hover:text-gray-600">
+                        <h3 class="text-lg font-medium text-slate-900">Pregled slike</h3>
+                        <button wire:click="$set('showViewModal', false)" class="text-slate-400 hover:text-slate-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M6 18L18 6M6 6l12 12"></path>
@@ -216,7 +216,7 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <!-- Slika -->
-                        <div class="bg-gray-100 rounded-lg p-4 flex items-center justify-center">
+                        <div class="bg-slate-100 rounded-lg p-4 flex items-center justify-center">
                             <img src="{{ Storage::disk('public')->exists($selectedImage->image_path) ? Storage::url($selectedImage->image_path) : 'https://via.placeholder.com/600x400?text=Slika+obrisana' }}"
                                 alt="Pregled slike" class="max-h-96 max-w-full object-contain">
                         </div>
@@ -224,17 +224,17 @@
                         <!-- Informacije -->
                         <div class="space-y-4">
                             <div>
-                                <h4 class="text-sm font-medium text-gray-500">Oglas:</h4>
-                                <p class="text-lg font-semibold text-gray-900">{{ $selectedImage->listing->title }}
+                                <h4 class="text-sm font-medium text-slate-500">Oglas:</h4>
+                                <p class="text-lg font-semibold text-slate-900">{{ $selectedImage->listing->title }}
                                 </p>
                             </div>
 
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <h4 class="text-sm font-medium text-gray-500">Status:</h4>
+                                    <h4 class="text-sm font-medium text-slate-500">Status:</h4>
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                    @if ($selectedImage->is_primary) bg-green-100 text-green-800 @else bg-gray-100 text-gray-800 @endif">
+                                    @if ($selectedImage->is_primary) bg-green-100 text-green-800 @else bg-slate-100 text-slate-800 @endif">
                                         @if ($selectedImage->is_primary)
                                             Primarna slika
                                         @else
@@ -244,19 +244,19 @@
                                 </div>
 
                                 <div>
-                                    <h4 class="text-sm font-medium text-gray-500">Datum:</h4>
-                                    <p class="text-sm text-gray-900">
+                                    <h4 class="text-sm font-medium text-slate-500">Datum:</h4>
+                                    <p class="text-sm text-slate-900">
                                         {{ $selectedImage->created_at->format('d.m.Y. H:i') }}</p>
                                 </div>
                             </div>
 
                             <div>
-                                <h4 class="text-sm font-medium text-gray-500">Putanja:</h4>
-                                <p class="text-sm text-gray-900 font-mono break-all">{{ $selectedImage->image_path }}
+                                <h4 class="text-sm font-medium text-slate-500">Putanja:</h4>
+                                <p class="text-sm text-slate-900 font-mono break-all">{{ $selectedImage->image_path }}
                                 </p>
                             </div>
 
-                            <div class="pt-4 border-t border-gray-200">
+                            <div class="pt-4 border-t border-slate-200">
                                 <div class="flex space-x-3">
                                     @if (!$selectedImage->is_primary)
                                         <button wire:click="setAsPrimary({{ $selectedImage->id }})"
@@ -280,7 +280,7 @@
 
     <!-- Delete Confirmation Modal -->
     @if ($showDeleteModal)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-75 overflow-y-auto h-full w-full z-50">
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
                     <svg class="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor"
@@ -290,22 +290,22 @@
                         </path>
                     </svg>
 
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Obriši sliku?</h3>
-                    <p class="text-sm text-gray-500 mb-4">
+                    <h3 class="text-lg font-medium text-slate-900 mb-4">Obriši sliku?</h3>
+                    <p class="text-sm text-slate-500 mb-4">
                         Da li ste sigurni da želite da obrišete ovu sliku?
                         <br>Ova akcija je nepovratna.
                     </p>
 
-                    <div class="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-4 text-left">
+                    <div class="bg-amber-50 border border-amber-200 rounded-md p-3 mb-4 text-left">
                         <div class="flex">
-                            <svg class="h-5 w-5 text-yellow-400" fill="none" stroke="currentColor"
+                            <svg class="h-5 w-5 text-amber-400" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
                                 </path>
                             </svg>
                             <div class="ml-3">
-                                <p class="text-sm text-yellow-700">
+                                <p class="text-sm text-amber-700">
                                     Ovo će trajno obrisati sliku sa servera.
                                 </p>
                             </div>
@@ -314,7 +314,7 @@
 
                     <div class="flex justify-center space-x-3">
                         <button wire:click="$set('showDeleteModal', false)"
-                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            class="px-4 py-2 bg-slate-300 text-slate-700 rounded-md hover:bg-slate-400">
                             Otkaži
                         </button>
                         <button wire:click="deleteImage"

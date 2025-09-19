@@ -129,11 +129,11 @@ $removeAvatar = function () {
 
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">
             {{ __('Informacije o profilu') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
             {{ __('Ažurirajte informacije o profilu vašeg naloga i adresu e-pošte.') }}
         </p>
     </header>
@@ -154,11 +154,11 @@ $removeAvatar = function () {
 
             @if (auth()->user() instanceof MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
                 <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
+                    <p class="text-sm mt-2 text-slate-800 dark:text-slate-200">
                         {{ __('Vaša email adresa nije verifikovana.') }}
 
                         <button wire:click.prevent="sendVerification"
-                            class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800">
+                            class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 dark:focus:ring-offset-slate-800">
                             {{ __('Kliknite ovde da ponovo pošaljete verifikacioni email.') }}
                         </button>
                     </p>
@@ -267,7 +267,7 @@ $removeAvatar = function () {
 
             <!-- Dugme -->
             <button type="button" @click="open = !open"
-                class="mt-1 w-full flex justify-between items-center border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none">
+                class="mt-1 w-full flex justify-between items-center border border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 rounded-md shadow-sm px-3 py-2 focus:outline-none">
                 <span x-text="selected ? selected : '{{ __('Odaberi grad') }}'"></span>
                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -276,12 +276,12 @@ $removeAvatar = function () {
 
             <!-- Popup -->
             <div x-show="open" x-transition @click.away="open = false"
-                class="absolute z-20 mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg">
+                class="absolute z-20 mt-2 w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-md shadow-lg">
 
                 <!-- Search bar -->
-                <div class="p-2 border-b border-gray-200 dark:border-gray-700">
+                <div class="p-2 border-b border-slate-200 dark:border-slate-700">
                     <input type="text" x-model="search" placeholder="Pretraži grad..."
-                        class="w-full px-3 py-2 border rounded-md dark:bg-gray-900 dark:text-gray-300 focus:outline-none focus:ring focus:border-indigo-500">
+                        class="w-full px-3 py-2 border rounded-md dark:bg-slate-900 dark:text-slate-300 focus:outline-none focus:ring focus:border-indigo-500">
                 </div>
 
                 <!-- Lista gradova -->
@@ -293,7 +293,7 @@ $removeAvatar = function () {
                             <span x-text="city"></span>
                         </button>
                     </template>
-                    <div x-show="filteredCities.length === 0" class="col-span-full text-center text-gray-500 py-2">
+                    <div x-show="filteredCities.length === 0" class="col-span-full text-center text-slate-500 py-2">
                         Nema rezultata
                     </div>
                 </div>
@@ -320,7 +320,7 @@ $removeAvatar = function () {
         <div class="block mt-4">
             <label for="phone_visible" class="flex items-center">
                 <x-checkbox wire:model="phone_visible" id="phone_visible" name="phone_visible" />
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">
+                <span class="ms-2 text-sm text-slate-600 dark:text-slate-400">
                     {{ __('Prikaži broj telefona drugim registrovanim korisnicima') }}
                 </span>
             </label>
@@ -331,8 +331,8 @@ $removeAvatar = function () {
         <div>
             <x-input-label for="seller_terms" :value="__('Uslovi prodavca')" />
             <textarea wire:model.defer="seller_terms" id="seller_terms" name="seller_terms" rows="4"
-                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 
-               dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 
+                class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 
+               dark:bg-slate-900 dark:text-slate-300 focus:border-indigo-500 
                focus:ring-indigo-500 shadow-sm sm:text-sm"></textarea>
             <x-input-error class="mt-2" :messages="$errors->get('seller_terms')" />
         </div>

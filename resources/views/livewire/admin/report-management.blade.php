@@ -3,11 +3,11 @@
     <div class="bg-white shadow rounded-lg p-6">
         <div class="flex justify-between items-center mb-6">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900">Upravljanje prijavama</h2>
-                <p class="text-gray-600">Pregled i upravljanje prijavama oglasa</p>
+                <h2 class="text-2xl font-bold text-slate-900">Upravljanje prijavama</h2>
+                <p class="text-slate-600">Pregled i upravljanje prijavama oglasa</p>
             </div>
             <div class="flex space-x-2">
-                <button wire:click="resetFilters" class="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg">
+                <button wire:click="resetFilters" class="px-4 py-2 text-slate-600 hover:text-slate-800 border border-slate-300 rounded-lg">
                     Resetuj filtere
                 </button>
                 <button wire:click="exportReports" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
@@ -21,10 +21,10 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div>
                 <input type="text" wire:model.live="search" placeholder="Pretraži prijave..."
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
             <div>
-                <select wire:model.live="filterStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select wire:model.live="filterStatus" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
                     <option value="all">Svi statusi</option>
                     <option value="pending">Na čekanju</option>
                     <option value="reviewed">Pregledano</option>
@@ -32,7 +32,7 @@
                 </select>
             </div>
             <div>
-                <select wire:model.live="filterReason" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select wire:model.live="filterReason" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
                     <option value="all">Svi razlozi</option>
                     <option value="inappropriate_content">Neprikladan sadržaj</option>
                     <option value="fake_listing">Lažan oglas</option>
@@ -45,7 +45,7 @@
                 </select>
             </div>
             <div>
-                <select wire:model.live="perPage" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select wire:model.live="perPage" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
                     <option value="10">10 po stranici</option>
                     <option value="15">15 po stranici</option>
                     <option value="25">25 po stranici</option>
@@ -59,36 +59,36 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <i class="fas fa-flag text-gray-600 text-xl "></i>
+                <div class="p-3 bg-slate-100 rounded-lg">
+                    <i class="fas fa-flag text-slate-600 text-xl "></i>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Ukupno prijava</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stats['total'] ?? 0 }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Ukupno prijava</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $stats['total'] ?? 0 }}</p>
                 </div>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
-                <div class="p-3 bg-yellow-100 rounded-lg">
-                    <i class="fas fa-clock text-yellow-600 text-xl "></i>
+                <div class="p-3 bg-amber-100 rounded-lg">
+                    <i class="fas fa-clock text-amber-600 text-xl "></i>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Na čekanju</h3>
-                    <p class="text-2xl font-semibold text-yellow-600">{{ $stats['pending'] ?? 0 }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Na čekanju</h3>
+                    <p class="text-2xl font-semibold text-amber-600">{{ $stats['pending'] ?? 0 }}</p>
                 </div>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
-                <div class="p-3 bg-blue-100 rounded-lg">
-                    <i class="fas fa-eye text-blue-600 text-xl "></i>
+                <div class="p-3 bg-sky-100 rounded-lg">
+                    <i class="fas fa-eye text-sky-600 text-xl "></i>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Pregledano</h3>
-                    <p class="text-2xl font-semibold text-blue-600">{{ $stats['reviewed'] ?? 0 }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Pregledano</h3>
+                    <p class="text-2xl font-semibold text-sky-600">{{ $stats['reviewed'] ?? 0 }}</p>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
                     <i class="fas fa-check-circle text-green-600 text-xl "></i>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Rešeno</h3>
+                    <h3 class="text-sm font-medium text-slate-500">Rešeno</h3>
                     <p class="text-2xl font-semibold text-green-600">{{ $stats['resolved'] ?? 0 }}</p>
                 </div>
             </div>
@@ -110,10 +110,10 @@
     <div class="hidden lg:block bg-white shadow rounded-lg">
         <div class="overflow-x-auto">
             <table class="w-full table-auto">
-                <thead class="bg-gray-50">
+                <thead class="bg-slate-50">
                     <tr>
                         <th class="px-6 py-3 text-left">
-                            <button wire:click="sortBy('created_at')" class="flex items-center space-x-1 text-xs font-medium text-gray-500 uppercase tracking-wider hover:text-gray-700">
+                            <button wire:click="sortBy('created_at')" class="flex items-center space-x-1 text-xs font-medium text-slate-500 uppercase tracking-wider hover:text-slate-700">
                                 <span>Datum</span>
                                 @if($sortField === 'created_at')
                                     @if($sortDirection === 'asc')
@@ -128,29 +128,29 @@
                                 @endif
                             </button>
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prijavila</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oglas</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Razlog</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Akcije</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Prijavila</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Oglas</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Razlog</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Akcije</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-slate-200">
                     @forelse($reports as $report)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <tr class="hover:bg-slate-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900">
                                 {{ $report->created_at->format('d.m.Y H:i') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @switch($report->status)
                                     @case('pending')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
                                             <i class="fas fa-clock mr-1 "></i>
                                             Na čekanju
                                         </span>
                                         @break
                                     @case('reviewed')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800">
                                             <i class="fas fa-eye mr-1 "></i>
                                             Pregledano
                                         </span>
@@ -168,13 +168,13 @@
                                     @if($report->user->avatar)
                                         <img src="{{ $report->user->avatar_url }}" alt="{{ $report->user->name }}" class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($report->user->name, 0, 1)) }}
                                         </div>
                                     @endif
                                     <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">{{ $report->user->name }}</div>
-                                        <div class="text-sm text-gray-500">{{ $report->user->email }}</div>
+                                        <div class="text-sm font-medium text-slate-900">{{ $report->user->name }}</div>
+                                        <div class="text-sm text-slate-500">{{ $report->user->email }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -184,18 +184,18 @@
                                         <img src="{{ $report->listing->images->first()->url }}" alt="{{ $report->listing->title }}" 
                                              class="w-10 h-10 rounded object-cover">
                                     @else
-                                        <div class="w-10 h-10 rounded bg-gray-200 flex items-center justify-center">
-                                            <i class="fas fa-image text-gray-400 "></i>
+                                        <div class="w-10 h-10 rounded bg-slate-200 flex items-center justify-center">
+                                            <i class="fas fa-image text-slate-400 "></i>
                                         </div>
                                     @endif
                                     <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">{{ Str::limit($report->listing->title, 30) }}</div>
-                                        <div class="text-sm text-gray-500">{{ $report->listing->user->name }}</div>
+                                        <div class="text-sm font-medium text-slate-900">{{ Str::limit($report->listing->title, 30) }}</div>
+                                        <div class="text-sm text-slate-500">{{ $report->listing->user->name }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">
+                                <div class="text-sm text-slate-900">
                                     @php
                                         $reasonLabels = [
                                             'inappropriate_content' => 'Neprikladan sadržaj',
@@ -214,7 +214,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex items-center space-x-2">
                                     <button wire:click="viewReportDetails({{ $report->id }})" 
-                                            class="text-blue-600 hover:text-blue-900 p-1 rounded" title="Detalji">
+                                            class="text-sky-600 hover:text-sky-900 p-1 rounded" title="Detalji">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -273,7 +273,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                            <td colspan="6" class="px-6 py-4 text-center text-slate-500">
                                 Nema prijava koje odgovaraju kriterijumima pretrage.
                             </td>
                         </tr>
@@ -282,7 +282,7 @@
             </table>
         </div>
         
-        <div class="px-6 py-4 border-t border-gray-200">
+        <div class="px-6 py-4 border-t border-slate-200">
             {{ $reports->links() }}
         </div>
     </div>
@@ -299,14 +299,14 @@
                                 <img src="{{ $report->listing->images->first()->url }}" alt="{{ $report->listing->title }}" 
                                      class="h-10 w-10 rounded object-cover">
                             @else
-                                <div class="h-10 w-10 rounded bg-gray-200 flex items-center justify-center">
-                                    <i class="fas fa-image text-gray-400 "></i>
+                                <div class="h-10 w-10 rounded bg-slate-200 flex items-center justify-center">
+                                    <i class="fas fa-image text-slate-400 "></i>
                                 </div>
                             @endif
                         </div>
                         <div class="ml-3 flex-1">
-                            <div class="text-sm font-semibold text-gray-900">{{ Str::limit($report->listing->title, 25) }}</div>
-                            <div class="text-xs text-gray-500">{{ $report->created_at->format('d.m.Y H:i') }}</div>
+                            <div class="text-sm font-semibold text-slate-900">{{ Str::limit($report->listing->title, 25) }}</div>
+                            <div class="text-xs text-slate-500">{{ $report->created_at->format('d.m.Y H:i') }}</div>
                         </div>
                     </div>
                     
@@ -314,13 +314,13 @@
                     <div>
                         @switch($report->status)
                             @case('pending')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
                                     <i class="fas fa-clock mr-1 "></i>
                                     Na čekanju
                                 </span>
                                 @break
                             @case('reviewed')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800">
                                     <i class="fas fa-eye mr-1 "></i>
                                     Pregledano
                                 </span>
@@ -337,15 +337,15 @@
 
                 <!-- Info Grid -->
                 <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Prijavio</div>
-                        <div class="text-sm font-medium text-gray-900">{{ $report->user->name }}</div>
-                        <div class="text-xs text-gray-500">{{ $report->user->email }}</div>
+                    <div class="bg-slate-50 p-3 rounded-lg">
+                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Prijavio</div>
+                        <div class="text-sm font-medium text-slate-900">{{ $report->user->name }}</div>
+                        <div class="text-xs text-slate-500">{{ $report->user->email }}</div>
                     </div>
                     
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Razlog</div>
-                        <div class="text-sm font-medium text-gray-900">
+                    <div class="bg-slate-50 p-3 rounded-lg">
+                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Razlog</div>
+                        <div class="text-sm font-medium text-slate-900">
                             @php
                                 $reasonLabels = [
                                     'inappropriate_content' => 'Neprikladan sadržaj',
@@ -365,14 +365,14 @@
 
                 <!-- Owner Info -->
                 <div class="mb-4">
-                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Vlasnik oglasa</div>
-                    <div class="text-sm text-gray-900">{{ $report->listing->user->name }}</div>
+                    <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Vlasnik oglasa</div>
+                    <div class="text-sm text-slate-900">{{ $report->listing->user->name }}</div>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-2">
                     <button wire:click="viewReportDetails({{ $report->id }})" 
-                        class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                        class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
                         <i class="fas fa-eye mr-1 "></i>
                         Detalji
                     </button>
@@ -426,9 +426,9 @@
             </div>
         @empty
             <div class="bg-white rounded-lg shadow p-8 text-center">
-                <i class="fas fa-flag text-gray-400 text-5xl mb-4 "></i>
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema prijava</h3>
-                <p class="text-gray-600">Nema prijava koje odgovaraju kriterijumima pretrage.</p>
+                <i class="fas fa-flag text-slate-400 text-5xl mb-4 "></i>
+                <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema prijava</h3>
+                <p class="text-slate-600">Nema prijava koje odgovaraju kriterijumima pretrage.</p>
             </div>
         @endforelse
         
@@ -440,12 +440,12 @@
 
     <!-- Report Details Modal -->
     @if ($showDetailsModal && $selectedReport)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-10 mx-auto p-5 border w-4/5 max-w-4xl shadow-lg rounded-md bg-white">
                 <div class="mt-3">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-medium text-gray-900">Detalji prijave #{{ $selectedReport->id }}</h3>
-                        <button wire:click="$set('showDetailsModal', false)" class="text-gray-400 hover:text-gray-600">
+                        <h3 class="text-xl font-medium text-slate-900">Detalji prijave #{{ $selectedReport->id }}</h3>
+                        <button wire:click="$set('showDetailsModal', false)" class="text-slate-400 hover:text-slate-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
@@ -455,21 +455,21 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <!-- Report Info -->
                         <div class="space-y-4">
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-gray-800 mb-3">Informacije o prijavi</h4>
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-slate-800 mb-3">Informacije o prijavi</h4>
                                 
                                 <div class="space-y-3">
                                     <div>
-                                        <span class="text-sm font-medium text-gray-600">Status:</span>
+                                        <span class="text-sm font-medium text-slate-600">Status:</span>
                                         @switch($selectedReport->status)
                                             @case('pending')
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 ml-2">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 ml-2">
                                                     <i class="fas fa-clock mr-1 "></i>
                                                     Na čekanju
                                                 </span>
                                                 @break
                                             @case('reviewed')
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-2">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800 ml-2">
                                                     <i class="fas fa-eye mr-1 "></i>
                                                     Pregledano
                                                 </span>
@@ -484,13 +484,13 @@
                                     </div>
                                     
                                     <div>
-                                        <span class="text-sm font-medium text-gray-600">Datum prijave:</span>
-                                        <span class="text-sm text-gray-900 ml-2">{{ $selectedReport->created_at->format('d.m.Y H:i') }}</span>
+                                        <span class="text-sm font-medium text-slate-600">Datum prijave:</span>
+                                        <span class="text-sm text-slate-900 ml-2">{{ $selectedReport->created_at->format('d.m.Y H:i') }}</span>
                                     </div>
                                     
                                     <div>
-                                        <span class="text-sm font-medium text-gray-600">Razlog:</span>
-                                        <span class="text-sm text-gray-900 ml-2">
+                                        <span class="text-sm font-medium text-slate-600">Razlog:</span>
+                                        <span class="text-sm text-slate-900 ml-2">
                                             @php
                                                 $reasonLabels = [
                                                     'inappropriate_content' => 'Neprikladan sadržaj',
@@ -508,30 +508,30 @@
                                     </div>
                                     
                                     <div>
-                                        <span class="text-sm font-medium text-gray-600">Prijavio:</span>
+                                        <span class="text-sm font-medium text-slate-600">Prijavio:</span>
                                         <div class="mt-1">
-                                            <div class="text-sm font-medium text-gray-900">{{ $selectedReport->user->name }}</div>
-                                            <div class="text-sm text-gray-500">{{ $selectedReport->user->email }}</div>
+                                            <div class="text-sm font-medium text-slate-900">{{ $selectedReport->user->name }}</div>
+                                            <div class="text-sm text-slate-500">{{ $selectedReport->user->email }}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <!-- Report Details -->
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-gray-800 mb-3">Detaljno objašnjenje</h4>
-                                <p class="text-sm text-gray-900 whitespace-pre-line">{{ $selectedReport->details }}</p>
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-slate-800 mb-3">Detaljno objašnjenje</h4>
+                                <p class="text-sm text-slate-900 whitespace-pre-line">{{ $selectedReport->details }}</p>
                             </div>
                             
                             <!-- Admin Notes -->
-                            <div class="bg-yellow-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-yellow-800 mb-3">Admin beleške</h4>
+                            <div class="bg-amber-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-amber-800 mb-3">Admin beleške</h4>
                                 <textarea wire:model="adminNotes" rows="3" 
-                                    class="w-full px-3 py-2 border border-yellow-300 rounded-md focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                                    class="w-full px-3 py-2 border border-amber-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                                     placeholder="Dodaj beleške o ovoj prijavi...">{{ $selectedReport->admin_notes ?? '' }}</textarea>
                                 <div class="mt-2">
                                     <button wire:click="saveAdminNotes" 
-                                        class="px-3 py-1.5 bg-yellow-600 text-white text-sm rounded hover:bg-yellow-700">
+                                        class="px-3 py-1.5 bg-amber-600 text-white text-sm rounded hover:bg-amber-700">
                                         Sačuvaj beleške
                                     </button>
                                 </div>
@@ -540,8 +540,8 @@
 
                         <!-- Listing Info -->
                         <div class="space-y-4">
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-gray-800 mb-3">Prijavljeni oglas</h4>
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-slate-800 mb-3">Prijavljeni oglas</h4>
                                 
                                 <!-- Listing Image -->
                                 <div class="mb-4">
@@ -549,41 +549,41 @@
                                         <img src="{{ $selectedReport->listing->images->first()->url }}" alt="{{ $selectedReport->listing->title }}" 
                                              class="w-full h-48 rounded-lg object-cover">
                                     @else
-                                        <div class="w-full h-48 rounded-lg bg-gray-200 flex items-center justify-center">
-                                            <i class="fas fa-image text-gray-400 text-4xl "></i>
+                                        <div class="w-full h-48 rounded-lg bg-slate-200 flex items-center justify-center">
+                                            <i class="fas fa-image text-slate-400 text-4xl "></i>
                                         </div>
                                     @endif
                                 </div>
                                 
                                 <div class="space-y-2">
                                     <div>
-                                        <span class="text-sm font-medium text-gray-600">Naslov:</span>
-                                        <div class="text-sm font-medium text-gray-900 mt-1">{{ $selectedReport->listing->title }}</div>
+                                        <span class="text-sm font-medium text-slate-600">Naslov:</span>
+                                        <div class="text-sm font-medium text-slate-900 mt-1">{{ $selectedReport->listing->title }}</div>
                                     </div>
                                     
                                     <div>
-                                        <span class="text-sm font-medium text-gray-600">Cena:</span>
-                                        <div class="text-sm text-gray-900 mt-1">{{ number_format($selectedReport->listing->price, 0) }} RSD</div>
+                                        <span class="text-sm font-medium text-slate-600">Cena:</span>
+                                        <div class="text-sm text-slate-900 mt-1">{{ number_format($selectedReport->listing->price, 0) }} RSD</div>
                                     </div>
                                     
                                     <div>
-                                        <span class="text-sm font-medium text-gray-600">Vlasnik:</span>
-                                        <div class="text-sm text-gray-900 mt-1">
+                                        <span class="text-sm font-medium text-slate-600">Vlasnik:</span>
+                                        <div class="text-sm text-slate-900 mt-1">
                                             {{ $selectedReport->listing->user->name }} ({{ $selectedReport->listing->user->email }})
                                         </div>
                                     </div>
                                     
                                     <div>
-                                        <span class="text-sm font-medium text-gray-600">Objavljen:</span>
-                                        <div class="text-sm text-gray-900 mt-1">{{ $selectedReport->listing->created_at->format('d.m.Y H:i') }}</div>
+                                        <span class="text-sm font-medium text-slate-600">Objavljen:</span>
+                                        <div class="text-sm text-slate-900 mt-1">{{ $selectedReport->listing->created_at->format('d.m.Y H:i') }}</div>
                                     </div>
                                 </div>
                                 
                                 <!-- Quick Actions -->
-                                <div class="mt-4 pt-4 border-t border-gray-200">
+                                <div class="mt-4 pt-4 border-t border-slate-200">
                                     <div class="flex flex-wrap gap-2">
                                         <a href="{{ route('listings.show', $selectedReport->listing) }}" target="_blank"
-                                           class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200">
+                                           class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200">
                                             <i class="fas fa-external-link-alt mr-1 "></i>
                                             Pogledaj oglas
                                         </a>
@@ -621,12 +621,12 @@
 
     <!-- Delete Listing Confirmation Modal -->
     @if ($showDeleteModal && $selectedReport)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class=" font-medium text-gray-900">Potvrdi brisanje</h3>
-                        <button wire:click="$set('showDeleteModal', false)" class="text-gray-400 hover:text-gray-600">
+                        <h3 class=" font-medium text-slate-900">Potvrdi brisanje</h3>
+                        <button wire:click="$set('showDeleteModal', false)" class="text-slate-400 hover:text-slate-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
@@ -643,15 +643,15 @@
                         </div>
                         
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Razlog brisanja (opciono)</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Razlog brisanja (opciono)</label>
                             <textarea wire:model="deleteReason" rows="3" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                class="w-full px-3 py-2 border border-slate-300 rounded-md"
                                 placeholder="Unesite razlog brisanja oglasa..."></textarea>
                         </div>
                         
                         <div class="flex items-center mb-4">
                             <input type="checkbox" wire:model="notifyUser" id="notifyUser" class="rounded">
-                            <label for="notifyUser" class="ml-2 text-sm text-gray-700">
+                            <label for="notifyUser" class="ml-2 text-sm text-slate-700">
                                 Pošalji obaveštenje korisniku o brisanju oglasa
                             </label>
                         </div>
@@ -659,7 +659,7 @@
                     
                     <div class="flex justify-end space-x-2">
                         <button type="button" wire:click="$set('showDeleteModal', false)" 
-                            class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            class="px-4 py-2 text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-50">
                             Otkaži
                         </button>
                         <button wire:click="deleteListing" 

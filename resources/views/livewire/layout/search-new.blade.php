@@ -320,38 +320,38 @@ if (!empty($auctionType)) {
 }" 
 x-init="syncFromUrl()">
     <!-- Main Search Bar -->
-    <div class="bg-white dark:bg-gray-700 dark:bg-gray-800 rounded-lg shadow-sm border border-gray-300 dark:border-gray-600 dark:border-gray-600 overflow-hidden">
+    <div class="bg-white dark:bg-slate-700 dark:bg-slate-800 rounded-lg shadow-sm border border-slate-300 dark:border-slate-600 dark:border-slate-600 overflow-hidden">
         <div class="flex">
             <div class="relative flex-1">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="h-5 w-5 text-slate-400 dark:text-slate-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <form @submit.prevent="quickSearch()">
                     <input type="text" x-model="query" 
-                        class="block w-full pl-10 pr-28 py-3 border-0 bg-transparent text-gray-900 dark:text-gray-100 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
+                        class="block w-full pl-10 pr-28 py-3 border-0 bg-transparent text-slate-900 dark:text-slate-100 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-0 text-sm"
                         placeholder="Pretraži oglase...">
                 </form>
                 
                 <!-- Integrated Detaljno Button (inside search bar) -->
                 <div class="absolute top-1 bottom-1 right-0 flex items-center pr-1">
                     <button type="button" @click="toggleFilters()" 
-                        class="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium transition-colors focus:outline-none hover:bg-blue-700 mr-1"
-                        :class="showFilters ? 'bg-blue-700' : 'bg-blue-600'">
+                        class="inline-flex items-center px-3 py-2 bg-sky-600 text-white rounded text-sm font-medium transition-colors focus:outline-none hover:bg-sky-700 mr-1"
+                        :class="showFilters ? 'bg-sky-700' : 'bg-sky-600'">
                         <span>Detaljno</span>
                         <svg class="w-4 h-4 ml-2 transition-transform duration-200" :class="showFilters ? 'rotate-180' : ''" 
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
-                        <span x-show="hasActiveFilters()" class="ml-2 px-1.5 py-0.5 bg-white dark:bg-gray-200 text-blue-600 dark:text-blue-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
+                        <span x-show="hasActiveFilters()" class="ml-2 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
                             x-text="getActiveFilterCount()"></span>
                     </button>
                 </div>
             </div>
             
             <button type="button" @click="quickSearch()"
-                class="inline-flex items-center px-4 py-3 bg-blue-600 text-white hover:bg-blue-700 focus:outline-none transition-colors"
+                class="inline-flex items-center px-4 py-3 bg-sky-600 text-white hover:bg-sky-700 focus:outline-none transition-colors"
                 title="Pretraži">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -365,45 +365,45 @@ x-init="syncFromUrl()">
         x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="ease-in duration-150" 
         x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95"
         @click.away="showFilters = false"
-        class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-700 dark:bg-gray-800 rounded-lg shadow-lg border border-gray-300 dark:border-gray-600 dark:border-gray-600 z-[100] p-6"
+        class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-700 dark:bg-slate-800 rounded-lg shadow-lg border border-slate-300 dark:border-slate-600 dark:border-slate-600 z-[100] p-6"
         style="display: none;">
         
         <!-- Content Type Selector -->
-        <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Pretražuj u:</label>
+        <div class="mb-6 p-4 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg">
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Pretražuj u:</label>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="all" 
-                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-blue-500">
-                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Sve</span>
+                        class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-sky-500">
+                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">Sve</span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="listings" 
-                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-blue-500">
-                    <span class="ml-2 text-sm text-blue-600 dark:text-blue-400">
+                        class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-sky-500">
+                    <span class="ml-2 text-sm text-sky-600 dark:text-sky-400">
                         <i class="fas fa-list mr-1"></i>
                         Oglasi
                     </span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="auctions" 
-                        class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-yellow-500">
-                    <span class="ml-2 text-sm text-yellow-600 dark:text-yellow-400">
+                        class="h-4 w-4 text-amber-600 focus:ring-amber-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-amber-500">
+                    <span class="ml-2 text-sm text-amber-600 dark:text-amber-400">
                         <i class="fas fa-gavel mr-1"></i>
                         Aukcije
                     </span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="services" 
-                        class="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-gray-600">
-                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        class="h-4 w-4 text-slate-600 focus:ring-slate-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-slate-600">
+                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
                         <i class="fas fa-tools mr-1"></i>
                         Usluge
                     </span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="giveaways" 
-                        class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-500 dark:checked:bg-green-500">
+                        class="h-4 w-4 text-green-600 focus:ring-green-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-green-500">
                     <span class="ml-2 text-sm text-green-700 dark:text-green-400">
                         <i class="fas fa-gift mr-1"></i>
                         Poklanjam
@@ -415,34 +415,34 @@ x-init="syncFromUrl()">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Left Column: Location, Category & Condition -->
             <div class="space-y-4">
-                <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Lokacija i kategorija</h4>
+                <h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Lokacija i kategorija</h4>
                 
                 <!-- City (full width) -->
                 <div x-data="{ cityOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Grad/Mesto</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Grad/Mesto</label>
                     <button type="button" @click="cityOpen = !cityOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span x-text="city || 'Odaberi grad'" :class="city ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'"></span>
+                        class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        <span x-text="city || 'Odaberi grad'" :class="city ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'"></span>
                         <svg class="w-4 h-4 transition-transform" :class="cityOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
                     <div x-show="cityOpen" x-transition @click.away="cityOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-2 border-b">
                             <input type="text" x-model="citySearch" placeholder="Pretraži grad..."
-                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-sky-500">
                         </div>
                         <div class="p-1">
                             <template x-for="cityOption in filteredCities" :key="cityOption">
                                 <button type="button" @click="city = cityOption; cityOpen = false"
-                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition"
-                                    :class="city === cityOption ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition"
+                                    :class="city === cityOption ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 dark:text-sky-400 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                     <span x-text="cityOption"></span>
                                 </button>
                             </template>
-                            <div x-show="filteredCities.length === 0" class="text-center text-gray-500 py-3 text-sm">
+                            <div x-show="filteredCities.length === 0" class="text-center text-slate-500 py-3 text-sm">
                                 Nema rezultata
                             </div>
                         </div>
@@ -451,10 +451,10 @@ x-init="syncFromUrl()">
 
                 <!-- Category (full width) -->
                 <div x-data="{ categoryOpen: false }" class="relative" x-show="content_type !== 'services'">
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Kategorija</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span :class="category ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
+                        class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        <span :class="category ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
                             @if(!empty($selectedCategoryName))
                                 {{ $selectedCategoryName }}
                             @else
@@ -467,21 +467,21 @@ x-init="syncFromUrl()">
                     </button>
 
                     <div x-show="categoryOpen" x-transition @click.away="categoryOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectCategory('', ''); categoryOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
-                                :class="!category ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
+                                :class="!category ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                 <span>Sve kategorije</span>
                             </button>
                             @foreach(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
                                 <button type="button" @click="selectCategory('{{ $cat->id }}', '{{ $cat->name }}'); categoryOpen = false"
-                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
-                                    :class="category === '{{ $cat->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
+                                    :class="category === '{{ $cat->id }}' ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                     @if($cat->icon)
-                                        <i class="{{ $cat->icon }} text-blue-600 mr-2"></i>
+                                        <i class="{{ $cat->icon }} text-sky-600 mr-2"></i>
                                     @else
-                                        <i class="fas fa-folder text-blue-600 mr-2"></i>
+                                        <i class="fas fa-folder text-sky-600 mr-2"></i>
                                     @endif
                                     {{ $cat->name }}
                                 </button>
@@ -492,10 +492,10 @@ x-init="syncFromUrl()">
 
                 <!-- Subcategory (full width) -->
                 <div x-data="{ subcategoryOpen: false }" class="relative" x-show="content_type !== 'services' && category">
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Podkategorija</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Podkategorija</label>
                     <button type="button" @click="subcategoryOpen = !subcategoryOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span :class="subcategory ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
+                        class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        <span :class="subcategory ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
                             <span x-text="subcategoryName || 'Sve podkategorije'"></span>
                         </span>
                         <svg class="w-4 h-4 transition-transform" :class="subcategoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -504,15 +504,15 @@ x-init="syncFromUrl()">
                     </button>
 
                     <div x-show="subcategoryOpen" x-transition @click.away="subcategoryOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectSubcategory('', ''); subcategoryOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
-                                :class="!subcategory ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
+                                :class="!subcategory ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                 <span>Sve podkategorije</span>
                             </button>
                             <template x-if="loadingSubcategories">
-                                <div class="text-center text-gray-500 py-3 text-sm">
+                                <div class="text-center text-slate-500 py-3 text-sm">
                                     <i class="fas fa-spinner fa-spin"></i> Učitavanje...
                                 </div>
                             </template>
@@ -520,15 +520,15 @@ x-init="syncFromUrl()">
                                 <template x-for="subcat in subcategories" :key="subcat.id">
                                     <button type="button"
                                         @click="selectSubcategory(subcat.id, subcat.name); subcategoryOpen = false"
-                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center pl-6"
-                                        :class="subcategory == subcat.id ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
-                                        <i class="fas fa-angle-right text-gray-400 mr-2"></i>
+                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center pl-6"
+                                        :class="subcategory == subcat.id ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
+                                        <i class="fas fa-angle-right text-slate-400 mr-2"></i>
                                         <span x-text="subcat.name"></span>
                                     </button>
                                 </template>
                             </template>
                             <template x-if="!loadingSubcategories && subcategories.length === 0 && category">
-                                <div class="text-center text-gray-500 py-3 text-sm">
+                                <div class="text-center text-slate-500 py-3 text-sm">
                                     Nema podkategorija
                                 </div>
                             </template>
@@ -538,10 +538,10 @@ x-init="syncFromUrl()">
 
                 <!-- Service Category (full width) -->
                 <div x-data="{ serviceCategoryOpen: false }" class="relative" x-show="content_type === 'services'">
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Kategorija</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Kategorija</label>
                     <button type="button" @click="serviceCategoryOpen = !serviceCategoryOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span :class="serviceCategory ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
+                        class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        <span :class="serviceCategory ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
                             <span x-text="serviceCategoryName || 'Sve kategorije'"></span>
                         </span>
                         <svg class="w-4 h-4 transition-transform" :class="serviceCategoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -550,21 +550,21 @@ x-init="syncFromUrl()">
                     </button>
 
                     <div x-show="serviceCategoryOpen" x-transition @click.away="serviceCategoryOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectServiceCategory('', ''); serviceCategoryOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
-                                :class="!serviceCategory ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
+                                :class="!serviceCategory ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                 <span>Sve kategorije</span>
                             </button>
                             @foreach(\App\Models\ServiceCategory::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
                                 <button type="button" @click="selectServiceCategory('{{ $cat->id }}', '{{ $cat->name }}'); serviceCategoryOpen = false"
-                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
-                                    :class="serviceCategory === '{{ $cat->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
+                                    :class="serviceCategory === '{{ $cat->id }}' ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                     @if($cat->icon)
-                                        <i class="{{ $cat->icon }} text-blue-600 mr-2"></i>
+                                        <i class="{{ $cat->icon }} text-sky-600 mr-2"></i>
                                     @else
-                                        <i class="fas fa-tools text-blue-600 mr-2"></i>
+                                        <i class="fas fa-tools text-sky-600 mr-2"></i>
                                     @endif
                                     {{ $cat->name }}
                                 </button>
@@ -575,10 +575,10 @@ x-init="syncFromUrl()">
 
                 <!-- Service Subcategory (full width) -->
                 <div x-data="{ serviceSubcategoryOpen: false }" class="relative" x-show="content_type === 'services' && serviceCategory">
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Podkategorija</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Podkategorija</label>
                     <button type="button" @click="serviceSubcategoryOpen = !serviceSubcategoryOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span :class="serviceSubcategory ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
+                        class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        <span :class="serviceSubcategory ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
                             <span x-text="serviceSubcategoryName || 'Sve podkategorije'"></span>
                         </span>
                         <svg class="w-4 h-4 transition-transform" :class="serviceSubcategoryOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -587,15 +587,15 @@ x-init="syncFromUrl()">
                     </button>
 
                     <div x-show="serviceSubcategoryOpen" x-transition @click.away="serviceSubcategoryOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectServiceSubcategory('', ''); serviceSubcategoryOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center"
-                                :class="!serviceSubcategory ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
+                                :class="!serviceSubcategory ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                 <span>Sve podkategorije</span>
                             </button>
                             <template x-if="loadingServiceSubcategories">
-                                <div class="text-center text-gray-500 py-3 text-sm">
+                                <div class="text-center text-slate-500 py-3 text-sm">
                                     <i class="fas fa-spinner fa-spin"></i> Učitavanje...
                                 </div>
                             </template>
@@ -603,15 +603,15 @@ x-init="syncFromUrl()">
                                 <template x-for="subcat in serviceSubcategories" :key="subcat.id">
                                     <button type="button"
                                         @click="selectServiceSubcategory(subcat.id, subcat.name); serviceSubcategoryOpen = false"
-                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center pl-6"
-                                        :class="serviceSubcategory == subcat.id ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
-                                        <i class="fas fa-angle-right text-gray-400 mr-2"></i>
+                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center pl-6"
+                                        :class="serviceSubcategory == subcat.id ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
+                                        <i class="fas fa-angle-right text-slate-400 mr-2"></i>
                                         <span x-text="subcat.name"></span>
                                     </button>
                                 </template>
                             </template>
                             <template x-if="!loadingServiceSubcategories && serviceSubcategories.length === 0 && serviceCategory">
-                                <div class="text-center text-gray-500 py-3 text-sm">
+                                <div class="text-center text-slate-500 py-3 text-sm">
                                     Nema podkategorija
                                 </div>
                             </template>
@@ -623,27 +623,27 @@ x-init="syncFromUrl()">
 
             <!-- Middle Column: Price & Condition -->
             <div class="space-y-4">
-                <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Cena i stanje</h4>
+                <h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Cena i stanje</h4>
                 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Cena od</label>
+                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Cena od</label>
                         <input type="number" x-model="price_min" placeholder="0"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Cena do</label>
+                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Cena do</label>
                         <input type="number" x-model="price_max" placeholder="∞"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                     </div>
                 </div>
                 
                 <!-- Condition (full width) -->
                 <div x-data="{ conditionOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Stanje</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Stanje</label>
                     <button type="button" @click="conditionOpen = !conditionOpen"
-                        class="w-full flex justify-between items-center border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <span :class="condition ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'">
+                        class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        <span :class="condition ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
                             @if(!empty($selectedConditionName))
                                 {{ $selectedConditionName }}
                             @else
@@ -656,17 +656,17 @@ x-init="syncFromUrl()">
                     </button>
 
                     <div x-show="conditionOpen" x-transition @click.away="conditionOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectCondition('', ''); conditionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition"
-                                :class="!condition ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition"
+                                :class="!condition ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                 <span>Sva stanja</span>
                             </button>
                             @foreach(\App\Models\ListingCondition::where('is_active', true)->orderBy('name')->get() as $cond)
                                 <button type="button" @click="selectCondition('{{ $cond->id }}', '{{ $cond->name }}'); conditionOpen = false"
-                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition"
-                                    :class="condition === '{{ $cond->id }}' ? 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition"
+                                    :class="condition === '{{ $cond->id }}' ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                     {{ $cond->name }}
                                 </button>
                             @endforeach
@@ -677,69 +677,69 @@ x-init="syncFromUrl()">
 
             <!-- Middle Column: Auctions (Yellow Section) -->
             <div class="space-y-4">
-                <h4 class="text-sm font-semibold text-yellow-600 dark:text-yellow-400 uppercase tracking-wide">AUKCIJE</h4>
+                <h4 class="text-sm font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">AUKCIJE</h4>
                 
                 <!-- Auction Sort Type -->
                 <div x-data="{ auctionOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-yellow-600 dark:text-yellow-400 mb-1">Sortiranje aukcija</label>
+                    <label class="block text-xs font-medium text-amber-600 dark:text-amber-400 mb-1">Sortiranje aukcija</label>
                     <button type="button" @click="auctionOpen = !auctionOpen"
-                        class="w-full flex justify-between items-center border border-yellow-300 dark:border-yellow-600 bg-yellow-100 dark:bg-yellow-800 dark:bg-yellow-900 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
-                        <span :class="auction_type ? 'text-yellow-900 dark:text-yellow-200' : 'text-yellow-600 dark:text-yellow-300'">
+                        class="w-full flex justify-between items-center border border-amber-300 dark:border-amber-600 bg-amber-100 dark:bg-amber-800 dark:bg-amber-900 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                        <span :class="auction_type ? 'text-amber-900 dark:text-amber-200' : 'text-amber-600 dark:text-amber-300'">
                             @if(!empty($selectedAuctionTypeName))
                                 {{ $selectedAuctionTypeName }}
                             @else
                                 <span x-text="auctionTypeName || 'Sve aukcije'"></span>
                             @endif
                         </span>
-                        <svg class="w-4 h-4 transition-transform text-yellow-600" :class="auctionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 transition-transform text-amber-600" :class="auctionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
                     <div x-show="auctionOpen" x-transition @click.away="auctionOpen = false"
-                        class="absolute z-10 mt-1 w-full bg-yellow-100 dark:bg-yellow-800 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        class="absolute z-10 mt-1 w-full bg-amber-100 dark:bg-amber-800 dark:bg-amber-900 border border-amber-300 dark:border-amber-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectAuctionType('', ''); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
-                                :class="!auction_type ? 'bg-yellow-100 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
-                                <i class="fas fa-list text-gray-600 mr-2"></i>
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-amber-100 dark:hover:bg-amber-800 transition flex items-center"
+                                :class="!auction_type ? 'bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400 font-medium' : 'text-slate-700 dark:text-slate-300'">
+                                <i class="fas fa-list text-slate-600 mr-2"></i>
                                 <span>Sve aukcije</span>
                             </button>
                             <button type="button" @click="selectAuctionType('ending_soon', 'Završavaju uskoro'); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
-                                :class="auction_type === 'ending_soon' ? 'bg-yellow-100 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-amber-100 dark:hover:bg-amber-800 transition flex items-center"
+                                :class="auction_type === 'ending_soon' ? 'bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                 <i class="fas fa-clock text-red-600 mr-2"></i>
                                 <span>Završavaju uskoro</span>
                             </button>
                             <button type="button" @click="selectAuctionType('newest', 'Najnovije aukcije'); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
-                                :class="auction_type === 'newest' ? 'bg-yellow-100 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-amber-100 dark:hover:bg-amber-800 transition flex items-center"
+                                :class="auction_type === 'newest' ? 'bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                 <i class="fas fa-plus text-green-600 mr-2"></i>
                                 <span>Najnovije aukcije</span>
                             </button>
                             <button type="button" @click="selectAuctionType('highest_price', 'Najviša cena'); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
-                                :class="auction_type === 'highest_price' ? 'bg-yellow-100 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-amber-100 dark:hover:bg-amber-800 transition flex items-center"
+                                :class="auction_type === 'highest_price' ? 'bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                 <i class="fas fa-money-bill text-green-600 mr-2"></i>
                                 <span>Najviša cena</span>
                             </button>
                             <button type="button" @click="selectAuctionType('most_bids', 'Najviše ponuda'); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
-                                :class="auction_type === 'most_bids' ? 'bg-yellow-100 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-amber-100 dark:hover:bg-amber-800 transition flex items-center"
+                                :class="auction_type === 'most_bids' ? 'bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400 font-medium' : 'text-slate-700 dark:text-slate-300'">
                                 <i class="fas fa-gavel text-orange-600 mr-2"></i>
                                 <span>Najviše ponuda</span>
                             </button>
                             <button type="button" @click="selectAuctionType('scheduled', 'Zakazane aukcije'); auctionOpen = false"
-                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-yellow-100 dark:hover:bg-yellow-800 transition flex items-center"
-                                :class="auction_type === 'scheduled' ? 'bg-yellow-100 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400 font-medium' : 'text-gray-700 dark:text-gray-300'">
-                                <i class="fas fa-calendar text-yellow-600 mr-2"></i>
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-amber-100 dark:hover:bg-amber-800 transition flex items-center"
+                                :class="auction_type === 'scheduled' ? 'bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400 font-medium' : 'text-slate-700 dark:text-slate-300'">
+                                <i class="fas fa-calendar text-amber-600 mr-2"></i>
                                 <span>Zakazane aukcije</span>
                             </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="text-xs text-yellow-800 dark:text-yellow-200 p-2 bg-yellow-100 dark:bg-yellow-800 border border-yellow-200 dark:border-yellow-600 rounded">
+                <div class="text-xs text-amber-800 dark:text-amber-200 p-2 bg-amber-100 dark:bg-amber-800 border border-amber-200 dark:border-amber-600 rounded">
                     <i class="fas fa-info-circle mr-1"></i>
                     Ostavi prazno za prikaz svih oglasa, izaberi opciju za filtriranje samo aukcija
                 </div>
@@ -747,23 +747,23 @@ x-init="syncFromUrl()">
         </div>
 
         <!-- Filter Actions -->
-        <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
+        <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-200">
             <button type="button" @click="resetFilters()" 
-                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                class="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
                 <i class="fas fa-times mr-2"></i>
                 Resetuj filtere
             </button>
             
             <div class="flex space-x-3">
                 <button type="button" @click="showFilters = false" 
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    class="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
                     Sakrij filtere
                 </button>
                 <button type="button" @click="submitSearch()" 
-                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
                     <i class="fas fa-search mr-2"></i>
                     <span>Primeni filtere</span>
-                    <span x-show="hasActiveFilters()" class="ml-1 px-1.5 py-0.5 bg-white dark:bg-gray-200 text-blue-600 dark:text-blue-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
+                    <span x-show="hasActiveFilters()" class="ml-1 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
                         x-text="getActiveFilterCount()"></span>
                 </button>
             </div>

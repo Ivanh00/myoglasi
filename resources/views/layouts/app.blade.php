@@ -33,19 +33,19 @@
         
         /* Specific fixes for notification and conversation windows */
         .dark .notification-popup-header, .dark .conversation-header {
-            background-color: rgb(31 41 55) !important; /* gray-800 */
+            background-color: rgb(31 41 55) !important; /* slate-800 */
             color: rgb(229 231 235) !important;
             border-bottom: 1px solid rgb(75 85 99) !important;
         }
         .dark .notification-popup, .dark .conversation-window {
-            background-color: rgb(17 24 39) !important; /* gray-900 */
+            background-color: rgb(17 24 39) !important; /* slate-900 */
         }
         .dark .notification-cards, .dark .info-cards {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
+            background-color: rgb(55 65 81) !important; /* slate-700 */
             border: 1px solid rgb(75 85 99) !important;
         }
         .dark .message-input-area {
-            background-color: rgb(31 41 55) !important; /* gray-800 */
+            background-color: rgb(31 41 55) !important; /* slate-800 */
             border-top: 1px solid rgb(75 85 99) !important;
         }
         
@@ -81,12 +81,12 @@
         
         /* Message and admin contact specific */
         .dark .chat-window, .dark .conversation-view, .dark .admin-chat {
-            background-color: rgb(17 24 39) !important; /* gray-900 */
+            background-color: rgb(17 24 39) !important; /* slate-900 */
         }
         
         /* Info sections in popups */
         .dark .listing-info, .dark .user-info-section, .dark .notification-details {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
+            background-color: rgb(55 65 81) !important; /* slate-700 */
             border-color: rgb(75 85 99) !important;
         }
         
@@ -95,13 +95,13 @@
         .dark .notification-modal .modal-header, 
         .dark .notification-modal .modal-body, 
         .dark .notification-modal .modal-footer {
-            background-color: rgb(31 41 55) !important; /* gray-800 */
+            background-color: rgb(31 41 55) !important; /* slate-800 */
             color: rgb(229 231 235) !important;
             border-color: rgb(75 85 99) !important;
         }
         
         .dark .notification-modal .notification-details {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
+            background-color: rgb(55 65 81) !important; /* slate-700 */
             color: rgb(229 231 235) !important;
             border: 1px solid rgb(75 85 99) !important;
             border-radius: 0.5rem !important;
@@ -112,21 +112,21 @@
         .dark .notification-modal .notification-listing-info, 
         .dark .notification-modal .notification-user-info, 
         .dark .notification-modal .notification-time-info {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
+            background-color: rgb(55 65 81) !important; /* slate-700 */
             color: rgb(229 231 235) !important;
             border: 1px solid rgb(75 85 99) !important;
-            border-left: 4px solid rgb(59 130 246) !important; /* blue-500 left border */
+            border-left: 4px solid rgb(59 130 246) !important; /* sky-500 left border */
             border-radius: 0.5rem !important;
             padding: 1rem !important;
             margin: 0.5rem 0 !important;
         }
         
         .dark .notification-modal .listing-link {
-            color: rgb(59 130 246) !important; /* blue-500 - brighter blue */
+            color: rgb(59 130 246) !important; /* sky-500 - brighter blue */
         }
         
         .dark .notification-modal .view-listing-btn {
-            background-color: rgb(37 99 235) !important; /* blue-600 */
+            background-color: rgb(37 99 235) !important; /* sky-600 */
             color: white !important;
         }
         
@@ -138,11 +138,11 @@
         }
         
         .dark .notification-modal .close-btn {
-            background-color: rgb(75 85 99) !important; /* gray-600 */
+            background-color: rgb(75 85 99) !important; /* slate-600 */
             color: rgb(229 231 235) !important;
         }
         .dark .notification-modal .close-btn:hover {
-            background-color: rgb(107 114 128) !important; /* gray-500 */
+            background-color: rgb(107 114 128) !important; /* slate-500 */
         }
         
         /* Specific overrides for white cards only in notification modal */
@@ -180,10 +180,10 @@
         
         
         /* Preserve colored text only in notification modal */
-        .dark .notification-modal .text-blue-600, 
-        .dark .notification-modal .text-blue-700, 
-        .dark .notification-modal .text-blue-800 {
-            color: rgb(147 197 253) !important; /* blue-300 */
+        .dark .notification-modal .text-sky-600, 
+        .dark .notification-modal .text-sky-700, 
+        .dark .notification-modal .text-sky-800 {
+            color: rgb(147 197 253) !important; /* sky-300 */
         }
         .dark .notification-modal .text-green-600, 
         .dark .notification-modal .text-green-700 {
@@ -193,23 +193,23 @@
         .dark .notification-modal .text-red-700 {
             color: rgb(252 165 165) !important; /* red-300 */
         }
-        .dark .notification-modal .text-yellow-600, 
-        .dark .notification-modal .text-yellow-700 {
-            color: rgb(253 224 71) !important; /* yellow-300 */
+        .dark .notification-modal .text-amber-600, 
+        .dark .notification-modal .text-amber-700 {
+            color: rgb(253 224 71) !important; /* amber-300 */
         }
         
         /* Close button styling only in notification modal */
         .dark .notification-modal button[class*="bg-gray-"], 
         .dark .notification-modal .btn-cancel, 
         .dark .notification-modal .btn-close {
-            background-color: rgb(75 85 99) !important; /* gray-600 */
+            background-color: rgb(75 85 99) !important; /* slate-600 */
             color: rgb(229 231 235) !important;
-            border: 1px solid rgb(107 114 128) !important; /* gray-500 */
+            border: 1px solid rgb(107 114 128) !important; /* slate-500 */
         }
         .dark .notification-modal button[class*="bg-gray-"]:hover, 
         .dark .notification-modal .btn-cancel:hover, 
         .dark .notification-modal .btn-close:hover {
-            background-color: rgb(107 114 128) !important; /* gray-500 - lighter on hover */
+            background-color: rgb(107 114 128) !important; /* slate-500 - lighter on hover */
             color: rgb(255 255 255) !important;
         }
         
@@ -225,120 +225,120 @@
         }
         
         /* Fix popup buttons in all modals and forms */
-        .dark .bg-blue-600 {
-            background-color: rgb(37 99 235) !important; /* blue-600 */
+        .dark .bg-sky-600 {
+            background-color: rgb(37 99 235) !important; /* sky-600 */
         }
         
-        .dark .hover\\:bg-blue-700:hover {
-            background-color: rgb(29 78 216) !important; /* blue-700 */
+        .dark .hover\\:bg-sky-700:hover {
+            background-color: rgb(29 78 216) !important; /* sky-700 */
         }
         
-        .dark .bg-gray-600 {
-            background-color: rgb(75 85 99) !important; /* gray-600 */
+        .dark .bg-slate-600 {
+            background-color: rgb(75 85 99) !important; /* slate-600 */
         }
         
-        .dark .hover\\:bg-gray-50:hover {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
+        .dark .hover\\:bg-slate-50:hover {
+            background-color: rgb(55 65 81) !important; /* slate-700 */
         }
         
-        .dark .text-gray-600 {
-            color: rgb(156 163 175) !important; /* gray-400 */
+        .dark .text-slate-600 {
+            color: rgb(156 163 175) !important; /* slate-400 */
         }
         
-        .dark .border-gray-300 {
-            border-color: rgb(75 85 99) !important; /* gray-600 */
+        .dark .border-slate-300 {
+            border-color: rgb(75 85 99) !important; /* slate-600 */
         }
         
         /* Secondary/Cancel buttons styling */
-        .dark button[class*="text-gray-600"][class*="border-gray-300"],
-        .dark a[class*="text-gray-600"][class*="border-gray-300"] {
-            background-color: rgb(55 65 81) !important; /* gray-700 - dark background */
-            color: rgb(209 213 219) !important; /* gray-300 - light text */
-            border-color: rgb(75 85 99) !important; /* gray-600 - visible border */
+        .dark button[class*="text-slate-600"][class*="border-slate-300"],
+        .dark a[class*="text-slate-600"][class*="border-slate-300"] {
+            background-color: rgb(55 65 81) !important; /* slate-700 - dark background */
+            color: rgb(209 213 219) !important; /* slate-300 - light text */
+            border-color: rgb(75 85 99) !important; /* slate-600 - visible border */
         }
         
-        .dark button[class*="text-gray-600"][class*="hover:bg-gray-50"]:hover,
-        .dark a[class*="text-gray-600"][class*="hover:bg-gray-50"]:hover {
-            background-color: rgb(75 85 99) !important; /* gray-600 - lighter on hover */
-            color: rgb(229 231 235) !important; /* gray-200 - even lighter text */
+        .dark button[class*="text-slate-600"][class*="hover:bg-slate-50"]:hover,
+        .dark a[class*="text-slate-600"][class*="hover:bg-slate-50"]:hover {
+            background-color: rgb(75 85 99) !important; /* slate-600 - lighter on hover */
+            color: rgb(229 231 235) !important; /* slate-200 - even lighter text */
         }
         
-        /* Cancel/Close buttons with bg-gray-300 styling - direct approach */
-        .dark .bg-gray-300 {
-            background-color: rgb(55 65 81) !important; /* gray-700 - dark background */
+        /* Cancel/Close buttons with bg-slate-300 styling - direct approach */
+        .dark .bg-slate-300 {
+            background-color: rgb(55 65 81) !important; /* slate-700 - dark background */
         }
         
-        .dark .text-gray-700 {
-            color: rgb(209 213 219) !important; /* gray-300 - light text */
+        .dark .text-slate-700 {
+            color: rgb(209 213 219) !important; /* slate-300 - light text */
         }
         
-        .dark .hover\\:bg-gray-400:hover {
-            background-color: rgb(75 85 99) !important; /* gray-600 - lighter on hover */
+        .dark .hover\\:bg-slate-400:hover {
+            background-color: rgb(75 85 99) !important; /* slate-600 - lighter on hover */
         }
         
         /* Direct targeting for all gray buttons in dark mode */
-        .dark button.bg-gray-300 {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
-            color: rgb(209 213 219) !important; /* gray-300 */
+        .dark button.bg-slate-300 {
+            background-color: rgb(55 65 81) !important; /* slate-700 */
+            color: rgb(209 213 219) !important; /* slate-300 */
         }
         
-        .dark button.bg-gray-300:hover {
-            background-color: rgb(75 85 99) !important; /* gray-600 */
-            color: rgb(229 231 235) !important; /* gray-200 */
+        .dark button.bg-slate-300:hover {
+            background-color: rgb(75 85 99) !important; /* slate-600 */
+            color: rgb(229 231 235) !important; /* slate-200 */
         }
         
-        .dark button.text-gray-700 {
-            color: rgb(209 213 219) !important; /* gray-300 */
+        .dark button.text-slate-700 {
+            color: rgb(209 213 219) !important; /* slate-300 */
         }
         
         /* Specific styling for cancel buttons */
-        .dark button[class*="bg-gray-300"][class*="text-gray-700"] {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
-            color: rgb(209 213 219) !important; /* gray-300 */
+        .dark button[class*="bg-slate-300"][class*="text-slate-700"] {
+            background-color: rgb(55 65 81) !important; /* slate-700 */
+            color: rgb(209 213 219) !important; /* slate-300 */
         }
         
-        .dark button[class*="bg-gray-300"][class*="hover:bg-gray-400"]:hover {
-            background-color: rgb(75 85 99) !important; /* gray-600 - lighter on hover */
-            color: rgb(229 231 235) !important; /* gray-200 - even lighter text */
+        .dark button[class*="bg-slate-300"][class*="hover:bg-slate-400"]:hover {
+            background-color: rgb(75 85 99) !important; /* slate-600 - lighter on hover */
+            color: rgb(229 231 235) !important; /* slate-200 - even lighter text */
         }
         
         /* Cancel buttons with bg-white styling */
         .dark button.bg-white {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
-            color: rgb(209 213 219) !important; /* gray-300 */
-            border-color: rgb(75 85 99) !important; /* gray-600 */
+            background-color: rgb(55 65 81) !important; /* slate-700 */
+            color: rgb(209 213 219) !important; /* slate-300 */
+            border-color: rgb(75 85 99) !important; /* slate-600 */
         }
         
         .dark button.bg-white:hover {
-            background-color: rgb(75 85 99) !important; /* gray-600 */
-            color: rgb(229 231 235) !important; /* gray-200 */
+            background-color: rgb(75 85 99) !important; /* slate-600 */
+            color: rgb(229 231 235) !important; /* slate-200 */
         }
         
         /* All types of cancel buttons - comprehensive coverage */
-        .dark button[class*="bg-white"][class*="text-gray-700"],
-        .dark button[class*="bg-white"][class*="border-gray-300"] {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
-            color: rgb(209 213 219) !important; /* gray-300 */
-            border-color: rgb(75 85 99) !important; /* gray-600 */
+        .dark button[class*="bg-white"][class*="text-slate-700"],
+        .dark button[class*="bg-white"][class*="border-slate-300"] {
+            background-color: rgb(55 65 81) !important; /* slate-700 */
+            color: rgb(209 213 219) !important; /* slate-300 */
+            border-color: rgb(75 85 99) !important; /* slate-600 */
         }
         
         .dark button[class*="bg-white"]:hover {
-            background-color: rgb(75 85 99) !important; /* gray-600 */
-            color: rgb(229 231 235) !important; /* gray-200 */
+            background-color: rgb(75 85 99) !important; /* slate-600 */
+            color: rgb(229 231 235) !important; /* slate-200 */
         }
         
         /* Remove focus ring from cancel buttons completely - like other cancel buttons */
-        .dark button[class*="bg-white"][class*="focus:ring-blue-500"]:focus,
-        .dark button[class*="bg-gray-300"][class*="focus:ring-blue-500"]:focus,
-        .dark button[class*="text-gray-600"][class*="focus:ring-blue-500"]:focus {
+        .dark button[class*="bg-white"][class*="focus:ring-sky-500"]:focus,
+        .dark button[class*="bg-slate-300"][class*="focus:ring-sky-500"]:focus,
+        .dark button[class*="text-slate-600"][class*="focus:ring-sky-500"]:focus {
             --tw-ring-color: transparent !important; /* no ring */
             box-shadow: none !important;
         }
         
         /* Also remove in light mode for consistency */
-        button[class*="bg-white"][class*="focus:ring-blue-500"]:focus,
-        button[class*="bg-gray-300"][class*="focus:ring-blue-500"]:focus,
-        button[class*="text-gray-600"][class*="focus:ring-blue-500"]:focus {
+        button[class*="bg-white"][class*="focus:ring-sky-500"]:focus,
+        button[class*="bg-slate-300"][class*="focus:ring-sky-500"]:focus,
+        button[class*="text-slate-600"][class*="focus:ring-sky-500"]:focus {
             --tw-ring-color: transparent !important; /* no ring in light mode either */
             box-shadow: none !important;
         }
@@ -358,13 +358,13 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<body class="font-sans antialiased bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
     <livewire:layout.navigation />
     <div class="min-h-screen">
 
         <!-- Page Heading -->
         @if (isset($header))
-            <header class="bg-white dark:bg-gray-800 shadow">
+            <header class="bg-white dark:bg-slate-800 shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
@@ -386,7 +386,7 @@
         <!-- Mobile Sidebar Toggle Button -->
         <div class="md:hidden fixed top-36 left-2 z-40">
             <button type="button" id="mobile-sidebar-button"
-                class="bg-white p-2 rounded-md shadow-lg border border-gray-300 text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                class="bg-white p-2 rounded-md shadow-lg border border-slate-300 text-slate-400 hover:text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
                 <span class="sr-only">Open sidebar</span>
                 <!-- Hamburger icon -->
                 <svg id="sidebar-menu-icon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -401,18 +401,18 @@
         </div>
 
         <!-- Mobile Sidebar Overlay -->
-        <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 z-30 md:hidden hidden"></div>
+        <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-slate-500 bg-opacity-75 z-30 md:hidden hidden"></div>
 
         <!-- Main Content with Sidebar -->
         <div class="flex">
             <!-- Desktop Sidebar -->
-            <aside class="hidden md:block w-64 bg-white dark:bg-gray-800 shadow-md sticky top-16 h-screen">
+            <aside class="hidden md:block w-64 bg-white dark:bg-slate-800 shadow-md sticky top-16 h-screen">
                 <livewire:category-sidebar />
             </aside>
 
             <!-- Mobile Sidebar -->
             <aside id="mobile-sidebar"
-                class="fixed left-0 top-28 w-64 bg-white dark:bg-gray-800 shadow-lg h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+                class="fixed left-0 top-28 w-64 bg-white dark:bg-slate-800 shadow-lg h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
                 <livewire:category-sidebar />
             </aside>
 

@@ -1,27 +1,27 @@
-<div class="conversation-container bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<div class="conversation-container bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
     <style>
         /* Dark mode fixes for conversation */
         .dark .conversation-container {
-            background-color: rgb(17 24 39) !important; /* gray-900 */
-            color: rgb(229 231 235) !important; /* gray-200 */
+            background-color: rgb(17 24 39) !important; /* slate-900 */
+            color: rgb(229 231 235) !important; /* slate-200 */
         }
         .dark .chat-box {
-            background-color: rgb(31 41 55) !important; /* gray-800 */
+            background-color: rgb(31 41 55) !important; /* slate-800 */
         }
         .dark .message-bubble {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
+            background-color: rgb(55 65 81) !important; /* slate-700 */
             color: rgb(229 231 235) !important;
         }
         .dark .my-message .message-bubble {
-            background-color: rgb(30 64 175) !important; /* blue-800 */
+            background-color: rgb(30 64 175) !important; /* sky-800 */
         }
         .dark .message-textfield {
-            background-color: rgb(55 65 81) !important; /* gray-700 */
-            border-color: rgb(75 85 99) !important; /* gray-600 */
+            background-color: rgb(55 65 81) !important; /* slate-700 */
+            border-color: rgb(75 85 99) !important; /* slate-600 */
             color: rgb(229 231 235) !important;
         }
         .dark .back-button {
-            color: rgb(156 163 175) !important; /* gray-400 */
+            color: rgb(156 163 175) !important; /* slate-400 */
         }
         .dark .user-name, .dark .listing-name {
             color: rgb(229 231 235) !important;
@@ -83,12 +83,12 @@
                 <!-- Rating button -->
                 @if($otherUser->canBeRatedBy(auth()->id(), $listing->id))
                     <a href="{{ route('ratings.create') }}?user={{ $otherUser->id }}&listing={{ $listing->id }}" 
-                       class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 transition-colors text-sm">
+                       class="inline-flex items-center px-3 py-1.5 bg-amber-100 text-amber-700 rounded-lg hover:bg-amber-200 transition-colors text-sm">
                         <i class="fas fa-star mr-1"></i>
                         Ocenite
                     </a>
                 @else
-                    <span class="text-xs text-gray-500">Već ste ocenili</span>
+                    <span class="text-xs text-slate-500">Već ste ocenili</span>
                 @endif
             </div>
         </div>
@@ -165,7 +165,7 @@
             <div class="mobile-right-column">
                 <section class="ad-stats">
                     <div class="stat-item flex items-center">
-                        <i class="fas fa-eye text-gray-500 mr-1" style="font-size: 14px;"></i>
+                        <i class="fas fa-eye text-slate-500 mr-1" style="font-size: 14px;"></i>
                         <span class="stat-count">{{ $listing->views }}</span>
                     </div>
 
@@ -208,7 +208,7 @@
                                         <i class="fas fa-eye text-green-500 text-sm" title="Pročitano"></i>
                                     @else
                                         <!-- Dostavljena poruka - sivo oko -->
-                                        <i class="fas fa-eye text-gray-400 text-sm" title="Dostavljeno"></i>
+                                        <i class="fas fa-eye text-slate-400 text-sm" title="Dostavljeno"></i>
                                     @endif
                                 </div>
                             @endif

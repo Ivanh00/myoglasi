@@ -3,7 +3,7 @@
         @if (auth()->id() !== $listing->user_id)
             <button wire:click="toggleFavorite"
                 class="w-full flex items-center justify-center px-4 py-3 border rounded-lg transition-colors
-                           {{ $isFavorited ? 'bg-red-50 text-red-600 border-red-300 hover:bg-red-100' : 'border-gray-300 text-gray-700 hover:bg-gray-50' }}">
+                           {{ $isFavorited ? 'bg-red-50 text-red-600 border-red-300 hover:bg-red-100' : 'border-slate-300 text-slate-700 hover:bg-slate-50' }}">
                 @if ($isFavorited)
                     <svg class="w-5 h-5 mr-1 fill-current" viewBox="0 0 24 24">
                         <path
@@ -21,7 +21,7 @@
         @endif
     @else
         <a href="{{ route('login') }}"
-            class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+            class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
             <svg class="w-5 h-5 mr-1 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />

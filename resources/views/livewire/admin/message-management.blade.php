@@ -2,8 +2,8 @@
     <div class="mb-6">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Upravljanje porukama</h1>
-                <p class="text-gray-600">Pregled i upravljanje svim porukama između korisnika</p>
+                <h1 class="text-2xl font-bold text-slate-900">Upravljanje porukama</h1>
+                <p class="text-slate-600">Pregled i upravljanje svim porukama između korisnika</p>
             </div>
         </div>
     </div>
@@ -12,16 +12,16 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
-                <div class="p-3 bg-blue-100 rounded-lg">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="p-3 bg-sky-100 rounded-lg">
+                    <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z">
                         </path>
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Ukupno poruka</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $totalMessages }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Ukupno poruka</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $totalMessages }}</p>
                 </div>
             </div>
         </div>
@@ -36,8 +36,8 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Pročitane</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $readMessages }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Pročitane</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $readMessages }}</p>
                 </div>
             </div>
         </div>
@@ -51,8 +51,8 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-gray-500">Nepročitane</h3>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $unreadMessages }}</p>
+                    <h3 class="text-sm font-medium text-slate-500">Nepročitane</h3>
+                    <p class="text-2xl font-semibold text-slate-900">{{ $unreadMessages }}</p>
                 </div>
             </div>
         </div>
@@ -63,15 +63,15 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
             <!-- Pretraga -->
             <div class="lg:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pretraga</label>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Pretraga</label>
                 <input type="text" wire:model.live="search" placeholder="Pretraži poruke..."
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
             </div>
 
             <!-- Status -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <select wire:model.live="filters.is_read" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Status</label>
+                <select wire:model.live="filters.is_read" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Sve poruke</option>
                     <option value="1">Pročitane</option>
                     <option value="0">Nepročitane</option>
@@ -80,8 +80,8 @@
 
             <!-- Pošiljalac -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pošiljalac</label>
-                <select wire:model.live="filters.sender_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Pošiljalac</label>
+                <select wire:model.live="filters.sender_id" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi pošiljaoci</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -91,9 +91,9 @@
 
             <!-- Primalac -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Primalac</label>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Primalac</label>
                 <select wire:model.live="filters.receiver_id"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                    class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi primaoci</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -103,12 +103,12 @@
         </div>
 
         <div class="flex justify-between items-center">
-            <div class="text-sm text-gray-600">
+            <div class="text-sm text-slate-600">
                 Pronađeno: {{ $messages->total() }} poruka
             </div>
             <div class="flex space-x-2">
                 <button wire:click="resetFilters"
-                    class="px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded hover:bg-gray-50">
+                    class="px-3 py-1 text-sm text-slate-600 border border-slate-300 rounded hover:bg-slate-50">
                     Resetuj filtere
                 </button>
                 @if ($readMessages > 0)
@@ -125,43 +125,43 @@
     <!-- Desktop Tabela poruka -->
     <div class="hidden lg:block bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('created_at')">
                             Datum
                             @if ($sortField === 'created_at')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Poruka</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Pošiljalac</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Primalac</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oglas
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Oglas
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-slate-200">
                     @forelse($messages as $message)
-                        <tr class="hover:bg-gray-50 @if (!$message->is_read) bg-blue-50 @endif">
+                        <tr class="hover:bg-slate-50 @if (!$message->is_read) bg-sky-50 @endif">
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ $message->created_at->format('d.m.Y.') }}</div>
-                                <div class="text-xs text-gray-500">{{ $message->created_at->format('H:i') }}</div>
+                                <div class="text-sm text-slate-900">{{ $message->created_at->format('d.m.Y.') }}</div>
+                                <div class="text-xs text-slate-500">{{ $message->created_at->format('H:i') }}</div>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="text-sm text-gray-900">
+                                <div class="text-sm text-slate-900">
                                     {{ Str::limit($message->message, 50) }}
                                     @if (strlen($message->message) > 50)
                                         <button wire:click="viewMessage({{ $message->id }})"
-                                            class="text-blue-600 text-xs ml-1">
+                                            class="text-sky-600 text-xs ml-1">
                                             više...
                                         </button>
                                     @endif
@@ -172,14 +172,14 @@
                                     @if($message->sender->avatar)
                                         <img src="{{ $message->sender->avatar_url }}" alt="{{ $message->sender->name }}" class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($message->sender->name, 0, 1)) }}
                                         </div>
                                     @endif
                                     <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">{{ $message->sender->name }}
+                                        <div class="text-sm font-medium text-slate-900">{{ $message->sender->name }}
                                         </div>
-                                        <div class="text-xs text-gray-500">{{ $message->sender->email }}</div>
+                                        <div class="text-xs text-slate-500">{{ $message->sender->email }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -188,25 +188,25 @@
                                     @if($message->receiver->avatar)
                                         <img src="{{ $message->receiver->avatar_url }}" alt="{{ $message->receiver->name }}" class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($message->receiver->name, 0, 1)) }}
                                         </div>
                                     @endif
                                     <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">{{ $message->receiver->name }}
+                                        <div class="text-sm font-medium text-slate-900">{{ $message->receiver->name }}
                                         </div>
-                                        <div class="text-xs text-gray-500">{{ $message->receiver->email }}</div>
+                                        <div class="text-xs text-slate-500">{{ $message->receiver->email }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
                                 @if ($message->listing)
-                                    <div class="text-sm text-gray-900">{{ Str::limit($message->listing->title, 30) }}
+                                    <div class="text-sm text-slate-900">{{ Str::limit($message->listing->title, 30) }}
                                     </div>
-                                    <div class="text-xs text-gray-500">
+                                    <div class="text-xs text-slate-500">
                                         {{ number_format($message->listing->price, 2) }} RSD</div>
                                 @else
-                                    <span class="text-xs text-gray-400">Oglas obrisan</span>
+                                    <span class="text-xs text-slate-400">Oglas obrisan</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -223,7 +223,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-2">
                                     <button wire:click="viewMessage({{ $message->id }})"
-                                        class="text-blue-600 hover:text-blue-900" title="Pogledaj poruku">
+                                        class="text-sky-600 hover:text-sky-900" title="Pogledaj poruku">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -236,7 +236,7 @@
 
                                     @if ($message->is_read)
                                         <button wire:click="markAsUnread({{ $message->id }})"
-                                            class="text-yellow-600 hover:text-yellow-900"
+                                            class="text-amber-600 hover:text-amber-900"
                                             title="Označi kao nepročitano">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -271,7 +271,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+                            <td colspan="7" class="px-6 py-4 text-center text-sm text-slate-500">
                                 Nema pronađenih poruka.
                             </td>
                         </tr>
@@ -281,7 +281,7 @@
         </div>
 
         <!-- Pagination -->
-        <div class="px-6 py-4 border-t border-gray-200">
+        <div class="px-6 py-4 border-t border-slate-200">
             {{ $messages->links() }}
         </div>
     </div>
@@ -289,7 +289,7 @@
     <!-- Mobile Messages Cards -->
     <div class="lg:hidden space-y-4">
         @forelse($messages as $message)
-            <div class="bg-white shadow rounded-lg p-4 @if (!$message->is_read) border-l-4 border-blue-500 bg-blue-50 @endif">
+            <div class="bg-white shadow rounded-lg p-4 @if (!$message->is_read) border-l-4 border-sky-500 bg-sky-50 @endif">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center space-x-2">
@@ -304,32 +304,32 @@
                                 Nepročitano
                             </span>
                         @endif
-                        <div class="text-xs text-gray-500">{{ $message->created_at->format('d.m.Y H:i') }}</div>
+                        <div class="text-xs text-slate-500">{{ $message->created_at->format('d.m.Y H:i') }}</div>
                     </div>
                 </div>
 
                 <!-- Sender and Receiver Info -->
                 <div class="grid grid-cols-1 gap-4 mb-4">
-                    <div class="bg-gray-50 p-3 rounded-lg">
+                    <div class="bg-slate-50 p-3 rounded-lg">
                         <div class="flex items-center justify-between mb-2">
-                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Pošiljalac</div>
+                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Pošiljalac</div>
                             <div class="flex items-center">
                                 @if($message->sender->avatar)
                                     <img src="{{ $message->sender->avatar_url }}" alt="{{ $message->sender->name }}" class="w-8 h-8 rounded-full object-cover mr-2">
                                 @else
-                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                    <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
                                         {{ strtoupper(substr($message->sender->name, 0, 1)) }}
                                     </div>
                                 @endif
                             </div>
                         </div>
-                        <div class="text-sm font-medium text-gray-900">{{ $message->sender->name }}</div>
-                        <div class="text-xs text-gray-500">{{ $message->sender->email }}</div>
+                        <div class="text-sm font-medium text-slate-900">{{ $message->sender->name }}</div>
+                        <div class="text-xs text-slate-500">{{ $message->sender->email }}</div>
                     </div>
                     
-                    <div class="bg-gray-50 p-3 rounded-lg">
+                    <div class="bg-slate-50 p-3 rounded-lg">
                         <div class="flex items-center justify-between mb-2">
-                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Primalac</div>
+                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Primalac</div>
                             <div class="flex items-center">
                                 @if($message->receiver->avatar)
                                     <img src="{{ $message->receiver->avatar_url }}" alt="{{ $message->receiver->name }}" class="w-8 h-8 rounded-full object-cover mr-2">
@@ -340,17 +340,17 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="text-sm font-medium text-gray-900">{{ $message->receiver->name }}</div>
-                        <div class="text-xs text-gray-500">{{ $message->receiver->email }}</div>
+                        <div class="text-sm font-medium text-slate-900">{{ $message->receiver->name }}</div>
+                        <div class="text-xs text-slate-500">{{ $message->receiver->email }}</div>
                     </div>
                 </div>
 
                 <!-- Message Preview -->
                 <div class="mb-4">
-                    <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Poruka</div>
-                    <div class="text-sm text-gray-900">{{ Str::limit($message->message, 100) }}</div>
+                    <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Poruka</div>
+                    <div class="text-sm text-slate-900">{{ Str::limit($message->message, 100) }}</div>
                     @if (strlen($message->message) > 100)
-                        <button wire:click="viewMessage({{ $message->id }})" class="text-blue-600 text-xs mt-1">
+                        <button wire:click="viewMessage({{ $message->id }})" class="text-sky-600 text-xs mt-1">
                             Prikaži više...
                         </button>
                     @endif
@@ -359,30 +359,30 @@
                 <!-- Listing Info -->
                 @if ($message->listing)
                     <div class="mb-4">
-                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Oglas</div>
-                        <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-                            <div class="text-sm font-medium text-gray-900">{{ Str::limit($message->listing->title, 30) }}</div>
+                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Oglas</div>
+                        <div class="bg-amber-50 p-3 rounded-lg border border-amber-200">
+                            <div class="text-sm font-medium text-slate-900">{{ Str::limit($message->listing->title, 30) }}</div>
                             <div class="text-xs text-green-600 font-semibold">{{ number_format($message->listing->price, 2) }} RSD</div>
                         </div>
                     </div>
                 @else
                     <div class="mb-4">
-                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Oglas</div>
-                        <div class="text-xs text-gray-400 italic">Oglas obrisan</div>
+                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Oglas</div>
+                        <div class="text-xs text-slate-400 italic">Oglas obrisan</div>
                     </div>
                 @endif
 
                 <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-2">
                     <button wire:click="viewMessage({{ $message->id }})" 
-                        class="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-lg hover:bg-blue-200 transition-colors">
+                        class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
                         <i class="fas fa-eye mr-1"></i>
                         Prikaži
                     </button>
                     
                     @if ($message->is_read)
                         <button wire:click="markAsUnread({{ $message->id }})" 
-                            class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-lg hover:bg-yellow-200 transition-colors">
+                            class="inline-flex items-center px-3 py-1.5 bg-amber-100 text-amber-700 text-xs font-medium rounded-lg hover:bg-amber-200 transition-colors">
                             <i class="fas fa-eye-slash mr-1"></i>
                             Nepročitano
                         </button>
@@ -403,9 +403,9 @@
             </div>
         @empty
             <div class="bg-white rounded-lg shadow p-8 text-center">
-                <i class="fas fa-comments text-gray-400 text-5xl mb-4"></i>
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Nema pronađenih poruka</h3>
-                <p class="text-gray-600">Nema poruka koje odgovaraju kriterijumima pretrage.</p>
+                <i class="fas fa-comments text-slate-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema pronađenih poruka</h3>
+                <p class="text-slate-600">Nema poruka koje odgovaraju kriterijumima pretrage.</p>
             </div>
         @endforelse
         
@@ -417,45 +417,45 @@
 
     <!-- View Modal -->
     @if ($showViewModal && $selectedMessage)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
                 <div class="mt-3">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Detalji poruke</h3>
+                    <h3 class="text-lg font-medium text-slate-900 mb-4">Detalji poruke</h3>
 
-                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <div class="bg-slate-50 rounded-lg p-4 mb-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <h4 class="text-sm font-medium text-gray-500">Pošiljalac:</h4>
+                                <h4 class="text-sm font-medium text-slate-500">Pošiljalac:</h4>
                                 <div class="flex items-center mt-1">
                                     @if($selectedMessage->sender->avatar)
                                         <img src="{{ $selectedMessage->sender->avatar_url }}" alt="{{ $selectedMessage->sender->name }}" class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($selectedMessage->sender->name, 0, 1)) }}
                                         </div>
                                     @endif
                                     <div class="ml-3">
-                                        <p class="text-sm font-medium text-gray-900">
+                                        <p class="text-sm font-medium text-slate-900">
                                             {{ $selectedMessage->sender->name }}</p>
-                                        <p class="text-xs text-gray-500">{{ $selectedMessage->sender->email }}</p>
+                                        <p class="text-xs text-slate-500">{{ $selectedMessage->sender->email }}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div>
-                                <h4 class="text-sm font-medium text-gray-500">Primalac:</h4>
+                                <h4 class="text-sm font-medium text-slate-500">Primalac:</h4>
                                 <div class="flex items-center mt-1">
                                     @if($selectedMessage->receiver->avatar)
                                         <img src="{{ $selectedMessage->receiver->avatar_url }}" alt="{{ $selectedMessage->receiver->name }}" class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($selectedMessage->receiver->name, 0, 1)) }}
                                         </div>
                                     @endif
                                     <div class="ml-3">
-                                        <p class="text-sm font-medium text-gray-900">
+                                        <p class="text-sm font-medium text-slate-900">
                                             {{ $selectedMessage->receiver->name }}</p>
-                                        <p class="text-xs text-gray-500">{{ $selectedMessage->receiver->email }}</p>
+                                        <p class="text-xs text-slate-500">{{ $selectedMessage->receiver->email }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -463,16 +463,16 @@
 
                         @if ($selectedMessage->listing)
                             <div class="mb-4">
-                                <h4 class="text-sm font-medium text-gray-500">Oglas:</h4>
-                                <p class="text-sm text-gray-900 mt-1">{{ $selectedMessage->listing->title }}</p>
-                                <p class="text-xs text-gray-500">
+                                <h4 class="text-sm font-medium text-slate-500">Oglas:</h4>
+                                <p class="text-sm text-slate-900 mt-1">{{ $selectedMessage->listing->title }}</p>
+                                <p class="text-xs text-slate-500">
                                     {{ number_format($selectedMessage->listing->price, 2) }} RSD</p>
                             </div>
                         @endif
 
                         <div>
-                            <h4 class="text-sm font-medium text-gray-500">Datum:</h4>
-                            <p class="text-sm text-gray-900 mt-1">
+                            <h4 class="text-sm font-medium text-slate-500">Datum:</h4>
+                            <p class="text-sm text-slate-900 mt-1">
                                 {{ $selectedMessage->created_at->format('d.m.Y. H:i') }}
                                 ({{ $selectedMessage->created_at->diffForHumans() }})
                             </p>
@@ -480,9 +480,9 @@
                     </div>
 
                     <div class="mb-4">
-                        <h4 class="text-sm font-medium text-gray-500 mb-2">Poruka:</h4>
-                        <div class="bg-white border border-gray-200 rounded-lg p-4">
-                            <p class="text-gray-800 whitespace-pre-wrap">{{ $selectedMessage->message }}</p>
+                        <h4 class="text-sm font-medium text-slate-500 mb-2">Poruka:</h4>
+                        <div class="bg-white border border-slate-200 rounded-lg p-4">
+                            <p class="text-slate-800 whitespace-pre-wrap">{{ $selectedMessage->message }}</p>
                         </div>
                     </div>
 
@@ -494,13 +494,13 @@
                             </button>
                         @else
                             <button wire:click="markAsUnread({{ $selectedMessage->id }})"
-                                class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700">
+                                class="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700">
                                 Označi kao nepročitano
                             </button>
                         @endif
 
                         <button wire:click="$set('showViewModal', false)"
-                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            class="px-4 py-2 bg-slate-300 text-slate-700 rounded-md hover:bg-slate-400">
                             Zatvori
                         </button>
                     </div>
@@ -511,18 +511,18 @@
 
     <!-- Delete Confirmation Modal -->
     @if ($showDeleteModal)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Potvrda brisanja</h3>
-                    <p class="text-sm text-gray-500 mb-4">
+                    <h3 class="text-lg font-medium text-slate-900 mb-4">Potvrda brisanja</h3>
+                    <p class="text-sm text-slate-500 mb-4">
                         Da li ste sigurni da želite da obrišete ovu poruku?
                         <br>Ova akcija je nepovratna.
                     </p>
 
                     <div class="flex justify-center space-x-3">
                         <button wire:click="$set('showDeleteModal', false)"
-                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            class="px-4 py-2 bg-slate-300 text-slate-700 rounded-md hover:bg-slate-400">
                             Otkaži
                         </button>
                         <button wire:click="deleteMessage"
