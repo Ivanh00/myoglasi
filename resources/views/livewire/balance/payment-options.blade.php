@@ -205,7 +205,7 @@
                 @if ($selectedMethod === 'mobile')
                     <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                         <div class="flex items-center">
-                            <i class="fas fa-exclamation-triangle text-amber-600 mr-2"></i>
+                            <i class="fas fa-exclamation-triangle text-amber-600 dark:text-amber-400 mr-2"></i>
                             <span class="text-amber-800">
                                 <strong>Obaveštenje:</strong> Opcija mobilnog bankarstva će biti dostupna uskoro kada
                                 nabavimo NBS IPS QR kod.

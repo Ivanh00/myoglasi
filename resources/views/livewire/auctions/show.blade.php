@@ -114,7 +114,7 @@
                             <div
                                 class="mb-6 p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
                                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
-                                    <i class="fas fa-crown text-amber-600 mr-2"></i>
+                                    <i class="fas fa-crown text-amber-600 dark:text-amber-400 mr-2"></i>
                                     Vaša aukcija
                                 </h3>
 
@@ -150,7 +150,8 @@
                                             <div
                                                 class="w-full p-3 bg-amber-50 dark:bg-amber-900 border border-amber-200 dark:border-amber-700 rounded-lg">
                                                 <div class="flex items-center">
-                                                    <i class="fas fa-info-circle text-amber-600 mr-2"></i>
+                                                    <i
+                                                        class="fas fa-info-circle text-amber-600 dark:text-amber-400 mr-2"></i>
                                                     <span class="text-amber-800 dark:text-amber-200 text-sm">
                                                         Aukcija se ne može uređivati ili otkazati jer već ima ponude.
                                                     </span>

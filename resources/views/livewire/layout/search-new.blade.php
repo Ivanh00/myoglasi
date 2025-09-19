@@ -748,7 +748,7 @@ if (!empty($auctionType)) {
                                 <span x-text="auctionTypeName || 'Sve aukcije'"></span>
                             @endif
                         </span>
-                        <svg class="w-4 h-4 transition-transform text-amber-600"
+                        <svg class="w-4 h-4 transition-transform text-amber-600 dark:text-amber-400"
                             :class="auctionOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -809,7 +809,7 @@ if (!empty($auctionType)) {
                                 :class="auction_type === 'scheduled' ?
                                     'bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400 font-medium' :
                                     'text-slate-700 dark:text-slate-300'">
-                                <i class="fas fa-calendar text-amber-600 mr-2"></i>
+                                <i class="fas fa-calendar text-amber-600 dark:text-amber-400 mr-2"></i>
                                 <span>Zakazane aukcije</span>
                             </button>
                         </div>

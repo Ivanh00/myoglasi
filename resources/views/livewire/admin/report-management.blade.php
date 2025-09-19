@@ -77,11 +77,12 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
                 <div class="p-3 bg-amber-100 rounded-lg">
-                    <i class="fas fa-clock text-amber-600 text-xl "></i>
+                    <i class="fas fa-clock text-amber-600 dark:text-amber-400 text-xl "></i>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-slate-500">Na čekanju</h3>
-                    <p class="text-2xl font-semibold text-amber-600">{{ $stats['pending'] ?? 0 }}</p>
+                    <p class="text-2xl font-semibold text-amber-600 dark:text-amber-400">{{ $stats['pending'] ?? 0 }}
+                    </p>
                 </div>
             </div>
         </div>

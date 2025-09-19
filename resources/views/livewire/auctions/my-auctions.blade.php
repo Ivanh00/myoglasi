@@ -269,7 +269,7 @@
                                 obavezuje da proda predmet kupcu sa najboljom ponudom</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-star text-amber-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-star text-amber-600 dark:text-amber-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Posledice nepoštovanja:</strong> Ukoliko prodavac ne ispoštuje obavezu,
                                 suočava se sa negativnom ocenom od strane člana</span>
                         </li>
@@ -469,7 +469,7 @@
                                 obavezuje da proda predmet kupcu sa najboljom ponudom</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-star text-amber-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-star text-amber-600 dark:text-amber-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Posledice nepoštovanja:</strong> Ukoliko prodavac ne ispoštuje obavezu,
                                 suočava se sa negativnom ocenom od strane člana</span>
                         </li>

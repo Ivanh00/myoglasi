@@ -80,7 +80,7 @@
                                 </div>
                                 @if ($rating === 'neutral')
                                     <div class="absolute top-2 right-2">
-                                        <i class="fas fa-check-circle text-amber-600 text-xl"></i>
+                                        <i class="fas fa-check-circle text-amber-600 dark:text-amber-400 text-xl"></i>
                                     </div>
                                 @endif
                             </label>

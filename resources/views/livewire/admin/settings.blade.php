@@ -886,7 +886,7 @@
         <div class="space-y-6">
             <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
                 <div class="flex items-start">
-                    <i class="fas fa-bullhorn text-amber-600 mt-0.5 mr-2"></i>
+                    <i class="fas fa-bullhorn text-amber-600 dark:text-amber-400 mt-0.5 mr-2"></i>
                     <div class="text-sm text-amber-800">
                         <strong>Promocije oglasa</strong> omogućavaju korisnicima da plate dodatno da bi njihovi oglasi
                         bili istaknutiji.
@@ -959,7 +959,7 @@
                 <!-- Highlighted -->
                 <div class="border border-slate-200 rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                        <i class="fas fa-highlighter text-amber-600 mr-2"></i>
+                        <i class="fas fa-highlighter text-amber-600 dark:text-amber-400 mr-2"></i>
                         Istaknut oglas
                     </h3>
                     <p class="text-sm text-slate-600 mb-4">Oglas ima drugačiju boju pozadine i okvir</p>

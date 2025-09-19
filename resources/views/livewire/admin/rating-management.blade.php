@@ -42,7 +42,7 @@
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-slate-500">Neutralne</h3>
-                    <p class="text-2xl font-semibold text-amber-600">{{ $stats['neutral'] }}</p>
+                    <p class="text-2xl font-semibold text-amber-600 dark:text-amber-400">{{ $stats['neutral'] }}</p>
                 </div>
             </div>
         </div>

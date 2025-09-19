@@ -31,7 +31,7 @@
         <div class="bg-amber-50 p-6 rounded-lg border border-amber-200">
             <div class="flex items-center">
                 <div class="p-2 bg-amber-100 rounded-lg">
-                    <i class="fas fa-gamepad text-amber-600"></i>
+                    <i class="fas fa-gamepad text-amber-600 dark:text-amber-400"></i>
                 </div>
                 <div class="ml-4">
                     <p class="text-sm text-amber-600 dark:text-amber-400">Preostalo danas</p>

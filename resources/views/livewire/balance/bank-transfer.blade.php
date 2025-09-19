@@ -150,7 +150,7 @@
             <!-- Important Notice -->
             <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg print:hidden">
                 <div class="flex items-start">
-                    <i class="fas fa-exclamation-triangle text-amber-600 mr-3 mt-1"></i>
+                    <i class="fas fa-exclamation-triangle text-amber-600 dark:text-amber-400 mr-3 mt-1"></i>
                     <div>
                         <h3 class="text-amber-900 font-semibold mb-2">Važne napomene</h3>
                         <ul class="text-amber-800 text-sm space-y-1">

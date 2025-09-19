@@ -122,7 +122,7 @@
                             class="h-4 w-4 text-amber-600 focus:ring-amber-500 border-slate-300">
                         <div class="ml-3">
                             <div class="flex items-center">
-                                <i class="fas fa-gavel text-amber-600 mr-2"></i>
+                                <i class="fas fa-gavel text-amber-600 dark:text-amber-400 mr-2"></i>
                                 <span class="text-sm font-medium text-slate-900 dark:text-slate-100">Aukcija</span>
                             </div>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Licitiranje
@@ -307,7 +307,7 @@
                 <div
                     class="bg-amber-50 dark:bg-amber-900 p-4 rounded-lg border border-amber-200 dark:border-amber-700 mb-6">
                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
-                        <i class="fas fa-gavel text-amber-600 mr-2"></i>
+                        <i class="fas fa-gavel text-amber-600 dark:text-amber-400 mr-2"></i>
                         Podešavanja aukcije
                     </h3>
 

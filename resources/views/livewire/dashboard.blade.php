@@ -221,7 +221,7 @@
 
                 <a href="{{ route('auctions.index') }}"
                     class="flex items-center p-3 bg-amber-100 dark:bg-amber-900 border border-amber-300 dark:border-amber-700 rounded-lg hover:bg-amber-100 transition-colors">
-                    <i class="fas fa-search text-amber-600 mr-3"></i>
+                    <i class="fas fa-search text-amber-600 dark:text-amber-400 mr-3"></i>
                     <div>
                         <div class="font-medium text-amber-900 dark:text-amber-200">Pretraži aukcije</div>
                         <div class="text-sm text-amber-700 dark:text-amber-300">Pronađi najbolje ponude</div>
@@ -354,7 +354,7 @@
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                    <i class="fas fa-gavel text-amber-600 mr-2"></i>
+                    <i class="fas fa-gavel text-amber-600 dark:text-amber-400 mr-2"></i>
                     Vaše poslednje aukcije
                 </h3>
                 <a href="{{ route('auctions.my') }}" class="text-amber-600 hover:text-amber-800 text-sm">
@@ -385,7 +385,7 @@
                         </div>
 
                         <div class="flex items-center justify-between">
-                            <div class="text-lg font-bold text-amber-600">
+                            <div class="text-lg font-bold text-amber-600 dark:text-amber-400">
                                 {{ number_format($auction->current_price, 0) }} RSD
                             </div>
                             <span class="px-2 py-1 bg-amber-100 text-amber-800 text-xs font-medium rounded">
@@ -460,7 +460,7 @@
         <!-- Achievements & Stats -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
-                <i class="fas fa-trophy text-amber-600 mr-2"></i>
+                <i class="fas fa-trophy text-amber-600 dark:text-amber-400 mr-2"></i>
                 Vaši uspesi
             </h3>
 
@@ -469,7 +469,7 @@
                 @if ($stats['won_auctions'] > 0)
                     <div
                         class="flex items-center p-3 bg-amber-100 dark:bg-amber-900 border border-amber-300 dark:border-amber-700 rounded-lg">
-                        <i class="fas fa-crown text-amber-600 mr-3"></i>
+                        <i class="fas fa-crown text-amber-600 dark:text-amber-400 mr-3"></i>
                         <div>
                             <div class="font-medium text-amber-900 dark:text-amber-200">Pobede na aukcijama</div>
                             <div class="text-sm text-amber-700 dark:text-amber-300">{{ $stats['won_auctions'] }}
