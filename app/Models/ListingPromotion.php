@@ -113,7 +113,7 @@ class ListingPromotion extends Model
         $badges = [
             'featured_category' => [
                 'text' => 'TOP',
-                'class' => 'bg-blue-600 text-white'
+                'class' => 'bg-sky-600 text-white'
             ],
             'featured_homepage' => [
                 'text' => 'ISTAKNUT',
@@ -121,7 +121,7 @@ class ListingPromotion extends Model
             ],
             'highlighted' => [
                 'text' => 'OZNAČEN',
-                'class' => 'bg-yellow-500 text-black'
+                'class' => 'bg-amber-500 text-black'
             ],
             'auto_refresh' => [
                 'text' => 'AUTO',

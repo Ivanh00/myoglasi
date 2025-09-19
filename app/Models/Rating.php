@@ -51,7 +51,7 @@ class Rating extends Model
     {
         return match($this->rating) {
             'positive' => 'text-green-600',
-            'neutral' => 'text-yellow-600',
+            'neutral' => 'text-amber-600',
             'negative' => 'text-red-600', 
             default => 'text-gray-600'
         };
@@ -61,7 +61,7 @@ class Rating extends Model
     {
         return match($this->rating) {
             'positive' => 'bg-green-100',
-            'neutral' => 'bg-yellow-100', 
+            'neutral' => 'bg-amber-100', 
             'negative' => 'bg-red-100',
             default => 'bg-gray-100'
         };

@@ -237,11 +237,11 @@ public function getPromotionBadges()
     }
     
     if ($this->isFeaturedInCategory()) {
-        $badges[] = ['text' => 'VRH', 'class' => 'bg-blue-500 text-white'];
+        $badges[] = ['text' => 'VRH', 'class' => 'bg-sky-500 text-white'];
     }
     
     if ($this->isHighlighted()) {
-        $badges[] = ['text' => 'ISTAKNUT', 'class' => 'bg-yellow-500 text-black'];
+        $badges[] = ['text' => 'ISTAKNUT', 'class' => 'bg-amber-500 text-black'];
     }
     
     return $badges;
