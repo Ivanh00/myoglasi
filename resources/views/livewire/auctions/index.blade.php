@@ -221,6 +221,29 @@
                             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                 {{ Str::limit($auction->listing->title, 40) }}</h3>
 
+                            {{-- Prodavac info --}}
+                            @auth
+                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                    Prodavac: {{ $auction->seller->name ?? 'Nepoznat korisnik' }}
+                                    @if($auction->seller){!! $auction->seller->verified_icon !!}@endif
+                                    @if ($auction->seller && $auction->seller->is_banned)
+                                        <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
+                                    @endif
+                                    @if($auction->seller && $auction->seller->shouldShowLastSeen())
+                                        <span class="text-xs text-slate-500 ml-2">
+                                            @if($auction->seller->is_online)
+                                                <span class="inline-flex items-center">
+                                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                    {{ $auction->seller->last_seen }}
+                                                </span>
+                                            @else
+                                                {{ $auction->seller->last_seen }}
+                                            @endif
+                                        </span>
+                                    @endif
+                                </p>
+                            @endauth
+
                             <div class="flex items-center justify-between mb-3">
                                 <div>
                                     <div class="text-2xl font-bold text-red-600 dark:text-red-400">
@@ -244,11 +267,6 @@
                                 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                 {{ Str::limit(strip_tags($auction->listing->description), 100) }}
                             </p>
-
-                            <div class="text-sm text-slate-600 dark:text-slate-300 mb-3">
-                                Prodavac: {{ $auction->seller->name }}
-                                {!! $auction->seller->verified_icon !!}
-                            </div>
 
                             <div class="space-y-2">
                                 @auth
@@ -322,6 +340,29 @@
                                         <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                             {{ $auction->listing->title }}</h3>
 
+                                        {{-- Prodavac info --}}
+                                        @auth
+                                            <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                                Prodavac: {{ $auction->seller->name ?? 'Nepoznat korisnik' }}
+                                                @if($auction->seller){!! $auction->seller->verified_icon !!}@endif
+                                                @if ($auction->seller && $auction->seller->is_banned)
+                                                    <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                                @endif
+                                                @if($auction->seller && $auction->seller->shouldShowLastSeen())
+                                                    <span class="text-xs text-slate-500 ml-2">
+                                                        @if($auction->seller->is_online)
+                                                            <span class="inline-flex items-center">
+                                                                <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                                {{ $auction->seller->last_seen }}
+                                                            </span>
+                                                        @else
+                                                            {{ $auction->seller->last_seen }}
+                                                        @endif
+                                                    </span>
+                                                @endif
+                                            </p>
+                                        @endauth
+
                                         <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                             <i class="fas fa-map-marker-alt mr-1"></i>
                                             <span>{{ $auction->listing->location }}</span>
@@ -334,11 +375,6 @@
                                             style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                             {{ Str::limit(strip_tags($auction->listing->description), 120) }}
                                         </p>
-
-                                        <div class="text-sm text-slate-600 dark:text-slate-300 mb-2">
-                                            Prodavac: <span class="font-medium">{{ $auction->seller->name }}</span>
-                                            {!! $auction->seller->verified_icon !!}
-                                        </div>
                                     </div>
 
                                     <div class="flex items-center justify-between">
@@ -477,6 +513,29 @@
                                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                     {{ Str::limit($auction->listing->title, 40) }}</h3>
 
+                                {{-- Prodavac info --}}
+                                @auth
+                                    <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                        Prodavac: {{ $auction->listing->user->name ?? 'Nepoznat korisnik' }}
+                                        @if($auction->listing->user){!! $auction->listing->user->verified_icon !!}@endif
+                                        @if ($auction->listing->user && $auction->listing->user->is_banned)
+                                            <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
+                                        @endif
+                                        @if($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
+                                            <span class="text-xs text-slate-500 ml-2">
+                                                @if($auction->listing->user->is_online)
+                                                    <span class="inline-flex items-center">
+                                                        <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                        {{ $auction->listing->user->last_seen }}
+                                                    </span>
+                                                @else
+                                                    {{ $auction->listing->user->last_seen }}
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </p>
+                                @endauth
+
                                 <div class="mb-3">
                                     <div class="text-sm text-slate-500 dark:text-slate-400">Početna cena:</div>
                                     <div class="text-xl font-bold text-sky-600 dark:text-sky-400">
@@ -488,11 +547,6 @@
                                             {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                         </div>
                                     @endif
-                                </div>
-
-                                <div class="text-sm text-slate-600 dark:text-slate-300 mb-3">
-                                    Prodavac: {{ $auction->listing->user->name }}
-                                    {!! $auction->listing->user->verified_icon ?? '' !!}
                                 </div>
 
                                 <div class="p-3 bg-amber-50 dark:bg-amber-900 rounded-lg mb-3">
@@ -565,6 +619,29 @@
                                             <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                                 {{ $auction->listing->title }}</h3>
 
+                                            {{-- Prodavac info --}}
+                                            @auth
+                                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                                    Prodavac: {{ $auction->listing->user->name ?? 'Nepoznat korisnik' }}
+                                                    @if($auction->listing->user){!! $auction->listing->user->verified_icon !!}@endif
+                                                    @if ($auction->listing->user && $auction->listing->user->is_banned)
+                                                        <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                                    @endif
+                                                    @if($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
+                                                        <span class="text-xs text-slate-500 ml-2">
+                                                            @if($auction->listing->user->is_online)
+                                                                <span class="inline-flex items-center">
+                                                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                                    {{ $auction->listing->user->last_seen }}
+                                                                </span>
+                                                            @else
+                                                                {{ $auction->listing->user->last_seen }}
+                                                            @endif
+                                                        </span>
+                                                    @endif
+                                                </p>
+                                            @endauth
+
                                             <div
                                                 class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                                 <i class="fas fa-map-marker-alt mr-1"></i>
@@ -578,12 +655,6 @@
                                                 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                                 {{ Str::limit(strip_tags($auction->listing->description), 120) }}
                                             </p>
-
-                                            <div class="text-sm text-slate-600 dark:text-slate-300 mb-2">
-                                                Prodavac: <span
-                                                    class="font-medium">{{ $auction->listing->user->name }}</span>
-                                                {!! $auction->listing->user->verified_icon ?? '' !!}
-                                            </div>
                                         </div>
 
                                         <div class="flex items-center justify-between">
@@ -702,14 +773,32 @@
                                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                     {{ Str::limit($auction->listing->title, 40) }}</h3>
 
+                                {{-- Prodavac info --}}
+                                @auth
+                                    <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                        Prodavac: {{ $auction->listing->user->name ?? 'Nepoznat korisnik' }}
+                                        @if($auction->listing->user){!! $auction->listing->user->verified_icon !!}@endif
+                                        @if ($auction->listing->user && $auction->listing->user->is_banned)
+                                            <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
+                                        @endif
+                                        @if($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
+                                            <span class="text-xs text-slate-500 ml-2">
+                                                @if($auction->listing->user->is_online)
+                                                    <span class="inline-flex items-center">
+                                                        <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                        {{ $auction->listing->user->last_seen }}
+                                                    </span>
+                                                @else
+                                                    {{ $auction->listing->user->last_seen }}
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </p>
+                                @endauth
+
                                 <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                     <i class="fas fa-map-marker-alt mr-1"></i>
                                     <span>{{ Str::limit($auction->listing->location, 20) }}</span>
-                                </div>
-
-                                <div class="text-sm text-slate-600 dark:text-slate-300 mb-3">
-                                    Prodavac: {{ $auction->listing->user->name }}
-                                    {!! $auction->listing->user->verified_icon ?? '' !!}
                                 </div>
 
                                 @if ($auction->winner)
@@ -781,6 +870,29 @@
                                             <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                                 {{ $auction->listing->title }}</h3>
 
+                                            {{-- Prodavac info --}}
+                                            @auth
+                                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                                    Prodavac: {{ $auction->seller->name ?? 'Nepoznat korisnik' }}
+                                                    @if($auction->seller){!! $auction->seller->verified_icon !!}@endif
+                                                    @if ($auction->seller && $auction->seller->is_banned)
+                                                        <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                                    @endif
+                                                    @if($auction->seller && $auction->seller->shouldShowLastSeen())
+                                                        <span class="text-xs text-slate-500 ml-2">
+                                                            @if($auction->seller->is_online)
+                                                                <span class="inline-flex items-center">
+                                                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                                    {{ $auction->seller->last_seen }}
+                                                                </span>
+                                                            @else
+                                                                {{ $auction->seller->last_seen }}
+                                                            @endif
+                                                        </span>
+                                                    @endif
+                                                </p>
+                                            @endauth
+
                                             <div
                                                 class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                                 <i class="fas fa-map-marker-alt mr-1"></i>
@@ -788,12 +900,6 @@
                                                 <span class="mx-2">•</span>
                                                 <i class="fas fa-folder mr-1"></i>
                                                 <span>{{ $auction->listing->category->name }}</span>
-                                            </div>
-
-                                            <div class="text-sm text-slate-600 dark:text-slate-300 mb-2">
-                                                Prodavac: <span
-                                                    class="font-medium">{{ $auction->seller->name }}</span>
-                                                {!! $auction->seller->verified_icon !!}
                                             </div>
 
                                             @if ($auction->winner)
