@@ -21,7 +21,13 @@
             color: rgb(229 231 235) !important;
         }
         .dark .back-button {
-            color: rgb(156 163 175) !important; /* slate-400 */
+            background-color: rgb(14 165 233) !important; /* sky-500 */
+            color: white !important;
+            border-color: rgb(14 165 233) !important;
+        }
+        .dark .back-button:hover {
+            background-color: rgb(2 132 199) !important; /* sky-600 */
+            border-color: rgb(2 132 199) !important;
         }
         .dark .user-name, .dark .listing-name {
             color: rgb(229 231 235) !important;
@@ -43,13 +49,18 @@
             padding: 1rem;
         }
 
-        /* Ensure the scroll button is visible in dark mode */
+        /* Scroll button - slate and transparent in both modes */
         .dark #scrollToBottomBtn {
-            background-color: #0ea5e9 !important;
+            background-color: rgba(148, 163, 184, 0.7) !important; /* slate-400 with transparency */
+            color: rgb(30, 41, 59) !important; /* slate-800 */
+            border: 1px solid rgba(148, 163, 184, 0.5) !important;
+        }
+        .dark #scrollToBottomBtn:hover {
+            background-color: rgba(100, 116, 139, 0.8) !important; /* slate-500 with transparency */
         }
     </style>
     <!-- Navigacija -->
-    <section class="navigation-holder">
+    <section class="navigation-holder dark:bg-slate-900">
         <a class="back-button" href="{{ route('messages.inbox') }}">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -61,7 +72,7 @@
     </section>
 
     <!-- Informacije o korisniku -->
-    <section class="user-info-section">
+    <section class="user-info-section dark:bg-slate-900">
         <div class="user-info-holder">
             <div class="user-name-holder" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -82,8 +93,8 @@
                 
                 <!-- Rating button -->
                 @if($otherUser->canBeRatedBy(auth()->id(), $listing->id))
-                    <a href="{{ route('ratings.create') }}?user={{ $otherUser->id }}&listing={{ $listing->id }}" 
-                       class="inline-flex items-center px-3 py-1.5 bg-amber-100 text-amber-700 rounded-lg hover:bg-amber-200 transition-colors text-sm">
+                    <a href="{{ route('ratings.create') }}?user={{ $otherUser->id }}&listing={{ $listing->id }}"
+                       class="inline-flex items-center px-3 py-1.5 bg-amber-100 dark:bg-amber-600 text-amber-700 dark:text-white rounded-lg hover:bg-amber-200 dark:hover:bg-amber-700 transition-colors text-sm">
                         <i class="fas fa-star mr-1"></i>
                         Ocenite
                     </a>
@@ -95,7 +106,7 @@
     </section>
 
     <!-- Informacije o oglasu -->
-    <article class="ad-info-holder">
+    <article class="ad-info-holder dark:bg-slate-800">
         <!-- Desktop layout (original) -->
         <div class="hidden md:flex justify-between items-center">
             <a class="ad-link" href="{{ route('listings.show', $listing) }}">
@@ -187,7 +198,7 @@
     </article>
 
     <!-- Chat prozor -->
-    <div class="chat-box-holder">
+    <div class="chat-box-holder dark:bg-slate-900">
         <div class="chat-box" id="chat-box">
             <section class="user-response-info text-center">
                 <b>{{ $otherUser->name }}</b>
@@ -228,7 +239,7 @@
         <!-- Scroll to bottom button -->
         <button id="scrollToBottomBtn"
                 onclick="scrollToBottom()"
-                style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 45px; height: 45px; border-radius: 50%; background-color: rgba(203, 213, 225, 0.7) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: rgb(51, 65, 85); border: 1px solid rgba(203, 213, 225, 0.5); cursor: pointer; display: flex !important; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px; z-index: 1; transition: all 0.2s ease;"
+                style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 45px; height: 45px; border-radius: 50%; background-color: rgba(203, 213, 225, 0.7) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: rgb(51, 65, 85); border: 1px solid rgba(203, 213, 225, 0.5); cursor: pointer; display: flex !important; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px; z-index: 1; transition: all 0.2s ease;" class="scroll-btn-style"
                 onmouseover="this.style.transform='translateX(-50%) scale(1.1)'; this.style.backgroundColor='rgba(148, 163, 184, 0.8)'; this.style.borderColor='rgba(148, 163, 184, 0.6)';"
                 onmouseout="this.style.transform='translateX(-50%) scale(1)'; this.style.backgroundColor='rgba(203, 213, 225, 0.7)'; this.style.borderColor='rgba(203, 213, 225, 0.5)';">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="pointer-events: none;">
@@ -283,7 +294,7 @@
     @endif
 
     <!-- Forma za slanje poruke (samo za regularne konverzacije) -->
-    <div class="message-form-holder">
+    <div class="message-form-holder dark:bg-slate-900">
         <div class="text-field-holder">
             <textarea wire:model="newMessage" id="message" name="message" class="message-textfield"
                 wire:keydown.enter.prevent="sendMessage" placeholder="Unesite Vašu poruku. Za brže slanje pritisnite CTRL + ENTER"
