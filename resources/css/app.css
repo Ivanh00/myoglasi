@@ -2,6 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Override Tailwind's default blue colors with sky colors */
+@layer base {
+    *,
+    ::before,
+    ::after {
+        --tw-ring-color: rgb(14 165 233 / 0.5); /* sky-500 */
+    }
+
+    [type='text']:focus,
+    [type='email']:focus,
+    [type='url']:focus,
+    [type='password']:focus,
+    [type='number']:focus,
+    [type='date']:focus,
+    [type='datetime-local']:focus,
+    [type='month']:focus,
+    [type='search']:focus,
+    [type='tel']:focus,
+    [type='time']:focus,
+    [type='week']:focus,
+    [multiple]:focus,
+    textarea:focus,
+    select:focus {
+        --tw-ring-color: #0ea5e9; /* sky-500 */
+        border-color: #0ea5e9; /* sky-500 */
+    }
+
+    [type='checkbox'],
+    [type='radio'] {
+        color: #0ea5e9; /* sky-500 */
+    }
+
+    [type='checkbox']:focus,
+    [type='radio']:focus {
+        --tw-ring-color: #0ea5e9; /* sky-500 */
+    }
+}
+
+/* Ensure sky colors work properly in dark mode */
+@layer utilities {
+    /* Sky-600 colors for dark mode */
+    .dark .bg-sky-600,
+    .dark .dark\:bg-sky-600 {
+        background-color: rgb(2 132 199) !important;
+    }
+
+    .dark .hover\:bg-sky-700:hover,
+    .dark .dark\:hover\:bg-sky-700:hover {
+        background-color: rgb(3 105 161) !important;
+    }
+
+    /* Sky-500 colors for dark mode */
+    .dark .bg-sky-500,
+    .dark .dark\:bg-sky-500 {
+        background-color: rgb(14 165 233) !important;
+    }
+
+    .dark .hover\:bg-sky-600:hover,
+    .dark .dark\:hover\:bg-sky-600:hover {
+        background-color: rgb(2 132 199) !important;
+    }
+
+    /* Focus ring colors */
+    .dark .focus\:ring-sky-500:focus,
+    .dark .dark\:focus\:ring-sky-500:focus {
+        --tw-ring-color: rgb(14 165 233) !important;
+    }
+}
+
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

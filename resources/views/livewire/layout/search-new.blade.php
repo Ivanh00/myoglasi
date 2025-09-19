@@ -336,9 +336,9 @@ x-init="syncFromUrl()">
                 
                 <!-- Integrated Detaljno Button (inside search bar) -->
                 <div class="absolute top-1 bottom-1 right-0 flex items-center pr-1">
-                    <button type="button" @click="toggleFilters()" 
-                        class="inline-flex items-center px-3 py-2 bg-sky-600 text-white rounded text-sm font-medium transition-colors focus:outline-none hover:bg-sky-700 mr-1"
-                        :class="showFilters ? 'bg-sky-700' : 'bg-sky-600'">
+                    <button type="button" @click="toggleFilters()"
+                        class="inline-flex items-center px-3 py-2 bg-sky-600 dark:bg-sky-600 text-white rounded text-sm font-medium transition-colors focus:outline-none hover:bg-sky-700 dark:hover:bg-sky-700 mr-1"
+                        :class="showFilters ? 'bg-sky-700 dark:bg-sky-700' : 'bg-sky-600 dark:bg-sky-600'">
                         <span>Detaljno</span>
                         <svg class="w-4 h-4 ml-2 transition-transform duration-200" :class="showFilters ? 'rotate-180' : ''" 
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -351,7 +351,7 @@ x-init="syncFromUrl()">
             </div>
             
             <button type="button" @click="quickSearch()"
-                class="inline-flex items-center px-4 py-3 bg-sky-600 text-white hover:bg-sky-700 focus:outline-none transition-colors"
+                class="inline-flex items-center px-4 py-3 bg-sky-600 dark:bg-sky-600 text-white hover:bg-sky-700 dark:hover:bg-sky-700 focus:outline-none transition-colors"
                 title="Pretraži">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -759,8 +759,8 @@ x-init="syncFromUrl()">
                     class="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
                     Sakrij filtere
                 </button>
-                <button type="button" @click="submitSearch()" 
-                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
+                <button type="button" @click="submitSearch()"
+                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-sky-600 dark:bg-sky-600 hover:bg-sky-700 dark:hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-500 transition-colors">
                     <i class="fas fa-search mr-2"></i>
                     <span>Primeni filtere</span>
                     <span x-show="hasActiveFilters()" class="ml-1 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
