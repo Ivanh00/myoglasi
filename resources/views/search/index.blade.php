@@ -84,7 +84,7 @@
                         </div>
                         <div class="p-4">
                             <h3 class="text-lg font-semibold text-slate-800 mb-2">{{ $listing->title }}</h3>
-                            <p class="text-slate-600 mb-4">{{ Str::limit($listing->description, 100) }}</p>
+                            <p class="text-slate-600 dark:text-slate-400 mb-4">{{ Str::limit($listing->description, 100) }}</p>
                             <div class="flex justify-between items-center">
                                 <span
                                     class="text-xl font-bold text-sky-600 dark:text-sky-400">{{ number_format($listing->price, 0, ',', '.') }}

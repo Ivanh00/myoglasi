@@ -2,7 +2,7 @@
     <!-- Naslov -->
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Moji oglasi</h1>
-        <p class="text-slate-600 mt-2">Upravljajte svojim oglasima</p>
+        <p class="text-slate-600 dark:text-slate-400 mt-2">Upravljajte svojim oglasima</p>
     </div>
 
     <!-- Dugme za dodavanje novog oglasa i filter -->
@@ -396,7 +396,7 @@
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-list-alt text-slate-400 text-5xl mb-4"></i>
             <h3 class="text-xl font-semibold text-slate-800 mb-2">Nemate nijedan oglas</h3>
-            <p class="text-slate-600 mb-4">Kreirajte svoj prvi oglas i počnite da prodajete.</p>
+            <p class="text-slate-600 dark:text-slate-400 mb-4">Kreirajte svoj prvi oglas i počnite da prodajete.</p>
             <a href="{{ route('listings.create') }}"
                 class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
                 Kreiraj prvi oglas

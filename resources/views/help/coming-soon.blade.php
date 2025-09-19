@@ -6,7 +6,7 @@
             </div>
 
             <h1 class="text-3xl font-bold text-slate-900 mb-4">{{ $title }}</h1>
-            <p class="text-slate-600 mb-6">Ova stranica je u pripremi...</p>
+            <p class="text-slate-600 dark:text-slate-400 mb-6">Ova stranica je u pripremi...</p>
 
             <div class="bg-sky-50 border border-sky-200 rounded-lg p-4 mb-6">
                 <p class="text-sky-800 text-sm">

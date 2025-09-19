@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold text-slate-900">Upravljanje transakcijama</h1>
-                <p class="text-slate-600">Pregled i upravljanje svim transakcijama u sistemu</p>
+                <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje svim transakcijama u sistemu</p>
             </div>
             <button wire:click="exportTransactions"
                 class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
@@ -179,7 +179,7 @@
         </div>
 
         <div class="flex justify-between items-center">
-            <div class="text-sm text-slate-600">
+            <div class="text-sm text-slate-600 dark:text-slate-400">
                 Pronađeno: {{ $transactions->total() }} transakcija
             </div>
             <div>
@@ -476,7 +476,8 @@
             <div class="bg-white rounded-lg shadow p-8 text-center">
                 <i class="fas fa-receipt text-slate-400 text-5xl mb-4"></i>
                 <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema transakcija</h3>
-                <p class="text-slate-600">Nema transakcija koje odgovaraju kriterijumima pretrage.</p>
+                <p class="text-slate-600 dark:text-slate-400">Nema transakcija koje odgovaraju kriterijumima pretrage.
+                </p>
             </div>
         @endforelse
 

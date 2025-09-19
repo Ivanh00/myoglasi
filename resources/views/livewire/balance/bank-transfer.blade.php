@@ -5,7 +5,7 @@
             <div class="flex items-center justify-between mb-6">
                 <h1 class="text-2xl font-bold text-slate-900">Nalog za uplatu</h1>
                 <div class="text-right">
-                    <p class="text-sm text-slate-600">ID transakcije:</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">ID transakcije:</p>
                     <p class="font-mono font-semibold">{{ $transaction->id }}</p>
                 </div>
             </div>
@@ -30,40 +30,40 @@
             <div id="payment-slip" class="border-2 border-slate-300 rounded-lg p-6 mb-6 bg-white print:border-black print:shadow-none">
                 <div class="text-center mb-6">
                     <h2 class="text-xl font-bold text-slate-900">NALOG ZA UPLATU</h2>
-                    <p class="text-slate-600">Payment Order</p>
+                    <p class="text-slate-600 dark:text-slate-400">Payment Order</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Left Column -->
                     <div class="space-y-4">
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 mb-1">Naziv primaoca / Beneficiary name:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Naziv primaoca / Beneficiary name:</p>
                             <p class="font-semibold">{{ $bankDetails['recipient_name'] }}</p>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 mb-1">Adresa primaoca / Beneficiary address:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Adresa primaoca / Beneficiary address:</p>
                             <p class="font-semibold">{{ $bankDetails['recipient_address'] }}</p>
                         </div>
 
                         <div class="grid grid-cols-2 gap-3">
                             <div class="border border-slate-300 p-3">
-                                <p class="text-xs text-slate-600 mb-1">PIB:</p>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">PIB:</p>
                                 <p class="font-semibold">{{ $bankDetails['recipient_pib'] }}</p>
                             </div>
                             <div class="border border-slate-300 p-3">
-                                <p class="text-xs text-slate-600 mb-1">Šifra plaćanja:</p>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Šifra plaćanja:</p>
                                 <p class="font-semibold">{{ $bankDetails['payment_code'] }}</p>
                             </div>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 mb-1">Račun primaoca / Beneficiary account:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Račun primaoca / Beneficiary account:</p>
                             <p class="font-semibold font-mono text-lg">{{ $bankDetails['recipient_account'] }}</p>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 mb-1">Banka primaoca / Beneficiary bank:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Banka primaoca / Beneficiary bank:</p>
                             <p class="font-semibold">{{ $bankDetails['bank_name'] }}</p>
                         </div>
                     </div>
@@ -71,32 +71,32 @@
                     <!-- Right Column -->
                     <div class="space-y-4">
                         <div class="border border-slate-300 p-3 bg-amber-50">
-                            <p class="text-xs text-slate-600 mb-1">Iznos / Amount:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Iznos / Amount:</p>
                             <p class="font-bold text-2xl text-green-700">{{ number_format($transaction->amount, 2, ',', '.') }} RSD</p>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 mb-1">Poziv na broj / Reference number:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Poziv na broj / Reference number:</p>
                             <p class="font-semibold font-mono">{{ $bankDetails['reference_number'] }}</p>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 mb-1">Svrha plaćanja / Payment purpose:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Svrha plaćanja / Payment purpose:</p>
                             <p class="font-semibold">{{ $bankDetails['payment_purpose'] }}</p>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 mb-1">SWIFT kod:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">SWIFT kod:</p>
                             <p class="font-semibold">{{ $bankDetails['swift'] }}</p>
                         </div>
 
                         <div class="space-y-2">
                             <div class="border border-slate-300 p-3">
-                                <p class="text-xs text-slate-600 mb-1">Ime i prezime uplatnica / Payer name:</p>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Ime i prezime uplatnica / Payer name:</p>
                                 <p class="font-semibold">{{ auth()->user()->name }}</p>
                             </div>
                             <div class="border border-slate-300 p-3">
-                                <p class="text-xs text-slate-600 mb-1">Potpis / Signature:</p>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Potpis / Signature:</p>
                                 <div class="h-8"></div>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
 
                 <!-- Footer -->
                 <div class="mt-6 pt-4 border-t border-slate-300">
-                    <div class="flex justify-between text-sm text-slate-600">
+                    <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400">
                         <div>
                             <p>Datum izdavanja: {{ now()->format('d.m.Y') }}</p>
                             <p>Vreme: {{ now()->format('H:i:s') }}</p>

@@ -89,15 +89,15 @@
             <!-- Listing Details -->
             <div class="bg-slate-50 p-4 rounded-lg space-y-2">
                 <div class="flex justify-between">
-                    <span class="text-slate-600">Kategorija:</span>
+                    <span class="text-slate-600 dark:text-slate-400">Kategorija:</span>
                     <span class="font-medium">{{ $listing->category->name }}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-slate-600">Objavljeno:</span>
+                    <span class="text-slate-600 dark:text-slate-400">Objavljeno:</span>
                     <span class="font-medium">{{ $listing->created_at->diffForHumans() }}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-slate-600">Ističe:</span>
+                    <span class="text-slate-600 dark:text-slate-400">Ističe:</span>
                     <span class="font-medium">{{ $listing->expires_at->diffForHumans() }}</span>
                 </div>
             </div>

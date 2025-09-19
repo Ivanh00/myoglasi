@@ -4,7 +4,7 @@
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h2 class="text-2xl font-bold text-slate-900">Upravljanje prijavama</h2>
-                <p class="text-slate-600">Pregled i upravljanje prijavama oglasa</p>
+                <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje prijavama oglasa</p>
             </div>
             <div class="flex space-x-2">
                 <button wire:click="resetFilters"
@@ -65,7 +65,7 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
                 <div class="p-3 bg-slate-100 rounded-lg">
-                    <i class="fas fa-flag text-slate-600 text-xl "></i>
+                    <i class="fas fa-flag text-slate-600 dark:text-slate-400 text-xl "></i>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-slate-500">Ukupno prijava</h3>
@@ -484,7 +484,7 @@
                     <div class="bg-white rounded-lg shadow p-8 text-center">
                         <i class="fas fa-flag text-slate-400 text-5xl mb-4 "></i>
                         <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema prijava</h3>
-                        <p class="text-slate-600">Nema prijava koje odgovaraju kriterijumima pretrage.</p>
+                        <p class="text-slate-600 dark:text-slate-400">Nema prijava koje odgovaraju kriterijumima pretrage.</p>
                     </div>
                 @endforelse
 
@@ -502,7 +502,7 @@
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="text-xl font-medium text-slate-900">Detalji prijave #{{ $selectedReport->id }}</h3>
                                 <button wire:click="$set('showDetailsModal', false)"
-                                    class="text-slate-400 hover:text-slate-600">
+                                    class="text-slate-400 hover:text-slate-600 dark:text-slate-400">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                             d="M6 18L18 6M6 6l12 12"></path>
@@ -518,7 +518,8 @@
 
                                         <div class="space-y-3">
                                             <div>
-                                                <span class="text-sm font-medium text-slate-600">Status:</span>
+                                                <span
+                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Status:</span>
                                                 @switch($selectedReport->status)
                                                     @case('pending')
                                                         <span
@@ -547,13 +548,15 @@
                                             </div>
 
                                             <div>
-                                                <span class="text-sm font-medium text-slate-600">Datum prijave:</span>
+                                                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">Datum
+                                                    prijave:</span>
                                                 <span
                                                     class="text-sm text-slate-900 ml-2">{{ $selectedReport->created_at->format('d.m.Y H:i') }}</span>
                                             </div>
 
                                             <div>
-                                                <span class="text-sm font-medium text-slate-600">Razlog:</span>
+                                                <span
+                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Razlog:</span>
                                                 <span class="text-sm text-slate-900 ml-2">
                                                     @php
                                                         $reasonLabels = [
@@ -572,7 +575,8 @@
                                             </div>
 
                                             <div>
-                                                <span class="text-sm font-medium text-slate-600">Prijavio:</span>
+                                                <span
+                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Prijavio:</span>
                                                 <div class="mt-1">
                                                     <div class="text-sm font-medium text-slate-900">
                                                         {{ $selectedReport->user->name }}</div>
@@ -626,19 +630,22 @@
 
                                         <div class="space-y-2">
                                             <div>
-                                                <span class="text-sm font-medium text-slate-600">Naslov:</span>
+                                                <span
+                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Naslov:</span>
                                                 <div class="text-sm font-medium text-slate-900 mt-1">
                                                     {{ $selectedReport->listing->title }}</div>
                                             </div>
 
                                             <div>
-                                                <span class="text-sm font-medium text-slate-600">Cena:</span>
+                                                <span
+                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Cena:</span>
                                                 <div class="text-sm text-slate-900 mt-1">
                                                     {{ number_format($selectedReport->listing->price, 0) }} RSD</div>
                                             </div>
 
                                             <div>
-                                                <span class="text-sm font-medium text-slate-600">Vlasnik:</span>
+                                                <span
+                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Vlasnik:</span>
                                                 <div class="text-sm text-slate-900 mt-1">
                                                     {{ $selectedReport->listing->user->name }}
                                                     ({{ $selectedReport->listing->user->email }})
@@ -646,7 +653,8 @@
                                             </div>
 
                                             <div>
-                                                <span class="text-sm font-medium text-slate-600">Objavljen:</span>
+                                                <span
+                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Objavljen:</span>
                                                 <div class="text-sm text-slate-900 mt-1">
                                                     {{ $selectedReport->listing->created_at->format('d.m.Y H:i') }}</div>
                                             </div>

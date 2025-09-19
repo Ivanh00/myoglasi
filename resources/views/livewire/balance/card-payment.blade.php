@@ -153,7 +153,7 @@
                     <div class="text-center">
                         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600 mx-auto mb-4"></div>
                         <h3 class="text-lg font-semibold text-slate-900 mb-2">Obrađujem plaćanje</h3>
-                        <p class="text-slate-600">Molimo sačekajte, povezujemo se sa Intesa bankom...</p>
+                        <p class="text-slate-600 dark:text-slate-400">Molimo sačekajte, povezujemo se sa Intesa bankom...</p>
                     </div>
                 </div>
             </div>

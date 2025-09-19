@@ -65,7 +65,7 @@
                                     <div class="text-2xl font-bold text-sky-600 dark:text-sky-400 mb-2">
                                         {{ number_format($planPrices['per_listing']['price'], 0, ',', '.') }} RSD
                                     </div>
-                                    <p class="text-sm text-slate-600 mb-4">po oglasu</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">po oglasu</p>
                                     <p class="text-xs text-slate-500">{{ $planPrices['per_listing']['description'] }}
                                     </p>
 
@@ -92,7 +92,7 @@
                                     <div class="text-2xl font-bold text-green-600 mb-2">
                                         {{ number_format($planPrices['monthly']['price'], 0, ',', '.') }} RSD
                                     </div>
-                                    <p class="text-sm text-slate-600 mb-4">na mesec</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">na mesec</p>
                                     <p class="text-xs text-slate-500 mb-2">{{ $planPrices['monthly']['description'] }}
                                     </p>
 
@@ -127,7 +127,7 @@
                                     <div class="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                                         {{ number_format($planPrices['yearly']['price'], 0, ',', '.') }} RSD
                                     </div>
-                                    <p class="text-sm text-slate-600 mb-4">na godinu</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">na godinu</p>
                                     <p class="text-xs text-slate-500 mb-2">{{ $planPrices['yearly']['description'] }}
                                     </p>
 
@@ -247,7 +247,7 @@
 
                         <div class="space-y-2">
                             <h4 class="font-semibold text-purple-600 dark:text-purple-400">Godišnji plan</h4>
-                            <ul class="space-y-1 text-slate-600dark:text-slate-400">
+                            <ul class="space-y-1 text-slate-600 dark:text-slate-400">
                                 <li>• Neograničeno oglasa 365 dana</li>
                                 <li>• Najbolja cena po danu</li>
                                 <li>• Idealno za profesionalne prodavce</li>

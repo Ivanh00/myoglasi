@@ -214,7 +214,8 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h3 class="text-lg font-semibold text-slate-900">IP Adrese</h3>
-                        <p class="text-sm text-slate-600">Upravljanje blokiranim i whitelisted IP adresama</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Upravljanje blokiranim i whitelisted IP
+                            adresama</p>
                     </div>
                     <button wire:click="$set('showAddIpModal', true)"
                         class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
@@ -309,7 +310,8 @@
                     <div class="bg-white rounded-lg shadow p-8 text-center">
                         <i class="fas fa-shield-alt text-slate-400 text-5xl mb-4"></i>
                         <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema blokova</h3>
-                        <p class="text-slate-600">Dodajte IP adrese koje želite da blokirate ili dozvolite.</p>
+                        <p class="text-slate-600 dark:text-slate-400">Dodajte IP adrese koje želite da blokirate ili
+                            dozvolite.</p>
                     </div>
                 @endif
             </div>
@@ -321,7 +323,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h3 class="text-lg font-semibold text-slate-900">Istorija poseta</h3>
-                        <p class="text-sm text-slate-600">Praćenje aktivnosti posetilaca</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Praćenje aktivnosti posetilaca</p>
                     </div>
                 </div>
 
@@ -492,17 +494,20 @@
                                             Aktivnost</div>
                                         <div class="space-y-1">
                                             <div class="flex justify-between">
-                                                <span class="text-sm text-slate-600">Ukupno zahteva:</span>
+                                                <span class="text-sm text-slate-600 dark:text-slate-400">Ukupno
+                                                    zahteva:</span>
                                                 <span
                                                     class="text-sm font-medium text-slate-900">{{ number_format($visitor->request_count) }}</span>
                                             </div>
                                             <div class="flex justify-between">
-                                                <span class="text-sm text-slate-600">Prva poseta:</span>
+                                                <span class="text-sm text-slate-600 dark:text-slate-400">Prva
+                                                    poseta:</span>
                                                 <span
                                                     class="text-sm text-slate-900">{{ $visitor->first_visit->format('d.m.Y H:i') }}</span>
                                             </div>
                                             <div class="flex justify-between">
-                                                <span class="text-sm text-slate-600">Poslednja aktivnost:</span>
+                                                <span class="text-sm text-slate-600 dark:text-slate-400">Poslednja
+                                                    aktivnost:</span>
                                                 <span
                                                     class="text-sm text-slate-900">{{ $visitor->last_activity->diffForHumans() }}</span>
                                             </div>
@@ -530,7 +535,8 @@
                     <div class="bg-white rounded-lg shadow p-8 text-center">
                         <i class="fas fa-users text-slate-400 text-5xl mb-4"></i>
                         <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema podataka o posetiocima</h3>
-                        <p class="text-slate-600">Podaci o posetiocima će se prikazati kada se funkcija aktivira.</p>
+                        <p class="text-slate-600 dark:text-slate-400">Podaci o posetiocima će se prikazati kada se
+                            funkcija aktivira.</p>
                     </div>
                 @endif
             </div>
@@ -552,7 +558,7 @@
                             <div class="border border-slate-200 rounded-lg p-4">
                                 <div class="flex items-center justify-between mb-3">
                                     <h4 class="font-medium text-slate-900">
-                                        <i class="fas fa-user text-slate-600 mr-2"></i>
+                                        <i class="fas fa-user text-slate-600 dark:text-slate-400 mr-2"></i>
                                         Guest korisnici (neulogovani)
                                     </h4>
                                     <label class="flex items-center cursor-pointer">
@@ -707,7 +713,8 @@
                         <div class="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
                             <div>
                                 <h4 class="font-medium text-slate-900">CAPTCHA zaštita</h4>
-                                <p class="text-sm text-slate-600">Omogući CAPTCHA za sumnjive korisnike</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Omogući CAPTCHA za sumnjive
+                                    korisnike</p>
                             </div>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" wire:model.live="securitySettings.captcha_enabled"
@@ -723,7 +730,8 @@
                             <div class="flex items-center justify-between mb-4">
                                 <div>
                                     <h4 class="font-medium text-slate-900">Geografsko blokiranje</h4>
-                                    <p class="text-sm text-slate-600">Blokiraj pristup iz određenih zemalja</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400">Blokiraj pristup iz određenih
+                                        zemalja</p>
                                 </div>
                                 <label class="flex items-center cursor-pointer">
                                     <input type="checkbox" wire:model.live="securitySettings.geo_blocking_enabled"
@@ -780,7 +788,8 @@
                             <div class="flex items-center justify-between mb-4">
                                 <div>
                                     <h4 class="font-medium text-slate-900">Blokiranje User Agent-a</h4>
-                                    <p class="text-sm text-slate-600">Blokiraj određene botove i crawlere</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400">Blokiraj određene botove i
+                                        crawlere</p>
                                 </div>
                                 <label class="flex items-center cursor-pointer">
                                     <input type="checkbox"
@@ -837,7 +846,8 @@
                         <div class="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
                             <div>
                                 <h4 class="font-medium text-slate-900">Admin panel whitelist</h4>
-                                <p class="text-sm text-slate-600">Ograniči pristup admin panelu samo na whitelisted IP
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Ograniči pristup admin panelu
+                                    samo na whitelisted IP
                                     adrese</p>
                             </div>
                             <label class="flex items-center cursor-pointer">

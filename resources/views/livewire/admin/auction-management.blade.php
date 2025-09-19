@@ -2,7 +2,7 @@
     <!-- Header -->
     <div class="mb-6">
         <h1 class="text-2xl font-semibold text-slate-900">Upravljanje aukcijama</h1>
-        <p class="mt-2 text-sm text-slate-600">Pregled i upravljanje svim aukcijama u sistemu</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Pregled i upravljanje svim aukcijama u sistemu</p>
     </div>
 
     <!-- Filters and Search -->
@@ -51,7 +51,7 @@
         </div>
 
         <div class="flex justify-between items-center">
-            <div class="text-sm text-slate-600">
+            <div class="text-sm text-slate-600 dark:text-slate-400">
                 Ukupno aukcija: {{ $auctions->total() }}
             </div>
             <button wire:click="resetFilters" class="text-sm text-indigo-600 hover:text-indigo-900">

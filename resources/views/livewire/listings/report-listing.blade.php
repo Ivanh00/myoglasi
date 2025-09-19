@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="text-center mb-8">
                 <h1 class="text-2xl font-bold text-slate-900 mb-2">Prijavite oglas</h1>
-                <p class="text-slate-600">Pomoći ćete nam da održimo sigurnu i pouzdanu platformu</p>
+                <p class="text-slate-600 dark:text-slate-400">Pomoći ćete nam da održimo sigurnu i pouzdanu platformu</p>
             </div>
 
             <!-- Listing Info -->
@@ -134,7 +134,7 @@
                     </div>
 
                     <h3 class="text-lg font-semibold text-slate-900 mb-2">Prijava je poslata</h3>
-                    <p class="text-slate-600 mb-6">
+                    <p class="text-slate-600 dark:text-slate-400 mb-6">
                         Hvala vam na ukazanoj pažnji. Administratori će pregledati vašu prijavu u najkraćem roku.
                     </p>
 

@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold text-slate-900">Upravljanje slikama</h1>
-                <p class="text-slate-600">Pregled i upravljanje svim slikama oglasa</p>
+                <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje svim slikama oglasa</p>
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@
         </div>
 
         <div class="flex justify-between items-center">
-            <div class="text-sm text-slate-600">
+            <div class="text-sm text-slate-600 dark:text-slate-400">
                 Pronađeno: {{ $images->total() }} slika
             </div>
             <div>

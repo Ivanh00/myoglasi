@@ -10,18 +10,20 @@
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
                             <span>
-                                @if($selectedCategory)
+                                @if ($selectedCategory)
                                     @php $selectedCat = $categories->firstWhere('id', $selectedCategory); @endphp
                                     {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
                                 @else
                                     Sve kategorije
                                 @endif
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        
+
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             <button @click="$wire.setCategory(''); open = false" type="button"
@@ -31,7 +33,7 @@
                             @foreach ($categories as $category)
                                 <button @click="$wire.setCategory('{{ $category->id }}'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                    @if($category->icon)
+                                    @if ($category->icon)
                                         <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400 mr-2"></i>
                                     @endif
                                     {{ $category->name }}
@@ -47,16 +49,21 @@
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
                             <span>
-                                @if($sortBy === 'newest') Najnovije
-                                @elseif($sortBy === 'price_asc') Cena ↑
-                                @elseif($sortBy === 'price_desc') Cena ↓
+                                @if ($sortBy === 'newest')
+                                    Najnovije
+                                @elseif($sortBy === 'price_asc')
+                                    Cena ↑
+                                @elseif($sortBy === 'price_desc')
+                                    Cena ↓
                                 @endif
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        
+
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
                             <button @click="$wire.setSorting('newest'); open = false" type="button"
@@ -77,7 +84,7 @@
             </div>
 
             <!-- Right: Results count -->
-            <div class="text-slate-600">
+            <div class="text-slate-600 dark:text-slate-400">
                 Pronađeno usluga: <span class="font-semibold">{{ $services->total() }}</span>
             </div>
         </div>
@@ -87,7 +94,8 @@
     @if ($services->count() > 0)
         <div class="space-y-4 mb-8">
             @foreach ($services as $service)
-                <div class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4
+                <div
+                    class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4
                     {{ $service->hasActivePromotion('urgent') ? 'border-red-500' : ($service->hasActivePromotion('featured') ? 'border-sky-500' : ($service->hasActivePromotion('top') ? 'border-purple-500' : 'border-slate-500')) }}
                     {{ $service->hasActivePromotion('highlighted') ? 'bg-amber-50 dark:bg-amber-900' : 'bg-white dark:bg-slate-700' }}">
                     <div class="flex flex-col md:flex-row">
@@ -108,15 +116,17 @@
                             <div class="flex flex-col h-full">
                                 <div class="flex-1">
                                     <div class="flex items-start">
-                                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 hover:text-sky-600 transition-colors">
+                                        <h3
+                                            class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 hover:text-sky-600 transition-colors">
                                             {{ $service->title }}
                                         </h3>
 
                                         <!-- Promotion Badges -->
-                                        @if($service->hasActivePromotion())
+                                        @if ($service->hasActivePromotion())
                                             <div class="flex flex-wrap gap-1 ml-2">
-                                                @foreach($service->getPromotionBadges() as $badge)
-                                                    <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                @foreach ($service->getPromotionBadges() as $badge)
+                                                    <span
+                                                        class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
                                                         {{ $badge['text'] }}
                                                     </span>
                                                 @endforeach
@@ -128,13 +138,15 @@
                                     @auth
                                         <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
                                             Pružalac: {{ $service->user->name ?? 'Nepoznat korisnik' }}
-                                            @if($service->user){!! $service->user->verified_icon !!}@endif
+                                            @if ($service->user)
+                                                {!! $service->user->verified_icon !!}
+                                            @endif
                                             @if ($service->user && $service->user->is_banned)
                                                 <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                             @endif
-                                            @if($service->user && $service->user->shouldShowLastSeen())
+                                            @if ($service->user && $service->user->shouldShowLastSeen())
                                                 <span class="text-xs text-slate-500 ml-2">
-                                                    @if($service->user->is_online)
+                                                    @if ($service->user->is_online)
                                                         <span class="inline-flex items-center">
                                                             <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                                             {{ $service->user->last_seen }}
@@ -147,7 +159,7 @@
                                         </p>
                                     @endauth
 
-                                    <div class="flex items-center text-sm text-slate-600 mb-2">
+                                    <div class="flex items-center text-sm text-slate-600 dark:text-slate-400 mb-2">
                                         <i class="fas fa-map-marker-alt mr-1"></i>
                                         <span>{{ $service->location }}</span>
                                         <span class="mx-2">•</span>
@@ -170,9 +182,11 @@
                         </div>
 
                         <!-- Desna strana - akcije -->
-                        <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800">
+                        <div
+                            class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800">
                             <div class="flex flex-col h-full justify-between">
-                                <div class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 mb-4">
+                                <div
+                                    class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 mb-4">
                                     <div class="flex items-center">
                                         <i class="fas fa-eye mr-1"></i>
                                         <span>{{ $service->views ?? 0 }}</span>
@@ -186,7 +200,7 @@
 
                                 <div class="space-y-2">
                                     @auth
-                                        @if($service->user_id === auth()->id())
+                                        @if ($service->user_id === auth()->id())
                                             <a href="{{ route('services.edit', $service->slug) }}"
                                                 class="block w-full text-center px-3 py-2 bg-slate-600 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-700 dark:hover:bg-slate-500 transition-colors text-sm">
                                                 <i class="fas fa-edit mr-2"></i> Uredi uslugu
@@ -212,7 +226,7 @@
         </div>
 
         <!-- Paginacija -->
-        @if($services->hasPages())
+        @if ($services->hasPages())
             <div class="mt-8 bg-white dark:bg-slate-700 rounded-lg shadow-sm p-4">
                 {{ $services->links() }}
             </div>

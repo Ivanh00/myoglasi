@@ -39,7 +39,7 @@
         <!-- Traka sa filterima i sortiranjem -->
         <div
             class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-4 bg-white rounded-lg shadow-sm border border-slate-200">
-            <div class="text-slate-600">
+            <div class="text-slate-600 dark:text-slate-400">
                 Pronađeno oglasa: <span class="font-semibold">{{ $listings->total() }}</span>
             </div>
 
@@ -104,7 +104,7 @@
                                         {{ $listing->user->name ?? 'Nepoznat korisnik' }}
                                     </p>
 
-                                    <div class="flex items-center text-sm text-slate-600 mb-2">
+                                    <div class="flex items-center text-sm text-slate-600 dark:text-slate-400 mb-2">
                                         <i class="fas fa-map-marker-alt mr-1"></i>
                                         <span>{{ $listing->location }}</span>
                                     </div>
@@ -221,7 +221,7 @@
         <div class="bg-white rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-search text-slate-400 text-5xl mb-4"></i>
             <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema oglasa u ovoj kategoriji</h3>
-            <p class="text-slate-600 mb-4">Trenutno nema aktivnih oglasa u ovoj kategoriji. Pokušajte kasnije ili
+            <p class="text-slate-600 dark:text-slate-400 mb-4">Trenutno nema aktivnih oglasa u ovoj kategoriji. Pokušajte kasnije ili
                 pogledajte druge kategorije.</p>
             <a href="{{ route('categories.index') }}"
                 class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">

@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold text-slate-900">Upravljanje stanjima oglasa</h1>
-                <p class="text-slate-600">Pregled i upravljanje stanjima oglasa (npr. Novo, Polovno, Oštećeno)</p>
+                <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje stanjima oglasa (npr. Novo, Polovno, Oštećeno)</p>
             </div>
             <button wire:click="createCondition" class="bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700">
                 + Novo stanje
@@ -166,7 +166,7 @@
                             <div class="flex items-center">
                                 <input type="checkbox" wire:model="editState.is_active"
                                     class="rounded border-slate-300 text-sky-600 focus:ring-sky-500">
-                                <label class="ml-2 text-sm text-slate-600">Aktivno stanje</label>
+                                <label class="ml-2 text-sm text-slate-600 dark:text-slate-400">Aktivno stanje</label>
                             </div>
                         </div>
 

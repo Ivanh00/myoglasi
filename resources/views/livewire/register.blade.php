@@ -5,7 +5,7 @@
             <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">
                 Kreiraj nalog
             </h2>
-            <p class="mt-2 text-center text-sm text-slate-600">
+            <p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
                 Ili se
                 <a href="{{ route('login') }}" class="font-medium text-sky-600 hover:text-sky-500">
                     prijavi ako imaš nalog
@@ -55,7 +55,7 @@
                         <label class="flex items-center">
                             <input wire:model="phone_visible" type="checkbox"
                                 class="rounded border-slate-300 text-sky-600 shadow-sm focus:border-sky-300 focus:ring focus:ring-sky-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-slate-600">
+                            <span class="ml-2 text-sm text-slate-600 dark:text-slate-400">
                                 Prikaži broj telefona u oglasima (preporučeno)
                             </span>
                         </label>
@@ -98,7 +98,7 @@
             </div>
 
             <div class="text-center">
-                <p class="text-sm text-slate-600">
+                <p class="text-sm text-slate-600 dark:text-slate-400">
                     Registracijom se slažeš sa našim uslovima korišćenja
                 </p>
             </div>

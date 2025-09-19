@@ -587,7 +587,8 @@
                             <i class="fas fa-magic text-sky-600 dark:text-sky-400 mr-3"></i>
                             <div>
                                 <div class="font-medium text-slate-900">Magic Link Login</div>
-                                <div class="text-sm text-slate-600">Prijava preko email link-a</div>
+                                <div class="text-sm text-slate-600 dark:text-slate-400">Prijava preko email link-a
+                                </div>
                             </div>
                         </div>
                         <input type="checkbox" wire:model="magicLinkEnabled"
@@ -609,7 +610,8 @@
                             </svg>
                             <div>
                                 <div class="font-medium text-slate-900">Google Login</div>
-                                <div class="text-sm text-slate-600">Prijava preko Google naloga</div>
+                                <div class="text-sm text-slate-600 dark:text-slate-400">Prijava preko Google naloga
+                                </div>
                             </div>
                         </div>
                         <input type="checkbox" wire:model="googleLoginEnabled"
@@ -625,7 +627,8 @@
                             </svg>
                             <div>
                                 <div class="font-medium text-slate-900">Facebook Login</div>
-                                <div class="text-sm text-slate-600">Prijava preko Facebook naloga</div>
+                                <div class="text-sm text-slate-600 dark:text-slate-400">Prijava preko Facebook naloga
+                                </div>
                             </div>
                         </div>
                         <input type="checkbox" wire:model="facebookLoginEnabled"
@@ -633,7 +636,8 @@
                     </div>
                 </div>
 
-                <div class="text-xs text-slate-600 mt-3 p-2 bg-slate-100 border border-slate-300 rounded">
+                <div
+                    class="text-xs text-slate-600 dark:text-slate-400 mt-3 p-2 bg-slate-100 border border-slate-300 rounded">
                     💡 <strong>Napomena:</strong> Za Google i Facebook login potrebna je OAuth konfiguracija. Vidi
                     OAUTH_SETUP.md za instrukcije.
                 </div>
@@ -902,7 +906,8 @@
                         <i class="fas fa-arrow-up text-sky-600 dark:text-sky-400 mr-2"></i>
                         Top kategorije
                     </h3>
-                    <p class="text-sm text-slate-600 mb-4">Oglas se prikazuje na vrhu liste u svojoj kategoriji</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Oglas se prikazuje na vrhu liste u
+                        svojoj kategoriji</p>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -932,7 +937,8 @@
                         <i class="fas fa-star text-red-600 dark:text-red-400 mr-2"></i>
                         Top glavne strane
                     </h3>
-                    <p class="text-sm text-slate-600 mb-4">Oglas se prikazuje na vrhu glavne strane sajta</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Oglas se prikazuje na vrhu glavne strane
+                        sajta</p>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -962,7 +968,8 @@
                         <i class="fas fa-highlighter text-amber-600 dark:text-amber-400 mr-2"></i>
                         Istaknut oglas
                     </h3>
-                    <p class="text-sm text-slate-600 mb-4">Oglas ima drugačiju boju pozadine i okvir</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Oglas ima drugačiju boju pozadine i
+                        okvir</p>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -992,7 +999,8 @@
                         <i class="fas fa-sync text-green-600 mr-2"></i>
                         Automatsko osvežavanje
                     </h3>
-                    <p class="text-sm text-slate-600 mb-4">Oglas se automatski "podiže" na vrh svaki dan</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Oglas se automatski "podiže" na vrh
+                        svaki dan</p>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>

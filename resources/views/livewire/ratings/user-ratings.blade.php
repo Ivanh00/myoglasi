@@ -21,7 +21,7 @@
             </div>
             <div class="text-center">
                 <h3 class="text-xl font-semibold text-slate-900">{{ $user->name }}</h3>
-                <p class="text-slate-600">Član od {{ $user->created_at->format('m/Y') }}</p>
+                <p class="text-slate-600 dark:text-slate-400">Član od {{ $user->created_at->format('m/Y') }}</p>
                 @if($user->rating_badge)
                     <div class="mt-2">
                         <span class="text-2xl">{{ $user->rating_badge }}</span>
@@ -200,7 +200,7 @@
                     <!-- Comment -->
                     @if($rating->comment)
                         <div class="flex items-start">
-                            <p class="text-sm text-slate-600">
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
                                 "{{ $rating->comment }}"
                             </p>
                         </div>
@@ -224,7 +224,7 @@
                 <h3 class="text-lg font-semibold text-slate-800 mb-2">
                     {{ $user->name }} nema {{ $filter === 'all' ? '' : $filter }} ocena
                 </h3>
-                <p class="text-slate-600">Ovaj korisnik još nije ocenjen od strane drugih članova.</p>
+                <p class="text-slate-600 dark:text-slate-400">Ovaj korisnik još nije ocenjen od strane drugih članova.</p>
             </div>
         @endforelse
     </div>

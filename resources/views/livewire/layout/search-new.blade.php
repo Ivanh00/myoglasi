@@ -764,7 +764,7 @@ if (!empty($auctionType)) {
                                 :class="!auction_type ?
                                     'bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400 font-medium' :
                                     'text-slate-700 dark:text-slate-300'">
-                                <i class="fas fa-list text-slate-600 mr-2"></i>
+                                <i class="fas fa-list text-slate-600 dark:text-slate-400 mr-2"></i>
                                 <span>Sve aukcije</span>
                             </button>
                             <button type="button"

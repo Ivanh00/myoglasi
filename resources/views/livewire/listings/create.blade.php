@@ -494,7 +494,8 @@
                 @else
                     <div class="border-2 border-slate-300 rounded-lg p-6 text-center bg-slate-50">
                         <i class="fas fa-images text-slate-400 text-4xl mb-2"></i>
-                        <p class="text-slate-600 font-medium">Dostigli ste maksimum od {{ $maxImages }} slika</p>
+                        <p class="text-slate-600 dark:text-slate-400 font-medium">Dostigli ste maksimum od
+                            {{ $maxImages }} slika</p>
                         <p class="text-slate-500 text-sm">Obrišite neku sliku da biste dodali novu</p>
                     </div>
                 @endif

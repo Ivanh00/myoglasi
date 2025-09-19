@@ -77,7 +77,7 @@
                                             @endif
                                         </div>
 
-                                        <p class="text-sm text-slate-600 mb-3">
+                                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
                                             @if ($type === 'featured_category')
                                                 Usluga se prikazuje na vrhu liste u svojoj kategoriji
                                             @elseif($type === 'featured_homepage')

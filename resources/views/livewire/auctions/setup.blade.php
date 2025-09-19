@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="text-center mb-8">
                 <h1 class="text-2xl font-bold text-slate-900 mb-2">Postavite aukciju</h1>
-                <p class="text-slate-600">Konfigurirajte parametere aukcijske prodaje</p>
+                <p class="text-slate-600 dark:text-slate-400">Konfigurirajte parametere aukcijske prodaje</p>
             </div>
 
             <!-- Listing Preview -->

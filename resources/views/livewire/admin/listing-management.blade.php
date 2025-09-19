@@ -1,7 +1,7 @@
 <div>
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-slate-900">Upravljanje oglasima</h1>
-        <p class="text-slate-600">Pregled i upravljanje svim oglasima u sistemu</p>
+        <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje svim oglasima u sistemu</p>
     </div>
 
     <!-- Filteri -->
@@ -50,7 +50,7 @@
         </div>
 
         <div class="flex justify-between items-center">
-            <div class="text-sm text-slate-600">
+            <div class="text-sm text-slate-600 dark:text-slate-400">
                 Pronađeno: {{ $listings->total() }} oglasa
             </div>
             <div>
@@ -105,8 +105,8 @@
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
                                     @if ($listing->images->count() > 0)
-                                        <img src="{{ $listing->images->first()->url }}"
-                                            alt="{{ $listing->title }}" class="w-12 h-12 object-cover rounded-md mr-3">
+                                        <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
+                                            class="w-12 h-12 object-cover rounded-md mr-3">
                                     @else
                                         <div
                                             class="w-12 h-12 bg-slate-200 rounded-md mr-3 flex items-center justify-center">
@@ -167,7 +167,8 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                            </path>
                                         </svg>
                                     </a>
 
@@ -183,7 +184,8 @@
                                     <button wire:click="toggleFeatured({{ $listing->id }})"
                                         class="text-amber-600 hover:text-amber-900"
                                         title="{{ $listing->is_featured ? 'Ukloni iz isticanja' : 'Istakni' }}">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z">
                                             </path>
@@ -233,20 +235,24 @@
                 <!-- Header -->
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex-1">
-                        <div class="text-lg font-semibold text-slate-900 mb-2">{{ Str::limit($listing->title, 40) }}</div>
+                        <div class="text-lg font-semibold text-slate-900 mb-2">{{ Str::limit($listing->title, 40) }}
+                        </div>
                         <div class="flex items-center space-x-4 text-sm text-slate-500">
                             <span><i class="fas fa-tag mr-1"></i>{{ $listing->category->name }}</span>
                             <span><i class="fas fa-map-marker-alt mr-1"></i>{{ $listing->location }}</span>
                         </div>
                         <div class="mt-2">
-                            <span class="text-lg font-bold text-green-600">{{ number_format($listing->price, 0, ',', '.') }} RSD</span>
+                            <span
+                                class="text-lg font-bold text-green-600">{{ number_format($listing->price, 0, ',', '.') }}
+                                RSD</span>
                         </div>
                     </div>
-                    
+
                     <!-- Image -->
-                    @if($listing->images->count() > 0)
+                    @if ($listing->images->count() > 0)
                         <div class="flex-shrink-0 ml-4">
-                            <img class="h-16 w-16 rounded-lg object-cover" src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}">
+                            <img class="h-16 w-16 rounded-lg object-cover" src="{{ $listing->images->first()->url }}"
+                                alt="{{ $listing->title }}">
                         </div>
                     @endif
                 </div>
@@ -257,9 +263,11 @@
                     <div class="flex items-center">
                         <div class="flex-shrink-0 h-8 w-8">
                             @if ($listing->user->avatar)
-                                <img class="h-8 w-8 rounded-full object-cover" src="{{ $listing->user->avatar_url }}" alt="{{ $listing->user->name }}">
+                                <img class="h-8 w-8 rounded-full object-cover" src="{{ $listing->user->avatar_url }}"
+                                    alt="{{ $listing->user->name }}">
                             @else
-                                <div class="h-8 w-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-xs">
+                                <div
+                                    class="h-8 w-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-xs">
                                     {{ strtoupper(substr($listing->user->name, 0, 1)) }}
                                 </div>
                             @endif
@@ -275,16 +283,16 @@
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
                         <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Status</div>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                            @if($listing->status === 'active') bg-green-100 text-green-800
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            @if ($listing->status === 'active') bg-green-100 text-green-800
                             @elseif($listing->status === 'pending') bg-amber-100 text-amber-800
                             @elseif($listing->status === 'expired') bg-red-100 text-red-800
-                            @else bg-slate-100 text-slate-800
-                            @endif">
+                            @else bg-slate-100 text-slate-800 @endif">
                             {{ ucfirst($listing->status) }}
                         </span>
                     </div>
-                    
+
                     <div>
                         <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Datum</div>
                         <div class="text-sm text-slate-900">{{ $listing->created_at->format('d.m.Y H:i') }}</div>
@@ -293,35 +301,35 @@
 
                 <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-2">
-                    <button wire:click="viewListing({{ $listing->id }})" 
+                    <button wire:click="viewListing({{ $listing->id }})"
                         class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
                         <i class="fas fa-eye mr-1"></i>
                         Pregled
                     </button>
-                    
-                    <button wire:click="editListing({{ $listing->id }})" 
+
+                    <button wire:click="editListing({{ $listing->id }})"
                         class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
                         <i class="fas fa-edit mr-1"></i>
                         Uredi
                     </button>
-                    
-                    @if($listing->status === 'pending')
-                        <button wire:click="approveListing({{ $listing->id }})" 
+
+                    @if ($listing->status === 'pending')
+                        <button wire:click="approveListing({{ $listing->id }})"
                             class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
                             <i class="fas fa-check mr-1"></i>
                             Odobri
                         </button>
                     @endif
-                    
-                    @if($listing->status === 'active')
-                        <button wire:click="blockListing({{ $listing->id }})" 
+
+                    @if ($listing->status === 'active')
+                        <button wire:click="blockListing({{ $listing->id }})"
                             class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
                             <i class="fas fa-ban mr-1"></i>
                             Blokiraj
                         </button>
                     @endif
-                    
-                    <button wire:click="deleteListing({{ $listing->id }})" 
+
+                    <button wire:click="deleteListing({{ $listing->id }})"
                         wire:confirm="Da li ste sigurni da želite da obrišete ovaj oglas?"
                         class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
                         <i class="fas fa-trash mr-1"></i>
@@ -333,10 +341,10 @@
             <div class="bg-white rounded-lg shadow p-8 text-center">
                 <i class="fas fa-list-alt text-slate-400 text-5xl mb-4"></i>
                 <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema oglasa</h3>
-                <p class="text-slate-600">Nema oglasa koji odgovaraju kriterijumima pretrage.</p>
+                <p class="text-slate-600 dark:text-slate-400">Nema oglasa koji odgovaraju kriterijumima pretrage.</p>
             </div>
         @endforelse
-        
+
         <!-- Mobile Pagination -->
         <div class="mt-6">
             {{ $listings->links() }}
@@ -454,7 +462,8 @@
                                 <div class="flex items-center">
                                     <input type="checkbox" wire:model="editState.is_featured"
                                         class="rounded border-slate-300 text-sky-600 focus:ring-sky-500">
-                                    <label class="ml-2 text-sm text-slate-600">Istaknuti oglas</label>
+                                    <label class="ml-2 text-sm text-slate-600 dark:text-slate-400">Istaknuti
+                                        oglas</label>
                                 </div>
                             </div>
                         </div>

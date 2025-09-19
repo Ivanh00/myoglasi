@@ -95,7 +95,7 @@
 
                     <div class="mb-6">
                         <div class="text-3xl font-bold text-sky-600 dark:text-sky-400 mb-2">{{ $clickCount }}</div>
-                        <p class="text-slate-600">klikova</p>
+                        <p class="text-slate-600 dark:text-slate-400">klikova</p>
                     </div>
 
                     <div class="mb-6">
@@ -223,7 +223,7 @@ bg-slate-300 hover:bg-slate-400
 
                     <div class="mb-6">
                         <div class="text-3xl font-bold text-sky-600 dark:text-sky-400 mb-2">{{ $gameScore }}</div>
-                        <p class="text-slate-600">{{ $selectedGame === 'click_game' ? 'klikova' : 'poena' }}</p>
+                        <p class="text-slate-600 dark:text-slate-400">{{ $selectedGame === 'click_game' ? 'klikova' : 'poena' }}</p>
                     </div>
 
                     <button wire:click="resetGame"
@@ -352,7 +352,7 @@ bg-slate-300 hover:bg-slate-400
                             <div>
                                 <p class="font-medium text-slate-900 dark:text-slate-100">{{ $earning->description }}
                                 </p>
-                                <p class="text-sm text-slate-600">{{ $earning->date->format('d.m.Y') }}</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">{{ $earning->date->format('d.m.Y') }}</p>
                             </div>
                         </div>
                         <div

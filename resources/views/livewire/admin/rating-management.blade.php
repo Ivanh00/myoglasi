@@ -3,7 +3,8 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold text-slate-900">Upravljanje ocenama</h1>
-                <p class="text-slate-600">Pregled i upravljanje svim korisničkim ocenama u sistemu</p>
+                <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje svim korisničkim ocenama u sistemu
+                </p>
             </div>
         </div>
     </div>
@@ -299,7 +300,7 @@
             <div class="bg-white rounded-lg shadow p-8 text-center">
                 <div class="text-4xl mb-3">😊</div>
                 <h3 class="text-lg font-semibold text-slate-800 mb-2">Nema pronađenih ocena</h3>
-                <p class="text-slate-600">Trenutno nema ocena koje odgovaraju vašoj pretrazi.</p>
+                <p class="text-slate-600 dark:text-slate-400">Trenutno nema ocena koje odgovaraju vašoj pretrazi.</p>
             </div>
         @endforelse
     </div>

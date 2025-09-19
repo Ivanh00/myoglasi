@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold text-slate-900">Upravljanje porukama</h1>
-                <p class="text-slate-600">Pregled i upravljanje svim porukama između korisnika</p>
+                <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje svim porukama između korisnika</p>
             </div>
         </div>
     </div>
@@ -105,7 +105,7 @@
         </div>
 
         <div class="flex justify-between items-center">
-            <div class="text-sm text-slate-600">
+            <div class="text-sm text-slate-600 dark:text-slate-400">
                 Pronađeno: {{ $messages->total() }} poruka
             </div>
             <div class="flex space-x-2">
@@ -427,7 +427,7 @@
             <div class="bg-white rounded-lg shadow p-8 text-center">
                 <i class="fas fa-comments text-slate-400 text-5xl mb-4"></i>
                 <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema pronađenih poruka</h3>
-                <p class="text-slate-600">Nema poruka koje odgovaraju kriterijumima pretrage.</p>
+                <p class="text-slate-600 dark:text-slate-400">Nema poruka koje odgovaraju kriterijumima pretrage.</p>
             </div>
         @endforelse
 

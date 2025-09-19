@@ -5,7 +5,8 @@
             <div class="flex justify-between items-center">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-900">Upravljanje obaveštenjima</h2>
-                    <p class="text-slate-600">Pošaljite obaveštenja korisnicima individualno ili grupno</p>
+                    <p class="text-slate-600 dark:text-slate-400">Pošaljite obaveštenja korisnicima individualno ili grupno
+                    </p>
                 </div>
                 <button wire:click="openSendModal" class="bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700">
                     <i class="fas fa-paper-plane mr-2"></i>
@@ -223,7 +224,7 @@
                 <div class="bg-white rounded-lg shadow p-8 text-center">
                     <i class="fas fa-bell text-slate-400 text-5xl mb-4"></i>
                     <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema poslanih obaveštenja</h3>
-                    <p class="text-slate-600">Još uvek nema poslanih obaveštenja korisnicima.</p>
+                    <p class="text-slate-600 dark:text-slate-400">Još uvek nema poslanih obaveštenja korisnicima.</p>
                 </div>
             @endforelse
 
@@ -337,7 +338,9 @@
 
                                     @if ($notificationData['filter_criteria']['user_type'] === 'recent')
                                         <div class="mt-2">
-                                            <label class="block text-xs text-slate-600">Registrovani u poslednih X
+                                            <label
+                                                class="block text-xs text-slate-600 dark:text-slate-400">Registrovani u
+                                                poslednih X
                                                 dana</label>
                                             <input type="number"
                                                 wire:model.live="notificationData.filter_criteria.days"
@@ -346,7 +349,7 @@
                                         </div>
                                     @endif
 
-                                    <div class="mt-2 text-sm text-slate-600">
+                                    <div class="mt-2 text-sm text-slate-600 dark:text-slate-400">
                                         Biće poslano na <strong>{{ $this->getRecipientsCount() }}</strong> korisnika
                                     </div>
                                 </div>
@@ -413,7 +416,7 @@
                         </div>
 
                         <div class="flex justify-between items-center mt-8">
-                            <div class="text-sm text-slate-600">
+                            <div class="text-sm text-slate-600 dark:text-slate-400">
                                 @if ($notificationData['recipient_type'] !== 'single')
                                     Broj recipijenata: <strong>{{ $this->getRecipientsCount() }}</strong>
                                 @elseif($notificationData['recipient_type'] === 'single' && $notificationData['recipient_id'])

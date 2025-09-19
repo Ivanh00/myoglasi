@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold text-slate-900">Upravljanje kategorijama</h1>
-                <p class="text-slate-600">Pregled i upravljanje kategorijama i podkategorijama</p>
+                <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje kategorijama i podkategorijama</p>
             </div>
             <div class="flex space-x-2">
                 <div class="relative inline-block text-left">
@@ -97,7 +97,7 @@
 
                 <label class="flex items-center">
                     <input type="checkbox" wire:model.live="showChildren" class="rounded">
-                    <span class="ml-2 text-sm text-slate-600">Prikaži podkategorije</span>
+                    <span class="ml-2 text-sm text-slate-600 dark:text-slate-400">Prikaži podkategorije</span>
                 </label>
             </div>
         </div>
@@ -283,17 +283,21 @@
                                                     <i class="fas fa-folder text-slate-400 text-xs"></i>
                                                 </div>
                                             @endif
-                                            <div class="text-sm font-medium text-slate-600">{{ $child->name }}</div>
+                                            <div class="text-sm font-medium text-slate-600 dark:text-slate-400">
+                                                {{ $child->name }}</div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-slate-600">{{ $child->slug }}</div>
+                                        <div class="text-sm text-slate-600 dark:text-slate-400">{{ $child->slug }}
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="text-sm text-slate-600">{{ $category->name }}</span>
+                                        <span
+                                            class="text-sm text-slate-600 dark:text-slate-400">{{ $category->name }}</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-slate-600">{{ $child->sort_order }}</div>
+                                        <div class="text-sm text-slate-600 dark:text-slate-400">
+                                            {{ $child->sort_order }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span
@@ -520,7 +524,7 @@
             <div class="bg-white rounded-lg shadow p-8 text-center">
                 <i class="fas fa-tags text-slate-400 text-5xl mb-4"></i>
                 <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema kategorija</h3>
-                <p class="text-slate-600">Počnite kreiranjem kategorija za oglase.</p>
+                <p class="text-slate-600 dark:text-slate-400">Počnite kreiranjem kategorija za oglase.</p>
             </div>
         @endforelse
     </div>
@@ -574,7 +578,7 @@
                                 @enderror
                                 @if ($editState['icon'])
                                     <div class="mt-2 flex items-center">
-                                        <span class="text-sm text-slate-600 mr-2">Pregled:</span>
+                                        <span class="text-sm text-slate-600 dark:text-slate-400 mr-2">Pregled:</span>
                                         <div class="w-6 h-6 bg-sky-100 rounded flex items-center justify-center">
                                             <i class="{{ $editState['icon'] }} text-sky-600 dark:text-sky-400"></i>
                                         </div>
@@ -613,7 +617,8 @@
                             <div class="flex items-center">
                                 <input type="checkbox" wire:model="editState.is_active"
                                     class="rounded border-slate-300 text-sky-600 focus:ring-sky-500">
-                                <label class="ml-2 text-sm text-slate-600">Aktivna kategorija</label>
+                                <label class="ml-2 text-sm text-slate-600 dark:text-slate-400">Aktivna
+                                    kategorija</label>
                             </div>
                         </div>
 

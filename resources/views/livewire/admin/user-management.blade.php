@@ -574,7 +574,8 @@
                     <div class="bg-white rounded-lg shadow p-8 text-center">
                         <i class="fas fa-users text-slate-400 text-5xl mb-4"></i>
                         <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema korisnika</h3>
-                        <p class="text-slate-600">Nema korisnika koji odgovaraju kriterijumima pretrage.</p>
+                        <p class="text-slate-600 dark:text-slate-400">Nema korisnika koji odgovaraju kriterijumima pretrage.
+                        </p>
                     </div>
                 @endforelse
 
@@ -721,7 +722,7 @@
                                 </button>
                             </div>
                             @if ($selectedUser)
-                                <p class="text-sm text-slate-600 mb-4">Trenutni balans:
+                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Trenutni balans:
                                     <strong>{{ number_format($selectedUser->balance ?? 0, 0) }} RSD</strong>
                                 </p>
                             @endif
@@ -911,7 +912,7 @@
                                         <div class="mt-4 space-y-4">
                                             <!-- Current Status -->
                                             <div class="bg-slate-50 p-3 rounded-lg">
-                                                <p class="text-sm text-slate-600">
+                                                <p class="text-sm text-slate-600 dark:text-slate-400">
                                                     <strong>Trenutni status:</strong>
                                                     <span class="font-semibold">{{ $selectedUser->plan_status }}</span>
                                                 </p>
