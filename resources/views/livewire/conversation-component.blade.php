@@ -8,6 +8,16 @@
         .dark .chat-box {
             background-color: rgb(31 41 55) !important; /* slate-800 */
         }
+        .dark .user-response-info {
+            background-color: rgb(55 65 81) !important; /* slate-700 */
+            color: rgb(229 231 235) !important; /* slate-200 */
+        }
+        .user-response-info {
+            padding: 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background-color: rgb(248 250 252); /* slate-50 for light mode */
+        }
         .dark .message-bubble {
             background-color: rgb(55 65 81) !important; /* slate-700 */
             color: rgb(229 231 235) !important;
@@ -74,8 +84,8 @@
     <!-- Informacije o korisniku -->
     <section class="user-info-section dark:bg-slate-900">
         <div class="user-info-holder">
-            <div class="user-name-holder" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div class="user-name-holder flex justify-between items-center w-full p-5">
+                <div class="flex items-center gap-2">
                     <span class="user-avatar">
                         @if($otherUser->avatar)
                             <img src="{{ $otherUser->avatar_url }}" alt="{{ $otherUser->name }}" 
