@@ -13,7 +13,7 @@
             color: rgb(229 231 235) !important;
         }
         .dark .my-message .message-bubble {
-            background-color: rgb(30 64 175) !important; /* sky-800 */
+            background-color: rgb(7 89 133) !important; /* sky-800 */
         }
         .dark .message-textfield {
             background-color: rgb(55 65 81) !important; /* slate-700 */

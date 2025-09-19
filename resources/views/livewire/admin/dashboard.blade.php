@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 label: 'Novi korisnici',
                 data: {!! json_encode(collect($chartData['users'])->pluck('count')) !!},
-                borderColor: 'rgb(59, 130, 246)',
+                borderColor: 'rgb(14, 165, 233)',
                 backgroundColor: 'rgba(59, 130, 246, 0.1)',
                 tension: 0.4,
                 fill: true

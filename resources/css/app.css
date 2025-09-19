@@ -40,36 +40,73 @@
     }
 }
 
-/* Ensure sky colors work properly in dark mode */
+/* Fix dark mode button colors */
 @layer utilities {
-    /* Sky-600 colors for dark mode */
-    .dark .bg-sky-600,
-    .dark .dark\:bg-sky-600 {
-        background-color: rgb(2 132 199) !important;
-    }
-
-    .dark .hover\:bg-sky-700:hover,
-    .dark .dark\:hover\:bg-sky-700:hover {
-        background-color: rgb(3 105 161) !important;
-    }
-
-    /* Sky-500 colors for dark mode */
+    /* Sky button colors for dark mode - using exact Tailwind sky colors */
     .dark .bg-sky-500,
-    .dark .dark\:bg-sky-500 {
-        background-color: rgb(14 165 233) !important;
+    .dark a.bg-sky-500,
+    .dark button.bg-sky-500 {
+        background-color: #0ea5e9 !important; /* rgb(14, 165, 233) */
     }
 
-    .dark .hover\:bg-sky-600:hover,
+    .dark .bg-sky-600,
+    .dark a.bg-sky-600,
+    .dark button.bg-sky-600 {
+        background-color: #0284c7 !important; /* rgb(2, 132, 199) */
+    }
+
+    .dark .bg-sky-700,
+    .dark a.bg-sky-700,
+    .dark button.bg-sky-700 {
+        background-color: #0369a1 !important; /* rgb(3, 105, 161) */
+    }
+
+    .dark .bg-sky-800,
+    .dark a.bg-sky-800,
+    .dark button.bg-sky-800 {
+        background-color: #075985 !important; /* rgb(7, 89, 133) */
+    }
+
+    /* Hover effects for dark mode */
+    .dark .hover\:bg-sky-600:hover {
+        background-color: #0284c7 !important; /* rgb(2, 132, 199) */
+    }
+
+    .dark .hover\:bg-sky-700:hover {
+        background-color: #0369a1 !important; /* rgb(3, 105, 161) */
+    }
+
+    .dark .hover\:bg-sky-800:hover {
+        background-color: #075985 !important; /* rgb(7, 89, 133) */
+    }
+
+    /* Dark mode specific button classes */
+    .dark .dark\:bg-sky-600 {
+        background-color: #0284c7 !important; /* rgb(2, 132, 199) */
+    }
+
+    .dark .dark\:bg-sky-700 {
+        background-color: #0369a1 !important; /* rgb(3, 105, 161) */
+    }
+
     .dark .dark\:hover\:bg-sky-600:hover {
-        background-color: rgb(2 132 199) !important;
+        background-color: #0284c7 !important; /* rgb(2, 132, 199) */
     }
 
-    /* Focus ring colors */
-    .dark .focus\:ring-sky-500:focus,
-    .dark .dark\:focus\:ring-sky-500:focus {
-        --tw-ring-color: rgb(14 165 233) !important;
+    .dark .dark\:hover\:bg-sky-700:hover {
+        background-color: #0369a1 !important; /* rgb(3, 105, 161) */
+    }
+
+    /* Focus ring for buttons */
+    .dark .focus\:ring-sky-500:focus {
+        --tw-ring-color: #0ea5e9 !important;
+    }
+
+    .dark .focus\:ring-sky-600:focus {
+        --tw-ring-color: #0284c7 !important;
     }
 }
+
 
 .scrollbar-hide {
     -ms-overflow-style: none;

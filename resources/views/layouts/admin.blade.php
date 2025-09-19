@@ -218,7 +218,7 @@
         
         /* Admin buttons dark mode */
         .dark .bg-sky-600 {
-            background-color: rgb(37 99 235) !important; /* sky-600 */
+            background-color: rgb(2, 132, 199) !important; /* sky-600 */
         }
         
         .dark .hover\\:bg-sky-700:hover {
@@ -516,8 +516,8 @@
         }
         
         .dark input:focus, .dark textarea:focus, .dark select:focus {
-            border-color: rgb(59 130 246) !important; /* sky-500 */
-            box-shadow: 0 0 0 1px rgb(59 130 246) !important;
+            border-color: rgb(14, 165, 233) !important; /* sky-500 */
+            box-shadow: 0 0 0 1px rgb(14, 165, 233) !important;
         }
         
         /* Date input fields specific styling */
@@ -528,8 +528,8 @@
         }
         
         .dark input[type="date"]:focus {
-            border-color: rgb(59 130 246) !important; /* sky-500 */
-            box-shadow: 0 0 0 1px rgb(59 130 246) !important;
+            border-color: rgb(14, 165, 233) !important; /* sky-500 */
+            box-shadow: 0 0 0 1px rgb(14, 165, 233) !important;
             background-color: rgb(55 65 81) !important; /* slate-700 */
         }
         

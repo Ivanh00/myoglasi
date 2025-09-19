@@ -115,18 +115,18 @@
             background-color: rgb(55 65 81) !important; /* slate-700 */
             color: rgb(229 231 235) !important;
             border: 1px solid rgb(75 85 99) !important;
-            border-left: 4px solid rgb(59 130 246) !important; /* sky-500 left border */
+            border-left: 4px solid rgb(14, 165, 233) !important; /* sky-500 left border */
             border-radius: 0.5rem !important;
             padding: 1rem !important;
             margin: 0.5rem 0 !important;
         }
         
         .dark .notification-modal .listing-link {
-            color: rgb(59 130 246) !important; /* sky-500 - brighter blue */
+            color: rgb(14, 165, 233) !important; /* sky-500 - brighter blue */
         }
         
         .dark .notification-modal .view-listing-btn {
-            background-color: rgb(37 99 235) !important; /* sky-600 */
+            background-color: rgb(2, 132, 199) !important; /* sky-600 */
             color: white !important;
         }
         
@@ -226,7 +226,7 @@
         
         /* Fix popup buttons in all modals and forms */
         .dark .bg-sky-600 {
-            background-color: rgb(37 99 235) !important; /* sky-600 */
+            background-color: rgb(2, 132, 199) !important; /* sky-600 */
         }
         
         .dark .hover\\:bg-sky-700:hover {

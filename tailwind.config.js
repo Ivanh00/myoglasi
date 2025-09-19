@@ -19,5 +19,19 @@ export default {
         },
     },
 
+    safelist: [
+        // Ensure sky colors work in dark mode
+        'dark:bg-sky-500',
+        'dark:bg-sky-600',
+        'dark:bg-sky-700',
+        'dark:hover:bg-sky-600',
+        'dark:hover:bg-sky-700',
+        'dark:hover:bg-sky-800',
+        'dark:text-sky-400',
+        'dark:text-sky-300',
+        'dark:border-sky-600',
+        'dark:ring-sky-500',
+    ],
+
     plugins: [forms],
 };
