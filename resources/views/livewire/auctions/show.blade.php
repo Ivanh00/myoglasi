@@ -678,7 +678,7 @@
                                         @if ($relatedListing->isGiveaway())
                                             <div class="text-green-600 font-bold text-xl">BESPLATNO</div>
                                         @else
-                                            <div class="text-sky-600 font-bold text-xl">
+                                            <div class="text-sky-600 dark:text-sky-400 font-bold text-xl">
                                                 {{ number_format($relatedListing->price, 2) }} RSD
                                             </div>
                                         @endif

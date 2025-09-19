@@ -4,8 +4,11 @@
         @if (!auth()->user()->city || !auth()->user()->phone)
             <div class="mb-6 p-4 bg-red-50 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-lg">
                 <div class="flex items-start">
-                    <svg class="w-6 h-6 text-red-600 dark:text-red-400 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    <svg class="w-6 h-6 text-red-600 dark:text-red-400 mr-3 mt-0.5 flex-shrink-0" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                            clip-rule="evenodd"></path>
                     </svg>
                     <div class="flex-1">
                         <h3 class="text-lg font-semibold text-red-800 dark:text-red-200 mb-1">
@@ -22,9 +25,11 @@
                                 <li>Broj telefona</li>
                             @endif
                         </ul>
-                        <a href="{{ route('profile') }}" class="inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <a href="{{ route('profile') }}"
+                            class="inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                             Idite na Moj profil
                         </a>
@@ -39,7 +44,8 @@
             <p class="text-slate-600 dark:text-slate-400 mt-2">Popunite sva polja i dodajte slike vaše usluge</p>
             <div class="mt-2 p-3 bg-amber-50 dark:bg-amber-900 border border-amber-200 dark:border-amber-700 rounded">
                 <div class="flex items-center">
-                    <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 mr-2" fill="currentColor"
+                        viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
                             clip-rule="evenodd"></path>
@@ -105,7 +111,8 @@
                     <!-- Subcategory -->
                     @if ($service_category_id && $subcategories && $subcategories->count() > 0)
                         <div class="mt-4">
-                            <label for="subcategory_id" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            <label for="subcategory_id"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                                 Podkategorija
                             </label>
                             <select wire:model="subcategory_id" id="subcategory_id"
@@ -120,7 +127,8 @@
                             @enderror
                         </div>
                     @elseif($service_category_id)
-                        <div class="mt-4 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg text-sky-700 dark:text-sky-300 text-sm">
+                        <div
+                            class="mt-4 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg text-sky-700 dark:text-sky-300 text-sm">
                             <p><strong>Info:</strong> Odabrana kategorija nema dostupne podkategorije.</p>
                         </div>
                     @endif
@@ -162,14 +170,15 @@
             <div>
                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Slike (maksimalno {{ \App\Models\Setting::get('max_images_per_service', 10) }})
-                    @if(!empty($images))
-                        <span class="text-sky-600">({{ count($images) }}/{{ \App\Models\Setting::get('max_images_per_service', 10) }})</span>
+                    @if (!empty($images))
+                        <span
+                            class="text-sky-600 dark:text-sky-400">({{ count($images) }}/{{ \App\Models\Setting::get('max_images_per_service', 10) }})</span>
                     @endif
                 </label>
 
                 <!-- Upload Area -->
                 @php $maxImages = \App\Models\Setting::get('max_images_per_service', 10); @endphp
-                @if(count($images ?? []) < $maxImages)
+                @if (count($images ?? []) < $maxImages)
                     <div
                         class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center hover:border-slate-400 dark:hover:border-slate-500 transition-colors">
                         <svg class="w-12 h-12 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor"
@@ -178,18 +187,23 @@
                                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
                             </path>
                         </svg>
-                        <input type="file" wire:model="tempImages" multiple accept="image/*" class="hidden" id="images">
+                        <input type="file" wire:model="tempImages" multiple accept="image/*" class="hidden"
+                            id="images">
                         <label for="images" class="cursor-pointer">
-                            <span class="text-sky-600 hover:text-sky-500 font-medium">Kliknite za dodavanje slika</span>
+                            <span class="text-sky-600 hover:text-sky-500 font-medium">Kliknite za dodavanje
+                                slika</span>
                             <span class="text-slate-500 dark:text-slate-400"> ili prevucite ovde</span>
                         </label>
                         <p class="text-slate-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici</p>
                     </div>
                 @else
-                    <div class="border-2 border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-700">
+                    <div
+                        class="border-2 border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-700">
                         <i class="fas fa-images text-slate-400 text-4xl mb-2"></i>
-                        <p class="text-slate-600 dark:text-slate-300 font-medium">Dostigli ste maksimum od {{ $maxImages }} slika</p>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm">Obrišite neku sliku da biste dodali novu</p>
+                        <p class="text-slate-600 dark:text-slate-300 font-medium">Dostigli ste maksimum od
+                            {{ $maxImages }} slika</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Obrišite neku sliku da biste dodali novu
+                        </p>
                     </div>
                 @endif
 
@@ -258,7 +272,8 @@
                 <button type="submit" wire:loading.attr="disabled"
                     class="px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                     <span wire:loading.remove wire:target="save">
-                        Objavi uslugu ({{ \App\Models\Setting::get('service_fee_enabled', true) ? \App\Models\Setting::get('service_fee_amount', 100) . ' RSD' : 'Besplatno' }})
+                        Objavi uslugu
+                        ({{ \App\Models\Setting::get('service_fee_enabled', true) ? \App\Models\Setting::get('service_fee_amount', 100) . ' RSD' : 'Besplatno' }})
                     </span>
                     <span wire:loading wire:target="save" class="flex items-center">
                         <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">

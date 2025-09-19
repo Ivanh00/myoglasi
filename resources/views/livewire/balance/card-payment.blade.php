@@ -38,7 +38,7 @@
                                 id="card_number" placeholder="1234 5678 9012 3456" maxlength="19"
                                 class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 font-mono text-lg">
                             <div class="absolute right-3 top-3 flex space-x-1">
-                                <i class="fab fa-cc-visa text-sky-600 text-lg"></i>
+                                <i class="fab fa-cc-visa text-sky-600 dark:text-sky-400 text-lg"></i>
                                 <i class="fab fa-cc-mastercard text-red-500 text-lg"></i>
                             </div>
                         </div>

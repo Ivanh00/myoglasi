@@ -54,7 +54,7 @@
                     <!-- Listing Fees -->
                     <div class="border border-slate-200 rounded-lg p-4">
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                            <i class="fas fa-list-alt mr-2 text-sky-600"></i>
+                            <i class="fas fa-list-alt mr-2 text-sky-600 dark:text-sky-400"></i>
                             Naplaćivanje oglasa
                         </h3>
 
@@ -157,7 +157,7 @@
                     <!-- Payment Summary -->
                     <div class="border border-slate-200 rounded-lg p-4 bg-sky-50">
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                            <i class="fas fa-info-circle mr-2 text-sky-600"></i>
+                            <i class="fas fa-info-circle mr-2 text-sky-600 dark:text-sky-400"></i>
                             Pregled planiranih cena
                         </h3>
 
@@ -584,7 +584,7 @@
                     <!-- Magic Link -->
                     <div class="flex items-center justify-between p-3 bg-white border border-slate-200 rounded">
                         <div class="flex items-center">
-                            <i class="fas fa-magic text-sky-600 mr-3"></i>
+                            <i class="fas fa-magic text-sky-600 dark:text-sky-400 mr-3"></i>
                             <div>
                                 <div class="font-medium text-slate-900">Magic Link Login</div>
                                 <div class="text-sm text-slate-600">Prijava preko email link-a</div>
@@ -655,7 +655,7 @@
             <!-- Company Info -->
             <div class="border border-slate-200 rounded-lg p-4">
                 <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                    <i class="fas fa-building mr-2 text-sky-600"></i>
+                    <i class="fas fa-building mr-2 text-sky-600 dark:text-sky-400"></i>
                     Podaci o kompaniji
                 </h3>
 
@@ -855,7 +855,7 @@
 
                 <div class="mt-4 p-3 bg-sky-50 border border-sky-200 rounded-lg">
                     <div class="flex items-start">
-                        <i class="fas fa-info-circle text-sky-600 mt-0.5 mr-2"></i>
+                        <i class="fas fa-info-circle text-sky-600 dark:text-sky-400 mt-0.5 mr-2"></i>
                         <div class="text-sm text-sky-800">
                             <strong>Kako funkcioniše automatsko produžavanje:</strong>
                             <ul class="list-disc list-inside mt-1 space-y-1">

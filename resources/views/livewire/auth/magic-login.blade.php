@@ -4,7 +4,7 @@
         <div class="bg-sky-50 border border-sky-200 rounded-lg p-4 mb-4">
             <div class="flex items-center mb-3">
                 <div class="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center mr-3">
-                    <i class="fas fa-magic text-sky-600"></i>
+                    <i class="fas fa-magic text-sky-600 dark:text-sky-400"></i>
                 </div>
                 <h3 class="text-sm font-medium text-sky-900">Brza prijava preko email-a</h3>
             </div>

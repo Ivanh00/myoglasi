@@ -259,7 +259,7 @@
                                 ponuda</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-edit text-sky-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-edit text-sky-600 dark:text-sky-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Uređivanje aukcije:</strong> Aukcija se ne može uređivati nakon što primi prvu
                                 ponudu</span>
                         </li>
@@ -459,7 +459,7 @@
                                 ponuda</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-edit text-sky-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-edit text-sky-600 dark:text-sky-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Uređivanje aukcije:</strong> Aukcija se ne može uređivati nakon što primi prvu
                                 ponudu</span>
                         </li>

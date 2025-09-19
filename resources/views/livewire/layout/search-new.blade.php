@@ -773,7 +773,7 @@ if (!empty($auctionType)) {
                                 :class="auction_type === 'ending_soon' ?
                                     'bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-400 font-medium' :
                                     'text-slate-700 dark:text-slate-300'">
-                                <i class="fas fa-clock text-red-600 mr-2"></i>
+                                <i class="fas fa-clock text-red-600 dark:text-red-400 mr-2"></i>
                                 <span>Završavaju uskoro</span>
                             </button>
                             <button type="button"

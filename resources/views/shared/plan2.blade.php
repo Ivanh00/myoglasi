@@ -636,8 +636,8 @@ return $next($request);
         <div class="max-w-6xl mx-auto px-4 py-6">
             <!-- Breadcrumbs -->
             <nav class="text-sm mb-4">
-                <a href="{{ route('home') }}" class="text-sky-600">Početna</a> >
-                <a href="{{ route('category.show', $listing->category) }}" class="text-sky-600">
+                <a href="{{ route('home') }}" class="text-sky-600 dark:text-sky-400">Početna</a> >
+                <a href="{{ route('category.show', $listing->category) }}" class="text-sky-600 dark:text-sky-400">
                     {{ $listing->category->name }}
                 </a> >
                 <span class="text-slate-500">{{ $listing->title }}</span>

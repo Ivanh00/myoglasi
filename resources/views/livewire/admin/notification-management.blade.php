@@ -55,13 +55,15 @@
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                                 Naslov</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Prima
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                Prima
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                                 Poruka</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                                 Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Datum
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                Datum
                             </th>
                         </tr>
                     </thead>
@@ -187,7 +189,7 @@
                         <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Poruka</div>
                         <div class="text-sm text-slate-900">{{ Str::limit($notification->message, 120) }}</div>
                         @if (strlen($notification->message) > 120)
-                            <button class="text-sky-600 text-xs mt-1">
+                            <button class="text-sky-600 dark:text-sky-400 text-xs mt-1">
                                 Prikaži više...
                             </button>
                         @endif
@@ -274,7 +276,8 @@
                                         <input type="radio" wire:model.live="notificationData.recipient_type"
                                             value="public" class="mr-2">
                                         <span class="text-sm text-green-600 font-medium">Javno obaveštenje</span>
-                                        <span class="text-xs text-green-500 ml-2">(prikazuje se svim korisnicima u navigation bar-u)</span>
+                                        <span class="text-xs text-green-500 ml-2">(prikazuje se svim korisnicima u
+                                            navigation bar-u)</span>
                                     </label>
                                 </div>
                             </div>
@@ -398,7 +401,8 @@
                                         @endforeach
                                     </select>
                                     @if ($notificationData['recipient_id'])
-                                        <div class="text-xs text-slate-500 mt-1">Prikazuju se oglasi odabranog korisnika
+                                        <div class="text-xs text-slate-500 mt-1">Prikazuju se oglasi odabranog
+                                            korisnika
                                         </div>
                                     @else
                                         <div class="text-xs text-slate-500 mt-1">Prvo odaberite korisnika da vidite

@@ -572,9 +572,9 @@
                                             @if ($listing->user && $listing->user->total_ratings_count > 0)
                                                 <a href="{{ route('user.ratings', $listing->user->id) }}"
                                                     class="inline-flex items-center text-xs text-slate-600 dark:text-slate-300 mb-2 hover:text-sky-600 transition-colors">
-                                                    <span class="text-green-600 mr-1">😊
+                                                    <span class="text-green-600 dark:text-green-400 mr-1">😊
                                                         {{ $listing->user->positive_ratings_count }}</span>
-                                                    <span class="text-amber-600 mr-1">😐
+                                                    <span class="text-amber-600 dark:text-amber-400 mr-1">😐
                                                         {{ $listing->user->neutral_ratings_count }}</span>
                                                     <span class="text-red-600 dark:text-red-400 mr-1">😞
                                                         {{ $listing->user->negative_ratings_count }}</span>

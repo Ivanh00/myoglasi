@@ -181,7 +181,8 @@
                                     $winningBid = $auction->bids()->where('is_winning', true)->first();
                                 @endphp
                                 @if ($winningBid)
-                                    <div class="text-sm text-sky-600">Vodi: {{ $winningBid->user->name }}</div>
+                                    <div class="text-sm text-sky-600 dark:text-sky-400">Vodi:
+                                        {{ $winningBid->user->name }}</div>
                                 @endif
                             @endif
                         </td>

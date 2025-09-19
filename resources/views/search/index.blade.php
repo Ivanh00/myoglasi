@@ -87,7 +87,7 @@
                             <p class="text-slate-600 mb-4">{{ Str::limit($listing->description, 100) }}</p>
                             <div class="flex justify-between items-center">
                                 <span
-                                    class="text-xl font-bold text-sky-600">{{ number_format($listing->price, 0, ',', '.') }}
+                                    class="text-xl font-bold text-sky-600 dark:text-sky-400">{{ number_format($listing->price, 0, ',', '.') }}
                                     RSD</span>
                                 <span class="text-sm text-slate-500">{{ $listing->location }}</span>
                             </div>

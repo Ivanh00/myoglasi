@@ -21,7 +21,7 @@
                             @if (auth()->user()->plan_expires_at &&
                                     auth()->user()->plan_expires_at->isFuture() &&
                                     auth()->user()->payment_plan !== 'per_listing')
-                                <p class="text-sm text-sky-600 mt-1">
+                                <p class="text-sm text-sky-600 dark:text-sky-400 mt-1">
                                     Ističe: {{ auth()->user()->plan_expires_at->format('d.m.Y H:i') }}
                                 </p>
                             @endif
@@ -58,11 +58,11 @@
                                 <div class="text-center">
                                     <div
                                         class="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <i class="fas fa-receipt text-sky-600 text-2xl"></i>
+                                        <i class="fas fa-receipt text-sky-600 dark:text-sky-400 text-2xl"></i>
                                     </div>
                                     <h3 class="text-lg font-semibold text-slate-900 mb-2">
                                         {{ $planPrices['per_listing']['title'] }}</h3>
-                                    <div class="text-2xl font-bold text-sky-600 mb-2">
+                                    <div class="text-2xl font-bold text-sky-600 dark:text-sky-400 mb-2">
                                         {{ number_format($planPrices['per_listing']['price'], 0, ',', '.') }} RSD
                                     </div>
                                     <p class="text-sm text-slate-600 mb-4">po oglasu</p>
@@ -156,7 +156,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                 @if ($planPrices['per_listing']['enabled'])
                                     <div class="text-center">
-                                        <h4 class="font-semibold text-sky-600 mb-2">Po oglasu</h4>
+                                        <h4 class="font-semibold text-sky-600 dark:text-sky-400 mb-2">Po oglasu</h4>
                                         <p>{{ number_format($planPrices['per_listing']['price'], 0, ',', '.') }} RSD po
                                             oglasu</p>
                                         <p class="text-slate-500 text-xs mt-1">Idealno za retko postavljanje</p>

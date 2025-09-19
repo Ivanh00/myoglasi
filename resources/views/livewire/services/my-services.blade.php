@@ -26,16 +26,20 @@
                                 @switch($status)
                                     @case('active')
                                         Aktivne
-                                        @break
+                                    @break
+
                                     @case('inactive')
                                         Neaktivne
-                                        @break
+                                    @break
+
                                     @default
                                         Sve
                                 @endswitch
                             </span>
-                            <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
 
@@ -61,52 +65,67 @@
     </div>
 
     <!-- Services list -->
-    @if($services->count() > 0)
+    @if ($services->count() > 0)
         <!-- Desktop Table View -->
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
                 <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] bg-slate-50 dark:bg-slate-700">
-                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Usluga</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Cena</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pregledi</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Datum</div>
-                    <div class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Akcije</div>
+                    <div
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Usluga</div>
+                    <div
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Cena</div>
+                    <div
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Status</div>
+                    <div
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Pregledi</div>
+                    <div
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Datum</div>
+                    <div
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Akcije</div>
                 </div>
             </div>
 
             <!-- Data Rows -->
-            @foreach($services as $service)
+            @foreach ($services as $service)
                 <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden border-l-4 border-slate-500">
                     <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Usluga Column -->
                         <div class="px-6 py-2">
                             <div class="flex items-center">
-                                    @if($service->images->count() > 0)
-                                        <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
-                                            class="w-10 h-10 rounded-lg object-cover mr-3">
-                                    @else
-                                        <div class="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center mr-3">
-                                            <i class="fas fa-tools text-slate-400"></i>
-                                        </div>
-                                    @endif
-                                    <div>
-                                        <div class="text-sm font-medium text-slate-900 dark:text-slate-100 flex items-center">
-                                            <span>{{ Str::limit($service->title, 50) }}</span>
-                                            <!-- Promotion Badges -->
-                                            @if($service->hasActivePromotion())
-                                                @foreach($service->getPromotionBadges() as $badge)
-                                                    <span class="ml-2 px-1 py-0.5 text-xs font-bold rounded-full {{ $badge['class'] }}">
-                                                        {{ $badge['text'] }}
-                                                    </span>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                        <div class="text-sm text-slate-500 dark:text-slate-400">
-                                            {{ $service->category->name ?? 'Bez kategorije' }}
-                                        </div>
+                                @if ($service->images->count() > 0)
+                                    <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
+                                        class="w-10 h-10 rounded-lg object-cover mr-3">
+                                @else
+                                    <div
+                                        class="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-tools text-slate-400"></i>
                                     </div>
+                                @endif
+                                <div>
+                                    <div
+                                        class="text-sm font-medium text-slate-900 dark:text-slate-100 flex items-center">
+                                        <span>{{ Str::limit($service->title, 50) }}</span>
+                                        <!-- Promotion Badges -->
+                                        @if ($service->hasActivePromotion())
+                                            @foreach ($service->getPromotionBadges() as $badge)
+                                                <span
+                                                    class="ml-2 px-1 py-0.5 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                    {{ $badge['text'] }}
+                                                </span>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-400">
+                                        {{ $service->category->name ?? 'Bez kategorije' }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- Cena Column -->
@@ -117,14 +136,16 @@
                         </div>
                         <!-- Status Column -->
                         <div class="px-6 py-2">
-                            @if($service->status === 'active')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Aktivna
-                                    </span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 text-slate-800">
-                                        Neaktivna
-                                    </span>
+                            @if ($service->status === 'active')
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Aktivna
+                                </span>
+                            @else
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 text-slate-800">
+                                    Neaktivna
+                                </span>
                             @endif
                         </div>
                         <!-- Pregledi Column -->
@@ -138,37 +159,38 @@
                         <!-- Akcije Column -->
                         <div class="px-6 py-1 text-sm font-medium">
                             <div class="flex flex-wrap gap-1">
-                                        <a href="{{ route('services.show', $service->slug) }}"
-                                            class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
-                                            <i class="fas fa-eye mr-1"></i> Pregled
-                                        </a>
+                                <a href="{{ route('services.show', $service->slug) }}"
+                                    class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
+                                    <i class="fas fa-eye mr-1"></i> Pregled
+                                </a>
 
-                                        <a href="{{ route('services.edit', $service->slug) }}"
-                                            class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
-                                            <i class="fas fa-edit mr-1"></i> Izmeni
-                                        </a>
+                                <a href="{{ route('services.edit', $service->slug) }}"
+                                    class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
+                                    <i class="fas fa-edit mr-1"></i> Izmeni
+                                </a>
 
-                                        <button wire:click="toggleStatus({{ $service->id }})"
-                                            class="inline-flex items-center px-2 py-1 text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 rounded">
-                                            @if($service->status === 'active')
-                                                <i class="fas fa-pause mr-1"></i> Pauziraj
-                                            @else
-                                                <i class="fas fa-play mr-1"></i> Aktiviraj
-                                            @endif
-                                        </button>
+                                <button wire:click="toggleStatus({{ $service->id }})"
+                                    class="inline-flex items-center px-2 py-1 text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 rounded">
+                                    @if ($service->status === 'active')
+                                        <i class="fas fa-pause mr-1"></i> Pauziraj
+                                    @else
+                                        <i class="fas fa-play mr-1"></i> Aktiviraj
+                                    @endif
+                                </button>
 
-                                        @if($service->status === 'active')
-                                            <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
-                                                class="inline-flex items-center px-2 py-1 {{ $service->hasActivePromotion() ? 'text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300' : 'text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300' }} rounded">
-                                                <i class="fas fa-bullhorn mr-1"></i> Promocija
-                                            </button>
-                                        @endif
+                                @if ($service->status === 'active')
+                                    <button
+                                        wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
+                                        class="inline-flex items-center px-2 py-1 {{ $service->hasActivePromotion() ? 'text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300' : 'text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300' }} rounded">
+                                        <i class="fas fa-bullhorn mr-1"></i> Promocija
+                                    </button>
+                                @endif
 
-                                        <button x-data
-                                            @click="$dispatch('open-delete-modal', { serviceId: {{ $service->id }} })"
-                                            class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
-                                            <i class="fas fa-trash mr-1"></i> Obriši
-                                        </button>
+                                <button x-data
+                                    @click="$dispatch('open-delete-modal', { serviceId: {{ $service->id }} })"
+                                    class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
+                                    <i class="fas fa-trash mr-1"></i> Obriši
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -193,9 +215,10 @@
                                 <div class="flex-shrink-0 h-16 w-16 mr-3">
                                     @if ($service->images->count() > 0)
                                         <img class="h-16 w-16 rounded-lg object-cover"
-                                             src="{{ $service->images->first()->url }}" alt="{{ $service->title }}">
+                                            src="{{ $service->images->first()->url }}" alt="{{ $service->title }}">
                                     @else
-                                        <div class="h-16 w-16 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                                        <div
+                                            class="h-16 w-16 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
                                             <i class="fas fa-tools text-slate-400"></i>
                                         </div>
                                     @endif
@@ -206,18 +229,21 @@
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
                                         {{ $service->title }}
                                         <!-- Promotion Badges -->
-                                        @if($service->hasActivePromotion())
+                                        @if ($service->hasActivePromotion())
                                             <div class="inline-flex flex-wrap gap-1 ml-2">
-                                                @foreach($service->getPromotionBadges() as $badge)
-                                                    <span class="px-1 py-0.5 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                @foreach ($service->getPromotionBadges() as $badge)
+                                                    <span
+                                                        class="px-1 py-0.5 text-xs font-bold rounded-full {{ $badge['class'] }}">
                                                         {{ $badge['text'] }}
                                                     </span>
                                                 @endforeach
                                             </div>
                                         @endif
                                     </h3>
-                                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">{{ $service->category->name ?? 'Bez kategorije' }}</p>
-                                    <p class="text-xl font-bold text-sky-600">{{ number_format($service->price, 2) }} RSD</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                                        {{ $service->category->name ?? 'Bez kategorije' }}</p>
+                                    <p class="text-xl font-bold text-sky-600 dark:text-sky-400">
+                                        {{ number_format($service->price, 2) }} RSD</p>
                                 </div>
                             </div>
                         </div>
@@ -227,14 +253,18 @@
                     <div class="p-4">
                         <!-- Status Section -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Status usluge</div>
+                            <div
+                                class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                                Status usluge</div>
                             <div class="flex items-center space-x-4">
-                                @if($service->status === 'active')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200">
+                                @if ($service->status === 'active')
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200">
                                         Aktivna
                                     </span>
                                 @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
                                         Neaktivna
                                     </span>
                                 @endif
@@ -246,7 +276,9 @@
 
                         <!-- Date Info -->
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Informacije o datumu</div>
+                            <div
+                                class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                                Informacije o datumu</div>
                             <div class="text-sm text-slate-900 dark:text-slate-100">
                                 Kreirana: {{ $service->created_at->format('d.m.Y') }}
                             </div>
@@ -268,12 +300,10 @@
 
                             <button wire:click="toggleStatus({{ $service->id }})"
                                 class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg transition-colors
-                                    @if($service->status === 'active')
-                                        bg-amber-100 text-amber-700 hover:bg-amber-200
+                                    @if ($service->status === 'active') bg-amber-100 text-amber-700 hover:bg-amber-200
                                     @else
-                                        bg-green-100 text-green-700 hover:bg-green-200
-                                    @endif">
-                                @if($service->status === 'active')
+                                        bg-green-100 text-green-700 hover:bg-green-200 @endif">
+                                @if ($service->status === 'active')
                                     <i class="fas fa-pause mr-1"></i>
                                     Pauziraj
                                 @else
@@ -282,16 +312,16 @@
                                 @endif
                             </button>
 
-                            @if($service->status === 'active')
-                                <button wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
+                            @if ($service->status === 'active')
+                                <button
+                                    wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
                                     class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
                                     <i class="fas fa-bullhorn mr-1"></i>
                                     Promocija
                                 </button>
                             @endif
 
-                            <button x-data
-                                @click="$dispatch('open-delete-modal', { serviceId: {{ $service->id }} })"
+                            <button x-data @click="$dispatch('open-delete-modal', { serviceId: {{ $service->id }} })"
                                 class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
                                 <i class="fas fa-trash mr-1"></i>
                                 Obriši
@@ -311,13 +341,13 @@
             <i class="fas fa-tools text-slate-400 text-5xl mb-4"></i>
             <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">Nemate usluga</h3>
             <p class="text-slate-600 dark:text-slate-400 mb-4">
-                @if($search)
+                @if ($search)
                     Nema rezultata za vašu pretragu.
                 @else
                     Još uvek nemate postavljenih usluga.
                 @endif
             </p>
-            @if(!$search)
+            @if (!$search)
                 <a href="{{ route('services.create') }}"
                     class="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
                     <i class="fas fa-plus mr-2"></i> Dodaj prvu uslugu
@@ -331,28 +361,23 @@
 
     <!-- Delete Service Modal -->
     <div x-data="{
-            showDeleteModal: false,
-            selectedService: null,
-            deleteService() {
-                if (this.selectedService) {
-                    @this.deleteService(this.selectedService.id);
-                    this.showDeleteModal = false;
-                }
+        showDeleteModal: false,
+        selectedService: null,
+        deleteService() {
+            if (this.selectedService) {
+                @this.deleteService(this.selectedService.id);
+                this.showDeleteModal = false;
             }
-        }"
+        }
+    }"
         @open-delete-modal.window="
             showDeleteModal = true;
             selectedService = $services.find(s => s.id === $event.detail.serviceId);
         "
-        x-show="showDeleteModal"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        style="display: none;"
-        class="fixed inset-0 z-50 overflow-y-auto">
+        x-show="showDeleteModal" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto">
 
         <!-- Background overlay -->
         <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="showDeleteModal = false"></div>
@@ -360,18 +385,19 @@
         <!-- Modal content -->
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
             <div x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 class="relative inline-block align-bottom bg-white dark:bg-slate-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                class="relative inline-block align-bottom bg-white dark:bg-slate-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
 
                 <!-- Modal header with delete icon -->
                 <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-1">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
+                            <div
+                                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
                                 <i class="fas fa-trash text-white text-xl"></i>
                             </div>
                             <h3 class="ml-3 text-xl font-bold text-white">Brisanje usluge</h3>
@@ -400,28 +426,37 @@
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-sm text-slate-600 dark:text-slate-300">Naziv:</span>
-                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedService?.title || 'N/A'"></span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100"
+                                        x-text="selectedService?.title || 'N/A'"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-sm text-slate-600 dark:text-slate-300">Kategorija:</span>
-                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedService?.category?.name || 'Bez kategorije'"></span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100"
+                                        x-text="selectedService?.category?.name || 'Bez kategorije'"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-sm text-slate-600 dark:text-slate-300">Cena:</span>
                                     <span class="text-sm font-medium text-slate-900 dark:text-slate-100">
-                                        <span x-text="new Intl.NumberFormat('sr-RS').format(selectedService?.price || 0)"></span> RSD
+                                        <span
+                                            x-text="new Intl.NumberFormat('sr-RS').format(selectedService?.price || 0)"></span>
+                                        RSD
                                     </span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-sm text-slate-600 dark:text-slate-300">Status:</span>
-                                    <span class="text-sm font-medium" :class="{
-                                        'text-green-600 dark:text-green-400': selectedService?.status === 'active',
-                                        'text-slate-600 dark:text-slate-400': selectedService?.status !== 'active'
-                                    }" x-text="selectedService?.status === 'active' ? 'Aktivna' : 'Neaktivna'"></span>
+                                    <span class="text-sm font-medium"
+                                        :class="{
+                                            'text-green-600 dark:text-green-400': selectedService
+                                                ?.status === 'active',
+                                            'text-slate-600 dark:text-slate-400': selectedService
+                                                ?.status !== 'active'
+                                        }"
+                                        x-text="selectedService?.status === 'active' ? 'Aktivna' : 'Neaktivna'"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-sm text-slate-600 dark:text-slate-300">Pregledi:</span>
-                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100" x-text="selectedService?.views || 0"></span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100"
+                                        x-text="selectedService?.views || 0"></span>
                                 </div>
                             </div>
                         </div>
@@ -435,7 +470,8 @@
                             </div>
                             <div class="ml-3">
                                 <p class="text-sm text-red-800 dark:text-red-200">
-                                    <strong>Upozorenje:</strong> Brisanjem usluge gubite sve podatke vezane za nju, uključujući slike i statistiku pregleda.
+                                    <strong>Upozorenje:</strong> Brisanjem usluge gubite sve podatke vezane za nju,
+                                    uključujući slike i statistiku pregleda.
                                 </p>
                             </div>
                         </div>
@@ -445,15 +481,13 @@
                 <!-- Modal footer with actions -->
                 <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-1">
                     <div class="flex space-x-3">
-                        <button type="button"
-                                @click="showDeleteModal = false"
-                                class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                        <button type="button" @click="showDeleteModal = false"
+                            class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                             <i class="fas fa-times mr-2"></i>
                             Otkaži
                         </button>
-                        <button type="button"
-                                @click="deleteService()"
-                                class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105">
+                        <button type="button" @click="deleteService()"
+                            class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105">
                             <i class="fas fa-trash mr-2"></i>
                             Obriši uslugu
                         </button>

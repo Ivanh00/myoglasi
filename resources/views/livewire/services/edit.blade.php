@@ -57,7 +57,8 @@
                     <!-- Subcategory -->
                     @if ($service_category_id && $subcategories && $subcategories->count() > 0)
                         <div class="mt-4">
-                            <label for="subcategory_id" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            <label for="subcategory_id"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                                 Podkategorija
                             </label>
                             <select wire:model="subcategory_id" id="subcategory_id"
@@ -72,7 +73,8 @@
                             @enderror
                         </div>
                     @elseif($service_category_id)
-                        <div class="mt-4 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg text-sky-700 dark:text-sky-300 text-sm">
+                        <div
+                            class="mt-4 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg text-sky-700 dark:text-sky-300 text-sm">
                             <p><strong>Info:</strong> Odabrana kategorija nema dostupne podkategorije.</p>
                         </div>
                     @endif
@@ -111,13 +113,13 @@
             </div>
 
             <!-- Existing Images -->
-            @if($service->images->count() > 0)
+            @if ($service->images->count() > 0)
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Postojeće slike
                     </label>
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                        @foreach($service->images as $image)
+                        @foreach ($service->images as $image)
                             <div class="relative group">
                                 <img src="{{ $image->url }}" alt="Service image"
                                     class="w-full h-24 object-cover rounded-lg border">
@@ -135,8 +137,8 @@
             <div>
                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Dodaj nove slike (maksimalno {{ \App\Models\Setting::get('max_images_per_service', 10) }})
-                    @if(!empty($tempImages))
-                        <span class="text-sky-600">({{ count($tempImages) }} novih)</span>
+                    @if (!empty($tempImages))
+                        <span class="text-sky-600 dark:text-sky-400">({{ count($tempImages) }} novih)</span>
                     @endif
                 </label>
 
@@ -150,9 +152,11 @@
                             d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
                         </path>
                     </svg>
-                    <input type="file" wire:model="tempImages" multiple accept="image/*" class="hidden" id="new-images">
+                    <input type="file" wire:model="tempImages" multiple accept="image/*" class="hidden"
+                        id="new-images">
                     <label for="new-images" class="cursor-pointer">
-                        <span class="text-sky-600 hover:text-sky-500 font-medium">Kliknite za dodavanje novih slika</span>
+                        <span class="text-sky-600 hover:text-sky-500 font-medium">Kliknite za dodavanje novih
+                            slika</span>
                         <span class="text-slate-500 dark:text-slate-400"> ili prevucite ovde</span>
                     </label>
                     <p class="text-slate-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici</p>

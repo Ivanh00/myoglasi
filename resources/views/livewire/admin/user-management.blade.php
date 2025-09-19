@@ -786,8 +786,10 @@
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                                 <div class="bg-sky-50 p-4 rounded-lg">
                                     <h4 class="font-semibold text-sky-800">Oglasi</h4>
-                                    <p class="text-2xl font-bold text-sky-600">{{ $userDetails['total_listings'] }}</p>
-                                    <p class="text-sm text-sky-600">{{ $userDetails['active_listings'] }} aktivni</p>
+                                    <p class="text-2xl font-bold text-sky-600 dark:text-sky-400">
+                                        {{ $userDetails['total_listings'] }}</p>
+                                    <p class="text-sm text-sky-600 dark:text-sky-400">{{ $userDetails['active_listings'] }}
+                                        aktivni</p>
                                 </div>
                                 <div class="bg-green-50 p-4 rounded-lg">
                                     <h4 class="font-semibold text-green-800">Balans</h4>
@@ -895,8 +897,8 @@
                                 <div class="sm:flex sm:items-start">
                                     <div
                                         class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <svg class="h-6 w-6 text-sky-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                                        <svg class="h-6 w-6 text-sky-600 dark:text-sky-400" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
                                             </path>

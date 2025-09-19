@@ -21,14 +21,14 @@
             <div class="text-center">
             <!-- Logo -->
             <div class="mb-8">
-                <h1 class="text-4xl font-bold text-sky-600 mb-2">PazAriO</h1>
+                <h1 class="text-4xl font-bold text-sky-600 dark:text-sky-400 mb-2">PazAriO</h1>
                 <div class="w-24 h-1 bg-sky-600 mx-auto rounded-full"></div>
             </div>
             
             <!-- Maintenance Icon -->
             <div class="mb-8">
                 <div class="inline-flex items-center justify-center w-24 h-24 bg-white rounded-full shadow-lg mb-6">
-                    <i class="fas fa-tools text-sky-600 text-4xl"></i>
+                    <i class="fas fa-tools text-sky-600 dark:text-sky-400 text-4xl"></i>
                 </div>
                 
                 <h2 class="text-3xl font-bold text-slate-900 mb-4">Radovi u toku</h2>

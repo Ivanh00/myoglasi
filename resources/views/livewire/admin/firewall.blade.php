@@ -86,7 +86,7 @@
                 @if (isset($stats['top_countries']) && $stats['top_countries']->count() > 0)
                     <div class="bg-white border border-slate-200 rounded-lg p-6">
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                            <i class="fas fa-globe mr-2 text-sky-600"></i>
+                            <i class="fas fa-globe mr-2 text-sky-600 dark:text-sky-400"></i>
                             Top zemlje danas
                         </h3>
                         <div class="space-y-3">
@@ -277,7 +277,7 @@
                                             <div class="text-sm text-slate-900">{{ Str::limit($block->reason, 50) }}
                                             </div>
                                             @if ($block->auto_generated)
-                                                <div class="text-xs text-sky-600">Automatsko</div>
+                                                <div class="text-xs text-sky-600 dark:text-sky-400">Automatsko</div>
                                             @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -634,7 +634,7 @@
 
                         <div class="p-3 bg-sky-50 border border-sky-200 rounded-lg">
                             <div class="flex items-start">
-                                <i class="fas fa-info-circle text-sky-600 mt-0.5 mr-2"></i>
+                                <i class="fas fa-info-circle text-sky-600 dark:text-sky-400 mt-0.5 mr-2"></i>
                                 <div class="text-sm text-sky-800">
                                     <strong>Napomena:</strong> Registrovani korisnici imaju veće limite jer koriste
                                     funkcije kao što su upload slika, kreiranje oglasa, i česta navigacija kroz sajt.
@@ -698,7 +698,7 @@
                 <!-- Security Features -->
                 <div class="bg-white border border-slate-200 rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                        <i class="fas fa-lock mr-2 text-sky-600"></i>
+                        <i class="fas fa-lock mr-2 text-sky-600 dark:text-sky-400"></i>
                         Bezbednosne funkcije
                     </h3>
 

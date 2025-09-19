@@ -116,7 +116,7 @@
                                 </div>
 
                                 <div class="flex items-center justify-between">
-                                    <div class="text-sky-600 font-bold text-xl">
+                                    <div class="text-sky-600 dark:text-sky-400 font-bold text-xl">
                                         {{ number_format($listing->price, 2) }} RSD
                                     </div>
 

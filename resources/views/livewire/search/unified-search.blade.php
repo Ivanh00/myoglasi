@@ -482,7 +482,7 @@
                                     <div class="flex items-center justify-between">
                                         <div>
                                             @if (isset($listing->is_auction))
-                                                <div class="text-2xl font-bold text-red-600">
+                                                <div class="text-2xl font-bold text-red-600 dark:text-red-400">
                                                     {{ number_format($listing->auction_data->current_price, 0, ',', '.') }}
                                                     RSD
                                                 </div>
@@ -491,7 +491,7 @@
                                             @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
                                                 <div class="text-xl font-bold text-green-600">BESPLATNO</div>
                                             @else
-                                                <div class="text-xl font-bold text-sky-600">
+                                                <div class="text-xl font-bold text-sky-600 dark:text-sky-400">
                                                     {{ number_format($listing->price, 2, ',', '.') }} RSD
                                                 </div>
                                             @endif
@@ -732,7 +732,7 @@
                             <div class="flex items-center justify-between mb-3">
                                 <div>
                                     @if (isset($listing->is_auction))
-                                        <div class="text-2xl font-bold text-red-600">
+                                        <div class="text-2xl font-bold text-red-600 dark:text-red-400">
                                             {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
                                         </div>
                                         <div class="text-sm text-slate-500">{{ $listing->auction_data->total_bids }}
@@ -740,7 +740,7 @@
                                     @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
                                         <div class="text-2xl font-bold text-green-600">BESPLATNO</div>
                                     @else
-                                        <div class="text-2xl font-bold text-sky-600">
+                                        <div class="text-2xl font-bold text-sky-600 dark:text-sky-400">
                                             {{ number_format($listing->price, 2, ',', '.') }} RSD
                                         </div>
                                     @endif

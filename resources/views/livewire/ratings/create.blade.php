@@ -16,7 +16,7 @@
                                 class="h-12 w-12 rounded-full object-cover">
                         @else
                             <span
-                                class="text-sky-600 font-semibold text-lg">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
+                                class="text-sky-600 dark:text-sky-400 font-semibold text-lg">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                         @endif
                     </div>
                     <div>

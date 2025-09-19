@@ -34,7 +34,8 @@
                                         Vaše banke.</p>
                                     <div class="flex items-center mt-2">
                                         <i class="fas fa-info-circle text-sky-500 text-sm mr-1"></i>
-                                        <span class="text-sky-600 text-xs">Uz ovaj način plaćanja možete dobiti oznaku
+                                        <span class="text-sky-600 dark:text-sky-400 text-xs">Uz ovaj način plaćanja
+                                            možete dobiti oznaku
                                             "Verifikovani bankovni račun".</span>
                                     </div>
                                 </div>
@@ -137,7 +138,7 @@
                                 placeholder="Unesite iznos (minimum 100 RSD)"
                                 class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                             @error('amount')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -174,7 +175,7 @@
                                     </span>
                                 </label>
                                 @error('acceptedTerms')
-                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -309,7 +310,8 @@
                                         <div class="border border-slate-400 p-3 print:p-2">
                                             <p class="text-xs text-slate-600 mb-1 print:text-[10px]">рачун платиоца</p>
                                             <div class="border border-slate-300 p-2 h-12 print:h-8">
-                                                <p class="text-slate-400 text-sm print:text-xs">(Popunjava platilac)</p>
+                                                <p class="text-slate-400 text-sm print:text-xs">(Popunjava platilac)
+                                                </p>
                                             </div>
                                         </div>
 
@@ -376,7 +378,7 @@
                                     </div>
                                     <div class="text-right">
                                         <p>PazAriO.rs</p>
-                                        <p class="text-red-600 font-semibold">
+                                        <p class="text-red-600 dark:text-red-400 font-semibold">
                                             {{ $this->paymentSlipData['slip_title'] === 'NALOG ZA PRENOS' ? 'Uplate bez unetog poziva na broj neće biti proknjižene!' : 'Uplate bez unetog poziva na broj neće biti proknjižene!' }}
                                         </p>
                                     </div>
@@ -409,7 +411,7 @@
                         <!-- Important Notice -->
                         <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg print:hidden">
                             <div class="flex items-start">
-                                <i class="fas fa-exclamation-triangle text-red-600 mr-3 mt-1"></i>
+                                <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 mr-3 mt-1"></i>
                                 <div>
                                     <h3 class="text-red-900 font-semibold mb-2">Važne napomene</h3>
                                     <ul class="text-red-800 text-sm space-y-1">

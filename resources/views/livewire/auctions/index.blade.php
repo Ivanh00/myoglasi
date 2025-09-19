@@ -33,7 +33,8 @@
                                     @break
                                 @endswitch
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -67,7 +68,8 @@
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
                             <span>{{ $perPage }}</span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -127,7 +129,8 @@
                                     @break
                                 @endswitch
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -225,13 +228,15 @@
                             @auth
                                 <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
                                     Prodavac: {{ $auction->seller->name ?? 'Nepoznat korisnik' }}
-                                    @if($auction->seller){!! $auction->seller->verified_icon !!}@endif
-                                    @if ($auction->seller && $auction->seller->is_banned)
-                                        <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
+                                    @if ($auction->seller)
+                                        {!! $auction->seller->verified_icon !!}
                                     @endif
-                                    @if($auction->seller && $auction->seller->shouldShowLastSeen())
+                                    @if ($auction->seller && $auction->seller->is_banned)
+                                        <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
+                                    @endif
+                                    @if ($auction->seller && $auction->seller->shouldShowLastSeen())
                                         <span class="text-xs text-slate-500 ml-2">
-                                            @if($auction->seller->is_online)
+                                            @if ($auction->seller->is_online)
                                                 <span class="inline-flex items-center">
                                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                                     {{ $auction->seller->last_seen }}
@@ -344,15 +349,19 @@
                                         @auth
                                             <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
                                                 Prodavac: {{ $auction->seller->name ?? 'Nepoznat korisnik' }}
-                                                @if($auction->seller){!! $auction->seller->verified_icon !!}@endif
-                                                @if ($auction->seller && $auction->seller->is_banned)
-                                                    <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                                @if ($auction->seller)
+                                                    {!! $auction->seller->verified_icon !!}
                                                 @endif
-                                                @if($auction->seller && $auction->seller->shouldShowLastSeen())
+                                                @if ($auction->seller && $auction->seller->is_banned)
+                                                    <span
+                                                        class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
+                                                @endif
+                                                @if ($auction->seller && $auction->seller->shouldShowLastSeen())
                                                     <span class="text-xs text-slate-500 ml-2">
-                                                        @if($auction->seller->is_online)
+                                                        @if ($auction->seller->is_online)
                                                             <span class="inline-flex items-center">
-                                                                <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                                <span
+                                                                    class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                                                 {{ $auction->seller->last_seen }}
                                                             </span>
                                                         @else
@@ -382,7 +391,8 @@
                                             <div class="text-2xl font-bold text-red-600 dark:text-red-400">
                                                 {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                                             </div>
-                                            <div class="text-sm text-slate-500">{{ $auction->total_bids }} ponuda</div>
+                                            <div class="text-sm text-slate-500">{{ $auction->total_bids }} ponuda
+                                            </div>
                                         </div>
 
                                         @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
@@ -449,7 +459,7 @@
         @endif
 
         <!-- Pagination -->
-        @if($auctions->hasPages())
+        @if ($auctions->hasPages())
             <div class="mt-8 bg-white dark:bg-slate-700 rounded-lg shadow-sm p-4">
                 {{ $auctions->links() }}
             </div>
@@ -517,13 +527,15 @@
                                 @auth
                                     <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
                                         Prodavac: {{ $auction->listing->user->name ?? 'Nepoznat korisnik' }}
-                                        @if($auction->listing->user){!! $auction->listing->user->verified_icon !!}@endif
-                                        @if ($auction->listing->user && $auction->listing->user->is_banned)
-                                            <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
+                                        @if ($auction->listing->user)
+                                            {!! $auction->listing->user->verified_icon !!}
                                         @endif
-                                        @if($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
+                                        @if ($auction->listing->user && $auction->listing->user->is_banned)
+                                            <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
+                                        @endif
+                                        @if ($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
                                             <span class="text-xs text-slate-500 ml-2">
-                                                @if($auction->listing->user->is_online)
+                                                @if ($auction->listing->user->is_online)
                                                     <span class="inline-flex items-center">
                                                         <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                                         {{ $auction->listing->user->last_seen }}
@@ -561,7 +573,7 @@
 
                                 <div class="space-y-2">
                                     @auth
-                                        @if(auth()->id() === $auction->user_id)
+                                        @if (auth()->id() === $auction->user_id)
                                             <a href="{{ route('listings.edit', $auction->listing) }}"
                                                 class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
                                                 <i class="fas fa-gavel mr-2"></i> Uredi aukciju
@@ -623,15 +635,19 @@
                                             @auth
                                                 <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
                                                     Prodavac: {{ $auction->listing->user->name ?? 'Nepoznat korisnik' }}
-                                                    @if($auction->listing->user){!! $auction->listing->user->verified_icon !!}@endif
-                                                    @if ($auction->listing->user && $auction->listing->user->is_banned)
-                                                        <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                                    @if ($auction->listing->user)
+                                                        {!! $auction->listing->user->verified_icon !!}
                                                     @endif
-                                                    @if($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
+                                                    @if ($auction->listing->user && $auction->listing->user->is_banned)
+                                                        <span
+                                                            class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
+                                                    @endif
+                                                    @if ($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
                                                         <span class="text-xs text-slate-500 ml-2">
-                                                            @if($auction->listing->user->is_online)
+                                                            @if ($auction->listing->user->is_online)
                                                                 <span class="inline-flex items-center">
-                                                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                                    <span
+                                                                        class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                                                     {{ $auction->listing->user->last_seen }}
                                                                 </span>
                                                             @else
@@ -696,7 +712,7 @@
 
                                         <div class="space-y-2">
                                             @auth
-                                                @if(auth()->id() === $auction->user_id)
+                                                @if (auth()->id() === $auction->user_id)
                                                     <a href="{{ route('listings.edit', $auction->listing) }}"
                                                         class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
                                                         <i class="fas fa-gavel mr-2"></i> Uredi aukciju
@@ -777,13 +793,15 @@
                                 @auth
                                     <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
                                         Prodavac: {{ $auction->listing->user->name ?? 'Nepoznat korisnik' }}
-                                        @if($auction->listing->user){!! $auction->listing->user->verified_icon !!}@endif
-                                        @if ($auction->listing->user && $auction->listing->user->is_banned)
-                                            <span class="text-red-600 font-bold ml-1">BLOKIRAN</span>
+                                        @if ($auction->listing->user)
+                                            {!! $auction->listing->user->verified_icon !!}
                                         @endif
-                                        @if($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
+                                        @if ($auction->listing->user && $auction->listing->user->is_banned)
+                                            <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
+                                        @endif
+                                        @if ($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
                                             <span class="text-xs text-slate-500 ml-2">
-                                                @if($auction->listing->user->is_online)
+                                                @if ($auction->listing->user->is_online)
                                                     <span class="inline-flex items-center">
                                                         <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                                         {{ $auction->listing->user->last_seen }}
@@ -874,15 +892,19 @@
                                             @auth
                                                 <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
                                                     Prodavac: {{ $auction->seller->name ?? 'Nepoznat korisnik' }}
-                                                    @if($auction->seller){!! $auction->seller->verified_icon !!}@endif
-                                                    @if ($auction->seller && $auction->seller->is_banned)
-                                                        <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                                    @if ($auction->seller)
+                                                        {!! $auction->seller->verified_icon !!}
                                                     @endif
-                                                    @if($auction->seller && $auction->seller->shouldShowLastSeen())
+                                                    @if ($auction->seller && $auction->seller->is_banned)
+                                                        <span
+                                                            class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
+                                                    @endif
+                                                    @if ($auction->seller && $auction->seller->shouldShowLastSeen())
                                                         <span class="text-xs text-slate-500 ml-2">
-                                                            @if($auction->seller->is_online)
+                                                            @if ($auction->seller->is_online)
                                                                 <span class="inline-flex items-center">
-                                                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                                    <span
+                                                                        class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                                                     {{ $auction->seller->last_seen }}
                                                                 </span>
                                                             @else

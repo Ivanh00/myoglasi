@@ -11,9 +11,9 @@
                     <div class="flex items-center mb-4">
                         <div class="w-12 h-12 bg-sky-100 rounded-full flex items-center justify-center">
                             @if($category->icon)
-                                <i class="{{ $category->icon }} text-sky-600 text-xl"></i>
+                                <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400 text-xl"></i>
                             @else
-                                <i class="fas fa-folder text-sky-600 text-xl"></i>
+                                <i class="fas fa-folder text-sky-600 dark:text-sky-400 text-xl"></i>
                             @endif
                         </div>
                         <div class="ml-4">

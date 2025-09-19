@@ -72,7 +72,8 @@
                     <!-- Subcategory -->
                     @if ($category_id && $subcategories && $subcategories->count() > 0)
                         <div class="mt-4">
-                            <label for="subcategory_id" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            <label for="subcategory_id"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                                 Podkategorija
                             </label>
                             <select wire:model="subcategory_id" id="subcategory_id"
@@ -90,14 +91,15 @@
                             @enderror
                         </div>
                     @elseif($category_id)
-                        <div class="mt-4 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg text-sky-700 dark:text-sky-300 text-sm">
+                        <div
+                            class="mt-4 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg text-sky-700 dark:text-sky-300 text-sm">
                             <p><strong>Info:</strong> Odabrana kategorija nema dostupne podkategorije.</p>
                         </div>
                     @endif
                 </div>
 
                 <!-- Condition -->
-                @if($listing->listing_type !== 'giveaway')
+                @if ($listing->listing_type !== 'giveaway')
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                             Stanje <span class="text-red-500">*</span>
@@ -120,7 +122,7 @@
             </div>
 
             <!-- Price (not for giveaways) -->
-            @if($listing->listing_type !== 'giveaway')
+            @if ($listing->listing_type !== 'giveaway')
                 <div>
                     <label for="price" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Cena (RSD) <span class="text-red-500">*</span>
@@ -135,8 +137,9 @@
             @endif
 
             <!-- Auction Settings (if auction exists) -->
-            @if($hasAuction)
-                <div class="bg-amber-50 dark:bg-amber-900 p-4 rounded-lg border border-amber-200 dark:border-amber-700 mb-6">
+            @if ($hasAuction)
+                <div
+                    class="bg-amber-50 dark:bg-amber-900 p-4 rounded-lg border border-amber-200 dark:border-amber-700 mb-6">
                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                         <i class="fas fa-gavel text-amber-600 mr-2"></i>
                         Podešavanja aukcije
@@ -145,10 +148,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Starting Price -->
                         <div>
-                            <label for="startingPrice" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            <label for="startingPrice"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                 Početna cena (RSD) <span class="text-red-500">*</span>
                             </label>
-                            <input type="number" wire:model="startingPrice" id="startingPrice" step="0.01" min="1"
+                            <input type="number" wire:model="startingPrice" id="startingPrice" step="0.01"
+                                min="1"
                                 class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 @error('startingPrice') border-red-500 @enderror">
                             @error('startingPrice')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -157,10 +162,12 @@
 
                         <!-- Buy Now Price -->
                         <div>
-                            <label for="buyNowPrice" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            <label for="buyNowPrice"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                 Kupi odmah cena (RSD) <span class="text-slate-500 text-xs">(opciono)</span>
                             </label>
-                            <input type="number" wire:model="buyNowPrice" id="buyNowPrice" step="0.01" min="1"
+                            <input type="number" wire:model="buyNowPrice" id="buyNowPrice" step="0.01"
+                                min="1"
                                 class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 @error('buyNowPrice') border-red-500 @enderror"
                                 placeholder="Opciono - mora biti veća od početne cene">
                             @error('buyNowPrice')
@@ -170,7 +177,8 @@
                     </div>
 
                     <!-- Auction Info -->
-                    <div class="mt-4 p-3 bg-amber-100 dark:bg-amber-800 border border-amber-300 dark:border-amber-600 rounded-lg">
+                    <div
+                        class="mt-4 p-3 bg-amber-100 dark:bg-amber-800 border border-amber-300 dark:border-amber-600 rounded-lg">
                         <div class="text-sm text-amber-800 dark:text-amber-200">
                             <div class="flex items-start">
                                 <i class="fas fa-info-circle text-amber-600 dark:text-amber-400 mr-2 mt-0.5"></i>
@@ -191,7 +199,7 @@
             <!-- Description -->
             <div>
                 <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                    @if($listing->listing_type === 'giveaway')
+                    @if ($listing->listing_type === 'giveaway')
                         Opis poklona <span class="text-red-500">*</span>
                     @elseif($hasAuction)
                         Opis proizvoda za aukciju <span class="text-red-500">*</span>
@@ -236,11 +244,14 @@
             </div>
 
             <!-- Add New Images -->
-            @if($this->remainingImageSlots > 0)
+            @if ($this->remainingImageSlots > 0)
                 <div>
                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Dodaj nove slike
-                        <span class="text-sky-600">({{ $listing->images->count() }}/{{ \App\Models\Setting::get('max_images_per_listing', 10) }} postojećih, možete dodati još {{ max(0, \App\Models\Setting::get('max_images_per_listing', 10) - $listing->images->count()) }})</span>
+                        <span
+                            class="text-sky-600 dark:text-sky-400">({{ $listing->images->count() }}/{{ \App\Models\Setting::get('max_images_per_listing', 10) }}
+                            postojećih, možete dodati još
+                            {{ max(0, \App\Models\Setting::get('max_images_per_listing', 10) - $listing->images->count()) }})</span>
                     </label>
 
                     <div
@@ -251,12 +262,15 @@
                                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
                             </path>
                         </svg>
-                        <input type="file" wire:model="newImages" multiple accept="image/*" class="hidden" id="newImages">
+                        <input type="file" wire:model="newImages" multiple accept="image/*" class="hidden"
+                            id="newImages">
                         <label for="newImages" class="cursor-pointer">
-                            <span class="text-sky-600 hover:text-sky-500 font-medium">Kliknite za dodavanje slika</span>
+                            <span class="text-sky-600 hover:text-sky-500 font-medium">Kliknite za dodavanje
+                                slika</span>
                             <span class="text-slate-500 dark:text-slate-400"> ili prevucite ovde</span>
                         </label>
-                        <p class="text-slate-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici (još {{ $this->remainingImageSlots }} slika)</p>
+                        <p class="text-slate-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici (još
+                            {{ $this->remainingImageSlots }} slika)</p>
                     </div>
 
                     @error('newImages.*')
@@ -280,10 +294,13 @@
                     @endif
                 </div>
             @else
-                <div class="border-2 border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-700">
+                <div
+                    class="border-2 border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-700">
                     <i class="fas fa-images text-slate-400 text-4xl mb-2"></i>
-                    <p class="text-slate-600 dark:text-slate-300 font-medium">Dostigli ste maksimum od {{ \App\Models\Setting::get('max_images_per_listing', 10) }} slika</p>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm">Obrišite neku postojeću sliku da biste dodali novu</p>
+                    <p class="text-slate-600 dark:text-slate-300 font-medium">Dostigli ste maksimum od
+                        {{ \App\Models\Setting::get('max_images_per_listing', 10) }} slika</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Obrišite neku postojeću sliku da biste dodali
+                        novu</p>
                 </div>
             @endif
 

@@ -61,7 +61,8 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-sky-50 p-4 rounded-lg border border-sky-200">
             <h3 class="text-sm font-medium text-sky-800">Ukupno kategorija</h3>
-            <p class="text-2xl font-bold text-sky-600">{{ \App\Models\Category::whereNull('parent_id')->count() }}</p>
+            <p class="text-2xl font-bold text-sky-600 dark:text-sky-400">
+                {{ \App\Models\Category::whereNull('parent_id')->count() }}</p>
         </div>
         <div class="bg-green-50 p-4 rounded-lg border border-green-200">
             <h3 class="text-sm font-medium text-green-800">Podkategorije</h3>
@@ -141,7 +142,7 @@
                                 <div class="flex items-center">
                                     @if ($category->icon)
                                         <div class="w-8 h-8 bg-sky-100 rounded mr-3 flex items-center justify-center">
-                                            <i class="{{ $category->icon }} text-sky-600"></i>
+                                            <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400"></i>
                                         </div>
                                     @else
                                         <div class="w-8 h-8 bg-slate-200 rounded mr-3 flex items-center justify-center">
@@ -373,7 +374,7 @@
                         @if ($category->icon)
                             <div
                                 class="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center mr-3">
-                                <i class="{{ $category->icon }} text-sky-600"></i>
+                                <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400"></i>
                             </div>
                         @endif
                         <div class="flex-1">
@@ -402,12 +403,14 @@
                 <!-- Main Category Info Grid -->
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div class="bg-sky-50 p-3 rounded-lg">
-                        <div class="text-xs font-medium text-sky-600 uppercase tracking-wider">Redosled</div>
+                        <div class="text-xs font-medium text-sky-600 dark:text-sky-400 uppercase tracking-wider">
+                            Redosled</div>
                         <div class="text-sm font-medium text-slate-900">{{ $category->sort_order ?? 0 }}</div>
                     </div>
 
                     <div class="bg-sky-50 p-3 rounded-lg">
-                        <div class="text-xs font-medium text-sky-600 uppercase tracking-wider">Ukupno oglasa</div>
+                        <div class="text-xs font-medium text-sky-600 dark:text-sky-400 uppercase tracking-wider">Ukupno
+                            oglasa</div>
                         <div class="text-sm font-medium text-slate-900">{{ $category->listings_count ?? 0 }}</div>
                     </div>
                 </div>
@@ -573,7 +576,7 @@
                                     <div class="mt-2 flex items-center">
                                         <span class="text-sm text-slate-600 mr-2">Pregled:</span>
                                         <div class="w-6 h-6 bg-sky-100 rounded flex items-center justify-center">
-                                            <i class="{{ $editState['icon'] }} text-sky-600"></i>
+                                            <i class="{{ $editState['icon'] }} text-sky-600 dark:text-sky-400"></i>
                                         </div>
                                     </div>
                                 @endif

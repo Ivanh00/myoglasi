@@ -265,7 +265,7 @@
                                 {{ Str::limit($listing->title, 30) }}</p>
                             <p class="text-xs text-slate-500">{{ $listing->created_at->diffForHumans() }}</p>
                         </div>
-                        <div class="text-sm font-bold text-sky-600">
+                        <div class="text-sm font-bold text-sky-600 dark:text-sky-400">
                             {{ number_format($listing->price, 0) }} RSD
                         </div>
                     </div>
@@ -495,7 +495,7 @@
                 <!-- Account Age -->
                 <div
                     class="flex items-center p-3 bg-sky-100 dark:bg-sky-900 border border-sky-300 dark:border-sky-700 rounded-lg">
-                    <i class="fas fa-calendar text-sky-600 mr-3"></i>
+                    <i class="fas fa-calendar text-sky-600 dark:text-sky-400 mr-3"></i>
                     <div>
                         <div class="font-medium text-sky-900 dark:text-sky-200">Član od</div>
                         <div class="text-sm text-sky-700 dark:text-sky-300">

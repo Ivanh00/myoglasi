@@ -467,7 +467,7 @@
                     Slike (maksimalno {{ \App\Models\Setting::get('max_images_per_listing', 10) }})
                     @if (!empty($images))
                         <span
-                            class="text-sky-600">({{ count($images) }}/{{ \App\Models\Setting::get('max_images_per_listing', 10) }})</span>
+                            class="text-sky-600 dark:text-sky-400">({{ count($images) }}/{{ \App\Models\Setting::get('max_images_per_listing', 10) }})</span>
                     @endif
                 </label>
 
