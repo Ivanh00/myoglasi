@@ -31,11 +31,13 @@
         .chat-box-holder {
             position: relative;
             width: 100%;
+            overflow: visible;
         }
 
         .chat-box {
             position: relative;
-            max-height: 500px;
+            height: 500px;
+            max-height: 60vh;
             overflow-y: auto;
             overflow-x: hidden;
             padding: 1rem;
@@ -223,10 +225,10 @@
 
         </div>
 
-        <!-- Scroll to bottom button (FORCED VISIBLE FOR TESTING) -->
+        <!-- Scroll to bottom button -->
         <button id="scrollToBottomBtn"
                 onclick="scrollToBottom()"
-                style="position: fixed; bottom: 80px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background-color: #3b82f6 !important; color: white; border: 1px solid #2563eb; cursor: pointer; display: flex !important; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 99999; transition: all 0.2s ease;"
+                style="position: absolute; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background-color: #3b82f6 !important; color: white; border: 2px solid #2563eb; cursor: pointer; display: flex !important; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 1000; transition: all 0.2s ease;"
                 onmouseover="this.style.backgroundColor='#2563eb !important'; this.style.transform='scale(1.1)';"
                 onmouseout="this.style.backgroundColor='#3b82f6 !important'; this.style.transform='scale(1)';">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="pointer-events: none;">
@@ -317,6 +319,28 @@
     </div>
 </div>
 
+<script>
+    // Define scrollToBottom function immediately so it's available for onclick
+    function scrollToBottom() {
+        const chatBox = document.getElementById('chat-box');
+        if (chatBox) {
+            chatBox.scrollTo({
+                top: chatBox.scrollHeight,
+                behavior: 'smooth'
+            });
+            // Update button visibility after scrolling
+            setTimeout(() => {
+                if (typeof updateScrollButton === 'function') {
+                    updateScrollButton();
+                }
+            }, 300);
+        }
+    }
+
+    // Make it globally accessible
+    window.scrollToBottom = scrollToBottom;
+</script>
+
 @push('scripts')
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
@@ -326,82 +350,32 @@
             encrypted: true
         });
 
-        // Funkcija za automatsko skrolovanje na dno chata
-        window.scrollToBottom = function() {
-            const chatBox = document.getElementById('chat-box');
-            if (chatBox) {
-                chatBox.scrollTo({
-                    top: chatBox.scrollHeight,
-                    behavior: 'smooth'
-                });
-                // Sakrij dugme nakon skrolovanja
-                setTimeout(() => {
-                    updateScrollButton();
-                }, 300);
-            }
-        }
 
         // Funkcija za prikaz/sakrivanje dugmeta za scroll
-        window.updateScrollButton = function() {
+        function updateScrollButton() {
             const chatBox = document.getElementById('chat-box');
             const scrollBtn = document.getElementById('scrollToBottomBtn');
-
-            console.log('updateScrollButton called', {
-                chatBox: !!chatBox,
-                scrollBtn: !!scrollBtn
-            });
 
             if (chatBox && scrollBtn) {
                 // Proveri da li chat box ima scrollbar
                 const hasScrollbar = chatBox.scrollHeight > chatBox.clientHeight;
                 const scrolledFromBottom = chatBox.scrollHeight - chatBox.scrollTop - chatBox.clientHeight;
 
-                console.log('Scroll metrics:', {
-                    scrollHeight: chatBox.scrollHeight,
-                    clientHeight: chatBox.clientHeight,
-                    scrollTop: chatBox.scrollTop,
-                    hasScrollbar: hasScrollbar,
-                    scrolledFromBottom: scrolledFromBottom
-                });
+                // TEMPORARILY ALWAYS SHOW FOR TESTING
+                scrollBtn.style.display = 'flex';
 
                 // Prikaži dugme ako ima scrollbar i korisnik je skrolovao više od 50px od dna
-                if (hasScrollbar && scrolledFromBottom > 50) {
-                    scrollBtn.style.display = 'flex';
-                    console.log('Button should be visible');
-                } else {
-                    // TEMPORARILY DISABLED FOR TESTING
-                    // scrollBtn.style.display = 'none';
-                    console.log('Button would be hidden, but hiding is disabled for testing');
-                }
-            } else {
-                console.error('Chat box or scroll button not found!');
+                // if (hasScrollbar && scrolledFromBottom > 50) {
+                //     scrollBtn.style.display = 'flex';
+                // } else {
+                //     scrollBtn.style.display = 'none';
+                // }
             }
         }
+        window.updateScrollButton = updateScrollButton;
 
         // Poziv kada se komponenta učita
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOMContentLoaded fired');
-
-            // Check if button exists
-            let scrollBtn = document.getElementById('scrollToBottomBtn');
-            console.log('Button found on load:', !!scrollBtn);
-
-            // If button doesn't exist, create it
-            if (!scrollBtn) {
-                console.log('Creating scroll button dynamically');
-                const chatBoxHolder = document.querySelector('.chat-box-holder');
-                if (chatBoxHolder) {
-                    scrollBtn = document.createElement('button');
-                    scrollBtn.id = 'scrollToBottomBtn';
-                    scrollBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>';
-                    scrollBtn.style.cssText = 'position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background-color: #3b82f6; color: white; border: 2px solid #1e40af; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 99999;';
-                    scrollBtn.onclick = function() { scrollToBottom(); };
-                    chatBoxHolder.appendChild(scrollBtn);
-                    console.log('Button created and added to DOM');
-                } else {
-                    console.error('Chat box holder not found!');
-                }
-            }
 
             scrollToBottom();
 
@@ -490,33 +464,6 @@
             }
         }
 
-        // Create button after Livewire loads if it doesn't exist
-        document.addEventListener('livewire:initialized', () => {
-            console.log('Livewire initialized');
-
-            let scrollBtn = document.getElementById('scrollToBottomBtn');
-            if (!scrollBtn) {
-                console.log('Creating button after Livewire init');
-                const container = document.querySelector('.conversation-container');
-                if (container) {
-                    scrollBtn = document.createElement('button');
-                    scrollBtn.id = 'scrollToBottomBtn';
-                    scrollBtn.innerHTML = '↓';
-                    scrollBtn.style.cssText = 'position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background-color: #3b82f6; color: white; font-size: 24px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); z-index: 99999;';
-                    scrollBtn.onclick = function() {
-                        const chatBox = document.getElementById('chat-box');
-                        if (chatBox) {
-                            chatBox.scrollTo({
-                                top: chatBox.scrollHeight,
-                                behavior: 'smooth'
-                            });
-                        }
-                    };
-                    document.body.appendChild(scrollBtn);
-                    console.log('Button added to body');
-                }
-            }
-        });
 
         // Livewire event listeneri
         Livewire.on('scrollToBottom', () => {
