@@ -20,37 +20,37 @@
                 <h2 class="text-lg font-semibold mb-2">Aktivni filteri:</h2>
                 <div class="flex flex-wrap gap-2">
                     @if (request('query'))
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                        <span class="bg-sky-100 dark:bg-sky-900 text-sky-800 dark:text-sky-200 text-xs font-medium px-2.5 py-0.5 rounded">
                             Tekst: {{ request('query') }}
                         </span>
                     @endif
 
                     @if (request('city'))
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                        <span class="bg-sky-100 dark:bg-sky-900 text-sky-800 dark:text-sky-200 text-xs font-medium px-2.5 py-0.5 rounded">
                             Grad: {{ request('city') }}
                         </span>
                     @endif
 
                     @if (request('category') && $categories->find(request('category')))
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                        <span class="bg-sky-100 dark:bg-sky-900 text-sky-800 dark:text-sky-200 text-xs font-medium px-2.5 py-0.5 rounded">
                             Kategorija: {{ $categories->find(request('category'))->name }}
                         </span>
                     @endif
 
                     @if (request('condition') && $conditions->find(request('condition')))
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                        <span class="bg-sky-100 dark:bg-sky-900 text-sky-800 dark:text-sky-200 text-xs font-medium px-2.5 py-0.5 rounded">
                             Stanje: {{ $conditions->find(request('condition'))->name }}
                         </span>
                     @endif
 
                     @if (request('price_min'))
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                        <span class="bg-sky-100 dark:bg-sky-900 text-sky-800 dark:text-sky-200 text-xs font-medium px-2.5 py-0.5 rounded">
                             Cena od: {{ number_format(request('price_min'), 0, ',', '.') }} RSD
                         </span>
                     @endif
 
                     @if (request('price_max'))
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                        <span class="bg-sky-100 dark:bg-sky-900 text-sky-800 dark:text-sky-200 text-xs font-medium px-2.5 py-0.5 rounded">
                             Cena do: {{ number_format(request('price_max'), 0, ',', '.') }} RSD
                         </span>
                     @endif

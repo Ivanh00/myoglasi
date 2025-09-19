@@ -223,7 +223,7 @@
 
                             <div class="flex items-center justify-between mb-3">
                                 <div>
-                                    <div class="text-2xl font-bold text-red-600">
+                                    <div class="text-2xl font-bold text-red-600 dark:text-red-400">
                                         {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                                     </div>
                                     <div class="text-sm text-slate-500">
@@ -233,7 +233,7 @@
                                 @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                     <div class="text-right">
                                         <div class="text-sm text-slate-500">Kupi odmah:</div>
-                                        <div class="text-lg font-bold text-green-600">
+                                        <div class="text-lg font-bold text-green-600 dark:text-green-400">
                                             {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                         </div>
                                     </div>
@@ -343,7 +343,7 @@
 
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <div class="text-2xl font-bold text-red-600">
+                                            <div class="text-2xl font-bold text-red-600 dark:text-red-400">
                                                 {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                                             </div>
                                             <div class="text-sm text-slate-500">{{ $auction->total_bids }} ponuda</div>
@@ -352,7 +352,7 @@
                                         @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                             <div class="text-right">
                                                 <div class="text-sm text-slate-500">Kupi odmah:</div>
-                                                <div class="text-lg font-bold text-green-600">
+                                                <div class="text-lg font-bold text-green-600 dark:text-green-400">
                                                     {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                                 </div>
                                             </div>
@@ -479,12 +479,12 @@
 
                                 <div class="mb-3">
                                     <div class="text-sm text-slate-500 dark:text-slate-400">Početna cena:</div>
-                                    <div class="text-xl font-bold text-sky-600">
+                                    <div class="text-xl font-bold text-sky-600 dark:text-sky-400">
                                         {{ number_format($auction->starting_price, 0, ',', '.') }} RSD
                                     </div>
                                     @if ($auction->buy_now_price)
                                         <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">Kupi odmah:</div>
-                                        <div class="text-lg font-bold text-green-600">
+                                        <div class="text-lg font-bold text-green-600 dark:text-green-400">
                                             {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                         </div>
                                     @endif
@@ -589,7 +589,7 @@
                                         <div class="flex items-center justify-between">
                                             <div>
                                                 <div class="text-sm text-slate-500">Početna cena:</div>
-                                                <div class="text-2xl font-bold text-sky-600">
+                                                <div class="text-2xl font-bold text-sky-600 dark:text-sky-400">
                                                     {{ number_format($auction->starting_price, 0, ',', '.') }} RSD
                                                 </div>
                                             </div>
@@ -597,7 +597,7 @@
                                             @if ($auction->buy_now_price)
                                                 <div class="text-right">
                                                     <div class="text-sm text-slate-500">Kupi odmah:</div>
-                                                    <div class="text-lg font-bold text-green-600">
+                                                    <div class="text-lg font-bold text-green-600 dark:text-green-400">
                                                         {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                                     </div>
                                                 </div>
@@ -725,7 +725,7 @@
                                 @endif
 
                                 <div class="mb-3">
-                                    <div class="text-2xl font-bold text-slate-700 dark:text-slate-300">
+                                    <div class="text-2xl font-bold text-slate-600 dark:text-slate-400">
                                         {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                                     </div>
                                     <div class="text-sm text-slate-500">{{ $auction->total_bids }} ponuda</div>
@@ -811,7 +811,7 @@
 
                                         <div class="flex items-center justify-between mt-4">
                                             <div>
-                                                <div class="text-2xl font-bold text-slate-700 dark:text-slate-300">
+                                                <div class="text-2xl font-bold text-slate-600 dark:text-slate-400">
                                                     {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                                                 </div>
                                                 <div class="text-sm text-slate-500 dark:text-slate-400">
@@ -820,7 +820,7 @@
 
                                             <div class="text-right">
                                                 <div class="text-sm text-slate-500 dark:text-slate-400">Završeno:</div>
-                                                <div class="text-sm font-medium text-slate-700 dark:text-slate-300">
+                                                <div class="text-sm font-medium text-slate-600 dark:text-slate-400">
                                                     {{ $auction->ends_at->format('d.m.Y H:i') }}
                                                 </div>
                                             </div>

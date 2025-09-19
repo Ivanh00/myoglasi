@@ -105,7 +105,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-slate-900 dark:text-slate-100 font-bold">{{ number_format($listing->price, 2) }} RSD</div>
+                                <div class="text-sm text-sky-600 dark:text-sky-400 font-bold">{{ number_format($listing->price, 2) }} RSD</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($listing->status === 'active')
@@ -180,7 +180,7 @@
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">{{ $listing->title }}</h3>
                                     <p class="text-sm text-slate-500 mb-1">{{ $listing->category->name }}</p>
                                     <p class="text-xs text-slate-400 mb-2">{{ $listing->location }}</p>
-                                    <p class="text-xl font-bold text-sky-600">{{ number_format($listing->price, 2) }} RSD</p>
+                                    <p class="text-xl font-bold text-sky-600 dark:text-sky-400">{{ number_format($listing->price, 2) }} RSD</p>
                                 </div>
                             </div>
                             
