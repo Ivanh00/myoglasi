@@ -112,7 +112,7 @@
                     </div>
 
                     @error('rating')
-                        <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
+                        <p class="text-red-600 dark:text-red-400 text-sm mt-2">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -126,7 +126,7 @@
                         placeholder="Opišite vaše iskustvo sa ovim korisnikom..."></textarea>
                     <div class="flex justify-between items-center mt-1">
                         @error('comment')
-                            <p class="text-red-600 text-sm">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm">{{ $message }}</p>
                         @else
                             <p class="text-slate-500 text-sm">Vaš komentar će biti javan</p>
                         @enderror

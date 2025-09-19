@@ -79,7 +79,7 @@
                     <!-- Current Price -->
                     <div class="text-center mb-6 p-6 bg-slate-50 dark:bg-slate-700 rounded-lg">
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Trenutna cena</h3>
-                        <div class="text-4xl font-bold text-red-600 mb-2">
+                        <div class="text-4xl font-bold text-red-600 dark:text-red-400 mb-2">
                             {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                         </div>
                         @if ($auction->total_bids > 0)
@@ -184,7 +184,7 @@
                                                 min="{{ $auction->minimum_bid }}" step="{{ $auction->bid_increment }}"
                                                 class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
                                             @error('bidAmount')
-                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                             @enderror
                                         </div>
                                     @endif
@@ -236,7 +236,8 @@
                                                         min="{{ $auction->minimum_bid + $auction->bid_increment }}"
                                                         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                                                     @error('maxBidAmount')
-                                                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">
+                                                            {{ $message }}</p>
                                                     @enderror
                                                 </div>
 
@@ -420,7 +421,7 @@
                                     {{ $auction->seller->name }}
                                     {!! $auction->seller->verified_icon !!}
                                     @if ($auction->seller->is_banned)
-                                        <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                        <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                     @endif
                                 </h3>
                                 @if ($auction->seller->shouldShowLastSeen())
@@ -460,11 +461,11 @@
                             @if ($auction->seller->total_ratings_count > 0)
                                 <a href="{{ route('user.ratings', $auction->seller->id) }}"
                                     class="inline-flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                                    <span class="text-green-600 mr-2">😊
+                                    <span class="text-green-600 dark:text-green-400 mr-2">😊
                                         {{ $auction->seller->positive_ratings_count }}</span>
-                                    <span class="text-amber-600 mr-2">😐
+                                    <span class="text-amber-600 dark:text-amber-400 mr-2">😐
                                         {{ $auction->seller->neutral_ratings_count }}</span>
-                                    <span class="text-red-600 mr-2">😞
+                                    <span class="text-red-600 dark:text-red-400 mr-2">😞
                                         {{ $auction->seller->negative_ratings_count }}</span>
                                     @if ($auction->seller->rating_badge)
                                         <span class="ml-1 mr-2">{{ $auction->seller->rating_badge }}</span>

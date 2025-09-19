@@ -153,7 +153,7 @@
                     @if (!empty($selectedPromotions) && auth()->user()->balance < $totalCost)
                         <div class="mt-4 bg-red-50 border border-red-200 p-4 rounded-lg">
                             <div class="flex items-center">
-                                <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
+                                <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 mr-2"></i>
                                 <span class="text-red-800 text-sm">
                                     Nemate dovoljno kredita. Potrebno je još
                                     {{ number_format($totalCost - auth()->user()->balance, 0, ',', '.') }} RSD.
@@ -181,7 +181,7 @@
     @if (session()->has('error'))
         <div class="mt-4 bg-red-50 border border-red-200 p-4 rounded-lg">
             <div class="flex items-center">
-                <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
+                <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 mr-2"></i>
                 <span class="text-red-800 text-sm">{{ session('error') }}</span>
             </div>
         </div>

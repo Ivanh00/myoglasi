@@ -837,7 +837,7 @@
                                                 <div class="flex justify-between">
                                                     <p class="text-sm">{{ $transaction->description }}</p>
                                                     <p
-                                                        class="text-sm font-semibold {{ $transaction->amount >= 0 ? 'text-green-600' : 'text-red-600' }}">
+                                                        class="text-sm font-semibold {{ $transaction->amount >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
                                                         {{ $transaction->amount >= 0 ? '+' : '' }}{{ number_format($transaction->amount, 0) }}
                                                         RSD
                                                     </p>
@@ -864,7 +864,7 @@
                                             {{ $userDetails['user']->created_at->format('d.m.Y H:i') }}</p>
                                         <p><strong>Status:</strong>
                                             @if ($userDetails['user']->is_banned)
-                                                <span class="text-red-600">Banovan</span>
+                                                <span class="text-red-600 dark:text-red-400">Banovan</span>
                                                 @if ($userDetails['user']->ban_reason)
                                                     <br><small
                                                         class="text-slate-500">{{ $userDetails['user']->ban_reason }}</small>
@@ -985,10 +985,10 @@
                                             @endif
 
                                             @error('paymentState.payment_plan')
-                                                <p class="text-red-600 text-sm">{{ $message }}</p>
+                                                <p class="text-red-600 dark:text-red-400 text-sm">{{ $message }}</p>
                                             @enderror
                                             @error('paymentState.plan_expires_at')
-                                                <p class="text-red-600 text-sm">{{ $message }}</p>
+                                                <p class="text-red-600 dark:text-red-400 text-sm">{{ $message }}</p>
                                             @enderror
                                         </div>
                                     </div>

@@ -23,7 +23,7 @@
                     <div>
                         <h3 class="text-lg font-semibold text-red-900">{{ $listing->title }}</h3>
                         <p class="text-red-700 text-sm">Prodavac: {{ $listing->user->name }}</p>
-                        <p class="text-red-600 text-sm">{{ number_format($listing->price, 0, ',', '.') }} RSD</p>
+                        <p class="text-red-600 dark:text-red-400 text-sm">{{ number_format($listing->price, 0, ',', '.') }} RSD</p>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     </div>
                     
                     @error('reportReason') 
-                        <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
+                        <p class="text-red-600 dark:text-red-400 text-sm mt-2">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -77,7 +77,7 @@
                         placeholder="Molimo opišite detaljno problem sa ovim oglasom..."></textarea>
                     <div class="flex justify-between items-center mt-1">
                         @error('reportDetails') 
-                            <p class="text-red-600 text-sm">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm">{{ $message }}</p>
                         @else
                             <p class="text-slate-500 text-sm">Vaš izveštaj će biti poslat administratorima</p>
                         @enderror

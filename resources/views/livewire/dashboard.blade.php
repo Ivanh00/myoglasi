@@ -18,7 +18,7 @@
                 <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center">
                         <i
-                            class="fas fa-chart-pie {{ $stats['can_create_listing'] ? 'text-sky-600' : 'text-red-600' }} mr-2"></i>
+                            class="fas fa-chart-pie {{ $stats['can_create_listing'] ? 'text-sky-600 dark:text-sky-400 ' : 'text-red-600 dark:text-red-400 ' }} mr-2"></i>
                         <span
                             class="font-medium {{ $stats['can_create_listing'] ? 'text-sky-900 dark:text-sky-200' : 'text-red-900 dark:text-red-200' }}">
                             Aktivni oglasi: {{ $currentActive }} od {{ $activeLimit }} dostupnih
@@ -141,8 +141,7 @@
                 </div>
             </div>
 
-            <div
-                class="bg-amber-100 dark:bg-amber-900 p-4 rounded-lg border border-amber-200 dark:border-amber-200">
+            <div class="bg-amber-100 dark:bg-amber-900 p-4 rounded-lg border border-amber-200 dark:border-amber-200">
                 <div class="flex items-center">
                     <div class="p-2 bg-amber-100 dark:bg-amber-700 rounded-lg mr-3">
                         <i class="fas fa-gavel text-amber-600 dark:text-amber-400"></i>
@@ -197,14 +196,14 @@
                 <a href="{{ route('listings.create') }}"
                     class="flex items-center p-3 {{ $stats['can_create_listing'] ? 'bg-green-100 dark:bg-green-900 border-green-300 dark:border-green-700 hover:bg-green-100' : 'bg-red-100 dark:bg-red-900 border-red-300 dark:border-red-700' }} border rounded-lg transition-colors">
                     <i
-                        class="fas fa-plus {{ $stats['can_create_listing'] ? 'text-green-600' : 'text-red-600' }} mr-3"></i>
+                        class="fas fa-plus {{ $stats['can_create_listing'] ? 'text-green-600 dark:text-green-400 ' : 'text-red-600 dark:text-red-400 ' }} mr-3"></i>
                     <div>
                         <div
                             class="font-medium {{ $stats['can_create_listing'] ? 'text-green-900 dark:text-green-200' : 'text-red-900 dark:text-red-200' }}">
                             Postavi novi oglas
                             @if (!auth()->user()->payment_enabled)
                                 <span
-                                    class="text-xs {{ $stats['can_create_listing'] ? 'text-green-600' : 'text-red-600' }}">
+                                    class="text-xs {{ $stats['can_create_listing'] ? 'text-green-600 dark:text-green-400 ' : 'text-red-600 dark:text-red-400' }}">
                                     ({{ $stats['remaining_listings'] }} ostalo)
                                 </span>
                             @endif
@@ -231,7 +230,7 @@
 
                 <a href="{{ route('favorites.index') }}"
                     class="flex items-center p-3 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-lg hover:bg-red-100 transition-colors">
-                    <i class="fas fa-heart text-red-600 mr-3"></i>
+                    <i class="fas fa-heart text-red-600 dark:text-red-400  mr-3"></i>
                     <div>
                         <div class="font-medium text-red-900 dark:text-red-200">Omiljeni oglasi</div>
                         <div class="text-sm text-red-700 dark:text-red-300">{{ $stats['favorites_count'] }} sačuvanih
@@ -332,7 +331,7 @@
                             <div class="text-sm text-red-700 dark:text-red-300">{{ $stats['unread_notifications'] }}
                                 novo</div>
                         </div>
-                        <i class="fas fa-bell text-red-600"></i>
+                        <i class="fas fa-bell text-red-600 dark:text-red-400 "></i>
                     </div>
                 @endif
 
@@ -379,7 +378,8 @@
                             <div class="flex-1">
                                 <h4 class="font-medium text-slate-900 dark:text-slate-100">
                                     {{ Str::limit($auction->listing->title, 25) }}</h4>
-                                <p class="text-sm text-slate-600 dark:text-slate-300">{{ $auction->total_bids }} ponuda
+                                <p class="text-sm text-slate-600 dark:text-slate-300">{{ $auction->total_bids }}
+                                    ponuda
                                 </p>
                             </div>
                         </div>
@@ -436,7 +436,7 @@
                             </div>
                             <div class="text-right">
                                 <div
-                                    class="font-bold {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? 'text-green-600' : 'text-red-600' }}">
+                                    class="font-bold {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
                                     {{ in_array($transaction->type, ['credit_topup', 'game_earnings', 'daily_contest_winner', 'game_leaderboard_bonus', 'credit_transfer_received']) ? '+' : '-' }}{{ number_format(abs($transaction->amount), 0) }}
                                     RSD
                                 </div>

@@ -130,7 +130,7 @@
                                             Pružalac: {{ $service->user->name ?? 'Nepoznat korisnik' }}
                                             @if($service->user){!! $service->user->verified_icon !!}@endif
                                             @if ($service->user && $service->user->is_banned)
-                                                <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                                                <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                             @endif
                                             @if($service->user && $service->user->shouldShowLastSeen())
                                                 <span class="text-xs text-slate-500 ml-2">

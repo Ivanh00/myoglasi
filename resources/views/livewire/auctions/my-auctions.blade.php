@@ -254,7 +254,7 @@
                 <div class="text-sm text-sky-800 dark:text-sky-200">
                     <ul class="space-y-3">
                         <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-times-circle text-red-600 dark:text-red-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Uklanjanje aukcije:</strong> Aukcija se može ukloniti samo ukoliko nema
                                 ponuda</span>
                         </li>
@@ -320,7 +320,7 @@
                                     <div class="text-sm">
                                         <div class="text-slate-600 dark:text-slate-300">Početna:
                                             {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
-                                        <div class="text-lg font-bold text-red-600">
+                                        <div class="text-lg font-bold text-red-600 dark:text-red-400">
                                             {{ number_format($auction->current_price, 0, ',', '.') }} RSD</div>
                                     </div>
                                 </div>
@@ -454,7 +454,7 @@
                 <div class="text-sm text-sky-800 dark:text-sky-200">
                     <ul class="space-y-3">
                         <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-600 mt-1 mr-2 flex-shrink-0"></i>
+                            <i class="fas fa-times-circle text-red-600 dark:text-red-400 mt-1 mr-2 flex-shrink-0"></i>
                             <span><strong>Uklanjanje aukcije:</strong> Aukcija se može ukloniti samo ukoliko nema
                                 ponuda</span>
                         </li>

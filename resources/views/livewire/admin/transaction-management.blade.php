@@ -64,8 +64,10 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
                 <div class="p-3 bg-red-100 rounded-lg">
-                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12">
+                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M6 18L18 6M6 6l12 12">
                         </path>
                     </svg>
                 </div>
@@ -96,7 +98,8 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="text-center">
                 <h3 class="text-sm font-medium text-slate-500">Ukupne naknade</h3>
-                <p class="text-2xl font-semibold text-red-600">{{ number_format($stats['totalFees'], 2) }} RSD</p>
+                <p class="text-2xl font-semibold text-red-600 dark:text-red-400">
+                    {{ number_format($stats['totalFees'], 2) }} RSD</p>
             </div>
         </div>
     </div>
@@ -210,7 +213,8 @@
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Opis
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                            Opis
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Status</th>
@@ -224,14 +228,18 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-slate-900">{{ $transaction->created_at->format('d.m.Y.') }}
                                 </div>
-                                <div class="text-xs text-slate-500">{{ $transaction->created_at->format('H:i') }}</div>
+                                <div class="text-xs text-slate-500">{{ $transaction->created_at->format('H:i') }}
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    @if($transaction->user->avatar)
-                                        <img src="{{ $transaction->user->avatar_url }}" alt="{{ $transaction->user->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @if ($transaction->user->avatar)
+                                        <img src="{{ $transaction->user->avatar_url }}"
+                                            alt="{{ $transaction->user->name }}"
+                                            class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($transaction->user->name, 0, 1)) }}
                                         </div>
                                     @endif
@@ -301,12 +309,13 @@
                                     @if ($transaction->status !== 'completed' && !in_array($transaction->id, $processedTransactions))
                                         <button wire:click="editTransaction({{ $transaction->id }})"
                                             class="text-amber-600 hover:text-amber-900" title="Izmeni">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                            </path>
-                                        </svg>
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="1.5"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                                </path>
+                                            </svg>
                                         </button>
                                     @endif
 
@@ -315,8 +324,8 @@
                                             class="text-green-600 hover:text-green-900" title="Označi kao završeno">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M5 13l4 4L19 7"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="1.5" d="M5 13l4 4L19 7"></path>
                                             </svg>
                                         </button>
 
@@ -324,8 +333,8 @@
                                             class="text-red-600 hover:text-red-900" title="Označi kao neuspešno">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
                                             </svg>
                                         </button>
                                     @endif
@@ -356,26 +365,29 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center">
-                        <div class="flex-shrink-0 h-12 w-12 rounded-full flex items-center justify-center
-                            @if($transaction->amount > 0) bg-green-100 text-green-600
-                            @else bg-red-100 text-red-600
-                            @endif">
-                            @if($transaction->amount > 0)
+                        <div
+                            class="flex-shrink-0 h-12 w-12 rounded-full flex items-center justify-center
+                            @if ($transaction->amount > 0) bg-green-100 text-green-600
+                            @else bg-red-100 text-red-600 @endif">
+                            @if ($transaction->amount > 0)
                                 <i class="fas fa-plus"></i>
                             @else
                                 <i class="fas fa-minus"></i>
                             @endif
                         </div>
                         <div class="ml-3 flex-1">
-                            <div class="text-lg font-bold {{ $transaction->amount > 0 ? 'text-green-600' : 'text-red-600' }}">
-                                {{ $transaction->amount > 0 ? '+' : '' }}{{ number_format($transaction->amount, 0, ',', '.') }} RSD
+                            <div
+                                class="text-lg font-bold {{ $transaction->amount > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
+                                {{ $transaction->amount > 0 ? '+' : '' }}{{ number_format($transaction->amount, 0, ',', '.') }}
+                                RSD
                             </div>
                             <div class="text-sm text-slate-500">ID: {{ $transaction->id }}</div>
                         </div>
                     </div>
-                    
+
                     <!-- Status -->
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                         @if ($transaction->status === 'completed' || in_array($transaction->id, $processedTransactions)) bg-green-100 text-green-800
                         @elseif($transaction->status === 'pending') bg-amber-100 text-amber-800
                         @elseif($transaction->status === 'failed') bg-red-100 text-red-800 @endif">
@@ -390,21 +402,25 @@
                 <!-- Description -->
                 <div class="mb-4">
                     <div class="text-sm text-slate-900">{{ $transaction->description }}</div>
-                    @if($transaction->type)
-                        <div class="text-xs text-slate-500 mt-1">{{ $typeOptions[$transaction->type] ?? ucfirst($transaction->type) }}</div>
+                    @if ($transaction->type)
+                        <div class="text-xs text-slate-500 mt-1">
+                            {{ $typeOptions[$transaction->type] ?? ucfirst($transaction->type) }}</div>
                     @endif
                 </div>
 
                 <!-- User Info -->
-                @if($transaction->user)
+                @if ($transaction->user)
                     <div class="bg-slate-50 p-3 rounded-lg mb-4">
                         <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Korisnik</div>
                         <div class="flex items-center">
                             <div class="flex-shrink-0 h-8 w-8">
                                 @if ($transaction->user->avatar)
-                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ $transaction->user->avatar_url }}" alt="{{ $transaction->user->name }}">
+                                    <img class="h-8 w-8 rounded-full object-cover"
+                                        src="{{ $transaction->user->avatar_url }}"
+                                        alt="{{ $transaction->user->name }}">
                                 @else
-                                    <div class="h-8 w-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-xs">
+                                    <div
+                                        class="h-8 w-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-xs">
                                         {{ strtoupper(substr($transaction->user->name, 0, 1)) }}
                                     </div>
                                 @endif
@@ -425,7 +441,7 @@
 
                 <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-2">
-                    <button wire:click="viewTransaction({{ $transaction->id }})" 
+                    <button wire:click="viewTransaction({{ $transaction->id }})"
                         class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
                         <i class="fas fa-eye mr-1"></i>
                         Pregled
@@ -461,7 +477,7 @@
                 <p class="text-slate-600">Nema transakcija koje odgovaraju kriterijumima pretrage.</p>
             </div>
         @endforelse
-        
+
         <!-- Mobile Pagination -->
         <div class="mt-6">
             {{ $transactions->links() }}
@@ -479,10 +495,13 @@
                         <div>
                             <h4 class="text-sm font-medium text-slate-500">Korisnik:</h4>
                             <div class="flex items-center mt-1">
-                                @if($selectedTransaction->user->avatar)
-                                    <img src="{{ $selectedTransaction->user->avatar_url }}" alt="{{ $selectedTransaction->user->name }}" class="w-8 h-8 rounded-full object-cover">
+                                @if ($selectedTransaction->user->avatar)
+                                    <img src="{{ $selectedTransaction->user->avatar_url }}"
+                                        alt="{{ $selectedTransaction->user->name }}"
+                                        class="w-8 h-8 rounded-full object-cover">
                                 @else
-                                    <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                         {{ strtoupper(substr($selectedTransaction->user->name, 0, 1)) }}
                                     </div>
                                 @endif

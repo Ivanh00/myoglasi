@@ -99,7 +99,7 @@
                                     @if (auth()->user()->balance >= $planPrices['monthly']['price'])
                                         <p class="text-xs text-green-600">✓ Dovoljno kredita</p>
                                     @else
-                                        <p class="text-xs text-red-600">✗ Potrebno još
+                                        <p class="text-xs text-red-600 dark:text-red-400">✗ Potrebno još
                                             {{ number_format($planPrices['monthly']['price'] - auth()->user()->balance, 0, ',', '.') }}
                                             RSD</p>
                                     @endif
@@ -134,7 +134,7 @@
                                     @if (auth()->user()->balance >= $planPrices['yearly']['price'])
                                         <p class="text-xs text-green-600">✓ Dovoljno kredita</p>
                                     @else
-                                        <p class="text-xs text-red-600">✗ Potrebno još
+                                        <p class="text-xs text-red-600 dark:text-red-400">✗ Potrebno još
                                             {{ number_format($planPrices['yearly']['price'] - auth()->user()->balance, 0, ',', '.') }}
                                             RSD</p>
                                     @endif
@@ -219,7 +219,7 @@
                     </div>
 
                     @error('selectedPlan')
-                        <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
+                        <p class="text-red-600 dark:text-red-400 text-sm mt-2">{{ $message }}</p>
                     @enderror
                 </form>
 

@@ -54,7 +54,7 @@
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-slate-500">Negativne</h3>
-                    <p class="text-2xl font-semibold text-red-600">{{ $stats['negative'] }}</p>
+                    <p class="text-2xl font-semibold text-red-600 dark:text-red-400">{{ $stats['negative'] }}</p>
                     <p class="text-xs text-slate-400">{{ $stats['negative_percentage'] }}%</p>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                 <!-- Date From -->
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-2">Od datuma</label>
-                    <input type="date" wire:model.live="filters.date_from" 
+                    <input type="date" wire:model.live="filters.date_from"
                         value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}"
                         class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
                 </div>
@@ -138,8 +138,12 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
                             wire:click="sortBy('rating')">
                             Ocena
-                            @if($sortField === 'rating')
-                                @if($sortDirection === 'asc') ↑ @else ↓ @endif
+                            @if ($sortField === 'rating')
+                                @if ($sortDirection === 'asc')
+                                    ↑
+                                @else
+                                    ↓
+                                @endif
                             @endif
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
@@ -157,8 +161,12 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
                             wire:click="sortBy('created_at')">
                             Datum
-                            @if($sortField === 'created_at')
-                                @if($sortDirection === 'asc') ↑ @else ↓ @endif
+                            @if ($sortField === 'created_at')
+                                @if ($sortDirection === 'asc')
+                                    ↑
+                                @else
+                                    ↓
+                                @endif
                             @endif
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
@@ -186,14 +194,15 @@
                                 <div class="text-sm text-slate-500">{{ $rating->ratedUser->email }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($rating->listing)
-                                    <div class="text-sm font-medium text-slate-900">{{ Str::limit($rating->listing->title, 30) }}</div>
+                                @if ($rating->listing)
+                                    <div class="text-sm font-medium text-slate-900">
+                                        {{ Str::limit($rating->listing->title, 30) }}</div>
                                 @else
                                     <span class="text-sm text-slate-400">Oglas obrisan</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                @if($rating->comment)
+                                @if ($rating->comment)
                                     <div class="text-sm text-slate-900">{{ Str::limit($rating->comment, 50) }}</div>
                                 @else
                                     <span class="text-sm text-slate-400 italic">Bez komentara</span>
@@ -206,7 +215,8 @@
                                 <div class="flex space-x-2">
                                     <button wire:click="editRating({{ $rating->id }})"
                                         class="text-sky-600 hover:text-sky-900">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                             </path>
@@ -214,7 +224,8 @@
                                     </button>
                                     <button wire:click="confirmDelete({{ $rating->id }})"
                                         class="text-red-600 hover:text-red-900">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                             </path>
@@ -238,7 +249,8 @@
     <!-- Mobile Card View -->
     <div class="md:hidden space-y-4">
         @forelse($ratings as $rating)
-            <div class="bg-white rounded-lg shadow border-l-4 {{ $rating->rating === 'positive' ? 'border-green-500' : ($rating->rating === 'neutral' ? 'border-amber-500' : 'border-red-500') }}">
+            <div
+                class="bg-white rounded-lg shadow border-l-4 {{ $rating->rating === 'positive' ? 'border-green-500' : ($rating->rating === 'neutral' ? 'border-amber-500' : 'border-red-500') }}">
                 <div class="p-4">
                     <!-- Header -->
                     <div class="flex items-center justify-between mb-3">
@@ -255,7 +267,7 @@
                     </div>
 
                     <!-- Listing -->
-                    @if($rating->listing)
+                    @if ($rating->listing)
                         <div class="mb-3">
                             <p class="text-xs text-slate-500 mb-1">Oglas:</p>
                             <p class="text-sm font-medium text-slate-800">{{ $rating->listing->title }}</p>
@@ -263,7 +275,7 @@
                     @endif
 
                     <!-- Comment -->
-                    @if($rating->comment)
+                    @if ($rating->comment)
                         <div class="mb-4">
                             <p class="text-xs text-slate-500 mb-1">Komentar:</p>
                             <p class="text-sm text-slate-700">"{{ $rating->comment }}"</p>
@@ -300,31 +312,26 @@
     @endif
 
     <!-- Edit Rating Modal -->
-    <div x-data="{ open: @entangle('showEditModal') }" 
-         x-show="open" 
-         x-cloak
-         class="fixed inset-0 z-50 overflow-y-auto" 
-         x-transition:enter="ease-out duration-300"
-         x-transition:enter-start="opacity-0" 
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="ease-in duration-200" 
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
+    <div x-data="{ open: @entangle('showEditModal') }" x-show="open" x-cloak class="fixed inset-0 z-50 overflow-y-auto"
+        x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
             <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"></div>
 
             <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-                 x-show="open"
-                 x-transition:enter="ease-out duration-300"
-                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave="ease-in duration-200"
-                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                x-show="open" x-transition:enter="ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
-                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <svg class="h-6 w-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-sky-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                 </path>
@@ -332,13 +339,15 @@
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                             <h3 class="text-lg leading-6 font-medium text-slate-900 mb-4">Izmeni ocenu</h3>
-                            
-                            @if($selectedRating)
+
+                            @if ($selectedRating)
                                 <div class="mb-4 p-3 bg-slate-50 rounded">
                                     <p class="text-sm"><strong>Ocenio:</strong> {{ $selectedRating->rater->name }}</p>
-                                    <p class="text-sm"><strong>Ocenjen:</strong> {{ $selectedRating->ratedUser->name }}</p>
-                                    @if($selectedRating->listing)
-                                        <p class="text-sm"><strong>Oglas:</strong> {{ $selectedRating->listing->title }}</p>
+                                    <p class="text-sm"><strong>Ocenjen:</strong>
+                                        {{ $selectedRating->ratedUser->name }}</p>
+                                    @if ($selectedRating->listing)
+                                        <p class="text-sm"><strong>Oglas:</strong>
+                                            {{ $selectedRating->listing->title }}</p>
                                     @endif
                                 </div>
                             @endif
@@ -346,21 +355,26 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700 mb-2">Tip ocene</label>
-                                    <select wire:model="editState.rating" class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
+                                    <select wire:model="editState.rating"
+                                        class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
                                         <option value="">Izaberi tip ocene</option>
-                                        @foreach($ratingOptions as $value => $label)
+                                        @foreach ($ratingOptions as $value => $label)
                                             <option value="{{ $value }}">{{ $label }}</option>
                                         @endforeach
                                     </select>
-                                    @error('editState.rating') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                    @error('editState.rating')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700 mb-2">Komentar</label>
-                                    <textarea wire:model="editState.comment" rows="4" 
+                                    <textarea wire:model="editState.comment" rows="4"
                                         class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                         placeholder="Opcioni komentar..."></textarea>
-                                    @error('editState.comment') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                    @error('editState.comment')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -381,19 +395,21 @@
     </div>
 
     <!-- Delete Rating Modal -->
-    <div x-data="{ open: @entangle('showDeleteModal') }" 
-         x-show="open" 
-         x-cloak
-         class="fixed inset-0 z-50 overflow-y-auto">
+    <div x-data="{ open: @entangle('showDeleteModal') }" x-show="open" x-cloak class="fixed inset-0 z-50 overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
             <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"></div>
 
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
-                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L2.732 13.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L2.732 13.5c-.77.833.192 2.5 1.732 2.5z">
+                                </path>
                             </svg>
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
@@ -402,12 +418,16 @@
                                 <p class="text-sm text-slate-500">
                                     Da li ste sigurni da želite da obrišete ovu ocenu? Ova akcija se ne može poništiti.
                                 </p>
-                                
-                                @if($selectedRating)
+
+                                @if ($selectedRating)
                                     <div class="mt-3 p-3 bg-red-50 rounded">
-                                        <p class="text-sm"><strong>Ocenio:</strong> {{ $selectedRating->rater->name }}</p>
-                                        <p class="text-sm"><strong>Ocenjen:</strong> {{ $selectedRating->ratedUser->name }}</p>
-                                        <p class="text-sm"><strong>Tip:</strong> {{ ucfirst($selectedRating->rating) }} {{ $selectedRating->rating_icon }}</p>
+                                        <p class="text-sm"><strong>Ocenio:</strong> {{ $selectedRating->rater->name }}
+                                        </p>
+                                        <p class="text-sm"><strong>Ocenjen:</strong>
+                                            {{ $selectedRating->ratedUser->name }}</p>
+                                        <p class="text-sm"><strong>Tip:</strong>
+                                            {{ ucfirst($selectedRating->rating) }} {{ $selectedRating->rating_icon }}
+                                        </p>
                                     </div>
                                 @endif
                             </div>

@@ -45,7 +45,8 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
                 <div class="p-3 bg-red-100 rounded-lg">
-                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
@@ -141,7 +142,8 @@
                             Pošiljalac</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Primalac</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Oglas
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                            Oglas
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                             Status</th>
@@ -169,10 +171,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    @if($message->sender->avatar)
-                                        <img src="{{ $message->sender->avatar_url }}" alt="{{ $message->sender->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @if ($message->sender->avatar)
+                                        <img src="{{ $message->sender->avatar_url }}"
+                                            alt="{{ $message->sender->name }}"
+                                            class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($message->sender->name, 0, 1)) }}
                                         </div>
                                     @endif
@@ -185,10 +190,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    @if($message->receiver->avatar)
-                                        <img src="{{ $message->receiver->avatar_url }}" alt="{{ $message->receiver->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @if ($message->receiver->avatar)
+                                        <img src="{{ $message->receiver->avatar_url }}"
+                                            alt="{{ $message->receiver->name }}"
+                                            class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($message->receiver->name, 0, 1)) }}
                                         </div>
                                     @endif
@@ -240,7 +248,8 @@
                                             title="Označi kao nepročitano">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="1.5"
                                                     d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21">
                                                 </path>
                                             </svg>
@@ -250,7 +259,8 @@
                                             class="text-green-600 hover:text-green-900" title="Označi kao pročitano">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="1.5"
                                                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
                                                 </path>
                                             </svg>
@@ -289,17 +299,20 @@
     <!-- Mobile Messages Cards -->
     <div class="lg:hidden space-y-4">
         @forelse($messages as $message)
-            <div class="bg-white shadow rounded-lg p-4 @if (!$message->is_read) border-l-4 border-sky-500 bg-sky-50 @endif">
+            <div
+                class="bg-white shadow rounded-lg p-4 @if (!$message->is_read) border-l-4 border-sky-500 bg-sky-50 @endif">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center space-x-2">
                         @if ($message->is_read)
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                 <i class="fas fa-check mr-1"></i>
                                 Pročitano
                             </span>
                         @else
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                 <i class="fas fa-exclamation mr-1"></i>
                                 Nepročitano
                             </span>
@@ -314,10 +327,12 @@
                         <div class="flex items-center justify-between mb-2">
                             <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Pošiljalac</div>
                             <div class="flex items-center">
-                                @if($message->sender->avatar)
-                                    <img src="{{ $message->sender->avatar_url }}" alt="{{ $message->sender->name }}" class="w-8 h-8 rounded-full object-cover mr-2">
+                                @if ($message->sender->avatar)
+                                    <img src="{{ $message->sender->avatar_url }}" alt="{{ $message->sender->name }}"
+                                        class="w-8 h-8 rounded-full object-cover mr-2">
                                 @else
-                                    <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                    <div
+                                        class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
                                         {{ strtoupper(substr($message->sender->name, 0, 1)) }}
                                     </div>
                                 @endif
@@ -326,15 +341,18 @@
                         <div class="text-sm font-medium text-slate-900">{{ $message->sender->name }}</div>
                         <div class="text-xs text-slate-500">{{ $message->sender->email }}</div>
                     </div>
-                    
+
                     <div class="bg-slate-50 p-3 rounded-lg">
                         <div class="flex items-center justify-between mb-2">
                             <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Primalac</div>
                             <div class="flex items-center">
-                                @if($message->receiver->avatar)
-                                    <img src="{{ $message->receiver->avatar_url }}" alt="{{ $message->receiver->name }}" class="w-8 h-8 rounded-full object-cover mr-2">
+                                @if ($message->receiver->avatar)
+                                    <img src="{{ $message->receiver->avatar_url }}"
+                                        alt="{{ $message->receiver->name }}"
+                                        class="w-8 h-8 rounded-full object-cover mr-2">
                                 @else
-                                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+                                    <div
+                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
                                         {{ strtoupper(substr($message->receiver->name, 0, 1)) }}
                                     </div>
                                 @endif
@@ -361,8 +379,10 @@
                     <div class="mb-4">
                         <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Oglas</div>
                         <div class="bg-amber-50 p-3 rounded-lg border border-amber-200">
-                            <div class="text-sm font-medium text-slate-900">{{ Str::limit($message->listing->title, 30) }}</div>
-                            <div class="text-xs text-green-600 font-semibold">{{ number_format($message->listing->price, 2) }} RSD</div>
+                            <div class="text-sm font-medium text-slate-900">
+                                {{ Str::limit($message->listing->title, 30) }}</div>
+                            <div class="text-xs text-green-600 font-semibold">
+                                {{ number_format($message->listing->price, 2) }} RSD</div>
                         </div>
                     </div>
                 @else
@@ -374,27 +394,27 @@
 
                 <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-2">
-                    <button wire:click="viewMessage({{ $message->id }})" 
+                    <button wire:click="viewMessage({{ $message->id }})"
                         class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
                         <i class="fas fa-eye mr-1"></i>
                         Prikaži
                     </button>
-                    
+
                     @if ($message->is_read)
-                        <button wire:click="markAsUnread({{ $message->id }})" 
+                        <button wire:click="markAsUnread({{ $message->id }})"
                             class="inline-flex items-center px-3 py-1.5 bg-amber-100 text-amber-700 text-xs font-medium rounded-lg hover:bg-amber-200 transition-colors">
                             <i class="fas fa-eye-slash mr-1"></i>
                             Nepročitano
                         </button>
                     @else
-                        <button wire:click="markAsRead({{ $message->id }})" 
+                        <button wire:click="markAsRead({{ $message->id }})"
                             class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
                             <i class="fas fa-check mr-1"></i>
                             Pročitano
                         </button>
                     @endif
-                    
-                    <button wire:click="confirmDelete({{ $message->id }})" 
+
+                    <button wire:click="confirmDelete({{ $message->id }})"
                         class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
                         <i class="fas fa-trash mr-1"></i>
                         Obriši
@@ -408,7 +428,7 @@
                 <p class="text-slate-600">Nema poruka koje odgovaraju kriterijumima pretrage.</p>
             </div>
         @endforelse
-        
+
         <!-- Mobile Pagination -->
         <div class="mt-6">
             {{ $messages->links() }}
@@ -427,10 +447,13 @@
                             <div>
                                 <h4 class="text-sm font-medium text-slate-500">Pošiljalac:</h4>
                                 <div class="flex items-center mt-1">
-                                    @if($selectedMessage->sender->avatar)
-                                        <img src="{{ $selectedMessage->sender->avatar_url }}" alt="{{ $selectedMessage->sender->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @if ($selectedMessage->sender->avatar)
+                                        <img src="{{ $selectedMessage->sender->avatar_url }}"
+                                            alt="{{ $selectedMessage->sender->name }}"
+                                            class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($selectedMessage->sender->name, 0, 1)) }}
                                         </div>
                                     @endif
@@ -445,10 +468,13 @@
                             <div>
                                 <h4 class="text-sm font-medium text-slate-500">Primalac:</h4>
                                 <div class="flex items-center mt-1">
-                                    @if($selectedMessage->receiver->avatar)
-                                        <img src="{{ $selectedMessage->receiver->avatar_url }}" alt="{{ $selectedMessage->receiver->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    @if ($selectedMessage->receiver->avatar)
+                                        <img src="{{ $selectedMessage->receiver->avatar_url }}"
+                                            alt="{{ $selectedMessage->receiver->name }}"
+                                            class="w-8 h-8 rounded-full object-cover">
                                     @else
-                                        <div class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-sm">
                                             {{ strtoupper(substr($selectedMessage->receiver->name, 0, 1)) }}
                                         </div>
                                     @endif

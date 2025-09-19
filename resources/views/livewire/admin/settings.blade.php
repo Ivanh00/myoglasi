@@ -73,7 +73,7 @@
                                     <input type="number" wire:model="listingFeeAmount" min="1" max="10000"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                                     @error('listingFeeAmount')
-                                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                     @enderror
                                 </div>
                             @endif
@@ -84,7 +84,7 @@
                                     class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                                 <p class="text-xs text-slate-500 mt-1">0 = nema besplatnih oglasa</p>
                                 @error('freeListingsPerMonth')
-                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Korisnici mogu postavljati neograničeno
                                         oglasa mesečno</p>
                                     @error('monthlyPlanPrice')
-                                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                     @enderror
                                 </div>
                             @endif
@@ -147,7 +147,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Korisnici mogu postavljati neograničeno
                                         oglasa godišnje</p>
                                     @error('yearlyPlanPrice')
-                                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                     @enderror
                                 </div>
                             @endif
@@ -215,7 +215,7 @@
                         <input type="text" wire:model="siteName"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('siteName')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -224,7 +224,7 @@
                         <input type="number" wire:model="maxImagesPerListing" min="1" max="50"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('maxImagesPerListing')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -237,7 +237,7 @@
                             dana)
                         </p>
                         @error('listingAutoExpireDays')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -255,7 +255,7 @@
                             novi. Ograničava se broj aktivnih oglasa, ne ukupan broj postavljenih.
                         </div>
                         @error('monthlyListingLimit')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -273,7 +273,7 @@
                             čuvajući korisnicima vreme i povećavajući kvalitet transfera.
                         </div>
                         @error('minimumCreditTransfer')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -310,7 +310,7 @@
                                     </p>
                                 @endif
                                 @error('listingFeeAmount')
-                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -338,7 +338,7 @@
                                     </p>
                                 @endif
                                 @error('serviceFeeAmount')
-                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -394,7 +394,7 @@
                                     {{ number_format($serviceFeeAmount, 0, ',', '.') }} RSD)
                                 </p>
                                 @error('serviceFeeAmount')
-                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                         @endif
@@ -435,7 +435,8 @@
                                                 {{ number_format($gameCreditAmount, 0, ',', '.') }} RSD)
                                             </p>
                                             @error('gameCreditAmount')
-                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}
+                                                </p>
                                             @enderror
                                         </div>
                                     @endif
@@ -464,7 +465,8 @@
                                                 {{ number_format($dailyContestAmount, 0, ',', '.') }} RSD)
                                             </p>
                                             @error('dailyContestAmount')
-                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}
+                                                </p>
                                             @enderror
                                         </div>
                                     @endif
@@ -493,7 +495,8 @@
                                                 {{ number_format($gameLeaderboardBonus, 0, ',', '.') }} RSD)
                                             </p>
                                             @error('gameLeaderboardBonus')
-                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}
+                                                </p>
                                             @enderror
                                         </div>
                                     @endif
@@ -528,7 +531,7 @@
                     <input type="email" wire:model="adminEmail"
                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                     @error('adminEmail')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -537,7 +540,7 @@
                     <input type="email" wire:model="supportEmail"
                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                     @error('supportEmail')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
@@ -662,7 +665,7 @@
                         <input type="text" wire:model="companyName"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('companyName')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -671,7 +674,7 @@
                         <input type="text" wire:model="companyPib"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('companyPib')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -680,7 +683,7 @@
                         <input type="text" wire:model="companyAddress"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('companyAddress')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -699,7 +702,7 @@
                         <input type="text" wire:model="bankName"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
                         @error('bankName')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -708,7 +711,7 @@
                         <input type="text" wire:model="bankAccountNumber"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
                         @error('bankAccountNumber')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -728,7 +731,7 @@
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
                         <p class="text-xs text-slate-500 mt-1">Za nalog za uplatu (289 = ostale uplate)</p>
                         @error('paymentCodePhysical')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -738,7 +741,7 @@
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
                         <p class="text-xs text-slate-500 mt-1">Za nalog za prenos (221 = ostali transferi)</p>
                         @error('paymentCodeLegal')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -748,7 +751,7 @@
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
                         <p class="text-xs text-slate-500 mt-1">Standardno 97</p>
                         @error('modelNumberPhysical')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -758,7 +761,7 @@
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
                         <p class="text-xs text-slate-500 mt-1">Standardno 97</p>
                         @error('modelNumberLegal')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -770,7 +773,7 @@
                         <p class="text-xs text-slate-500 mt-1">Koristite {user_id} za ID korisnika, npr:
                             20-10-{user_id}</p>
                         @error('referenceNumberTemplate')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -792,7 +795,7 @@
             <!-- Bid Settings -->
             <div class="border border-slate-200 rounded-lg p-4">
                 <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                    <i class="fas fa-gavel mr-2 text-red-600"></i>
+                    <i class="fas fa-gavel mr-2 text-red-600 dark:text-red-400"></i>
                     Podešavanja licitiranja
                 </h3>
 
@@ -804,7 +807,7 @@
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-red-500 focus:border-red-500">
                         <p class="text-xs text-slate-500 mt-1">Minimalna vrednost za povećanje ponude u aukciji</p>
                         @error('auctionDefaultBidIncrement')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -824,7 +827,7 @@
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
                         <p class="text-xs text-slate-500 mt-1">Koliko puta se aukcija može produžiti</p>
                         @error('auctionMaxExtensions')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -834,7 +837,7 @@
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
                         <p class="text-xs text-slate-500 mt-1">Za koliko minuta se aukcija produžava</p>
                         @error('auctionExtensionTime')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -845,7 +848,7 @@
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
                         <p class="text-xs text-slate-500 mt-1">Ponuda u poslednje X minuta produžava aukciju</p>
                         @error('auctionExtensionTriggerTime')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -908,7 +911,7 @@
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                             @error('promotionFeaturedCategoryPrice')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         <div>
@@ -917,7 +920,7 @@
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                             @error('promotionFeaturedCategoryDays')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -926,7 +929,7 @@
                 <!-- Featured Homepage -->
                 <div class="border border-slate-200 rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                        <i class="fas fa-star text-red-600 mr-2"></i>
+                        <i class="fas fa-star text-red-600 dark:text-red-400 mr-2"></i>
                         Top glavne strane
                     </h3>
                     <p class="text-sm text-slate-600 mb-4">Oglas se prikazuje na vrhu glavne strane sajta</p>
@@ -938,7 +941,7 @@
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-red-500 focus:border-red-500">
                             @error('promotionFeaturedHomepagePrice')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         <div>
@@ -947,7 +950,7 @@
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-red-500 focus:border-red-500">
                             @error('promotionFeaturedHomepageDays')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -968,7 +971,7 @@
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
                             @error('promotionHighlightedPrice')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         <div>
@@ -977,7 +980,7 @@
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
                             @error('promotionHighlightedDays')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -998,7 +1001,7 @@
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
                             @error('promotionAutoRefreshPrice')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         <div>
@@ -1007,7 +1010,7 @@
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
                             @error('promotionAutoRefreshDays')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -1061,7 +1064,7 @@
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
                             @error('promotionExtendedDurationPrice')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         <div>
