@@ -228,9 +228,9 @@
         <!-- Scroll to bottom button -->
         <button id="scrollToBottomBtn"
                 onclick="scrollToBottom()"
-                style="position: absolute; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background-color: #3b82f6 !important; color: white; border: 2px solid #2563eb; cursor: pointer; display: flex !important; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 1000; transition: all 0.2s ease;"
-                onmouseover="this.style.backgroundColor='#2563eb !important'; this.style.transform='scale(1.1)';"
-                onmouseout="this.style.backgroundColor='#3b82f6 !important'; this.style.transform='scale(1)';">
+                style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 45px; height: 45px; border-radius: 50%; background-color: rgba(203, 213, 225, 0.7) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: rgb(51, 65, 85); border: 1px solid rgba(203, 213, 225, 0.5); cursor: pointer; display: flex !important; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px; z-index: 1; transition: all 0.2s ease;"
+                onmouseover="this.style.transform='translateX(-50%) scale(1.1)'; this.style.backgroundColor='rgba(148, 163, 184, 0.8)'; this.style.borderColor='rgba(148, 163, 184, 0.6)';"
+                onmouseout="this.style.transform='translateX(-50%) scale(1)'; this.style.backgroundColor='rgba(203, 213, 225, 0.7)'; this.style.borderColor='rgba(203, 213, 225, 0.5)';">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="pointer-events: none;">
                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
