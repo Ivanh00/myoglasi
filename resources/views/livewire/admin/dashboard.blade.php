@@ -201,7 +201,7 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-sm font-semibold text-purple-600">{{ $user->listings_count }}</p>
+                            <p class="text-sm font-semibold text-purple-600 dark:text-purple-400">{{ $user->listings_count }}</p>
                             <p class="text-xs text-slate-400">oglasa</p>
                         </div>
                     </div>

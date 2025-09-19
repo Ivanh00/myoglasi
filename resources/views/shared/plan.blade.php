@@ -50,11 +50,11 @@ return $next($request);
 
         <!-- Phone number - only if visible and user allows it -->
         @if ($listing->user->phone_visible && $listing->user->phone)
-            <div class="mt-2 text-sm text-slate-600">
+            <div class="mt-2 text-sm text-slate-600 dark:text-slate-400">
                 @auth
                     📞 {{ $listing->user->phone }}
                 @else
-                    📞 <span class="text-sky-600">Registruj se za broj</span>
+                    📞 <span class="text-sky-600 dark:text-sky-400">Registruj se za broj</span>
                 @endauth
             </div>
         @endif

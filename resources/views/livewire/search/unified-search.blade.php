@@ -3,18 +3,30 @@
     <!-- Filter Summary -->
     @php
         $activeFilters = array_filter([
-            $content_type !== 'all' ? 'Tip: ' . [
-                'listings' => 'Oglasi',
-                'auctions' => 'Aukcije',
-                'services' => 'Usluge',
-                'giveaways' => 'Pokloni'
-            ][$content_type] : null,
+            $content_type !== 'all'
+                ? 'Tip: ' .
+                    [
+                        'listings' => 'Oglasi',
+                        'auctions' => 'Aukcije',
+                        'services' => 'Usluge',
+                        'giveaways' => 'Pokloni',
+                    ][$content_type]
+                : null,
             $query ? "Pretraga: '{$query}'" : null,
             $city ? "Grad: {$city}" : null,
-            $search_category && $content_type === 'listings' ? 'Kategorija: ' . ($categories->firstWhere('id', $search_category)->name ?? 'N/A') : null,
-            $search_subcategory && $content_type === 'listings' ? 'Podkategorija: ' . ($subcategories->firstWhere('id', $search_subcategory)->name ?? 'N/A') : null,
-            $service_category && $content_type === 'services' ? 'Kategorija usluga: ' . ($serviceCategories->firstWhere('id', $service_category)->name ?? 'N/A') : null,
-            $service_subcategory && $content_type === 'services' ? 'Podkategorija usluga: ' . ($serviceSubcategories->firstWhere('id', $service_subcategory)->name ?? 'N/A') : null,
+            $search_category && $content_type === 'listings'
+                ? 'Kategorija: ' . ($categories->firstWhere('id', $search_category)->name ?? 'N/A')
+                : null,
+            $search_subcategory && $content_type === 'listings'
+                ? 'Podkategorija: ' . ($subcategories->firstWhere('id', $search_subcategory)->name ?? 'N/A')
+                : null,
+            $service_category && $content_type === 'services'
+                ? 'Kategorija usluga: ' . ($serviceCategories->firstWhere('id', $service_category)->name ?? 'N/A')
+                : null,
+            $service_subcategory && $content_type === 'services'
+                ? 'Podkategorija usluga: ' .
+                    ($serviceSubcategories->firstWhere('id', $service_subcategory)->name ?? 'N/A')
+                : null,
             $condition_id ? 'Stanje: ' . ($conditions->firstWhere('id', $condition_id)->name ?? 'N/A') : null,
             $auction_type
                 ? 'Aukcije: ' .
@@ -31,7 +43,17 @@
         ]);
 
         // Check if we have any filters (including content type)
-        $hasFilters = !empty($activeFilters) || $query || $city || $search_category || $service_category || $condition_id || $auction_type || $price_min || $price_max || $content_type !== 'all';
+        $hasFilters =
+            !empty($activeFilters) ||
+            $query ||
+            $city ||
+            $search_category ||
+            $service_category ||
+            $condition_id ||
+            $auction_type ||
+            $price_min ||
+            $price_max ||
+            $content_type !== 'all';
     @endphp
 
     @if ($hasFilters && !empty($activeFilters))
@@ -133,23 +155,28 @@
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
                             <span>
-                                @if($content_type === 'auctions')
+                                @if ($content_type === 'auctions')
                                     @switch($auction_type ?: 'ending_soon')
                                         @case('scheduled')
                                             Zakazane aukcije
                                         @break
+
                                         @case('ending_soon')
                                             Završavaju uskoro
                                         @break
+
                                         @case('newest')
                                             Najnovije
                                         @break
+
                                         @case('highest_price')
                                             Najviša cena
                                         @break
+
                                         @case('most_bids')
                                             Najviše ponuda
                                         @break
+
                                         @default
                                             Završavaju uskoro
                                     @endswitch
@@ -158,18 +185,22 @@
                                         @case('newest')
                                             Najnovije
                                         @break
+
                                         @case('price_asc')
                                             Cena ↑
                                         @break
+
                                         @case('price_desc')
                                             Cena ↓
                                         @break
+
                                         @default
                                             Najnovije
                                     @endswitch
                                 @endif
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -177,7 +208,7 @@
 
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
-                            @if($content_type === 'auctions')
+                            @if ($content_type === 'auctions')
                                 <button @click="$wire.set('auction_type', 'ending_soon'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
                                     <i class="fas fa-clock text-red-500 mr-2"></i>
@@ -222,22 +253,24 @@
                 </div>
 
                 <!-- Category Dropdown -->
-                @if($content_type === 'services')
+                @if ($content_type === 'services')
                     <!-- Service Category Dropdown -->
                     <div class="w-60" x-data="{ open: false }" x-init="open = false">
                         <div class="relative">
                             <button @click="open = !open" type="button"
                                 class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
                                 <span>
-                                    @if($service_category)
+                                    @if ($service_category)
                                         @php $selectedCat = $serviceCategories->firstWhere('id', $service_category); @endphp
                                         {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
                                     @else
                                         Sve kategorije
                                     @endif
                                 </span>
-                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
 
@@ -248,10 +281,11 @@
                                     Sve kategorije
                                 </button>
                                 @foreach ($serviceCategories as $category)
-                                    <button @click="$wire.setServiceCategory('{{ $category->id }}'); open = false" type="button"
+                                    <button @click="$wire.setServiceCategory('{{ $category->id }}'); open = false"
+                                        type="button"
                                         class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $service_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                        @if($category->icon)
-                                            <i class="{{ $category->icon }} text-sky-600 mr-2"></i>
+                                        @if ($category->icon)
+                                            <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400 mr-2"></i>
                                         @endif
                                         {{ $category->name }}
                                     </button>
@@ -266,14 +300,15 @@
                             <button @click="open = !open" type="button"
                                 class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
                                 <span>
-                                    @if($search_category)
+                                    @if ($search_category)
                                         @php $selectedCat = $categories->firstWhere('id', $search_category); @endphp
                                         {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
                                     @else
                                         Sve kategorije
                                     @endif
                                 </span>
-                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M19 9l-7 7-7-7"></path>
                                 </svg>
@@ -289,7 +324,7 @@
                                     <button @click="$wire.set('search_category', '{{ $category->id }}'); open = false"
                                         type="button"
                                         class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $search_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                        @if($category->icon)
+                                        @if ($category->icon)
                                             <i class="{{ $category->icon }} text-slate-600 mr-2"></i>
                                         @endif
                                         {{ $category->name }}
@@ -306,7 +341,8 @@
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
                             <span>{{ $perPage }}</span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -410,7 +446,9 @@
                                             </a>
 
                                             <!-- Promotion Badges -->
-                                            @if (($listing instanceof \App\Models\Listing || $listing instanceof \App\Models\Service) && $listing->hasActivePromotion())
+                                            @if (
+                                                ($listing instanceof \App\Models\Listing || $listing instanceof \App\Models\Service) &&
+                                                    $listing->hasActivePromotion())
                                                 <div class="flex flex-wrap gap-1 ml-2">
                                                     @foreach ($listing->getPromotionBadges() as $badge)
                                                         <span
@@ -459,11 +497,14 @@
                                             @endif
                                         </div>
 
-                                        @if (isset($listing->is_auction) && $listing->auction_data->buy_now_price && $listing->auction_data->current_price < $listing->auction_data->buy_now_price)
+                                        @if (isset($listing->is_auction) &&
+                                                $listing->auction_data->buy_now_price &&
+                                                $listing->auction_data->current_price < $listing->auction_data->buy_now_price)
                                             <div class="text-right">
                                                 <div class="text-sm text-slate-500">Kupi odmah:</div>
                                                 <div class="text-lg font-bold text-green-600">
-                                                    {{ number_format($listing->auction_data->buy_now_price, 0, ',', '.') }} RSD
+                                                    {{ number_format($listing->auction_data->buy_now_price, 0, ',', '.') }}
+                                                    RSD
                                                 </div>
                                             </div>
                                         @else
@@ -505,7 +546,8 @@
                                                     {{ $listing->auction_data->time_left['formatted'] }}
                                                 @endif
                                             </div>
-                                            <div class="text-xs text-amber-600 dark:text-amber-400">vremena ostalo</div>
+                                            <div class="text-xs text-amber-600 dark:text-amber-400">vremena ostalo
+                                            </div>
                                         </div>
                                     @else
                                         <div class="flex items-center justify-between text-sm text-slate-500 mb-4">
@@ -558,9 +600,9 @@
                                             @endauth
                                         @else
                                             @auth
-                                                @if($listing instanceof \App\Models\Listing && auth()->id() === $listing->user_id)
+                                                @if ($listing instanceof \App\Models\Listing && auth()->id() === $listing->user_id)
                                                     <!-- Owner buttons for listings -->
-                                                    @if($listing->listing_type === 'listing' && !$listing->auction)
+                                                    @if ($listing->listing_type === 'listing' && !$listing->auction)
                                                         <a href="{{ route('auction.setup', $listing) }}"
                                                             class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
                                                             <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
@@ -655,7 +697,9 @@
                                 </a>
 
                                 <!-- Promotion Badges -->
-                                @if (($listing instanceof \App\Models\Listing || $listing instanceof \App\Models\Service) && $listing->hasActivePromotion())
+                                @if (
+                                    ($listing instanceof \App\Models\Listing || $listing instanceof \App\Models\Service) &&
+                                        $listing->hasActivePromotion())
                                     <div class="flex flex-wrap gap-1 ml-2">
                                         @foreach ($listing->getPromotionBadges() as $badge)
                                             <span
@@ -774,9 +818,9 @@
                             @else
                                 <div class="space-y-2">
                                     @auth
-                                        @if($listing instanceof \App\Models\Listing && auth()->id() === $listing->user_id)
+                                        @if ($listing instanceof \App\Models\Listing && auth()->id() === $listing->user_id)
                                             <!-- Owner buttons for listings -->
-                                            @if($listing->listing_type === 'listing' && !$listing->auction)
+                                            @if ($listing->listing_type === 'listing' && !$listing->auction)
                                                 <a href="{{ route('auction.setup', $listing) }}"
                                                     class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
                                                     <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji

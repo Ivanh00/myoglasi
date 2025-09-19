@@ -45,7 +45,8 @@
         <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center">
                 <div class="p-3 bg-purple-100 rounded-lg">
-                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4">
                         </path>
@@ -74,7 +75,8 @@
             <!-- Oglas -->
             <div>
                 <label class="block text-sm font-medium text-slate-700 mb-1">Filter po oglasu</label>
-                <select wire:model.live="filters.listing_id" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
+                <select wire:model.live="filters.listing_id"
+                    class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi oglasi</option>
                     @foreach ($listings as $listing)
                         <option value="{{ $listing->id }}">{{ Str::limit($listing->title, 40) }}</option>
@@ -85,7 +87,8 @@
             <!-- Primarna slika -->
             <div>
                 <label class="block text-sm font-medium text-slate-700 mb-1">Tip slike</label>
-                <select wire:model.live="filters.is_primary" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
+                <select wire:model.live="filters.is_primary"
+                    class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Sve slike</option>
                     <option value="1">Samo primarne</option>
                     <option value="0">Samo dodatne</option>

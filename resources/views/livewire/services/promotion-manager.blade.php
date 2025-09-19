@@ -1,6 +1,6 @@
 <div>
     <!-- Promotion Modal -->
-    @if($showModal && $service)
+    @if ($showModal && $service)
         <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div class="relative top-4 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white">
                 <div class="mt-3">
@@ -19,7 +19,7 @@
                     <div class="bg-sky-50 border border-sky-200 p-4 rounded-lg mb-6">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
-                                <i class="fas fa-wallet text-sky-600 mr-2"></i>
+                                <i class="fas fa-wallet text-sky-600 dark:text-sky-400 mr-2"></i>
                                 <span class="text-sky-900 font-medium">Vaš trenutni balans:</span>
                             </div>
                             <span class="text-sky-900 font-bold text-lg">
@@ -30,7 +30,7 @@
 
                     <!-- Promotion Options -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        @foreach($this->getPromotionTypes() as $type => $name)
+                        @foreach ($this->getPromotionTypes() as $type => $name)
                             @php
                                 $price = $this->getPromotionPrice($type);
                                 $duration = $this->getPromotionDuration($type);
@@ -43,7 +43,7 @@
                                     'highlighted' => 'yellow',
                                     'auto_refresh' => 'green',
                                     'double_images' => 'purple',
-                                    'extended_duration' => 'orange'
+                                    'extended_duration' => 'orange',
                                 ];
                                 $color = $colors[$type] ?? 'gray';
                             @endphp
@@ -54,29 +54,31 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <div class="flex items-center mb-2">
-                                            @if($type === 'featured_category')
-                                                <i class="fas fa-arrow-up text-sky-600 mr-2"></i>
+                                            @if ($type === 'featured_category')
+                                                <i class="fas fa-arrow-up text-sky-600 dark:text-sky-400 mr-2"></i>
                                             @elseif($type === 'featured_homepage')
-                                                <i class="fas fa-star text-red-600 mr-2"></i>
+                                                <i class="fas fa-star text-red-600 dark:text-red-400 mr-2"></i>
                                             @elseif($type === 'highlighted')
-                                                <i class="fas fa-highlighter text-amber-600 mr-2"></i>
+                                                <i
+                                                    class="fas fa-highlighter text-amber-600 dark:text-amber-400 mr-2"></i>
                                             @elseif($type === 'auto_refresh')
-                                                <i class="fas fa-sync text-green-600 mr-2"></i>
+                                                <i class="fas fa-sync text-green-600 dark:text-green-400 mr-2"></i>
                                             @elseif($type === 'double_images')
-                                                <i class="fas fa-images text-purple-600 mr-2"></i>
+                                                <i class="fas fa-images text-purple-600 dark:text-purple-400 mr-2"></i>
                                             @else
-                                                <i class="fas fa-clock text-orange-600 mr-2"></i>
+                                                <i class="fas fa-clock text-orange-600 dark:text-orange-400 mr-2"></i>
                                             @endif
 
                                             <h4 class="font-semibold text-slate-900">{{ $name }}</h4>
 
-                                            @if($hasActive)
-                                                <span class="ml-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">AKTIVNA</span>
+                                            @if ($hasActive)
+                                                <span
+                                                    class="ml-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">AKTIVNA</span>
                                             @endif
                                         </div>
 
                                         <p class="text-sm text-slate-600 mb-3">
-                                            @if($type === 'featured_category')
+                                            @if ($type === 'featured_category')
                                                 Usluga se prikazuje na vrhu liste u svojoj kategoriji
                                             @elseif($type === 'featured_homepage')
                                                 Usluga se prikazuje na vrhu glavne strane sajta
@@ -100,8 +102,9 @@
                                     </div>
 
                                     <div class="ml-4">
-                                        <div class="w-6 h-6 border-2 rounded-full flex items-center justify-center {{ $isSelected ? 'border-' . $color . '-500 bg-' . $color . '-500' : 'border-slate-300' }}">
-                                            @if($isSelected)
+                                        <div
+                                            class="w-6 h-6 border-2 rounded-full flex items-center justify-center {{ $isSelected ? 'border-' . $color . '-500 bg-' . $color . '-500' : 'border-slate-300' }}">
+                                            @if ($isSelected)
                                                 <i class="fas fa-check text-white text-sm"></i>
                                             @endif
                                         </div>
@@ -112,7 +115,7 @@
                     </div>
 
                     <!-- Total Cost -->
-                    @if(!empty($selectedPromotions))
+                    @if (!empty($selectedPromotions))
                         <div class="bg-green-50 border border-green-200 p-4 rounded-lg mb-6">
                             <div class="flex items-center justify-between">
                                 <div>
@@ -140,20 +143,22 @@
                             {{ empty($selectedPromotions) || auth()->user()->balance < $totalCost ? 'disabled' : '' }}>
                             <i class="fas fa-shopping-cart mr-2"></i>
                             Kupi promocije
-                            @if(!empty($selectedPromotions))
+                            @if (!empty($selectedPromotions))
                                 ({{ number_format($totalCost, 0, ',', '.') }} RSD)
                             @endif
                         </button>
                     </div>
 
                     <!-- Insufficient Balance Warning -->
-                    @if(!empty($selectedPromotions) && auth()->user()->balance < $totalCost)
+                    @if (!empty($selectedPromotions) && auth()->user()->balance < $totalCost)
                         <div class="mt-4 bg-red-50 border border-red-200 p-4 rounded-lg">
                             <div class="flex items-center">
                                 <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
                                 <span class="text-red-800 text-sm">
-                                    Nemate dovoljno kredita. Potrebno je još {{ number_format($totalCost - auth()->user()->balance, 0, ',', '.') }} RSD.
-                                    <a href="{{ route('balance.payment-options') }}" class="underline font-medium">Dopunite balans</a>
+                                    Nemate dovoljno kredita. Potrebno je još
+                                    {{ number_format($totalCost - auth()->user()->balance, 0, ',', '.') }} RSD.
+                                    <a href="{{ route('balance.payment-options') }}"
+                                        class="underline font-medium">Dopunite balans</a>
                                 </span>
                             </div>
                         </div>
@@ -164,7 +169,7 @@
     @endif
 
     <!-- Success/Error Messages -->
-    @if(session()->has('success'))
+    @if (session()->has('success'))
         <div class="mt-4 bg-green-50 border border-green-200 p-4 rounded-lg">
             <div class="flex items-center">
                 <i class="fas fa-check-circle text-green-600 mr-2"></i>
@@ -173,7 +178,7 @@
         </div>
     @endif
 
-    @if(session()->has('error'))
+    @if (session()->has('error'))
         <div class="mt-4 bg-red-50 border border-red-200 p-4 rounded-lg">
             <div class="flex items-center">
                 <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>

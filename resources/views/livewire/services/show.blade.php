@@ -3,7 +3,8 @@
     <nav class="mb-6 flex" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2">
             <li>
-                <a href="{{ route('home') }}" class="text-slate-400 dark:text-slate-500 hover:text-slate-500 dark:hover:text-slate-400">
+                <a href="{{ route('home') }}"
+                    class="text-slate-400 dark:text-slate-500 hover:text-slate-500 dark:hover:text-slate-400">
                     <i class="fas fa-home"></i>
                 </a>
             </li>
@@ -24,7 +25,8 @@
             @endif
             <li class="flex items-center">
                 <span class="mx-2 text-slate-400 dark:text-slate-500">/</span>
-                <span class="text-slate-700 dark:text-slate-300 font-medium truncate">{{ Str::limit($service->title, 30) }}</span>
+                <span
+                    class="text-slate-700 dark:text-slate-300 font-medium truncate">{{ Str::limit($service->title, 30) }}</span>
             </li>
         </ol>
     </nav>
@@ -38,8 +40,8 @@
                     <div class="relative">
                         <!-- Glavna slika -->
                         <div class="mb-4 rounded-lg overflow-hidden relative">
-                            <img id="mainImage" src="{{ $service->images->first()->url }}"
-                                alt="{{ $service->title }}" class="w-full h-80 object-cover rounded-lg">
+                            <img id="mainImage" src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
+                                class="w-full h-80 object-cover rounded-lg">
                         </div>
 
                         <!-- Mala galerija -->
@@ -70,8 +72,11 @@
                 </div>
 
                 <div class="flex items-center mb-4">
-                    <span class="text-3xl font-bold text-sky-600">{{ number_format($service->price, 2) }} RSD</span>
-                    <span class="ml-4 px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium rounded-full">
+                    <span
+                        class="text-3xl font-bold text-sky-600 dark:text-sky-400">{{ number_format($service->price, 2) }}
+                        RSD</span>
+                    <span
+                        class="ml-4 px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium rounded-full">
                         USLUGA
                     </span>
                 </div>
@@ -83,13 +88,15 @@
                             <span class="text-slate-700 dark:text-slate-300 font-bold">
                                 Pružalac usluge: {{ $service->user->name }}
                             </span>
-                            @if($service->user){!! $service->user->verified_icon !!}@endif
-                            @if($service->user->is_banned)
-                                <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                            @if ($service->user)
+                                {!! $service->user->verified_icon !!}
                             @endif
-                            @if($service->user->shouldShowLastSeen())
+                            @if ($service->user->is_banned)
+                                <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
+                            @endif
+                            @if ($service->user->shouldShowLastSeen())
                                 <span class="text-xs text-slate-500 dark:text-slate-400 ml-2">
-                                    @if($service->user->is_online)
+                                    @if ($service->user->is_online)
                                         <span class="inline-flex items-center">
                                             <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                             {{ $service->user->last_seen }}
@@ -102,12 +109,16 @@
                         </div>
 
                         {{-- User ratings --}}
-                        @if($service->user->total_ratings_count > 0)
-                            <a href="{{ route('user.ratings', $service->user->id) }}" class="inline-flex items-center text-xs text-slate-600 dark:text-slate-400 mb-2 hover:text-sky-600 transition-colors">
-                                <span class="text-green-600 mr-1">😊 {{ $service->user->positive_ratings_count }}</span>
-                                <span class="text-amber-600 mr-1">😐 {{ $service->user->neutral_ratings_count }}</span>
-                                <span class="text-red-600 mr-1">😞 {{ $service->user->negative_ratings_count }}</span>
-                                @if($service->user->rating_badge)
+                        @if ($service->user->total_ratings_count > 0)
+                            <a href="{{ route('user.ratings', $service->user->id) }}"
+                                class="inline-flex items-center text-xs text-slate-600 dark:text-slate-400 mb-2 hover:text-sky-600 transition-colors">
+                                <span class="text-green-600 dark:text-green-400 mr-1">😊
+                                    {{ $service->user->positive_ratings_count }}</span>
+                                <span class="text-amber-600 dark:text-amber-400 mr-1">😐
+                                    {{ $service->user->neutral_ratings_count }}</span>
+                                <span class="text-red-600 dark:text-red-400 mr-1">😞
+                                    {{ $service->user->negative_ratings_count }}</span>
+                                @if ($service->user->rating_badge)
                                     <span class="ml-1">{{ $service->user->rating_badge }}</span>
                                 @endif
                                 <i class="fas fa-external-link-alt ml-1 text-xs"></i>
@@ -135,16 +146,19 @@
                         <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">Kontakt telefon</h3>
                         <div class="flex items-center">
                             <i class="fas fa-phone text-green-500 mr-2"></i>
-                            <a href="tel:{{ $service->contact_phone }}" class="text-xl font-medium text-green-600">
+                            <a href="tel:{{ $service->contact_phone }}"
+                                class="text-xl font-medium text-green-600 dark:text-green-400">
                                 {{ $service->contact_phone }}
                             </a>
                         </div>
                     </div>
                 @elseif ($service->user->is_banned && auth()->check())
-                    <div class="mb-6 p-4 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
+                    <div
+                        class="mb-6 p-4 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
                         <div class="flex items-center">
                             <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
-                            <span class="text-red-700 dark:text-red-300 font-medium">Kontakt informacije nisu dostupne - pružalac usluge je blokiran</span>
+                            <span class="text-red-700 dark:text-red-300 font-medium">Kontakt informacije nisu dostupne -
+                                pružalac usluge je blokiran</span>
                         </div>
                     </div>
                 @endif
@@ -153,7 +167,7 @@
                 <div class="hidden md:flex space-x-4 mt-8">
                     @auth
                         @if (auth()->id() !== $service->user_id)
-                            @if(!$service->user->is_banned)
+                            @if (!$service->user->is_banned)
                                 <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('messages.inbox') }}"
                                     class="flex-1 flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
@@ -167,10 +181,12 @@
                                 </button>
                             @else
                                 <!-- Poruka za banovane pružaoce usluga -->
-                                <div class="w-full p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
+                                <div
+                                    class="w-full p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
                                     <div class="flex items-center">
                                         <i class="fas fa-ban text-red-500 mr-2"></i>
-                                        <span class="text-red-700 dark:text-red-300 text-sm">Kontakt sa ovim pružaocem usluge nije moguć jer je blokiran.</span>
+                                        <span class="text-red-700 dark:text-red-300 text-sm">Kontakt sa ovim pružaocem
+                                            usluge nije moguć jer je blokiran.</span>
                                     </div>
                                 </div>
                             @endif
@@ -200,7 +216,7 @@
                 <div class="md:hidden space-y-3 mt-8">
                     @auth
                         @if (auth()->id() !== $service->user_id)
-                            @if(!$service->user->is_banned)
+                            @if (!$service->user->is_banned)
                                 <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('messages.inbox') }}"
                                     class="w-full flex items-center justify-center px-4 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
@@ -214,16 +230,19 @@
                                 </button>
                             @else
                                 <!-- Poruka za banovane pružaoce -->
-                                <div class="w-full p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
+                                <div
+                                    class="w-full p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
                                     <div class="flex items-center">
                                         <i class="fas fa-ban text-red-500 mr-2"></i>
-                                        <span class="text-red-700 dark:text-red-300 text-sm">Kontakt sa ovim pružaocem usluge nije moguć jer je blokiran.</span>
+                                        <span class="text-red-700 dark:text-red-300 text-sm">Kontakt sa ovim pružaocem
+                                            usluge nije moguć jer je blokiran.</span>
                                     </div>
                                 </div>
                             @endif
                         @else
                             <!-- Dugme za vlasnike usluge -->
-                            <div class="w-full p-3 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg text-center">
+                            <div
+                                class="w-full p-3 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg text-center">
                                 <i class="fas fa-tools mr-2"></i> Vaša usluga
                             </div>
 
@@ -254,7 +273,8 @@
         <div class="border-t border-slate-200 dark:border-slate-600 p-6">
             @if ($service->user->seller_terms)
                 <div class="mb-6">
-                    <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">Uslovi pružanja usluge</h3>
+                    <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">Uslovi pružanja usluge
+                    </h3>
                     <div class="bg-slate-100 dark:bg-slate-700 p-4 rounded-lg text-slate-700 dark:text-slate-300">
                         {!! nl2br(e($service->user->seller_terms)) !!}
                     </div>
@@ -265,15 +285,17 @@
         <!-- Informacije o pružaocu usluge -->
         @auth
             <div class="border-t border-slate-200 dark:border-slate-600 p-6 bg-slate-50 dark:bg-slate-700">
-                <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">Informacije o pružaocu usluge</h2>
+                <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">Informacije o pružaocu usluge
+                </h2>
                 <div class="flex items-start">
                     <!-- Avatar -->
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                        @if($service->user->avatar)
+                        @if ($service->user->avatar)
                             <img src="{{ $service->user->avatar_url }}" alt="{{ $service->user->name }}"
-                                 class="w-16 h-16 rounded-full object-cover">
+                                class="w-16 h-16 rounded-full object-cover">
                         @else
-                            <div class="w-16 h-16 bg-sky-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                            <div
+                                class="w-16 h-16 bg-sky-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
                                 {{ strtoupper(substr($service->user->name, 0, 1)) }}
                             </div>
                         @endif
@@ -283,12 +305,12 @@
                         <h3 class="font-medium text-slate-900 dark:text-slate-100 text-lg">
                             {{ $service->user->name }}
                             {!! $service->user->verified_icon !!}
-                            @if($service->user->is_banned)
-                                <span class="text-red-600 font-bold ml-2">BLOKIRAN</span>
+                            @if ($service->user->is_banned)
+                                <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                             @endif
-                            @if($service->user->shouldShowLastSeen())
+                            @if ($service->user->shouldShowLastSeen())
                                 <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                                    @if($service->user->is_online)
+                                    @if ($service->user->is_online)
                                         <span class="inline-flex items-center">
                                             <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                             {{ $service->user->last_seen }}
@@ -299,18 +321,25 @@
                                 </div>
                             @endif
                         </h3>
-                        <p class="text-slate-600 dark:text-slate-400 text-sm mb-3">Član od: {{ $service->user->created_at->format('m/Y') }}</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mb-3">Član od:
+                            {{ $service->user->created_at->format('m/Y') }}</p>
 
                         {{-- User ratings --}}
-                        @if($service->user->total_ratings_count > 0)
-                            <a href="{{ route('user.ratings', $service->user->id) }}" class="inline-flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                                <span class="text-green-600 mr-2">😊 {{ $service->user->positive_ratings_count }}</span>
-                                <span class="text-amber-600 mr-2">😐 {{ $service->user->neutral_ratings_count }}</span>
-                                <span class="text-red-600 mr-2">😞 {{ $service->user->negative_ratings_count }}</span>
-                                @if($service->user->rating_badge)
+                        @if ($service->user->total_ratings_count > 0)
+                            <a href="{{ route('user.ratings', $service->user->id) }}"
+                                class="inline-flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                                <span class="text-green-600 dark:text-green-400 mr-2">😊
+                                    {{ $service->user->positive_ratings_count }}</span>
+                                <span class="text-amber-600 dark:text-green-400 mr-2">😐
+                                    {{ $service->user->neutral_ratings_count }}</span>
+                                <span class="text-red-600 dark:text-green-400 mr-2">😞
+                                    {{ $service->user->negative_ratings_count }}</span>
+                                @if ($service->user->rating_badge)
                                     <span class="ml-1 mr-2">{{ $service->user->rating_badge }}</span>
                                 @endif
-                                <span class="text-sky-500 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300">Pogledaj ocene</span>
+                                <span
+                                    class="text-sky-500 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300">Pogledaj
+                                    ocene</span>
                                 <i class="fas fa-external-link-alt ml-1 text-xs"></i>
                             </a>
                         @else
@@ -326,14 +355,14 @@
     @if ($recommendedListings && $recommendedListings->count() > 0)
         <div class="mt-12">
             <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
-                @if($recommendationType === 'seller')
+                @if ($recommendationType === 'seller')
                     Ostale usluge ovog korisnika
                 @else
                     Slične usluge
                 @endif
             </h2>
             <p class="text-slate-600 dark:text-slate-400 mb-8">
-                @if($recommendationType === 'seller')
+                @if ($recommendationType === 'seller')
                     Pogledajte i druge usluge ovog korisnika
                 @else
                     Pronađite slične usluge iz iste kategorije
@@ -343,14 +372,15 @@
             <!-- Lista usluga -->
             <div class="space-y-4">
                 @foreach ($recommendedListings as $relatedService)
-                    <div class="listing-card bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-slate-500">
+                    <div
+                        class="listing-card bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-slate-500">
                         <div class="flex flex-col md:flex-row">
                             <!-- Slika -->
                             <div class="w-full md:w-48 md:min-w-48 h-48">
                                 <a href="{{ route('services.show', $relatedService->slug) }}">
                                     @if ($relatedService->images->count() > 0)
-                                        <img src="{{ $relatedService->images->first()->url }}" alt="{{ $relatedService->title }}"
-                                            class="w-full h-full object-cover">
+                                        <img src="{{ $relatedService->images->first()->url }}"
+                                            alt="{{ $relatedService->title }}" class="w-full h-full object-cover">
                                     @else
                                         <div class="w-full h-full bg-slate-200 flex items-center justify-center">
                                             <i class="fas fa-tools text-slate-400 text-3xl"></i>
@@ -364,8 +394,10 @@
                                 <div class="flex flex-col h-full">
                                     <div class="flex-1">
                                         <div class="flex items-start justify-between mb-2">
-                                            <a href="{{ route('services.show', $relatedService->slug) }}" class="flex-1">
-                                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-sky-600 transition-colors">
+                                            <a href="{{ route('services.show', $relatedService->slug) }}"
+                                                class="flex-1">
+                                                <h3
+                                                    class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-sky-600 transition-colors">
                                                     {{ $relatedService->title }}
                                                 </h3>
                                             </a>
@@ -386,10 +418,11 @@
                                     </div>
 
                                     <div class="flex items-center justify-between">
-                                        <div class="text-sky-600 font-bold text-xl">
+                                        <div class="text-sky-600 dark:text-sky-400 font-bold text-xl">
                                             {{ number_format($relatedService->price, 2) }} RSD
                                         </div>
-                                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium rounded-full">
+                                        <span
+                                            class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium rounded-full">
                                             USLUGA
                                         </span>
                                     </div>

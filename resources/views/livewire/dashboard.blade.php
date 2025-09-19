@@ -123,7 +123,7 @@
     <!-- Monthly Overview -->
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
         <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-4">
-            <i class="fas fa-chart-line text-sky-600 mr-2"></i>
+            <i class="fas fa-chart-line text-sky-600 dark:text-sky-400 mr-2"></i>
             Ovaj mesec ({{ Carbon\Carbon::now()->format('F Y') }})
         </h2>
 
@@ -244,7 +244,7 @@
         <!-- Recent Activity -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
-                <i class="fas fa-clock text-sky-600 mr-2"></i>
+                <i class="fas fa-clock text-sky-600 dark:text-sky-400 mr-2"></i>
                 Poslednje aktivnosti
             </h3>
 
