@@ -559,7 +559,7 @@ public function getAvatarUrlAttribute()
         if ($diffInMinutes < 5) {
             return 'Online';
         } elseif ($diffInMinutes < 60) {
-            return 'Pre ' . $diffInMinutes . ' min';
+            return 'Pre ' . floor($diffInMinutes) . ' min';
         } elseif ($diffInMinutes < 1440) { // 24 hours
             $hours = floor($diffInMinutes / 60);
             return 'Pre ' . $hours . ' ' . ($hours == 1 ? 'sat' : ($hours < 5 ? 'sata' : 'sati'));
