@@ -319,15 +319,15 @@
         <div id="mobile-menu" class="md:hidden hidden">
             <div class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-slate-800 shadow-lg border-t border-slate-200 dark:border-slate-700">
                 {{-- <a href="{{ route('home') }}"
-                    class="{{ request()->routeIs('home') ? 'bg-slate-100 text-indigo-600' : 'text-slate-700 dark:text-slate-200 hover:text-indigo-600' }} block px-3 py-2 rounded-md text-base font-medium">
+                    class="{{ request()->routeIs('home') ? 'bg-slate-100 text-sky-600' : 'text-slate-700 dark:text-slate-200 hover:text-sky-600' }} block px-3 py-2 rounded-md text-base font-medium">
                     Početna
                 </a>
                 <a href="{{ route('listings.index') }}"
-                    class="{{ request()->routeIs('listings.index') ? 'bg-slate-100 text-indigo-600' : 'text-slate-700 dark:text-slate-200 hover:text-indigo-600' }} block px-3 py-2 rounded-md text-base font-medium">
+                    class="{{ request()->routeIs('listings.index') ? 'bg-slate-100 text-sky-600' : 'text-slate-700 dark:text-slate-200 hover:text-sky-600' }} block px-3 py-2 rounded-md text-base font-medium">
                     Svi oglasi
                 </a>
                 <a href="{{ route('categories.index') }}"
-                    class="{{ request()->routeIs('categories.index') ? 'bg-slate-100 text-indigo-600' : 'text-slate-700 dark:text-slate-200 hover:text-indigo-600' }} block px-3 py-2 rounded-md text-base font-medium">
+                    class="{{ request()->routeIs('categories.index') ? 'bg-slate-100 text-sky-600' : 'text-slate-700 dark:text-slate-200 hover:text-sky-600' }} block px-3 py-2 rounded-md text-base font-medium">
                     Kategorije
                 </a> --}}
 
@@ -424,11 +424,11 @@
                 @else
                     <div class="border-t border-slate-200 pt-4"></div>
                     <a href="{{ route('login') }}"
-                        class="text-slate-700 dark:text-slate-200 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
+                        class="text-slate-700 dark:text-slate-200 hover:text-sky-600 block px-3 py-2 rounded-md text-base font-medium">
                         Prijavi se
                     </a>
                     <a href="{{ route('register') }}"
-                        class="bg-indigo-600 text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+                        class="bg-sky-600 text-white hover:bg-sky-700 block px-3 py-2 rounded-md text-base font-medium">
                         Registruj se
                     </a>
                 @endauth

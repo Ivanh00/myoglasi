@@ -7,9 +7,9 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f3f4f6; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
-        .header { background: linear-gradient(to right, #3b82f6, #1d4ed8); padding: 30px; text-align: center; }
+        .header { background: linear-gradient(to right, #0ea5e9, #0284c7); padding: 30px; text-align: center; }
         .content { padding: 40px 30px; }
-        .button { display: inline-block; background-color: #3b82f6; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        .button { display: inline-block; background-color: #0ea5e9; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; }
         .footer { background-color: #f9fafb; padding: 20px; text-align: center; font-size: 14px; color: #6b7280; }
     </style>
 </head>
@@ -42,7 +42,7 @@
             
             <p style="color: #6b7280; font-size: 14px; margin-top: 30px;">
                 Ako dugme ne radi, kopirajte sledeći link u browser:<br>
-                <a href="{{ $magicLink->getUrl() }}" style="color: #3b82f6;">{{ $magicLink->getUrl() }}</a>
+                <a href="{{ $magicLink->getUrl() }}" style="color: #0ea5e9;">{{ $magicLink->getUrl() }}</a>
             </p>
         </div>
         

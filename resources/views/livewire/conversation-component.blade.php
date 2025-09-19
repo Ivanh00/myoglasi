@@ -45,7 +45,7 @@
 
         /* Ensure the scroll button is visible in dark mode */
         .dark #scrollToBottomBtn {
-            background-color: #3b82f6 !important;
+            background-color: #0ea5e9 !important;
         }
     </style>
     <!-- Navigacija -->
@@ -70,7 +70,7 @@
                             <img src="{{ $otherUser->avatar_url }}" alt="{{ $otherUser->name }}" 
                                 style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                         @else
-                            <div style="width: 40px; height: 40px; background-color: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
+                            <div style="width: 40px; height: 40px; background-color: #0ea5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
                                 {{ strtoupper(substr($otherUser->name, 0, 1)) }}
                             </div>
                         @endif
