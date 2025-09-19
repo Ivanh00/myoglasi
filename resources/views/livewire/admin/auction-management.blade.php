@@ -66,7 +66,7 @@
             <thead class="bg-slate-50">
                 <tr>
                     <th wire:click="sortBy('id')"
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
                         ID
                         @if ($sortField === 'id')
                             <span class="text-indigo-500">
@@ -78,11 +78,12 @@
                             </span>
                         @endif
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                    <th
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Oglas
                     </th>
                     <th wire:click="sortBy('current_price')"
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
                         Cene
                         @if ($sortField === 'current_price')
                             <span class="text-indigo-500">
@@ -94,11 +95,12 @@
                             </span>
                         @endif
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                    <th
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Ponude
                     </th>
                     <th wire:click="sortBy('status')"
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
                         Status
                         @if ($sortField === 'status')
                             <span class="text-indigo-500">
@@ -111,7 +113,7 @@
                         @endif
                     </th>
                     <th wire:click="sortBy('ends_at')"
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-slate-100">
                         Završava
                         @if ($sortField === 'ends_at')
                             <span class="text-indigo-500">
@@ -123,10 +125,12 @@
                             </span>
                         @endif
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                    <th
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Prodavac
                     </th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
+                    <th
+                        class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Akcije
                     </th>
                 </tr>
@@ -154,7 +158,7 @@
                                     <div class="text-sm font-medium text-slate-900">
                                         {{ Str::limit($auction->listing->title, 30) }}
                                     </div>
-                                    <div class="text-sm text-slate-500">
+                                    <div class="text-sm text-slate-500 dark:text-slate-300">
                                         {{ $auction->listing->category->name ?? 'N/A' }}
                                     </div>
                                 </div>
@@ -164,7 +168,7 @@
                             <div class="text-sm text-slate-900">
                                 <div>Trenutna: <strong>{{ number_format($auction->current_price, 0, ',', '.') }}
                                         RSD</strong></div>
-                                <div class="text-slate-500">Početna:
+                                <div class="text-slate-500 dark:text-slate-300">Početna:
                                     {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
                                 @if ($auction->buy_now_price)
                                     <div class="text-green-600">Kupi odmah:
@@ -235,7 +239,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900">
                             {{ $auction->ends_at->format('d.m.Y H:i') }}
                             @if ($auction->isActive())
-                                <div class="text-xs text-slate-500">
+                                <div class="text-xs text-slate-500 dark:text-slate-300">
                                     @php
                                         $timeLeft = $auction->time_left;
                                     @endphp
@@ -246,8 +250,8 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-slate-900">{{ $auction->seller->name }}</div>
-                            <div class="text-sm text-slate-500">{{ $auction->seller->email }}</div>
+                            <div class="text-sm text-slate-900 dark:text-slate-700">{{ $auction->seller->name }}</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-300">{{ $auction->seller->email }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex items-center justify-end space-x-2">
@@ -295,7 +299,8 @@
                     </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 text-center">
+                            <td colspan="8"
+                                class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300 text-center">
                                 Nema aukcija koje odgovaraju filterima.
                             </td>
                         </tr>
@@ -418,7 +423,7 @@
                 <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                     <div class="mt-3 text-center">
                         <h3 class=" font-medium text-slate-900 mb-4">Potvrda brisanja aukcije</h3>
-                        <p class="text-sm text-slate-500 mb-4">
+                        <p class="text-sm text-slate-500 dark:text-slate-300 mb-4">
                             Da li ste sigurni da želite da obrišete aukciju za
                             "{{ $selectedAuction->listing->title ?? '' }}"?
                             <br>Ovo će obrisati samo aukciju, oglas će ostati netaknut.

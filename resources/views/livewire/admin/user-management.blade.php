@@ -70,7 +70,7 @@
                     <tr>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('name')"
-                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 uppercase tracking-wider hover:text-slate-700">
+                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider hover:text-slate-700">
                                 <span>Korisnik</span>
                                 @if ($sortField === 'name')
                                     @if ($sortDirection === 'asc')
@@ -89,7 +89,7 @@
                         </th>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('balance')"
-                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 uppercase tracking-wider hover:text-slate-700">
+                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider hover:text-slate-700">
                                 <span>Balans</span>
                                 @if ($sortField === 'balance')
                                     @if ($sortDirection === 'asc')
@@ -106,17 +106,21 @@
                                 @endif
                             </button>
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Oglasi</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Verifikacija</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Način plaćanja</th>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('created_at')"
-                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 uppercase tracking-wider hover:text-slate-700">
+                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider hover:text-slate-700">
                                 <span>Registrovan</span>
                                 @if ($sortField === 'created_at')
                                     @if ($sortDirection === 'asc')
@@ -133,7 +137,8 @@
                                 @endif
                             </button>
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -153,7 +158,8 @@
                                     @endif
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-slate-900">{{ $user->name }}</div>
-                                        <div class="text-sm text-slate-500">{{ $user->email }}</div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">{{ $user->email }}
+                                        </div>
                                         @if ($user->city)
                                             <div class="text-xs text-slate-400">{{ $user->city }}</div>
                                         @endif
@@ -163,7 +169,8 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-medium text-slate-900">
                                     {{ number_format($user->balance ?? 0, 0) }} RSD</div>
-                                <div class="text-xs text-slate-500">{{ $user->transactions_count }} transakcija</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-300">{{ $user->transactions_count }}
+                                    transakcija</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-slate-900">{{ $user->listings_count }} oglasa</div>
@@ -194,7 +201,7 @@
                                 <div>
                                     {!! $user->verification_badge !!}
                                     @if ($user->verification_comment)
-                                        <div class="text-xs text-slate-500 mt-1"
+                                        <div class="text-xs text-slate-500 dark:text-slate-300 mt-1"
                                             title="{{ $user->verification_comment }}">
                                             {{ Str::limit($user->verification_comment, 30) }}
                                         </div>
@@ -226,7 +233,7 @@
                                                     Mesečni
                                                 </span>
                                                 @if ($user->plan_expires_at)
-                                                    <span class="text-xs text-slate-500">
+                                                    <span class="text-xs text-slate-500 dark:text-slate-300">
                                                         {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
                                                     </span>
                                                 @endif
@@ -239,7 +246,7 @@
                                                     Godišnji
                                                 </span>
                                                 @if ($user->plan_expires_at)
-                                                    <span class="text-xs text-slate-500">
+                                                    <span class="text-xs text-slate-500 dark:text-slate-300">
                                                         {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
                                                     </span>
                                                 @endif
@@ -256,7 +263,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300">
                                 {{ $user->created_at->format('d.m.Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -363,7 +370,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-4 text-center text-slate-500">
+                                <td colspan="6" class="px-6 py-4 text-center text-slate-500 dark:text-slate-300">
                                     Nema korisnika koji odgovaraju kriterijumima pretrage.
                                 </td>
                             </tr>
@@ -397,7 +404,7 @@
                             </div>
                             <div class="ml-4 flex-1">
                                 <div class="text-lg font-semibold text-slate-900">{{ $user->name }}</div>
-                                <div class="text-sm text-slate-500">{{ $user->email }}</div>
+                                <div class="text-sm text-slate-500 dark:text-slate-300">{{ $user->email }}</div>
                                 @if ($user->city)
                                     <div class="text-xs text-slate-400">{{ $user->city }}</div>
                                 @endif
@@ -433,22 +440,26 @@
                     <!-- Info Grid -->
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div class="bg-slate-50 p-3 rounded-lg">
-                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Balans</div>
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                                Balans</div>
                             <div class="text-sm font-medium text-slate-900">{{ number_format($user->balance ?? 0, 0) }}
                                 RSD</div>
-                            <div class="text-xs text-slate-500">{{ $user->transactions_count }} transakcija</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-300">{{ $user->transactions_count }}
+                                transakcija</div>
                         </div>
 
                         <div class="bg-slate-50 p-3 rounded-lg">
-                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Oglasi</div>
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                                Oglasi</div>
                             <div class="text-sm font-medium text-slate-900">{{ $user->listings_count }} oglasa</div>
-                            <div class="text-xs text-slate-500">Ukupno</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-300">Ukupno</div>
                         </div>
                     </div>
 
                     <!-- Payment Plan -->
                     <div class="mb-4">
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Način plaćanja</div>
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
+                            Način plaćanja</div>
                         @if (!$user->payment_enabled)
                             <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
@@ -472,7 +483,7 @@
                                         Mesečni
                                     </span>
                                     @if ($user->plan_expires_at)
-                                        <div class="text-xs text-slate-500 mt-1">
+                                        <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                             {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
                                         </div>
                                     @endif
@@ -485,7 +496,7 @@
                                         Godišnji
                                     </span>
                                     @if ($user->plan_expires_at)
-                                        <div class="text-xs text-slate-500 mt-1">
+                                        <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                             {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
                                         </div>
                                     @endif
@@ -504,7 +515,8 @@
 
                     <!-- Registration Date -->
                     <div class="mb-4">
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Registrovan</div>
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                            Registrovan</div>
                         <div class="text-sm text-slate-900">{{ $user->created_at->format('d.m.Y') }}</div>
                     </div>
 
@@ -822,7 +834,7 @@
                                         @foreach ($userDetails['recent_listings'] as $listing)
                                             <div class="bg-white p-3 rounded border">
                                                 <p class="font-medium text-sm">{{ $listing->title }}</p>
-                                                <p class="text-xs text-slate-500">
+                                                <p class="text-xs text-slate-500 dark:text-slate-300">
                                                     {{ $listing->created_at->format('d.m.Y H:i') }}</p>
                                                 <p class="text-xs font-semibold text-green-600">
                                                     {{ number_format($listing->price, 0) }} RSD</p>
@@ -845,7 +857,7 @@
                                                         RSD
                                                     </p>
                                                 </div>
-                                                <p class="text-xs text-slate-500">
+                                                <p class="text-xs text-slate-500 dark:text-slate-300">
                                                     {{ $transaction->created_at->format('d.m.Y H:i') }}</p>
                                             </div>
                                         @endforeach
@@ -870,7 +882,7 @@
                                                 <span class="text-red-600 dark:text-red-400">Banovan</span>
                                                 @if ($userDetails['user']->ban_reason)
                                                     <br><small
-                                                        class="text-slate-500">{{ $userDetails['user']->ban_reason }}</small>
+                                                        class="text-slate-500 dark:text-slate-300">{{ $userDetails['user']->ban_reason }}</small>
                                                 @endif
                                             @else
                                                 <span class="text-green-600">Aktivan</span>
@@ -917,7 +929,7 @@
                                                     <span class="font-semibold">{{ $selectedUser->plan_status }}</span>
                                                 </p>
                                                 @if ($selectedUser->plan_expires_at)
-                                                    <p class="text-xs text-slate-500 mt-1">
+                                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                                         Ističe: {{ $selectedUser->plan_expires_at->format('d.m.Y H:i') }}
                                                     </p>
                                                 @endif
@@ -956,7 +968,7 @@
                                                         <input type="date" wire:model="paymentState.plan_expires_at"
                                                             min="{{ now()->addDay()->format('Y-m-d') }}"
                                                             class="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                                                        <p class="text-xs text-slate-500 mt-1">
+                                                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                                             Ostavi prazno za automatsko izračunavanje
                                                         </p>
                                                     </div>
@@ -1046,13 +1058,14 @@
                                     @endif
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-slate-900">{{ $selectedUser->name }}</div>
-                                        <div class="text-sm text-slate-500">{{ $selectedUser->email }}</div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">{{ $selectedUser->email }}
+                                        </div>
                                     </div>
                                 </div>
 
                                 <!-- Current Status -->
                                 <div class="mt-3">
-                                    <p class="text-xs text-slate-500">Trenutni status:</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-300">Trenutni status:</p>
                                     <div class="mt-1">{!! $selectedUser->verification_badge !!}</div>
                                     @if ($selectedUser->verification_comment)
                                         <p class="text-xs text-slate-600 mt-2 p-2 bg-slate-100 rounded">

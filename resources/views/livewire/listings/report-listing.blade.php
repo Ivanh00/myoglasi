@@ -47,20 +47,24 @@
                                     <div class="font-medium text-slate-900">{{ $reason }}</div>
                                     @switch($key)
                                         @case('inappropriate_content')
-                                            <div class="text-sm text-slate-500">Uvredljiv, diskriminirajući ili neprikladan
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">Uvredljiv, diskriminirajući
+                                                ili neprikladan
                                                 sadržaj</div>
                                         @break
 
                                         @case('fake_listing')
-                                            <div class="text-sm text-slate-500">Lažne informacije ili nepostojеći proizvod</div>
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">Lažne informacije ili
+                                                nepostojеći proizvod</div>
                                         @break
 
                                         @case('scam')
-                                            <div class="text-sm text-slate-500">Sumnja na prevaru ili malicioznu aktivnost</div>
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">Sumnja na prevaru ili
+                                                malicioznu aktivnost</div>
                                         @break
 
                                         @case('duplicate')
-                                            <div class="text-sm text-slate-500">Isti oglas je već postavljen</div>
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">Isti oglas je već postavljen
+                                            </div>
                                         @break
                                     @endswitch
                                 </div>
@@ -85,7 +89,8 @@
                         @error('reportDetails')
                             <p class="text-red-600 dark:text-red-400 text-sm">{{ $message }}</p>
                         @else
-                            <p class="text-slate-500 text-sm">Vaš izveštaj će biti poslat administratorima</p>
+                            <p class="text-slate-500 dark:text-slate-300 text-sm">Vaš izveštaj će biti poslat
+                                administratorima</p>
                         @enderror
                         <p class="text-slate-400 text-sm">{{ strlen($reportDetails ?? '') }}/1000</p>
                     </div>

@@ -85,7 +85,7 @@
                         @if ($auction->total_bids > 0)
                             <p class="text-slate-600 dark:text-slate-300">{{ $auction->total_bids }} ponuda</p>
                             @if ($auction->winningBid)
-                                <p class="text-sm text-slate-500 dark:text-slate-400">
+                                <p class="text-sm text-slate-500 dark:text-slate-300">
                                     Vodi: {{ $auction->winningBid->user->name }}
                                     @if ($auction->winningBid->user->shouldShowLastSeen())
                                         <span class="text-xs">
@@ -426,7 +426,7 @@
                                     @endif
                                 </h3>
                                 @if ($auction->seller->shouldShowLastSeen())
-                                    <span class="text-sm text-slate-500 dark:text-slate-400 ml-3">
+                                    <span class="text-sm text-slate-500 dark:text-slate-300 ml-3">
                                         @if ($auction->seller->is_online)
                                             <span class="inline-flex items-center">
                                                 <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -477,7 +477,7 @@
                                     <i class="fas fa-external-link-alt ml-1 text-xs"></i>
                                 </a>
                             @else
-                                <p class="text-slate-500 dark:text-slate-400 text-sm">Još nema ocena</p>
+                                <p class="text-slate-500 dark:text-slate-300 text-sm">Još nema ocena</p>
                             @endif
                         </div>
                     </div>
@@ -517,7 +517,7 @@
                                 <div class="font-medium text-slate-900 dark:text-slate-100">
                                     {{ $bid->user->name }}
                                     @if ($bid->user->shouldShowLastSeen())
-                                        <span class="font-normal text-xs text-slate-500 dark:text-slate-400 ml-1">
+                                        <span class="font-normal text-xs text-slate-500 dark:text-slate-300 ml-1">
                                             @if ($bid->user->is_online)
                                                 <span class="inline-flex items-center">
                                                     <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span>
@@ -529,7 +529,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="text-xs text-slate-500 dark:text-slate-400">
+                                <div class="text-xs text-slate-500 dark:text-slate-300">
                                     {{ $bid->created_at->format('d.m.Y H:i') }}</div>
                             </div>
                         </div>
@@ -549,7 +549,7 @@
             <div class="text-center py-8">
                 <i class="fas fa-gavel text-slate-400 text-3xl mb-3"></i>
                 <p class="text-slate-600 dark:text-slate-300">Još nema ponuda</p>
-                <p class="text-slate-500 dark:text-slate-400 text-sm">Budite prvi koji će licitirati!</p>
+                <p class="text-slate-500 dark:text-slate-300 text-sm">Budite prvi koji će licitirati!</p>
             </div>
         @endif
     </div>
@@ -753,8 +753,8 @@
                                 </span>
                             </div>
                             <div class="flex justify-between items-center text-sm">
-                                <span class="text-slate-500 dark:text-slate-400">Trenutna ponuda:</span>
-                                <span class="text-slate-600 dark:text-slate-300">
+                                <span class="text-slate-500 dark:text-slate-300">Trenutna ponuda:</span>
+                                <span class="text-slate-600 dark:text-slate-400">
                                     {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                                 </span>
                             </div>

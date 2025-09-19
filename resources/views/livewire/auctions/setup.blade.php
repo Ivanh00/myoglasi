@@ -44,7 +44,7 @@
                             <input type="number" wire:model="startingPrice" id="startingPrice" step="1"
                                 min="1"
                                 class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
-                            <p class="text-xs text-slate-500 mt-1">Preporučeno: 70% od trenutne cene
+                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Preporučeno: 70% od trenutne cene
                                 ({{ number_format($listing->price * 0.7, 0, ',', '.') }} RSD)</p>
                             @error('startingPrice')
                                 <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
@@ -59,7 +59,8 @@
                             <input type="number" wire:model="buyNowPrice" id="buyNowPrice" step="1"
                                 min="1"
                                 class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
-                            <p class="text-xs text-slate-500 mt-1">Kupci mogu kupiti odmah po ovoj ceni</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Kupci mogu kupiti odmah po ovoj
+                                ceni</p>
                             @error('buyNowPrice')
                                 <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror

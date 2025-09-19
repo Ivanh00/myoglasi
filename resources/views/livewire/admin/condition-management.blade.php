@@ -35,20 +35,20 @@
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('name')">
                             Naziv
                             @if ($sortField === 'name')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Slug
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">Slug
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Broj
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">Broj
                             oglasa</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -119,7 +119,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-4 text-center text-sm text-slate-500">
+                            <td colspan="5" class="px-6 py-4 text-center text-sm text-slate-500 dark:text-slate-300">
                                 Nema pronađenih stanja oglasa.
                             </td>
                         </tr>
@@ -192,7 +192,7 @@
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
                     <h3 class="text-lg font-medium text-slate-900 mb-4">Potvrda brisanja</h3>
-                    <p class="text-sm text-slate-500 mb-4">
+                    <p class="text-sm text-slate-500 dark:text-slate-300 mb-4">
                         Da li ste sigurni da želite da obrišete stanje "{{ $selectedCondition->name }}"?
                         <br>Ova akcija je nepovratna.
                     </p>

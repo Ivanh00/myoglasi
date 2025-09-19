@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 <li class="flex items-center">
-                    <span class="mx-2 text-slate-400 dark:text-slate-500">/</span>
+                    <span class="mx-2 text-slate-500 dark:text-slate-300">/</span>
                     <a href="{{ route('category.show', $listing->category->slug) }}"
                         class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
                         {{ $listing->category->name }}
@@ -28,15 +28,15 @@
                 </li>
                 @if ($listing->subcategory)
                     <li class="flex items-center">
-                        <span class="mx-2 text-slate-400 dark:text-slate-500">/</span>
+                        <span class="mx-2 text-slate-500 dark:text-slate-300">/</span>
                         <a href="{{ route('category.show', ['category' => $listing->category->slug, 'subcategory' => $listing->subcategory->slug]) }}"
-                            class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
+                            class="text-slate-500 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-200">
                             {{ $listing->subcategory->name }}
                         </a>
                     </li>
                 @endif
                 <li class="flex items-center">
-                    <span class="mx-2 text-slate-400 dark:text-slate-500">/</span>
+                    <span class="mx-2 text-slate-500 dark:text-slate-300">/</span>
                     <span
                         class="text-slate-700 dark:text-slate-300 font-medium truncate">{{ Str::limit($listing->title, 30) }}</span>
                 </li>
@@ -169,7 +169,7 @@
                     <div class="mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
                         @auth
                             <div class="flex items-center mb-1">
-                                <i class="fas fa-user text-slate-500 dark:text-slate-400 mr-2"></i>
+                                <i class="fas fa-user text-slate-500 dark:text-slate-300 mr-2"></i>
                                 <span class="text-slate-700 dark:text-slate-300 font-bold">
                                     @if ($listing->isService())
                                         Pružalac usluge: {{ $listing->user->name }}
@@ -186,7 +186,7 @@
                                     <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                 @endif
                                 @if ($listing->user->shouldShowLastSeen())
-                                    <span class="text-xs text-slate-500 ml-2">
+                                    <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                         @if ($listing->user->is_online)
                                             <span class="inline-flex items-center">
                                                 <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -217,22 +217,22 @@
                             @endif
                         @endauth
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-map-marker-alt text-slate-500 dark:text-slate-400 mr-2"></i>
+                            <i class="fas fa-map-marker-alt text-slate-500 dark:text-slate-300 mr-2"></i>
                             <span class="text-slate-700 dark:text-slate-300">{{ $listing->location }}</span>
                         </div>
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-clock text-slate-500 dark:text-slate-400 mr-2"></i>
+                            <i class="fas fa-clock text-slate-500 dark:text-slate-300 mr-2"></i>
                             <span class="text-slate-700 dark:text-slate-300">Objavljeno:
                                 {{ $listing->created_at->format('d.m.Y. H:i') }}</span>
                         </div>
                         <div class="flex items-center mb-2">
-                            <i class="fas fa-eye text-slate-500 dark:text-slate-400 mr-2"></i>
+                            <i class="fas fa-eye text-slate-500 dark:text-slate-300 mr-2"></i>
                             <span class="text-slate-700 dark:text-slate-300">Pregleda:
                                 {{ $listing->views ?? 0 }}</span>
                         </div>
                         <!-- Dodajte ovaj div za prikaz broja pratilaca -->
                         <div class="flex items-center">
-                            <i class="fas fa-heart text-slate-500 dark:text-slate-400 mr-2"></i>
+                            <i class="fas fa-heart text-slate-500 dark:text-slate-300 mr-2"></i>
                             <span class="text-slate-700 dark:text-slate-300">Pratilaca:
                                 {{ $listing->favorites_count ?? 0 }}</span>
                         </div>
@@ -296,7 +296,7 @@
                             @else
                                 <!-- Dugme za vlasnike oglasa -->
                                 <div
-                                    class="flex items-center justify-center px-4 py-3 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg">
+                                    class="flex items-center justify-center px-4 py-3 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 rounded-lg">
                                     <i class="fas fa-user mr-2"></i> Vaš oglas
                                 </div>
 
@@ -370,7 +370,7 @@
                             @else
                                 <!-- Dugme za vlasnike oglasa -->
                                 <div
-                                    class="w-full p-3 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg text-center">
+                                    class="w-full p-3 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 rounded-lg text-center">
                                     <i class="fas fa-user mr-2"></i> Vaš oglas
                                 </div>
 
@@ -474,7 +474,7 @@
                                     <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                 @endif
                                 @if ($listing->user->shouldShowLastSeen())
-                                    <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                    <div class="text-sm text-slate-500 dark:text-slate-300 mt-1">
                                         @if ($listing->user->is_online)
                                             <span class="inline-flex items-center">
                                                 <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -508,7 +508,7 @@
                                     <i class="fas fa-external-link-alt ml-1 text-xs"></i>
                                 </a>
                             @else
-                                <p class="text-slate-500 dark:text-slate-400 text-sm">Još nema ocena</p>
+                                <p class="text-slate-500 dark:text-slate-300 text-sm">Još nema ocena</p>
                             @endif
                         </div>
                     </div>
@@ -639,7 +639,7 @@
                                         bg-sky-50 dark:bg-slate-600 @endif">
                                     <div class="flex flex-col h-full justify-between">
                                         <div
-                                            class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 mb-4">
+                                            class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-300 mb-4">
                                             <div class="flex items-center">
                                                 <svg class="w-4 h-4 mr-1 text-slate-700 dark:text-slate-300"
                                                     fill="currentColor" viewBox="0 0 24 24">

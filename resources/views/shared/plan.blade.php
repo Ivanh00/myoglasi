@@ -44,7 +44,7 @@ return $next($request);
 
         <!-- Seller info - visible to all -->
         <div class="flex items-center justify-between">
-            <span class="text-sm text-slate-500">{{ $listing->user->name }}</span>
+            <span class="text-sm text-slate-500 dark:text-slate-300">{{ $listing->user->name }}</span>
             <span class="text-xs text-slate-400">{{ $listing->created_at->diffForHumans() }}</span>
         </div>
 
@@ -127,7 +127,8 @@ return $next($request);
                     class="bg-white p-4 rounded-lg shadow hover:shadow-md transition text-center">
                     <div class="text-2xl mb-2">{{ $category->icon ?? '📦' }}</div>
                     <h3 class="font-medium">{{ $category->name }}</h3>
-                    <p class="text-sm text-slate-500">{{ $category->listings_count ?? 0 }} oglasa</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-300">{{ $category->listings_count ?? 0 }} oglasa
+                    </p>
                 </a>
             @endforeach
         </div>
@@ -248,7 +249,7 @@ return $next($request);
                                 Prikaži broj telefona u oglasima (preporučeno)
                             </span>
                         </label>
-                        <p class="text-xs text-slate-500 mt-1">
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                             Kupci će moći direktno da te kontaktiraju
                         </p>
                     </div>
@@ -898,7 +899,7 @@ Route::get('/register', RegisterComponent::class)->name('register');
         <a href="{{ route('category.show', $listing->category) }}" class="text-sky-600 dark:text-sky-400">
             {{ $listing->category->name }}
         </a> >
-        <span class="text-slate-500">{{ $listing->title }}</span>
+        <span class="text-slate-500 dark:text-slate-300">{{ $listing->title }}</span>
     </nav>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -923,7 +924,7 @@ Route::get('/register', RegisterComponent::class)->name('register');
                 </div>
             @else
                 <div class="bg-slate-200 h-96 rounded-lg flex items-center justify-center">
-                    <span class="text-slate-500">Nema slika</span>
+                    <span class="text-slate-500 dark:text-slate-300">Nema slika</span>
                 </div>
             @endif
         </div>
@@ -948,7 +949,7 @@ Route::get('/register', RegisterComponent::class)->name('register');
                     </p>
                 @endif
 
-                <p class="text-sm text-slate-500 mt-2">
+                <p class="text-sm text-slate-500 dark:text-slate-300 mt-2">
                     Član od {{ $listing->user->created_at->format('M Y') }}
                 </p>
             </div>

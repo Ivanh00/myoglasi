@@ -18,7 +18,8 @@
                         </div>
                         <div class="ml-4">
                             <h3 class="text-lg font-semibold text-slate-900">{{ $category->name }}</h3>
-                            <p class="text-sm text-slate-500">{{ $category->listings_count }} oglasa</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-300">{{ $category->listings_count }} oglasa
+                            </p>
                         </div>
                     </div>
 
@@ -48,7 +49,7 @@
                                 </a>
                             @endforeach
                             @if ($category->children->count() > 4)
-                                <span class="inline-block px-2 py-1 text-xs text-slate-500">
+                                <span class="inline-block px-2 py-1 text-xs text-slate-500 dark:text-slate-300">
                                     +{{ $category->children->count() - 4 }} više
                                 </span>
                             @endif

@@ -133,7 +133,8 @@
                         <!-- Desna strana - akcije i dodatne informacije -->
                         <div class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200">
                             <div class="flex flex-col h-full justify-between">
-                                <div class="flex items-center justify-between text-sm text-slate-500 mb-4">
+                                <div
+                                    class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-300 mb-4">
                                     <div class="flex items-center">
                                         <i class="fas fa-eye mr-1"></i>
                                         <span>{{ $listing->views ?? 0 }}</span>
@@ -221,7 +222,8 @@
         <div class="bg-white rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-search text-slate-400 text-5xl mb-4"></i>
             <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema oglasa u ovoj kategoriji</h3>
-            <p class="text-slate-600 dark:text-slate-400 mb-4">Trenutno nema aktivnih oglasa u ovoj kategoriji. Pokušajte kasnije ili
+            <p class="text-slate-600 dark:text-slate-400 mb-4">Trenutno nema aktivnih oglasa u ovoj kategoriji.
+                Pokušajte kasnije ili
                 pogledajte druge kategorije.</p>
             <a href="{{ route('categories.index') }}"
                 class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
@@ -242,7 +244,8 @@
                             <i class="fas fa-folder text-sky-500"></i>
                         </div>
                         <h3 class="font-medium text-slate-900">{{ $subcat->name }}</h3>
-                        <p class="text-slate-500 text-sm mt-1">{{ $subcat->listings_count }} oglasa</p>
+                        <p class="text-slate-500 dark:text-slate-300 text-sm mt-1">{{ $subcat->listings_count }}
+                            oglasa</p>
                     </a>
                 @endforeach
             </div>

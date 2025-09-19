@@ -59,7 +59,7 @@
                                 Prikaži broj telefona u oglasima (preporučeno)
                             </span>
                         </label>
-                        <p class="text-xs text-slate-500 mt-1">
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                             Kupci će moći direktno da te kontaktiraju
                         </p>
                     </div>

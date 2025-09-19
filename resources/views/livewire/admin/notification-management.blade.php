@@ -54,16 +54,21 @@
                 <table class="w-full table-auto">
                     <thead class="bg-slate-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                 Naslov</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                 Prima
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                 Poruka</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                 Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                 Datum
                             </th>
                         </tr>
@@ -90,14 +95,15 @@
                                         <div class="ml-3">
                                             <div class="text-sm font-medium text-slate-900">
                                                 {{ $notification->receiver->name }}</div>
-                                            <div class="text-sm text-slate-500">{{ $notification->receiver->email }}</div>
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">
+                                                {{ $notification->receiver->email }}</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="text-sm text-slate-900">{{ Str::limit($notification->message, 50) }}</div>
                                     @if ($notification->listing)
-                                        <div class="text-xs text-slate-500 mt-1">Vezano za:
+                                        <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">Vezano za:
                                             {{ $notification->listing->title }}</div>
                                     @endif
                                 </td>
@@ -114,13 +120,13 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300">
                                     {{ $notification->created_at->format('d.m.Y H:i') }}
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-4 text-center text-slate-500">
+                                <td colspan="5" class="px-6 py-4 text-center text-slate-500 dark:text-slate-300">
                                     Nema poslanih obaveštenja.
                                 </td>
                             </tr>
@@ -154,7 +160,8 @@
                                     Nepročitano
                                 </span>
                             @endif
-                            <div class="text-xs text-slate-500">{{ $notification->created_at->format('d.m.Y H:i') }}</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-300">
+                                {{ $notification->created_at->format('d.m.Y H:i') }}</div>
                         </div>
                     </div>
 
@@ -167,7 +174,8 @@
                     <!-- Recipient Info -->
                     <div class="bg-slate-50 p-3 rounded-lg mb-4">
                         <div class="flex items-center justify-between mb-2">
-                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Prima</div>
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                                Prima</div>
                             <div class="flex items-center">
                                 @if ($notification->receiver->avatar)
                                     <img src="{{ $notification->receiver->avatar_url }}"
@@ -182,12 +190,13 @@
                             </div>
                         </div>
                         <div class="text-sm font-medium text-slate-900">{{ $notification->receiver->name }}</div>
-                        <div class="text-xs text-slate-500">{{ $notification->receiver->email }}</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-300">{{ $notification->receiver->email }}</div>
                     </div>
 
                     <!-- Message Preview -->
                     <div class="mb-4">
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Poruka</div>
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
+                            Poruka</div>
                         <div class="text-sm text-slate-900">{{ Str::limit($notification->message, 120) }}</div>
                         @if (strlen($notification->message) > 120)
                             <button class="text-sky-600 dark:text-sky-400 text-xs mt-1">
@@ -199,7 +208,9 @@
                     <!-- Related Listing -->
                     @if ($notification->listing)
                         <div class="mb-4">
-                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Vezano za oglas
+                            <div
+                                class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
+                                Vezano za oglas
                             </div>
                             <div class="bg-amber-50 p-3 rounded-lg border border-amber-200">
                                 <div class="text-sm font-medium text-slate-900">
@@ -212,7 +223,8 @@
 
                     <!-- Notification Type Badge -->
                     <div class="mb-4">
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Tip obaveštenja</div>
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
+                            Tip obaveštenja</div>
                         <span
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                             <i class="fas fa-bell mr-1"></i>
@@ -265,13 +277,15 @@
                                         <input type="radio" wire:model.live="notificationData.recipient_type"
                                             value="all" class="mr-2">
                                         <span class="text-sm">Svim korisnicima</span>
-                                        <span class="text-xs text-slate-500 ml-2">(samo aktivni, ne banovani)</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">(samo aktivni, ne
+                                            banovani)</span>
                                     </label>
                                     <label class="flex items-center">
                                         <input type="radio" wire:model.live="notificationData.recipient_type"
                                             value="filtered" class="mr-2">
                                         <span class="text-sm">Filtriranim korisnicima</span>
-                                        <span class="text-xs text-slate-500 ml-2">(custom grupe)</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">(custom
+                                            grupe)</span>
                                     </label>
                                     <label class="flex items-center">
                                         <input type="radio" wire:model.live="notificationData.recipient_type"
@@ -308,7 +322,8 @@
                                                     @endif
                                                     <div>
                                                         <div class="font-medium text-sm">{{ $user->name }}</div>
-                                                        <div class="text-xs text-slate-500">{{ $user->email }}</div>
+                                                        <div class="text-xs text-slate-500 dark:text-slate-300">
+                                                            {{ $user->email }}</div>
                                                         @if ($user->is_banned)
                                                             <span class="text-red-500 text-xs">Banovan</span>
                                                         @endif
@@ -386,7 +401,7 @@
                                 @error('notificationData.message')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
-                                <div class="text-xs text-slate-500 mt-1">
+                                <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                     {{ strlen($notificationData['message'] ?? '') }}/1000 karaktera</div>
                             </div>
 
@@ -404,11 +419,13 @@
                                         @endforeach
                                     </select>
                                     @if ($notificationData['recipient_id'])
-                                        <div class="text-xs text-slate-500 mt-1">Prikazuju se oglasi odabranog
+                                        <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">Prikazuju se
+                                            oglasi odabranog
                                             korisnika
                                         </div>
                                     @else
-                                        <div class="text-xs text-slate-500 mt-1">Prvo odaberite korisnika da vidite
+                                        <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">Prvo odaberite
+                                            korisnika da vidite
                                             njegove oglase</div>
                                     @endif
                                 </div>

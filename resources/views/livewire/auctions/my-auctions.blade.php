@@ -38,7 +38,7 @@
                                     Sve aukcije
                             @endswitch
                         </span>
-                        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor"
+                        <svg class="w-4 h-4 text-slate-500 dark:text-slate-300" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
                             </path>
@@ -80,22 +80,22 @@
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
                 <div class="grid grid-cols-[20%_15%_12%_10%_18%_25%] bg-slate-50 dark:bg-slate-700">
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Oglas</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Početna/Trenutna cena</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Ponude</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Status</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Datum/Vreme</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Akcije</div>
                 </div>
             </div>
@@ -123,7 +123,8 @@
                                     <div class="text-sm font-medium text-slate-900 dark:text-slate-100 break-words">
                                         {{ Str::limit($auction->listing->title, 40) }}
                                     </div>
-                                    <div class="text-sm text-slate-500">{{ $auction->listing->category->name }}</div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-300">
+                                        {{ $auction->listing->category->name }}</div>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +147,8 @@
                                 <div class="text-slate-900 dark:text-slate-100 font-semibold">
                                     {{ $auction->total_bids }} ponuda</div>
                                 @if ($auction->winningBid)
-                                    <div class="text-xs text-slate-500">Vodi: {{ $auction->winningBid->user->name }}
+                                    <div class="text-xs text-slate-500 dark:text-slate-300">Vodi:
+                                        {{ $auction->winningBid->user->name }}
                                     </div>
                                 @endif
                             </div>
@@ -158,7 +160,8 @@
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1">Aktivna</span>
                                     @if ($auction->time_left)
-                                        <span class="text-xs text-slate-500">{{ $auction->time_left['formatted'] }}
+                                        <span
+                                            class="text-xs text-slate-500 dark:text-slate-300">{{ $auction->time_left['formatted'] }}
                                             ostalo</span>
                                     @endif
                                 @elseif($auction->hasEnded())
@@ -168,7 +171,7 @@
                                         <span class="text-xs text-green-600">Pobednik:
                                             {{ $auction->winner->name }}</span>
                                     @else
-                                        <span class="text-xs text-slate-500">Bez ponuda</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-300">Bez ponuda</span>
                                     @endif
                                 @else
                                     <span
@@ -177,7 +180,7 @@
                             </div>
                         </div>
                         <!-- Datum/Vreme Column -->
-                        <div class="px-6 py-2 text-sm text-slate-500">
+                        <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-300">
                             <div class="flex flex-col space-y-1">
                                 <div>Počinje: {{ $auction->starts_at->format('d.m.Y') }}
                                     {{ $auction->starts_at->format('H:i') }}</div>
@@ -200,7 +203,7 @@
                                     </a>
                                 @else
                                     <span
-                                        class="inline-flex items-center px-2 py-1 text-slate-400 dark:text-slate-500 rounded cursor-not-allowed"
+                                        class="inline-flex items-center px-2 py-1 text-slate-500 dark:text-slate-300 rounded cursor-not-allowed"
                                         title="Ne možete uređivati aukciju koja ima ponude">
                                         <i class="fas fa-edit mr-1"></i> Uredi
                                     </span>
@@ -316,7 +319,8 @@
                                 <div class="flex-1 min-w-0">
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
                                         {{ $auction->listing->title }}</h3>
-                                    <p class="text-sm text-slate-500 mb-2">{{ $auction->listing->category->name }}</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-300 mb-2">
+                                        {{ $auction->listing->category->name }}</p>
                                     <div class="text-sm">
                                         <div class="text-slate-600 dark:text-slate-300">Početna:
                                             {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
@@ -333,14 +337,15 @@
                         <!-- Status Section -->
                         <div class="mb-4">
                             <div
-                                class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                                class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
                                 Status aukcije</div>
                             <div class="flex flex-col space-y-2">
                                 @if ($auction->isActive())
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 w-fit">Aktivna</span>
                                     @if ($auction->time_left)
-                                        <span class="text-xs text-slate-500">{{ $auction->time_left['formatted'] }}
+                                        <span
+                                            class="text-xs text-slate-500 dark:text-slate-300">{{ $auction->time_left['formatted'] }}
                                             ostalo</span>
                                     @endif
                                 @elseif($auction->hasEnded())
@@ -350,7 +355,7 @@
                                         <span class="text-xs text-green-600">Pobednik:
                                             {{ $auction->winner->name }}</span>
                                     @else
-                                        <span class="text-xs text-slate-500">Bez ponuda</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-300">Bez ponuda</span>
                                     @endif
                                 @else
                                     <span
@@ -362,13 +367,14 @@
                         <!-- Bids Info -->
                         <div class="mb-4">
                             <div
-                                class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                                class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
                                 Ponude</div>
                             <div class="space-y-1">
                                 <div class="text-sm text-slate-900 dark:text-slate-100">{{ $auction->total_bids }}
                                     ponuda</div>
                                 @if ($auction->winningBid)
-                                    <div class="text-xs text-slate-500">Vodi: {{ $auction->winningBid->user->name }}
+                                    <div class="text-xs text-slate-500 dark:text-slate-300">Vodi:
+                                        {{ $auction->winningBid->user->name }}
                                     </div>
                                 @endif
                                 @if ($auction->buy_now_price)
@@ -381,7 +387,7 @@
                         <!-- Time Info -->
                         <div class="mb-4">
                             <div
-                                class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                                class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
                                 Vreme</div>
                             <div class="space-y-1">
                                 <div class="text-sm text-slate-900 dark:text-slate-100">Počinje:

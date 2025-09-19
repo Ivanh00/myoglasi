@@ -365,7 +365,7 @@
                                         <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
                                     @endif
                                     @if ($listing->user && $listing->user->shouldShowLastSeen())
-                                        <span class="text-xs text-slate-500 ml-2">
+                                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                             @if ($listing->user->is_online)
                                                 <span class="inline-flex items-center">
                                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -436,7 +436,8 @@
                             </div>
 
                             <!-- Stats -->
-                            <div class="flex items-center justify-between text-xs text-slate-500 mb-3">
+                            <div
+                                class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300 mb-3">
                                 <div class="flex items-center">
                                     <i class="fas fa-eye mr-1"></i>
                                     <span>{{ $listing->views ?? 0 }}</span>
@@ -446,7 +447,7 @@
                                 </div>
                             </div>
 
-                            <div class="text-xs text-slate-500 mb-3">
+                            <div class="text-xs text-slate-500 dark:text-slate-300 mb-3">
                                 <i class="fas fa-clock mr-1"></i>
                                 Postavljeno pre {{ floor($listing->created_at->diffInDays()) }} dana
                             </div>
@@ -554,7 +555,7 @@
                                                         class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                                 @endif
                                                 @if ($listing->user && $listing->user->shouldShowLastSeen())
-                                                    <span class="text-xs text-slate-500 ml-2">
+                                                    <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                                         @if ($listing->user->is_online)
                                                             <span class="inline-flex items-center">
                                                                 <span
@@ -634,7 +635,7 @@
                                 class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 {{ $listing->isHighlighted() ? 'bg-amber-50 dark:bg-amber-800' : 'bg-sky-50 dark:bg-slate-600' }}">
                                 <div class="flex flex-col h-full justify-between">
                                     <div
-                                        class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 mb-4">
+                                        class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-300 mb-4">
                                         <div class="flex items-center">
                                             <svg class="w-4 h-4 mr-1 text-slate-700 dark:text-slate-200"
                                                 fill="currentColor" viewBox="0 0 24 24">

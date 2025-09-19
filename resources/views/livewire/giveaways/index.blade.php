@@ -96,7 +96,7 @@
                                                 <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                             @endif
                                             @if ($giveaway->user && $giveaway->user->shouldShowLastSeen())
-                                                <span class="text-xs text-slate-500 ml-2">
+                                                <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                                     @if ($giveaway->user->is_online)
                                                         <span class="inline-flex items-center">
                                                             <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -136,7 +136,7 @@
                         <div
                             class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-green-50 dark:bg-slate-600">
                             <div class="flex flex-col h-full justify-between">
-                                <div class="flex items-center justify-between text-sm text-slate-500 mb-4">
+                                <div class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-300 mb-4">
                                     <div class="flex items-center">
                                         <i class="fas fa-eye mr-1"></i>
                                         <span>{{ $giveaway->views ?? 0 }}</span>
@@ -188,7 +188,7 @@
                     Trenutno nema poklona.
                 @endif
             </p>
-            <p class="text-sm text-slate-500">Budite prvi koji će pokloniti nešto!</p>
+            <p class="text-sm text-slate-500 dark:text-slate-300">Budite prvi koji će pokloniti nešto!</p>
         </div>
     @endif
 </div>

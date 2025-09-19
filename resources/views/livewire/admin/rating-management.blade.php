@@ -17,7 +17,7 @@
                     <span class="text-2xl">📊</span>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Ukupno ocena</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Ukupno ocena</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $stats['total'] }}</p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     <span class="text-2xl">😊</span>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Pozitivne</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Pozitivne</h3>
                     <p class="text-2xl font-semibold text-green-600">{{ $stats['positive'] }}</p>
                     <p class="text-xs text-slate-400">{{ $stats['positive_percentage'] }}%</p>
                 </div>
@@ -42,7 +42,7 @@
                     <span class="text-2xl">😐</span>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Neutralne</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Neutralne</h3>
                     <p class="text-2xl font-semibold text-amber-600 dark:text-amber-400">{{ $stats['neutral'] }}</p>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     <span class="text-2xl">😞</span>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Negativne</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Negativne</h3>
                     <p class="text-2xl font-semibold text-red-600 dark:text-red-400">{{ $stats['negative'] }}</p>
                     <p class="text-xs text-slate-400">{{ $stats['negative_percentage'] }}%</p>
                 </div>
@@ -136,7 +136,7 @@
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
                             wire:click="sortBy('rating')">
                             Ocena
                             @if ($sortField === 'rating')
@@ -147,19 +147,23 @@
                                 @endif
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Ocenio
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Ocenjen
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Oglas
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Komentar
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
                             wire:click="sortBy('created_at')">
                             Datum
                             @if ($sortField === 'created_at')
@@ -170,7 +174,8 @@
                                 @endif
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije
                         </th>
                     </tr>
@@ -188,11 +193,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-medium text-slate-900">{{ $rating->rater->name }}</div>
-                                <div class="text-sm text-slate-500">{{ $rating->rater->email }}</div>
+                                <div class="text-sm text-slate-500 dark:text-slate-300">{{ $rating->rater->email }}
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-medium text-slate-900">{{ $rating->ratedUser->name }}</div>
-                                <div class="text-sm text-slate-500">{{ $rating->ratedUser->email }}</div>
+                                <div class="text-sm text-slate-500 dark:text-slate-300">{{ $rating->ratedUser->email }}
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($rating->listing)
@@ -209,7 +216,7 @@
                                     <span class="text-sm text-slate-400 italic">Bez komentara</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300">
                                 {{ $rating->created_at->format('d.m.Y. H:i') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -237,7 +244,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-slate-500">
+                            <td colspan="7" class="px-6 py-4 text-center text-slate-500 dark:text-slate-300">
                                 Nema pronađenih ocena za zadati filter.
                             </td>
                         </tr>
@@ -259,7 +266,8 @@
                             <span class="text-2xl mr-3">{{ $rating->rating_icon }}</span>
                             <div>
                                 <h3 class="text-sm font-semibold text-slate-900">{{ $rating->rater->name }}</h3>
-                                <p class="text-xs text-slate-500">ocenio {{ $rating->ratedUser->name }}</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-300">ocenio
+                                    {{ $rating->ratedUser->name }}</p>
                             </div>
                         </div>
                         <div class="text-xs text-slate-400">
@@ -270,7 +278,7 @@
                     <!-- Listing -->
                     @if ($rating->listing)
                         <div class="mb-3">
-                            <p class="text-xs text-slate-500 mb-1">Oglas:</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-300 mb-1">Oglas:</p>
                             <p class="text-sm font-medium text-slate-800">{{ $rating->listing->title }}</p>
                         </div>
                     @endif
@@ -278,7 +286,7 @@
                     <!-- Comment -->
                     @if ($rating->comment)
                         <div class="mb-4">
-                            <p class="text-xs text-slate-500 mb-1">Komentar:</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-300 mb-1">Komentar:</p>
                             <p class="text-sm text-slate-700">"{{ $rating->comment }}"</p>
                         </div>
                     @endif
@@ -416,7 +424,7 @@
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                             <h3 class="text-lg leading-6 font-medium text-slate-900">Obriši ocenu</h3>
                             <div class="mt-2">
-                                <p class="text-sm text-slate-500">
+                                <p class="text-sm text-slate-500 dark:text-slate-300">
                                     Da li ste sigurni da želite da obrišete ovu ocenu? Ova akcija se ne može poništiti.
                                 </p>
 

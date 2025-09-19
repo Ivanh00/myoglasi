@@ -119,7 +119,7 @@
                                         {{ $transaction->created_at->format('d.m.Y H:i') }}
                                     </p>
                                     @if ($transaction->payment_method)
-                                        <span class="text-xs text-slate-500">
+                                        <span class="text-xs text-slate-500 dark:text-slate-300">
                                             {{ ucfirst(str_replace('_', ' ', $transaction->payment_method)) }}
                                         </span>
                                     @endif
@@ -177,7 +177,8 @@
                 <div class="text-center py-8">
                     <i class="fas fa-receipt text-slate-400 text-4xl mb-4"></i>
                     <p class="text-slate-600 dark:text-slate-300">Nemate još uvek transakcija</p>
-                    <p class="text-slate-500 text-sm">Dopunite svoj balans da biste mogli da postavljate oglase</p>
+                    <p class="text-slate-500 dark:text-slate-300 text-sm">Dopunite svoj balans da biste mogli da
+                        postavljate oglase</p>
                 </div>
             @endif
         </div>
@@ -250,7 +251,8 @@
                                                         <div class="font-medium">
                                                             {{ $user->name }}
                                                             @if ($user->shouldShowLastSeen())
-                                                                <span class="font-normal text-xs text-slate-500 ml-1">
+                                                                <span
+                                                                    class="font-normal text-xs text-slate-500 dark:text-slate-300 ml-1">
                                                                     @if ($user->is_online)
                                                                         <span class="inline-flex items-center">
                                                                             <span
@@ -263,7 +265,8 @@
                                                                 </span>
                                                             @endif
                                                         </div>
-                                                        <div class="text-xs text-slate-500">{{ $user->email }}</div>
+                                                        <div class="text-xs text-slate-500 dark:text-slate-300">
+                                                            {{ $user->email }}</div>
                                                     </div>
                                                 </button>
                                             @endforeach

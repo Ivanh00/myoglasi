@@ -36,8 +36,7 @@
                                     Najnovije dodato
                             @endswitch
                         </span>
-                        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
                             </path>
                         </svg>
@@ -81,19 +80,19 @@
                 <thead class="bg-slate-50 dark:bg-slate-700">
                     <tr>
                         <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Oglas</th>
                         <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Cena</th>
                         <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
                         <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Dodato</th>
                         <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -116,7 +115,8 @@
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
                                             {{ Str::limit($listing->title, 40) }}</div>
-                                        <div class="text-sm text-slate-500">{{ $listing->category->name }}</div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">
+                                            {{ $listing->category->name }}</div>
                                         <div class="text-xs text-slate-400">{{ $listing->location }}</div>
                                     </div>
                                 </div>
@@ -143,7 +143,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300">
                                 {{ $listing->pivot->created_at->format('d.m.Y H:i') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -201,7 +201,8 @@
                                 <div class="flex-1 min-w-0">
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
                                         {{ $listing->title }}</h3>
-                                    <p class="text-sm text-slate-500 mb-1">{{ $listing->category->name }}</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-300 mb-1">
+                                        {{ $listing->category->name }}</p>
                                     <p class="text-xs text-slate-400 mb-2">{{ $listing->location }}</p>
                                     <p class="text-xl font-bold text-sky-600 dark:text-sky-400">
                                         {{ number_format($listing->price, 2) }} RSD</p>
@@ -233,7 +234,7 @@
                         <!-- Date Added -->
                         <div class="mb-4">
                             <div
-                                class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
+                                class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
                                 Dodato u omiljene</div>
                             <div class="text-sm text-slate-900 dark:text-slate-100">
                                 {{ $listing->pivot->created_at->format('d.m.Y H:i') }}</div>
@@ -243,7 +244,7 @@
                             <!-- Seller Info -->
                             <div class="mb-4">
                                 <div
-                                    class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
+                                    class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
                                     Prodavac</div>
                                 <div class="text-sm text-slate-900 dark:text-slate-100">
                                     {{ $listing->user->name }}

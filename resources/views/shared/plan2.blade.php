@@ -640,7 +640,7 @@ return $next($request);
                 <a href="{{ route('category.show', $listing->category) }}" class="text-sky-600 dark:text-sky-400">
                     {{ $listing->category->name }}
                 </a> >
-                <span class="text-slate-500">{{ $listing->title }}</span>
+                <span class="text-slate-500 dark:text-slate-300">{{ $listing->title }}</span>
             </nav>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -665,7 +665,7 @@ return $next($request);
                         </div>
                     @else
                         <div class="bg-slate-200 h-96 rounded-lg flex items-center justify-center">
-                            <span class="text-slate-500">Nema slika</span>
+                            <span class="text-slate-500 dark:text-slate-300">Nema slika</span>
                         </div>
                     @endif
                 </div>
@@ -690,7 +690,7 @@ return $next($request);
                             </p>
                         @endif
 
-                        <p class="text-sm text-slate-500 mt-2">
+                        <p class="text-sm text-slate-500 dark:text-slate-300 mt-2">
                             Član od {{ $listing->user->created_at->format('M Y') }}
                         </p>
                     </div>

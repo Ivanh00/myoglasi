@@ -84,15 +84,18 @@
                         </div>
                         <div class="p-4">
                             <h3 class="text-lg font-semibold text-slate-800 mb-2">{{ $listing->title }}</h3>
-                            <p class="text-slate-600 dark:text-slate-400 mb-4">{{ Str::limit($listing->description, 100) }}</p>
+                            <p class="text-slate-600 dark:text-slate-400 mb-4">
+                                {{ Str::limit($listing->description, 100) }}</p>
                             <div class="flex justify-between items-center">
                                 <span
                                     class="text-xl font-bold text-sky-600 dark:text-sky-400">{{ number_format($listing->price, 0, ',', '.') }}
                                     RSD</span>
-                                <span class="text-sm text-slate-500">{{ $listing->location }}</span>
+                                <span
+                                    class="text-sm text-slate-500 dark:text-slate-300">{{ $listing->location }}</span>
                             </div>
                             <div class="mt-4 flex justify-between items-center">
-                                <span class="text-sm text-slate-500">{{ $listing->created_at->diffForHumans() }}</span>
+                                <span
+                                    class="text-sm text-slate-500 dark:text-slate-300">{{ $listing->created_at->diffForHumans() }}</span>
                                 <a href="{{ route('listings.show', $listing) }}"
                                     class="text-sky-600 hover:text-sky-800 text-sm font-medium">Pogledaj oglas</a>
                             </div>
@@ -112,7 +115,7 @@
                         d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <h3 class="mt-2 text-lg font-medium text-slate-900">Nema rezultata</h3>
-                <p class="mt-1 text-slate-500">Nijedan oglas ne odgovara vašim filterima.</p>
+                <p class="mt-1 text-slate-500 dark:text-slate-300">Nijedan oglas ne odgovara vašim filterima.</p>
                 <div class="mt-6">
                     <a href="{{ route('search.index') }}"
                         class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">

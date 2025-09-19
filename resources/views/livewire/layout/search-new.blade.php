@@ -431,7 +431,7 @@ if (!empty($auctionType)) {
                     <button type="button" @click="cityOpen = !cityOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                         <span x-text="city || 'Odaberi grad'"
-                            :class="city ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'"></span>
+                            :class="city ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-300'"></span>
                         <svg class="w-4 h-4 transition-transform" :class="cityOpen ? 'rotate-180' : ''" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -455,7 +455,8 @@ if (!empty($auctionType)) {
                                     <span x-text="cityOption"></span>
                                 </button>
                             </template>
-                            <div x-show="filteredCities.length === 0" class="text-center text-slate-500 py-3 text-sm">
+                            <div x-show="filteredCities.length === 0"
+                                class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
                                 Nema rezultata
                             </div>
                         </div>
@@ -467,7 +468,8 @@ if (!empty($auctionType)) {
                     <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        <span :class="category ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
+                        <span
+                            :class="category ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-300'">
                             @if (!empty($selectedCategoryName))
                                 {{ $selectedCategoryName }}
                             @else
@@ -516,7 +518,8 @@ if (!empty($auctionType)) {
                         class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Podkategorija</label>
                     <button type="button" @click="subcategoryOpen = !subcategoryOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        <span :class="subcategory ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
+                        <span
+                            :class="subcategory ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-300'">
                             <span x-text="subcategoryName || 'Sve podkategorije'"></span>
                         </span>
                         <svg class="w-4 h-4 transition-transform" :class="subcategoryOpen ? 'rotate-180' : ''"
@@ -533,11 +536,11 @@ if (!empty($auctionType)) {
                                 class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
                                 :class="!subcategory ?
                                     'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' :
-                                    'text-slate-700 dark:text-slate-300'">
+                                    'text-slate-700 dark:text-slate-400'">
                                 <span>Sve podkategorije</span>
                             </button>
                             <template x-if="loadingSubcategories">
-                                <div class="text-center text-slate-500 py-3 text-sm">
+                                <div class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
                                     <i class="fas fa-spinner fa-spin"></i> Učitavanje...
                                 </div>
                             </template>
@@ -555,7 +558,7 @@ if (!empty($auctionType)) {
                                 </template>
                             </template>
                             <template x-if="!loadingSubcategories && subcategories.length === 0 && category">
-                                <div class="text-center text-slate-500 py-3 text-sm">
+                                <div class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
                                     Nema podkategorija
                                 </div>
                             </template>
@@ -568,7 +571,9 @@ if (!empty($auctionType)) {
                     <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Kategorija</label>
                     <button type="button" @click="serviceCategoryOpen = !serviceCategoryOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        <span :class="serviceCategory ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
+                        <span
+                            :class="serviceCategory ? 'text-slate-900 dark:text-slate-100' :
+                                'text-slate-500 dark:text-slate-300'">
                             <span x-text="serviceCategoryName || 'Sve kategorije'"></span>
                         </span>
                         <svg class="w-4 h-4 transition-transform" :class="serviceCategoryOpen ? 'rotate-180' : ''"
@@ -614,7 +619,9 @@ if (!empty($auctionType)) {
                         class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Podkategorija</label>
                     <button type="button" @click="serviceSubcategoryOpen = !serviceSubcategoryOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        <span :class="serviceSubcategory ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
+                        <span
+                            :class="serviceSubcategory ? 'text-slate-900 dark:text-slate-100' :
+                                'text-slate-500 dark:text-slate-300'">
                             <span x-text="serviceSubcategoryName || 'Sve podkategorije'"></span>
                         </span>
                         <svg class="w-4 h-4 transition-transform" :class="serviceSubcategoryOpen ? 'rotate-180' : ''"
@@ -636,7 +643,7 @@ if (!empty($auctionType)) {
                                 <span>Sve podkategorije</span>
                             </button>
                             <template x-if="loadingServiceSubcategories">
-                                <div class="text-center text-slate-500 py-3 text-sm">
+                                <div class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
                                     <i class="fas fa-spinner fa-spin"></i> Učitavanje...
                                 </div>
                             </template>
@@ -655,7 +662,7 @@ if (!empty($auctionType)) {
                             </template>
                             <template
                                 x-if="!loadingServiceSubcategories && serviceSubcategories.length === 0 && serviceCategory">
-                                <div class="text-center text-slate-500 py-3 text-sm">
+                                <div class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
                                     Nema podkategorija
                                 </div>
                             </template>
@@ -690,7 +697,8 @@ if (!empty($auctionType)) {
                     <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Stanje</label>
                     <button type="button" @click="conditionOpen = !conditionOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        <span :class="condition ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'">
+                        <span
+                            :class="condition ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-300'">
                             @if (!empty($selectedConditionName))
                                 {{ $selectedConditionName }}
                             @else

@@ -52,7 +52,8 @@
                                     class="text-lg font-semibold {{ $rating === 'positive' ? 'text-green-800' : 'text-slate-700' }}">
                                     Pozitivno
                                 </div>
-                                <div class="text-sm {{ $rating === 'positive' ? 'text-green-700' : 'text-slate-500' }}">
+                                <div
+                                    class="text-sm {{ $rating === 'positive' ? 'text-green-700 dark:text-green-200' : 'text-slate-500 dark:text-slate-300' }}">
                                     Odličo iskustvo
                                 </div>
                                 @if ($rating === 'positive')
@@ -75,7 +76,8 @@
                                     class="text-lg font-semibold {{ $rating === 'neutral' ? 'text-amber-800' : 'text-slate-700' }}">
                                     Neutralno
                                 </div>
-                                <div class="text-sm {{ $rating === 'neutral' ? 'text-amber-700' : 'text-slate-500' }}">
+                                <div
+                                    class="text-sm {{ $rating === 'neutral' ? 'text-amber-700 dark:text-amber-200' : 'text-slate-500 dark:text-slate-300' }}">
                                     Prosečno iskustvo
                                 </div>
                                 @if ($rating === 'neutral')
@@ -99,7 +101,8 @@
                                     class="text-lg font-semibold {{ $rating === 'negative' ? 'text-red-800' : 'text-slate-700' }}">
                                     Negativno
                                 </div>
-                                <div class="text-sm {{ $rating === 'negative' ? 'text-red-700' : 'text-slate-500' }}">
+                                <div
+                                    class="text-sm {{ $rating === 'negative' ? 'text-red-700 dark:text-red-200' : 'text-slate-500 dark:text-slate-300' }}">
                                     Loše iskustvo
                                 </div>
                                 @if ($rating === 'negative')
@@ -128,7 +131,7 @@
                         @error('comment')
                             <p class="text-red-600 dark:text-red-400 text-sm">{{ $message }}</p>
                         @else
-                            <p class="text-slate-500 text-sm">Vaš komentar će biti javan</p>
+                            <p class="text-slate-500 dark:text-slate-300 text-sm">Vaš komentar će biti javan</p>
                         @enderror
                         <p class="text-slate-400 text-sm">{{ strlen($comment ?? '') }}/500</p>
                     </div>

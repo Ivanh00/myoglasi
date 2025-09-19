@@ -109,29 +109,35 @@
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('name')">
                             Naziv
                             @if ($sortField === 'name')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Slug
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                            Slug
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Roditelj</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('sort_order')">
                             Redosled
                             @if ($sortField === 'sort_order')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Oglasi</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -157,7 +163,7 @@
                                             @endif
                                         </div>
                                         @if ($category->description)
-                                            <div class="text-xs text-slate-500 mt-1">
+                                            <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                                 {{ Str::limit($category->description, 50) }}</div>
                                         @endif
                                     </div>
@@ -335,7 +341,8 @@
                         @endif
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-sm text-slate-500">
+                            <td colspan="7"
+                                class="px-6 py-4 text-center text-sm text-slate-500 dark:text-slate-300">
                                 Nema pronađenih kategorija.
                             </td>
                         </tr>
@@ -383,7 +390,7 @@
                         @endif
                         <div class="flex-1">
                             <div class="text-lg font-semibold text-slate-900">{{ $category->name }}</div>
-                            <div class="text-sm text-slate-500">Glavna kategorija</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-300">Glavna kategorija</div>
                         </div>
 
                         @if ($category->children->count() > 0)
@@ -474,7 +481,7 @@
                                         </div>
                                         <div class="flex-1">
                                             <div class="font-semibold text-slate-900">{{ $subcategory->name }}</div>
-                                            <div class="text-xs text-slate-500">Redosled:
+                                            <div class="text-xs text-slate-500 dark:text-slate-300">Redosled:
                                                 {{ $subcategory->sort_order ?? 0 }}</div>
                                         </div>
                                     </div>
@@ -584,7 +591,8 @@
                                         </div>
                                     </div>
                                 @endif
-                                <p class="text-xs text-slate-500 mt-1">Koristite Font Awesome 6 ikone (npr. fas fa-car)
+                                <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Koristite Font Awesome 6
+                                    ikone (npr. fas fa-car)
                                 </p>
                             </div>
 
@@ -681,7 +689,7 @@
                             </div>
                         @endif
 
-                        <p class="text-sm text-slate-500 mb-4">
+                        <p class="text-sm text-slate-500 dark:text-slate-300 mb-4">
                             Da li ste sigurni da želite da obrišete kategoriju "{{ $selectedCategory->name }}"?
                             <br>Ova akcija je nepovratna.
                         </p>
@@ -733,7 +741,7 @@
                         </div>
                     </div>
 
-                    <p class="text-sm text-slate-500 mb-4">
+                    <p class="text-sm text-slate-500 dark:text-slate-300 mb-4">
                         Da li ste sigurni da želite da upišete trenutne kategorije u seeder fajl?
                     </p>
 

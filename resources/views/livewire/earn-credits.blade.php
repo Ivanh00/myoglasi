@@ -182,7 +182,7 @@ bg-slate-300 hover:bg-slate-400
                         </div>
                         <div class="text-lg text-slate-600 dark:text-slate-400 mb-2">Trenutni broj:</div>
                         <div class="text-3xl font-bold text-slate-900 dark:text-slate-100">{{ $numberCurrent }}</div>
-                        <div class="text-sm text-slate-500 mt-2">Potezi: {{ $numberMoves }}</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-300 mt-2">Potezi: {{ $numberMoves }}</div>
                     </div>
 
                     <div class="grid grid-cols-4 gap-3 max-w-md mx-auto">
@@ -223,7 +223,8 @@ bg-slate-300 hover:bg-slate-400
 
                     <div class="mb-6">
                         <div class="text-3xl font-bold text-sky-600 dark:text-sky-400 mb-2">{{ $gameScore }}</div>
-                        <p class="text-slate-600 dark:text-slate-400">{{ $selectedGame === 'click_game' ? 'klikova' : 'poena' }}</p>
+                        <p class="text-slate-600 dark:text-slate-400">
+                            {{ $selectedGame === 'click_game' ? 'klikova' : 'poena' }}</p>
                     </div>
 
                     <button wire:click="resetGame"
@@ -243,7 +244,7 @@ bg-slate-300 hover:bg-slate-400
             <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4">Dnevni limit dostignut</h2>
             <p class="text-slate-600 dark:text-slate-400 mb-4">Već ste zaradili maksimalno kredita danas
                 ({{ $this->maxDaily }} RSD).</p>
-            <p class="text-sm text-slate-500">Vratite se sutra za nove igre!</p>
+            <p class="text-sm text-slate-500 dark:text-slate-300">Vratite se sutra za nove igre!</p>
         </div>
     @endif
 
@@ -309,7 +310,7 @@ bg-slate-300 hover:bg-slate-400
                                 @endforeach
                             </div>
                         @else
-                            <div class="text-center py-4 text-slate-500">
+                            <div class="text-center py-4 text-slate-500 dark:text-slate-300">
                                 <i class="fas fa-users text-2xl mb-2"></i>
                                 <p>Nema igrača danas</p>
                             </div>
@@ -352,7 +353,8 @@ bg-slate-300 hover:bg-slate-400
                             <div>
                                 <p class="font-medium text-slate-900 dark:text-slate-100">{{ $earning->description }}
                                 </p>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">{{ $earning->date->format('d.m.Y') }}</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">
+                                    {{ $earning->date->format('d.m.Y') }}</p>
                             </div>
                         </div>
                         <div

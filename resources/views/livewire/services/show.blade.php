@@ -4,12 +4,12 @@
         <ol class="flex items-center space-x-2">
             <li>
                 <a href="{{ route('home') }}"
-                    class="text-slate-400 dark:text-slate-500 hover:text-slate-500 dark:hover:text-slate-400">
+                    class="text-slate-400 dark:text-slate-500 hover:text-slate-500 dark:hover:text-slate-300">
                     <i class="fas fa-home"></i>
                 </a>
             </li>
             <li class="flex items-center">
-                <span class="mx-2 text-slate-400 dark:text-slate-500">/</span>
+                <span class="mx-2 text-slate-500 dark:text-slate-300">/</span>
                 <a href="{{ route('services.index') }}"
                     class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
                     Usluge
@@ -17,14 +17,14 @@
             </li>
             @if ($service->category)
                 <li class="flex items-center">
-                    <span class="mx-2 text-slate-400 dark:text-slate-500">/</span>
-                    <span class="text-slate-500 dark:text-slate-400">
+                    <span class="mx-2 text-slate-500 dark:text-slate-300">/</span>
+                    <span class="text-slate-500 dark:text-slate-300">
                         {{ $service->category->name }}
                     </span>
                 </li>
             @endif
             <li class="flex items-center">
-                <span class="mx-2 text-slate-400 dark:text-slate-500">/</span>
+                <span class="mx-2 text-slate-500 dark:text-slate-300">/</span>
                 <span
                     class="text-slate-700 dark:text-slate-300 font-medium truncate">{{ Str::limit($service->title, 30) }}</span>
             </li>
@@ -95,7 +95,7 @@
                                 <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                             @endif
                             @if ($service->user->shouldShowLastSeen())
-                                <span class="text-xs text-slate-500 dark:text-slate-400 ml-2">
+                                <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                     @if ($service->user->is_online)
                                         <span class="inline-flex items-center">
                                             <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -126,16 +126,16 @@
                         @endif
                     @endauth
                     <div class="flex items-center mb-2">
-                        <i class="fas fa-map-marker-alt text-slate-500 dark:text-slate-400 mr-2"></i>
+                        <i class="fas fa-map-marker-alt text-slate-500 dark:text-slate-300 mr-2"></i>
                         <span class="text-slate-700 dark:text-slate-300">{{ $service->location }}</span>
                     </div>
                     <div class="flex items-center mb-2">
-                        <i class="fas fa-clock text-slate-500 dark:text-slate-400 mr-2"></i>
+                        <i class="fas fa-clock text-slate-500 dark:text-slate-300 mr-2"></i>
                         <span class="text-slate-700 dark:text-slate-300">Objavljeno:
                             {{ $service->created_at->format('d.m.Y. H:i') }}</span>
                     </div>
                     <div class="flex items-center">
-                        <i class="fas fa-eye text-slate-500 dark:text-slate-400 mr-2"></i>
+                        <i class="fas fa-eye text-slate-500 dark:text-slate-300 mr-2"></i>
                         <span class="text-slate-700 dark:text-slate-300">Pregleda: {{ $service->views ?? 0 }}</span>
                     </div>
                 </div>
@@ -309,7 +309,7 @@
                                 <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                             @endif
                             @if ($service->user->shouldShowLastSeen())
-                                <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                <div class="text-sm text-slate-500 dark:text-slate-300 mt-1">
                                     @if ($service->user->is_online)
                                         <span class="inline-flex items-center">
                                             <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -343,7 +343,7 @@
                                 <i class="fas fa-external-link-alt ml-1 text-xs"></i>
                             </a>
                         @else
-                            <p class="text-slate-500 dark:text-slate-400 text-sm">Još nema ocena</p>
+                            <p class="text-slate-500 dark:text-slate-300 text-sm">Još nema ocena</p>
                         @endif
                     </div>
                 </div>

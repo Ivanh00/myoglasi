@@ -21,7 +21,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Ukupno slika</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Ukupno slika</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $stats['total'] }}</p>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Primarne slike</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Primarne slike</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $stats['primary'] }}</p>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Ukupna veličina</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Ukupna veličina</h3>
                     <p class="text-2xl font-semibold text-slate-900">
                         {{ $stats['totalSize'] > 0 ? number_format($stats['totalSize'] / 1024 / 1024, 2) : '0' }} MB
                     </p>
@@ -190,7 +190,7 @@
                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
                     </path>
                 </svg>
-                <p class="text-slate-500">Nema pronađenih slika</p>
+                <p class="text-slate-500 dark:text-slate-300">Nema pronađenih slika</p>
                 <p class="text-slate-400 text-sm mt-1">Pokušajte da promenite filtere ili pretragu</p>
             </div>
         @endif
@@ -228,14 +228,14 @@
                         <!-- Informacije -->
                         <div class="space-y-4">
                             <div>
-                                <h4 class="text-sm font-medium text-slate-500">Oglas:</h4>
+                                <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Oglas:</h4>
                                 <p class="text-lg font-semibold text-slate-900">{{ $selectedImage->listing->title }}
                                 </p>
                             </div>
 
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <h4 class="text-sm font-medium text-slate-500">Status:</h4>
+                                    <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Status:</h4>
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                                     @if ($selectedImage->is_primary) bg-green-100 text-green-800 @else bg-slate-100 text-slate-800 @endif">
@@ -248,14 +248,14 @@
                                 </div>
 
                                 <div>
-                                    <h4 class="text-sm font-medium text-slate-500">Datum:</h4>
+                                    <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Datum:</h4>
                                     <p class="text-sm text-slate-900">
                                         {{ $selectedImage->created_at->format('d.m.Y. H:i') }}</p>
                                 </div>
                             </div>
 
                             <div>
-                                <h4 class="text-sm font-medium text-slate-500">Putanja:</h4>
+                                <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Putanja:</h4>
                                 <p class="text-sm text-slate-900 font-mono break-all">{{ $selectedImage->image_path }}
                                 </p>
                             </div>
@@ -295,7 +295,7 @@
                     </svg>
 
                     <h3 class="text-lg font-medium text-slate-900 mb-4">Obriši sliku?</h3>
-                    <p class="text-sm text-slate-500 mb-4">
+                    <p class="text-sm text-slate-500 dark:text-slate-300 mb-4">
                         Da li ste sigurni da želite da obrišete ovu sliku?
                         <br>Ova akcija je nepovratna.
                     </p>

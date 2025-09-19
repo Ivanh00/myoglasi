@@ -160,7 +160,7 @@
                     @error('description')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                     @else
-                        <p class="text-slate-500 dark:text-slate-400 text-sm">Minimum 10 karaktera</p>
+                        <p class="text-slate-500 dark:text-slate-300 text-sm">Minimum 10 karaktera</p>
                     @enderror
                     <p class="text-slate-400 text-sm">{{ strlen($description ?? '') }}/2000</p>
                 </div>
@@ -202,7 +202,7 @@
                         <i class="fas fa-images text-slate-400 text-4xl mb-2"></i>
                         <p class="text-slate-600 dark:text-slate-300 font-medium">Dostigli ste maksimum od
                             {{ $maxImages }} slika</p>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm">Obrišite neku sliku da biste dodali novu
+                        <p class="text-slate-500 dark:text-slate-300 text-sm">Obrišite neku sliku da biste dodali novu
                         </p>
                     </div>
                 @endif
@@ -251,13 +251,13 @@
                 </label>
                 <input type="text" wire:model="contact_phone" id="contact_phone" readonly
                     class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-100 dark:bg-slate-600 text-slate-900 dark:text-slate-100 cursor-not-allowed">
-                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
+                <p class="text-slate-500 dark:text-slate-300 text-sm mt-1">
                     Lokacija i broj telefona su automatski preuzeti iz vašeg profila.
                     <a href="{{ route('profile') }}" class="text-sky-600 dark:text-sky-400 hover:text-sky-500">
                         Ažuriraj profil
                     </a>
                 </p>
-                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
+                <p class="text-slate-500 dark:text-slate-300 text-sm mt-1">
                     Telefon je vidljiv u uslugama samo ako je označen kao vidljiv u profilu.
                 </p>
             </div>

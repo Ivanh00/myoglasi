@@ -293,7 +293,7 @@ $removeAvatar = function () {
                             <span x-text="city"></span>
                         </button>
                     </template>
-                    <div x-show="filteredCities.length === 0" class="col-span-full text-center text-slate-500 py-2">
+                    <div x-show="filteredCities.length === 0" class="col-span-full text-center text-slate-500 dark:text-slate-300 py-2">
                         Nema rezultata
                     </div>
                 </div>

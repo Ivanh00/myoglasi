@@ -91,8 +91,9 @@
                     <!-- Logout for authenticated users -->
                     @auth
                         <div class="mt-6 pt-4 border-t border-slate-200">
-                            <p class="text-sm text-slate-500 mb-2">Ulogovani ste kao:
-                                <strong>{{ auth()->user()->name }}</strong></p>
+                            <p class="text-sm text-slate-500 dark:text-slate-300 mb-2">Ulogovani ste kao:
+                                <strong>{{ auth()->user()->name }}</strong>
+                            </p>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
                                 <button type="submit"
@@ -110,7 +111,7 @@
 
     <!-- Footer -->
     <footer class="text-center py-4 bg-white border-t">
-        <p class="text-slate-500 text-sm">
+        <p class="text-slate-500 dark:text-slate-300 text-sm">
             &copy; {{ date('Y') }} PazAriO. Sva prava zadržana.
         </p>
     </footer>

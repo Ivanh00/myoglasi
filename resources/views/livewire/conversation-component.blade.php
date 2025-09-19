@@ -109,7 +109,7 @@
                         Ocenite
                     </a>
                 @else
-                    <span class="text-xs text-slate-500">Već ste ocenili</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-300">Već ste ocenili</span>
                 @endif
             </div>
         </div>
@@ -186,7 +186,7 @@
             <div class="mobile-right-column">
                 <section class="ad-stats">
                     <div class="stat-item flex items-center">
-                        <i class="fas fa-eye text-slate-500 mr-1" style="font-size: 14px;"></i>
+                        <i class="fas fa-eye text-slate-500 dark:text-slate-300 mr-1" style="font-size: 14px;"></i>
                         <span class="stat-count">{{ $listing->views }}</span>
                     </div>
 

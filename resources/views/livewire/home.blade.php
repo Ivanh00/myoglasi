@@ -39,7 +39,8 @@
                     class="bg-white p-4 rounded-lg shadow hover:shadow-md transition text-center">
                     <div class="text-2xl mb-2">{{ $category->icon ?? '📦' }}</div>
                     <h3 class="font-medium">{{ $category->name }}</h3>
-                    <p class="text-sm text-slate-500">{{ $category->listings_count ?? 0 }} oglasa</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-300">{{ $category->listings_count ?? 0 }} oglasa
+                    </p>
                 </a>
             @endforeach
         </div>

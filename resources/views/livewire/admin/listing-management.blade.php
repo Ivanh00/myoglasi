@@ -68,34 +68,38 @@
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('title')">
                             Oglas
                             @if ($sortField === 'title')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Kategorija</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('price')">
                             Cena
                             @if ($sortField === 'price')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Korisnik</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('created_at')">
                             Datum
                             @if ($sortField === 'created_at')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -121,7 +125,8 @@
                                     <div>
                                         <div class="text-sm font-medium text-slate-900">
                                             {{ Str::limit($listing->title, 40) }}</div>
-                                        <div class="text-xs text-slate-500">{{ Str::limit($listing->location, 20) }}
+                                        <div class="text-xs text-slate-500 dark:text-slate-300">
+                                            {{ Str::limit($listing->location, 20) }}
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +134,8 @@
                             <td class="px-6 py-4">
                                 <div class="text-sm text-slate-900">{{ $listing->category->name }}</div>
                                 @if ($listing->subcategory)
-                                    <div class="text-xs text-slate-500">{{ $listing->subcategory->name }}</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-300">
+                                        {{ $listing->subcategory->name }}</div>
                                 @endif
                             </td>
                             <td class="px-6 py-4">
@@ -139,7 +145,8 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-slate-900">{{ $listing->user->name }}</div>
-                                <div class="text-xs text-slate-500">{{ $listing->user->email }}</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-300">{{ $listing->user->email }}
+                                </div>
                             </td>
                             <td class="px-6 py-4">
                                 <span
@@ -157,7 +164,8 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-slate-900">{{ $listing->created_at->format('d.m.Y.') }}</div>
-                                <div class="text-xs text-slate-500">{{ $listing->created_at->diffForHumans() }}</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-300">
+                                    {{ $listing->created_at->diffForHumans() }}</div>
                             </td>
                             <td class="px-6 py-4 text-sm font-medium">
                                 <div class="flex space-x-2">
@@ -237,7 +245,7 @@
                     <div class="flex-1">
                         <div class="text-lg font-semibold text-slate-900 mb-2">{{ Str::limit($listing->title, 40) }}
                         </div>
-                        <div class="flex items-center space-x-4 text-sm text-slate-500">
+                        <div class="flex items-center space-x-4 text-sm text-slate-500 dark:text-slate-300">
                             <span><i class="fas fa-tag mr-1"></i>{{ $listing->category->name }}</span>
                             <span><i class="fas fa-map-marker-alt mr-1"></i>{{ $listing->location }}</span>
                         </div>
@@ -259,7 +267,8 @@
 
                 <!-- User Info -->
                 <div class="bg-slate-50 p-3 rounded-lg mb-4">
-                    <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Korisnik</div>
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                        Korisnik</div>
                     <div class="flex items-center">
                         <div class="flex-shrink-0 h-8 w-8">
                             @if ($listing->user->avatar)
@@ -274,7 +283,7 @@
                         </div>
                         <div class="ml-3">
                             <div class="text-sm font-medium text-slate-900">{{ $listing->user->name }}</div>
-                            <div class="text-xs text-slate-500">{{ $listing->user->email }}</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-300">{{ $listing->user->email }}</div>
                         </div>
                     </div>
                 </div>
@@ -282,7 +291,9 @@
                 <!-- Status and Date Info -->
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Status</div>
+                        <div
+                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                            Status</div>
                         <span
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                             @if ($listing->status === 'active') bg-green-100 text-green-800
@@ -294,7 +305,9 @@
                     </div>
 
                     <div>
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Datum</div>
+                        <div
+                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                            Datum</div>
                         <div class="text-sm text-slate-900">{{ $listing->created_at->format('d.m.Y H:i') }}</div>
                     </div>
                 </div>
@@ -490,7 +503,7 @@
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
                     <h3 class="text-lg font-medium text-slate-900 mb-4">Potvrda brisanja</h3>
-                    <p class="text-sm text-slate-500 mb-4">
+                    <p class="text-sm text-slate-500 dark:text-slate-300 mb-4">
                         Da li ste sigurni da želite da obrišete oglas "{{ $selectedListing->title }}"?
                         <br>Ova akcija je nepovratna.
                     </p>

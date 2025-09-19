@@ -33,7 +33,7 @@
                                     Sve oglase
                             @endswitch
                         </span>
-                        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor"
+                        <svg class="w-4 h-4 text-slate-500 dark:text-slate-300" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
                             </path>
@@ -67,19 +67,19 @@
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
                 <div class="grid grid-cols-[30%_15%_15%_15%_25%] bg-slate-50 dark:bg-slate-700">
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Oglas</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Cena</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Status</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Datum</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Akcije</div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-slate-900 dark:text-slate-100 break-words">
                                         {{ Str::limit($listing->title, 40) }}</div>
-                                    <div class="text-sm text-slate-500 dark:text-slate-400">
+                                    <div class="text-sm text-slate-500 dark:text-slate-300">
                                         {{ $listing->category->name }}</div>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">Istekao</span>
                                     @if ($listing->expires_at)
-                                        <span class="text-xs text-slate-500 dark:text-slate-400">Istekao
+                                        <span class="text-xs text-slate-500 dark:text-slate-300">Istekao
                                             {{ $listing->expires_at->format('d.m.Y') }}</span>
                                     @endif
                                 @elseif ($listing->status == 'active')
@@ -161,7 +161,7 @@
                             </div>
                         </div>
                         <!-- Datum Column -->
-                        <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-400">
+                        <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-300">
                             <div class="flex flex-col">
                                 <span>{{ $listing->created_at->format('d.m.Y') }}</span>
                                 @if ($listing->renewed_at)
@@ -259,7 +259,7 @@
                                 <div class="flex-1 min-w-0">
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
                                         {{ $listing->title }}</h3>
-                                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                                    <p class="text-sm text-slate-500 dark:text-slate-300 mb-2">
                                         {{ $listing->category->name }}</p>
                                     <p class="text-xl font-bold text-sky-600 dark:text-sky-400">
                                         {{ number_format($listing->price, 2) }} RSD</p>
@@ -273,14 +273,14 @@
                         <!-- Status Section -->
                         <div class="mb-4">
                             <div
-                                class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                                class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
                                 Status oglasa</div>
                             <div class="flex flex-col space-y-2">
                                 @if ($listing->isExpired() || $listing->status == 'expired')
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 w-fit">Istekao</span>
                                     @if ($listing->expires_at)
-                                        <span class="text-xs text-slate-500 dark:text-slate-400">Istekao
+                                        <span class="text-xs text-slate-500 dark:text-slate-300">Istekao
                                             {{ $listing->expires_at->format('d.m.Y') }}</span>
                                     @endif
                                 @elseif ($listing->status == 'active')
@@ -322,7 +322,7 @@
                         <!-- Date Info -->
                         <div class="mb-4">
                             <div
-                                class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                                class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
                                 Informacije o datumu</div>
                             <div class="space-y-1">
                                 <div class="text-sm text-slate-900 dark:text-slate-100">Kreiran:

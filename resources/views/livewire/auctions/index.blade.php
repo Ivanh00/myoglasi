@@ -235,7 +235,7 @@
                                         <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
                                     @endif
                                     @if ($auction->seller && $auction->seller->shouldShowLastSeen())
-                                        <span class="text-xs text-slate-500 ml-2">
+                                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                             @if ($auction->seller->is_online)
                                                 <span class="inline-flex items-center">
                                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -254,13 +254,13 @@
                                     <div class="text-2xl font-bold text-red-600 dark:text-red-400">
                                         {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                                     </div>
-                                    <div class="text-sm text-slate-500">
+                                    <div class="text-sm text-slate-500 dark:text-slate-300">
                                         {{ $auction->total_bids }} ponuda
                                     </div>
                                 </div>
                                 @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                     <div class="text-right">
-                                        <div class="text-sm text-slate-500">Kupi odmah:</div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">Kupi odmah:</div>
                                         <div class="text-lg font-bold text-green-600 dark:text-green-400">
                                             {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                         </div>
@@ -357,7 +357,7 @@
                                                         class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                                 @endif
                                                 @if ($auction->seller && $auction->seller->shouldShowLastSeen())
-                                                    <span class="text-xs text-slate-500 ml-2">
+                                                    <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                                         @if ($auction->seller->is_online)
                                                             <span class="inline-flex items-center">
                                                                 <span
@@ -391,13 +391,15 @@
                                             <div class="text-2xl font-bold text-red-600 dark:text-red-400">
                                                 {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                                             </div>
-                                            <div class="text-sm text-slate-500">{{ $auction->total_bids }} ponuda
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">
+                                                {{ $auction->total_bids }} ponuda
                                             </div>
                                         </div>
 
                                         @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                                             <div class="text-right">
-                                                <div class="text-sm text-slate-500">Kupi odmah:</div>
+                                                <div class="text-sm text-slate-500 dark:text-slate-300">Kupi odmah:
+                                                </div>
                                                 <div class="text-lg font-bold text-green-600 dark:text-green-400">
                                                     {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                                 </div>
@@ -534,7 +536,7 @@
                                             <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
                                         @endif
                                         @if ($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
-                                            <span class="text-xs text-slate-500 ml-2">
+                                            <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                                 @if ($auction->listing->user->is_online)
                                                     <span class="inline-flex items-center">
                                                         <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -549,12 +551,12 @@
                                 @endauth
 
                                 <div class="mb-3">
-                                    <div class="text-sm text-slate-500 dark:text-slate-400">Početna cena:</div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-300">Početna cena:</div>
                                     <div class="text-xl font-bold text-sky-600 dark:text-sky-400">
                                         {{ number_format($auction->starting_price, 0, ',', '.') }} RSD
                                     </div>
                                     @if ($auction->buy_now_price)
-                                        <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">Kupi odmah:</div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-300 mt-1">Kupi odmah:</div>
                                         <div class="text-lg font-bold text-green-600 dark:text-green-400">
                                             {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                         </div>
@@ -643,7 +645,7 @@
                                                             class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                                     @endif
                                                     @if ($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
-                                                        <span class="text-xs text-slate-500 ml-2">
+                                                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                                             @if ($auction->listing->user->is_online)
                                                                 <span class="inline-flex items-center">
                                                                     <span
@@ -675,7 +677,8 @@
 
                                         <div class="flex items-center justify-between">
                                             <div>
-                                                <div class="text-sm text-slate-500">Početna cena:</div>
+                                                <div class="text-sm text-slate-500 dark:text-slate-300">Početna cena:
+                                                </div>
                                                 <div class="text-2xl font-bold text-sky-600 dark:text-sky-400">
                                                     {{ number_format($auction->starting_price, 0, ',', '.') }} RSD
                                                 </div>
@@ -683,7 +686,8 @@
 
                                             @if ($auction->buy_now_price)
                                                 <div class="text-right">
-                                                    <div class="text-sm text-slate-500">Kupi odmah:</div>
+                                                    <div class="text-sm text-slate-500 dark:text-slate-300">Kupi odmah:
+                                                    </div>
                                                     <div class="text-lg font-bold text-green-600 dark:text-green-400">
                                                         {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                                     </div>
@@ -800,7 +804,7 @@
                                             <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
                                         @endif
                                         @if ($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
-                                            <span class="text-xs text-slate-500 ml-2">
+                                            <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                                 @if ($auction->listing->user->is_online)
                                                     <span class="inline-flex items-center">
                                                         <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -835,10 +839,11 @@
                                     <div class="text-2xl font-bold text-slate-600 dark:text-slate-400">
                                         {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                                     </div>
-                                    <div class="text-sm text-slate-500">{{ $auction->total_bids }} ponuda</div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-300">{{ $auction->total_bids }}
+                                        ponuda</div>
                                 </div>
 
-                                <div class="text-xs text-slate-500 dark:text-slate-400 mb-3">
+                                <div class="text-xs text-slate-500 dark:text-slate-300 mb-3">
                                     Završeno: {{ $auction->ends_at->format('d.m.Y H:i') }}
                                 </div>
 
@@ -900,7 +905,7 @@
                                                             class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                                     @endif
                                                     @if ($auction->seller && $auction->seller->shouldShowLastSeen())
-                                                        <span class="text-xs text-slate-500 ml-2">
+                                                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                                             @if ($auction->seller->is_online)
                                                                 <span class="inline-flex items-center">
                                                                     <span
@@ -947,7 +952,7 @@
                                             </div>
 
                                             <div class="text-right">
-                                                <div class="text-sm text-slate-500 dark:text-slate-400">Završeno:</div>
+                                                <div class="text-sm text-slate-500 dark:text-slate-300">Završeno:</div>
                                                 <div class="text-sm font-medium text-slate-600 dark:text-slate-400">
                                                     {{ $auction->ends_at->format('d.m.Y H:i') }}
                                                 </div>

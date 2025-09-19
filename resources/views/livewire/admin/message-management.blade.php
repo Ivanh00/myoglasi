@@ -21,7 +21,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Ukupno poruka</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Ukupno poruka</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $totalMessages }}</p>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Pročitane</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Pročitane</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $readMessages }}</p>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Nepročitane</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Nepročitane</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $unreadMessages }}</p>
                 </div>
             </div>
@@ -130,25 +130,31 @@
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('created_at')">
                             Datum
                             @if ($sortField === 'created_at')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Poruka</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Pošiljalac</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Primalac</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Oglas
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -157,7 +163,8 @@
                         <tr class="hover:bg-slate-50 @if (!$message->is_read) bg-sky-50 @endif">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-slate-900">{{ $message->created_at->format('d.m.Y.') }}</div>
-                                <div class="text-xs text-slate-500">{{ $message->created_at->format('H:i') }}</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-300">
+                                    {{ $message->created_at->format('H:i') }}</div>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-slate-900">
@@ -185,7 +192,8 @@
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-slate-900">{{ $message->sender->name }}
                                         </div>
-                                        <div class="text-xs text-slate-500">{{ $message->sender->email }}</div>
+                                        <div class="text-xs text-slate-500 dark:text-slate-300">
+                                            {{ $message->sender->email }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -204,7 +212,8 @@
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-slate-900">{{ $message->receiver->name }}
                                         </div>
-                                        <div class="text-xs text-slate-500">{{ $message->receiver->email }}</div>
+                                        <div class="text-xs text-slate-500 dark:text-slate-300">
+                                            {{ $message->receiver->email }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -212,7 +221,7 @@
                                 @if ($message->listing)
                                     <div class="text-sm text-slate-900">{{ Str::limit($message->listing->title, 30) }}
                                     </div>
-                                    <div class="text-xs text-slate-500">
+                                    <div class="text-xs text-slate-500 dark:text-slate-300">
                                         {{ number_format($message->listing->price, 2) }} RSD</div>
                                 @else
                                     <span class="text-xs text-slate-400">Oglas obrisan</span>
@@ -282,7 +291,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-sm text-slate-500">
+                            <td colspan="7"
+                                class="px-6 py-4 text-center text-sm text-slate-500 dark:text-slate-300">
                                 Nema pronađenih poruka.
                             </td>
                         </tr>
@@ -318,7 +328,8 @@
                                 Nepročitano
                             </span>
                         @endif
-                        <div class="text-xs text-slate-500">{{ $message->created_at->format('d.m.Y H:i') }}</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-300">
+                            {{ $message->created_at->format('d.m.Y H:i') }}</div>
                     </div>
                 </div>
 
@@ -326,7 +337,9 @@
                 <div class="grid grid-cols-1 gap-4 mb-4">
                     <div class="bg-slate-50 p-3 rounded-lg">
                         <div class="flex items-center justify-between mb-2">
-                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Pošiljalac</div>
+                            <div
+                                class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                                Pošiljalac</div>
                             <div class="flex items-center">
                                 @if ($message->sender->avatar)
                                     <img src="{{ $message->sender->avatar_url }}" alt="{{ $message->sender->name }}"
@@ -340,12 +353,14 @@
                             </div>
                         </div>
                         <div class="text-sm font-medium text-slate-900">{{ $message->sender->name }}</div>
-                        <div class="text-xs text-slate-500">{{ $message->sender->email }}</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-300">{{ $message->sender->email }}</div>
                     </div>
 
                     <div class="bg-slate-50 p-3 rounded-lg">
                         <div class="flex items-center justify-between mb-2">
-                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Primalac</div>
+                            <div
+                                class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                                Primalac</div>
                             <div class="flex items-center">
                                 @if ($message->receiver->avatar)
                                     <img src="{{ $message->receiver->avatar_url }}"
@@ -360,13 +375,14 @@
                             </div>
                         </div>
                         <div class="text-sm font-medium text-slate-900">{{ $message->receiver->name }}</div>
-                        <div class="text-xs text-slate-500">{{ $message->receiver->email }}</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-300">{{ $message->receiver->email }}</div>
                     </div>
                 </div>
 
                 <!-- Message Preview -->
                 <div class="mb-4">
-                    <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Poruka</div>
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
+                        Poruka</div>
                     <div class="text-sm text-slate-900">{{ Str::limit($message->message, 100) }}</div>
                     @if (strlen($message->message) > 100)
                         <button wire:click="viewMessage({{ $message->id }})"
@@ -379,7 +395,9 @@
                 <!-- Listing Info -->
                 @if ($message->listing)
                     <div class="mb-4">
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Oglas</div>
+                        <div
+                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
+                            Oglas</div>
                         <div class="bg-amber-50 p-3 rounded-lg border border-amber-200">
                             <div class="text-sm font-medium text-slate-900">
                                 {{ Str::limit($message->listing->title, 30) }}</div>
@@ -389,7 +407,9 @@
                     </div>
                 @else
                     <div class="mb-4">
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Oglas</div>
+                        <div
+                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
+                            Oglas</div>
                         <div class="text-xs text-slate-400 italic">Oglas obrisan</div>
                     </div>
                 @endif
@@ -447,7 +467,7 @@
                     <div class="bg-slate-50 rounded-lg p-4 mb-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <h4 class="text-sm font-medium text-slate-500">Pošiljalac:</h4>
+                                <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Pošiljalac:</h4>
                                 <div class="flex items-center mt-1">
                                     @if ($selectedMessage->sender->avatar)
                                         <img src="{{ $selectedMessage->sender->avatar_url }}"
@@ -462,13 +482,14 @@
                                     <div class="ml-3">
                                         <p class="text-sm font-medium text-slate-900">
                                             {{ $selectedMessage->sender->name }}</p>
-                                        <p class="text-xs text-slate-500">{{ $selectedMessage->sender->email }}</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-300">
+                                            {{ $selectedMessage->sender->email }}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div>
-                                <h4 class="text-sm font-medium text-slate-500">Primalac:</h4>
+                                <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Primalac:</h4>
                                 <div class="flex items-center mt-1">
                                     @if ($selectedMessage->receiver->avatar)
                                         <img src="{{ $selectedMessage->receiver->avatar_url }}"
@@ -483,7 +504,8 @@
                                     <div class="ml-3">
                                         <p class="text-sm font-medium text-slate-900">
                                             {{ $selectedMessage->receiver->name }}</p>
-                                        <p class="text-xs text-slate-500">{{ $selectedMessage->receiver->email }}</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-300">
+                                            {{ $selectedMessage->receiver->email }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -491,15 +513,15 @@
 
                         @if ($selectedMessage->listing)
                             <div class="mb-4">
-                                <h4 class="text-sm font-medium text-slate-500">Oglas:</h4>
+                                <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Oglas:</h4>
                                 <p class="text-sm text-slate-900 mt-1">{{ $selectedMessage->listing->title }}</p>
-                                <p class="text-xs text-slate-500">
+                                <p class="text-xs text-slate-500 dark:text-slate-300">
                                     {{ number_format($selectedMessage->listing->price, 2) }} RSD</p>
                             </div>
                         @endif
 
                         <div>
-                            <h4 class="text-sm font-medium text-slate-500">Datum:</h4>
+                            <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Datum:</h4>
                             <p class="text-sm text-slate-900 mt-1">
                                 {{ $selectedMessage->created_at->format('d.m.Y. H:i') }}
                                 ({{ $selectedMessage->created_at->diffForHumans() }})
@@ -508,7 +530,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <h4 class="text-sm font-medium text-slate-500 mb-2">Poruka:</h4>
+                        <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300 mb-2">Poruka:</h4>
                         <div class="bg-white border border-slate-200 rounded-lg p-4">
                             <p class="text-slate-800 whitespace-pre-wrap">{{ $selectedMessage->message }}</p>
                         </div>
@@ -543,7 +565,7 @@
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
                     <h3 class="text-lg font-medium text-slate-900 mb-4">Potvrda brisanja</h3>
-                    <p class="text-sm text-slate-500 mb-4">
+                    <p class="text-sm text-slate-500 dark:text-slate-300 mb-4">
                         Da li ste sigurni da želite da obrišete ovu poruku?
                         <br>Ova akcija je nepovratna.
                     </p>

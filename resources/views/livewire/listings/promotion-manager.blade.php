@@ -102,7 +102,7 @@
                                                 class="text-lg font-bold text-{{ $color }}-600 dark:text-{{ $color }}-400">
                                                 {{ number_format($price, 0, ',', '.') }} RSD
                                             </span>
-                                            <span class="text-sm text-slate-500 dark:text-slate-400">{{ $duration }}
+                                            <span class="text-sm text-slate-500 dark:text-slate-300">{{ $duration }}
                                                 dana</span>
                                         </div>
                                     </div>

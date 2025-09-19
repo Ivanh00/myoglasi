@@ -13,13 +13,13 @@
                     Povezujemo ljude kroz sigurne i jednostavne transakcije.
                 </p>
                 <div class="flex space-x-3">
-                    <a href="#" class="text-slate-500 dark:text-slate-400 hover:text-white">
+                    <a href="#" class="text-slate-500 dark:text-slate-300 hover:text-white">
                         <i class="fab fa-facebook"></i>
                     </a>
-                    <a href="#" class="text-slate-500 dark:text-slate-400 hover:text-white">
+                    <a href="#" class="text-slate-500 dark:text-slate-300 hover:text-white">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" class="text-slate-500 dark:text-slate-400 hover:text-white">
+                    <a href="#" class="text-slate-500 dark:text-slate-300 hover:text-white">
                         <i class="fab fa-twitter"></i>
                     </a>
                 </div>

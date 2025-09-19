@@ -3,20 +3,28 @@
     <style>
         /* Dark mode hover fixes for notifications - scoped to messages-container to avoid debugbar conflicts */
         .dark .messages-container .conversation-item:hover {
-            background-color: rgb(75 85 99) !important; /* slate-600 */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 */
         }
+
         .dark .messages-container .conversation-item {
-            background-color: rgb(17 24 39) !important; /* slate-900 - same as main background */
-            border-color: rgb(75 85 99) !important; /* slate-600 */
+            background-color: rgb(17 24 39) !important;
+            /* slate-900 - same as main background */
+            border-color: rgb(75 85 99) !important;
+            /* slate-600 */
         }
+
         .dark .messages-container .conversation-item.unread {
-            background-color: rgb(30 58 138) !important; /* sky-900 */
+            background-color: rgb(30 58 138) !important;
+            /* sky-900 */
         }
-        .dark .messages-container .user-name, 
-        .dark .messages-container .listing-name, 
-        .dark .messages-container .preview-text, 
+
+        .dark .messages-container .user-name,
+        .dark .messages-container .listing-name,
+        .dark .messages-container .preview-text,
         .dark .messages-container .date-info {
-            color: rgb(229 231 235) !important; /* slate-200 */
+            color: rgb(229 231 235) !important;
+            /* slate-200 */
         }
     </style>
     <!-- Header -->
@@ -33,7 +41,7 @@
             <div class="flex justify-between items-center">
                 <!-- Mark all as read button -->
                 <div class="flex items-center">
-                    <button wire:click="markAllAsRead" 
+                    <button wire:click="markAllAsRead"
                         class="px-3 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors">
                         <i class="fas fa-check mr-1"></i>
                         Označi sve kao pročitano
@@ -47,15 +55,19 @@
                         <button @click="open = !open" type="button"
                             class="px-3 py-2 bg-white dark:bg-slate-800 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between min-w-32">
                             <span>
-                                @if($filter === 'all') Sve
-                                @elseif($filter === 'unread') Nepročitane
+                                @if ($filter === 'all')
+                                    Sve
+                                @elseif($filter === 'unread')
+                                    Nepročitane
                                 @endif
                             </span>
-                            <svg class="w-4 h-4 text-slate-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            <svg class="w-4 h-4 text-slate-400 ml-2" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        
+
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 right-0 w-40 bg-white dark:bg-slate-800 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('filter', 'all'); open = false" type="button"
@@ -74,13 +86,14 @@
 
         <!-- Mobile filters -->
         <div class="md:hidden space-y-3">
-            <button wire:click="markAllAsRead" 
+            <button wire:click="markAllAsRead"
                 class="w-full px-3 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors">
                 <i class="fas fa-check mr-1"></i>
                 Označi sve kao pročitano
             </button>
-            
-            <select wire:model.live="filter" class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm">
+
+            <select wire:model.live="filter"
+                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm">
                 <option value="all">Sve</option>
                 <option value="unread">Nepročitane</option>
             </select>
@@ -94,18 +107,20 @@
         @forelse($notifications as $notification)
             <div class="conversation-item {{ $notification->is_read ? '' : 'unread' }}"
                 wire:key="notification-{{ $notification->id }}">
-                <div class="conversation-info" wire:click="selectNotification({{ $notification->id }})" style="margin-left: 0; padding-left: 1rem;">
+                <div class="conversation-info" wire:click="selectNotification({{ $notification->id }})"
+                    style="margin-left: 0; padding-left: 1rem;">
                     <div class="conversation-inner">
                         <!-- Notification Info -->
                         <div class="user-info">
                             <div class="user-name">
                                 Obaveštenje
                                 @if (!$notification->is_read)
-                                    <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">1</span>
+                                    <span
+                                        class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">1</span>
                                 @endif
                             </div>
                             <div class="listing-name">
-                                @if($notification->listing)
+                                @if ($notification->listing)
                                     {{ $notification->listing->title }}
                                 @else
                                     {{ $notification->subject ?? 'Admin obaveštenje' }}
@@ -127,7 +142,7 @@
                                     {{ $notification->created_at->format('d.m.Y. H:i') }}
                                 </div>
                                 <!-- Delete button -->
-                                <button wire:click="deleteNotification({{ $notification->id }})" 
+                                <button wire:click="deleteNotification({{ $notification->id }})"
                                     wire:confirm="Da li ste sigurni da želite da obrišete ovo obaveštenje? Biće sakriveno samo vama."
                                     onclick="event.stopPropagation()"
                                     style="padding: 4px; color: #ef4444; border: none; background: none; border-radius: 4px; cursor: pointer;"
@@ -155,44 +170,46 @@
     <!-- Mobile Card View -->
     <div class="md:hidden">
         @forelse($notifications as $notification)
-            <div class="bg-white dark:bg-slate-800 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 cursor-pointer {{ !$notification->is_read ? 'bg-sky-50 border-l-4 border-l-sky-500' : '' }}" 
-                 wire:click="selectNotification({{ $notification->id }})" 
-                 wire:key="mobile-notification-{{ $notification->id }}">
+            <div class="bg-white dark:bg-slate-800 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 cursor-pointer {{ !$notification->is_read ? 'bg-sky-50 border-l-4 border-l-sky-500' : '' }}"
+                wire:click="selectNotification({{ $notification->id }})"
+                wire:key="mobile-notification-{{ $notification->id }}">
                 <div class="p-4">
                     <!-- Header -->
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center flex-1 min-w-0">
                             <!-- Notification Icon -->
-                            <div class="flex-shrink-0 h-10 w-10 bg-sky-200 dark:bg-sky-800 rounded-full flex items-center justify-center mr-3">
+                            <div
+                                class="flex-shrink-0 h-10 w-10 bg-sky-200 dark:bg-sky-800 rounded-full flex items-center justify-center mr-3">
                                 <i class="fas fa-bell text-sky-600 dark:text-sky-300"></i>
                             </div>
-                            
+
                             <!-- Notification info -->
                             <div class="flex-1 min-w-0">
                                 <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">
-                                    @if($notification->listing)
+                                    @if ($notification->listing)
                                         {{ Str::limit($notification->listing->title, 30) }}
                                     @else
                                         {{ $notification->subject ?? 'Admin obaveštenje' }}
                                     @endif
                                 </h3>
-                                <p class="text-xs text-slate-500">Sistemsko obaveštenje</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-300">Sistemsko obaveštenje</p>
                             </div>
                         </div>
-                        
+
                         <!-- Status and date -->
                         <div class="flex flex-col items-end ml-2">
                             @if (!$notification->is_read)
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">
+                                <span
+                                    class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">
                                     Novo
                                 </span>
                             @endif
                             <span class="text-xs text-slate-400">
                                 {{ $notification->created_at->format('d.m.Y') }}
                             </span>
-                            
+
                             <!-- Mobile trash button positioned under date -->
-                            <button wire:click="deleteNotification({{ $notification->id }})" 
+                            <button wire:click="deleteNotification({{ $notification->id }})"
                                 wire:confirm="Da li ste sigurni da želite da obrišete ovo obaveštenje? Biće sakriveno samo vama."
                                 onclick="event.stopPropagation()"
                                 class="mt-1 p-1 text-red-500 hover:text-red-700 rounded">
@@ -200,7 +217,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <!-- Message preview -->
                     <div class="flex items-start">
                         <p class="text-sm text-slate-600 dark:text-slate-300">
@@ -211,7 +228,7 @@
                     <!-- Mark as read button (mobile only) -->
                     @if (!$notification->is_read)
                         <div class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-600">
-                            <button wire:click="markAsRead({{ $notification->id }})" 
+                            <button wire:click="markAsRead({{ $notification->id }})"
                                 class="text-xs text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300"
                                 onclick="event.stopPropagation()">
                                 <i class="fas fa-check mr-1"></i>
@@ -225,7 +242,8 @@
             <div class="p-8 text-center">
                 <i class="fas fa-bell text-slate-400 text-4xl mb-3"></i>
                 <h3 class="text-lg font-semibold text-slate-800 mb-2">Nemate obaveštenja</h3>
-                <p class="text-slate-600 dark:text-slate-300">Obaveštenja će se pojaviti kada sistem pošalje poruke.</p>
+                <p class="text-slate-600 dark:text-slate-300">Obaveštenja će se pojaviti kada sistem pošalje poruke.
+                </p>
             </div>
         @endforelse
     </div>
@@ -258,12 +276,12 @@
                     <div class="notification-details">
                         <p>{{ $selectedNotification->message }}</p>
 
-                        @if($selectedNotification->listing)
+                        @if ($selectedNotification->listing)
                             <!-- Vezano za listing obaveštenje (favorites) -->
                             <div class="notification-listing-info">
                                 <strong>Oglas:</strong>
-                                <a href="{{ route('listings.show', $selectedNotification->listing) }}" class="listing-link"
-                                    wire:navigate>
+                                <a href="{{ route('listings.show', $selectedNotification->listing) }}"
+                                    class="listing-link" wire:navigate>
                                     {{ $selectedNotification->listing->title }}
                                 </a>
                                 <div style="font-size: 12px; color: #0ea5e9; margin-top: 4px;">
@@ -272,11 +290,11 @@
                             </div>
 
                             <!-- Info o korisniku koji je dodao u favorite -->
-                            @if($selectedNotification->sender && $selectedNotification->sender->id !== auth()->id())
+                            @if ($selectedNotification->sender && $selectedNotification->sender->id !== auth()->id())
                                 <div class="notification-user-info">
                                     <strong>Korisnik:</strong>
                                     <span>{{ $selectedNotification->sender->name }}</span>
-                                    @if($selectedNotification->sender->city)
+                                    @if ($selectedNotification->sender->city)
                                         <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">
                                             {{ $selectedNotification->sender->city }}
                                         </div>
@@ -299,53 +317,55 @@
                 </div>
 
                 <div class="modal-footer">
-                    @if($selectedNotification->listing)
-                        <a href="{{ route('listings.show', $selectedNotification->listing) }}" class="view-listing-btn"
-                            wire:navigate>
+                    @if ($selectedNotification->listing)
+                        <a href="{{ route('listings.show', $selectedNotification->listing) }}"
+                            class="view-listing-btn" wire:navigate>
                             Pogledaj oglas
                         </a>
                     @endif
-                    
-                    @if(str_contains($selectedNotification->subject, 'balans') || 
-                        str_contains($selectedNotification->subject, 'kredita') || 
-                        str_contains($selectedNotification->subject, 'plan ističe'))
-                        <a href="{{ route('balance.payment-options') }}" class="view-listing-btn" 
+
+                    @if (str_contains($selectedNotification->subject, 'balans') ||
+                            str_contains($selectedNotification->subject, 'kredita') ||
+                            str_contains($selectedNotification->subject, 'plan ističe'))
+                        <a href="{{ route('balance.payment-options') }}" class="view-listing-btn"
                             style="background-color: #10b981; border-color: #10b981;" wire:navigate>
                             <i class="fas fa-plus mr-1"></i>
                             Dopuna kredita
                         </a>
-                        
+
                         <a href="{{ route('balance.plan-selection') }}" class="view-listing-btn"
                             style="background-color: #8b5cf6; border-color: #8b5cf6;" wire:navigate>
                             <i class="fas fa-calendar-alt mr-1"></i>
                             Promeni plan
                         </a>
                     @endif
-                    
-                    @if(str_contains($selectedNotification->subject, 'oglas ističe'))
+
+                    @if (str_contains($selectedNotification->subject, 'oglas ističe'))
                         <a href="{{ route('listings.my') }}" class="view-listing-btn"
                             style="background-color: #f59e0b; border-color: #f59e0b;" wire:navigate>
                             <i class="fas fa-redo mr-1"></i>
                             Obnovi oglas
                         </a>
-                        
-                        <a href="{{ route('balance.payment-options') }}" class="view-listing-btn" 
+
+                        <a href="{{ route('balance.payment-options') }}" class="view-listing-btn"
                             style="background-color: #10b981; border-color: #10b981;" wire:navigate>
                             <i class="fas fa-plus mr-1"></i>
                             Dopuna kredita
                         </a>
                     @endif
-                    
-                    @if(str_contains($selectedNotification->subject, 'Ponuda nadmašena') || str_contains($selectedNotification->subject, 'Aukcija'))
-                        @if($selectedNotification->listing)
-                            <a href="{{ route('auction.show', $selectedNotification->listing->auction) }}" class="view-listing-btn"
-                                style="background-color: #dc2626; border-color: #dc2626;" wire:navigate>
+
+                    @if (str_contains($selectedNotification->subject, 'Ponuda nadmašena') ||
+                            str_contains($selectedNotification->subject, 'Aukcija'))
+                        @if ($selectedNotification->listing)
+                            <a href="{{ route('auction.show', $selectedNotification->listing->auction) }}"
+                                class="view-listing-btn" style="background-color: #dc2626; border-color: #dc2626;"
+                                wire:navigate>
                                 <i class="fas fa-gavel mr-1"></i>
                                 Idi na aukciju
                             </a>
                         @endif
                     @endif
-                    
+
                     <button onclick="closeModal()" class="close-btn" type="button">
                         Zatvori
                     </button>

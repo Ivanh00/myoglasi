@@ -66,7 +66,8 @@
                                         {{ number_format($planPrices['per_listing']['price'], 0, ',', '.') }} RSD
                                     </div>
                                     <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">po oglasu</p>
-                                    <p class="text-xs text-slate-500">{{ $planPrices['per_listing']['description'] }}
+                                    <p class="text-xs text-slate-500 dark:text-slate-300">
+                                        {{ $planPrices['per_listing']['description'] }}
                                     </p>
 
                                     @if ($selectedPlan === 'per_listing')
@@ -93,7 +94,8 @@
                                         {{ number_format($planPrices['monthly']['price'], 0, ',', '.') }} RSD
                                     </div>
                                     <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">na mesec</p>
-                                    <p class="text-xs text-slate-500 mb-2">{{ $planPrices['monthly']['description'] }}
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mb-2">
+                                        {{ $planPrices['monthly']['description'] }}
                                     </p>
 
                                     @if (auth()->user()->balance >= $planPrices['monthly']['price'])
@@ -128,7 +130,8 @@
                                         {{ number_format($planPrices['yearly']['price'], 0, ',', '.') }} RSD
                                     </div>
                                     <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">na godinu</p>
-                                    <p class="text-xs text-slate-500 mb-2">{{ $planPrices['yearly']['description'] }}
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mb-2">
+                                        {{ $planPrices['yearly']['description'] }}
                                     </p>
 
                                     @if (auth()->user()->balance >= $planPrices['yearly']['price'])
@@ -159,7 +162,8 @@
                                         <h4 class="font-semibold text-sky-600 dark:text-sky-400 mb-2">Po oglasu</h4>
                                         <p>{{ number_format($planPrices['per_listing']['price'], 0, ',', '.') }} RSD po
                                             oglasu</p>
-                                        <p class="text-slate-500 text-xs mt-1">Idealno za retko postavljanje</p>
+                                        <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">Idealno za retko
+                                            postavljanje</p>
                                     </div>
                                 @endif
 
@@ -168,7 +172,7 @@
                                         <h4 class="font-semibold text-green-600 mb-2">Mesečni</h4>
                                         <p>{{ number_format($planPrices['monthly']['price'], 0, ',', '.') }} RSD
                                             mesečno</p>
-                                        <p class="text-slate-500 text-xs mt-1">
+                                        <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">
                                             Isplativo od
                                             {{ ceil($planPrices['monthly']['price'] / $planPrices['per_listing']['price']) }}
                                             oglasa mesečno
@@ -182,7 +186,7 @@
                                         </h4>
                                         <p>{{ number_format($planPrices['yearly']['price'], 0, ',', '.') }} RSD
                                             godišnje</p>
-                                        <p class="text-slate-500 text-xs mt-1">
+                                        <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">
                                             Isplativo od
                                             {{ ceil($planPrices['yearly']['price'] / $planPrices['per_listing']['price']) }}
                                             oglasa godišnje

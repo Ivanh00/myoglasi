@@ -96,7 +96,9 @@
                                         <span class="text-2xl mr-3">🌍</span>
                                         <span class="font-medium">{{ $country->country }}</span>
                                     </div>
-                                    <span class="text-sm text-slate-500">{{ $country->visitor_count }} posetioca</span>
+                                    <span
+                                        class="text-sm text-slate-500 dark:text-slate-300">{{ $country->visitor_count }}
+                                        posetioca</span>
                                 </div>
                             @endforeach
                         </div>
@@ -120,7 +122,7 @@
                                             <div>
                                                 <code
                                                     class="text-sm bg-slate-100 px-2 py-1 rounded font-mono">{{ $ipGroup['ip_address'] }}</code>
-                                                <span class="text-xs text-slate-500 ml-2">
+                                                <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                                     {{ $ipGroup['country'] }} • {{ $ipGroup['sessions']->count() }}
                                                     korisnik(a)
                                                 </span>
@@ -164,7 +166,7 @@
                                                                     title="Online"></span>
                                                             @endif
                                                         </div>
-                                                        <div class="text-xs text-slate-500">
+                                                        <div class="text-xs text-slate-500 dark:text-slate-300">
                                                             {{ number_format($session['request_count']) }} zahteva |
                                                             {{ $session['last_activity']->diffForHumans() }}
                                                             @if ($session['login_at'])
@@ -194,7 +196,8 @@
                                 <div class="flex items-center justify-between py-2 border-b border-slate-100">
                                     <div>
                                         <span class="font-mono text-sm">{{ $block->ip_address }}</span>
-                                        <span class="text-xs text-slate-500 ml-2">{{ $block->reason }}</span>
+                                        <span
+                                            class="text-xs text-slate-500 dark:text-slate-300 ml-2">{{ $block->reason }}</span>
                                     </div>
                                     <div class="text-xs text-slate-400">
                                         {{ $block->created_at->diffForHumans() }}
@@ -241,17 +244,27 @@
                         <table class="min-w-full divide-y divide-slate-200">
                             <thead class="bg-slate-50">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">IP
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
+                                        IP
                                         Adresa</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Tip
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
+                                        Tip
                                     </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Razlog
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
+                                        Razlog
                                     </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
+                                        Status
                                     </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
                                         Kreirao</th>
-                                    <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">
+                                    <th
+                                        class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
                                         Akcije</th>
                                 </tr>
                             </thead>
@@ -287,7 +300,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-slate-900">
                                                 {{ $block->creator->name ?? 'System' }}</div>
-                                            <div class="text-xs text-slate-500">
+                                            <div class="text-xs text-slate-500 dark:text-slate-300">
                                                 {{ $block->created_at->format('d.m.Y H:i') }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right">
@@ -345,15 +358,23 @@
                         <table class="min-w-full divide-y divide-slate-200">
                             <thead class="bg-slate-50">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">IP &
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
+                                        IP &
                                         Lokacija</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">User
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
+                                        User
                                         Agent</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
                                         Aktivnost</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
+                                        Status
                                     </th>
-                                    <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">
+                                    <th
+                                        class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-300 uppercase">
                                         Akcije</th>
                                 </tr>
                             </thead>
@@ -366,7 +387,7 @@
                                                 <code
                                                     class="text-sm bg-slate-100 px-2 py-1 rounded">{{ $visitor->ip_address }}</code>
                                                 @if ($visitor->country)
-                                                    <div class="text-xs text-slate-500 mt-1">
+                                                    <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                                         {{ $visitor->country_flag }} {{ $visitor->country }}
                                                         @if ($visitor->city)
                                                             , {{ $visitor->city }}
@@ -390,10 +411,10 @@
                                         <td class="px-6 py-4">
                                             <div class="text-sm text-slate-900">
                                                 {{ number_format($visitor->request_count) }} zahteva</div>
-                                            <div class="text-xs text-slate-500">
+                                            <div class="text-xs text-slate-500 dark:text-slate-300">
                                                 Prva: {{ $visitor->first_visit->format('d.m.Y H:i') }}
                                             </div>
-                                            <div class="text-xs text-slate-500">
+                                            <div class="text-xs text-slate-500 dark:text-slate-300">
                                                 Poslednja: {{ $visitor->last_activity->diffForHumans() }}
                                             </div>
                                         </td>
@@ -442,7 +463,7 @@
                                                 <code
                                                     class="text-sm bg-slate-100 px-2 py-1 rounded font-mono">{{ $visitor->ip_address }}</code>
                                                 @if ($visitor->country)
-                                                    <div class="text-xs text-slate-500 mt-1">
+                                                    <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                                         {{ $visitor->country }}@if ($visitor->city)
                                                             , {{ $visitor->city }}
                                                         @endif
@@ -477,7 +498,8 @@
                                 <div class="p-4">
                                     <!-- User Agent -->
                                     <div class="mb-3">
-                                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">
+                                        <div
+                                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
                                             User Agent</div>
                                         <div class="text-sm text-slate-900 break-all">{{ $visitor->user_agent }}</div>
                                         @if ($visitor->is_bot)
@@ -490,7 +512,8 @@
 
                                     <!-- Activity Info -->
                                     <div class="mb-4">
-                                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">
+                                        <div
+                                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
                                             Aktivnost</div>
                                         <div class="space-y-1">
                                             <div class="flex justify-between">
@@ -577,7 +600,8 @@
                                                 minutu</label>
                                             <input type="number" wire:model="rateLimitSettings.guest_per_minute"
                                                 class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                                            <p class="text-xs text-slate-500 mt-1">Preporučeno: 20-50</p>
+                                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Preporučeno:
+                                                20-50</p>
                                         </div>
 
                                         <div>
@@ -585,7 +609,8 @@
                                                 satu</label>
                                             <input type="number" wire:model="rateLimitSettings.guest_per_hour"
                                                 class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                                            <p class="text-xs text-slate-500 mt-1">Preporučeno: 300-1000</p>
+                                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Preporučeno:
+                                                300-1000</p>
                                         </div>
                                     </div>
                                 @endif
@@ -614,7 +639,8 @@
                                                 minutu</label>
                                             <input type="number" wire:model="rateLimitSettings.auth_per_minute"
                                                 class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-green-500 focus:ring-green-500">
-                                            <p class="text-xs text-slate-500 mt-1">Preporučeno: 100-200 (više zbog
+                                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Preporučeno:
+                                                100-200 (više zbog
                                                 upload-a)</p>
                                         </div>
 
@@ -623,7 +649,8 @@
                                                 satu</label>
                                             <input type="number" wire:model="rateLimitSettings.auth_per_hour"
                                                 class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-green-500 focus:ring-green-500">
-                                            <p class="text-xs text-slate-500 mt-1">Preporučeno: 1500-3000 (više zbog
+                                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Preporučeno:
+                                                1500-3000 (više zbog
                                                 intenzivnog korišćenja)</p>
                                         </div>
                                     </div>
@@ -661,7 +688,8 @@
                                     <label class="block text-sm font-medium text-slate-700">Prag za blokiranje</label>
                                     <input type="number" wire:model="rateLimitSettings.auto_block_threshold"
                                         class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                                    <p class="text-xs text-slate-500 mt-1">Broj zahteva pre automatskog blokiranja</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Broj zahteva pre
+                                        automatskog blokiranja</p>
                                 </div>
 
                                 <div>
@@ -756,7 +784,8 @@
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
-                                        <p class="text-xs text-slate-500 mt-1">Unesite dvoslovne kodove zemalja (npr:
+                                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Unesite dvoslovne
+                                            kodove zemalja (npr:
                                             CN za Kinu, RU za Rusiju)</p>
                                     </div>
 
@@ -815,7 +844,8 @@
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
-                                        <p class="text-xs text-slate-500 mt-1">Deo User Agent string-a koji se traži
+                                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Deo User Agent
+                                            string-a koji se traži
                                         </p>
                                     </div>
 

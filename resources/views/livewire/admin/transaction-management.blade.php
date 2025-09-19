@@ -25,7 +25,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Ukupno transakcija</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Ukupno transakcija</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $stats['total'] }}</p>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Završene</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Završene</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $stats['completed'] }}</p>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Na čekanju</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Na čekanju</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $stats['pending'] }}</p>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Neuspešne</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Neuspešne</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $stats['failed'] }}</p>
                 </div>
             </div>
@@ -85,21 +85,21 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow p-4">
             <div class="text-center">
-                <h3 class="text-sm font-medium text-slate-500">Ukupan iznos</h3>
+                <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Ukupan iznos</h3>
                 <p class="text-2xl font-semibold text-green-600">{{ number_format($stats['totalAmount'], 2) }} RSD</p>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow p-4">
             <div class="text-center">
-                <h3 class="text-sm font-medium text-slate-500">Ukupne uplate</h3>
+                <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Ukupne uplate</h3>
                 <p class="text-2xl font-semibold text-sky-600">{{ number_format($stats['totalDeposits'], 2) }} RSD</p>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow p-4">
             <div class="text-center">
-                <h3 class="text-sm font-medium text-slate-500">Ukupne naknade</h3>
+                <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Ukupne naknade</h3>
                 <p class="text-2xl font-semibold text-red-600 dark:text-red-400">
                     {{ number_format($stats['totalFees'], 2) }} RSD</p>
             </div>
@@ -197,30 +197,36 @@
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('created_at')">
                             Datum
                             @if ($sortField === 'created_at')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Korisnik</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Tip
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                            Tip
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer"
                             wire:click="sortBy('amount')">
                             Iznos
                             @if ($sortField === 'amount')
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Opis
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -230,7 +236,8 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-slate-900">{{ $transaction->created_at->format('d.m.Y.') }}
                                 </div>
-                                <div class="text-xs text-slate-500">{{ $transaction->created_at->format('H:i') }}
+                                <div class="text-xs text-slate-500 dark:text-slate-300">
+                                    {{ $transaction->created_at->format('H:i') }}
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -248,7 +255,8 @@
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-slate-900">{{ $transaction->user->name }}
                                         </div>
-                                        <div class="text-xs text-slate-500">{{ $transaction->user->email }}</div>
+                                        <div class="text-xs text-slate-500 dark:text-slate-300">
+                                            {{ $transaction->user->email }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -345,7 +353,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-sm text-slate-500">
+                            <td colspan="7"
+                                class="px-6 py-4 text-center text-sm text-slate-500 dark:text-slate-300">
                                 Nema pronađenih transakcija.
                             </td>
                         </tr>
@@ -383,7 +392,7 @@
                                 {{ $transaction->amount > 0 ? '+' : '' }}{{ number_format($transaction->amount, 0, ',', '.') }}
                                 RSD
                             </div>
-                            <div class="text-sm text-slate-500">ID: {{ $transaction->id }}</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-300">ID: {{ $transaction->id }}</div>
                         </div>
                     </div>
 
@@ -405,7 +414,7 @@
                 <div class="mb-4">
                     <div class="text-sm text-slate-900">{{ $transaction->description }}</div>
                     @if ($transaction->type)
-                        <div class="text-xs text-slate-500 mt-1">
+                        <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                             {{ $typeOptions[$transaction->type] ?? ucfirst($transaction->type) }}</div>
                     @endif
                 </div>
@@ -413,7 +422,9 @@
                 <!-- User Info -->
                 @if ($transaction->user)
                     <div class="bg-slate-50 p-3 rounded-lg mb-4">
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Korisnik</div>
+                        <div
+                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                            Korisnik</div>
                         <div class="flex items-center">
                             <div class="flex-shrink-0 h-8 w-8">
                                 @if ($transaction->user->avatar)
@@ -429,7 +440,8 @@
                             </div>
                             <div class="ml-3">
                                 <div class="text-sm font-medium text-slate-900">{{ $transaction->user->name }}</div>
-                                <div class="text-xs text-slate-500">{{ $transaction->user->email }}</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-300">
+                                    {{ $transaction->user->email }}</div>
                             </div>
                         </div>
                     </div>
@@ -437,7 +449,8 @@
 
                 <!-- Date -->
                 <div class="mb-4">
-                    <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Datum</div>
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                        Datum</div>
                     <div class="text-sm text-slate-900">{{ $transaction->created_at->format('d.m.Y H:i') }}</div>
                 </div>
 
@@ -496,7 +509,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <h4 class="text-sm font-medium text-slate-500">Korisnik:</h4>
+                            <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Korisnik:</h4>
                             <div class="flex items-center mt-1">
                                 @if ($selectedTransaction->user->avatar)
                                     <img src="{{ $selectedTransaction->user->avatar_url }}"
@@ -511,13 +524,14 @@
                                 <div class="ml-3">
                                     <p class="text-sm font-medium text-slate-900">
                                         {{ $selectedTransaction->user->name }}</p>
-                                    <p class="text-xs text-slate-500">{{ $selectedTransaction->user->email }}</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-300">
+                                        {{ $selectedTransaction->user->email }}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <h4 class="text-sm font-medium text-slate-500">Datum:</h4>
+                            <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Datum:</h4>
                             <p class="text-sm text-slate-900 mt-1">
                                 {{ $selectedTransaction->created_at->format('d.m.Y. H:i') }}
                             </p>
@@ -526,7 +540,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <h4 class="text-sm font-medium text-slate-500">Tip transakcije:</h4>
+                            <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Tip transakcije:</h4>
                             <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                             @if ($selectedTransaction->type === 'deposit') bg-sky-100 text-sky-800
@@ -539,7 +553,7 @@
                         </div>
 
                         <div>
-                            <h4 class="text-sm font-medium text-slate-500">Status:</h4>
+                            <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Status:</h4>
                             <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                             @if ($selectedTransaction->status === 'completed') bg-green-100 text-green-800
@@ -551,7 +565,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <h4 class="text-sm font-medium text-slate-500">Iznos:</h4>
+                        <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Iznos:</h4>
                         <p
                             class="text-2xl font-semibold 
                         @if ($selectedTransaction->amount < 0) text-red-600 @else text-green-600 @endif">
@@ -560,7 +574,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <h4 class="text-sm font-medium text-slate-500">Opis:</h4>
+                        <h4 class="text-sm font-medium text-slate-500 dark:text-slate-300">Opis:</h4>
                         <p class="text-sm text-slate-900 mt-1">{{ $selectedTransaction->description }}</p>
                     </div>
 

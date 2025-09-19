@@ -6,7 +6,7 @@
             <i class="fas fa-gift text-green-500 text-6xl mb-4"></i>
             <h1 class="text-3xl font-bold text-slate-900 mb-4">Poklanjam</h1>
             <p class="text-slate-600 dark:text-slate-400 mb-6">Sekcija za poklone je u pripremi...</p>
-            <p class="text-sm text-slate-500">Uskoro ćete moći da poklanjate stvari drugim korisnicima!</p>
+            <p class="text-sm text-slate-500 dark:text-slate-300">Uskoro ćete moći da poklanjate stvari drugim korisnicima!</p>
         </div>
     </div>
 @endsection

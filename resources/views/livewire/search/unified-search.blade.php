@@ -487,7 +487,7 @@
                                                     {{ number_format($listing->auction_data->current_price, 0, ',', '.') }}
                                                     RSD
                                                 </div>
-                                                <div class="text-sm text-slate-500">
+                                                <div class="text-sm text-slate-500 dark:text-slate-300">
                                                     {{ $listing->auction_data->total_bids }} ponuda</div>
                                             @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
                                                 <div class="text-xl font-bold text-green-600">BESPLATNO</div>
@@ -502,7 +502,8 @@
                                                 $listing->auction_data->buy_now_price &&
                                                 $listing->auction_data->current_price < $listing->auction_data->buy_now_price)
                                             <div class="text-right">
-                                                <div class="text-sm text-slate-500">Kupi odmah:</div>
+                                                <div class="text-sm text-slate-500 dark:text-slate-300">Kupi odmah:
+                                                </div>
                                                 <div class="text-lg font-bold text-green-600">
                                                     {{ number_format($listing->auction_data->buy_now_price, 0, ',', '.') }}
                                                     RSD
@@ -551,7 +552,8 @@
                                             </div>
                                         </div>
                                     @else
-                                        <div class="flex items-center justify-between text-sm text-slate-500 mb-4">
+                                        <div
+                                            class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-300 mb-4">
                                             <div class="flex items-center">
                                                 <i class="fas fa-eye mr-1"></i>
                                                 <span>{{ $listing->views ?? 0 }}</span>
@@ -561,7 +563,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="text-xs text-slate-500 mb-4">
+                                        <div class="text-xs text-slate-500 dark:text-slate-300 mb-4">
                                             <i class="fas fa-clock mr-1"></i>
                                             Objavljeno {{ $listing->created_at->diffForHumans() }}
                                         </div>
@@ -736,7 +738,8 @@
                                         <div class="text-2xl font-bold text-red-600 dark:text-red-400">
                                             {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
                                         </div>
-                                        <div class="text-sm text-slate-500">{{ $listing->auction_data->total_bids }}
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">
+                                            {{ $listing->auction_data->total_bids }}
                                             ponuda</div>
                                     @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
                                         <div class="text-2xl font-bold text-green-600">BESPLATNO</div>
@@ -766,7 +769,8 @@
 
                             <!-- Stats -->
                             @if (!isset($listing->is_auction))
-                                <div class="flex items-center justify-between text-xs text-slate-500 mb-3">
+                                <div
+                                    class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300 mb-3">
                                     <div class="flex items-center">
                                         <i class="fas fa-eye mr-1"></i>
                                         <span>{{ $listing->views ?? 0 }}</span>
@@ -777,7 +781,7 @@
                                 </div>
                             @endif
 
-                            <div class="text-xs text-slate-500 mb-3">
+                            <div class="text-xs text-slate-500 dark:text-slate-300 mb-3">
                                 <i class="fas fa-clock mr-1"></i>
                                 Objavljeno {{ $listing->created_at->diffForHumans() }}
                             </div>

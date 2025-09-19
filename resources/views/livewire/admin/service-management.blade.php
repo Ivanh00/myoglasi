@@ -63,7 +63,7 @@
                     <tr>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('title')"
-                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider hover:text-slate-700 dark:hover:text-slate-200">
+                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider hover:text-slate-700 dark:hover:text-slate-200">
                                 <span>Naslov</span>
                                 @if ($sortField === 'title')
                                     @if ($sortDirection === 'asc')
@@ -81,11 +81,11 @@
                             </button>
                         </th>
                         <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Pružalac usluge</th>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('price')"
-                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider hover:text-slate-700 dark:hover:text-slate-200">
+                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider hover:text-slate-700 dark:hover:text-slate-200">
                                 <span>Cena</span>
                                 @if ($sortField === 'price')
                                     @if ($sortDirection === 'asc')
@@ -103,14 +103,14 @@
                             </button>
                         </th>
                         <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Kategorija</th>
                         <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('created_at')"
-                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider hover:text-slate-700 dark:hover:text-slate-200">
+                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider hover:text-slate-700 dark:hover:text-slate-200">
                                 <span>Kreirana</span>
                                 @if ($sortField === 'created_at')
                                     @if ($sortDirection === 'asc')
@@ -128,7 +128,7 @@
                             </button>
                         </th>
                         <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -149,7 +149,7 @@
                                     <div>
                                         <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
                                             {{ Str::limit($service->title, 50) }}</div>
-                                        <div class="text-sm text-slate-500 dark:text-slate-400">{{ $service->location }}
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">{{ $service->location }}
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +168,7 @@
                                     <div>
                                         <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
                                             {{ $service->user->name }}</div>
-                                        <div class="text-sm text-slate-500 dark:text-slate-400">
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">
                                             {{ $service->user->email }}</div>
                                     </div>
                                 </div>
@@ -181,7 +181,7 @@
                                 <div class="text-sm text-slate-900 dark:text-slate-100">
                                     {{ $service->category->name ?? 'N/A' }}</div>
                                 @if ($service->subcategory)
-                                    <div class="text-xs text-slate-500 dark:text-slate-400">
+                                    <div class="text-xs text-slate-500 dark:text-slate-300">
                                         {{ $service->subcategory->name }}</div>
                                 @endif
                             </td>
@@ -210,7 +210,7 @@
                                 @endswitch
                             </td>
                             <td class="px-6 py-4">
-                                <div class="text-sm text-slate-500 dark:text-slate-400">
+                                <div class="text-sm text-slate-500 dark:text-slate-300">
                                     {{ $service->created_at->format('d.m.Y') }}</div>
                             </td>
                             <td class="px-6 py-4">
@@ -275,7 +275,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-6 py-4 text-center text-slate-500 dark:text-slate-400">
+                                <td colspan="7" class="px-6 py-4 text-center text-slate-500 dark:text-slate-300">
                                     Nema usluga koji odgovaraju kriterijumima pretrage.
                                 </td>
                             </tr>
@@ -411,7 +411,7 @@
                         </div>
                         <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mt-2">Obriši uslugu</h3>
                         <div class="mt-2 px-7 py-3">
-                            <p class="text-sm text-slate-500 dark:text-slate-400">
+                            <p class="text-sm text-slate-500 dark:text-slate-300">
                                 Da li ste sigurni da želite da obrišete uslugu "{{ $selectedService?->title }}"?
                                 Ova akcija ne može biti poništena.
                             </p>

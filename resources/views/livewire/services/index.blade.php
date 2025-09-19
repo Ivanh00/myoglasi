@@ -145,7 +145,7 @@
                                                 <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                                             @endif
                                             @if ($service->user && $service->user->shouldShowLastSeen())
-                                                <span class="text-xs text-slate-500 ml-2">
+                                                <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                                                     @if ($service->user->is_online)
                                                         <span class="inline-flex items-center">
                                                             <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
@@ -186,7 +186,7 @@
                             class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800">
                             <div class="flex flex-col h-full justify-between">
                                 <div
-                                    class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 mb-4">
+                                    class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-300 mb-4">
                                     <div class="flex items-center">
                                         <i class="fas fa-eye mr-1"></i>
                                         <span>{{ $service->views ?? 0 }}</span>

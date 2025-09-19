@@ -68,7 +68,7 @@
                     <i class="fas fa-flag text-slate-600 dark:text-slate-400 text-xl "></i>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Ukupno prijava</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Ukupno prijava</h3>
                     <p class="text-2xl font-semibold text-slate-900">{{ $stats['total'] ?? 0 }}</p>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                     <i class="fas fa-clock text-amber-600 dark:text-amber-400 text-xl "></i>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Na čekanju</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Na čekanju</h3>
                     <p class="text-2xl font-semibold text-amber-600 dark:text-amber-400">{{ $stats['pending'] ?? 0 }}
                     </p>
                 </div>
@@ -93,7 +93,7 @@
                     <i class="fas fa-eye text-sky-600 dark:text-sky-400 text-xl "></i>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Pregledano</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Pregledano</h3>
                     <p class="text-2xl font-semibold text-sky-600 dark:text-sky-400">{{ $stats['reviewed'] ?? 0 }}</p>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                     <i class="fas fa-check-circle text-green-600 text-xl "></i>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-sm font-medium text-slate-500">Rešeno</h3>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Rešeno</h3>
                     <p class="text-2xl font-semibold text-green-600">{{ $stats['resolved'] ?? 0 }}</p>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                     <tr>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('created_at')"
-                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 uppercase tracking-wider hover:text-slate-700">
+                                class="flex items-center space-x-1 text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider hover:text-slate-700">
                                 <span>Datum</span>
                                 @if ($sortField === 'created_at')
                                     @if ($sortDirection === 'asc')
@@ -137,15 +137,20 @@
                                 @endif
                             </button>
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Prijavila</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Oglas</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Razlog</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -195,7 +200,8 @@
                                     @endif
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-slate-900">{{ $report->user->name }}</div>
-                                        <div class="text-sm text-slate-500">{{ $report->user->email }}</div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">
+                                            {{ $report->user->email }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -213,7 +219,8 @@
                                     <div class="ml-3">
                                         <div class="text-sm font-medium text-slate-900">
                                             {{ Str::limit($report->listing->title, 30) }}</div>
-                                        <div class="text-sm text-slate-500">{{ $report->listing->user->name }}</div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">
+                                            {{ $report->listing->user->name }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -323,7 +330,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-4 text-center text-slate-500">
+                                <td colspan="6" class="px-6 py-4 text-center text-slate-500 dark:text-slate-300">
                                     Nema prijava koje odgovaraju kriterijumima pretrage.
                                 </td>
                             </tr>
@@ -357,7 +364,8 @@
                             <div class="ml-3 flex-1">
                                 <div class="text-sm font-semibold text-slate-900">
                                     {{ Str::limit($report->listing->title, 25) }}</div>
-                                <div class="text-xs text-slate-500">{{ $report->created_at->format('d.m.Y H:i') }}</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-300">
+                                    {{ $report->created_at->format('d.m.Y H:i') }}</div>
                             </div>
                         </div>
 
@@ -394,13 +402,15 @@
                     <!-- Info Grid -->
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div class="bg-slate-50 p-3 rounded-lg">
-                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Prijavio</div>
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                                Prijavio</div>
                             <div class="text-sm font-medium text-slate-900">{{ $report->user->name }}</div>
-                            <div class="text-xs text-slate-500">{{ $report->user->email }}</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-300">{{ $report->user->email }}</div>
                         </div>
 
                         <div class="bg-slate-50 p-3 rounded-lg">
-                            <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Razlog</div>
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                                Razlog</div>
                             <div class="text-sm font-medium text-slate-900">
                                 @php
                                     $reasonLabels = [
@@ -421,7 +431,8 @@
 
                     <!-- Owner Info -->
                     <div class="mb-4">
-                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Vlasnik oglasa</div>
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                            Vlasnik oglasa</div>
                         <div class="text-sm text-slate-900">{{ $report->listing->user->name }}</div>
                     </div>
 
@@ -580,7 +591,8 @@
                                                 <div class="mt-1">
                                                     <div class="text-sm font-medium text-slate-900">
                                                         {{ $selectedReport->user->name }}</div>
-                                                    <div class="text-sm text-slate-500">{{ $selectedReport->user->email }}
+                                                    <div class="text-sm text-slate-500 dark:text-slate-300">
+                                                        {{ $selectedReport->user->email }}
                                                     </div>
                                                 </div>
                                             </div>

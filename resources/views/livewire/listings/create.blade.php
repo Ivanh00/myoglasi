@@ -110,7 +110,7 @@
                                 <i class="fas fa-shopping-tag text-sky-600 dark:text-sky-400 mr-2"></i>
                                 <span class="text-sm font-medium text-slate-900 dark:text-slate-100">Oglas</span>
                             </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Prodaja proizvoda
+                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Prodaja proizvoda
                                 ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})
                             </p>
                         </div>
@@ -125,7 +125,7 @@
                                 <i class="fas fa-gavel text-amber-600 dark:text-amber-400 mr-2"></i>
                                 <span class="text-sm font-medium text-slate-900 dark:text-slate-100">Aukcija</span>
                             </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Licitiranje
+                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Licitiranje
                                 ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})
                             </p>
                         </div>
@@ -140,7 +140,7 @@
                                 <i class="fas fa-gift text-green-600 mr-2"></i>
                                 <span class="text-sm font-medium text-slate-900 dark:text-slate-100">Poklon</span>
                             </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Besplatno davanje (Besplatno)</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Besplatno davanje (Besplatno)</p>
                         </div>
                     </label>
                 </div>
@@ -331,7 +331,8 @@
                         <div>
                             <label for="buyNowPrice"
                                 class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                Kupi odmah cena (RSD) <span class="text-slate-500 text-xs">(opciono)</span>
+                                Kupi odmah cena (RSD) <span
+                                    class="text-slate-500 dark:text-slate-300 text-xs">(opciono)</span>
                             </label>
                             <input type="number" wire:model="buyNowPrice" id="buyNowPrice" step="0.01"
                                 min="1"
@@ -455,7 +456,7 @@
                     @error('description')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                     @else
-                        <p class="text-slate-500 dark:text-slate-400 text-sm">Minimum 10 karaktera</p>
+                        <p class="text-slate-500 dark:text-slate-300 text-sm">Minimum 10 karaktera</p>
                     @enderror
                     <p class="text-slate-400 text-sm">{{ strlen($description ?? '') }}/2000</p>
                 </div>
@@ -487,7 +488,7 @@
                         <label for="images" class="cursor-pointer">
                             <span class="text-sky-600 hover:text-sky-500 font-medium">Kliknite za dodavanje
                                 slika</span>
-                            <span class="text-slate-500"> ili prevucite ovde</span>
+                            <span class="text-slate-500 dark:text-slate-300"> ili prevucite ovde</span>
                         </label>
                         <p class="text-slate-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici</p>
                     </div>
@@ -496,7 +497,8 @@
                         <i class="fas fa-images text-slate-400 text-4xl mb-2"></i>
                         <p class="text-slate-600 dark:text-slate-400 font-medium">Dostigli ste maksimum od
                             {{ $maxImages }} slika</p>
-                        <p class="text-slate-500 text-sm">Obrišite neku sliku da biste dodali novu</p>
+                        <p class="text-slate-500 dark:text-slate-300 text-sm">Obrišite neku sliku da biste dodali novu
+                        </p>
                     </div>
                 @endif
 
@@ -549,14 +551,14 @@
                         </label>
                         <input type="text" wire:model="contact_phone" id="contact_phone" readonly
                             class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-100 dark:bg-slate-600 text-slate-900 dark:text-slate-100 cursor-not-allowed">
-                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
+                        <p class="text-slate-500 dark:text-slate-300 text-sm mt-1">
                             Lokacija i broj telefona su automatski preuzeti iz vašeg profila.
                             <a href="{{ route('profile') }}"
                                 class="text-sky-600 dark:text-sky-400 hover:text-sky-500">
                                 Ažuriraj profil
                             </a>
                         </p>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
+                        <p class="text-slate-500 dark:text-slate-300 text-sm mt-1">
                             Telefon je vidljiv u oglasima samo ako je označen kao vidljiv u profilu.
                         </p>
                     </div>

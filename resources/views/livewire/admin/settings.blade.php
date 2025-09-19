@@ -82,7 +82,8 @@
                                 <label class="block text-sm font-medium text-slate-700">Besplatni oglasi mesečno</label>
                                 <input type="number" wire:model="freeListingsPerMonth" min="0" max="100"
                                     class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                                <p class="text-xs text-slate-500 mt-1">0 = nema besplatnih oglasa</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">0 = nema besplatnih oglasa
+                                </p>
                                 @error('freeListingsPerMonth')
                                     <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -112,7 +113,8 @@
                                         (RSD)</label>
                                     <input type="number" wire:model="monthlyPlanPrice" min="100" max="50000"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
-                                    <p class="text-xs text-slate-500 mt-1">Korisnici mogu postavljati neograničeno
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Korisnici mogu
+                                        postavljati neograničeno
                                         oglasa mesečno</p>
                                     @error('monthlyPlanPrice')
                                         <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
@@ -144,7 +146,8 @@
                                         (RSD)</label>
                                     <input type="number" wire:model="yearlyPlanPrice" min="1000" max="500000"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
-                                    <p class="text-xs text-slate-500 mt-1">Korisnici mogu postavljati neograničeno
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Korisnici mogu
+                                        postavljati neograničeno
                                         oglasa godišnje</p>
                                     @error('yearlyPlanPrice')
                                         <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
@@ -232,7 +235,7 @@
                         <label class="block text-sm font-medium text-slate-700">Oglasi ističu posle (dana)</label>
                         <input type="number" wire:model="listingAutoExpireDays" min="7" max="365"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                        <p class="text-xs text-slate-500 mt-1">
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                             Važi za sve nove oglase i obnove postojećih oglasa (trenutno: {{ $listingAutoExpireDays }}
                             dana)
                         </p>
@@ -246,7 +249,7 @@
                             korisnici)</label>
                         <input type="number" wire:model="monthlyListingLimit" min="1" max="1000"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                        <p class="text-xs text-slate-500 mt-1">
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                             Koliko aktivnih oglasa mogu istovremeno da imaju korisnici sa isključenim plaćanjem
                             (trenutno: {{ $monthlyListingLimit }} oglasa)
                         </p>
@@ -264,7 +267,7 @@
                             (RSD)</label>
                         <input type="number" wire:model="minimumCreditTransfer" min="1" max="10000"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                        <p class="text-xs text-slate-500 mt-1">
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                             Najmanji iznos koji korisnik može da podeli sa drugim korisnicima (trenutno:
                             {{ number_format($minimumCreditTransfer, 0, ',', '.') }} RSD)
                         </p>
@@ -300,12 +303,12 @@
                                     <input type="number" wire:model="listingFeeAmount" min="1"
                                         max="1000"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                         Cena za postavljanje oglasa:
                                         {{ number_format($listingFeeAmount, 0, ',', '.') }} RSD
                                     </p>
                                 @else
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                         Oglasi su besplatni
                                     </p>
                                 @endif
@@ -328,12 +331,12 @@
                                     <input type="number" wire:model="serviceFeeAmount" min="1"
                                         max="1000"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                         Cena za postavljanje usluge:
                                         {{ number_format($serviceFeeAmount, 0, ',', '.') }} RSD
                                     </p>
                                 @else
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                         Usluge su besplatne
                                     </p>
                                 @endif
@@ -389,7 +392,7 @@
                                     (RSD)</label>
                                 <input type="number" wire:model="serviceFeeAmount" min="1" max="10000"
                                     class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                                <p class="text-xs text-slate-500 mt-1">
+                                <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                     Koliko košta objavljivanje jedne usluge (trenutno:
                                     {{ number_format($serviceFeeAmount, 0, ',', '.') }} RSD)
                                 </p>
@@ -430,7 +433,7 @@
                                             <input type="number" wire:model="gameCreditAmount" min="1"
                                                 max="1000"
                                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
-                                            <p class="text-xs text-slate-500 mt-1">
+                                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                                 Koliko kredita mogu da zarade kroz igrice dnevno (trenutno:
                                                 {{ number_format($gameCreditAmount, 0, ',', '.') }} RSD)
                                             </p>
@@ -460,7 +463,7 @@
                                             <input type="number" wire:model="dailyContestAmount" min="1"
                                                 max="1000"
                                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
-                                            <p class="text-xs text-slate-500 mt-1">
+                                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                                 Koliko kredita dobija član koji postavi najviše oglasa u danu (trenutno:
                                                 {{ number_format($dailyContestAmount, 0, ',', '.') }} RSD)
                                             </p>
@@ -490,7 +493,7 @@
                                             <input type="number" wire:model="gameLeaderboardBonus" min="1"
                                                 max="1000"
                                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
-                                            <p class="text-xs text-slate-500 mt-1">
+                                            <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                                 Koliko dodatnog kredita dobija najbolji igrač po igri dnevno (trenutno:
                                                 {{ number_format($gameLeaderboardBonus, 0, ',', '.') }} RSD)
                                             </p>
@@ -733,7 +736,8 @@
                         <label class="block text-sm font-medium text-slate-700">Šifra plaćanja - fizička lica</label>
                         <input type="text" wire:model="paymentCodePhysical" maxlength="3"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
-                        <p class="text-xs text-slate-500 mt-1">Za nalog za uplatu (289 = ostale uplate)</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Za nalog za uplatu (289 = ostale
+                            uplate)</p>
                         @error('paymentCodePhysical')
                             <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -743,7 +747,8 @@
                         <label class="block text-sm font-medium text-slate-700">Šifra plaćanja - pravna lica</label>
                         <input type="text" wire:model="paymentCodeLegal" maxlength="3"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
-                        <p class="text-xs text-slate-500 mt-1">Za nalog za prenos (221 = ostali transferi)</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Za nalog za prenos (221 = ostali
+                            transferi)</p>
                         @error('paymentCodeLegal')
                             <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -753,7 +758,7 @@
                         <label class="block text-sm font-medium text-slate-700">Model broj - fizička lica</label>
                         <input type="text" wire:model="modelNumberPhysical" maxlength="3"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
-                        <p class="text-xs text-slate-500 mt-1">Standardno 97</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Standardno 97</p>
                         @error('modelNumberPhysical')
                             <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -763,7 +768,7 @@
                         <label class="block text-sm font-medium text-slate-700">Model broj - pravna lica</label>
                         <input type="text" wire:model="modelNumberLegal" maxlength="3"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
-                        <p class="text-xs text-slate-500 mt-1">Standardno 97</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Standardno 97</p>
                         @error('modelNumberLegal')
                             <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -774,7 +779,8 @@
                             (odobrenja)</label>
                         <input type="text" wire:model="referenceNumberTemplate"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
-                        <p class="text-xs text-slate-500 mt-1">Koristite {user_id} za ID korisnika, npr:
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Koristite {user_id} za ID korisnika,
+                            npr:
                             20-10-{user_id}</p>
                         @error('referenceNumberTemplate')
                             <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
@@ -809,7 +815,8 @@
                             (RSD)</label>
                         <input type="number" wire:model="auctionDefaultBidIncrement" min="10" max="10000"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-red-500 focus:border-red-500">
-                        <p class="text-xs text-slate-500 mt-1">Minimalna vrednost za povećanje ponude u aukciji</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Minimalna vrednost za povećanje
+                            ponude u aukciji</p>
                         @error('auctionDefaultBidIncrement')
                             <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -829,7 +836,8 @@
                         <label class="block text-sm font-medium text-slate-700">Maksimalno produžavanja</label>
                         <input type="number" wire:model="auctionMaxExtensions" min="1" max="20"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
-                        <p class="text-xs text-slate-500 mt-1">Koliko puta se aukcija može produžiti</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Koliko puta se aukcija može
+                            produžiti</p>
                         @error('auctionMaxExtensions')
                             <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -839,7 +847,8 @@
                         <label class="block text-sm font-medium text-slate-700">Vreme produžavanja (minuti)</label>
                         <input type="number" wire:model="auctionExtensionTime" min="1" max="10"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
-                        <p class="text-xs text-slate-500 mt-1">Za koliko minuta se aukcija produžava</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Za koliko minuta se aukcija
+                            produžava</p>
                         @error('auctionExtensionTime')
                             <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -850,7 +859,8 @@
                             (minuti)</label>
                         <input type="number" wire:model="auctionExtensionTriggerTime" min="1" max="10"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
-                        <p class="text-xs text-slate-500 mt-1">Ponuda u poslednje X minuta produžava aukciju</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Ponuda u poslednje X minuta
+                            produžava aukciju</p>
                         @error('auctionExtensionTriggerTime')
                             <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -1191,7 +1201,7 @@
                     @enderror
 
                     <div wire:loading wire:target="backupFile" class="mt-2">
-                        <p class="text-sm text-slate-500">
+                        <p class="text-sm text-slate-500 dark:text-slate-300">
                             <i class="fas fa-spinner fa-spin mr-2"></i>
                             Učitavanje fajla...
                         </p>

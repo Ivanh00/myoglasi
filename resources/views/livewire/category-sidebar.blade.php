@@ -6,8 +6,7 @@
     <div class="p-2">
         <!-- Theme Switcher -->
         <div class="mb-4 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-            <div
-                class="text-xs font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">
+            <div class="text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-2">
                 Tema</div>
             <div class="grid grid-cols-2 gap-2">
                 <button onclick="setTheme('light')"
@@ -92,7 +91,7 @@
                             </svg>
                         @endif
                         <span class="flex-1">{{ $category->name }}</span>
-                        <span class="text-xs text-slate-400 dark:text-slate-500 ml-2">
+                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
                             (@if (method_exists($category, 'getAllListingsCount'))
                                 {{ $category->getAllListingsCount() }}
                             @else
@@ -103,7 +102,7 @@
 
                     <!-- Desni deo - strelica samo ako ima podkategorija -->
                     @if ($category->children->count() > 0)
-                        <div class="p-2 text-slate-400 dark:text-slate-500">
+                        <div class="p-2 text-slate-500 dark:text-slate-300">
                             <svg class="w-4 h-4 transition-transform duration-200"
                                 :class="{ 'transform rotate-90': openCategory === '{{ $category->id }}' }"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,7 +128,7 @@
                             <a href="{{ route('listings.index', ['selectedCategory' => $child->id]) }}"
                                 class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $child->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
                                 • {{ $child->name }}
-                                <span class="text-xs text-slate-400 dark:text-slate-500 ml-1">
+                                <span class="text-xs text-slate-500 dark:text-slate-300 ml-1">
                                     (@if (method_exists($child, 'getAllListingsCount'))
                                         {{ $child->getAllListingsCount() }}
                                     @else
@@ -154,7 +153,8 @@
         @if (auth()->user()->is_admin)
             <!-- Admin Sidebar -->
             <div class="border-t mt-4 pt-4 p-2">
-                <div class="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Admin opcije</div>
+                <div class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    Admin opcije</div>
 
                 <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center px-3 py-2 text-red-500 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-slate-700">
@@ -211,8 +211,7 @@
         @else
             <!-- Regular User Sidebar -->
             <div class="border-t mt-4 pt-4 p-2">
-                <div
-                    class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                <div class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                     Brze akcije</div>
 
                 <a href="{{ route('dashboard') }}"

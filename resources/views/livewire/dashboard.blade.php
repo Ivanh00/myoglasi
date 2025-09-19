@@ -263,7 +263,8 @@
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
                                 {{ Str::limit($listing->title, 30) }}</p>
-                            <p class="text-xs text-slate-500">{{ $listing->created_at->diffForHumans() }}</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-300">
+                                {{ $listing->created_at->diffForHumans() }}</p>
                         </div>
                         <div class="text-sm font-bold text-sky-600 dark:text-sky-400">
                             {{ number_format($listing->price, 0) }} RSD
@@ -272,7 +273,7 @@
                 @endforeach
 
                 @if ($activity['recent_listings']->count() == 0)
-                    <div class="text-center py-4 text-slate-500">
+                    <div class="text-center py-4 text-slate-500 dark:text-slate-300">
                         <i class="fas fa-list text-slate-400 text-2xl mb-2"></i>
                         <p>Nemate oglase</p>
                     </div>
@@ -430,7 +431,7 @@
                                 <div>
                                     <div class="font-medium text-slate-900 dark:text-slate-100">
                                         {{ Str::limit($transaction->description, 30) }}</div>
-                                    <div class="text-sm text-slate-500">
+                                    <div class="text-sm text-slate-500 dark:text-slate-300">
                                         {{ $transaction->created_at->format('d.m.Y H:i') }}</div>
                                 </div>
                             </div>
@@ -450,7 +451,7 @@
                     Vidi sve transakcije →
                 </a>
             @else
-                <div class="text-center py-8 text-slate-500">
+                <div class="text-center py-8 text-slate-500 dark:text-slate-300">
                     <i class="fas fa-receipt text-slate-400 text-3xl mb-2"></i>
                     <p>Nema transakcija</p>
                 </div>
@@ -513,7 +514,7 @@
                             class="font-medium {{ auth()->user()->isVerified() ? 'text-green-900 dark:text-green-200' : 'text-slate-700 dark:text-slate-200' }}">
                             Verifikacija</div>
                         <div
-                            class="text-sm {{ auth()->user()->isVerified() ? 'text-green-700 dark:text-green-300' : 'text-slate-500' }}">
+                            class="text-sm {{ auth()->user()->isVerified() ? 'text-green-500 dark:text-green-300' : 'text-slate-500 dark:text-slate-300' }}">
                             {{ auth()->user()->verification_status_text }}
                         </div>
                     </div>
