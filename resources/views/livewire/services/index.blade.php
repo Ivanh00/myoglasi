@@ -287,12 +287,14 @@
                             </p>
 
                             <!-- Kategorija -->
-                            <div class="flex items-center text-xs text-slate-600 dark:text-slate-400 mb-3">
-                                @if ($service->serviceCategory->icon)
-                                    <i class="{{ $service->serviceCategory->icon }} mr-1"></i>
-                                @endif
-                                {{ $service->serviceCategory->name }}
-                            </div>
+                            @if($service->serviceCategory)
+                                <div class="flex items-center text-xs text-slate-600 dark:text-slate-400 mb-3">
+                                    @if ($service->serviceCategory->icon)
+                                        <i class="{{ $service->serviceCategory->icon }} mr-1"></i>
+                                    @endif
+                                    {{ $service->serviceCategory->name }}
+                                </div>
+                            @endif
 
                             <!-- Cena -->
                             <div class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
@@ -303,7 +305,7 @@
                             <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
                                 <div>
                                     <i class="fas fa-user mr-1"></i>
-                                    {{ $service->user->name }}
+                                    {{ $service->user->name ?? 'Nepoznat korisnik' }}
                                 </div>
                                 <div>
                                     <i class="fas fa-clock mr-1"></i>
