@@ -153,11 +153,11 @@ Route::prefix('help')->name('help.')->group(function () {
     Route::get('/promotions', function () { return view('help.coming-soon', ['title' => 'Promocije oglasa']); })->name('promotions');
     Route::get('/payment-methods', function () { return view('help.coming-soon', ['title' => 'Načini plaćanja']); })->name('payment-methods');
     Route::get('/verification', function () { return view('help.coming-soon', ['title' => 'Verifikacija naloga']); })->name('verification');
-    Route::get('/faq', function () { return view('help.coming-soon', ['title' => 'Često postavljana pitanja']); })->name('faq');
-    Route::get('/safety', function () { return view('help.coming-soon', ['title' => 'Bezbednost na sajtu']); })->name('safety');
+    Route::get('/faq', function () { return view('help.faq'); })->name('faq');
+    Route::get('/safety', function () { return view('help.safety'); })->name('safety');
     Route::get('/rules', function () { return view('help.coming-soon', ['title' => 'Pravila korišćenja']); })->name('rules');
-    Route::get('/privacy', function () { return view('help.coming-soon', ['title' => 'Politika privatnosti']); })->name('privacy');
-    Route::get('/terms', function () { return view('help.coming-soon', ['title' => 'Uslovi korišćenja']); })->name('terms');
+    Route::get('/privacy', function () { return view('help.privacy'); })->name('privacy');
+    Route::get('/terms', function () { return view('help.terms'); })->name('terms');
 });
 
 // API routes for frontend
