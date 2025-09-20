@@ -114,8 +114,21 @@
                                     </div>
 
                                     <div class="ml-4">
+                                        @php
+                                            $checkboxClasses = $isSelected
+                                                ? match($type) {
+                                                    'featured_category' => 'border-sky-500 bg-sky-500',
+                                                    'featured_homepage' => 'border-red-500 bg-red-500',
+                                                    'highlighted' => 'border-amber-500 bg-amber-500',
+                                                    'auto_refresh' => 'border-green-500 bg-green-500',
+                                                    'double_images' => 'border-purple-500 bg-purple-500',
+                                                    'extended_duration' => 'border-orange-500 bg-orange-500',
+                                                    default => 'border-slate-500 bg-slate-500'
+                                                }
+                                                : 'border-slate-300 dark:border-slate-500';
+                                        @endphp
                                         <div
-                                            class="w-6 h-6 border-2 rounded-full flex items-center justify-center {{ $isSelected ? 'border-' . $color . '-500 bg-' . $color . '-500' : 'border-slate-300 dark:border-slate-500' }}">
+                                            class="w-6 h-6 border-2 rounded-full flex items-center justify-center {{ $checkboxClasses }}">
                                             @if ($isSelected)
                                                 <i class="fas fa-check text-white text-sm"></i>
                                             @endif
