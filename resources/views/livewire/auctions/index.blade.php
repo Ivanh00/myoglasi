@@ -414,7 +414,7 @@
                                 class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-amber-900">
                                 <div class="flex flex-col h-full justify-between">
                                     <div class="text-center mb-4">
-                                        <div class="text-lg font-bold text-amber-700 dark:text-amber-300">
+                                        <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
                                             @if ($auction->time_left)
                                                 {{ $auction->time_left['formatted'] }}
                                             @endif
@@ -709,7 +709,7 @@
                                             <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
                                                 {{ \App\Helpers\DateHelper::diffForHumansSr($auction->starts_at) }}
                                             </div>
-                                            <div class="text-xs text-amber-700 dark:text-amber-400 mt-1">
+                                            <div class="text-xs text-amber-700 dark:text-amber-200 mt-1">
                                                 {{ $auction->starts_at->format('d.m.Y \\u H:i') }}
                                             </div>
                                         </div>
@@ -966,7 +966,7 @@
                                     class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-amber-900">
                                     <div class="flex flex-col h-full justify-between">
                                         <div class="text-center mb-4">
-                                            <div class="text-lg font-bold text-amber-700 dark:text-amber-300">
+                                            <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
                                                 <i class="fas fa-flag-checkered mr-1"></i>
                                                 Završeno
                                             </div>

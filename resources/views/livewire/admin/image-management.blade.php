@@ -311,7 +311,7 @@
                                 </path>
                             </svg>
                             <div class="ml-3">
-                                <p class="text-sm text-amber-700">
+                                <p class="text-sm text-amber-700 dark:text-amber-200">
                                     Ovo će trajno obrisati sliku sa servera.
                                 </p>
                             </div>

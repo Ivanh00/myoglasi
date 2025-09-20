@@ -223,8 +223,8 @@
                     class="flex items-center p-3 bg-amber-100 dark:bg-amber-900 border border-amber-300 dark:border-amber-700 rounded-lg hover:bg-amber-100 transition-colors">
                     <i class="fas fa-search text-amber-600 dark:text-amber-400 mr-3"></i>
                     <div>
-                        <div class="font-medium text-amber-900 dark:text-amber-200">Pretraži aukcije</div>
-                        <div class="text-sm text-amber-700 dark:text-amber-300">Pronađi najbolje ponude</div>
+                        <div class="font-medium text-amber-900 dark:text-amber-100">Pretraži aukcije</div>
+                        <div class="text-sm text-amber-700 dark:text-amber-200">Pronađi najbolje ponude</div>
                     </div>
                 </a>
 

@@ -543,7 +543,7 @@
                                 <div class="flex flex-col h-full justify-between">
                                     @if (isset($listing->is_auction))
                                         <div class="text-center mb-4">
-                                            <div class="text-lg font-bold text-amber-700 dark:text-amber-300">
+                                            <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
                                                 @if ($listing->auction_data->time_left)
                                                     {{ $listing->auction_data->time_left['formatted'] }}
                                                 @endif

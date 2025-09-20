@@ -24,7 +24,8 @@
                         <h3 class="text-lg font-semibold text-amber-900">{{ $listing->title }}</h3>
                         <p class="text-amber-800 text-sm">Trenutna cena:
                             {{ number_format($listing->price, 0, ',', '.') }} RSD</p>
-                        <p class="text-amber-700 text-sm">{{ $listing->category->name }} • {{ $listing->location }}</p>
+                        <p class="text-amber-700 dark:text-amber-200 text-sm">{{ $listing->category->name }} •
+                            {{ $listing->location }}</p>
                     </div>
                 </div>
             </div>
