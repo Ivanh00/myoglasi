@@ -148,11 +148,11 @@ Route::prefix('help')->name('help.')->group(function () {
     Route::get('/credit-system', function () { return view('help.credit-system'); })->name('credit-system');
     Route::get('/earn-credits', function () { return view('help.earn-credits'); })->name('earn-credits');
     Route::get('/transfer-credits', function () { return view('help.transfer-credits'); })->name('transfer-credits');
-    Route::get('/pricing', function () { return view('help.coming-soon', ['title' => 'Cenovnik usluga']); })->name('pricing');
-    Route::get('/plans', function () { return view('help.coming-soon', ['title' => 'Planovi naplate']); })->name('plans');
-    Route::get('/promotions', function () { return view('help.coming-soon', ['title' => 'Promocije oglasa']); })->name('promotions');
-    Route::get('/payment-methods', function () { return view('help.coming-soon', ['title' => 'Načini plaćanja']); })->name('payment-methods');
-    Route::get('/verification', function () { return view('help.coming-soon', ['title' => 'Verifikacija naloga']); })->name('verification');
+    Route::get('/pricing', function () { return view('help.pricing'); })->name('pricing');
+    Route::get('/plans', function () { return view('help.plans'); })->name('plans');
+    Route::get('/promotions', function () { return view('help.promotions'); })->name('promotions');
+    Route::get('/payment-methods', function () { return view('help.payment-methods'); })->name('payment-methods');
+    Route::get('/verification', function () { return view('help.verification'); })->name('verification');
     Route::get('/faq', function () { return view('help.faq'); })->name('faq');
     Route::get('/safety', function () { return view('help.safety'); })->name('safety');
     Route::get('/rules', function () { return view('help.coming-soon', ['title' => 'Pravila korišćenja']); })->name('rules');
