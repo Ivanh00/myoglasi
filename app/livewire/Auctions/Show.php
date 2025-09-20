@@ -41,6 +41,9 @@ class Show extends Component
         // Set minimum bid amount
         $this->bidAmount = $this->auction->minimum_bid;
 
+        // Track unique view for the auction's listing
+        $this->trackUniqueView();
+
         // Check if user has favorited this auction listing
         if (auth()->check()) {
             $this->isFavorited = auth()->user()->hasFavorited($this->auction->listing);
@@ -457,6 +460,64 @@ class Show extends Component
                 'is_system_message' => true,
                 'is_read' => false
             ]);
+        }
+    }
+
+    protected function trackUniqueView()
+    {
+        if (!$this->auction || !$this->auction->listing) {
+            return;
+        }
+
+        $userId = auth()->id();
+        $ipAddress = request()->ip();
+        $sessionId = session()->getId();
+        $listingId = $this->auction->listing_id;
+
+        if ($userId) {
+            // For logged-in users, check if they've already viewed this listing
+            $existingView = \DB::table('listing_views')
+                ->where('listing_id', $listingId)
+                ->where('user_id', $userId)
+                ->first();
+
+            if (!$existingView) {
+                // Record the view
+                \DB::table('listing_views')->insert([
+                    'listing_id' => $listingId,
+                    'user_id' => $userId,
+                    'ip_address' => $ipAddress,
+                    'session_id' => $sessionId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                // Increment the view count on the listing
+                $this->auction->listing->increment('views');
+            }
+        } else {
+            // For guests, check by session and IP combination
+            $existingView = \DB::table('listing_views')
+                ->where('listing_id', $listingId)
+                ->where('session_id', $sessionId)
+                ->where('ip_address', $ipAddress)
+                ->whereNull('user_id')
+                ->first();
+
+            if (!$existingView) {
+                // Record the view
+                \DB::table('listing_views')->insert([
+                    'listing_id' => $listingId,
+                    'user_id' => null,
+                    'ip_address' => $ipAddress,
+                    'session_id' => $sessionId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                // Increment the view count on the listing
+                $this->auction->listing->increment('views');
+            }
         }
     }
 

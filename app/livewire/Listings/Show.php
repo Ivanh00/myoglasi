@@ -32,10 +32,63 @@ class Show extends Component
             }
         }
         
-        // Povećaj broj pregleda
+        // Track unique user view
         if ($this->listing) {
-            $this->listing->increment('views');
+            $this->trackUniqueView();
             $this->loadRecommendedListings();
+        }
+    }
+
+    protected function trackUniqueView()
+    {
+        $userId = auth()->id();
+        $ipAddress = request()->ip();
+        $sessionId = session()->getId();
+
+        if ($userId) {
+            // For logged-in users, check if they've already viewed this listing
+            $existingView = \DB::table('listing_views')
+                ->where('listing_id', $this->listing->id)
+                ->where('user_id', $userId)
+                ->first();
+
+            if (!$existingView) {
+                // Record the view
+                \DB::table('listing_views')->insert([
+                    'listing_id' => $this->listing->id,
+                    'user_id' => $userId,
+                    'ip_address' => $ipAddress,
+                    'session_id' => $sessionId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                // Increment the view count
+                $this->listing->increment('views');
+            }
+        } else {
+            // For guests, check by session and IP combination
+            $existingView = \DB::table('listing_views')
+                ->where('listing_id', $this->listing->id)
+                ->where('session_id', $sessionId)
+                ->where('ip_address', $ipAddress)
+                ->whereNull('user_id')
+                ->first();
+
+            if (!$existingView) {
+                // Record the view
+                \DB::table('listing_views')->insert([
+                    'listing_id' => $this->listing->id,
+                    'user_id' => null,
+                    'ip_address' => $ipAddress,
+                    'session_id' => $sessionId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                // Increment the view count
+                $this->listing->increment('views');
+            }
         }
     }
 
