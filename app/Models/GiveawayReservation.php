@@ -55,8 +55,8 @@ class GiveawayReservation extends Model
             'responded_at' => now()
         ]);
 
-        // Mark listing as completed
-        $this->listing->update(['status' => 'completed']);
+        // Mark listing as inactive (given away)
+        $this->listing->update(['status' => 'inactive']);
     }
 
     public function reject($response = null)

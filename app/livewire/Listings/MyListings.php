@@ -62,7 +62,9 @@ class MyListings extends Component
     public function render()
     {
         $query = Listing::where('user_id', auth()->id())
-            ->with(['category', 'condition', 'images'])
+            ->with(['category', 'condition', 'images', 'giveawayReservations' => function($q) {
+                $q->where('status', 'pending');
+            }])
             ->doesntHave('auction'); // Exclude listings with auctions
 
         // Apply filters

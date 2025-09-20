@@ -221,6 +221,18 @@
                                     </button>
                                 @endif
 
+                                @if ($listing->isGiveaway() && $listing->giveawayReservations->count() > 0)
+                                    <button
+                                        wire:click="$dispatch('openReservationManager', { listingId: {{ $listing->id }} })"
+                                        class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded relative">
+                                        <i class="fas fa-gift mr-1"></i>
+                                        Zahtevi
+                                        <span class="ml-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                                            {{ $listing->giveawayReservations->count() }}
+                                        </span>
+                                    </button>
+                                @endif
+
                                 <button x-data
                                     @click="$dispatch('open-delete-modal', { listingId: {{ $listing->id }} })"
                                     class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
@@ -385,6 +397,14 @@
                                 Podeli
                             </button>
 
+                            @if ($listing->isGiveaway() && $listing->giveawayReservations->count() > 0)
+                                <button
+                                    wire:click="$dispatch('openReservationManager', { listingId: {{ $listing->id }} })"
+                                    class="inline-flex items-center px-3 py-1.5 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200 text-xs font-medium rounded-lg hover:bg-green-200 dark:hover:bg-green-700 transition-colors">
+                                    <i class="fas fa-gift mr-1"></i>
+                                    Zahtevi ({{ $listing->giveawayReservations->count() }})
+                                </button>
+                            @endif
 
                             <button x-data @click="$dispatch('open-delete-modal', { listingId: {{ $listing->id }} })"
                                 class="inline-flex items-center px-3 py-1.5 bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200 text-xs font-medium rounded-lg hover:bg-red-200 dark:hover:bg-red-700 transition-colors">
@@ -415,6 +435,9 @@
 
     <!-- Single Promotion Manager Modal -->
     @livewire('listings.promotion-manager')
+
+    <!-- Giveaway Reservation Manager Modal -->
+    @livewire('giveaways.reservation-manager')
 
     <!-- Delete Listing Modal -->
     <div x-data="{
