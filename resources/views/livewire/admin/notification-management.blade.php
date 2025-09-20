@@ -21,7 +21,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="bg-sky-50 dark:bg-sky-900 p-4 rounded-lg border border-sky-200">
                 <h3 class="text-sm font-medium text-sky-800 dark:text-sky-200">Ukupno korisnika</h3>
-                <p class="text-2xl font-bold text-sky-700 dark:text-sky-300">
+                <p class="text-2xl font-bold text-sky-700 dark:text-sky-200">
                     {{ \App\Models\User::where('is_banned', false)->count() }}</p>
             </div>
             <div class="bg-green-50 dark:bg-green-900 p-4 rounded-lg border border-green-100">

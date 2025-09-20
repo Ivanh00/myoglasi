@@ -472,7 +472,7 @@
                                         <span class="ml-1 mr-2">{{ $auction->seller->rating_badge }}</span>
                                     @endif
                                     <span
-                                        class="text-sky-500 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300">Pogledaj
+                                        class="text-sky-500 dark:text-sky-300 hover:text-sky-700 dark:hover:text-sky-500">Pogledaj
                                         ocene</span>
                                     <i class="fas fa-external-link-alt ml-1 text-xs"></i>
                                 </a>

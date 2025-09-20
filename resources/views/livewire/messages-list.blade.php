@@ -75,13 +75,13 @@
                             <button
                                 @click="$wire.set('sortBy', 'all').then(() => $wire.call('loadConversations')); open = false"
                                 type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-t-lg {{ $sortBy === 'all' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-t-lg {{ $sortBy === 'all' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-200' : '' }}">
                                 Sve poruke
                             </button>
                             <button
                                 @click="$wire.set('sortBy', 'unread').then(() => $wire.call('loadConversations')); open = false"
                                 type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-b-lg {{ $sortBy === 'unread' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : '' }}">
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-b-lg {{ $sortBy === 'unread' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-200' : '' }}">
                                 Nepročitane
                             </button>
                         </div>

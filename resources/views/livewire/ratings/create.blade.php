@@ -21,7 +21,7 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold text-sky-900">{{ $user->name }}</h3>
-                        <p class="text-sky-700 text-sm">Član od {{ $user->created_at->format('m/Y') }}</p>
+                        <p class="text-sky-700 dark:text-sky-200 text-sm">Član od {{ $user->created_at->format('m/Y') }}</p>
                     </div>
                 </div>
 

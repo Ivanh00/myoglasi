@@ -9,7 +9,7 @@
                 <h3 class="text-sm font-medium text-sky-900">Brza prijava preko email-a</h3>
             </div>
 
-            <p class="text-xs text-sky-700 mb-3">
+            <p class="text-xs text-sky-700 dark:text-sky-200 mb-3">
                 Unesite email adresu i dobićete link za automatsku prijavu. Ako nemate nalog, kreiraće se automatski.
             </p>
 

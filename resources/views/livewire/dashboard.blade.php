@@ -25,7 +25,7 @@
                         </span>
                     </div>
                     <span
-                        class="text-sm {{ $stats['can_create_listing'] ? 'text-sky-700 dark:text-sky-300' : 'text-red-700 dark:text-red-300' }} font-medium">
+                        class="text-sm {{ $stats['can_create_listing'] ? 'text-sky-700 dark:text-sky-200' : 'text-red-700 dark:text-red-300' }} font-medium">
                         {{ $stats['remaining_listings'] }} slobodno
                     </span>
                 </div>
@@ -37,7 +37,7 @@
                 </div>
 
                 <p
-                    class="text-xs {{ $stats['can_create_listing'] ? 'text-sky-700 dark:text-sky-300' : 'text-red-700 dark:text-red-300' }} mt-2">
+                    class="text-xs {{ $stats['can_create_listing'] ? 'text-sky-700 dark:text-sky-200' : 'text-red-700 dark:text-red-300' }} mt-2">
                     @if ($stats['can_create_listing'])
                         💡 Možete postaviti još {{ $stats['remaining_listings'] }} oglasa. Kada oglas istekne ili se
                         obriše, možete postaviti novi.
@@ -135,7 +135,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-sky-900 dark:text-sky-200">Novi oglasi</p>
-                        <p class="text-2xl font-bold text-sky-700 dark:text-sky-300">
+                        <p class="text-2xl font-bold text-sky-700 dark:text-sky-200">
                             {{ $monthlyStats['listings_this_month'] }}</p>
                     </div>
                 </div>
@@ -499,7 +499,7 @@
                     <i class="fas fa-calendar text-sky-600 dark:text-sky-400 mr-3"></i>
                     <div>
                         <div class="font-medium text-sky-900 dark:text-sky-200">Član od</div>
-                        <div class="text-sm text-sky-700 dark:text-sky-300">
+                        <div class="text-sm text-sky-700 dark:text-sky-200">
                             {{ auth()->user()->created_at->format('F Y') }}</div>
                     </div>
                 </div>
