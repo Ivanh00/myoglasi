@@ -170,11 +170,6 @@
                                 </div>
 
                                 <div class="space-y-2">
-                                    <a href="{{ route('giveaways.show', $giveaway) }}"
-                                        class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
-                                        <i class="fas fa-gift mr-2"></i> Pregled
-                                    </a>
-
                                     @auth
                                         @if (auth()->id() !== $giveaway->user_id)
                                             <button wire:click="markAsTaken({{ $giveaway->id }})"
@@ -184,6 +179,11 @@
                                             </button>
                                         @endif
                                     @endauth
+
+                                    <a href="{{ route('giveaways.show', $giveaway) }}"
+                                        class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                        <i class="fas fa-gift mr-2"></i> Pregled
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -243,11 +243,6 @@
 
                             <!-- Dugmići - Always at bottom -->
                             <div class="space-y-2 mt-auto">
-                                <a href="{{ route('giveaways.show', $giveaway) }}"
-                                    class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
-                                    <i class="fas fa-gift mr-2"></i> Pregled
-                                </a>
-
                                 @auth
                                     @if (auth()->id() !== $giveaway->user_id)
                                         <button wire:click="markAsTaken({{ $giveaway->id }})"
@@ -257,6 +252,11 @@
                                         </button>
                                     @endif
                                 @endauth
+
+                                <a href="{{ route('giveaways.show', $giveaway) }}"
+                                    class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                    <i class="fas fa-gift mr-2"></i> Pregled
+                                </a>
                             </div>
                         </div>
                     </div>

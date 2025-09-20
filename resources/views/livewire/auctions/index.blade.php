@@ -194,7 +194,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 @foreach ($auctions as $auction)
                     <div
-                        class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-amber-500">
+                        class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-amber-500 flex flex-col h-full">
                         <!-- Image with overlay -->
                         <div class="relative">
                             <div class="w-full h-48">
@@ -220,8 +220,10 @@
                         </div>
 
                         <!-- Content -->
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                        <div class="p-4 flex flex-col flex-1">
+                            <!-- Main content -->
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                 {{ Str::limit($auction->listing->title, 40) }}</h3>
 
                             {{-- Prodavac info --}}
@@ -272,8 +274,10 @@
                                 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                 {{ Str::limit(strip_tags($auction->listing->description), 100) }}
                             </p>
+                            </div>
 
-                            <div class="space-y-2">
+                            <!-- Buttons - Always at bottom -->
+                            <div class="space-y-2 mt-auto">
                                 @auth
                                     @if (auth()->id() === $auction->user_id)
                                         <!-- Owner buttons -->
