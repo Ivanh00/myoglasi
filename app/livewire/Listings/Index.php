@@ -193,9 +193,10 @@ class Index extends Component
             $query = \App\Models\Auction::where('status', 'active')
                 ->with(['listing.category', 'listing.condition', 'listing.images', 'listing.subcategory', 'listing.user', 'bids']);
         } else {
-            // Regular listings query - EXCLUDE auctions
+            // Regular listings query - EXCLUDE auctions and giveaways
             $query = Listing::whereIn('status', ['active', 'inactive'])
                 ->whereDoesntHave('auction') // Exclude listings that have auctions
+                ->where('listing_type', '!=', 'giveaway') // Exclude giveaways
                 ->with(['category', 'condition', 'images', 'subcategory', 'user']);
         }
             
