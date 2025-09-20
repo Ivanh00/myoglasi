@@ -113,27 +113,27 @@ class ListingPromotion extends Model
         $badges = [
             'featured_category' => [
                 'text' => 'TOP',
-                'class' => 'bg-sky-600 text-white'
+                'class' => 'bg-sky-500 dark:bg-sky-900 text-white dark:text-sky-200'
             ],
             'featured_homepage' => [
                 'text' => 'ISTAKNUT',
-                'class' => 'bg-red-600 text-white'
+                'class' => 'bg-red-500 dark:bg-red-800 text-white dark:text-red-200'
             ],
             'highlighted' => [
                 'text' => 'OZNAČEN',
-                'class' => 'bg-amber-500 text-black'
+                'class' => 'bg-amber-500 dark:bg-amber-800 text-white dark:text-amber-200'
             ],
             'auto_refresh' => [
                 'text' => 'AUTO',
-                'class' => 'bg-green-600 text-white'
+                'class' => 'bg-green-500 dark:bg-green-800 text-white dark:text-green-200'
             ],
             'double_images' => [
                 'text' => '2X SLIKE',
-                'class' => 'bg-purple-600 text-white'
+                'class' => 'bg-purple-500 dark:bg-purple-800 text-white dark:text-purple-200'
             ],
             'extended_duration' => [
                 'text' => 'PRODUŽEN',
-                'class' => 'bg-orange-600 text-white'
+                'class' => 'bg-orange-500 dark:bg-orange-800 text-white dark:text-orange-200'
             ]
         ];
 

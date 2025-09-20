@@ -132,7 +132,7 @@
                                 @else
                                     <!-- Report button -->
                                     <a href="{{ route('listing.report', ['slug' => $listing->slug]) }}"
-                                        class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm">
+                                        class="inline-flex items-center px-3 py-1.5 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 rounded-lg hover:bg-red-300 dark:hover:bg-red-700 transition-colors text-sm">
                                         <i class="fas fa-flag mr-1"></i>
                                         Prijavi
                                     </a>
@@ -143,8 +143,8 @@
 
                     <div class="flex items-center mb-4">
                         @if ($listing->isGiveaway())
-                            <span class="text-3xl font-bold text-green-600">BESPLATNO</span>
-                            <span class="ml-4 px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                            <span class="text-3xl font-bold text-green-600 dark:text-green-400">BESPLATNO</span>
+                            <span class="ml-4 px-3 py-1 bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
                                 POKLON
                             </span>
                         @else
@@ -603,7 +603,7 @@
 
                                         <div class="flex items-center justify-between">
                                             @if ($relatedListing->isGiveaway())
-                                                <div class="text-green-600 font-bold text-xl">BESPLATNO</div>
+                                                <div class="text-green-600 dark:text-green-400 font-bold text-xl">BESPLATNO</div>
                                             @else
                                                 <div class="text-sky-600 font-bold text-xl">
                                                     {{ number_format($relatedListing->price, 2) }} RSD

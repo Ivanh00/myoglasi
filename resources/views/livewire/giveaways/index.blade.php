@@ -64,8 +64,8 @@
                                 <img src="{{ $giveaway->images->first()->url }}" alt="{{ $giveaway->title }}"
                                     class="w-full h-full object-cover">
                             @else
-                                <div class="w-full h-full bg-green-100 flex items-center justify-center">
-                                    <i class="fas fa-gift text-green-500 text-3xl"></i>
+                                <div class="w-full h-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                    <i class="fas fa-gift text-green-500 dark:text-green-400 text-3xl"></i>
                                 </div>
                             @endif
                         </div>
@@ -80,7 +80,7 @@
                                             {{ $giveaway->title }}
                                         </h3>
                                         <span
-                                            class="ml-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">
+                                            class="ml-2 bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full font-medium">
                                             BESPLATNO
                                         </span>
                                     </div>
@@ -118,7 +118,7 @@
                                         <span>{{ $giveaway->category->name }}</span>
                                         @if ($giveaway->condition)
                                             <span class="mx-2">•</span>
-                                            <span class="px-2 py-1 bg-slate-100 text-slate-800 text-xs rounded-full">
+                                            <span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs rounded-full">
                                                 {{ $giveaway->condition->name }}
                                             </span>
                                         @endif

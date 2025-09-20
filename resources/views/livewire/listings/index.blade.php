@@ -428,7 +428,7 @@
 
                                     @if ($listing->condition)
                                         <span
-                                            class="px-2 py-1 bg-slate-100 text-slate-800 text-xs font-medium rounded-full">
+                                            class="px-2 py-1 bg-slate-200 dark:bg-slate-600 text-slate-800 dark:text-slate-300 text-xs font-medium rounded-full">
                                             {{ $listing->condition->name }}
                                         </span>
                                     @endif
@@ -621,7 +621,7 @@
 
                                             @if ($listing->condition)
                                                 <span
-                                                    class="px-2 py-1 bg-slate-100 text-slate-800 text-xs font-medium rounded-full">
+                                                    class="px-2 py-1 bg-slate-200 dark:bg-slate-600 text-slate-800 dark:text-slate-300 text-xs font-medium rounded-full">
                                                     {{ $listing->condition->name }}
                                                 </span>
                                             @endif

@@ -231,19 +231,19 @@ public function hasExtendedDuration()
 public function getPromotionBadges()
 {
     $badges = [];
-    
+
     if ($this->isFeaturedOnHomepage()) {
-        $badges[] = ['text' => 'TOP', 'class' => 'bg-red-500 text-white'];
+        $badges[] = ['text' => 'TOP', 'class' => 'bg-red-500 dark:bg-red-800 text-white dark:text-red-200'];
     }
-    
+
     if ($this->isFeaturedInCategory()) {
-        $badges[] = ['text' => 'VRH', 'class' => 'bg-sky-500 text-white'];
+        $badges[] = ['text' => 'VRH', 'class' => 'bg-sky-500 dark:bg-sky-900 text-white dark:text-sky-200'];
     }
-    
+
     if ($this->isHighlighted()) {
-        $badges[] = ['text' => 'ISTAKNUT', 'class' => 'bg-amber-500 text-black'];
+        $badges[] = ['text' => 'ISTAKNUT', 'class' => 'bg-amber-500 dark:bg-amber-800 text-white dark:text-amber-200'];
     }
-    
+
     return $badges;
 }
 
@@ -276,8 +276,8 @@ public function getTypeDisplayName()
 public function getTypeBadge()
 {
     return match($this->listing_type) {
-        'service' => ['text' => 'USLUGA', 'class' => 'bg-gray-500 text-white'],
-        'giveaway' => ['text' => 'POKLON', 'class' => 'bg-green-500 text-white'],
+        'service' => ['text' => 'USLUGA', 'class' => 'bg-gray-500 dark:bg-slate-800 text-white dark:text-slate-200'],
+        'giveaway' => ['text' => 'POKLON', 'class' => 'bg-green-500 dark:bg-green-800 text-white dark:text-green-200'],
         default => null
     };
 }
