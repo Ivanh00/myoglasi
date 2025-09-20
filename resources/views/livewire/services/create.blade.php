@@ -97,13 +97,35 @@
                     </label>
 
                     <!-- Main Category -->
-                    <select wire:model.live="service_category_id"
-                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 @error('service_category_id') border-red-500 @enderror">
-                        <option value="">Odaberite kategoriju usluge</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
+                    <div x-data="{ open: false }" x-init="open = false" class="relative">
+                        <button @click="open = !open" type="button"
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border @error('service_category_id') border-red-500 @else border-slate-300 dark:border-slate-600 @enderror rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                            <span>
+                                @if($service_category_id)
+                                    {{ $categories->firstWhere('id', $service_category_id)->name ?? 'Odaberite kategoriju usluge' }}
+                                @else
+                                    Odaberite kategoriju usluge
+                                @endif
+                            </span>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false" x-transition
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <button @click="$wire.set('service_category_id', ''); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                Odaberite kategoriju usluge
+                            </button>
+                            @foreach ($categories as $category)
+                                <button @click="$wire.set('service_category_id', '{{ $category->id }}'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                    {{ $category->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
                     @error('service_category_id')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
@@ -115,13 +137,35 @@
                                 class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                                 Podkategorija
                             </label>
-                            <select wire:model="subcategory_id" id="subcategory_id"
-                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 @error('subcategory_id') border-red-500 @enderror">
-                                <option value="">Odaberite podkategoriju</option>
-                                @foreach ($subcategories as $subcategory)
-                                    <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
-                                @endforeach
-                            </select>
+                            <div x-data="{ open: false }" x-init="open = false" class="relative">
+                                <button @click="open = !open" type="button"
+                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border @error('subcategory_id') border-red-500 @else border-slate-300 dark:border-slate-600 @enderror rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                    <span>
+                                        @if($subcategory_id)
+                                            {{ $subcategories->firstWhere('id', $subcategory_id)->name ?? 'Odaberite podkategoriju' }}
+                                        @else
+                                            Odaberite podkategoriju
+                                        @endif
+                                    </span>
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+
+                                <div x-show="open" @click.away="open = false" x-transition
+                                    class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                    <button @click="$wire.set('subcategory_id', ''); open = false" type="button"
+                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                        Odaberite podkategoriju
+                                    </button>
+                                    @foreach ($subcategories as $subcategory)
+                                        <button @click="$wire.set('subcategory_id', '{{ $subcategory->id }}'); open = false" type="button"
+                                            class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                            {{ $subcategory->name }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </div>
                             @error('subcategory_id')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
