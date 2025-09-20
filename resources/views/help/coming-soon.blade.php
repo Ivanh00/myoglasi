@@ -23,10 +23,10 @@
                         Nazad na početnu
                     </a>
 
-                    <a href="{{ route('contact') }}"
+                    <a href="{{ route('messages.inbox') }}"
                         class="inline-flex items-center justify-center px-6 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                         <i class="fas fa-envelope mr-2"></i>
-                        Kontaktiraj admin
+                        Kontakt
                     </a>
                 </div>
             </div>
