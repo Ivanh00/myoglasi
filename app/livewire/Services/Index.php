@@ -6,19 +6,21 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Service;
 use App\Models\ServiceCategory;
+use App\Traits\HasViewMode;
 
 class Index extends Component
 {
-    use WithPagination;
-    
+    use WithPagination, HasViewMode;
+
     public $selectedCategory = null;
     public $categories;
     public $sortBy = 'newest';
     public $perPage = 20;
-    public $viewMode = 'list';
 
     public function mount()
     {
+        $this->mountHasViewMode(); // Initialize view mode from session
+
         $this->categories = ServiceCategory::whereNull('parent_id')
             ->where('is_active', true)
             ->orderBy('sort_order')
@@ -37,10 +39,6 @@ class Index extends Component
         $this->resetPage();
     }
 
-    public function setViewMode($mode)
-    {
-        $this->viewMode = $mode;
-    }
 
     public function render()
     {

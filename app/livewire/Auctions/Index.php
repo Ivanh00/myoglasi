@@ -5,25 +5,23 @@ namespace App\Livewire\Auctions;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Auction;
+use App\Traits\HasViewMode;
 
 class Index extends Component
 {
-    use WithPagination;
-    
-    public $viewMode = 'list'; // list or grid
+    use WithPagination, HasViewMode;
+
     public $sortBy = 'ending_soon'; // ending_soon, newest, highest_price, most_bids
     public $perPage = 20;
 
     protected $queryString = [
-        'viewMode' => ['except' => 'list'],
         'sortBy' => ['except' => 'ending_soon'],
         'perPage' => ['except' => 20]
     ];
 
-    public function setViewMode($mode)
+    public function mount()
     {
-        $this->viewMode = $mode;
-        $this->resetPage();
+        $this->mountHasViewMode(); // Initialize view mode from session
     }
 
     public function updatedSortBy()

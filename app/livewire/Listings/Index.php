@@ -8,18 +8,18 @@ use App\Models\Category;
 use App\Models\ListingCondition;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
+use App\Traits\HasViewMode;
 
 class Index extends Component
 {
-    use WithPagination;
-    
+    use WithPagination, HasViewMode;
+
     public $selectedCategory = null;
     public $categories;
     public $sortBy = 'newest';
     public $perPage = 20;
     public $categoryTree = [];
     public $currentCategory = null;
-    public $viewMode = 'list'; // list or grid
     
     // Search parametri
     public $query = '';
@@ -34,7 +34,6 @@ class Index extends Component
         'selectedCategory' => ['except' => ''],
         'sortBy' => ['except' => 'newest'],
         'perPage' => ['except' => 20],
-        'viewMode' => ['except' => 'list'],
         'query' => ['except' => ''],
         'city' => ['except' => ''],
         'search_category' => ['except' => ''],
@@ -46,6 +45,8 @@ class Index extends Component
 
     public function mount()
     {
+        $this->mountHasViewMode(); // Initialize view mode from session
+
         $this->categories = Category::whereNull('parent_id')
             ->where('is_active', true)
             ->orderBy('sort_order')
@@ -105,11 +106,6 @@ class Index extends Component
         $this->resetPage();
     }
 
-    public function setViewMode($mode)
-    {
-        $this->viewMode = $mode;
-        $this->resetPage();
-    }
     
     public function clearSearchFilters()
     {
