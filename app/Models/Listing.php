@@ -237,11 +237,11 @@ public function getPromotionBadges()
     }
 
     if ($this->isFeaturedInCategory()) {
-        $badges[] = ['text' => 'VRH', 'class' => 'bg-sky-500 dark:bg-sky-900 text-white dark:text-sky-200'];
+        $badges[] = ['text' => 'VRH', 'class' => 'bg-sky-500 dark:bg-sky-700 text-white dark:text-sky-100'];
     }
 
     if ($this->isHighlighted()) {
-        $badges[] = ['text' => 'ISTAKNUT', 'class' => 'bg-amber-500 dark:bg-amber-800 text-white dark:text-amber-200'];
+        $badges[] = ['text' => 'ISTAKNUT', 'class' => 'bg-amber-500 dark:bg-amber-600 text-white dark:text-amber-100'];
     }
 
     return $badges;
