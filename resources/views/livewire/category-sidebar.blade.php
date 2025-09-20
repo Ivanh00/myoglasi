@@ -1,8 +1,4 @@
 <div class="w-64 bg-white dark:bg-slate-800 shadow-lg h-screen sticky top-0 overflow-y-auto " x-data="{ openCategory: null }">
-    <div class="p-4 border-b border-slate-200 dark:border-slate-700">
-        <!-- Header removed for cleaner look -->
-    </div>
-
     <div class="p-2">
         <!-- Theme Switcher -->
         <div class="mb-4 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
