@@ -193,7 +193,7 @@
                                     </div>
                                 </div>
 
-                                <div class="text-xs text-slate-700 dark:text-slate-400 mb-4">
+                                <div class="text-xs text-slate-700 dark:text-slate-200 mb-4">
                                     <i class="fas fa-clock mr-1"></i>
                                     Postavljeno pre {{ floor($service->created_at->diffInDays()) }} dana
                                 </div>

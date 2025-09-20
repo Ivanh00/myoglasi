@@ -177,7 +177,7 @@
                                     @if (!$isAutoBid)
                                         <div class="mb-4">
                                             <label for="bidAmount"
-                                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                                 Vaša ponuda (minimum:
                                                 {{ number_format($auction->minimum_bid, 0, ',', '.') }} RSD)
                                             </label>
@@ -196,7 +196,7 @@
                                             <label class="flex items-center cursor-pointer">
                                                 <input type="checkbox" wire:model.live="isAutoBid"
                                                     class="mr-3 h-4 w-4 text-red-600 focus:ring-red-500 rounded">
-                                                <span class="text-sm text-slate-700 dark:text-slate-300">Automatska
+                                                <span class="text-sm text-slate-700 dark:text-slate-200">Automatska
                                                     ponuda</span>
                                             </label>
 
@@ -230,7 +230,7 @@
                                                 class="mt-3 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg">
                                                 <div class="mb-3">
                                                     <label
-                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Maksimalna
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Maksimalna
                                                         cena</label>
                                                     <input type="number" wire:model="maxBidAmount"
                                                         placeholder="Unesite maksimalnu cenu"
@@ -326,7 +326,7 @@
                                 <i class="fas fa-clock text-sky-600 dark:text-sky-400 mr-2"></i>
                                 Aukcija je zakazana
                             </h3>
-                            <p class="text-slate-700 dark:text-slate-300 mb-2 text-center">
+                            <p class="text-slate-700 dark:text-slate-200 mb-2 text-center">
                                 Aukcija počinje: <strong>{{ $auction->starts_at->format('d.m.Y \\u H:i') }}</strong>
                             </p>
                             <p class="text-slate-600 dark:text-slate-400 text-sm mb-4 text-center">
@@ -390,7 +390,7 @@
         <!-- Listing Description -->
         <div class="border-t border-slate-200 dark:border-slate-600 p-6 bg-white dark:bg-slate-800">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">Opis proizvoda</h3>
-            <div class="text-slate-700 dark:text-slate-300 whitespace-pre-line">{{ $auction->listing->description }}
+            <div class="text-slate-700 dark:text-slate-200 whitespace-pre-line">{{ $auction->listing->description }}
             </div>
         </div>
 
@@ -452,7 +452,7 @@
                                 <div class="flex items-center text-sm text-slate-600 dark:text-slate-400 mb-3">
                                     <i class="fas fa-phone mr-2"></i>
                                     <a href="tel:{{ $auction->listing->contact_phone }}"
-                                        class="text-slate-700 dark:text-slate-300 hover:text-green-600">
+                                        class="text-slate-700 dark:text-slate-200 hover:text-green-600">
                                         {{ $auction->listing->contact_phone }}
                                     </a>
                                 </div>
@@ -669,7 +669,7 @@
                                             <span>{{ $relatedListing->category->name }}</span>
                                         </div>
 
-                                        <p class="text-slate-700 dark:text-slate-300 mb-3"
+                                        <p class="text-slate-700 dark:text-slate-200 mb-3"
                                             style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                             {{ Str::limit(strip_tags($relatedListing->description), 120) }}
                                         </p>
@@ -798,7 +798,7 @@
                     <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-4">
                         <div class="flex space-x-3">
                             <button type="button" @click="showBuyNowModal = false"
-                                class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                                class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                                 <i class="fas fa-times mr-2"></i>
                                 Otkaži
                             </button>
@@ -940,7 +940,7 @@
                     <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-4">
                         <div class="flex space-x-3">
                             <button type="button" @click="showRemoveAuctionModal = false"
-                                class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                                class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                                 <i class="fas fa-times mr-2"></i>
                                 Otkaži
                             </button>

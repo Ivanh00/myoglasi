@@ -68,14 +68,14 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Search -->
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">Pretraži</label>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Pretraži</label>
                     <input type="text" wire:model.live="search" placeholder="Korisnik, komentar, oglas..."
                         class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
                 </div>
 
                 <!-- Date From -->
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">Od datuma</label>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Od datuma</label>
                     <input type="date" wire:model.live="filters.date_from"
                         value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}"
                         class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
@@ -83,7 +83,7 @@
 
                 <!-- Date To -->
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">Do datuma</label>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Do datuma</label>
                     <input type="date" wire:model.live="filters.date_to"
                         value="{{ request('date_to', now()->endOfMonth()->format('Y-m-d')) }}"
                         class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
@@ -100,7 +100,7 @@
 
             <!-- Rating Type Filter (Smiley Buttons) -->
             <div class="mt-4">
-                <label class="block text-sm font-medium text-slate-700 mb-2">Tip ocene</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Tip ocene</label>
                 <div class="flex flex-wrap gap-2">
                     <button wire:click="setRatingFilter('')"
                         class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all {{ $filters['rating_type'] === '' ? 'bg-sky-100 text-sky-700 shadow-md' : 'bg-slate-100 hover:bg-slate-200' }}">
@@ -287,7 +287,7 @@
                     @if ($rating->comment)
                         <div class="mb-4">
                             <p class="text-xs text-slate-500 dark:text-slate-300 mb-1">Komentar:</p>
-                            <p class="text-sm text-slate-700">"{{ $rating->comment }}"</p>
+                            <p class="text-sm text-slate-700 dark:text-slate-200">"{{ $rating->comment }}"</p>
                         </div>
                     @endif
 
@@ -363,7 +363,7 @@
 
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-2">Tip ocene</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Tip ocene</label>
                                     <select wire:model="editState.rating"
                                         class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
                                         <option value="">Izaberi tip ocene</option>
@@ -377,7 +377,7 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-2">Komentar</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Komentar</label>
                                     <textarea wire:model="editState.comment" rows="4"
                                         class="w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                         placeholder="Opcioni komentar..."></textarea>

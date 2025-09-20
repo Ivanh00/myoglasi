@@ -97,7 +97,7 @@
         <form wire:submit.prevent="save" class="space-y-6">
             <!-- Listing Type Selector -->
             <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-3">
                     Tip objave <span class="text-red-500">*</span>
                 </label>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -176,7 +176,7 @@
                         <!-- Title -->
                         <div class="md:col-span-2">
                             <label for="title"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 @if ($listingType === 'auction')
                                     Naslov aukcije <span class="text-red-500">*</span>
                                 @elseif($listingType === 'giveaway')
@@ -195,7 +195,7 @@
 
                         <!-- Category Selection -->
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Kategorija <span class="text-red-500">*</span>
                             </label>
 
@@ -216,7 +216,7 @@
                                 @if ($subcategories && $subcategories->count() > 0)
                                     <div class="mt-4">
                                         <label for="subcategory_id"
-                                            class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                                             Podkategorija
                                         </label>
                                         <select wire:model="subcategory_id" id="subcategory_id"
@@ -269,7 +269,7 @@
                     <!-- Condition (only for regular listings and auctions) -->
                     @if (in_array($listingType, ['listing', 'auction']))
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Stanje <span class="text-red-500">*</span>
                             </label>
                             <select wire:model="condition_id"
@@ -289,7 +289,7 @@
                     @if ($listingType === 'listing')
                         <div>
                             <label for="price"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Cena (RSD) <span class="text-red-500">*</span>
                             </label>
                             <input type="number" wire:model="price" id="price" step="0.01"
@@ -315,7 +315,7 @@
                         <!-- Starting Price -->
                         <div>
                             <label for="startingPrice"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Početna cena (RSD) <span class="text-red-500">*</span>
                             </label>
                             <input type="number" wire:model="startingPrice" id="startingPrice" step="0.01"
@@ -330,7 +330,7 @@
                         <!-- Buy Now Price -->
                         <div>
                             <label for="buyNowPrice"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Kupi odmah cena (RSD) <span
                                     class="text-slate-500 dark:text-slate-300 text-xs">(opciono)</span>
                             </label>
@@ -346,7 +346,7 @@
                         <!-- Duration -->
                         <div>
                             <label for="duration"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Trajanje aukcije <span class="text-red-500">*</span>
                             </label>
                             <select wire:model="duration" id="duration"
@@ -364,20 +364,20 @@
 
                         <!-- Start Type -->
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Početak aukcije <span class="text-red-500">*</span>
                             </label>
                             <div class="space-y-2">
                                 <label class="flex items-center">
                                     <input type="radio" wire:model.live="startType" value="immediately"
                                         class="h-4 w-4 text-amber-600 focus:ring-amber-500 border-slate-300">
-                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">Odmah posle
+                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">Odmah posle
                                         objave</span>
                                 </label>
                                 <label class="flex items-center">
                                     <input type="radio" wire:model.live="startType" value="scheduled"
                                         class="h-4 w-4 text-amber-600 focus:ring-amber-500 border-slate-300">
-                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">Zakazano vreme</span>
+                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">Zakazano vreme</span>
                                 </label>
                             </div>
                         </div>
@@ -388,7 +388,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <div>
                                 <label for="startDate"
-                                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                     Datum početka <span class="text-red-500">*</span>
                                 </label>
                                 <input type="date" wire:model="startDate" id="startDate"
@@ -401,7 +401,7 @@
 
                             <div>
                                 <label for="startTime"
-                                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                     Vreme početka <span class="text-red-500">*</span>
                                 </label>
                                 <input type="time" wire:model="startTime" id="startTime"
@@ -440,7 +440,7 @@
 
             <!-- Description -->
             <div class="mb-6">
-                <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     @if ($listingType === 'giveaway')
                         Opis poklona <span class="text-red-500">*</span>
                     @elseif($listingType === 'auction')
@@ -464,7 +464,7 @@
 
             <!-- Images Upload -->
             <div class="mb-6">
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Slike (maksimalno {{ \App\Models\Setting::get('max_images_per_listing', 10) }})
                     @if (!empty($images))
                         <span
@@ -532,7 +532,7 @@
                     <!-- Location -->
                     <div class="mb-4">
                         <label for="location"
-                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                             Lokacija <span class="text-red-500">*</span>
                         </label>
                         <input type="text" wire:model="location" id="location" readonly
@@ -546,7 +546,7 @@
                     <!-- Contact Phone -->
                     <div>
                         <label for="contact_phone"
-                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                             Kontakt telefon
                         </label>
                         <input type="text" wire:model="contact_phone" id="contact_phone" readonly

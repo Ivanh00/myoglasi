@@ -17,7 +17,7 @@
             <div class="space-y-4">
                 <!-- Name -->
                 <div>
-                    <label for="name" class="block text-sm font-medium text-slate-700">
+                    <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Ime i prezime *
                     </label>
                     <input wire:model="name" type="text" id="name"
@@ -29,7 +29,7 @@
 
                 <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-slate-700">
+                    <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Email adresa *
                     </label>
                     <input wire:model="email" type="email" id="email"
@@ -41,7 +41,7 @@
 
                 <!-- Phone -->
                 <div>
-                    <label for="phone" class="block text-sm font-medium text-slate-700">
+                    <label for="phone" class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Broj telefona
                     </label>
                     <input wire:model="phone" type="text" id="phone" placeholder="064/123-456"
@@ -67,7 +67,7 @@
 
                 <!-- Password -->
                 <div>
-                    <label for="password" class="block text-sm font-medium text-slate-700">
+                    <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Lozinka *
                     </label>
                     <input wire:model="password" type="password" id="password"
@@ -79,7 +79,8 @@
 
                 <!-- Password Confirmation -->
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-slate-700">
+                    <label for="password_confirmation"
+                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Potvrdi lozinku *
                     </label>
                     <input wire:model="password_confirmation" type="password" id="password_confirmation"

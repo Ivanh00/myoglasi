@@ -207,7 +207,7 @@ return $next($request);
             <div class="space-y-4">
                 <!-- Name -->
                 <div>
-                    <label for="name" class="block text-sm font-medium text-slate-700">
+                    <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Ime i prezime *
                     </label>
                     <input wire:model="name" type="text" id="name"
@@ -219,7 +219,7 @@ return $next($request);
 
                 <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-slate-700">
+                    <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Email adresa *
                     </label>
                     <input wire:model="email" type="email" id="email"
@@ -231,7 +231,7 @@ return $next($request);
 
                 <!-- Phone -->
                 <div>
-                    <label for="phone" class="block text-sm font-medium text-slate-700">
+                    <label for="phone" class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Broj telefona
                     </label>
                     <input wire:model="phone" type="text" id="phone" placeholder="064/123-456"
@@ -257,7 +257,7 @@ return $next($request);
 
                 <!-- Password -->
                 <div>
-                    <label for="password" class="block text-sm font-medium text-slate-700">
+                    <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Lozinka *
                     </label>
                     <input wire:model="password" type="password" id="password"
@@ -269,7 +269,8 @@ return $next($request);
 
                 <!-- Password Confirmation -->
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-slate-700">
+                    <label for="password_confirmation"
+                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                         Potvrdi lozinku *
                     </label>
                     <input wire:model="password_confirmation" type="password" id="password_confirmation"
@@ -941,10 +942,10 @@ Route::get('/register', RegisterComponent::class)->name('register');
             <!-- Seller Info -->
             <div class="bg-slate-50 p-4 rounded-lg">
                 <h3 class="font-semibold mb-2">Prodavac</h3>
-                <p class="text-slate-700">{{ $listing->user->name }}</p>
+                <p class="text-slate-700 dark:text-slate-200">{{ $listing->user->name }}</p>
 
                 @if ($showPhoneNumber)
-                    <p class="text-slate-700 mt-1">
+                    <p class="text-slate-700 dark:text-slate-200 mt-1">
                         📞 {{ $listing->user->phone }}
                     </p>
                 @endif

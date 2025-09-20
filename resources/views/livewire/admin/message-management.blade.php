@@ -65,14 +65,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
             <!-- Pretraga -->
             <div class="lg:col-span-2">
-                <label class="block text-sm font-medium text-slate-700 mb-1">Pretraga</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Pretraga</label>
                 <input type="text" wire:model.live="search" placeholder="Pretraži poruke..."
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
             </div>
 
             <!-- Status -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Status</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Status</label>
                 <select wire:model.live="filters.is_read" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Sve poruke</option>
                     <option value="1">Pročitane</option>
@@ -82,7 +82,7 @@
 
             <!-- Pošiljalac -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Pošiljalac</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Pošiljalac</label>
                 <select wire:model.live="filters.sender_id" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi pošiljaoci</option>
                     @foreach ($users as $user)
@@ -93,7 +93,7 @@
 
             <!-- Primalac -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Primalac</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Primalac</label>
                 <select wire:model.live="filters.receiver_id"
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi primaoci</option>

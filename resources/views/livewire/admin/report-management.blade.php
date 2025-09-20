@@ -740,7 +740,8 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="block text-sm font-medium text-slate-700 mb-2">Razlog brisanja
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Razlog
+                                        brisanja
                                         (opciono)</label>
                                     <textarea wire:model="deleteReason" rows="3" class="w-full px-3 py-2 border border-slate-300 rounded-md"
                                         placeholder="Unesite razlog brisanja oglasa..."></textarea>
@@ -748,7 +749,7 @@
 
                                 <div class="flex items-center mb-4">
                                     <input type="checkbox" wire:model="notifyUser" id="notifyUser" class="rounded">
-                                    <label for="notifyUser" class="ml-2 text-sm text-slate-700">
+                                    <label for="notifyUser" class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                         Pošalji obaveštenje korisniku o brisanju oglasa
                                     </label>
                                 </div>

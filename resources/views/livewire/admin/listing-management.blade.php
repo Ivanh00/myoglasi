@@ -9,14 +9,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <!-- Pretraga -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Pretraga</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Pretraga</label>
                 <input type="text" wire:model.live="search" placeholder="Pretraži oglase..."
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
             </div>
 
             <!-- Status -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Status</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Status</label>
                 <select wire:model.live="filters.status" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi statusi</option>
                     @foreach ($statusOptions as $value => $label)
@@ -27,7 +27,7 @@
 
             <!-- Kategorija -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Kategorija</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Kategorija</label>
                 <select wire:model.live="filters.category_id"
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Sve kategorije</option>
@@ -39,7 +39,7 @@
 
             <!-- Istaknuti -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Istaknuti</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Istaknuti</label>
                 <select wire:model.live="filters.is_featured"
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi oglasi</option>
@@ -376,7 +376,8 @@
                             <!-- Leva kolona -->
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Naslov *</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Naslov
+                                        *</label>
                                     <input type="text" wire:model="editState.title"
                                         class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                     @error('editState.title')
@@ -385,7 +386,8 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Cena (RSD) *</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                        (RSD) *</label>
                                     <input type="number" wire:model="editState.price" step="0.01" min="0"
                                         class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                     @error('editState.price')
@@ -394,7 +396,9 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Kategorija *</label>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kategorija
+                                        *</label>
                                     <select wire:model="editState.category_id"
                                         class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                         <option value="">Izaberi kategoriju</option>
@@ -408,7 +412,8 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Podkategorija</label>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Podkategorija</label>
                                     <select wire:model="editState.subcategory_id"
                                         class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                         <option value="">Izaberi podkategoriju</option>
@@ -419,7 +424,8 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Stanje *</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Stanje
+                                        *</label>
                                     <select wire:model="editState.condition_id"
                                         class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                         <option value="">Izaberi stanje</option>
@@ -436,7 +442,8 @@
                             <!-- Desna kolona -->
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Status *</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Status
+                                        *</label>
                                     <select wire:model="editState.status"
                                         class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                         @foreach ($statusOptions as $value => $label)
@@ -449,7 +456,9 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Lokacija *</label>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Lokacija
+                                        *</label>
                                     <input type="text" wire:model="editState.location"
                                         class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                     @error('editState.location')
@@ -458,13 +467,15 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Kontakt telefon</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt
+                                        telefon</label>
                                     <input type="text" wire:model="editState.contact_phone"
                                         class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Opis *</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Opis
+                                        *</label>
                                     <textarea wire:model="editState.description" rows="4"
                                         class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2"></textarea>
                                     @error('editState.description')

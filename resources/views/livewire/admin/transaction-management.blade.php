@@ -111,14 +111,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
             <!-- Pretraga -->
             <div class="lg:col-span-2">
-                <label class="block text-sm font-medium text-slate-700 mb-1">Pretraga</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Pretraga</label>
                 <input type="text" wire:model.live="search" placeholder="Pretraži transakcije..."
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
             </div>
 
             <!-- Tip transakcije -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Tip</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Tip</label>
                 <select wire:model.live="filters.type" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi tipovi</option>
                     @foreach ($typeOptions as $value => $label)
@@ -129,7 +129,7 @@
 
             <!-- Status -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Status</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Status</label>
                 <select wire:model.live="filters.status" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi statusi</option>
                     @foreach ($statusOptions as $value => $label)
@@ -140,7 +140,7 @@
 
             <!-- Korisnik -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Korisnik</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Korisnik</label>
                 <select wire:model.live="filters.user_id" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi korisnici</option>
                     @foreach ($users as $user)
@@ -153,7 +153,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <!-- Datum od -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Datum od</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Datum od</label>
                 <input type="date" wire:model.live="filters.date_from"
                     value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}"
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg">
@@ -161,7 +161,7 @@
 
             <!-- Datum do -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Datum do</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Datum do</label>
                 <input type="date" wire:model.live="filters.date_to"
                     value="{{ request('date_to', now()->endOfMonth()->format('Y-m-d')) }}"
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg">
@@ -169,7 +169,7 @@
 
             <!-- Broj stavki -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Po strani</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Po strani</label>
                 <select wire:model.live="perPage" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="20">20</option>
                     <option value="50">50</option>
@@ -599,7 +599,8 @@
                     <form wire:submit.prevent="updateTransaction">
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Status *</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Status
+                                    *</label>
                                 <select wire:model="updateState.status"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                     @foreach ($statusOptions as $value => $label)
@@ -612,7 +613,8 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Opis</label>
+                                <label
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200">Opis</label>
                                 <textarea wire:model="updateState.description" rows="3"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2"></textarea>
                                 @error('updateState.description')

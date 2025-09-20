@@ -30,7 +30,8 @@
                 <div class="space-y-6">
                     <!-- Card Number -->
                     <div>
-                        <label for="card_number" class="block text-sm font-medium text-slate-700 mb-2">
+                        <label for="card_number"
+                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                             Broj kartice
                         </label>
                         <div class="relative">
@@ -50,7 +51,7 @@
                     <!-- Expiry and CVV -->
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Datum isteka
                             </label>
                             <div class="grid grid-cols-2 gap-2">
@@ -78,7 +79,8 @@
                         </div>
 
                         <div>
-                            <label for="cvv" class="block text-sm font-medium text-slate-700 mb-2">
+                            <label for="cvv"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 CVV
                             </label>
                             <input type="text" wire:model="paymentData.cvv" id="cvv" placeholder="123"
@@ -92,7 +94,8 @@
 
                     <!-- Cardholder Name -->
                     <div>
-                        <label for="cardholder_name" class="block text-sm font-medium text-slate-700 mb-2">
+                        <label for="cardholder_name"
+                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                             Ime vlasnika kartice
                         </label>
                         <input type="text" wire:model="paymentData.cardholder_name" id="cardholder_name"
@@ -153,7 +156,8 @@
                     <div class="text-center">
                         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600 mx-auto mb-4"></div>
                         <h3 class="text-lg font-semibold text-slate-900 mb-2">Obrađujem plaćanje</h3>
-                        <p class="text-slate-600 dark:text-slate-400">Molimo sačekajte, povezujemo se sa Intesa bankom...</p>
+                        <p class="text-slate-600 dark:text-slate-400">Molimo sačekajte, povezujemo se sa Intesa
+                            bankom...</p>
                     </div>
                 </div>
             </div>

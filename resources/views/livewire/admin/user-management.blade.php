@@ -614,7 +614,7 @@
                             <form wire:submit="updateUser">
                                 <div class="space-y-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Ime</label>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Ime</label>
                                         <input type="text" wire:model="editState.name"
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md">
                                         @error('editState.name')
@@ -623,7 +623,8 @@
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Email</label>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Email</label>
                                         <input type="email" wire:model="editState.email"
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md">
                                         @error('editState.email')
@@ -632,7 +633,8 @@
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Grad</label>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Grad</label>
                                         <input type="text" wire:model="editState.city"
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md">
                                         @error('editState.city')
@@ -641,7 +643,8 @@
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Telefon</label>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Telefon</label>
                                         <input type="text" wire:model="editState.phone"
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md">
                                         @error('editState.phone')
@@ -652,12 +655,13 @@
                                     <div class="flex items-center space-x-4">
                                         <label class="flex items-center">
                                             <input type="checkbox" wire:model="editState.phone_visible" class="rounded">
-                                            <span class="ml-2 text-sm text-slate-700">Telefon vidljiv</span>
+                                            <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">Telefon
+                                                vidljiv</span>
                                         </label>
 
                                         <label class="flex items-center">
                                             <input type="checkbox" wire:model="editState.is_admin" class="rounded">
-                                            <span class="ml-2 text-sm text-slate-700">Administrator</span>
+                                            <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">Administrator</span>
                                         </label>
                                     </div>
                                 </div>
@@ -694,7 +698,8 @@
                             </div>
                             <form wire:submit="confirmBan">
                                 <div class="mb-4">
-                                    <label class="block text-sm font-medium text-slate-700 mb-2">Razlog banovanja</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Razlog
+                                        banovanja</label>
                                     <textarea wire:model="banState.ban_reason" rows="4" class="w-full px-3 py-2 border border-slate-300 rounded-md"
                                         placeholder="Unesite razlog banovanja..."></textarea>
                                     @error('banState.ban_reason')
@@ -741,7 +746,8 @@
                             <form wire:submit="updateBalance">
                                 <div class="space-y-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Iznos (pozitivni za dodavanje,
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Iznos
+                                            (pozitivni za dodavanje,
                                             negativni za oduzimanje)</label>
                                         <input type="number" step="0.01" wire:model="balanceState.amount"
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md"
@@ -752,7 +758,8 @@
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Opis</label>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Opis</label>
                                         <input type="text" wire:model="balanceState.description"
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md"
                                             placeholder="npr. Admin dodavanje sredstava">
@@ -940,7 +947,8 @@
                                                 <input type="checkbox" id="payment_enabled"
                                                     wire:model="paymentState.payment_enabled"
                                                     class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded">
-                                                <label for="payment_enabled" class="ml-2 text-sm text-slate-700">
+                                                <label for="payment_enabled"
+                                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                                     Uključi naplaćivanje oglasa za ovog korisnika
                                                 </label>
                                             </div>
@@ -948,7 +956,8 @@
                                             @if ($paymentState['payment_enabled'])
                                                 <!-- Payment Plan -->
                                                 <div>
-                                                    <label class="block text-sm font-medium text-slate-700 mb-2">Tip
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Tip
                                                         plaćanja</label>
                                                     <select wire:model="paymentState.payment_plan"
                                                         class="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
@@ -962,7 +971,8 @@
                                                 <!-- Expiry Date for Plans -->
                                                 @if (in_array($paymentState['payment_plan'], ['monthly', 'yearly']))
                                                     <div>
-                                                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                                                        <label
+                                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                                             Datum isteka plana (opciono)
                                                         </label>
                                                         <input type="date" wire:model="paymentState.plan_expires_at"
@@ -985,7 +995,8 @@
                                             <!-- Quick Actions -->
                                             @if ($paymentState['payment_enabled'])
                                                 <div class="border-t pt-4">
-                                                    <p class="text-sm font-medium text-slate-700 mb-2">Brze akcije:</p>
+                                                    <p class="text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Brze
+                                                        akcije:</p>
                                                     <div class="flex flex-wrap gap-2">
                                                         <button wire:click="grantMonthlyPlan({{ $selectedUser->id }})"
                                                             class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200">
@@ -1077,7 +1088,7 @@
 
                             <!-- Comment Field -->
                             <div class="mb-4">
-                                <label class="block text-sm font-medium text-slate-700 mb-2">
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                     Komentar (razlog verifikacije/odbacivanja)
                                 </label>
                                 <textarea wire:model="verificationComment" rows="3"

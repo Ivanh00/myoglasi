@@ -38,7 +38,8 @@
 
                         <!-- Starting Price -->
                         <div class="mb-6">
-                            <label for="startingPrice" class="block text-sm font-medium text-slate-700 mb-2">
+                            <label for="startingPrice"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Početna cena aukcije <span class="text-red-500">*</span>
                             </label>
                             <input type="number" wire:model="startingPrice" id="startingPrice" step="1"
@@ -53,7 +54,8 @@
 
                         <!-- Buy Now Price -->
                         <div class="mb-6">
-                            <label for="buyNowPrice" class="block text-sm font-medium text-slate-700 mb-2">
+                            <label for="buyNowPrice"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Kupi odmah cena (opciono)
                             </label>
                             <input type="number" wire:model="buyNowPrice" id="buyNowPrice" step="1"
@@ -73,17 +75,18 @@
 
                         <!-- Start Type -->
                         <div class="mb-6">
-                            <label class="block text-sm font-medium text-slate-700 mb-3">Kada počinje aukcija?</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-3">Kada
+                                počinje aukcija?</label>
                             <div class="space-y-2">
                                 <label class="flex items-center cursor-pointer">
                                     <input type="radio" wire:model.live="startType" value="immediately"
                                         name="startType" class="mr-3 h-4 w-4 text-amber-600 focus:ring-amber-500">
-                                    <span class="text-slate-700">Odmah</span>
+                                    <span class="text-slate-700 dark:text-slate-200">Odmah</span>
                                 </label>
                                 <label class="flex items-center cursor-pointer">
                                     <input type="radio" wire:model.live="startType" value="scheduled" name="startType"
                                         class="mr-3 h-4 w-4 text-amber-600 focus:ring-amber-500">
-                                    <span class="text-slate-700">Zakazano</span>
+                                    <span class="text-slate-700 dark:text-slate-200">Zakazano</span>
                                 </label>
                             </div>
                         </div>
@@ -94,7 +97,7 @@
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label for="startDate"
-                                            class="block text-sm font-medium text-slate-700 mb-2">Datum</label>
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Datum</label>
                                         <input type="date" wire:model="startDate" id="startDate"
                                             min="{{ $minDate }}"
                                             class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
@@ -104,7 +107,7 @@
                                     </div>
                                     <div>
                                         <label for="startTime"
-                                            class="block text-sm font-medium text-slate-700 mb-2">Vreme</label>
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Vreme</label>
                                         <input type="time" wire:model="startTime" id="startTime"
                                             class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
                                         @error('startTime')
@@ -117,7 +120,8 @@
 
                         <!-- Duration -->
                         <div class="mb-6">
-                            <label class="block text-sm font-medium text-slate-700 mb-3">Trajanje aukcije</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-3">Trajanje
+                                aukcije</label>
                             <div class="grid grid-cols-5 gap-2">
                                 @foreach ($durationOptions as $days => $label)
                                     <label
@@ -127,7 +131,7 @@
                                             class="sr-only">
                                         <span class="text-2xl mb-1">⏰</span>
                                         <span
-                                            class="text-sm font-medium {{ $duration == $days ? 'text-amber-700' : 'text-slate-700' }}">
+                                            class="text-sm font-medium {{ $duration == $days ? 'text-amber-700 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200' }}">
                                             {{ $label }}
                                         </span>
                                     </label>

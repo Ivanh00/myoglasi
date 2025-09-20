@@ -511,7 +511,7 @@
                         class="fas fa-shield-check {{ auth()->user()->isVerified() ? 'text-green-600' : 'text-slate-400' }} mr-3"></i>
                     <div>
                         <div
-                            class="font-medium {{ auth()->user()->isVerified() ? 'text-green-900 dark:text-green-200' : 'text-slate-700 dark:text-slate-200' }}">
+                            class="font-medium {{ auth()->user()->isVerified() ? 'text-green-900 dark:text-green-100' : 'text-slate-700 dark:text-slate-200' }}">
                             Verifikacija</div>
                         <div
                             class="text-sm {{ auth()->user()->isVerified() ? 'text-green-500 dark:text-green-300' : 'text-slate-500 dark:text-slate-300' }}">

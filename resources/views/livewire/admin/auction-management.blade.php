@@ -10,14 +10,14 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <!-- Search -->
             <div>
-                <label for="search" class="block text-sm font-medium text-slate-700">Pretraga</label>
+                <label for="search" class="block text-sm font-medium text-slate-700 dark:text-slate-200">Pretraga</label>
                 <input type="text" wire:model.live="search" id="search" placeholder="Naslov, opis ili prodavac..."
                     class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
             </div>
 
             <!-- Status Filter -->
             <div>
-                <label for="status-filter" class="block text-sm font-medium text-slate-700">Status</label>
+                <label for="status-filter" class="block text-sm font-medium text-slate-700 dark:text-slate-200">Status</label>
                 <select wire:model.live="filters.status" id="status-filter"
                     class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">Svi statusi</option>
@@ -29,7 +29,7 @@
 
             <!-- Bids Filter -->
             <div>
-                <label for="bids-filter" class="block text-sm font-medium text-slate-700">Ponude</label>
+                <label for="bids-filter" class="block text-sm font-medium text-slate-700 dark:text-slate-200">Ponude</label>
                 <select wire:model.live="filters.has_bids" id="bids-filter"
                     class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">Sve aukcije</option>
@@ -40,7 +40,7 @@
 
             <!-- Per Page -->
             <div>
-                <label for="per-page" class="block text-sm font-medium text-slate-700">Po strani</label>
+                <label for="per-page" class="block text-sm font-medium text-slate-700 dark:text-slate-200">Po strani</label>
                 <select wire:model.live="perPage" id="per-page"
                     class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="10">10</option>
@@ -250,7 +250,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-slate-900 dark:text-slate-700">{{ $auction->seller->name }}</div>
+                            <div class="text-sm text-slate-900 dark:text-slate-100">{{ $auction->seller->name }}</div>
                             <div class="text-sm text-slate-500 dark:text-slate-300">{{ $auction->seller->email }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -329,7 +329,7 @@
                                     <!-- Starting Price -->
                                     <div>
                                         <label for="starting_price"
-                                            class="block text-sm font-medium text-slate-700">Početna cena (RSD)</label>
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Početna cena (RSD)</label>
                                         <input type="number" wire:model="editState.starting_price" id="starting_price"
                                             min="1" step="1"
                                             class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -340,7 +340,7 @@
 
                                     <!-- Buy Now Price -->
                                     <div>
-                                        <label for="buy_now_price" class="block text-sm font-medium text-slate-700">Kupi
+                                        <label for="buy_now_price" class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kupi
                                             odmah cena (RSD)</label>
                                         <input type="number" wire:model="editState.buy_now_price" id="buy_now_price"
                                             min="1" step="1"
@@ -353,7 +353,7 @@
                                     <!-- Current Price -->
                                     <div>
                                         <label for="current_price"
-                                            class="block text-sm font-medium text-slate-700">Trenutna cena (RSD)</label>
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trenutna cena (RSD)</label>
                                         <input type="number" wire:model="editState.current_price" id="current_price"
                                             min="1" step="1"
                                             class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -365,7 +365,7 @@
                                     <!-- Status -->
                                     <div>
                                         <label for="status"
-                                            class="block text-sm font-medium text-slate-700">Status</label>
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Status</label>
                                         <select wire:model="editState.status" id="status"
                                             class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             @foreach ($statusOptions as $key => $label)
@@ -380,7 +380,7 @@
                                     <!-- Starts At -->
                                     <div>
                                         <label for="starts_at"
-                                            class="block text-sm font-medium text-slate-700">Počinje</label>
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Počinje</label>
                                         <input type="datetime-local" wire:model="editState.starts_at" id="starts_at"
                                             class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                         @error('editState.starts_at')
@@ -391,7 +391,7 @@
                                     <!-- Ends At -->
                                     <div>
                                         <label for="ends_at"
-                                            class="block text-sm font-medium text-slate-700">Završava</label>
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Završava</label>
                                         <input type="datetime-local" wire:model="editState.ends_at" id="ends_at"
                                             class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                         @error('editState.ends_at')

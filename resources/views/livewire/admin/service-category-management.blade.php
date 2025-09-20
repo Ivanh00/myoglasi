@@ -550,7 +550,8 @@
                     <form wire:submit.prevent="saveCategory">
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Naziv *</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Naziv
+                                    *</label>
                                 <input type="text" wire:model="editState.name" wire:blur="generateSlug"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                 @error('editState.name')
@@ -559,7 +560,8 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Slug *</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Slug
+                                    *</label>
                                 <input type="text" wire:model="editState.slug"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                 @error('editState.slug')
@@ -568,7 +570,8 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Opis</label>
+                                <label
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200">Opis</label>
                                 <textarea wire:model="editState.description" rows="3"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2"></textarea>
                                 @error('editState.description')
@@ -577,7 +580,8 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Ikona (Font Awesome
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Ikona (Font
+                                    Awesome
                                     klasa)</label>
                                 <input type="text" wire:model="editState.icon"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2"
@@ -599,7 +603,8 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Roditeljska kategorija</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Roditeljska
+                                    kategorija</label>
                                 <select wire:model="editState.parent_id"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                     <option value="">Glavna kategorija</option>
@@ -616,7 +621,8 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Redosled *</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Redosled
+                                    *</label>
                                 <input type="number" wire:model="editState.sort_order" min="0"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                 @error('editState.sort_order')

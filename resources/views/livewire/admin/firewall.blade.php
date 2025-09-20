@@ -587,7 +587,7 @@
                                     <label class="flex items-center cursor-pointer">
                                         <input type="checkbox" wire:model.live="rateLimitSettings.guest_enabled"
                                             class="h-4 w-4 text-red-600 focus:ring-red-500 border-slate-300 rounded cursor-pointer">
-                                        <span class="ml-2 text-sm text-slate-700">
+                                        <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                             {{ $rateLimitSettings['guest_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
                                         </span>
                                     </label>
@@ -596,7 +596,9 @@
                                 @if ($rateLimitSettings['guest_enabled'])
                                     <div class="space-y-4">
                                         <div>
-                                            <label class="block text-sm font-medium text-slate-700">Zahteva po
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">Zahteva
+                                                po
                                                 minutu</label>
                                             <input type="number" wire:model="rateLimitSettings.guest_per_minute"
                                                 class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
@@ -605,7 +607,9 @@
                                         </div>
 
                                         <div>
-                                            <label class="block text-sm font-medium text-slate-700">Zahteva po
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">Zahteva
+                                                po
                                                 satu</label>
                                             <input type="number" wire:model="rateLimitSettings.guest_per_hour"
                                                 class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
@@ -626,7 +630,7 @@
                                     <label class="flex items-center cursor-pointer">
                                         <input type="checkbox" wire:model.live="rateLimitSettings.auth_enabled"
                                             class="h-4 w-4 text-green-600 focus:ring-green-500 border-slate-300 rounded cursor-pointer">
-                                        <span class="ml-2 text-sm text-slate-700">
+                                        <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                             {{ $rateLimitSettings['auth_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
                                         </span>
                                     </label>
@@ -635,7 +639,9 @@
                                 @if ($rateLimitSettings['auth_enabled'])
                                     <div class="space-y-4">
                                         <div>
-                                            <label class="block text-sm font-medium text-slate-700">Zahteva po
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">Zahteva
+                                                po
                                                 minutu</label>
                                             <input type="number" wire:model="rateLimitSettings.auth_per_minute"
                                                 class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-green-500 focus:ring-green-500">
@@ -645,7 +651,9 @@
                                         </div>
 
                                         <div>
-                                            <label class="block text-sm font-medium text-slate-700">Zahteva po
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">Zahteva
+                                                po
                                                 satu</label>
                                             <input type="number" wire:model="rateLimitSettings.auth_per_hour"
                                                 class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-green-500 focus:ring-green-500">
@@ -680,12 +688,14 @@
                             <label class="flex items-center mb-4">
                                 <input type="checkbox" wire:model="rateLimitSettings.auto_block_enabled"
                                     class="h-4 w-4 text-red-600 focus:ring-red-500 border-slate-300 rounded">
-                                <span class="ml-2 text-sm text-slate-700">Automatsko blokiranje</span>
+                                <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">Automatsko
+                                    blokiranje</span>
                             </label>
 
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Prag za blokiranje</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Prag za
+                                        blokiranje</label>
                                     <input type="number" wire:model="rateLimitSettings.auto_block_threshold"
                                         class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                                     <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Broj zahteva pre
@@ -693,7 +703,9 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Trajanje bloka
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje
+                                        bloka
                                         (sati)</label>
                                     <input type="number" wire:model="rateLimitSettings.auto_block_duration"
                                         class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
@@ -707,13 +719,15 @@
                         <h4 class="text-md font-semibold text-slate-900 mb-4">Zaštita od brute force napada</h4>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Limit pokušaja
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Limit
+                                    pokušaja
                                     prijavljivanja</label>
                                 <input type="number" wire:model="rateLimitSettings.login_attempt_limit"
                                     class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Trajanje bloka (minuti)</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje
+                                    bloka (minuti)</label>
                                 <input type="number" wire:model="rateLimitSettings.login_block_duration"
                                     class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                             </div>
@@ -747,7 +761,7 @@
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" wire:model.live="securitySettings.captcha_enabled"
                                     class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded cursor-pointer">
-                                <span class="ml-2 text-sm text-slate-700">
+                                <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                     {{ $securitySettings['captcha_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
                                 </span>
                             </label>
@@ -764,7 +778,7 @@
                                 <label class="flex items-center cursor-pointer">
                                     <input type="checkbox" wire:model.live="securitySettings.geo_blocking_enabled"
                                         class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded cursor-pointer">
-                                    <span class="ml-2 text-sm text-slate-700">
+                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                         {{ $securitySettings['geo_blocking_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
                                     </span>
                                 </label>
@@ -773,7 +787,9 @@
                             @if ($securitySettings['geo_blocking_enabled'])
                                 <div class="space-y-3">
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Blokirane zemlje
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Blokirane
+                                            zemlje
                                             (kodovi)</label>
                                         <div class="flex gap-2">
                                             <input type="text" wire:model="blockedCountriesInput"
@@ -791,7 +807,8 @@
 
                                     @if (!empty($securitySettings['blocked_countries']))
                                         <div>
-                                            <p class="text-sm font-medium text-slate-700 mb-2">Trenutno blokirane
+                                            <p class="text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Trenutno blokirane
                                                 zemlje:</p>
                                             <div class="flex flex-wrap gap-2">
                                                 @foreach ($securitySettings['blocked_countries'] as $country)
@@ -824,7 +841,7 @@
                                     <input type="checkbox"
                                         wire:model.live="securitySettings.user_agent_blocking_enabled"
                                         class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded cursor-pointer">
-                                    <span class="ml-2 text-sm text-slate-700">
+                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                         {{ $securitySettings['user_agent_blocking_enabled'] ? 'Omogućeno' : 'Onemogućeno' }}
                                     </span>
                                 </label>
@@ -833,7 +850,9 @@
                             @if ($securitySettings['user_agent_blocking_enabled'])
                                 <div class="space-y-3">
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Novi User Agent za
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Novi
+                                            User Agent za
                                             blokiranje</label>
                                         <div class="flex gap-2">
                                             <input type="text" wire:model="newUserAgent"
@@ -851,7 +870,8 @@
 
                                     @if (!empty($securitySettings['blocked_user_agents']))
                                         <div>
-                                            <p class="text-sm font-medium text-slate-700 mb-2">Blokirani User Agent-i:
+                                            <p class="text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Blokirani User Agent-i:
                                             </p>
                                             <div class="space-y-2">
                                                 @foreach ($securitySettings['blocked_user_agents'] as $agent)
@@ -883,7 +903,7 @@
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" wire:model.live="securitySettings.require_admin_whitelist"
                                     class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded cursor-pointer">
-                                <span class="ml-2 text-sm text-slate-700">
+                                <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                     {{ $securitySettings['require_admin_whitelist'] ? 'Omogućeno' : 'Onemogućeno' }}
                                 </span>
                             </label>
@@ -913,7 +933,8 @@
                         <div class="space-y-4">
                             <!-- Block Type -->
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Tip bloka</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Tip
+                                    bloka</label>
                                 <select wire:model="newIpBlock.type"
                                     class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                                     <option value="single">Pojedinačna IP adresa</option>
@@ -925,7 +946,8 @@
                             <!-- Single IP -->
                             @if ($newIpBlock['type'] === 'single' || $newIpBlock['type'] === 'whitelist')
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">IP adresa</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">IP
+                                        adresa</label>
                                     <input type="text" wire:model="newIpBlock.ip_address"
                                         placeholder="192.168.1.1"
                                         class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
@@ -939,7 +961,8 @@
                             @if ($newIpBlock['type'] === 'range')
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Od IP</label>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Od
+                                            IP</label>
                                         <input type="text" wire:model="newIpBlock.ip_range_start"
                                             class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                                         @error('newIpBlock.ip_range_start')
@@ -947,7 +970,8 @@
                                         @enderror
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Do IP</label>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Do
+                                            IP</label>
                                         <input type="text" wire:model="newIpBlock.ip_range_end"
                                             class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                                         @error('newIpBlock.ip_range_end')
@@ -959,7 +983,8 @@
 
                             <!-- Reason -->
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Razlog</label>
+                                <label
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200">Razlog</label>
                                 <input type="text" wire:model="newIpBlock.reason" placeholder="Spam, napad, itd."
                                     class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                                 @error('newIpBlock.reason')
@@ -970,7 +995,8 @@
                             <!-- Duration -->
                             @if ($newIpBlock['type'] !== 'whitelist')
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Trajanje</label>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje</label>
                                     <select wire:model="newIpBlock.duration"
                                         class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                                         <option value="permanent">Trajno</option>
@@ -980,7 +1006,8 @@
 
                                 @if ($newIpBlock['duration'] === 'temporary')
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Ističe</label>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Ističe</label>
                                         <input type="datetime-local" wire:model="newIpBlock.expires_at"
                                             class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-red-500 focus:ring-red-500">
                                         @error('newIpBlock.expires_at')

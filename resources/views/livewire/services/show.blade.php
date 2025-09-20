@@ -26,7 +26,7 @@
             <li class="flex items-center">
                 <span class="mx-2 text-slate-500 dark:text-slate-300">/</span>
                 <span
-                    class="text-slate-700 dark:text-slate-300 font-medium truncate">{{ Str::limit($service->title, 30) }}</span>
+                    class="text-slate-700 dark:text-slate-200 font-medium truncate">{{ Str::limit($service->title, 30) }}</span>
             </li>
         </ol>
     </nav>
@@ -85,7 +85,7 @@
                     @auth
                         <div class="flex items-center mb-1">
                             <i class="fas fa-user text-slate-500 dark:text-slate-400 mr-2"></i>
-                            <span class="text-slate-700 dark:text-slate-300 font-bold">
+                            <span class="text-slate-700 dark:text-slate-200 font-bold">
                                 Pružalac usluge: {{ $service->user->name }}
                             </span>
                             @if ($service->user)
@@ -127,16 +127,16 @@
                     @endauth
                     <div class="flex items-center mb-2">
                         <i class="fas fa-map-marker-alt text-slate-500 dark:text-slate-300 mr-2"></i>
-                        <span class="text-slate-700 dark:text-slate-300">{{ $service->location }}</span>
+                        <span class="text-slate-700 dark:text-slate-200">{{ $service->location }}</span>
                     </div>
                     <div class="flex items-center mb-2">
                         <i class="fas fa-clock text-slate-500 dark:text-slate-300 mr-2"></i>
-                        <span class="text-slate-700 dark:text-slate-300">Objavljeno:
+                        <span class="text-slate-700 dark:text-slate-200">Objavljeno:
                             {{ $service->created_at->format('d.m.Y. H:i') }}</span>
                     </div>
                     <div class="flex items-center">
                         <i class="fas fa-eye text-slate-500 dark:text-slate-300 mr-2"></i>
-                        <span class="text-slate-700 dark:text-slate-300">Pregleda: {{ $service->views ?? 0 }}</span>
+                        <span class="text-slate-700 dark:text-slate-200">Pregleda: {{ $service->views ?? 0 }}</span>
                     </div>
                 </div>
 
@@ -266,7 +266,7 @@
         <!-- Opis usluge -->
         <div class="border-t border-slate-200 dark:border-slate-600 p-6">
             <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">Opis usluge</h2>
-            <div class="text-slate-700 dark:text-slate-300 whitespace-pre-line">{{ $service->description }}</div>
+            <div class="text-slate-700 dark:text-slate-200 whitespace-pre-line">{{ $service->description }}</div>
         </div>
 
         {{-- Uslovi pružanja usluge – prikaz ako postoje --}}
@@ -411,7 +411,7 @@
                                             <span>{{ $relatedService->category->name ?? '' }}</span>
                                         </div>
 
-                                        <p class="text-slate-700 dark:text-slate-300 mb-3"
+                                        <p class="text-slate-700 dark:text-slate-200 mb-3"
                                             style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                             {{ Str::limit(strip_tags($relatedService->description), 120) }}
                                         </p>

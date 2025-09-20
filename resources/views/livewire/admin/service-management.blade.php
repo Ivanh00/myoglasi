@@ -9,7 +9,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             <!-- Pretraga -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Pretraga</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Pretraga</label>
                 <input type="text" wire:model.live="search" placeholder="Pretraži usluge..."
                     class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
             </div>
@@ -28,7 +28,7 @@
 
             <!-- Kategorija -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Kategorija</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Kategorija</label>
                 <select wire:model.live="filters.service_category_id"
                     class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg">
                     <option value="">Sve kategorije</option>
@@ -309,7 +309,7 @@
                             <div class="space-y-4">
                                 <div>
                                     <label
-                                        class="block text-sm font-medium text-slate-700 dark:text-slate-300">Naslov</label>
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Naslov</label>
                                     <input type="text" wire:model="editState.title"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md">
                                     @error('editState.title')
@@ -319,7 +319,7 @@
 
                                 <div>
                                     <label
-                                        class="block text-sm font-medium text-slate-700 dark:text-slate-300">Opis</label>
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Opis</label>
                                     <textarea wire:model="editState.description" rows="4"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md"></textarea>
                                     @error('editState.description')
@@ -329,7 +329,7 @@
 
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Cena
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
                                             (RSD)</label>
                                         <input type="number" step="0.01" wire:model="editState.price"
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md">
@@ -340,7 +340,7 @@
 
                                     <div>
                                         <label
-                                            class="block text-sm font-medium text-slate-700 dark:text-slate-300">Status</label>
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200">Status</label>
                                         <select wire:model="editState.status"
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md">
                                             @foreach ($statusOptions as $value => $label)
@@ -355,7 +355,7 @@
 
                                 <div>
                                     <label
-                                        class="block text-sm font-medium text-slate-700 dark:text-slate-300">Kategorija</label>
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kategorija</label>
                                     <select wire:model="editState.service_category_id"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md">
                                         <option value="">Odaberite kategoriju</option>
@@ -370,7 +370,7 @@
 
                                 <div>
                                     <label
-                                        class="block text-sm font-medium text-slate-700 dark:text-slate-300">Lokacija</label>
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Lokacija</label>
                                     <input type="text" wire:model="editState.location"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md">
                                     @error('editState.location')

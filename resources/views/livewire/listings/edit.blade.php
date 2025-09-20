@@ -38,7 +38,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Title -->
                 <div class="md:col-span-2">
-                    <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Naslov oglasa <span class="text-red-500">*</span>
                     </label>
                     <input type="text" wire:model="title" id="title"
@@ -51,7 +51,7 @@
 
                 <!-- Category Selection -->
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Kategorija <span class="text-red-500">*</span>
                     </label>
 
@@ -73,7 +73,7 @@
                     @if ($category_id && $subcategories && $subcategories->count() > 0)
                         <div class="mt-4">
                             <label for="subcategory_id"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                                 Podkategorija
                             </label>
                             <select wire:model="subcategory_id" id="subcategory_id"
@@ -101,7 +101,7 @@
                 <!-- Condition -->
                 @if ($listing->listing_type !== 'giveaway')
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                             Stanje <span class="text-red-500">*</span>
                         </label>
                         <select wire:model="condition_id"
@@ -124,7 +124,7 @@
             <!-- Price (not for giveaways) -->
             @if ($listing->listing_type !== 'giveaway')
                 <div>
-                    <label for="price" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label for="price" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Cena (RSD) <span class="text-red-500">*</span>
                     </label>
                     <input type="number" wire:model="price" id="price" step="0.01" min="1"
@@ -149,7 +149,7 @@
                         <!-- Starting Price -->
                         <div>
                             <label for="startingPrice"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Početna cena (RSD) <span class="text-red-500">*</span>
                             </label>
                             <input type="number" wire:model="startingPrice" id="startingPrice" step="0.01"
@@ -163,7 +163,7 @@
                         <!-- Buy Now Price -->
                         <div>
                             <label for="buyNowPrice"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Kupi odmah cena (RSD) <span
                                     class="text-slate-500 dark:text-slate-300 text-xs">(opciono)</span>
                             </label>
@@ -199,7 +199,7 @@
 
             <!-- Description -->
             <div>
-                <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     @if ($listing->listing_type === 'giveaway')
                         Opis poklona <span class="text-red-500">*</span>
                     @elseif($hasAuction)
@@ -223,7 +223,7 @@
 
             <!-- Existing Images -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Trenutne slike
                 </label>
                 @if ($listing->images->count() > 0)
@@ -247,7 +247,7 @@
             <!-- Add New Images -->
             @if ($this->remainingImageSlots > 0)
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Dodaj nove slike
                         <span
                             class="text-sky-600 dark:text-sky-400">({{ $listing->images->count() }}/{{ \App\Models\Setting::get('max_images_per_listing', 10) }}
@@ -307,7 +307,7 @@
 
             <!-- Location -->
             <div>
-                <label for="location" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label for="location" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Lokacija <span class="text-red-500">*</span>
                 </label>
                 <input type="text" wire:model="location" id="location" readonly
@@ -320,7 +320,7 @@
 
             <!-- Contact Phone -->
             <div>
-                <label for="contact_phone" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label for="contact_phone" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Kontakt telefon
                 </label>
                 <input type="text" wire:model="contact_phone" id="contact_phone" readonly

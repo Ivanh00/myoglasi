@@ -68,14 +68,16 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <!-- Pretraga -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Pretraga po oglasu</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Pretraga po
+                    oglasu</label>
                 <input type="text" wire:model.live="search" placeholder="Pretraži po naslovu oglasa..."
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
             </div>
 
             <!-- Oglas -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Filter po oglasu</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Filter po
+                    oglasu</label>
                 <select wire:model.live="filters.listing_id"
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Svi oglasi</option>
@@ -87,7 +89,7 @@
 
             <!-- Primarna slika -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Tip slike</label>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Tip slike</label>
                 <select wire:model.live="filters.is_primary"
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                     <option value="">Sve slike</option>

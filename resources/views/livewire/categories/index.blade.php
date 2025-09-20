@@ -40,7 +40,7 @@
 
                 @if ($category->children->count() > 0)
                     <div class="border-t border-slate-200 px-6 py-4">
-                        <h4 class="text-sm font-medium text-slate-700 mb-2">Podkategorije:</h4>
+                        <h4 class="text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Podkategorije:</h4>
                         <div class="flex flex-wrap gap-1">
                             @foreach ($category->children->take(4) as $subcategory)
                                 <a href="{{ route('category.show', ['category' => $category->slug, 'subcategory' => $subcategory->slug]) }}"

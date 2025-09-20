@@ -3,7 +3,8 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold text-slate-900">Upravljanje stanjima oglasa</h1>
-                <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje stanjima oglasa (npr. Novo, Polovno, Oštećeno)</p>
+                <p class="text-slate-600 dark:text-slate-400">Pregled i upravljanje stanjima oglasa (npr. Novo, Polovno,
+                    Oštećeno)</p>
             </div>
             <button wire:click="createCondition" class="bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700">
                 + Novo stanje
@@ -42,13 +43,19 @@
                                 {{ $sortDirection === 'asc' ? '↑' : '↓' }}
                             @endif
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">Slug
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                            Slug
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">Broj
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                            Broj
                             oglasa</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Akcije</th>
                     </tr>
                 </thead>
@@ -146,7 +153,8 @@
                     <form wire:submit.prevent="saveCondition">
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Naziv *</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Naziv
+                                    *</label>
                                 <input type="text" wire:model="editState.name" wire:blur="generateSlug"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                 @error('editState.name')
@@ -155,7 +163,8 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Slug *</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Slug
+                                    *</label>
                                 <input type="text" wire:model="editState.slug"
                                     class="mt-1 block w-full border border-slate-300 rounded-md px-3 py-2">
                                 @error('editState.slug')

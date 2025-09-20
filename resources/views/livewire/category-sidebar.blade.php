@@ -78,7 +78,7 @@
 
                     <!-- Levi deo - ikonica i naziv -->
                     <div
-                        class="flex items-center flex-1 px-3 py-2 text-slate-700 dark:text-slate-300 {{ request()->get('selectedCategory') == $category->id ? 'text-sky-600 dark:text-sky-400' : '' }}">
+                        class="flex items-center flex-1 px-3 py-2 text-slate-700 dark:text-slate-200 {{ request()->get('selectedCategory') == $category->id ? 'text-sky-600 dark:text-sky-400' : '' }}">
                         @if ($category->icon)
                             <div class="w-5 h-5 mr-3 flex items-center justify-center">
                                 <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400"></i>

@@ -377,12 +377,12 @@ if (!empty($auctionType)) {
 
         <!-- Content Type Selector -->
         <div class="mb-6 p-4 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg">
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Pretražuj u:</label>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-3">Pretražuj u:</label>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="all"
                         class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-sky-500">
-                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">Sve</span>
+                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">Sve</span>
                 </label>
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="listings"
@@ -403,7 +403,7 @@ if (!empty($auctionType)) {
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="services"
                         class="h-4 w-4 text-slate-600 focus:ring-slate-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-slate-600">
-                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
+                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                         <i class="fas fa-tools mr-1"></i>
                         Usluge
                     </span>
@@ -427,7 +427,7 @@ if (!empty($auctionType)) {
 
                 <!-- City (full width) -->
                 <div x-data="{ cityOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Grad/Mesto</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Grad/Mesto</label>
                     <button type="button" @click="cityOpen = !cityOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                         <span x-text="city || 'Odaberi grad'"
@@ -450,8 +450,8 @@ if (!empty($auctionType)) {
                                 <button type="button" @click="city = cityOption; cityOpen = false"
                                     class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition"
                                     :class="city === cityOption ?
-                                        'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 dark:text-sky-400 font-medium' :
-                                        'text-slate-700 dark:text-slate-300'">
+                                        'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200 dark:text-sky-400 font-medium' :
+                                        'text-slate-700 dark:text-slate-200'">
                                     <span x-text="cityOption"></span>
                                 </button>
                             </template>
@@ -465,7 +465,7 @@ if (!empty($auctionType)) {
 
                 <!-- Category (full width) -->
                 <div x-data="{ categoryOpen: false }" class="relative" x-show="content_type !== 'services'">
-                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Kategorija</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                         <span
@@ -490,7 +490,7 @@ if (!empty($auctionType)) {
                                 class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
                                 :class="!category ?
                                     'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' :
-                                    'text-slate-700 dark:text-slate-300'">
+                                    'text-slate-700 dark:text-slate-200'">
                                 <span>Sve kategorije</span>
                             </button>
                             @foreach (\App\Models\Category::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
@@ -515,7 +515,7 @@ if (!empty($auctionType)) {
                 <!-- Subcategory (full width) -->
                 <div x-data="{ subcategoryOpen: false }" class="relative" x-show="content_type !== 'services' && category">
                     <label
-                        class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Podkategorija</label>
+                        class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Podkategorija</label>
                     <button type="button" @click="subcategoryOpen = !subcategoryOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                         <span
@@ -568,7 +568,7 @@ if (!empty($auctionType)) {
 
                 <!-- Service Category (full width) -->
                 <div x-data="{ serviceCategoryOpen: false }" class="relative" x-show="content_type === 'services'">
-                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Kategorija</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Kategorija</label>
                     <button type="button" @click="serviceCategoryOpen = !serviceCategoryOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                         <span
@@ -679,13 +679,13 @@ if (!empty($auctionType)) {
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Cena
+                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Cena
                             od</label>
                         <input type="number" x-model="price_min" placeholder="0"
                             class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Cena
+                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Cena
                             do</label>
                         <input type="number" x-model="price_max" placeholder="∞"
                             class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
@@ -694,7 +694,7 @@ if (!empty($auctionType)) {
 
                 <!-- Condition (full width) -->
                 <div x-data="{ conditionOpen: false }" class="relative">
-                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Stanje</label>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Stanje</label>
                     <button type="button" @click="conditionOpen = !conditionOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                         <span
@@ -718,7 +718,7 @@ if (!empty($auctionType)) {
                             <button type="button" @click="selectCondition('', ''); conditionOpen = false"
                                 class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition"
                                 :class="!condition ?
-                                    'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' :
+                                    'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200 font-medium' :
                                     'text-slate-700 dark:text-slate-300'">
                                 <span>Sva stanja</span>
                             </button>

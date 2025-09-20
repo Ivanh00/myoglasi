@@ -38,7 +38,7 @@
                 <li class="flex items-center">
                     <span class="mx-2 text-slate-500 dark:text-slate-300">/</span>
                     <span
-                        class="text-slate-700 dark:text-slate-300 font-medium truncate">{{ Str::limit($listing->title, 30) }}</span>
+                        class="text-slate-700 dark:text-slate-200 font-medium truncate">{{ Str::limit($listing->title, 30) }}</span>
                 </li>
             </ol>
         </nav>
@@ -170,7 +170,7 @@
                         @auth
                             <div class="flex items-center mb-1">
                                 <i class="fas fa-user text-slate-500 dark:text-slate-300 mr-2"></i>
-                                <span class="text-slate-700 dark:text-slate-300 font-bold">
+                                <span class="text-slate-700 dark:text-slate-200 font-bold">
                                     @if ($listing->isService())
                                         Pružalac usluge: {{ $listing->user->name }}
                                     @elseif($listing->isGiveaway())
@@ -218,22 +218,22 @@
                         @endauth
                         <div class="flex items-center mb-2">
                             <i class="fas fa-map-marker-alt text-slate-500 dark:text-slate-300 mr-2"></i>
-                            <span class="text-slate-700 dark:text-slate-300">{{ $listing->location }}</span>
+                            <span class="text-slate-700 dark:text-slate-200">{{ $listing->location }}</span>
                         </div>
                         <div class="flex items-center mb-2">
                             <i class="fas fa-clock text-slate-500 dark:text-slate-300 mr-2"></i>
-                            <span class="text-slate-700 dark:text-slate-300">Objavljeno:
+                            <span class="text-slate-700 dark:text-slate-200">Objavljeno:
                                 {{ $listing->created_at->format('d.m.Y. H:i') }}</span>
                         </div>
                         <div class="flex items-center mb-2">
                             <i class="fas fa-eye text-slate-500 dark:text-slate-300 mr-2"></i>
-                            <span class="text-slate-700 dark:text-slate-300">Pregleda:
+                            <span class="text-slate-700 dark:text-slate-200">Pregleda:
                                 {{ $listing->views ?? 0 }}</span>
                         </div>
                         <!-- Dodajte ovaj div za prikaz broja pratilaca -->
                         <div class="flex items-center">
                             <i class="fas fa-heart text-slate-500 dark:text-slate-300 mr-2"></i>
-                            <span class="text-slate-700 dark:text-slate-300">Pratilaca:
+                            <span class="text-slate-700 dark:text-slate-200">Pratilaca:
                                 {{ $listing->favorites_count ?? 0 }}</span>
                         </div>
                     </div>
@@ -425,7 +425,7 @@
                         Opis oglasa
                     @endif
                 </h2>
-                <div class="text-slate-700 dark:text-slate-300 whitespace-pre-line">{{ $listing->description }}</div>
+                <div class="text-slate-700 dark:text-slate-200 whitespace-pre-line">{{ $listing->description }}</div>
             </div>
 
             {{-- Uslovi prodaje – prikaz ako postoje --}}
@@ -595,7 +595,7 @@
                                                 <span>{{ $relatedListing->category->name }}</span>
                                             </div>
 
-                                            <p class="text-slate-700 dark:text-slate-300 mb-3"
+                                            <p class="text-slate-700 dark:text-slate-200 mb-3"
                                                 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                                 {{ Str::limit(strip_tags($relatedListing->description), 120) }}
                                             </p>
@@ -641,22 +641,22 @@
                                         <div
                                             class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-300 mb-4">
                                             <div class="flex items-center">
-                                                <svg class="w-4 h-4 mr-1 text-slate-700 dark:text-slate-300"
+                                                <svg class="w-4 h-4 mr-1 text-slate-700 dark:text-slate-200"
                                                     fill="currentColor" viewBox="0 0 24 24">
                                                     <path
                                                         d="M12 4.5C7.5 4.5 3.5 8.5 2 12c1.5 3.5 5.5 7.5 10 7.5s8.5-4 10-7.5c-1.5-3.5-5.5-7.5-10-7.5zm0 12c-2.5 0-4.5-2-4.5-4.5S9.5 8.5 12 8.5 16.5 10.5 16.5 12 14.5 16.5 12 16.5zm0-7c-1.5 0-2.5 1-2.5 2.5S10.5 14.5 12 14.5 14.5 13.5 14.5 12 13.5 9.5 12 9.5z" />
                                                 </svg>
                                                 <span
-                                                    class="text-slate-700 dark:text-slate-300">{{ $relatedListing->views ?? 0 }}</span>
+                                                    class="text-slate-700 dark:text-slate-200">{{ $relatedListing->views ?? 0 }}</span>
                                             </div>
                                             <!-- Favorites count -->
                                             <div class="flex items-center">
-                                                <span class="text-slate-700 dark:text-slate-300">❤️
+                                                <span class="text-slate-700 dark:text-slate-200">❤️
                                                     {{ $relatedListing->favorites_count ?? 0 }}</span>
                                             </div>
                                         </div>
 
-                                        <div class="text-xs text-slate-700 dark:text-slate-300 mb-4">
+                                        <div class="text-xs text-slate-700 dark:text-slate-200 mb-4">
                                             <i class="fas fa-clock mr-1"></i>
                                             Postavljeno pre {{ floor($relatedListing->created_at->diffInDays()) }} dana
                                         </div>

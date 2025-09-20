@@ -62,14 +62,16 @@
                             <div class="flex items-center">
                                 <input type="checkbox" id="listing_fee_enabled" wire:model="listingFeeEnabled"
                                     class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded">
-                                <label for="listing_fee_enabled" class="ml-2 text-sm text-slate-700">
+                                <label for="listing_fee_enabled"
+                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                     Uključi naplaćivanje po oglasu
                                 </label>
                             </div>
 
                             @if ($listingFeeEnabled)
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Cena po oglasu (RSD)</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena po
+                                        oglasu (RSD)</label>
                                     <input type="number" wire:model="listingFeeAmount" min="1" max="10000"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                                     @error('listingFeeAmount')
@@ -79,7 +81,8 @@
                             @endif
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Besplatni oglasi mesečno</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Besplatni
+                                    oglasi mesečno</label>
                                 <input type="number" wire:model="freeListingsPerMonth" min="0" max="100"
                                     class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                                 <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">0 = nema besplatnih oglasa
@@ -102,14 +105,16 @@
                             <div class="flex items-center">
                                 <input type="checkbox" id="monthly_plan_enabled" wire:model="monthlyPlanEnabled"
                                     class="h-4 w-4 text-green-600 focus:ring-green-500 border-slate-300 rounded">
-                                <label for="monthly_plan_enabled" class="ml-2 text-sm text-slate-700">
+                                <label for="monthly_plan_enabled"
+                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                     Uključi mesečni plan
                                 </label>
                             </div>
 
                             @if ($monthlyPlanEnabled)
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Cena mesečnog plana
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                        mesečnog plana
                                         (RSD)</label>
                                     <input type="number" wire:model="monthlyPlanPrice" min="100" max="50000"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
@@ -135,14 +140,16 @@
                             <div class="flex items-center">
                                 <input type="checkbox" id="yearly_plan_enabled" wire:model="yearlyPlanEnabled"
                                     class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-slate-300 rounded">
-                                <label for="yearly_plan_enabled" class="ml-2 text-sm text-slate-700">
+                                <label for="yearly_plan_enabled"
+                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                     Uključi godišnji plan
                                 </label>
                             </div>
 
                             @if ($yearlyPlanEnabled)
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700">Cena godišnjeg plana
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                        godišnjeg plana
                                         (RSD)</label>
                                     <input type="number" wire:model="yearlyPlanPrice" min="1000" max="500000"
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
@@ -214,7 +221,7 @@
             <div class="space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Naziv sajta</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Naziv sajta</label>
                         <input type="text" wire:model="siteName"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('siteName')
@@ -223,7 +230,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Maksimalno slika po oglasu</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Maksimalno slika po
+                            oglasu</label>
                         <input type="number" wire:model="maxImagesPerListing" min="1" max="50"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('maxImagesPerListing')
@@ -232,7 +240,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Oglasi ističu posle (dana)</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Oglasi ističu posle
+                            (dana)</label>
                         <input type="number" wire:model="listingAutoExpireDays" min="7" max="365"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
@@ -245,7 +254,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Maksimalno aktivnih oglasa (besplatni
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Maksimalno aktivnih
+                            oglasa (besplatni
                             korisnici)</label>
                         <input type="number" wire:model="monthlyListingLimit" min="1" max="1000"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
@@ -263,7 +273,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Minimalni iznos za deljenje kredita
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Minimalni iznos za
+                            deljenje kredita
                             (RSD)</label>
                         <input type="number" wire:model="minimumCreditTransfer" min="1" max="10000"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
@@ -295,7 +306,7 @@
                                     <input type="checkbox" id="listing_fee_enabled" wire:model="listingFeeEnabled"
                                         class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 dark:border-slate-600 rounded">
                                     <label for="listing_fee_enabled"
-                                        class="ml-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                        class="ml-2 text-sm font-medium text-slate-700 dark:text-slate-200">
                                         Naplaćivanje oglasa
                                     </label>
                                 </div>
@@ -361,7 +372,7 @@
                         <div class="flex items-center">
                             <input type="checkbox" id="maintenance_mode" wire:model="maintenanceMode"
                                 class="h-4 w-4 text-red-600 focus:ring-red-500 border-slate-300 rounded">
-                            <label for="maintenance_mode" class="ml-2 text-sm text-slate-700">
+                            <label for="maintenance_mode" class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                 Režim održavanja
                             </label>
                         </div>
@@ -369,7 +380,7 @@
                         <div class="flex items-center">
                             <input type="checkbox" id="show_last_seen" wire:model="showLastSeen"
                                 class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded">
-                            <label for="show_last_seen" class="ml-2 text-sm text-slate-700">
+                            <label for="show_last_seen" class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                 Prikaži poslednju aktivnost korisnika
                             </label>
                         </div>
@@ -381,14 +392,15 @@
                         <div class="flex items-center mt-4">
                             <input type="checkbox" id="service_fee_enabled" wire:model="serviceFeeEnabled"
                                 class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded">
-                            <label for="service_fee_enabled" class="ml-2 text-sm text-slate-700">
+                            <label for="service_fee_enabled" class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                 Naplaćuj objavljivanje usluga
                             </label>
                         </div>
 
                         @if ($serviceFeeEnabled)
                             <div class="mt-4">
-                                <label class="block text-sm font-medium text-slate-700">Cena za objavljivanje usluge
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena za
+                                    objavljivanje usluge
                                     (RSD)</label>
                                 <input type="number" wire:model="serviceFeeAmount" min="1" max="10000"
                                     class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
@@ -421,14 +433,17 @@
                                         <input type="checkbox" id="game_credit_enabled"
                                             wire:model="gameCreditEnabled"
                                             class="h-4 w-4 text-green-600 focus:ring-green-500 border-slate-300 rounded">
-                                        <label for="game_credit_enabled" class="ml-2 text-sm text-slate-700">
+                                        <label for="game_credit_enabled"
+                                            class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                             Omogući zaradjivanje kroz igrice
                                         </label>
                                     </div>
 
                                     @if ($gameCreditEnabled)
                                         <div class="ml-6">
-                                            <label class="block text-sm font-medium text-slate-700">Maksimalno kredita
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">Maksimalno
+                                                kredita
                                                 dnevno kroz igrice (RSD)</label>
                                             <input type="number" wire:model="gameCreditAmount" min="1"
                                                 max="1000"
@@ -451,14 +466,17 @@
                                         <input type="checkbox" id="daily_contest_enabled"
                                             wire:model="dailyContestEnabled"
                                             class="h-4 w-4 text-green-600 focus:ring-green-500 border-slate-300 rounded">
-                                        <label for="daily_contest_enabled" class="ml-2 text-sm text-slate-700">
+                                        <label for="daily_contest_enabled"
+                                            class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                             Omogući dnevni konkurs za najviše oglasa
                                         </label>
                                     </div>
 
                                     @if ($dailyContestEnabled)
                                         <div class="ml-6">
-                                            <label class="block text-sm font-medium text-slate-700">Nagrada za
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">Nagrada
+                                                za
                                                 pobednika dnevnog konkursa (RSD)</label>
                                             <input type="number" wire:model="dailyContestAmount" min="1"
                                                 max="1000"
@@ -481,14 +499,17 @@
                                         <input type="checkbox" id="game_leaderboard_enabled"
                                             wire:model="gameLeaderboardEnabled"
                                             class="h-4 w-4 text-green-600 focus:ring-green-500 border-slate-300 rounded">
-                                        <label for="game_leaderboard_enabled" class="ml-2 text-sm text-slate-700">
+                                        <label for="game_leaderboard_enabled"
+                                            class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                             Omogući bonus za najbolje igrače dnevno
                                         </label>
                                     </div>
 
                                     @if ($gameLeaderboardEnabled)
                                         <div class="ml-6">
-                                            <label class="block text-sm font-medium text-slate-700">Bonus za dnevnog
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">Bonus
+                                                za dnevnog
                                                 pobednika po igri (RSD)</label>
                                             <input type="number" wire:model="gameLeaderboardBonus" min="1"
                                                 max="1000"
@@ -530,7 +551,7 @@
         <div class="space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-sm font-medium text-slate-700">Admin email</label>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Admin email</label>
                     <input type="email" wire:model="adminEmail"
                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                     @error('adminEmail')
@@ -539,7 +560,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700">Support email</label>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Support email</label>
                     <input type="email" wire:model="supportEmail"
                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                     @error('supportEmail')
@@ -558,7 +579,7 @@
                 <div class="flex items-center mb-3">
                     <input type="checkbox" id="email_verification_enabled" wire:model="emailVerificationEnabled"
                         class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded">
-                    <label for="email_verification_enabled" class="ml-2 text-sm text-slate-700">
+                    <label for="email_verification_enabled" class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                         Zahtevaj email verifikaciju za nove korisnike
                     </label>
                 </div>
@@ -668,7 +689,8 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Naziv kompanije</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Naziv
+                            kompanije</label>
                         <input type="text" wire:model="companyName"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('companyName')
@@ -677,7 +699,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">PIB kompanije</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">PIB
+                            kompanije</label>
                         <input type="text" wire:model="companyPib"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('companyPib')
@@ -686,7 +709,8 @@
                     </div>
 
                     <div class="lg:col-span-2">
-                        <label class="block text-sm font-medium text-slate-700">Adresa kompanije</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Adresa
+                            kompanije</label>
                         <input type="text" wire:model="companyAddress"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
                         @error('companyAddress')
@@ -705,7 +729,7 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Naziv banke</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Naziv banke</label>
                         <input type="text" wire:model="bankName"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
                         @error('bankName')
@@ -714,7 +738,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Broj računa</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Broj računa</label>
                         <input type="text" wire:model="bankAccountNumber"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
                         @error('bankAccountNumber')
@@ -733,7 +757,8 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Šifra plaćanja - fizička lica</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Šifra plaćanja -
+                            fizička lica</label>
                         <input type="text" wire:model="paymentCodePhysical" maxlength="3"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
                         <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Za nalog za uplatu (289 = ostale
@@ -744,7 +769,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Šifra plaćanja - pravna lica</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Šifra plaćanja -
+                            pravna lica</label>
                         <input type="text" wire:model="paymentCodeLegal" maxlength="3"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
                         <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Za nalog za prenos (221 = ostali
@@ -755,7 +781,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Model broj - fizička lica</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Model broj -
+                            fizička lica</label>
                         <input type="text" wire:model="modelNumberPhysical" maxlength="3"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
                         <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Standardno 97</p>
@@ -765,7 +792,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Model broj - pravna lica</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Model broj - pravna
+                            lica</label>
                         <input type="text" wire:model="modelNumberLegal" maxlength="3"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
                         <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Standardno 97</p>
@@ -775,7 +803,8 @@
                     </div>
 
                     <div class="lg:col-span-2">
-                        <label class="block text-sm font-medium text-slate-700">Template poziva na broj
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Template poziva na
+                            broj
                             (odobrenja)</label>
                         <input type="text" wire:model="referenceNumberTemplate"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
@@ -811,7 +840,8 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Minimalni korak povećanja ponude
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Minimalni korak
+                            povećanja ponude
                             (RSD)</label>
                         <input type="number" wire:model="auctionDefaultBidIncrement" min="10" max="10000"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-red-500 focus:border-red-500">
@@ -833,7 +863,8 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Maksimalno produžavanja</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Maksimalno
+                            produžavanja</label>
                         <input type="number" wire:model="auctionMaxExtensions" min="1" max="20"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
                         <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Koliko puta se aukcija može
@@ -844,7 +875,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Vreme produžavanja (minuti)</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Vreme produžavanja
+                            (minuti)</label>
                         <input type="number" wire:model="auctionExtensionTime" min="1" max="10"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
                         <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Za koliko minuta se aukcija
@@ -855,7 +887,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Aktivacija produžavanja
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Aktivacija
+                            produžavanja
                             (minuti)</label>
                         <input type="number" wire:model="auctionExtensionTriggerTime" min="1" max="10"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
@@ -921,7 +954,8 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Cena (RSD)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                (RSD)</label>
                             <input type="number" wire:model="promotionFeaturedCategoryPrice" min="1"
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
@@ -930,7 +964,8 @@
                             @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Trajanje (dana)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje
+                                (dana)</label>
                             <input type="number" wire:model="promotionFeaturedCategoryDays" min="1"
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
@@ -952,7 +987,8 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Cena (RSD)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                (RSD)</label>
                             <input type="number" wire:model="promotionFeaturedHomepagePrice" min="1"
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-red-500 focus:border-red-500">
@@ -961,7 +997,8 @@
                             @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Trajanje (dana)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje
+                                (dana)</label>
                             <input type="number" wire:model="promotionFeaturedHomepageDays" min="1"
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-red-500 focus:border-red-500">
@@ -983,7 +1020,8 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Cena (RSD)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                (RSD)</label>
                             <input type="number" wire:model="promotionHighlightedPrice" min="1"
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
@@ -992,7 +1030,8 @@
                             @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Trajanje (dana)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje
+                                (dana)</label>
                             <input type="number" wire:model="promotionHighlightedDays" min="1"
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
@@ -1014,7 +1053,8 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Cena (RSD)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                (RSD)</label>
                             <input type="number" wire:model="promotionAutoRefreshPrice" min="1"
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
@@ -1023,7 +1063,8 @@
                             @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Trajanje (dana)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje
+                                (dana)</label>
                             <input type="number" wire:model="promotionAutoRefreshDays" min="1"
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-green-500 focus:border-green-500">
@@ -1047,7 +1088,8 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Cena (RSD)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                (RSD)</label>
                             <input type="number" wire:model="promotionDoubleImagesPrice" min="1"
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
@@ -1056,7 +1098,8 @@
                             @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Trajanje (dana)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje
+                                (dana)</label>
                             <input type="number" wire:model="promotionDoubleImagesDays" min="1"
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
@@ -1077,7 +1120,8 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Cena (RSD)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                (RSD)</label>
                             <input type="number" wire:model="promotionExtendedDurationPrice" min="1"
                                 max="10000"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
@@ -1086,7 +1130,8 @@
                             @enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Trajanje (dana)</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje
+                                (dana)</label>
                             <input type="number" wire:model="promotionExtendedDurationDays" min="1"
                                 max="365"
                                 class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
@@ -1190,7 +1235,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Izaberite backup fajl (SQL ili JSON format)
                     </label>
                     <input type="file" wire:model="backupFile" accept=".sql,.json"

@@ -266,7 +266,8 @@
                         <div class="space-y-6">
                             <!-- Recipient Selection -->
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Prima</label>
+                                <label
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Prima</label>
                                 <div class="space-y-3">
                                     <label class="flex items-center">
                                         <input type="radio" wire:model.live="notificationData.recipient_type"
@@ -300,7 +301,8 @@
                             <!-- Single User Search -->
                             @if ($notificationData['recipient_type'] === 'single')
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-2">Pretraži
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Pretraži
                                         korisnika</label>
                                     <input type="text" wire:model.live="searchUser"
                                         class="w-full px-3 py-2 border border-slate-300 rounded-md"
@@ -341,7 +343,8 @@
                             <!-- Filtered Users Options -->
                             @if ($notificationData['recipient_type'] === 'filtered')
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-2">Filter
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Filter
                                         korisnika</label>
                                     <select wire:model.live="notificationData.filter_criteria.user_type"
                                         class="w-full px-3 py-2 border border-slate-300 rounded-md">
@@ -384,7 +387,8 @@
 
                             <!-- Title -->
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Naslov obaveštenja</label>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Naslov
+                                    obaveštenja</label>
                                 <input type="text" wire:model="notificationData.title"
                                     class="w-full px-3 py-2 border border-slate-300 rounded-md"
                                     placeholder="npr. Važna obaveštenja za korisnike">
@@ -395,7 +399,8 @@
 
                             <!-- Message -->
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Poruka</label>
+                                <label
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Poruka</label>
                                 <textarea wire:model="notificationData.message" rows="4"
                                     class="w-full px-3 py-2 border border-slate-300 rounded-md" placeholder="Unesite poruku obaveštenja..."></textarea>
                                 @error('notificationData.message')
@@ -408,7 +413,9 @@
                             <!-- Optional Listing - only for single user notifications -->
                             @if ($notificationData['recipient_type'] === 'single')
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-2">Vezano za oglas
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Vezano
+                                        za oglas
                                         (opciono)</label>
                                     <select wire:model="notificationData.listing_id"
                                         class="w-full px-3 py-2 border border-slate-300 rounded-md">

@@ -15,12 +15,12 @@
             </li>
             <li class="flex items-center">
                 <span class="mx-2 text-slate-400">/</span>
-                <span class="text-slate-700 font-medium">{{ $category->name }}</span>
+                <span class="text-slate-700 dark:text-slate-200 font-medium">{{ $category->name }}</span>
             </li>
             @if ($subcategory)
                 <li class="flex items-center">
                     <span class="mx-2 text-slate-400">/</span>
-                    <span class="text-slate-700 font-medium">{{ $subcategory->name }}</span>
+                    <span class="text-slate-700 dark:text-slate-200 font-medium">{{ $subcategory->name }}</span>
                 </li>
             @endif
         </ol>
@@ -100,7 +100,7 @@
                                     </a>
 
                                     {{-- Korisničko ime kreatora --}}
-                                    <p class="text-sm font-bold text-slate-700 mb-2">
+                                    <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">
                                         {{ $listing->user->name ?? 'Nepoznat korisnik' }}
                                     </p>
 
@@ -109,7 +109,7 @@
                                         <span>{{ $listing->location }}</span>
                                     </div>
 
-                                    <p class="text-slate-700 mb-3"
+                                    <p class="text-slate-700 dark:text-slate-200 mb-3"
                                         style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                         {{ Str::limit(strip_tags($listing->description), 120) }}
                                     </p>

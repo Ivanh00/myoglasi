@@ -33,7 +33,7 @@
             <form wire:submit.prevent="submitReport">
                 <!-- Report Reason -->
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-slate-700 mb-3">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-3">
                         Razlog prijave <span class="text-red-500">*</span>
                     </label>
 
@@ -79,7 +79,8 @@
 
                 <!-- Report Details -->
                 <div class="mb-8">
-                    <label for="reportDetails" class="block text-sm font-medium text-slate-700 mb-2">
+                    <label for="reportDetails"
+                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Detaljno objašnjenje <span class="text-red-500">*</span>
                     </label>
                     <textarea wire:model="reportDetails" id="reportDetails" rows="5"

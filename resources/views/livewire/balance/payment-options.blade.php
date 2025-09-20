@@ -107,14 +107,14 @@
                                     <label class="flex items-center cursor-pointer">
                                         <input type="radio" wire:model="payerType" value="physical" name="payerType"
                                             class="mr-3 h-4 w-4 text-sky-600 focus:ring-sky-500">
-                                        <span class="text-slate-700">
+                                        <span class="text-slate-700 dark:text-slate-200">
                                             <strong>Fizičko lice</strong> - Nalog za uplatu (šifra 289)
                                         </span>
                                     </label>
                                     <label class="flex items-center cursor-pointer">
                                         <input type="radio" wire:model="payerType" value="legal" name="payerType"
                                             class="mr-3 h-4 w-4 text-sky-600 focus:ring-sky-500">
-                                        <span class="text-slate-700">
+                                        <span class="text-slate-700 dark:text-slate-200">
                                             <strong>Pravno lice</strong> - Nalog za prenos (šifra 221)
                                         </span>
                                     </label>
@@ -135,7 +135,8 @@
 
                         <!-- Custom Amount -->
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Ili unesite željeni
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Ili unesite
+                                željeni
                                 iznos:</label>
                             <input type="number" wire:model.lazy="customAmount" wire:blur="setCustomAmount"
                                 placeholder="Unesite iznos (minimum 100 RSD)"
@@ -169,7 +170,7 @@
                                 <label class="flex items-start">
                                     <input type="checkbox" wire:model="acceptedTerms"
                                         class="mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500">
-                                    <span class="ml-2 text-sm text-slate-700">
+                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-200">
                                         Prihvatam
                                         <a href="#" class="text-sky-600 hover:underline">uslove korišćenja</a>
                                         i

@@ -25,7 +25,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Title -->
                 <div class="md:col-span-2">
-                    <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Naslov usluge <span class="text-red-500">*</span>
                     </label>
                     <input type="text" wire:model="title" id="title"
@@ -38,7 +38,7 @@
 
                 <!-- Category Selection -->
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Kategorija usluge <span class="text-red-500">*</span>
                     </label>
 
@@ -58,7 +58,7 @@
                     @if ($service_category_id && $subcategories && $subcategories->count() > 0)
                         <div class="mt-4">
                             <label for="subcategory_id"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">
                                 Podkategorija
                             </label>
                             <select wire:model="subcategory_id" id="subcategory_id"
@@ -82,7 +82,7 @@
 
                 <!-- Price -->
                 <div>
-                    <label for="price" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label for="price" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Cena usluge (RSD) <span class="text-red-500">*</span>
                     </label>
                     <input type="number" wire:model="price" id="price" step="0.01"
@@ -96,7 +96,7 @@
 
             <!-- Description -->
             <div class="mb-6">
-                <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Opis usluge <span class="text-red-500">*</span>
                 </label>
                 <textarea wire:model="description" id="description" rows="6"
@@ -115,7 +115,7 @@
             <!-- Existing Images -->
             @if ($service->images->count() > 0)
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Postojeće slike
                     </label>
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -135,7 +135,7 @@
 
             <!-- Add New Images -->
             <div>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Dodaj nove slike (maksimalno {{ \App\Models\Setting::get('max_images_per_service', 10) }})
                     @if (!empty($tempImages))
                         <span class="text-sky-600 dark:text-sky-400">({{ count($tempImages) }} novih)</span>
@@ -185,7 +185,7 @@
 
             <!-- Location -->
             <div>
-                <label for="location" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label for="location" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Lokacija <span class="text-red-500">*</span>
                 </label>
                 <input type="text" wire:model="location" id="location"
@@ -197,7 +197,7 @@
 
             <!-- Contact Phone -->
             <div>
-                <label for="contact_phone" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label for="contact_phone" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Kontakt telefon
                 </label>
                 <input type="text" wire:model="contact_phone" id="contact_phone"

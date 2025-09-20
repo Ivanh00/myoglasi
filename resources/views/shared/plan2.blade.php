@@ -682,10 +682,10 @@ return $next($request);
                     <!-- Seller Info -->
                     <div class="bg-slate-50 p-4 rounded-lg">
                         <h3 class="font-semibold mb-2">Prodavac</h3>
-                        <p class="text-slate-700">{{ $listing->user->name }}</p>
+                        <p class="text-slate-700 dark:text-slate-200">{{ $listing->user->name }}</p>
 
                         @if ($showPhoneNumber)
-                            <p class="text-slate-700 mt-1">
+                            <p class="text-slate-700 dark:text-slate-200 mt-1">
                                 📞 {{ $listing->user->phone }}
                             </p>
                         @endif

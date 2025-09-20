@@ -49,7 +49,7 @@
                                 {{ $rating === 'positive' ? 'border-green-500 bg-green-100 shadow-lg scale-105' : 'bg-white border-slate-300 hover:border-green-300 hover:bg-green-50' }}">
                                 <div class="text-6xl mb-3 {{ $rating === 'positive' ? 'animate-bounce' : '' }}">😊</div>
                                 <div
-                                    class="text-lg font-semibold {{ $rating === 'positive' ? 'text-green-800' : 'text-slate-700' }}">
+                                    class="text-lg font-semibold {{ $rating === 'positive' ? 'text-green-700 dark:text-green-200' : 'text-slate-700 dark:text-slate-200' }}">
                                     Pozitivno
                                 </div>
                                 <div
@@ -58,7 +58,7 @@
                                 </div>
                                 @if ($rating === 'positive')
                                     <div class="absolute top-2 right-2">
-                                        <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                                        <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl"></i>
                                     </div>
                                 @endif
                             </label>
@@ -73,7 +73,7 @@
                                 {{ $rating === 'neutral' ? 'border-amber-500 bg-amber-100 shadow-lg scale-105' : 'bg-white border-slate-300 hover:border-amber-300 hover:bg-amber-50' }}">
                                 <div class="text-6xl mb-3 {{ $rating === 'neutral' ? 'animate-bounce' : '' }}">😐</div>
                                 <div
-                                    class="text-lg font-semibold {{ $rating === 'neutral' ? 'text-amber-800' : 'text-slate-700' }}">
+                                    class="text-lg font-semibold {{ $rating === 'neutral' ? 'text-amber-700 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200' }}">
                                     Neutralno
                                 </div>
                                 <div
@@ -98,7 +98,7 @@
                                 <div class="text-6xl mb-3 {{ $rating === 'negative' ? 'animate-bounce' : '' }}">😞
                                 </div>
                                 <div
-                                    class="text-lg font-semibold {{ $rating === 'negative' ? 'text-red-800' : 'text-slate-700' }}">
+                                    class="text-lg font-semibold {{ $rating === 'negative' ? 'text-red-700 dark:text-red-200' : 'text-slate-700 dark:text-slate-200' }}">
                                     Negativno
                                 </div>
                                 <div
@@ -121,7 +121,7 @@
 
                 <!-- Comment -->
                 <div class="mb-8">
-                    <label for="comment" class="block text-sm font-medium text-slate-700 mb-2">
+                    <label for="comment" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Komentar (opciono)
                     </label>
                     <textarea wire:model="comment" id="comment" rows="4"
