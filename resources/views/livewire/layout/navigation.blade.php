@@ -206,17 +206,17 @@
                                             Moj profil
                                         </x-dropdown-link>
                                         <x-dropdown-link href="{{ route('listings.my') }}"
-                                            class="!bg-sky-600 !text-white hover:!bg-sky-700 dark:hover:!bg-slate-800">
+                                            class="!bg-sky-50 !text-sky-700 hover:!bg-sky-100 dark:!bg-sky-900/50 dark:!text-sky-300 dark:hover:!bg-sky-900/30">
                                             <i class="fas fa-list mr-2"></i>
                                             Moji oglasi
                                         </x-dropdown-link>
                                         <x-dropdown-link href="{{ route('auctions.my') }}"
-                                            class="!bg-amber-600 !text-white hover:!bg-amber-700 dark:hover:!bg-slate-800">
+                                            class="!bg-amber-50 !text-amber-700 hover:!bg-amber-100 dark:!bg-amber-900/50 dark:!text-amber-300 dark:hover:!bg-amber-900/30">
                                             <i class="fas fa-gavel mr-2"></i>
                                             Moje aukcije
                                         </x-dropdown-link>
                                         <x-dropdown-link href="{{ route('services.my') }}"
-                                            class="!bg-slate-600 !text-white hover:!bg-slate-700 dark:hover:!bg-slate-800">
+                                            class="!bg-slate-100 !text-slate-700 hover:!bg-slate-200 dark:!bg-slate-800/70 dark:!text-slate-300 dark:hover:!bg-slate-800/50">
                                             <i class="fas fa-tools mr-2"></i>
                                             Moje usluge
                                         </x-dropdown-link>
@@ -264,7 +264,7 @@
                                         @csrf
                                         <x-dropdown-link href="{{ route('logout') }}"
                                             onclick="event.preventDefault(); this.closest('form').submit();"
-                                            class="!bg-red-600 !text-white hover:!bg-red-700 dark:hover:!bg-slate-800">
+                                            class="!bg-red-50 !text-red-700 hover:!bg-red-100 dark:!bg-red-900/50 dark:!text-red-300 dark:hover:!bg-red-900/30">
                                             <i class="fas fa-sign-out-alt mr-2"></i>
                                             Odjavi se
                                         </x-dropdown-link>
