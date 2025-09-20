@@ -10,11 +10,12 @@ use App\Models\Service;
 use App\Models\Category;
 use App\Models\ServiceCategory;
 use App\Models\ListingCondition;
+use App\Traits\HasViewMode;
 
 class UnifiedSearch extends Component
 {
-    use WithPagination;
-    
+    use WithPagination, HasViewMode;
+
     // Search parameters
     public $query = '';
     public $city = '';
@@ -27,9 +28,8 @@ class UnifiedSearch extends Component
     public $price_min = '';
     public $price_max = '';
     public $content_type = 'all'; // all, listings, auctions, services
-    
+
     // Display options
-    public $viewMode = 'list';
     public $perPage = 20;
     public $sortBy = 'newest';
     public $show_filters = '';
@@ -46,7 +46,6 @@ class UnifiedSearch extends Component
         'content_type' => ['except' => 'all'],
         'price_min' => ['except' => ''],
         'price_max' => ['except' => ''],
-        'viewMode' => ['except' => 'list'],
         'perPage' => ['except' => 20],
         'sortBy' => ['except' => 'newest'],
         'show_filters' => ['except' => '']
@@ -54,6 +53,8 @@ class UnifiedSearch extends Component
 
     public function mount()
     {
+        $this->mountHasViewMode(); // Initialize view mode from session
+
         // Initialize from request parameters
         $this->query = request('query', '');
         $this->city = request('city', '');
@@ -63,15 +64,8 @@ class UnifiedSearch extends Component
         $this->content_type = request('content_type', 'all');
         $this->price_min = request('price_min', '');
         $this->price_max = request('price_max', '');
-        $this->viewMode = request('viewMode', 'list');
         $this->perPage = request('perPage', 20);
         $this->sortBy = request('sortBy', 'newest');
-    }
-
-    public function setViewMode($mode)
-    {
-        $this->viewMode = $mode;
-        $this->resetPage();
     }
 
     // Livewire lifecycle hooks - auto-trigger when properties change
