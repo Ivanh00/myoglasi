@@ -645,7 +645,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach ($results as $listing)
                     <div
-                        class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 
+                        class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full
                         @if (isset($listing->is_auction)) border-l-4 border-amber-500
                         @elseif($listing instanceof \App\Models\Service)
                             border-l-4 border-slate-500
@@ -689,106 +689,108 @@
                         </div>
 
                         <!-- Content -->
-                        <div class="p-4">
-                            <div class="flex items-start justify-between mb-2">
-                                <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}"
-                                    class="flex-1">
-                                    <h3
-                                        class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-sky-600 transition-colors">
-                                        {{ Str::limit($listing->title, 40) }}
-                                    </h3>
-                                </a>
+                        <div class="p-4 flex flex-col flex-1">
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between mb-2">
+                                    <a href="{{ isset($listing->is_auction) ? route('auction.show', $listing->auction_data) : route('listings.show', $listing) }}"
+                                        class="flex-1">
+                                        <h3
+                                            class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-sky-600 transition-colors">
+                                            {{ Str::limit($listing->title, 40) }}
+                                        </h3>
+                                    </a>
 
-                                <!-- Promotion Badges -->
-                                @if (
-                                    ($listing instanceof \App\Models\Listing || $listing instanceof \App\Models\Service) &&
-                                        $listing->hasActivePromotion())
-                                    <div class="flex flex-wrap gap-1 ml-2">
-                                        @foreach ($listing->getPromotionBadges() as $badge)
+                                    <!-- Promotion Badges -->
+                                    @if (
+                                        ($listing instanceof \App\Models\Listing || $listing instanceof \App\Models\Service) &&
+                                            $listing->hasActivePromotion())
+                                        <div class="flex flex-wrap gap-1 ml-2">
+                                            @foreach ($listing->getPromotionBadges() as $badge)
+                                                <span
+                                                    class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                    {{ $badge['text'] }}
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>{{ $listing->location }}</span>
+                                    <span class="mx-2">•</span>
+                                    <i class="fas fa-folder mr-1"></i>
+                                    <span>{{ $listing->category->name }}</span>
+                                </div>
+
+                                <p class="text-slate-700 dark:text-slate-200 text-sm mb-3"
+                                    style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    {{ Str::limit(strip_tags($listing->description), 100) }}
+                                </p>
+
+                                <div class="text-sm text-slate-600 dark:text-slate-300 mb-3">
+                                    Prodavac: {{ $listing->user->name }}
+                                    {!! $listing->user->verified_icon !!}
+                                </div>
+
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        @if (isset($listing->is_auction))
+                                            <div class="text-2xl font-bold text-red-600 dark:text-red-400">
+                                                {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
+                                            </div>
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">
+                                                {{ $listing->auction_data->total_bids }}
+                                                ponuda</div>
+                                        @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
+                                            <div class="text-2xl font-bold text-green-600">BESPLATNO</div>
+                                        @else
+                                            <div class="text-2xl font-bold text-sky-600 dark:text-sky-400">
+                                                {{ number_format($listing->price, 2, ',', '.') }} RSD
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="flex items-center gap-2">
+                                        @if ($listing instanceof \App\Models\Listing && $listing->getTypeBadge())
                                             <span
-                                                class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
-                                                {{ $badge['text'] }}
+                                                class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
+                                                {{ $listing->getTypeBadge()['text'] }}
                                             </span>
-                                        @endforeach
+                                        @endif
+
+                                        @if ($listing->condition)
+                                            <span
+                                                class="px-2 py-1 bg-slate-100 text-slate-800 text-xs font-medium rounded-full">
+                                                {{ $listing->condition->name }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Stats -->
+                                @if (!isset($listing->is_auction))
+                                    <div
+                                        class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300 mb-3">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            <span>{{ $listing->views ?? 0 }}</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span>❤️ {{ $listing->favorites_count ?? 0 }}</span>
+                                        </div>
                                     </div>
                                 @endif
-                            </div>
 
-                            <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
-                                <i class="fas fa-map-marker-alt mr-1"></i>
-                                <span>{{ $listing->location }}</span>
-                                <span class="mx-2">•</span>
-                                <i class="fas fa-folder mr-1"></i>
-                                <span>{{ $listing->category->name }}</span>
-                            </div>
-
-                            <p class="text-slate-700 dark:text-slate-200 text-sm mb-3"
-                                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                                {{ Str::limit(strip_tags($listing->description), 100) }}
-                            </p>
-
-                            <div class="text-sm text-slate-600 dark:text-slate-300 mb-3">
-                                Prodavac: {{ $listing->user->name }}
-                                {!! $listing->user->verified_icon !!}
-                            </div>
-
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    @if (isset($listing->is_auction))
-                                        <div class="text-2xl font-bold text-red-600 dark:text-red-400">
-                                            {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
-                                        </div>
-                                        <div class="text-sm text-slate-500 dark:text-slate-300">
-                                            {{ $listing->auction_data->total_bids }}
-                                            ponuda</div>
-                                    @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
-                                        <div class="text-2xl font-bold text-green-600">BESPLATNO</div>
-                                    @else
-                                        <div class="text-2xl font-bold text-sky-600 dark:text-sky-400">
-                                            {{ number_format($listing->price, 2, ',', '.') }} RSD
-                                        </div>
-                                    @endif
+                                <div class="text-xs text-slate-500 dark:text-slate-300 mb-3">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    Objavljeno {{ $listing->created_at->diffForHumans() }}
                                 </div>
-
-                                <div class="flex items-center gap-2">
-                                    @if ($listing instanceof \App\Models\Listing && $listing->getTypeBadge())
-                                        <span
-                                            class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
-                                            {{ $listing->getTypeBadge()['text'] }}
-                                        </span>
-                                    @endif
-
-                                    @if ($listing->condition)
-                                        <span
-                                            class="px-2 py-1 bg-slate-100 text-slate-800 text-xs font-medium rounded-full">
-                                            {{ $listing->condition->name }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <!-- Stats -->
-                            @if (!isset($listing->is_auction))
-                                <div
-                                    class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300 mb-3">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-eye mr-1"></i>
-                                        <span>{{ $listing->views ?? 0 }}</span>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <span>❤️ {{ $listing->favorites_count ?? 0 }}</span>
-                                    </div>
-                                </div>
-                            @endif
-
-                            <div class="text-xs text-slate-500 dark:text-slate-300 mb-3">
-                                <i class="fas fa-clock mr-1"></i>
-                                Objavljeno {{ $listing->created_at->diffForHumans() }}
                             </div>
 
                             <!-- Action Button -->
-                            @if (isset($listing->is_auction))
-                                <div class="space-y-2">
+                            <div class="space-y-2 mt-auto">
+                                @if (isset($listing->is_auction))
                                     @auth
                                         @if (auth()->id() === $listing->auction_data->user_id)
                                             <!-- Owner buttons -->
@@ -819,9 +821,7 @@
                                             <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
                                         </a>
                                     @endauth
-                                </div>
-                            @else
-                                <div class="space-y-2">
+                                @else
                                     @auth
                                         @if ($listing instanceof \App\Models\Listing && auth()->id() === $listing->user_id)
                                             <!-- Owner buttons for listings -->
@@ -850,8 +850,8 @@
                                             <i class="fas fa-eye mr-2"></i> Pregled
                                         </a>
                                     @endauth
-                                </div>
-                            @endif
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach
