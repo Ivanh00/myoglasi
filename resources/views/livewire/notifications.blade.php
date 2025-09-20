@@ -376,6 +376,23 @@
                         @endif
                     @endif
 
+                    @if (str_contains($selectedNotification->subject, 'Vaš zahtev je odobren'))
+                        @if ($selectedNotification->listing)
+                            <a href="{{ route('listing.chat', ['slug' => $selectedNotification->listing->slug, 'user' => $selectedNotification->listing->user_id]) }}"
+                                class="view-listing-btn" style="background-color: #3b82f6; border-color: #3b82f6;"
+                                wire:navigate>
+                                <i class="fas fa-comment mr-1"></i>
+                                Pošalji poruku
+                            </a>
+                            <a href="{{ route('listings.show', $selectedNotification->listing) }}"
+                                class="view-listing-btn" style="background-color: #10b981; border-color: #10b981;"
+                                wire:navigate>
+                                <i class="fas fa-gift mr-1"></i>
+                                Vidi poklon
+                            </a>
+                        @endif
+                    @endif
+
                     <button onclick="closeModal()" class="close-btn" type="button">
                         Zatvori
                     </button>

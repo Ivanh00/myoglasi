@@ -511,7 +511,7 @@ session()->flash('error', 'Morate se registrovati da biste kontaktirali prodavca
 return redirect()->route('login');
 }
 
-return redirect()->route('messages.listing', $this->listing);
+return redirect()->route('listing.chat', ['slug' => $this->listing->slug, 'user' => $this->listing->user_id]);
 }
 }
 ```
