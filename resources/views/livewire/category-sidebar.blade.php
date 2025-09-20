@@ -33,7 +33,7 @@
 
         <!-- Usluge -->
         <a href="{{ route('services.index') }}"
-            class="flex items-center px-4 py-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors mb-2 {{ request()->routeIs('services.*') ? 'bg-slate-700' : '' }}">
+            class="flex items-center px-4 py-3 bg-slate-600 dark:bg-slate-600 text-white rounded-lg hover:!bg-slate-700 dark:hover:!bg-slate-700 transition-colors mb-2 {{ request()->routeIs('services.*') ? 'bg-slate-700 dark:bg-slate-700' : '' }}">
             <i class="fas fa-tools mr-3"></i>
             Usluge
         </a>
