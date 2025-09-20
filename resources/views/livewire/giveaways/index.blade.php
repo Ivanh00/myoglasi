@@ -180,7 +180,7 @@
                                             <button wire:click="markAsTaken({{ $giveaway->id }})"
                                                 wire:confirm="Da li ste sigurni da ste uzeli ovaj poklon?"
                                                 class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
-                                                <i class="fas fa-hand-paper mr-2"></i> Uzeto!
+                                                <i class="fas fa-hand-paper mr-2"></i> Označi kao uzeto
                                             </button>
                                         @endif
                                     @endauth
@@ -195,7 +195,7 @@
             <!-- Grid View -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 @foreach ($giveaways as $giveaway)
-                    <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-t-4 border-green-500">
+                    <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-t-4 border-green-500 flex flex-col h-full">
                         <!-- Slika poklonja -->
                         <div class="w-full h-48">
                             @if ($giveaway->images->count() > 0)
@@ -209,37 +209,40 @@
                         </div>
 
                         <!-- Informacije o poklonju -->
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-green-600 transition-colors mb-2">
-                                {{ $giveaway->title }}
-                            </h3>
+                        <div class="p-4 flex flex-col flex-1">
+                            <!-- Main content -->
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-green-600 transition-colors mb-2">
+                                    {{ $giveaway->title }}
+                                </h3>
 
-                            <p class="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-2">
-                                {{ Str::limit($giveaway->description, 100) }}
-                            </p>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-2">
+                                    {{ Str::limit($giveaway->description, 100) }}
+                                </p>
 
-                            <!-- Kategorija -->
-                            <div class="flex items-center text-xs text-green-600 dark:text-green-400 mb-3">
-                                @if ($giveaway->category->icon)
-                                    <i class="{{ $giveaway->category->icon }} mr-1"></i>
-                                @endif
-                                {{ $giveaway->category->name }}
+                                <!-- Kategorija -->
+                                <div class="flex items-center text-xs text-green-600 dark:text-green-400 mb-3">
+                                    @if ($giveaway->category->icon)
+                                        <i class="{{ $giveaway->category->icon }} mr-1"></i>
+                                    @endif
+                                    {{ $giveaway->category->name }}
+                                </div>
+
+                                <!-- Korisnik i vreme -->
+                                <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+                                    <div>
+                                        <i class="fas fa-user mr-1"></i>
+                                        {{ $giveaway->user->name }}
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-clock mr-1"></i>
+                                        Pre {{ floor($giveaway->created_at->diffInDays()) }} dana
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Korisnik i vreme -->
-                            <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
-                                <div>
-                                    <i class="fas fa-user mr-1"></i>
-                                    {{ $giveaway->user->name }}
-                                </div>
-                                <div>
-                                    <i class="fas fa-clock mr-1"></i>
-                                    Pre {{ floor($giveaway->created_at->diffInDays()) }} dana
-                                </div>
-                            </div>
-
-                            <!-- Dugmići -->
-                            <div class="space-y-2">
+                            <!-- Dugmići - Always at bottom -->
+                            <div class="space-y-2 mt-auto">
                                 <a href="{{ route('giveaways.show', $giveaway) }}"
                                     class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
                                     <i class="fas fa-gift mr-2"></i> Pregled
@@ -250,7 +253,7 @@
                                         <button wire:click="markAsTaken({{ $giveaway->id }})"
                                             wire:confirm="Da li ste sigurni da ste uzeli ovaj poklon?"
                                             class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
-                                            <i class="fas fa-hand-paper mr-2"></i> Uzeto!
+                                            <i class="fas fa-hand-paper mr-2"></i> Označi kao uzeto
                                         </button>
                                     @endif
                                 @endauth

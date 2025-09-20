@@ -310,7 +310,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 @foreach ($listings as $listing)
                     <div
-                        class="listing-card {{ $listing->isHighlighted() ? 'bg-amber-100 dark:bg-amber-900 border-2 border-amber-400 dark:border-amber-600' : 'bg-white dark:bg-slate-700 border-l-4 border-sky-500' }} rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        class="listing-card {{ $listing->isHighlighted() ? 'bg-amber-100 dark:bg-amber-900 border-2 border-amber-400 dark:border-amber-600' : 'bg-white dark:bg-slate-700 border-l-4 border-sky-500' }} rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
                         <!-- Image -->
                         <div class="w-full h-48">
                             <a href="{{ route('listings.show', $listing) }}">
@@ -326,8 +326,10 @@
                         </div>
 
                         <!-- Content -->
-                        <div class="p-4">
-                            <div class="flex items-start justify-between mb-2">
+                        <div class="p-4 flex flex-col flex-1">
+                            <!-- Main content -->
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between mb-2">
                                 <a href="{{ route('listings.show', $listing) }}" class="flex-1">
                                     <h3
                                         class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-sky-600 transition-colors">
@@ -451,7 +453,10 @@
                                 <i class="fas fa-clock mr-1"></i>
                                 Postavljeno pre {{ floor($listing->created_at->diffInDays()) }} dana
                             </div>
+                            </div>
 
+                            <!-- Buttons - Always at bottom -->
+                            <div class="mt-auto">
                             @auth
                                 @if (auth()->id() === $listing->user_id)
                                     <!-- Owner buttons -->
@@ -484,6 +489,7 @@
                                     <i class="fas fa-eye mr-2"></i> Pregled
                                 </a>
                             @endauth
+                            </div>
                         </div>
                     </div>
                 @endforeach

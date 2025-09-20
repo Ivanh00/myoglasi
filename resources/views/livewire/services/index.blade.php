@@ -249,7 +249,7 @@
             <!-- Grid View -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 @foreach ($services as $service)
-                    <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-t-4
+                    <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-t-4 flex flex-col h-full
                         {{ $service->hasActivePromotion('urgent') ? 'border-red-500' : ($service->hasActivePromotion('featured') ? 'border-sky-500' : ($service->hasActivePromotion('top') ? 'border-purple-500' : 'border-slate-500')) }}
                         {{ $service->hasActivePromotion('highlighted') ? 'bg-amber-50 dark:bg-amber-900' : '' }}">
                         <!-- Slika usluge -->
@@ -265,56 +265,59 @@
                         </div>
 
                         <!-- Informacije o usluzi -->
-                        <div class="p-4">
-                            <div class="flex items-start justify-between mb-2">
-                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-slate-600 dark:hover:text-slate-400 transition-colors">
-                                    {{ $service->title }}
-                                </h3>
-                                <!-- Promotion Badges -->
-                                @if ($service->hasActivePromotion())
-                                    <div class="flex flex-wrap gap-1">
-                                        @foreach ($service->getPromotionBadges() as $badge)
-                                            <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
-                                                {{ $badge['text'] }}
-                                            </span>
-                                        @endforeach
+                        <div class="p-4 flex flex-col flex-1">
+                            <!-- Main content -->
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-slate-600 dark:hover:text-slate-400 transition-colors">
+                                        {{ $service->title }}
+                                    </h3>
+                                    <!-- Promotion Badges -->
+                                    @if ($service->hasActivePromotion())
+                                        <div class="flex flex-wrap gap-1">
+                                            @foreach ($service->getPromotionBadges() as $badge)
+                                                <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                    {{ $badge['text'] }}
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <p class="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-2">
+                                    {{ Str::limit($service->description, 100) }}
+                                </p>
+
+                                <!-- Kategorija -->
+                                @if($service->serviceCategory)
+                                    <div class="flex items-center text-xs text-slate-600 dark:text-slate-400 mb-3">
+                                        @if ($service->serviceCategory->icon)
+                                            <i class="{{ $service->serviceCategory->icon }} mr-1"></i>
+                                        @endif
+                                        {{ $service->serviceCategory->name }}
                                     </div>
                                 @endif
-                            </div>
 
-                            <p class="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-2">
-                                {{ Str::limit($service->description, 100) }}
-                            </p>
-
-                            <!-- Kategorija -->
-                            @if($service->serviceCategory)
-                                <div class="flex items-center text-xs text-slate-600 dark:text-slate-400 mb-3">
-                                    @if ($service->serviceCategory->icon)
-                                        <i class="{{ $service->serviceCategory->icon }} mr-1"></i>
-                                    @endif
-                                    {{ $service->serviceCategory->name }}
+                                <!-- Cena -->
+                                <div class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+                                    {{ number_format($service->price, 0, ',', '.') }} RSD
                                 </div>
-                            @endif
 
-                            <!-- Cena -->
-                            <div class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
-                                {{ number_format($service->price, 0, ',', '.') }} RSD
-                            </div>
-
-                            <!-- Korisnik i vreme -->
-                            <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
-                                <div>
-                                    <i class="fas fa-user mr-1"></i>
-                                    {{ $service->user->name ?? 'Nepoznat korisnik' }}
-                                </div>
-                                <div>
-                                    <i class="fas fa-clock mr-1"></i>
-                                    Pre {{ floor($service->created_at->diffInDays()) }} dana
+                                <!-- Korisnik i vreme -->
+                                <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+                                    <div>
+                                        <i class="fas fa-user mr-1"></i>
+                                        {{ $service->user->name ?? 'Nepoznat korisnik' }}
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-clock mr-1"></i>
+                                        Pre {{ floor($service->created_at->diffInDays()) }} dana
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Dugmići -->
-                            <div class="space-y-2">
+                            <!-- Dugmići - Always at bottom -->
+                            <div class="space-y-2 mt-auto">
                                 @auth
                                     @if ($service->user_id === auth()->id())
                                         <a href="{{ route('services.edit', $service->slug) }}"
