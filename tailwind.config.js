@@ -44,6 +44,18 @@ export default {
         'bg-purple-500',
         'bg-orange-500',
         'bg-slate-200',
+        // Slate colors for services button
+        'bg-slate-600',
+        'bg-slate-700',
+        'hover:bg-slate-700',
+        '!bg-slate-700',
+        'hover:!bg-slate-700',
+        'dark:bg-slate-500',
+        'dark:bg-slate-600',
+        'dark:hover:bg-slate-600',
+        'dark:!bg-slate-500',
+        'dark:!bg-slate-600',
+        'dark:hover:!bg-slate-600',
         // Ensure sky colors work in dark mode
         'dark:bg-sky-500',
         'dark:bg-sky-600',

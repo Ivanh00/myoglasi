@@ -140,6 +140,28 @@
     height: 100%;
     object-fit: cover;
 }
+/* Services button specific styling */
+.services-button {
+    background-color: #475569; /* slate-600 */
+}
+.services-button:hover {
+    background-color: #334155; /* slate-700 */
+}
+.services-button.active {
+    background-color: #334155; /* slate-700 */
+}
+
+/* Dark mode - same pattern as other buttons */
+.dark .services-button {
+    background-color: #475569 !important; /* slate-600 in dark */
+}
+.dark .services-button:hover {
+    background-color: #334155 !important; /* slate-700 in dark */
+}
+.dark .services-button.active {
+    background-color: #334155 !important; /* slate-700 in dark */
+}
+
 input[readonly] {
     background-color: #f8fafc; /* bg-slate-50 */
     color: #64748b; /* text-slate-500 */
