@@ -2,7 +2,19 @@
 
     <!-- Filteri i sortiranje -->
     <div class="bg-green-50 dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <!-- Results Info (Top - Left aligned) -->
+        <div class="text-slate-600 dark:text-slate-300 mb-4">
+            Pronađeno poklona: <span class="font-semibold">{{ $giveaways->total() }}</span>
+            @if ($selectedCategory)
+                @php $selectedCat = $categories->firstWhere('id', $selectedCategory); @endphp
+                @if ($selectedCat)
+                    u kategoriji: <span class="font-semibold">{{ $selectedCat->name }}</span>
+                @endif
+            @endif
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="flex items-center justify-between gap-4">
             <!-- Left: Category filter -->
             <div class="flex items-center gap-3">
                 <div class="w-60" x-data="{ open: false }" x-init="open = false">
@@ -44,17 +56,26 @@
                 </div>
             </div>
 
-            <!-- Right: Results count -->
-            <div class="text-slate-600 dark:text-slate-400">
-                Pronađeno poklona: <span class="font-semibold">{{ $giveaways->total() }}</span>
+            <!-- Right: View Mode Toggle -->
+            <div class="flex bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm">
+                <button wire:click="setViewMode('list')"
+                    class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-l-lg transition-colors">
+                    <i class="fas fa-list"></i>
+                </button>
+                <button wire:click="setViewMode('grid')"
+                    class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-r-lg transition-colors">
+                    <i class="fas fa-th"></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Lista poklonja -->
+    <!-- Lista/Grid poklonja -->
     @if ($giveaways->count() > 0)
-        <div class="space-y-4 mb-8">
-            @foreach ($giveaways as $giveaway)
+        @if($viewMode === 'list')
+            <!-- List View -->
+            <div class="space-y-4 mb-8">
+                @foreach ($giveaways as $giveaway)
                 <div
                     class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-green-500">
                     <div class="flex flex-col md:flex-row">
@@ -168,8 +189,77 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+        @else
+            <!-- Grid View -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                @foreach ($giveaways as $giveaway)
+                    <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-t-4 border-green-500">
+                        <!-- Slika poklonja -->
+                        <div class="w-full h-48">
+                            @if ($giveaway->images->count() > 0)
+                                <img src="{{ $giveaway->images->first()->url }}" alt="{{ $giveaway->title }}"
+                                    class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                    <i class="fas fa-gift text-green-500 dark:text-green-400 text-4xl"></i>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Informacije o poklonju -->
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-green-600 transition-colors mb-2">
+                                {{ $giveaway->title }}
+                            </h3>
+
+                            <p class="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-2">
+                                {{ Str::limit($giveaway->description, 100) }}
+                            </p>
+
+                            <!-- Kategorija -->
+                            <div class="flex items-center text-xs text-green-600 dark:text-green-400 mb-3">
+                                @if ($giveaway->category->icon)
+                                    <i class="{{ $giveaway->category->icon }} mr-1"></i>
+                                @endif
+                                {{ $giveaway->category->name }}
+                            </div>
+
+                            <!-- Korisnik i vreme -->
+                            <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+                                <div>
+                                    <i class="fas fa-user mr-1"></i>
+                                    {{ $giveaway->user->name }}
+                                </div>
+                                <div>
+                                    <i class="fas fa-clock mr-1"></i>
+                                    Pre {{ floor($giveaway->created_at->diffInDays()) }} dana
+                                </div>
+                            </div>
+
+                            <!-- Dugmići -->
+                            <div class="space-y-2">
+                                <a href="{{ route('giveaways.show', $giveaway) }}"
+                                    class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                    <i class="fas fa-gift mr-2"></i> Pregled
+                                </a>
+
+                                @auth
+                                    @if (auth()->id() !== $giveaway->user_id)
+                                        <button wire:click="markAsTaken({{ $giveaway->id }})"
+                                            wire:confirm="Da li ste sigurni da ste uzeli ovaj poklon?"
+                                            class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
+                                            <i class="fas fa-hand-paper mr-2"></i> Uzeto!
+                                        </button>
+                                    @endif
+                                @endauth
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
 
         <!-- Paginacija -->
         @if ($giveaways->hasPages())

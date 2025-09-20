@@ -2,8 +2,20 @@
 
     <!-- Filteri i sortiranje -->
     <div class="bg-slate-100 dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <!-- Left: Category filter -->
+        <!-- Results Info (Top - Left aligned) -->
+        <div class="text-slate-600 dark:text-slate-300 mb-4">
+            Pronađeno usluga: <span class="font-semibold">{{ $services->total() }}</span>
+            @if ($selectedCategory)
+                @php $selectedCat = $categories->firstWhere('id', $selectedCategory); @endphp
+                @if ($selectedCat)
+                    u kategoriji: <span class="font-semibold">{{ $selectedCat->name }}</span>
+                @endif
+            @endif
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="flex items-center justify-between gap-4">
+            <!-- Left: Category filter and Sort -->
             <div class="flex items-center gap-3">
                 <div class="w-60" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
@@ -83,17 +95,26 @@
                 </div>
             </div>
 
-            <!-- Right: Results count -->
-            <div class="text-slate-600 dark:text-slate-400">
-                Pronađeno usluga: <span class="font-semibold">{{ $services->total() }}</span>
+            <!-- Right: View Mode Toggle -->
+            <div class="flex bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm">
+                <button wire:click="setViewMode('list')"
+                    class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-l-lg transition-colors">
+                    <i class="fas fa-list"></i>
+                </button>
+                <button wire:click="setViewMode('grid')"
+                    class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-r-lg transition-colors">
+                    <i class="fas fa-th"></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Lista usluga -->
+    <!-- Lista/Grid usluga -->
     @if ($services->count() > 0)
-        <div class="space-y-4 mb-8">
-            @foreach ($services as $service)
+        @if($viewMode === 'list')
+            <!-- List View -->
+            <div class="space-y-4 mb-8">
+                @foreach ($services as $service)
                 <div
                     class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4
                     {{ $service->hasActivePromotion('urgent') ? 'border-red-500' : ($service->hasActivePromotion('featured') ? 'border-sky-500' : ($service->hasActivePromotion('top') ? 'border-purple-500' : 'border-slate-500')) }}
@@ -222,8 +243,100 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+        @else
+            <!-- Grid View -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                @foreach ($services as $service)
+                    <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-t-4
+                        {{ $service->hasActivePromotion('urgent') ? 'border-red-500' : ($service->hasActivePromotion('featured') ? 'border-sky-500' : ($service->hasActivePromotion('top') ? 'border-purple-500' : 'border-slate-500')) }}
+                        {{ $service->hasActivePromotion('highlighted') ? 'bg-amber-50 dark:bg-amber-900' : '' }}">
+                        <!-- Slika usluge -->
+                        <div class="w-full h-48">
+                            @if ($service->images->count() > 0)
+                                <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
+                                    class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+                                    <i class="fas fa-tools text-slate-400 dark:text-slate-500 text-4xl"></i>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Informacije o usluzi -->
+                        <div class="p-4">
+                            <div class="flex items-start justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-slate-600 dark:hover:text-slate-400 transition-colors">
+                                    {{ $service->title }}
+                                </h3>
+                                <!-- Promotion Badges -->
+                                @if ($service->hasActivePromotion())
+                                    <div class="flex flex-wrap gap-1">
+                                        @foreach ($service->getPromotionBadges() as $badge)
+                                            <span class="px-2 py-1 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                {{ $badge['text'] }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+
+                            <p class="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-2">
+                                {{ Str::limit($service->description, 100) }}
+                            </p>
+
+                            <!-- Kategorija -->
+                            <div class="flex items-center text-xs text-slate-600 dark:text-slate-400 mb-3">
+                                @if ($service->serviceCategory->icon)
+                                    <i class="{{ $service->serviceCategory->icon }} mr-1"></i>
+                                @endif
+                                {{ $service->serviceCategory->name }}
+                            </div>
+
+                            <!-- Cena -->
+                            <div class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+                                {{ number_format($service->price, 0, ',', '.') }} RSD
+                            </div>
+
+                            <!-- Korisnik i vreme -->
+                            <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+                                <div>
+                                    <i class="fas fa-user mr-1"></i>
+                                    {{ $service->user->name }}
+                                </div>
+                                <div>
+                                    <i class="fas fa-clock mr-1"></i>
+                                    Pre {{ floor($service->created_at->diffInDays()) }} dana
+                                </div>
+                            </div>
+
+                            <!-- Dugmići -->
+                            <div class="space-y-2">
+                                @auth
+                                    @if ($service->user_id === auth()->id())
+                                        <a href="{{ route('services.edit', $service->slug) }}"
+                                            class="block w-full text-center px-3 py-2 bg-slate-600 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-700 dark:hover:bg-slate-500 transition-colors text-sm">
+                                            <i class="fas fa-edit mr-2"></i> Uredi
+                                        </a>
+                                    @else
+                                        <a href="{{ route('services.show', $service) }}"
+                                            class="block w-full text-center px-3 py-2 bg-slate-600 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-700 dark:hover:bg-slate-500 transition-colors text-sm">
+                                            <i class="fas fa-eye mr-2"></i> Pregled
+                                        </a>
+                                    @endif
+                                @else
+                                    <a href="{{ route('services.show', $service) }}"
+                                        class="block w-full text-center px-3 py-2 bg-slate-600 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-700 dark:hover:bg-slate-500 transition-colors text-sm">
+                                        <i class="fas fa-eye mr-2"></i> Pregled
+                                    </a>
+                                @endauth
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
 
         <!-- Paginacija -->
         @if ($services->hasPages())

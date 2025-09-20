@@ -15,6 +15,7 @@ class Index extends Component
     public $categories;
     public $sortBy = 'newest';
     public $perPage = 20;
+    public $viewMode = 'list';
 
     public function mount()
     {
@@ -34,6 +35,11 @@ class Index extends Component
     {
         $this->sortBy = $sort;
         $this->resetPage();
+    }
+
+    public function setViewMode($mode)
+    {
+        $this->viewMode = $mode;
     }
 
     public function render()
