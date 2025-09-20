@@ -57,7 +57,7 @@ class Navigation extends Component
         if (!auth()->check()) {
             return 0;
         }
-        
+
         return Message::where('receiver_id', auth()->id())
             ->where('is_read', false)
             ->where('is_system_message', true)

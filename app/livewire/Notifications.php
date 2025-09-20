@@ -27,19 +27,19 @@ class Notifications extends Component
     }
 
     public function loadNotifications()
-{
-    $query = Message::where('receiver_id', Auth::id())
-        ->where('is_system_message', true) // 👈 Samo sistemska obaveštenja
-        ->where('deleted_by_receiver', false) // Don't show deleted notifications
-        ->with(['listing', 'sender']);
-    
-    if ($this->filter === 'unread') {
-        $query->where('is_read', false);
+    {
+        $query = Message::where('receiver_id', Auth::id())
+            ->where('is_system_message', true)
+            ->where('deleted_by_receiver', false)
+            ->with(['listing', 'sender', 'giveawayReservation']);
+
+        if ($this->filter === 'unread') {
+            $query->where('is_read', false);
+        }
+
+        return $query->orderBy('created_at', 'desc')
+                    ->paginate(20);
     }
-    
-    return $query->orderBy('created_at', 'desc')
-                ->paginate(20);
-}
 
     public function markAsRead($notificationId)
     {
@@ -47,11 +47,11 @@ class Notifications extends Component
             ->where('receiver_id', Auth::id())
             ->where('is_system_message', true)
             ->first();
-            
+
         if ($notification && !$notification->is_read) {
             $notification->is_read = true;
             $notification->save();
-            
+
             // Emit event da se osveži brojač
             $this->dispatch('notificationsUpdated');
         }
@@ -63,7 +63,7 @@ class Notifications extends Component
             ->where('is_system_message', true)
             ->where('is_read', false)
             ->update(['is_read' => true]);
-            
+
         // Emit event da se osveži brojač
         $this->dispatch('notificationsUpdated');
     }
@@ -92,8 +92,9 @@ class Notifications extends Component
         $notification = Message::where('id', $notificationId)
             ->where('receiver_id', Auth::id())
             ->where('is_system_message', true)
+            ->with('giveawayReservation')
             ->first();
-            
+
         if ($notification) {
             $this->selectedNotification = $notification;
             // Označi kao pročitano

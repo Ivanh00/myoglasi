@@ -57,15 +57,30 @@ class ReservationManager extends Component
             return;
         }
 
-        // Reject all other pending reservations
-        $this->listing->giveawayReservations()
+        // Get all other pending reservations before rejecting them
+        $otherReservations = $this->listing->giveawayReservations()
             ->where('status', 'pending')
             ->where('id', '!=', $reservation->id)
-            ->update([
+            ->get();
+
+        // Reject all other pending reservations
+        foreach ($otherReservations as $otherReservation) {
+            $otherReservation->update([
                 'status' => 'rejected',
                 'response' => 'Poklon je dat drugom korisniku.',
                 'responded_at' => now()
             ]);
+            // Send rejection notification as system message
+            \App\Models\Message::create([
+                'sender_id' => auth()->id(),
+                'receiver_id' => $otherReservation->requester_id,
+                'listing_id' => $this->listing->id,
+                'subject' => 'Vaš zahtev je odbijen',
+                'message' => 'Nažalost, vaš zahtev za poklon "' . $this->listing->title . '" je odbijen. Poklon je dat drugom korisniku.',
+                'is_system_message' => true,
+                'is_read' => false
+            ]);
+        }
 
         // Approve selected reservation
         $reservation->approve($this->response);
@@ -73,8 +88,16 @@ class ReservationManager extends Component
         // Update listing status
         $this->listing->update(['status' => 'inactive']);
 
-        // TODO: Send notification to approved user
-        // TODO: Send notifications to rejected users
+        // Send approval notification as system message
+        \App\Models\Message::create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => $reservation->requester_id,
+            'listing_id' => $this->listing->id,
+            'subject' => 'Vaš zahtev je odobren! 🎉',
+            'message' => 'Čestitamo! Vaš zahtev za poklon "' . $this->listing->title . '" je odobren. ' . ($this->response ? 'Poruka od vlasnika: ' . $this->response : ''),
+            'is_system_message' => true,
+            'is_read' => false
+        ]);
 
         session()->flash('success', 'Poklon je uspešno dat korisniku ' . $reservation->requester->name);
 
@@ -97,7 +120,16 @@ class ReservationManager extends Component
 
         $reservation->reject($this->response);
 
-        // TODO: Send notification to rejected user
+        // Send rejection notification as system message
+        \App\Models\Message::create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => $reservation->requester_id,
+            'listing_id' => $this->listing->id,
+            'subject' => 'Vaš zahtev je odbijen',
+            'message' => 'Nažalost, vaš zahtev za poklon "' . $this->listing->title . '" je odbijen.' . ($this->response ? ' Poruka od vlasnika: ' . $this->response : ''),
+            'is_system_message' => true,
+            'is_read' => false
+        ]);
 
         session()->flash('success', 'Zahtev je odbijen.');
 

@@ -13,6 +13,7 @@ class Message extends Model
         'sender_id',
         'receiver_id',
         'listing_id',
+        'giveaway_reservation_id',
         'message',
         'subject',
         'is_read',
@@ -48,6 +49,11 @@ class Message extends Model
     public function listing()
     {
         return $this->belongsTo(Listing::class);
+    }
+
+    public function giveawayReservation()
+    {
+        return $this->belongsTo(GiveawayReservation::class);
     }
 
     public function deleteForUser($userId)

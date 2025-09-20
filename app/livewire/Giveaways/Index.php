@@ -89,14 +89,24 @@ class Index extends Component
         ]);
 
         try {
-            \App\Models\GiveawayReservation::create([
+            $reservation = \App\Models\GiveawayReservation::create([
                 'listing_id' => $this->selectedGiveaway->id,
                 'requester_id' => auth()->id(),
                 'message' => $this->reservationMessage,
                 'status' => 'pending'
             ]);
 
-            // TODO: Send notification to giveaway owner
+            // Send notification to giveaway owner as system message
+            \App\Models\Message::create([
+                'sender_id' => auth()->id(),
+                'receiver_id' => $this->selectedGiveaway->user_id,
+                'listing_id' => $this->selectedGiveaway->id,
+                'subject' => 'Novi zahtev za poklon',
+                'message' => auth()->user()->name . ' želi vaš poklon "' . $this->selectedGiveaway->title . '". Poruka: ' . $this->reservationMessage,
+                'is_system_message' => true,
+                'is_read' => false,
+                'giveaway_reservation_id' => $reservation->id
+            ]);
 
             session()->flash('success', 'Vaš zahtev je uspešno poslat! Sačekajte odgovor vlasnika.');
 

@@ -366,6 +366,16 @@
                         @endif
                     @endif
 
+                    @if (str_contains($selectedNotification->subject, 'Novi zahtev za poklon'))
+                        @if ($selectedNotification->listing && $selectedNotification->giveaway_reservation_id)
+                            <button wire:click="$dispatch('openReservationManager', { listingId: {{ $selectedNotification->listing_id }} }); closeModal()"
+                                class="view-listing-btn" style="background-color: #10b981; border-color: #10b981;">
+                                <i class="fas fa-gift mr-1"></i>
+                                Vidi zahteve
+                            </button>
+                        @endif
+                    @endif
+
                     <button onclick="closeModal()" class="close-btn" type="button">
                         Zatvori
                     </button>
@@ -373,6 +383,9 @@
             </div>
         </div>
     @endif
+
+    <!-- Giveaway Reservation Manager Modal -->
+    @livewire('giveaways.reservation-manager')
 </div>
 
 <script>
