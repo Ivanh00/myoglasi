@@ -86,7 +86,7 @@
 
             <!-- Data Rows -->
             @foreach ($listings as $listing)
-                <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-sky-500">
+                <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 {{ $listing->isGiveaway() ? 'border-green-500' : 'border-sky-500' }}">
                     <div class="grid grid-cols-[30%_15%_15%_15%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Oglas Column -->
                         <div class="px-6 py-2">
@@ -112,7 +112,11 @@
                         <!-- Cena Column -->
                         <div class="px-6 py-2">
                             <div class="text-sm text-slate-900 dark:text-slate-100 font-bold whitespace-nowrap">
-                                {{ number_format($listing->price, 2) }} RSD
+                                @if ($listing->isGiveaway())
+                                    <span class="text-green-600 dark:text-green-400">BESPLATNO</span>
+                                @else
+                                    {{ number_format($listing->price, 2) }} RSD
+                                @endif
                             </div>
                         </div>
                         <!-- Status Column -->
@@ -237,7 +241,7 @@
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
             @foreach ($listings as $listing)
-                <div class="bg-white dark:bg-slate-800 border-l-4 border-sky-500 shadow rounded-lg overflow-hidden">
+                <div class="bg-white dark:bg-slate-800 border-l-4 {{ $listing->isGiveaway() ? 'border-green-500' : 'border-sky-500' }} shadow rounded-lg overflow-hidden">
                     <!-- Card Header -->
                     <div class="p-4 border-b border-slate-200 dark:border-slate-600">
                         <div class="flex items-start justify-between">
@@ -261,8 +265,13 @@
                                         {{ $listing->title }}</h3>
                                     <p class="text-sm text-slate-500 dark:text-slate-300 mb-2">
                                         {{ $listing->category->name }}</p>
-                                    <p class="text-xl font-bold text-sky-600 dark:text-sky-400">
-                                        {{ number_format($listing->price, 2) }} RSD</p>
+                                    <p class="text-xl font-bold {{ $listing->isGiveaway() ? 'text-green-600 dark:text-green-400' : 'text-sky-600 dark:text-sky-400' }}">
+                                        @if ($listing->isGiveaway())
+                                            BESPLATNO
+                                        @else
+                                            {{ number_format($listing->price, 2) }} RSD
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>
