@@ -22,7 +22,7 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold text-red-900">{{ $listing->title }}</h3>
-                        <p class="text-red-700 text-sm">Prodavac: {{ $listing->user->name }}</p>
+                        <p class="text-red-700 dark:text-red-200 text-sm">Prodavac: {{ $listing->user->name }}</p>
                         <p class="text-red-600 dark:text-red-400 text-sm">
                             {{ number_format($listing->price, 0, ',', '.') }} RSD</p>
                     </div>

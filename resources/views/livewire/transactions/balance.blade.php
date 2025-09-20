@@ -217,7 +217,7 @@
                             </span>
                         </div>
                         @if (auth()->user()->balance <= 0)
-                            <div class="mt-2 text-xs text-red-700">
+                            <div class="mt-2 text-xs text-red-700 dark:text-red-200">
                                 ⚠️ Nemate dovoljno kredita za transfer. Dopunite balans da biste mogli da delite kredit.
                             </div>
                         @endif

@@ -69,7 +69,7 @@
         <div class="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
             <div class="flex items-center">
                 <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 mr-2"></i>
-                <span class="text-red-700 text-sm">{{ session('error') }}</span>
+                <span class="text-red-700 dark:text-red-200 text-sm">{{ session('error') }}</span>
             </div>
         </div>
     @endif

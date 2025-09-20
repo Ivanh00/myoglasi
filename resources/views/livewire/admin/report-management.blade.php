@@ -732,7 +732,7 @@
                             <div class="mb-4">
                                 <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg mb-4">
                                     <i class="fas fa-exclamation-triangle text-red-500 mr-2 "></i>
-                                    <p class="text-sm text-red-700">
+                                    <p class="text-sm text-red-700 dark:text-red-200">
                                         Da li ste sigurni da želite da obrišete oglas
                                         "<strong>{{ $selectedReport->listing->title }}</strong>"?
                                         Ova akcija je nepovratna!

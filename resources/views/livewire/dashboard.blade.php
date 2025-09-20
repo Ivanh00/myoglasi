@@ -25,7 +25,7 @@
                         </span>
                     </div>
                     <span
-                        class="text-sm {{ $stats['can_create_listing'] ? 'text-sky-700 dark:text-sky-200' : 'text-red-700 dark:text-red-300' }} font-medium">
+                        class="text-sm {{ $stats['can_create_listing'] ? 'text-sky-700 dark:text-sky-200' : 'text-red-700 dark:text-red-200' }} font-medium">
                         {{ $stats['remaining_listings'] }} slobodno
                     </span>
                 </div>
@@ -37,7 +37,7 @@
                 </div>
 
                 <p
-                    class="text-xs {{ $stats['can_create_listing'] ? 'text-sky-700 dark:text-sky-200' : 'text-red-700 dark:text-red-300' }} mt-2">
+                    class="text-xs {{ $stats['can_create_listing'] ? 'text-sky-700 dark:text-sky-200' : 'text-red-700 dark:text-red-200' }} mt-2">
                     @if ($stats['can_create_listing'])
                         💡 Možete postaviti još {{ $stats['remaining_listings'] }} oglasa. Kada oglas istekne ili se
                         obriše, možete postaviti novi.
@@ -161,7 +161,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-red-900 dark:text-red-200">Potrošeno</p>
-                        <p class="text-2xl font-bold text-red-700 dark:text-red-300">
+                        <p class="text-2xl font-bold text-red-700 dark:text-red-200">
                             {{ number_format($monthlyStats['spent_this_month'], 0) }}</p>
                     </div>
                 </div>
@@ -209,7 +209,7 @@
                             @endif
                         </div>
                         <div
-                            class="text-sm {{ $stats['can_create_listing'] ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300' }}">
+                            class="text-sm {{ $stats['can_create_listing'] ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-200' }}">
                             @if ($stats['can_create_listing'])
                                 Kreiraj novi oglas za prodaju
                             @else
@@ -233,7 +233,7 @@
                     <i class="fas fa-heart text-red-600 dark:text-red-400  mr-3"></i>
                     <div>
                         <div class="font-medium text-red-900 dark:text-red-200">Omiljeni oglasi</div>
-                        <div class="text-sm text-red-700 dark:text-red-300">{{ $stats['favorites_count'] }} sačuvanih
+                        <div class="text-sm text-red-700 dark:text-red-200">{{ $stats['favorites_count'] }} sačuvanih
                             oglasa</div>
                     </div>
                 </a>
@@ -329,7 +329,7 @@
                         class="flex items-center justify-between p-3 bg-red-100 dark:bg-red-900 rounded-lg border border-red-300 dark:border-red-700">
                         <div>
                             <div class="font-medium text-red-900 dark:text-red-200">Obaveštenja</div>
-                            <div class="text-sm text-red-700 dark:text-red-300">{{ $stats['unread_notifications'] }}
+                            <div class="text-sm text-red-700 dark:text-red-200">{{ $stats['unread_notifications'] }}
                                 novo</div>
                         </div>
                         <i class="fas fa-bell text-red-600 dark:text-red-400 "></i>

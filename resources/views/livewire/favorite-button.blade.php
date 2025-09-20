@@ -38,7 +38,7 @@
     @endif
 
     @if (session()->has('error'))
-        <div class="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+        <div class="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 dark:text-red-200 rounded text-sm">
             {{ session('error') }}
         </div>
     @endif

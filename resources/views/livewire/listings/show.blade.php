@@ -255,7 +255,7 @@
                             class="mb-6 p-4 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
                             <div class="flex items-center">
                                 <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
-                                <span class="text-red-700 dark:text-red-300 font-medium">Kontakt informacije nisu
+                                <span class="text-red-700 dark:text-red-200 font-medium">Kontakt informacije nisu
                                     dostupne - prodavac je blokiran</span>
                             </div>
                         </div>
@@ -288,7 +288,7 @@
                                         class="w-full p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
                                         <div class="flex items-center">
                                             <i class="fas fa-ban text-red-500 mr-2"></i>
-                                            <span class="text-red-700 dark:text-red-300 text-sm">Kontakt sa ovim prodavcem
+                                            <span class="text-red-700 dark:text-red-200 text-sm">Kontakt sa ovim prodavcem
                                                 nije moguć jer je blokiran.</span>
                                         </div>
                                     </div>
@@ -362,7 +362,7 @@
                                         class="w-full p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
                                         <div class="flex items-center">
                                             <i class="fas fa-ban text-red-500 mr-2"></i>
-                                            <span class="text-red-700 dark:text-red-300 text-sm">Kontakt sa ovim prodavcem
+                                            <span class="text-red-700 dark:text-red-200 text-sm">Kontakt sa ovim prodavcem
                                                 nije moguć jer je blokiran.</span>
                                         </div>
                                     </div>

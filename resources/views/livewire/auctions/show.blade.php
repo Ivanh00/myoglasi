@@ -306,7 +306,8 @@
                                             <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
                                                 <div class="flex items-center justify-center">
                                                     <i class="fas fa-ban text-red-500 mr-2"></i>
-                                                    <span class="text-red-700 text-sm">Prodavac je blokiran</span>
+                                                    <span class="text-red-700 dark:text-red-200 text-sm">Prodavac je
+                                                        blokiran</span>
                                                 </div>
                                             </div>
                                         @endif
@@ -361,7 +362,8 @@
                                         <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
                                             <div class="flex items-center justify-center">
                                                 <i class="fas fa-ban text-red-500 mr-2"></i>
-                                                <span class="text-red-700 text-sm">Prodavac je blokiran</span>
+                                                <span class="text-red-700 dark:text-red-200 text-sm">Prodavac je
+                                                    blokiran</span>
                                             </div>
                                         </div>
                                     @endif
