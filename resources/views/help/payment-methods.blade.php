@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
                     Sigurni i jednostavni načini plaćanja
                 </h1>
                 <p class="text-lg text-gray-600 dark:text-gray-400">
@@ -29,7 +29,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Platne kartice</h3>
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Platne kartice</h3>
                                 <span class="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-xs px-2 py-1 rounded">Instant</span>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Bankovna uplata</h3>
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Bankovna uplata</h3>
                                 <span class="inline-block bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 text-xs px-2 py-1 rounded">1-2 dana</span>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             Uplata preko bankovnog računa ili u banci.
                         </p>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 mb-4 text-sm">
-                            <div class="font-semibold text-gray-900 dark:text-white mb-2">Podaci za uplatu:</div>
+                            <div class="font-semibold text-slate-900 dark:text-slate-100 mb-2">Podaci za uplatu:</div>
                             <div class="space-y-1 text-gray-600 dark:text-gray-400">
                                 <div>Primalac: <span class="font-mono">{{ \App\Models\Setting::get('company_name', 'PazAriO d.o.o.') }}</span></div>
                                 <div>Račun: <span class="font-mono">{{ \App\Models\Setting::get('bank_account_number', '265-0000000003456-78') }}</span></div>
@@ -122,7 +122,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">PayPal</h3>
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">PayPal</h3>
                                 <span class="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-xs px-2 py-1 rounded">Instant</span>
                             </div>
                         </div>
@@ -162,7 +162,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Kriptovalute</h3>
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Kriptovalute</h3>
                                 <span class="inline-block bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300 text-xs px-2 py-1 rounded">15-30 min</span>
                             </div>
                         </div>
@@ -207,7 +207,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Mobilno plaćanje</h3>
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Mobilno plaćanje</h3>
                                 <span class="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-xs px-2 py-1 rounded">Instant</span>
                             </div>
                         </div>
@@ -252,7 +252,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Poklon vaučeri</h3>
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Poklon vaučeri</h3>
                                 <span class="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-xs px-2 py-1 rounded">Instant</span>
                             </div>
                         </div>
@@ -290,7 +290,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                     </svg>
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Vaša sigurnost je naš prioritet
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400">
@@ -303,7 +303,7 @@
 
             <!-- Support -->
             <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-8 text-center">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">
                     Imate pitanja o plaćanju?
                 </h2>
                 <p class="text-gray-600 dark:text-gray-400 mb-6">

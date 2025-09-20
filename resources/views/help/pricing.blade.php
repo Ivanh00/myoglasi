@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Main Pricing Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
                     Transparentne cene za sve
                 </h1>
                 <p class="text-lg text-gray-600 dark:text-gray-400">
@@ -22,14 +22,14 @@
                 <!-- Pay Per Listing -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Po oglasu
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
                             Idealno za povremene prodavce
                         </p>
                         <div class="mb-6">
-                            <span class="text-4xl font-bold text-gray-900 dark:text-white">
+                            <span class="text-4xl font-bold text-slate-900 dark:text-slate-100">
                                 {{ \App\Models\Setting::get('listing_fee_amount', 10) }}
                             </span>
                             <span class="text-gray-600 dark:text-gray-400 ml-1">RSD / oglas</span>
@@ -72,14 +72,14 @@
                         Popularno
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Mesečni plan
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
                             Za redovne prodavce
                         </p>
                         <div class="mb-6">
-                            <span class="text-4xl font-bold text-gray-900 dark:text-white">
+                            <span class="text-4xl font-bold text-slate-900 dark:text-slate-100">
                                 {{ \App\Models\Setting::get('monthly_plan_price', 500) }}
                             </span>
                             <span class="text-gray-600 dark:text-gray-400 ml-1">RSD / mesec</span>
@@ -122,14 +122,14 @@
                         Ušteda 2 meseca
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Godišnji plan
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
                             Za profesionalce
                         </p>
                         <div class="mb-6">
-                            <span class="text-4xl font-bold text-gray-900 dark:text-white">
+                            <span class="text-4xl font-bold text-slate-900 dark:text-slate-100">
                                 {{ \App\Models\Setting::get('yearly_plan_price', 5000) }}
                             </span>
                             <span class="text-gray-600 dark:text-gray-400 ml-1">RSD / godina</span>
@@ -169,7 +169,7 @@
 
             <!-- Additional Services -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-12">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">
                     Dodatne usluge
                 </h2>
                 <div class="grid gap-6 md:grid-cols-2">
@@ -181,13 +181,13 @@
                                 </svg>
                             </div>
                             <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
                                     Istaknut oglas
                                 </h3>
                                 <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                     Vaš oglas na vrhu rezultata pretrage za 7 dana
                                 </p>
-                                <p class="text-lg font-bold text-gray-900 dark:text-white mt-2">
+                                <p class="text-lg font-bold text-slate-900 dark:text-slate-100 mt-2">
                                     50 kredita
                                 </p>
                             </div>
@@ -202,13 +202,13 @@
                                 </svg>
                             </div>
                             <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
                                     Automatsko obnavljanje
                                 </h3>
                                 <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                     Oglas se automatski obnavlja svakih 30 dana
                                 </p>
-                                <p class="text-lg font-bold text-gray-900 dark:text-white mt-2">
+                                <p class="text-lg font-bold text-slate-900 dark:text-slate-100 mt-2">
                                     30 kredita / mesec
                                 </p>
                             </div>
@@ -224,13 +224,13 @@
                                 </svg>
                             </div>
                             <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
                                     Turbo oglas
                                 </h3>
                                 <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                     Oglas se prikazuje na naslovnoj stranici 24h
                                 </p>
-                                <p class="text-lg font-bold text-gray-900 dark:text-white mt-2">
+                                <p class="text-lg font-bold text-slate-900 dark:text-slate-100 mt-2">
                                     100 kredita
                                 </p>
                             </div>
@@ -245,13 +245,13 @@
                                 </svg>
                             </div>
                             <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
                                     Verifikacija profila
                                 </h3>
                                 <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                     Dobijte plavu kvačicu pored imena
                                 </p>
-                                <p class="text-lg font-bold text-gray-900 dark:text-white mt-2">
+                                <p class="text-lg font-bold text-slate-900 dark:text-slate-100 mt-2">
                                     200 kredita
                                 </p>
                             </div>
@@ -262,7 +262,7 @@
 
             <!-- Credit Packages -->
             <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-8">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">
                     Paketi kredita
                 </h2>
                 <p class="text-gray-600 dark:text-gray-400 mb-6">
@@ -270,36 +270,36 @@
                 </p>
                 <div class="grid gap-4 md:grid-cols-4">
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center">
-                        <div class="text-3xl font-bold text-gray-900 dark:text-white mb-2">100</div>
+                        <div class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">100</div>
                         <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">kredita</div>
-                        <div class="text-xl font-semibold text-gray-900 dark:text-white mb-3">100 RSD</div>
+                        <div class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-3">100 RSD</div>
                         <a href="{{ route('balance.payment-options') }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
                             Kupi
                         </a>
                     </div>
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border-2 border-blue-500">
                         <div class="absolute -mt-8 -ml-4 bg-blue-500 text-white text-xs px-2 py-1 rounded">+10% bonus</div>
-                        <div class="text-3xl font-bold text-gray-900 dark:text-white mb-2">550</div>
+                        <div class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">550</div>
                         <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">kredita</div>
-                        <div class="text-xl font-semibold text-gray-900 dark:text-white mb-3">500 RSD</div>
+                        <div class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-3">500 RSD</div>
                         <a href="{{ route('balance.payment-options') }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
                             Kupi
                         </a>
                     </div>
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center">
                         <div class="absolute -mt-8 -ml-4 bg-green-500 text-white text-xs px-2 py-1 rounded">+20% bonus</div>
-                        <div class="text-3xl font-bold text-gray-900 dark:text-white mb-2">1200</div>
+                        <div class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">1200</div>
                         <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">kredita</div>
-                        <div class="text-xl font-semibold text-gray-900 dark:text-white mb-3">1000 RSD</div>
+                        <div class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-3">1000 RSD</div>
                         <a href="{{ route('balance.payment-options') }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
                             Kupi
                         </a>
                     </div>
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center">
                         <div class="absolute -mt-8 -ml-4 bg-purple-500 text-white text-xs px-2 py-1 rounded">+30% bonus</div>
-                        <div class="text-3xl font-bold text-gray-900 dark:text-white mb-2">2600</div>
+                        <div class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">2600</div>
                         <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">kredita</div>
-                        <div class="text-xl font-semibold text-gray-900 dark:text-white mb-3">2000 RSD</div>
+                        <div class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-3">2000 RSD</div>
                         <a href="{{ route('balance.payment-options') }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
                             Kupi
                         </a>

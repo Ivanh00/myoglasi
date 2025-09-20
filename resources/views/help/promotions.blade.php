@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
                     Istaknite svoj oglas
                 </h1>
                 <p class="text-lg text-gray-600 dark:text-gray-400">
@@ -57,7 +57,7 @@
                             </li>
                         </ul>
                         <div class="text-center">
-                            <div class="text-3xl font-bold text-gray-900 dark:text-white mb-2">50 kredita</div>
+                            <div class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">50 kredita</div>
                             <button class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 rounded-lg transition">
                                 Istakni oglas
                             </button>
@@ -103,7 +103,7 @@
                             </li>
                         </ul>
                         <div class="text-center">
-                            <div class="text-3xl font-bold text-gray-900 dark:text-white mb-2">75 kredita</div>
+                            <div class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">75 kredita</div>
                             <button class="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-3 rounded-lg transition">
                                 Postavi kao Top
                             </button>
@@ -149,7 +149,7 @@
                             </li>
                         </ul>
                         <div class="text-center">
-                            <div class="text-3xl font-bold text-gray-900 dark:text-white mb-2">100 kredita</div>
+                            <div class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">100 kredita</div>
                             <button class="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold py-3 rounded-lg transition">
                                 Aktiviraj Premium
                             </button>
@@ -160,7 +160,7 @@
 
             <!-- Additional Promotion Services -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-12">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">
                     Dodatne opcije promocije
                 </h2>
                 <div class="grid gap-6 md:grid-cols-2">
@@ -172,7 +172,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Automatsko obnavljanje</h3>
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Automatsko obnavljanje</h3>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Oglas se vraća na vrh liste</p>
                             </div>
                         </div>
@@ -180,7 +180,7 @@
                             Vaš oglas se automatski obnavlja svakih 7 dana i vraća na vrh liste u kategoriji.
                         </p>
                         <div class="flex items-center justify-between">
-                            <span class="text-lg font-bold text-gray-900 dark:text-white">30 kredita / 7 dana</span>
+                            <span class="text-lg font-bold text-slate-900 dark:text-slate-100">30 kredita / 7 dana</span>
                             <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
                                 Aktiviraj
                             </button>
@@ -195,7 +195,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Boost pregleda</h3>
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Boost pregleda</h3>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Povećajte broj pregleda</p>
                             </div>
                         </div>
@@ -203,7 +203,7 @@
                             Vaš oglas se prikazuje češće u preporučenim oglasima i sličnim proizvodima.
                         </p>
                         <div class="flex items-center justify-between">
-                            <span class="text-lg font-bold text-gray-900 dark:text-white">25 kredita / 3 dana</span>
+                            <span class="text-lg font-bold text-slate-900 dark:text-slate-100">25 kredita / 3 dana</span>
                             <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition">
                                 Aktiviraj
                             </button>

@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
                     Izaberite plan koji vam odgovara
                 </h1>
                 <p class="text-lg text-gray-600 dark:text-gray-400">
@@ -23,16 +23,16 @@
                     <table class="w-full">
                         <thead>
                             <tr class="bg-gray-50 dark:bg-gray-700">
-                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-900 dark:text-slate-100">
                                     Karakteristike
                                 </th>
-                                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 dark:text-white">
+                                <th class="px-6 py-4 text-center text-sm font-semibold text-slate-900 dark:text-slate-100">
                                     Osnovni plan
                                 </th>
-                                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 dark:text-white bg-blue-50 dark:bg-blue-900/20">
+                                <th class="px-6 py-4 text-center text-sm font-semibold text-slate-900 dark:text-slate-100 bg-blue-50 dark:bg-blue-900/20">
                                     Mesečni plan
                                 </th>
-                                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 dark:text-white">
+                                <th class="px-6 py-4 text-center text-sm font-semibold text-slate-900 dark:text-slate-100">
                                     Godišnji plan
                                 </th>
                             </tr>
@@ -43,7 +43,7 @@
                                     Cena
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <span class="text-lg font-bold text-gray-900 dark:text-white">
+                                    <span class="text-lg font-bold text-slate-900 dark:text-slate-100">
                                         {{ \App\Models\Setting::get('listing_fee_amount', 10) }} RSD
                                     </span>
                                     <span class="text-sm text-gray-600 dark:text-gray-400 block">
@@ -51,7 +51,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center bg-blue-50 dark:bg-blue-900/20">
-                                    <span class="text-lg font-bold text-gray-900 dark:text-white">
+                                    <span class="text-lg font-bold text-slate-900 dark:text-slate-100">
                                         {{ \App\Models\Setting::get('monthly_plan_price', 500) }} RSD
                                     </span>
                                     <span class="text-sm text-gray-600 dark:text-gray-400 block">
@@ -59,7 +59,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <span class="text-lg font-bold text-gray-900 dark:text-white">
+                                    <span class="text-lg font-bold text-slate-900 dark:text-slate-100">
                                         {{ \App\Models\Setting::get('yearly_plan_price', 5000) }} RSD
                                     </span>
                                     <span class="text-sm text-gray-600 dark:text-gray-400 block">
@@ -234,12 +234,12 @@
 
             <!-- FAQs -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">
                     Često postavljana pitanja o planovima
                 </h2>
                 <div class="space-y-6">
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Mogu li promeniti plan u bilo kom trenutku?
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400">
@@ -249,7 +249,7 @@
                         </p>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Šta se dešava sa mojim oglasima ako prekinem pretplatu?
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400">
@@ -258,7 +258,7 @@
                         </p>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Da li mogu dobiti povraćaj novca?
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400">
@@ -267,7 +267,7 @@
                         </p>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Kako funkcioniše godišnji plan?
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400">

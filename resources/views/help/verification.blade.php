@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
                     Verifikujte svoj nalog
                 </h1>
                 <p class="text-lg text-gray-600 dark:text-gray-400">
@@ -53,7 +53,7 @@
 
             <!-- Verification Levels -->
             <div class="mb-12">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6 text-center">
                     Nivoi verifikacije
                 </h2>
                 <div class="grid gap-6 md:grid-cols-3">
@@ -66,7 +66,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-900 dark:text-white">Email verifikacija</h3>
+                                <h3 class="font-semibold text-slate-900 dark:text-slate-100">Email verifikacija</h3>
                                 <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded">Osnovno</span>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-900 dark:text-white">Telefon verifikacija</h3>
+                                <h3 class="font-semibold text-slate-900 dark:text-slate-100">Telefon verifikacija</h3>
                                 <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-2 py-1 rounded">Preporučeno</span>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-900 dark:text-white">Identitet verifikacija</h3>
+                                <h3 class="font-semibold text-slate-900 dark:text-slate-100">Identitet verifikacija</h3>
                                 <span class="text-xs bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-2 py-1 rounded">Premium</span>
                             </div>
                         </div>
@@ -176,7 +176,7 @@
 
             <!-- Verification Process -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 mb-12">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">
                     Kako funkcioniše verifikacija?
                 </h2>
                 <div class="space-y-6">
@@ -185,7 +185,7 @@
                             <span class="text-blue-600 dark:text-blue-400 font-bold">1</span>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Izaberite nivo verifikacije</h3>
+                            <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-1">Izaberite nivo verifikacije</h3>
                             <p class="text-gray-600 dark:text-gray-400">
                                 Odaberite nivo verifikacije koji vam odgovara - od osnovnog do premium.
                             </p>
@@ -196,7 +196,7 @@
                             <span class="text-blue-600 dark:text-blue-400 font-bold">2</span>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Pošaljite dokumente</h3>
+                            <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-1">Pošaljite dokumente</h3>
                             <p class="text-gray-600 dark:text-gray-400">
                                 Učitajte tražene dokumente ili potvrdite telefon putem SMS-a.
                             </p>
@@ -207,7 +207,7 @@
                             <span class="text-blue-600 dark:text-blue-400 font-bold">3</span>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Sačekajte odobrenje</h3>
+                            <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-1">Sačekajte odobrenje</h3>
                             <p class="text-gray-600 dark:text-gray-400">
                                 Naš tim će pregledati vaše dokumente u roku od 24 sata.
                             </p>
@@ -220,7 +220,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Dobijte oznaku verifikacije</h3>
+                            <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-1">Dobijte oznaku verifikacije</h3>
                             <p class="text-gray-600 dark:text-gray-400">
                                 Nakon odobrenja, vaš profil će dobiti oznaku verifikacije.
                             </p>
@@ -231,12 +231,12 @@
 
             <!-- FAQ -->
             <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-8">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">
                     Često postavljana pitanja
                 </h2>
                 <div class="space-y-4">
                     <div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Da li su moji podaci sigurni?
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400">
@@ -245,7 +245,7 @@
                         </p>
                     </div>
                     <div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Koliko dugo traje verifikacija?
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400">
@@ -254,7 +254,7 @@
                         </p>
                     </div>
                     <div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-2">
                             Mogu li izgubiti verifikaciju?
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400">
