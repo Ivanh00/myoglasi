@@ -341,20 +341,20 @@
                         <!-- Action Buttons -->
                         <div class="flex flex-wrap gap-2">
                             <a href="{{ route('listings.show', $listing) }}"
-                                class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
+                                class="inline-flex items-center px-3 py-1.5 bg-sky-100 dark:bg-sky-800 text-sky-700 dark:text-sky-200 text-xs font-medium rounded-lg hover:bg-sky-200 dark:hover:bg-sky-700 transition-colors">
                                 <i class="fas fa-eye mr-1"></i>
                                 Pregled
                             </a>
 
                             @if ($listing->isActive() && !$listing->auction)
                                 <a href="{{ route('listings.edit', $listing) }}"
-                                    class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
+                                    class="inline-flex items-center px-3 py-1.5 bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200 text-xs font-medium rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-700 transition-colors">
                                     <i class="fas fa-edit mr-1"></i>
                                     Izmeni
                                 </a>
                             @elseif($listing->auction)
                                 <a href="{{ route('auction.show', $listing->auction) }}"
-                                    class="inline-flex items-center px-3 py-1.5 bg-amber-100 text-amber-700 text-xs font-medium rounded-lg hover:bg-amber-200 transition-colors">
+                                    class="inline-flex items-center px-3 py-1.5 bg-amber-100 dark:bg-amber-800 text-amber-700 dark:text-amber-200 text-xs font-medium rounded-lg hover:bg-amber-200 dark:hover:bg-amber-700 transition-colors">
                                     <i class="fas fa-gavel mr-1"></i>
                                     Aukcija
                                 </a>
@@ -362,7 +362,7 @@
 
                             @if ($listing->canBeRenewed())
                                 <button wire:click="renewListing({{ $listing->id }})"
-                                    class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors"
+                                    class="inline-flex items-center px-3 py-1.5 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200 text-xs font-medium rounded-lg hover:bg-green-200 dark:hover:bg-green-700 transition-colors"
                                     onclick="return confirm('Da li želite da obnovite ovaj oglas? {{ auth()->user()->payment_plan === 'per_listing' ? 'Biće naplaćeno ' . \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD.' : 'Besplatno jer imate aktivan plan.' }}')">
                                     <i class="fas fa-redo mr-1"></i>
                                     Obnovi
@@ -378,7 +378,7 @@
 
 
                             <button x-data @click="$dispatch('open-delete-modal', { listingId: {{ $listing->id }} })"
-                                class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                                class="inline-flex items-center px-3 py-1.5 bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200 text-xs font-medium rounded-lg hover:bg-red-200 dark:hover:bg-red-700 transition-colors">
                                 <i class="fas fa-trash mr-1"></i>
                                 Obriši
                             </button>

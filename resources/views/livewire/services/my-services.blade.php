@@ -138,12 +138,12 @@
                         <div class="px-6 py-2">
                             @if ($service->status === 'active')
                                 <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">
                                     Aktivna
                                 </span>
                             @else
                                 <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 text-slate-800">
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200">
                                     Neaktivna
                                 </span>
                             @endif
@@ -259,12 +259,12 @@
                             <div class="flex items-center space-x-4">
                                 @if ($service->status === 'active')
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200">
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">
                                         Aktivna
                                     </span>
                                 @else
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200">
                                         Neaktivna
                                     </span>
                                 @endif
@@ -300,9 +300,9 @@
 
                             <button wire:click="toggleStatus({{ $service->id }})"
                                 class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg transition-colors
-                                    @if ($service->status === 'active') bg-amber-100 text-amber-700 hover:bg-amber-200
+                                    @if ($service->status === 'active') bg-amber-100 dark:bg-amber-800 text-amber-700 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-700
                                     @else
-                                        bg-green-100 text-green-700 hover:bg-green-200 @endif">
+                                        bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-700 @endif">
                                 @if ($service->status === 'active')
                                     <i class="fas fa-pause mr-1"></i>
                                     Pauziraj
@@ -315,14 +315,14 @@
                             @if ($service->status === 'active')
                                 <button
                                     wire:click="$dispatch('openServicePromotionModal', { serviceId: {{ $service->id }} })"
-                                    class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                                    class="inline-flex items-center px-3 py-1.5 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200 text-xs font-medium rounded-lg hover:bg-green-200 dark:hover:bg-green-700 transition-colors">
                                     <i class="fas fa-bullhorn mr-1"></i>
                                     Promocija
                                 </button>
                             @endif
 
                             <button x-data @click="$dispatch('open-delete-modal', { serviceId: {{ $service->id }} })"
-                                class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                                class="inline-flex items-center px-3 py-1.5 bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200 text-xs font-medium rounded-lg hover:bg-red-200 dark:hover:bg-red-700 transition-colors">
                                 <i class="fas fa-trash mr-1"></i>
                                 Obriši
                             </button>
