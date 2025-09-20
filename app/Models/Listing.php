@@ -170,6 +170,26 @@ public function hasActiveAuction()
     return $this->auction && $this->auction->isActive();
 }
 
+public function giveawayReservations()
+{
+    return $this->hasMany(GiveawayReservation::class);
+}
+
+public function pendingReservation()
+{
+    return $this->hasOne(GiveawayReservation::class)->where('status', 'pending');
+}
+
+public function approvedReservation()
+{
+    return $this->hasOne(GiveawayReservation::class)->where('status', 'approved');
+}
+
+public function hasReservationFrom($userId)
+{
+    return $this->giveawayReservations()->where('requester_id', $userId)->exists();
+}
+
 // Promotion methods
 public function hasActivePromotion($type = null)
 {

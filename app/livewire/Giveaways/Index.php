@@ -40,20 +40,87 @@ class Index extends Component
     }
 
 
-    public function markAsTaken($giveawayId)
+    public $showReservationModal = false;
+    public $selectedGiveaway = null;
+    public $reservationMessage = '';
+
+    public function requestGiveaway($giveawayId)
     {
-        $giveaway = Listing::find($giveawayId);
-        if ($giveaway && $giveaway->listing_type === 'giveaway' && auth()->check()) {
-            $giveaway->update(['status' => 'taken']);
-            session()->flash('success', 'Označeno kao uzeto!');
+        if (!auth()->check()) {
+            return redirect()->route('login');
         }
+
+        $this->selectedGiveaway = Listing::with(['user', 'giveawayReservations'])->find($giveawayId);
+
+        if (!$this->selectedGiveaway || $this->selectedGiveaway->listing_type !== 'giveaway') {
+            session()->flash('error', 'Poklon nije pronađen.');
+            return;
+        }
+
+        // Check if user is the owner
+        if ($this->selectedGiveaway->user_id === auth()->id()) {
+            session()->flash('error', 'Ne možete rezervisati svoj poklon.');
+            return;
+        }
+
+        // Check if already has a reservation
+        if ($this->selectedGiveaway->hasReservationFrom(auth()->id())) {
+            session()->flash('error', 'Već ste poslali zahtev za ovaj poklon.');
+            return;
+        }
+
+        // Check if giveaway is still active
+        if ($this->selectedGiveaway->status !== 'active') {
+            session()->flash('error', 'Ovaj poklon više nije dostupan.');
+            return;
+        }
+
+        $this->showReservationModal = true;
+    }
+
+    public function submitReservation()
+    {
+        $this->validate([
+            'reservationMessage' => 'required|string|min:10|max:500'
+        ], [
+            'reservationMessage.required' => 'Poruka je obavezna.',
+            'reservationMessage.min' => 'Poruka mora imati najmanje 10 karaktera.',
+            'reservationMessage.max' => 'Poruka može imati maksimalno 500 karaktera.'
+        ]);
+
+        try {
+            \App\Models\GiveawayReservation::create([
+                'listing_id' => $this->selectedGiveaway->id,
+                'requester_id' => auth()->id(),
+                'message' => $this->reservationMessage,
+                'status' => 'pending'
+            ]);
+
+            // TODO: Send notification to giveaway owner
+
+            session()->flash('success', 'Vaš zahtev je uspešno poslat! Sačekajte odgovor vlasnika.');
+
+            $this->closeReservationModal();
+            $this->dispatch('$refresh');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Greška pri slanju zahteva. Pokušajte ponovo.');
+        }
+    }
+
+    public function closeReservationModal()
+    {
+        $this->showReservationModal = false;
+        $this->selectedGiveaway = null;
+        $this->reservationMessage = '';
     }
 
     public function render()
     {
         $query = Listing::where('status', 'active')
             ->where('listing_type', 'giveaway')
-            ->with(['category', 'subcategory', 'images', 'user', 'condition']);
+            ->with(['category', 'subcategory', 'images', 'user', 'condition', 'pendingReservation', 'approvedReservation', 'giveawayReservations' => function($q) {
+                $q->where('requester_id', auth()->id() ?? 0);
+            }]);
             
         if ($this->selectedCategory) {
             $category = Category::find($this->selectedCategory);

@@ -172,12 +172,33 @@
                                 <div class="space-y-2">
                                     @auth
                                         @if (auth()->id() !== $giveaway->user_id)
-                                            <button wire:click="markAsTaken({{ $giveaway->id }})"
-                                                wire:confirm="Da li ste sigurni da ste uzeli ovaj poklon?"
-                                                class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
-                                                <i class="fas fa-hand-paper mr-2"></i> Označi kao uzeto
-                                            </button>
+                                            @if ($giveaway->pendingReservation)
+                                                <button disabled
+                                                    class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
+                                                    <i class="fas fa-clock mr-2"></i> Rezervisano
+                                                </button>
+                                            @elseif ($giveaway->approvedReservation)
+                                                <button disabled
+                                                    class="block w-full text-center px-3 py-2 bg-slate-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
+                                                    <i class="fas fa-check-circle mr-2"></i> Poklonjeno
+                                                </button>
+                                            @elseif ($giveaway->hasReservationFrom(auth()->id()))
+                                                <button disabled
+                                                    class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
+                                                    <i class="fas fa-paper-plane mr-2"></i> Zahtev poslat
+                                                </button>
+                                            @else
+                                                <button wire:click="requestGiveaway({{ $giveaway->id }})"
+                                                    class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
+                                                    <i class="fas fa-hand-paper mr-2"></i> Želim poklon
+                                                </button>
+                                            @endif
                                         @endif
+                                    @else
+                                        <a href="{{ route('login') }}"
+                                            class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
+                                            <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
+                                        </a>
                                     @endauth
 
                                     <a href="{{ route('giveaways.show', $giveaway) }}"
@@ -245,12 +266,33 @@
                             <div class="space-y-2 mt-auto">
                                 @auth
                                     @if (auth()->id() !== $giveaway->user_id)
-                                        <button wire:click="markAsTaken({{ $giveaway->id }})"
-                                            wire:confirm="Da li ste sigurni da ste uzeli ovaj poklon?"
-                                            class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
-                                            <i class="fas fa-hand-paper mr-2"></i> Označi kao uzeto
-                                        </button>
+                                        @if ($giveaway->pendingReservation)
+                                            <button disabled
+                                                class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
+                                                <i class="fas fa-clock mr-2"></i> Rezervisano
+                                            </button>
+                                        @elseif ($giveaway->approvedReservation)
+                                            <button disabled
+                                                class="block w-full text-center px-3 py-2 bg-slate-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
+                                                <i class="fas fa-check-circle mr-2"></i> Poklonjeno
+                                            </button>
+                                        @elseif ($giveaway->hasReservationFrom(auth()->id()))
+                                            <button disabled
+                                                class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
+                                                <i class="fas fa-paper-plane mr-2"></i> Zahtev poslat
+                                            </button>
+                                        @else
+                                            <button wire:click="requestGiveaway({{ $giveaway->id }})"
+                                                class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
+                                                <i class="fas fa-hand-paper mr-2"></i> Želim poklon
+                                            </button>
+                                        @endif
                                     @endif
+                                @else
+                                    <a href="{{ route('login') }}"
+                                        class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
+                                        <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
+                                    </a>
                                 @endauth
 
                                 <a href="{{ route('giveaways.show', $giveaway) }}"
@@ -282,6 +324,91 @@
                 @endif
             </p>
             <p class="text-sm text-slate-500 dark:text-slate-300">Budite prvi koji će pokloniti nešto!</p>
+        </div>
+    @endif
+
+    <!-- Reservation Modal -->
+    @if ($showReservationModal && $selectedGiveaway)
+        <div class="fixed inset-0 bg-slate-600/50 dark:bg-slate-900/75 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+            <div class="relative mx-auto p-6 border border-slate-200 dark:border-slate-600 w-full max-w-lg shadow-lg rounded-xl bg-white dark:bg-slate-800">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">
+                        <i class="fas fa-gift text-green-500 mr-2"></i>
+                        Zahtev za poklon
+                    </h3>
+                    <button wire:click="closeReservationModal"
+                        class="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Giveaway Info -->
+                <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-green-900 dark:text-green-100 mb-2">
+                        {{ $selectedGiveaway->title }}
+                    </h4>
+                    <p class="text-sm text-green-700 dark:text-green-200">
+                        Poklon od: <span class="font-medium">{{ $selectedGiveaway->user->name }}</span>
+                    </p>
+                </div>
+
+                <!-- Message Form -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                        Poruka za vlasnika <span class="text-red-500">*</span>
+                    </label>
+                    <textarea wire:model="reservationMessage" rows="4"
+                        placeholder="Objasnite zašto bi ste želeli ovaj poklon..."
+                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 focus:outline-none focus:border-green-500 dark:focus:border-green-400 transition-colors"></textarea>
+                    @error('reservationMessage')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                        Minimum 10 karaktera, maksimum 500 karaktera
+                    </p>
+                </div>
+
+                <!-- Info Alert -->
+                <div class="bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-700 rounded-lg p-3 mb-4">
+                    <p class="text-sm text-sky-800 dark:text-sky-200">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        Vlasnik će dobiti obaveštenje o vašem zahtevu i moći će da vam odobri poklon.
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end space-x-3">
+                    <button wire:click="closeReservationModal"
+                        class="px-4 py-2 bg-slate-300 dark:bg-slate-600 text-slate-700 dark:text-slate-200 font-medium rounded-lg hover:bg-slate-400 dark:hover:bg-slate-500 transition-colors">
+                        Otkaži
+                    </button>
+                    <button wire:click="submitReservation"
+                        class="px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Pošalji zahtev
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Success/Error Messages -->
+    @if (session()->has('success'))
+        <div class="fixed bottom-4 right-4 bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 p-4 rounded-lg shadow-lg z-50">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-600 dark:text-green-400 mr-2"></i>
+                <span class="text-green-800 dark:text-green-200">{{ session('success') }}</span>
+            </div>
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="fixed bottom-4 right-4 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 p-4 rounded-lg shadow-lg z-50">
+            <div class="flex items-center">
+                <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 mr-2"></i>
+                <span class="text-red-800 dark:text-red-200">{{ session('error') }}</span>
+            </div>
         </div>
     @endif
 </div>
