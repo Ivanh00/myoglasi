@@ -42,6 +42,12 @@ class PromotionManager extends Component
 
     public function togglePromotion($type)
     {
+        // Check if this promotion is already active
+        if ($this->hasActivePromotion($type)) {
+            // Don't allow toggle if promotion is active
+            return;
+        }
+
         if (in_array($type, $this->selectedPromotions)) {
             $this->selectedPromotions = array_filter($this->selectedPromotions, fn($t) => $t !== $type);
         } else {

@@ -51,8 +51,8 @@
                                 $color = $colors[$type] ?? 'gray';
                             @endphp
 
-                            <div class="border-2 rounded-lg p-4 cursor-pointer transition-all {{ $isSelected ? 'border-' . $color . '-500 bg-' . $color . '-50 dark:bg-' . $color . '-900' : 'border-slate-200 dark:border-slate-600 hover:border-' . $color . '-300 dark:hover:border-' . $color . '-500' }}"
-                                wire:click="togglePromotion('{{ $type }}')">
+                            <div class="border-2 rounded-lg p-4 transition-all {{ $hasActive ? 'opacity-60 cursor-not-allowed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700' : ($isSelected ? 'border-' . $color . '-500 bg-' . $color . '-50 dark:bg-' . $color . '-900 cursor-pointer' : 'border-slate-200 dark:border-slate-600 hover:border-' . $color . '-300 dark:hover:border-' . $color . '-500 cursor-pointer') }}"
+                                @if(!$hasActive) wire:click="togglePromotion('{{ $type }}')" @endif>
 
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
@@ -77,7 +77,7 @@
 
                                             @if ($hasActive)
                                                 <span
-                                                    class="ml-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">AKTIVNA</span>
+                                                    class="ml-2 bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-100 text-xs px-2 py-1 rounded-full font-semibold">AKTIVNA</span>
                                             @endif
                                         </div>
 
@@ -98,12 +98,18 @@
                                         </p>
 
                                         <div class="flex items-center justify-between">
-                                            <span
-                                                class="text-lg font-bold text-{{ $color }}-600 dark:text-{{ $color }}-400">
-                                                {{ number_format($price, 0, ',', '.') }} RSD
-                                            </span>
-                                            <span class="text-sm text-slate-500 dark:text-slate-300">{{ $duration }}
-                                                dana</span>
+                                            @if ($hasActive)
+                                                <span class="text-sm text-slate-500 dark:text-slate-400 italic">
+                                                    Promocija je već aktivna
+                                                </span>
+                                            @else
+                                                <span
+                                                    class="text-lg font-bold text-{{ $color }}-600 dark:text-{{ $color }}-400">
+                                                    {{ number_format($price, 0, ',', '.') }} RSD
+                                                </span>
+                                                <span class="text-sm text-slate-500 dark:text-slate-300">{{ $duration }}
+                                                    dana</span>
+                                            @endif
                                         </div>
                                     </div>
 
