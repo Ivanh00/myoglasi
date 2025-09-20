@@ -1,9 +1,9 @@
 <div>
     <!-- Promotion Modal -->
     @if ($showModal && $listing)
-        <div class="fixed inset-0 bg-slate-600/50 dark:bg-slate-900/75 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600/50 dark:bg-slate-900/75 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
             <div
-                class="relative top-4 mx-auto p-5 border border-slate-200 dark:border-slate-600 w-full max-w-4xl shadow-lg rounded-md bg-white dark:bg-slate-800">
+                class="relative mx-auto p-5 border border-slate-200 dark:border-slate-600 w-full max-w-4xl shadow-lg rounded-md bg-white dark:bg-slate-800 my-8">
                 <div class="mt-3">
                     <!-- Modal Header -->
                     <div class="flex items-center justify-between mb-6">
