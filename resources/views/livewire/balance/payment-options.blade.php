@@ -156,7 +156,7 @@
                                         RSD</span>
                                 </div>
                                 <div class="flex items-center justify-between mt-2 text-sm">
-                                    <span class="text-green-700">Stanje nakon dopune:</span>
+                                    <span class="text-green-700 dark:text-green-200">Stanje nakon dopune:</span>
                                     <span
                                         class="text-green-800 font-semibold">{{ number_format(auth()->user()->balance + $amount, 0, ',', '.') }}
                                         RSD</span>

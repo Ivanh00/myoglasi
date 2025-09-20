@@ -45,7 +45,7 @@
                 <h3 class="text-sm font-medium text-green-900">Magic link poslat!</h3>
             </div>
 
-            <p class="text-xs text-green-700 mb-3">
+            <p class="text-xs text-green-700 dark:text-green-200 mb-3">
                 Proverite email (<strong>{{ $email }}</strong>) i kliknite na link da se prijavite.
             </p>
 

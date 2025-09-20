@@ -69,7 +69,8 @@
                         </div>
                         <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-2">Igra memorije</h3>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Zapamti parove boja</p>
-                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Do 15 RSD</span>
+                        <span class="bg-green-100 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full">Do
+                            15 RSD</span>
                     </div>
 
                     <!-- Number Game -->

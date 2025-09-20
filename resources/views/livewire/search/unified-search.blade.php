@@ -134,7 +134,7 @@
                     Usluge
                 </button>
                 <button wire:click="$set('content_type', 'giveaways')"
-                    class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'giveaways' ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                    class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'giveaways' ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
                     <i class="fas fa-gift mr-1"></i>
                     Pokloni
                 </button>

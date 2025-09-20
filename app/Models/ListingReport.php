@@ -31,10 +31,10 @@ class ListingReport extends Model
     public function getStatusBadgeAttribute()
     {
         return match($this->status) {
-            'pending' => 'bg-amber-100 text-amber-800',
-            'reviewed' => 'bg-sky-100 text-sky-800', 
-            'resolved' => 'bg-green-100 text-green-800',
-            default => 'bg-gray-100 text-gray-800'
+            'pending' => 'bg-amber-200 text-amber-800',
+            'reviewed' => 'bg-sky-200 text-sky-800', 
+            'resolved' => 'bg-green-200 text-green-800',
+            default => 'bg-gray-200 text-gray-800'
         };
     }
 

@@ -65,7 +65,7 @@
                 {{ \App\Models\Category::whereNull('parent_id')->count() }}</p>
         </div>
         <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-            <h3 class="text-sm font-medium text-green-800">Podkategorije</h3>
+            <h3 class="text-sm font-medium text-green-800 dark:text-green-200">Podkategorije</h3>
             <p class="text-2xl font-bold text-green-600">{{ \App\Models\Category::whereNotNull('parent_id')->count() }}
             </p>
         </div>

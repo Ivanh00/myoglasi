@@ -411,7 +411,7 @@ if (!empty($auctionType)) {
                 <label class="flex items-center cursor-pointer">
                     <input type="radio" name="content_type" x-model="content_type" value="giveaways"
                         class="h-4 w-4 text-green-600 focus:ring-green-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-green-500">
-                    <span class="ml-2 text-sm text-green-700 dark:text-green-400">
+                    <span class="ml-2 text-sm text-green-700 dark:text-green-200">
                         <i class="fas fa-gift mr-1"></i>
                         Poklanjam
                     </span>

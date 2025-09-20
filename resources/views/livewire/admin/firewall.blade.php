@@ -664,7 +664,7 @@
                                     </div>
                                 @else
                                     <div class="p-3 bg-green-50 border border-green-200 rounded">
-                                        <p class="text-sm text-green-800">
+                                        <p class="text-sm text-green-800 dark:text-green-200">
                                             <i class="fas fa-infinity mr-1"></i>
                                             Registrovani korisnici imaju neograničen pristup
                                         </p>

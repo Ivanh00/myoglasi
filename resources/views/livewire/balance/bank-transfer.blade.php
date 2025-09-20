@@ -27,7 +27,8 @@
             </div>
 
             <!-- Payment Slip -->
-            <div id="payment-slip" class="border-2 border-slate-300 rounded-lg p-6 mb-6 bg-white print:border-black print:shadow-none">
+            <div id="payment-slip"
+                class="border-2 border-slate-300 rounded-lg p-6 mb-6 bg-white print:border-black print:shadow-none">
                 <div class="text-center mb-6">
                     <h2 class="text-xl font-bold text-slate-900">NALOG ZA UPLATU</h2>
                     <p class="text-slate-600 dark:text-slate-400">Payment Order</p>
@@ -37,12 +38,14 @@
                     <!-- Left Column -->
                     <div class="space-y-4">
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Naziv primaoca / Beneficiary name:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Naziv primaoca / Beneficiary
+                                name:</p>
                             <p class="font-semibold">{{ $bankDetails['recipient_name'] }}</p>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Adresa primaoca / Beneficiary address:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Adresa primaoca / Beneficiary
+                                address:</p>
                             <p class="font-semibold">{{ $bankDetails['recipient_address'] }}</p>
                         </div>
 
@@ -58,12 +61,14 @@
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Račun primaoca / Beneficiary account:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Račun primaoca / Beneficiary
+                                account:</p>
                             <p class="font-semibold font-mono text-lg">{{ $bankDetails['recipient_account'] }}</p>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Banka primaoca / Beneficiary bank:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Banka primaoca / Beneficiary
+                                bank:</p>
                             <p class="font-semibold">{{ $bankDetails['bank_name'] }}</p>
                         </div>
                     </div>
@@ -72,16 +77,19 @@
                     <div class="space-y-4">
                         <div class="border border-slate-300 p-3 bg-amber-50">
                             <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Iznos / Amount:</p>
-                            <p class="font-bold text-2xl text-green-700">{{ number_format($transaction->amount, 2, ',', '.') }} RSD</p>
+                            <p class="font-bold text-2xl text-green-700 dark:text-green-200">
+                                {{ number_format($transaction->amount, 2, ',', '.') }} RSD</p>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Poziv na broj / Reference number:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Poziv na broj / Reference number:
+                            </p>
                             <p class="font-semibold font-mono">{{ $bankDetails['reference_number'] }}</p>
                         </div>
 
                         <div class="border border-slate-300 p-3">
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Svrha plaćanja / Payment purpose:</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Svrha plaćanja / Payment purpose:
+                            </p>
                             <p class="font-semibold">{{ $bankDetails['payment_purpose'] }}</p>
                         </div>
 
@@ -92,7 +100,8 @@
 
                         <div class="space-y-2">
                             <div class="border border-slate-300 p-3">
-                                <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Ime i prezime uplatnica / Payer name:</p>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Ime i prezime uplatnica /
+                                    Payer name:</p>
                                 <p class="font-semibold">{{ auth()->user()->name }}</p>
                             </div>
                             <div class="border border-slate-300 p-3">
@@ -120,27 +129,25 @@
 
             <!-- Action Buttons -->
             <div class="flex flex-wrap gap-4">
-                <button wire:click="printPaymentSlip" 
+                <button wire:click="printPaymentSlip"
                     class="flex-1 min-w-0 px-4 py-2 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition-colors print:hidden">
                     <i class="fas fa-print mr-2"></i>
                     Odštampaj uplatnicu
                 </button>
-                
-                <button wire:click="downloadPaymentSlip" 
+
+                <button wire:click="downloadPaymentSlip"
                     class="flex-1 min-w-0 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors print:hidden">
                     <i class="fas fa-download mr-2"></i>
                     Preuzmi PDF
                 </button>
-                
-                <button wire:click="markAsPaid" 
-                    onclick="return confirm('Da li ste sigurni da ste izvršili uplatu?')"
+
+                <button wire:click="markAsPaid" onclick="return confirm('Da li ste sigurni da ste izvršili uplatu?')"
                     class="flex-1 min-w-0 px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition-colors print:hidden">
                     <i class="fas fa-check mr-2"></i>
                     Označiti kao plaćeno
                 </button>
-                
-                <button wire:click="cancelPayment" 
-                    onclick="return confirm('Da li želite da otkažete ovu transakciju?')"
+
+                <button wire:click="cancelPayment" onclick="return confirm('Da li želite da otkažete ovu transakciju?')"
                     class="px-4 py-2 border border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-colors print:hidden">
                     <i class="fas fa-times mr-2"></i>
                     Otkaži
@@ -167,36 +174,42 @@
 </div>
 
 <script>
-document.addEventListener('livewire:initialized', () => {
-    Livewire.on('print-payment-slip', () => {
-        // Hide non-printable elements and print
-        window.print();
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('print-payment-slip', () => {
+            // Hide non-printable elements and print
+            window.print();
+        });
     });
-});
 </script>
 
 <style>
-@media print {
-    body * {
-        visibility: hidden;
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #payment-slip,
+        #payment-slip * {
+            visibility: visible;
+        }
+
+        #payment-slip {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+
+        .print\:hidden {
+            display: none !important;
+        }
+
+        .print\:border-black {
+            border-color: black !important;
+        }
+
+        .print\:shadow-none {
+            box-shadow: none !important;
+        }
     }
-    #payment-slip, #payment-slip * {
-        visibility: visible;
-    }
-    #payment-slip {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-    }
-    .print\:hidden {
-        display: none !important;
-    }
-    .print\:border-black {
-        border-color: black !important;
-    }
-    .print\:shadow-none {
-        box-shadow: none !important;
-    }
-}
 </style>

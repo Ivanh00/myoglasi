@@ -97,7 +97,8 @@
                                             <span class="text-lg font-bold text-{{ $color }}-600">
                                                 {{ number_format($price, 0, ',', '.') }} RSD
                                             </span>
-                                            <span class="text-sm text-slate-500 dark:text-slate-300">{{ $duration }} dana</span>
+                                            <span class="text-sm text-slate-500 dark:text-slate-300">{{ $duration }}
+                                                dana</span>
                                         </div>
                                     </div>
 
@@ -120,7 +121,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <span class="text-green-900 font-medium">Ukupna cena:</span>
-                                    <div class="text-xs text-green-700 mt-1">
+                                    <div class="text-xs text-green-700 dark:text-green-200 mt-1">
                                         Izabrano {{ count($selectedPromotions) }} promocija
                                     </div>
                                 </div>

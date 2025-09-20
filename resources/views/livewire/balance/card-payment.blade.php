@@ -111,8 +111,10 @@
                         <div class="flex items-center">
                             <i class="fas fa-shield-alt text-green-600 mr-2"></i>
                             <div>
-                                <p class="text-green-800 text-sm font-semibold">Vaši podaci su bezbedni</p>
-                                <p class="text-green-700 text-xs">SSL enkripcija • PCI DSS sertifikovano • Intesa Banka
+                                <p class="text-green-800 dark:text-green-300 text-sm font-semibold">Vaši podaci su
+                                    bezbedni</p>
+                                <p class="text-green-700 dark:text-green-200 text-xs">SSL enkripcija • PCI DSS
+                                    sertifikovano • Intesa Banka
                                     zaštićeno</p>
                             </div>
                         </div>

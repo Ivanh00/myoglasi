@@ -127,7 +127,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <span class="text-green-900 dark:text-green-100 font-medium">Ukupna cena:</span>
-                                    <div class="text-xs text-green-700 dark:text-green-300 mt-1">
+                                    <div class="text-xs text-green-700 dark:text-green-200 mt-1">
                                         Izabrano {{ count($selectedPromotions) }} promocija
                                     </div>
                                 </div>

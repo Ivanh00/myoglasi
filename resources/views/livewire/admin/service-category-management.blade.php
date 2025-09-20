@@ -67,12 +67,12 @@
         </div>
         <div class="bg-green-50 dark:bg-green-900 p-4 rounded-lg border border-green-200">
             <h3 class="text-sm font-medium text-green-800 dark:text-green-200">Podkategorije</h3>
-            <p class="text-2xl font-bold text-green-700 dark:text-green-300">
+            <p class="text-2xl font-bold text-green-700 dark:text-green-200">
                 {{ \App\Models\Category::whereNotNull('parent_id')->count() }}</p>
         </div>
         <div class="bg-purple-50 dark:bg-purple-900 p-4 rounded-lg border border-purple-200">
             <h3 class="text-sm font-medium text-purple-800 dark:text-purple-200">Aktivne kategorije</h3>
-            <p class="text-2xl font-bold text-purple-700 dark:text-purple-300">
+            <p class="text-2xl font-bold text-purple-700 dark:text-purple-200">
                 {{ \App\Models\Category::where('is_active', true)->count() }}</p>
         </div>
         <div class="bg-orange-50 dark:bg-orange-900 p-4 rounded-lg border border-orange-200">

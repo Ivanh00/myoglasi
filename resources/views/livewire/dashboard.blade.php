@@ -199,7 +199,7 @@
                         class="fas fa-plus {{ $stats['can_create_listing'] ? 'text-green-600 dark:text-green-400 ' : 'text-red-600 dark:text-red-400 ' }} mr-3"></i>
                     <div>
                         <div
-                            class="font-medium {{ $stats['can_create_listing'] ? 'text-green-900 dark:text-green-200' : 'text-red-900 dark:text-red-200' }}">
+                            class="font-medium {{ $stats['can_create_listing'] ? 'text-green-900 dark:text-green-100' : 'text-red-900 dark:text-red-200' }}">
                             Postavi novi oglas
                             @if (!auth()->user()->payment_enabled)
                                 <span
@@ -209,7 +209,7 @@
                             @endif
                         </div>
                         <div
-                            class="text-sm {{ $stats['can_create_listing'] ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-200' }}">
+                            class="text-sm {{ $stats['can_create_listing'] ? 'text-green-700 dark:text-green-200' : 'text-red-700 dark:text-red-200' }}">
                             @if ($stats['can_create_listing'])
                                 Kreiraj novi oglas za prodaju
                             @else
@@ -341,7 +341,7 @@
                     class="flex items-center justify-between p-3 bg-green-100 dark:bg-green-900 rounded-lg border border-green-300 dark:border-green-700">
                     <div>
                         <div class="font-medium text-green-900 dark:text-green-200">Balans</div>
-                        <div class="text-sm text-green-700 dark:text-green-300">
+                        <div class="text-sm text-green-700 dark:text-green-200">
                             {{ number_format($stats['current_balance'], 0) }} RSD</div>
                     </div>
                     <i class="fas fa-coins text-green-600"></i>
@@ -486,7 +486,7 @@
                         <i class="fas fa-thumbs-up text-green-600 mr-3"></i>
                         <div>
                             <div class="font-medium text-green-900 dark:text-green-200">Pozitivne ocene</div>
-                            <div class="text-sm text-green-700 dark:text-green-300">
+                            <div class="text-sm text-green-700 dark:text-green-200">
                                 {{ round(($stats['positive_ratings'] / $stats['total_ratings']) * 100) }}% pozitivnih
                                 ocena</div>
                         </div>
