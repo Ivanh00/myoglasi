@@ -146,8 +146,8 @@ Route::prefix('help')->name('help.')->group(function () {
     Route::get('/create-service', function () { return view('help.create-service'); })->name('create-service');
     Route::get('/create-giveaway', function () { return view('help.create-giveaway'); })->name('create-giveaway');
     Route::get('/credit-system', function () { return view('help.credit-system'); })->name('credit-system');
-    Route::get('/earn-credits', function () { return view('help.coming-soon', ['title' => 'Kako zaraditi kredit']); })->name('earn-credits');
-    Route::get('/transfer-credits', function () { return view('help.coming-soon', ['title' => 'Kako podeliti kredit']); })->name('transfer-credits');
+    Route::get('/earn-credits', function () { return view('help.earn-credits'); })->name('earn-credits');
+    Route::get('/transfer-credits', function () { return view('help.transfer-credits'); })->name('transfer-credits');
     Route::get('/pricing', function () { return view('help.coming-soon', ['title' => 'Cenovnik usluga']); })->name('pricing');
     Route::get('/plans', function () { return view('help.coming-soon', ['title' => 'Planovi naplate']); })->name('plans');
     Route::get('/promotions', function () { return view('help.coming-soon', ['title' => 'Promocije oglasa']); })->name('promotions');
