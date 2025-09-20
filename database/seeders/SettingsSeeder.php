@@ -178,6 +178,92 @@ class SettingsSeeder extends Seeder
                 'group' => 'banking',
                 'description' => 'Template poziva na broj (odobrenja) - {user_id} će biti zamenjen ID-jem korisnika'
             ],
+
+            // Promotion Settings
+            [
+                'key' => 'promotion_featured_category_price',
+                'value' => '75',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Cena za Top kategorije promociju (u kreditima)'
+            ],
+            [
+                'key' => 'promotion_featured_category_days',
+                'value' => '3',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Trajanje Top kategorije promocije (u danima)'
+            ],
+            [
+                'key' => 'promotion_featured_homepage_price',
+                'value' => '100',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Cena za Top glavne strane promociju (u kreditima)'
+            ],
+            [
+                'key' => 'promotion_featured_homepage_days',
+                'value' => '1',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Trajanje Top glavne strane promocije (u danima)'
+            ],
+            [
+                'key' => 'promotion_highlighted_price',
+                'value' => '50',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Cena za Istaknut oglas promociju (u kreditima)'
+            ],
+            [
+                'key' => 'promotion_highlighted_days',
+                'value' => '7',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Trajanje Istaknut oglas promocije (u danima)'
+            ],
+            [
+                'key' => 'promotion_auto_refresh_price',
+                'value' => '30',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Cena za Automatsko osvežavanje (u kreditima)'
+            ],
+            [
+                'key' => 'promotion_auto_refresh_days',
+                'value' => '7',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Trajanje Automatskog osvežavanja (u danima)'
+            ],
+            [
+                'key' => 'promotion_double_images_price',
+                'value' => '25',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Cena za Dupliraj broj slika (u kreditima)'
+            ],
+            [
+                'key' => 'promotion_double_images_days',
+                'value' => '14',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Trajanje Dupliraj broj slika (u danima)'
+            ],
+            [
+                'key' => 'promotion_extended_duration_price',
+                'value' => '40',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Cena za Produženu trajnost (u kreditima)'
+            ],
+            [
+                'key' => 'promotion_extended_duration_days',
+                'value' => '30',
+                'type' => 'integer',
+                'group' => 'promotions',
+                'description' => 'Trajanje Produžene trajnosti (dodatni dani)'
+            ],
         ];
 
         foreach ($settings as $setting) {
