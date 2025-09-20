@@ -824,11 +824,11 @@ if (!empty($auctionType)) {
                     </div>
                 </div>
 
-                <div
+                {{-- <div
                     class="text-xs text-amber-800 dark:text-amber-200 p-2 bg-amber-100 dark:bg-amber-800 border border-amber-200 dark:border-amber-600 rounded">
                     <i class="fas fa-info-circle mr-1"></i>
                     Ostavi prazno za prikaz svih oglasa, izaberi opciju za filtriranje samo aukcija
-                </div>
+                </div> --}}
             </div>
         </div>
 

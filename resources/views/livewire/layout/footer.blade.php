@@ -9,17 +9,20 @@
                     O PazAriO
                 </h3>
                 <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">
-                    Moderna platforma za kupovinu, prodaju, aukcije, usluge i poklone.
-                    Povezujemo ljude kroz sigurne i jednostavne transakcije.
+                    Moderna platforma namenjena svima koji žele da prodaju, kupe, poklone ili ponude usluge na
+                    jednostavan i brz način.
                 </p>
                 <div class="flex space-x-3">
-                    <a href="#" class="text-slate-500 dark:text-slate-300 hover:text-white">
+                    <a href="#"
+                        class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300">
                         <i class="fab fa-facebook"></i>
                     </a>
-                    <a href="#" class="text-slate-500 dark:text-slate-300 hover:text-white">
+                    <a href="#"
+                        class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" class="text-slate-500 dark:text-slate-300 hover:text-white">
+                    <a href="#"
+                        class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300">
                         <i class="fab fa-twitter"></i>
                     </a>
                 </div>
@@ -33,25 +36,25 @@
                 </h3>
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('help.create-listing') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">📝
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">📝
                             Postavim oglas</a></li>
                     <li><a href="{{ route('help.create-auction') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">🔨
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">🔨
                             Postavim aukciju</a></li>
                     <li><a href="{{ route('help.create-service') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">🔧
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">🔧
                             Postavim uslugu</a></li>
                     <li><a href="{{ route('help.create-giveaway') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">🎁
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">🎁
                             Postavim poklon</a></li>
                     <li><a href="{{ route('help.credit-system') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">💰
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">💰
                             Uplatim i koristim kredit</a></li>
                     <li><a href="{{ route('help.earn-credits') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">🎮
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">🎮
                             Zaradim kredit</a></li>
                     <li><a href="{{ route('help.transfer-credits') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">💸
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">💸
                             Podelim kredit</a></li>
                 </ul>
             </div>
@@ -64,19 +67,19 @@
                 </h3>
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('help.pricing') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">💵
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">💵
                             Cenovnik usluga</a></li>
                     <li><a href="{{ route('help.plans') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">📋
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">📋
                             Planovi naplate</a></li>
                     <li><a href="{{ route('help.promotions') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">🚀
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">🚀
                             Promocije oglasa</a></li>
                     <li><a href="{{ route('help.payment-methods') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">💳
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">💳
                             Načini plaćanja</a></li>
                     <li><a href="{{ route('help.verification') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">✅
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">✅
                             Verifikacija naloga</a></li>
                 </ul>
             </div>
@@ -89,22 +92,22 @@
                 </h3>
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('help.faq') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">❓
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">❓
                             Često postavljana pitanja</a></li>
                     <li><a href="{{ route('help.safety') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">🛡️
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">🛡️
                             Bezbednost na sajtu</a></li>
                     <li><a href="{{ route('help.rules') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">📜
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">📜
                             Pravila korišćenja</a></li>
                     <li><a href="{{ route('help.privacy') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">🔒
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">🔒
                             Politika privatnosti</a></li>
                     <li><a href="{{ route('help.terms') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">📋
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">📋
                             Uslovi korišćenja</a></li>
                     <li><a href="{{ route('admin.contact') }}"
-                            class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">📧
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">📧
                             Kontaktiraj admin</a></li>
                 </ul>
             </div>
