@@ -131,7 +131,11 @@
             </a>
 
             <div class="ad-price">
-                <div>{{ number_format($listing->price, 0, ',', '.') }} RSD</div>
+                @if($listing->listing_type === 'giveaway')
+                    <div style="color: #10b981; font-weight: 600;">BESPLATNO</div>
+                @else
+                    <div>{{ number_format($listing->price, 0, ',', '.') }} RSD</div>
+                @endif
             </div>
 
             <section class="ad-stats flex space-x-4">
@@ -178,7 +182,11 @@
                 </a>
                 
                 <div class="ad-price">
-                    {{ number_format($listing->price, 0, ',', '.') }} RSD
+                    @if($listing->listing_type === 'giveaway')
+                        <span style="color: #10b981; font-weight: 600;">BESPLATNO</span>
+                    @else
+                        {{ number_format($listing->price, 0, ',', '.') }} RSD
+                    @endif
                 </div>
             </div>
 
