@@ -257,145 +257,219 @@
 
     <!-- Selected Notification Modal -->
     @if ($selectedNotification)
-        <div class="notification-modal" id="notificationModal" onclick="closeModal()">
-            <div class="modal-overlay"></div>
-            <div class="modal-content" onclick="event.stopPropagation()">
-                <div class="modal-header">
-                    <h3>Obaveštenje</h3>
-                    <button onclick="closeModal()" class="modal-close" type="button">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                </div>
+        <div class="fixed inset-0 z-50 overflow-y-auto" onclick="closeModal()">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
 
-                <div class="modal-body">
-                    <div class="notification-details">
-                        <p>{{ $selectedNotification->message }}</p>
+            <!-- Modal content -->
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+                <div onclick="event.stopPropagation()"
+                    class="relative inline-block align-bottom bg-white dark:bg-slate-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
 
-                        @if ($selectedNotification->listing)
-                            <!-- Vezano za listing obaveštenje (favorites) -->
-                            <div class="notification-listing-info">
-                                <strong>Oglas:</strong>
-                                <a href="{{ route('listings.show', $selectedNotification->listing) }}"
-                                    class="listing-link" wire:navigate>
-                                    {{ $selectedNotification->listing->title }}
-                                </a>
-                                <div style="font-size: 12px; color: #0ea5e9; margin-top: 4px;">
-                                    {{ number_format($selectedNotification->listing->price, 0) }} RSD
+                    <!-- Modal header with gradient background -->
+                    <div class="bg-gradient-to-r from-sky-500 to-sky-600 px-6 py-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
+                                    <i class="fas fa-bell text-white text-xl"></i>
                                 </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Obaveštenje</h3>
                             </div>
-
-                            <!-- Info o korisniku koji je dodao u favorite -->
-                            @if ($selectedNotification->sender && $selectedNotification->sender->id !== auth()->id())
-                                <div class="notification-user-info">
-                                    <strong>Korisnik:</strong>
-                                    <span>{{ $selectedNotification->sender->name }}</span>
-                                    @if ($selectedNotification->sender->city)
-                                        <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">
-                                            {{ $selectedNotification->sender->city }}
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
-                        @elseif($selectedNotification->subject)
-                            <!-- Admin obaveštenje -->
-                            <div class="notification-listing-info">
-                                <strong>Naslov:</strong>
-                                <span>{{ $selectedNotification->subject }}</span>
-                            </div>
-                        @endif
-
-                        <div class="notification-time-info">
-                            <strong>Datum:</strong>
-                            {{ $selectedNotification->created_at->format('d.m.Y. H:i') }}
+                            <button onclick="closeModal()" class="text-white hover:text-slate-200 transition-colors" type="button">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="modal-footer">
-                    @if ($selectedNotification->listing)
-                        <a href="{{ route('listings.show', $selectedNotification->listing) }}"
-                            class="view-listing-btn" wire:navigate>
-                            Pogledaj oglas
-                        </a>
-                    @endif
+                    <!-- Modal body -->
+                    <div class="px-6 py-6">
+                        <!-- Main message -->
+                        <div class="mb-6">
+                            <p class="text-lg text-slate-900 dark:text-slate-100 leading-relaxed">
+                                {{ $selectedNotification->message }}
+                            </p>
+                        </div>
 
-                    @if (str_contains($selectedNotification->subject, 'balans') ||
-                            str_contains($selectedNotification->subject, 'kredita') ||
-                            str_contains($selectedNotification->subject, 'plan ističe'))
-                        <a href="{{ route('balance.payment-options') }}" class="view-listing-btn"
-                            style="background-color: #10b981; border-color: #10b981;" wire:navigate>
-                            <i class="fas fa-plus mr-1"></i>
-                            Dopuna kredita
-                        </a>
+                        <!-- Information cards -->
+                        <div class="space-y-4">
+                            @if ($selectedNotification->listing)
+                                <!-- Listing information card -->
+                                <div class="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <i class="fas fa-tag text-sky-500 text-lg"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Oglas</p>
+                                            <a href="{{ route('listings.show', $selectedNotification->listing) }}"
+                                                class="text-base font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors"
+                                                wire:navigate>
+                                                {{ $selectedNotification->listing->title }}
+                                            </a>
+                                            @if($selectedNotification->listing->listing_type === 'giveaway')
+                                                <div class="mt-1">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                                        <i class="fas fa-gift mr-1"></i> BESPLATNO
+                                                    </span>
+                                                </div>
+                                            @else
+                                                <p class="text-sm text-sky-600 dark:text-sky-400 mt-1 font-medium">
+                                                    {{ number_format($selectedNotification->listing->price, 0, ',', '.') }} RSD
+                                                </p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <a href="{{ route('balance.plan-selection') }}" class="view-listing-btn"
-                            style="background-color: #8b5cf6; border-color: #8b5cf6;" wire:navigate>
-                            <i class="fas fa-calendar-alt mr-1"></i>
-                            Promeni plan
-                        </a>
-                    @endif
+                                <!-- User information card if exists -->
+                                @if ($selectedNotification->sender && $selectedNotification->sender->id !== auth()->id())
+                                    <div class="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 mr-3">
+                                                <i class="fas fa-user text-sky-500 text-lg"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Korisnik</p>
+                                                <p class="text-base font-semibold text-slate-900 dark:text-slate-100">
+                                                    {{ $selectedNotification->sender->name }}
+                                                </p>
+                                                @if ($selectedNotification->sender->city)
+                                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                                                        <i class="fas fa-map-marker-alt mr-1"></i>
+                                                        {{ $selectedNotification->sender->city }}
+                                                    </p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @elseif($selectedNotification->subject)
+                                <!-- Subject card for admin notifications -->
+                                <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <i class="fas fa-info-circle text-amber-500 text-lg"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium text-amber-800 dark:text-amber-200 mb-1">Naslov</p>
+                                            <p class="text-base font-semibold text-amber-900 dark:text-amber-100">
+                                                {{ $selectedNotification->subject }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
 
-                    @if (str_contains($selectedNotification->subject, 'oglas ističe'))
-                        <a href="{{ route('listings.my') }}" class="view-listing-btn"
-                            style="background-color: #f59e0b; border-color: #f59e0b;" wire:navigate>
-                            <i class="fas fa-redo mr-1"></i>
-                            Obnovi oglas
-                        </a>
+                            <!-- Date and time card -->
+                            <div class="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <i class="fas fa-clock text-slate-500 text-lg"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Datum</p>
+                                        <p class="text-base font-semibold text-slate-900 dark:text-slate-100">
+                                            {{ $selectedNotification->created_at->format('d.m.Y. H:i') }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                        <a href="{{ route('balance.payment-options') }}" class="view-listing-btn"
-                            style="background-color: #10b981; border-color: #10b981;" wire:navigate>
-                            <i class="fas fa-plus mr-1"></i>
-                            Dopuna kredita
-                        </a>
-                    @endif
+                    <!-- Modal footer with actions -->
+                    <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-4 border-t border-slate-200 dark:border-slate-600">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            @if ($selectedNotification->listing)
+                                <a href="{{ route('listings.show', $selectedNotification->listing) }}"
+                                    class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-sky-600 to-sky-700 text-white font-medium rounded-lg hover:from-sky-700 hover:to-sky-800 transition-all transform hover:scale-105"
+                                    wire:navigate>
+                                    <i class="fas fa-eye mr-2"></i>
+                                    Pogledaj oglas
+                                </a>
+                            @endif
 
-                    @if (str_contains($selectedNotification->subject, 'Ponuda nadmašena') ||
-                            str_contains($selectedNotification->subject, 'Aukcija'))
-                        @if ($selectedNotification->listing)
-                            <a href="{{ route('auction.show', $selectedNotification->listing->auction) }}"
-                                class="view-listing-btn" style="background-color: #dc2626; border-color: #dc2626;"
-                                wire:navigate>
-                                <i class="fas fa-gavel mr-1"></i>
-                                Idi na aukciju
-                            </a>
-                        @endif
-                    @endif
+                            @if (str_contains($selectedNotification->subject, 'balans') ||
+                                    str_contains($selectedNotification->subject, 'kredita') ||
+                                    str_contains($selectedNotification->subject, 'plan ističe'))
+                                <a href="{{ route('balance.payment-options') }}"
+                                    class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-105"
+                                    wire:navigate>
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Dopuna kredita
+                                </a>
 
-                    @if (str_contains($selectedNotification->subject, 'Novi zahtev za poklon'))
-                        @if ($selectedNotification->listing && $selectedNotification->giveaway_reservation_id)
-                            <button wire:click="$dispatch('openReservationManager', { listingId: {{ $selectedNotification->listing_id }} }); closeModal()"
-                                class="view-listing-btn" style="background-color: #10b981; border-color: #10b981;">
-                                <i class="fas fa-gift mr-1"></i>
-                                Vidi zahteve
+                                <a href="{{ route('balance.plan-selection') }}"
+                                    class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-medium rounded-lg hover:from-purple-700 hover:to-purple-800 transition-all transform hover:scale-105"
+                                    wire:navigate>
+                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    Promeni plan
+                                </a>
+                            @endif
+
+                            @if (str_contains($selectedNotification->subject, 'oglas ističe'))
+                                <a href="{{ route('listings.my') }}"
+                                    class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-medium rounded-lg hover:from-amber-700 hover:to-amber-800 transition-all transform hover:scale-105"
+                                    wire:navigate>
+                                    <i class="fas fa-redo mr-2"></i>
+                                    Obnovi oglas
+                                </a>
+
+                                <a href="{{ route('balance.payment-options') }}"
+                                    class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-105"
+                                    wire:navigate>
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Dopuna kredita
+                                </a>
+                            @endif
+
+                            @if (str_contains($selectedNotification->subject, 'Ponuda nadmašena') ||
+                                    str_contains($selectedNotification->subject, 'Aukcija'))
+                                @if ($selectedNotification->listing)
+                                    <a href="{{ route('auction.show', $selectedNotification->listing->auction) }}"
+                                        class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105"
+                                        wire:navigate>
+                                        <i class="fas fa-gavel mr-2"></i>
+                                        Idi na aukciju
+                                    </a>
+                                @endif
+                            @endif
+
+                            @if (str_contains($selectedNotification->subject, 'Novi zahtev za poklon'))
+                                @if ($selectedNotification->listing && $selectedNotification->giveaway_reservation_id)
+                                    <button wire:click="$dispatch('openReservationManager', { listingId: {{ $selectedNotification->listing_id }} }); closeModal()"
+                                        class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-105">
+                                        <i class="fas fa-gift mr-2"></i>
+                                        Vidi zahteve
+                                    </button>
+                                @endif
+                            @endif
+
+                            @if (str_contains($selectedNotification->subject, 'Vaš zahtev je odobren'))
+                                @if ($selectedNotification->listing)
+                                    <a href="{{ route('listing.chat', ['slug' => $selectedNotification->listing->slug, 'user' => $selectedNotification->listing->user_id]) }}"
+                                        class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105"
+                                        wire:navigate>
+                                        <i class="fas fa-comment mr-2"></i>
+                                        Pošalji poruku
+                                    </a>
+                                    <a href="{{ route('listings.show', $selectedNotification->listing) }}"
+                                        class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-105"
+                                        wire:navigate>
+                                        <i class="fas fa-gift mr-2"></i>
+                                        Vidi poklon
+                                    </a>
+                                @endif
+                            @endif
+
+                            <button onclick="closeModal()"
+                                class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors"
+                                type="button">
+                                <i class="fas fa-times mr-2"></i>
+                                Zatvori
                             </button>
-                        @endif
-                    @endif
-
-                    @if (str_contains($selectedNotification->subject, 'Vaš zahtev je odobren'))
-                        @if ($selectedNotification->listing)
-                            <a href="{{ route('listing.chat', ['slug' => $selectedNotification->listing->slug, 'user' => $selectedNotification->listing->user_id]) }}"
-                                class="view-listing-btn" style="background-color: #3b82f6; border-color: #3b82f6;"
-                                wire:navigate>
-                                <i class="fas fa-comment mr-1"></i>
-                                Pošalji poruku
-                            </a>
-                            <a href="{{ route('listings.show', $selectedNotification->listing) }}"
-                                class="view-listing-btn" style="background-color: #10b981; border-color: #10b981;"
-                                wire:navigate>
-                                <i class="fas fa-gift mr-1"></i>
-                                Vidi poklon
-                            </a>
-                        @endif
-                    @endif
-
-                    <button onclick="closeModal()" class="close-btn" type="button">
-                        Zatvori
-                    </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
