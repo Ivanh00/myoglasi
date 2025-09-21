@@ -361,7 +361,7 @@
             </div>
 
             <!-- Mobile Search Bar - Full width below navigation -->
-            <div class="md:hidden px-4 py-3 border-t border-slate-200 dark:border-slate-700">
+            <div class="md:hidden px-2 py-3 border-t border-slate-200 dark:border-slate-700">
                 @include('livewire.layout.search-new')
             </div>
 

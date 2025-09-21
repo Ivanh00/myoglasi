@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-6 px-2 sm:px-6 lg:px-8">
     <!-- Welcome Header -->
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">
@@ -14,7 +14,7 @@
                 $percentage = ($currentActive / $activeLimit) * 100;
             @endphp
             <div
-                class="mt-4 p-4 {{ $stats['can_create_listing'] ? 'bg-sky-100 dark:bg-sky-900 border-sky-300 dark:border-sky-700' : 'bg-red-100 dark:bg-red-900 border-red-300 dark:border-red-700' }} border rounded-lg">
+                class="mt-4 p-3 sm:p-4 {{ $stats['can_create_listing'] ? 'bg-sky-100 dark:bg-sky-900 border-sky-300 dark:border-sky-700' : 'bg-red-100 dark:bg-red-900 border-red-300 dark:border-red-700' }} border rounded-lg">
                 <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center">
                         <i
@@ -50,9 +50,9 @@
     </div>
 
     <!-- Quick Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8">
         <!-- Listings Card -->
-        <div class="bg-gradient-to-r from-sky-400 to-sky-600 rounded-lg p-6 text-white">
+        <div class="bg-gradient-to-r from-sky-400 to-sky-600 rounded-lg p-4 sm:p-6 text-white">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sky-100 text-sm">Moji oglasi</p>
@@ -69,7 +69,7 @@
         </div>
 
         <!-- Auctions Card -->
-        <div class="bg-gradient-to-r from-amber-400 to-orange-500 rounded-lg p-6 text-white">
+        <div class="bg-gradient-to-r from-amber-400 to-orange-500 rounded-lg p-4 sm:p-6 text-white">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-amber-100 text-sm">Moje aukcije</p>
@@ -86,7 +86,7 @@
         </div>
 
         <!-- Balance Card -->
-        <div class="bg-gradient-to-r from-green-400 to-green-600 rounded-lg p-6 text-white">
+        <div class="bg-gradient-to-r from-green-400 to-green-600 rounded-lg p-4 sm:p-6 text-white">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-green-100 text-sm">Balans</p>
@@ -103,7 +103,7 @@
         </div>
 
         <!-- Messages Card -->
-        <div class="bg-gradient-to-r from-purple-400 to-purple-600 rounded-lg p-6 text-white">
+        <div class="bg-gradient-to-r from-purple-400 to-purple-600 rounded-lg p-4 sm:p-6 text-white">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-purple-100 text-sm">Poruke</p>
@@ -121,7 +121,7 @@
     </div>
 
     <!-- Monthly Overview -->
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6 mb-8">
         <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-4">
             <i class="fas fa-chart-line text-sky-600 dark:text-sky-400 mr-2"></i>
             Ovaj mesec ({{ Carbon\Carbon::now()->format('F Y') }})
@@ -184,9 +184,9 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8 mb-8">
         <!-- Quick Actions -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-bolt text-orange-600 mr-2"></i>
                 Brze akcije
@@ -241,7 +241,7 @@
         </div>
 
         <!-- Recent Activity -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-clock text-sky-600 dark:text-sky-400 mr-2"></i>
                 Poslednje aktivnosti
@@ -289,7 +289,7 @@
         </div>
 
         <!-- Account Overview -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-user text-green-600 mr-2"></i>
                 Pregled naloga
@@ -352,7 +352,7 @@
 
     <!-- Recent Auctions (if any) -->
     @if ($activity['recent_auctions']->count() > 0)
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6 mb-8">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
                     <i class="fas fa-gavel text-amber-600 dark:text-amber-400 mr-2"></i>
@@ -366,7 +366,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 @foreach ($activity['recent_auctions'] as $auction)
                     <div
-                        class="border border-amber-300 dark:border-amber-700 rounded-lg p-4 bg-amber-100 dark:bg-amber-900">
+                        class="border border-amber-300 dark:border-amber-700 rounded-lg p-3 sm:p-4 bg-amber-100 dark:bg-amber-900">
                         <div class="flex items-center mb-3">
                             @if ($auction->listing->images->count() > 0)
                                 <img src="{{ $auction->listing->images->first()->url }}"
@@ -409,9 +409,9 @@
     @endif
 
     <!-- Financial Overview -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
         <!-- Transaction History -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-receipt text-green-600 mr-2"></i>
                 Poslednje transakcije
@@ -459,7 +459,7 @@
         </div>
 
         <!-- Achievements & Stats -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-trophy text-amber-600 dark:text-amber-400 mr-2"></i>
                 Vaši uspesi
