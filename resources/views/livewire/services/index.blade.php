@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-6 px-0 sm:px-6 lg:px-8">
 
     <!-- Filteri i sortiranje -->
     <div class="bg-slate-100 dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6">

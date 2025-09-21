@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-6 px-0 sm:px-6 lg:px-8">
     @if (!$listing)
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 text-center">
             <i class="fas fa-exclamation-triangle text-amber-500 text-5xl mb-4"></i>
