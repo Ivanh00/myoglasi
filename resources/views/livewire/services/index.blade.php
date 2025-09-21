@@ -96,7 +96,7 @@
             </div>
 
             <!-- Right: View Mode Toggle -->
-            <div class="flex bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm">
+            <div class="hidden sm:flex bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm">
                 <button wire:click="setViewMode('list')"
                     class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-l-lg transition-colors">
                     <i class="fas fa-list"></i>
