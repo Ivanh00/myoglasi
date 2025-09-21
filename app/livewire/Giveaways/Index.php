@@ -88,6 +88,17 @@ class Index extends Component
             'reservationMessage.max' => 'Poruka može imati maksimalno 500 karaktera.'
         ]);
 
+        // Check if we haven't exceeded the limit of 9 pending reservations
+        $pendingCount = $this->selectedGiveaway->giveawayReservations()
+            ->where('status', 'pending')
+            ->count();
+
+        if ($pendingCount >= 9) {
+            session()->flash('error', 'Maksimalan broj zahteva je dostignut za ovaj poklon.');
+            $this->closeReservationModal();
+            return;
+        }
+
         try {
             $reservation = \App\Models\GiveawayReservation::create([
                 'listing_id' => $this->selectedGiveaway->id,
@@ -96,13 +107,19 @@ class Index extends Component
                 'status' => 'pending'
             ]);
 
+            // Get current count of pending reservations
+            $currentRequestCount = $this->selectedGiveaway->giveawayReservations()
+                ->where('status', 'pending')
+                ->count();
+
             // Send notification to giveaway owner as system message
             \App\Models\Message::create([
                 'sender_id' => auth()->id(),
                 'receiver_id' => $this->selectedGiveaway->user_id,
                 'listing_id' => $this->selectedGiveaway->id,
                 'subject' => 'Novi zahtev za poklon',
-                'message' => auth()->user()->name . ' želi vaš poklon "' . $this->selectedGiveaway->title . '". Poruka: ' . $this->reservationMessage,
+                'message' => auth()->user()->name . ' želi vaš poklon "' . $this->selectedGiveaway->title . '". Poruka: ' . $this->reservationMessage .
+                           ($currentRequestCount > 1 ? ' (Ukupno zahteva: ' . $currentRequestCount . '/9)' : ''),
                 'is_system_message' => true,
                 'is_read' => false,
                 'giveaway_reservation_id' => $reservation->id
@@ -128,7 +145,10 @@ class Index extends Component
     {
         $query = Listing::where('status', 'active')
             ->where('listing_type', 'giveaway')
-            ->with(['category', 'subcategory', 'images', 'user', 'condition', 'pendingReservation', 'approvedReservation', 'giveawayReservations' => function($q) {
+            ->withCount(['giveawayReservations as pending_reservations_count' => function($q) {
+                $q->where('status', 'pending');
+            }])
+            ->with(['category', 'subcategory', 'images', 'user', 'condition', 'approvedReservation', 'giveawayReservations' => function($q) {
                 $q->where('requester_id', auth()->id() ?? 0);
             }]);
             

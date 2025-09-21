@@ -24,7 +24,12 @@
                         <!-- Left: List of Requests -->
                         <div>
                             <h4 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-3">
-                                Pristigli zahtevi ({{ $reservations->count() }})
+                                Pristigli zahtevi ({{ $reservations->where('status', 'pending')->count() }}/9)
+                                @if($reservations->where('status', 'pending')->count() >= 9)
+                                    <span class="text-xs text-amber-600 dark:text-amber-400 ml-2">
+                                        <i class="fas fa-info-circle"></i> Max dostignut
+                                    </span>
+                                @endif
                             </h4>
                             <div class="space-y-2 max-h-96 overflow-y-auto">
                                 @foreach ($reservations as $reservation)

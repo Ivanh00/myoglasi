@@ -172,12 +172,7 @@
                                 <div class="space-y-2">
                                     @auth
                                         @if (auth()->id() !== $giveaway->user_id)
-                                            @if ($giveaway->pendingReservation)
-                                                <button disabled
-                                                    class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
-                                                    <i class="fas fa-clock mr-2"></i> Rezervisano
-                                                </button>
-                                            @elseif ($giveaway->approvedReservation)
+                                            @if ($giveaway->approvedReservation)
                                                 <button disabled
                                                     class="block w-full text-center px-3 py-2 bg-slate-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
                                                     <i class="fas fa-check-circle mr-2"></i> Poklonjeno
@@ -187,10 +182,18 @@
                                                     class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
                                                     <i class="fas fa-paper-plane mr-2"></i> Zahtev poslat
                                                 </button>
+                                            @elseif ($giveaway->pending_reservations_count >= 9)
+                                                <button disabled
+                                                    class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
+                                                    <i class="fas fa-users mr-2"></i> Max. broj zahteva
+                                                </button>
                                             @else
                                                 <button wire:click="requestGiveaway({{ $giveaway->id }})"
                                                     class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
                                                     <i class="fas fa-hand-paper mr-2"></i> Želim poklon
+                                                    @if($giveaway->pending_reservations_count > 0)
+                                                        <span class="text-xs">({{ $giveaway->pending_reservations_count }}/9)</span>
+                                                    @endif
                                                 </button>
                                             @endif
                                         @endif
@@ -266,12 +269,7 @@
                             <div class="space-y-2 mt-auto">
                                 @auth
                                     @if (auth()->id() !== $giveaway->user_id)
-                                        @if ($giveaway->pendingReservation)
-                                            <button disabled
-                                                class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
-                                                <i class="fas fa-clock mr-2"></i> Rezervisano
-                                            </button>
-                                        @elseif ($giveaway->approvedReservation)
+                                        @if ($giveaway->approvedReservation)
                                             <button disabled
                                                 class="block w-full text-center px-3 py-2 bg-slate-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
                                                 <i class="fas fa-check-circle mr-2"></i> Poklonjeno
@@ -281,10 +279,18 @@
                                                 class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
                                                 <i class="fas fa-paper-plane mr-2"></i> Zahtev poslat
                                             </button>
+                                        @elseif ($giveaway->pending_reservations_count >= 9)
+                                            <button disabled
+                                                class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
+                                                <i class="fas fa-users mr-2"></i> Max. broj zahteva
+                                            </button>
                                         @else
                                             <button wire:click="requestGiveaway({{ $giveaway->id }})"
                                                 class="block w-full text-center px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
                                                 <i class="fas fa-hand-paper mr-2"></i> Želim poklon
+                                                @if($giveaway->pending_reservations_count > 0)
+                                                    <span class="text-xs">({{ $giveaway->pending_reservations_count }}/9)</span>
+                                                @endif
                                             </button>
                                         @endif
                                     @endif
