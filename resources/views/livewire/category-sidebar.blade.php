@@ -318,25 +318,34 @@
         const darkBtn = document.querySelector('.dark-theme');
 
         if (lightBtn && darkBtn) {
+            // Remove all ring classes from both buttons first
+            lightBtn.classList.remove('ring-2', 'ring-sky-500', 'ring-sky-400', 'ring-sky-600');
+            darkBtn.classList.remove('ring-2', 'ring-sky-500', 'ring-sky-400', 'ring-sky-600');
+
+            // Apply ring to the active button
             if (isDark) {
-                lightBtn.classList.remove('ring-2', 'ring-sky-500', 'bg-sky-50');
-                darkBtn.classList.add('ring-2', 'ring-sky-400', 'bg-slate-700');
+                // Dark mode is active - add ring to dark button
+                darkBtn.classList.add('ring-2', 'ring-sky-400');
             } else {
-                darkBtn.classList.remove('ring-2', 'ring-sky-400', 'bg-slate-700');
-                lightBtn.classList.add('ring-2', 'ring-sky-500', 'bg-sky-50');
+                // Light mode is active - add ring to light button
+                lightBtn.classList.add('ring-2', 'ring-sky-500');
             }
         }
     }
 
     // Initialize theme on page load
     document.addEventListener('DOMContentLoaded', function() {
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Just update buttons, theme is already applied by global script
+        setTimeout(updateThemeButtons, 10);
+    });
 
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            setTheme('dark');
-        } else {
-            setTheme('light');
-        }
+    // Also update buttons after Livewire navigation
+    document.addEventListener('livewire:navigated', function() {
+        setTimeout(updateThemeButtons, 10);
+    });
+
+    // Update buttons when theme changes
+    window.addEventListener('theme-changed', function() {
+        setTimeout(updateThemeButtons, 10);
     });
 </script>

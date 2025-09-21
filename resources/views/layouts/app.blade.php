@@ -449,6 +449,10 @@
         // Listen for Livewire navigations
         document.addEventListener('livewire:navigated', function() {
             applyTheme();
+            // Update theme buttons if the function exists
+            if (typeof updateThemeButtons === 'function') {
+                updateThemeButtons();
+            }
         });
 
         // Listen for theme changes from other tabs/windows
