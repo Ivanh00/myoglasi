@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -21,6 +21,61 @@
     
     <!-- Global Dark Mode Styles for Custom Components -->
     <style>
+        /* Prevent horizontal overflow on mobile */
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Ensure all containers respect viewport width */
+        * {
+            max-width: 100vw;
+            box-sizing: border-box;
+        }
+
+        /* Main wrapper to contain width */
+        .min-h-screen {
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+        }
+
+        /* Ensure images don't overflow */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Fix for wide elements on mobile */
+        @media (max-width: 640px) {
+            .max-w-7xl {
+                max-width: 100% !important;
+            }
+
+            /* Ensure tables are scrollable on mobile */
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Prevent fixed width elements from breaking layout */
+            [style*="width"] {
+                max-width: 100% !important;
+            }
+
+            /* Fix padding on mobile */
+            .px-4 {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            /* Ensure flex items don't overflow */
+            .flex > * {
+                min-width: 0;
+                max-width: 100%;
+            }
+        }
         /* Dark mode for notification modal only - make it transparent */
         .dark .notification-modal {
             background-color: transparent !important;
