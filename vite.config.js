@@ -8,4 +8,12 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+
+    server: {
+        host: '0.0.0.0',
+        port: 8000, // ili ostavi 5173 ako ga koristiš
+        hmr: {
+          host: '192.168.1.21', // <<< obavezno tvoja IP adresa
+        },
+      },
 });
