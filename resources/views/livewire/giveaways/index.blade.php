@@ -177,7 +177,7 @@
                                                     class="block w-full text-center px-3 py-2 bg-slate-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
                                                     <i class="fas fa-check-circle mr-2"></i> Poklonjeno
                                                 </button>
-                                            @elseif ($giveaway->hasReservationFrom(auth()->id()))
+                                            @elseif ($giveaway->giveawayReservations->count() > 0)
                                                 <button disabled
                                                     class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
                                                     <i class="fas fa-paper-plane mr-2"></i> Zahtev poslat
@@ -274,7 +274,7 @@
                                                 class="block w-full text-center px-3 py-2 bg-slate-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
                                                 <i class="fas fa-check-circle mr-2"></i> Poklonjeno
                                             </button>
-                                        @elseif ($giveaway->hasReservationFrom(auth()->id()))
+                                        @elseif ($giveaway->giveawayReservations->count() > 0)
                                             <button disabled
                                                 class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg opacity-50 cursor-not-allowed text-sm">
                                                 <i class="fas fa-paper-plane mr-2"></i> Zahtev poslat
