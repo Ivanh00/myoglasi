@@ -273,6 +273,18 @@
                     </div>
 
                     <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Broj dozvoljenih zahteva za poklone</label>
+                        <input type="number" wire:model="maxGiveawayRequests" min="1" max="20"
+                            class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                        <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
+                            Maksimalan broj korisnika koji mogu da traže isti poklon (trenutno: {{ $maxGiveawayRequests }} zahteva)
+                        </p>
+                        @error('maxGiveawayRequests')
+                            <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Minimalni iznos za
                             deljenje kredita
                             (RSD)</label>

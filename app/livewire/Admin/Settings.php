@@ -25,7 +25,7 @@ class Settings extends Component
     public $yearlyPlanPrice;
     public $freeListingsPerMonth;
     
-    // General Settings  
+    // General Settings
     public $siteName;
     public $maxImagesPerListing;
     public $listingAutoExpireDays;
@@ -35,6 +35,7 @@ class Settings extends Component
     public $showLastSeen;
     public $serviceFeeEnabled;
     public $serviceFeeAmount;
+    public $maxGiveawayRequests;
     
     // Credit Earning Settings
     public $gameCreditEnabled;
@@ -181,6 +182,7 @@ class Settings extends Component
         $this->showLastSeen = Setting::get('show_last_seen', true);
         $this->serviceFeeEnabled = Setting::get('service_fee_enabled', true);
         $this->serviceFeeAmount = Setting::get('service_fee_amount', 100);
+        $this->maxGiveawayRequests = Setting::get('max_giveaway_requests', 9);
         $this->gameCreditEnabled = Setting::get('game_credit_enabled', true);
         $this->gameCreditAmount = Setting::get('game_credit_amount', 100);
         $this->dailyContestEnabled = Setting::get('daily_contest_enabled', true);
@@ -274,6 +276,7 @@ class Settings extends Component
             'showLastSeen' => 'required|boolean',
             'serviceFeeEnabled' => 'required|boolean',
             'serviceFeeAmount' => 'required|integer|min:1|max:10000',
+            'maxGiveawayRequests' => 'required|integer|min:1|max:20',
             'gameCreditEnabled' => 'required|boolean',
             'gameCreditAmount' => 'required|integer|min:1|max:1000',
             'dailyContestEnabled' => 'required|boolean',
@@ -303,6 +306,7 @@ class Settings extends Component
         Setting::set('show_last_seen', $this->showLastSeen, 'boolean', 'general');
         Setting::set('service_fee_enabled', $this->serviceFeeEnabled, 'boolean', 'general');
         Setting::set('service_fee_amount', $this->serviceFeeAmount, 'integer', 'general');
+        Setting::set('max_giveaway_requests', $this->maxGiveawayRequests, 'integer', 'general');
         Setting::set('game_credit_enabled', $this->gameCreditEnabled, 'boolean', 'general');
         Setting::set('game_credit_amount', $this->gameCreditAmount, 'integer', 'general');
         Setting::set('daily_contest_enabled', $this->dailyContestEnabled, 'boolean', 'general');

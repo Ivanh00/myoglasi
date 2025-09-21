@@ -93,7 +93,8 @@ class Index extends Component
             ->where('status', 'pending')
             ->count();
 
-        if ($pendingCount >= 9) {
+        $maxRequests = \App\Models\Setting::get('max_giveaway_requests', 9);
+        if ($pendingCount >= $maxRequests) {
             session()->flash('error', 'Maksimalan broj zahteva je dostignut za ovaj poklon.');
             $this->closeReservationModal();
             return;
@@ -119,7 +120,7 @@ class Index extends Component
                 'listing_id' => $this->selectedGiveaway->id,
                 'subject' => 'Novi zahtev za poklon',
                 'message' => auth()->user()->name . ' želi vaš poklon "' . $this->selectedGiveaway->title . '". Poruka: ' . $this->reservationMessage .
-                           ($currentRequestCount > 1 ? ' (Ukupno zahteva: ' . $currentRequestCount . '/9)' : ''),
+                           ($currentRequestCount > 1 ? ' (Ukupno zahteva: ' . $currentRequestCount . '/' . $maxRequests . ')' : ''),
                 'is_system_message' => true,
                 'is_read' => false,
                 'giveaway_reservation_id' => $reservation->id
