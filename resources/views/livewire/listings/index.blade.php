@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto py-6 px-0 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
     <!-- Mobile specific adjustments -->
     <style>
         @media (max-width: 768px) {
