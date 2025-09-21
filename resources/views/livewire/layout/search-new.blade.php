@@ -120,6 +120,14 @@ if (!empty($auctionType)) {
 
     toggleFilters() {
         this.showFilters = !this.showFilters;
+        // Prevent body scroll on mobile when filters are open
+        if (window.innerWidth < 768) {
+            if (this.showFilters) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
     },
 
     resetFilters() {
@@ -367,12 +375,25 @@ if (!empty($auctionType)) {
         </div>
     </div>
 
+    <!-- Mobile Overlay Background -->
+    <div x-show="showFilters && window.innerWidth < 768"
+         x-transition:enter="ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click="toggleFilters()"
+         class="fixed inset-0 bg-black bg-opacity-50 z-[40] md:hidden"
+         style="display: none;">
+    </div>
+
     <!-- Expanded Filters (KupujemProdajem style) -->
     <div x-show="showFilters" x-transition:enter="ease-out duration-200"
         x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100"
         x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100"
-        x-transition:leave-end="opacity-0 transform scale-95" @click.away="showFilters = false"
-        class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-700 dark:bg-slate-800 rounded-lg shadow-lg border border-slate-300 dark:border-slate-600 dark:border-slate-600 z-[100] p-6"
+        x-transition:leave-end="opacity-0 transform scale-95" @click.away="if(window.innerWidth >= 768) showFilters = false"
+        class="fixed md:absolute top-[140px] md:top-full left-0 right-0 md:mt-2 bg-white dark:bg-slate-700 dark:bg-slate-800 md:rounded-lg shadow-lg border-t md:border border-slate-300 dark:border-slate-600 dark:border-slate-600 z-[90] md:z-[100] p-4 md:p-6 h-[calc(100vh-140px)] md:h-auto md:max-h-none overflow-y-auto md:overflow-visible"
         style="display: none;">
 
         <!-- Content Type Selector -->

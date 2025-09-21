@@ -439,7 +439,7 @@
         @endauth
 
         <!-- Mobile Sidebar Toggle Button -->
-        <div class="md:hidden fixed top-36 left-2 z-40">
+        <div class="md:hidden fixed top-36 left-2 z-[95]">
             <button type="button" id="mobile-sidebar-button"
                 class="bg-white p-2 rounded-md shadow-lg border border-slate-300 text-slate-400 hover:text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
                 <span class="sr-only">Open sidebar</span>
@@ -456,7 +456,7 @@
         </div>
 
         <!-- Mobile Sidebar Overlay -->
-        <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-slate-500 bg-opacity-75 z-30 md:hidden hidden"></div>
+        <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-slate-500 bg-opacity-75 z-[94] md:hidden hidden"></div>
 
         <!-- Main Content with Sidebar -->
         <div class="flex">
@@ -467,12 +467,12 @@
 
             <!-- Mobile Sidebar -->
             <aside id="mobile-sidebar"
-                class="fixed left-0 top-28 w-64 bg-white dark:bg-slate-800 shadow-lg h-screen z-40 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+                class="fixed left-0 top-0 w-64 bg-white dark:bg-slate-800 shadow-lg h-screen z-[95] transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
                 <livewire:category-sidebar />
             </aside>
 
             <!-- Page Content -->
-            <main class="flex-1 p-4 md:p-6">
+            <main class="flex-1 p-4 md:p-6 pt-20 md:pt-6">
                 {{ $slot }}
             </main>
         </div>
