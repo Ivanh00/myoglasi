@@ -145,6 +145,7 @@ Route::prefix('help')->name('help.')->group(function () {
     Route::get('/create-auction', function () { return view('help.create-auction'); })->name('create-auction');
     Route::get('/create-service', function () { return view('help.create-service'); })->name('create-service');
     Route::get('/create-giveaway', function () { return view('help.create-giveaway'); })->name('create-giveaway');
+    Route::get('/receive-giveaway', function () { return view('help.receive-giveaway'); })->name('receive-giveaway');
     Route::get('/credit-system', function () { return view('help.credit-system'); })->name('credit-system');
     Route::get('/earn-credits', function () { return view('help.earn-credits'); })->name('earn-credits');
     Route::get('/transfer-credits', function () { return view('help.transfer-credits'); })->name('transfer-credits');

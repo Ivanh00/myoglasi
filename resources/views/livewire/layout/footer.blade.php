@@ -47,6 +47,9 @@
                     <li><a href="{{ route('help.create-giveaway') }}"
                             class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">🎁
                             Postavim poklon</a></li>
+                    <li><a href="{{ route('help.receive-giveaway') }}"
+                            class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">🎉
+                            Dobijem poklon</a></li>
                     <li><a href="{{ route('help.credit-system') }}"
                             class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">💰
                             Uplatim i koristim kredit</a></li>
