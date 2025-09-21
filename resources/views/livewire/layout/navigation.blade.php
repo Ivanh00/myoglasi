@@ -290,15 +290,48 @@
                 <!-- Mobile buttons -->
                 <div class="md:hidden flex items-center space-x-3 relative z-50">
                     @auth
-                        <!-- Mobile Add Listing Button -->
-                        <a href="{{ route('listings.create') }}"
-                            class="inline-flex items-center justify-center w-10 h-10 border border-slate-300 dark:border-slate-600 rounded-full shadow-sm bg-white dark:bg-slate-700 hover:bg-green-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400">
-                            <svg class="h-5 w-5 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                        </a>
+                        <!-- Mobile Add Listing Dropdown -->
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" type="button"
+                                class="inline-flex items-center justify-center w-10 h-10 border border-slate-300 dark:border-slate-600 rounded-full shadow-sm bg-white dark:bg-slate-700 hover:bg-green-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400">
+                                <svg class="h-5 w-5 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-slate-700 ring-1 ring-black ring-opacity-5 z-[100]">
+                                <div class="py-1">
+                                    <a href="{{ route('listings.create') }}" @click="open = false"
+                                        class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-sky-900 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                                        <svg class="w-5 h-5 mr-3 text-sky-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                                            </path>
+                                        </svg>
+                                        Oglas
+                                    </a>
+                                    <a href="{{ route('listings.create') }}?type=auction" @click="open = false"
+                                        class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-amber-900 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                                        <i class="fas fa-gavel text-amber-600 mr-3"></i>
+                                        Aukcija
+                                    </a>
+                                    <a href="{{ route('services.create') }}" @click="open = false"
+                                        class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                                        <i class="fas fa-tools text-slate-600 dark:text-slate-400 mr-3"></i>
+                                        Usluga
+                                    </a>
+                                    <a href="{{ route('listings.create') }}?type=giveaway" @click="open = false"
+                                        class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                                        <i class="fas fa-gift text-green-600 mr-3"></i>
+                                        Poklon
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Mobile User Avatar Button -->
                         <button type="button" id="mobile-user-menu-button"
