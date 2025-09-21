@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-slate-900 mb-2">Kategorije oglasa</h1>
         <p class="text-slate-600 dark:text-slate-400">Pronađite ono što tražite u našim kategorijama</p>

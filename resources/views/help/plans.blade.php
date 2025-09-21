@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="text-center mb-12">
                 <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
