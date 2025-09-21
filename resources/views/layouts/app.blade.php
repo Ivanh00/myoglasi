@@ -427,6 +427,73 @@
     <livewire:layout.footer />
     @livewireScripts
 
+    <!-- Global Dark Mode Persistence Script -->
+    <script>
+        // Function to apply theme
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                if (savedTheme) {
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+        }
+
+        // Apply theme on initial load
+        applyTheme();
+
+        // Listen for Livewire navigations
+        document.addEventListener('livewire:navigated', function() {
+            applyTheme();
+        });
+
+        // Listen for theme changes from other tabs/windows
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'theme') {
+                applyTheme();
+            }
+        });
+
+        // Global function to toggle theme (can be called from anywhere)
+        window.toggleTheme = function() {
+            const currentTheme = localStorage.getItem('theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme();
+
+            // Dispatch custom event for other components to update their UI
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: newTheme }));
+        }
+
+        // Global function to set specific theme
+        window.setTheme = function(theme) {
+            localStorage.setItem('theme', theme);
+            applyTheme();
+
+            // Dispatch custom event for other components to update their UI
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
+        }
+
+        // Apply theme before each Livewire request to ensure consistency
+        document.addEventListener('livewire:navigate', function() {
+            applyTheme();
+        });
+
+        // Apply theme after Livewire updates
+        document.addEventListener('livewire:navigated', function() {
+            applyTheme();
+        });
+
+        // Apply theme after any Livewire component update
+        Livewire.hook('component.initialized', (component) => {
+            applyTheme();
+        });
+    </script>
+
     <!-- Mobile Sidebar JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {

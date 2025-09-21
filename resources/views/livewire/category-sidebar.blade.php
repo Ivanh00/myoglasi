@@ -296,16 +296,18 @@
 <script>
     // Theme Management
     function setTheme(theme) {
-        console.log('Setting theme to:', theme);
-
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-            console.log('Dark mode activated');
+        // Use global setTheme function from app layout
+        if (window.setTheme) {
+            window.setTheme(theme);
         } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-            console.log('Light mode activated');
+            // Fallback if global function not available yet
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
         }
         updateThemeButtons();
     }

@@ -1378,6 +1378,32 @@
 
     @livewireScripts
 
+    <!-- Theme Persistence for Livewire Navigation -->
+    <script>
+        // Apply theme after Livewire navigation
+        document.addEventListener('livewire:navigated', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+            }
+            if (typeof updateThemeButtons === 'function') {
+                updateThemeButtons();
+            }
+        });
+
+        // Apply theme before Livewire navigation
+        document.addEventListener('livewire:navigate', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+
     <script>
         document.addEventListener('livewire:init', () => {
             Livewire.on('notify', (data) => {
@@ -1485,20 +1511,19 @@
 
         // Theme Management - same as user pages
         function setTheme(theme) {
-            console.log('Setting theme to:', theme);
+            localStorage.setItem('theme', theme);
 
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                console.log('Dark mode activated');
             } else {
                 document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                console.log('Light mode activated');
             }
 
             // Update button states
             updateThemeButtons();
+
+            // Dispatch event for consistency with main app
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
         }
 
         function updateThemeButtons() {
