@@ -29,7 +29,7 @@ $login = function () {
     <form wire:submit="login">
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" :value="__('Email adresa')" />
             <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email"
                 required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
@@ -37,7 +37,7 @@ $login = function () {
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Lozinka')" />
 
             <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full" type="password"
                 name="password" required autocomplete="current-password" />
@@ -51,13 +51,13 @@ $login = function () {
                 <input wire:model="form.remember" id="remember" type="checkbox"
                     class="rounded dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-slate-800"
                     name="remember">
-                <span class="ms-2 text-sm text-slate-600 dark:text-slate-400">{{ __('Remember me') }}</span>
+                <span class="ms-2 text-sm text-slate-600 dark:text-slate-400">{{ __('Zapamti me') }}</span>
             </label>
         </div>
 
         <div class="mt-6">
             <x-primary-button class="w-full justify-center py-3 px-4 text-base font-semibold">
-                {{ __('Log in') }}
+                {{ __('Prijavite se') }}
             </x-primary-button>
         </div>
 
@@ -67,7 +67,7 @@ $login = function () {
                 <a class="underline text-sm text-slate-600 hover:text-slate-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     href="{{ route('password.request') }}" wire:navigate>
                     <i class="fas fa-key mr-1"></i>
-                    {{ __('Forgot your password?') }}
+                    {{ __('Zaboravili ste lozinku?') }}
                 </a>
             @endif
 
