@@ -276,7 +276,7 @@
                         <!-- Login/Register links -->
                         <div class="flex space-x-2">
                             <a href="{{ route('login') }}"
-                                class="text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 text-sm font-medium">
+                                class="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400">
                                 Prijavi se
                             </a>
                             <a href="{{ route('register') }}"
