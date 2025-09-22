@@ -224,56 +224,56 @@
                             <!-- Main content -->
                             <div class="flex-1">
                                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                                {{ Str::limit($auction->listing->title, 40) }}</h3>
+                                    {{ Str::limit($auction->listing->title, 40) }}</h3>
 
-                            {{-- Prodavac info --}}
-                            @auth
-                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
-                                    Prodavac: {{ $auction->seller->name ?? 'Nepoznat korisnik' }}
-                                    @if ($auction->seller)
-                                        {!! $auction->seller->verified_icon !!}
-                                    @endif
-                                    @if ($auction->seller && $auction->seller->is_banned)
-                                        <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
-                                    @endif
-                                    @if ($auction->seller && $auction->seller->shouldShowLastSeen())
-                                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
-                                            @if ($auction->seller->is_online)
-                                                <span class="inline-flex items-center">
-                                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                {{-- Prodavac info --}}
+                                @auth
+                                    <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                        Prodavac: {{ $auction->seller->name ?? 'Nepoznat korisnik' }}
+                                        @if ($auction->seller)
+                                            {!! $auction->seller->verified_icon !!}
+                                        @endif
+                                        @if ($auction->seller && $auction->seller->is_banned)
+                                            <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
+                                        @endif
+                                        @if ($auction->seller && $auction->seller->shouldShowLastSeen())
+                                            <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
+                                                @if ($auction->seller->is_online)
+                                                    <span class="inline-flex items-center">
+                                                        <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                        {{ $auction->seller->last_seen }}
+                                                    </span>
+                                                @else
                                                     {{ $auction->seller->last_seen }}
-                                                </span>
-                                            @else
-                                                {{ $auction->seller->last_seen }}
-                                            @endif
-                                        </span>
-                                    @endif
-                                </p>
-                            @endauth
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </p>
+                                @endauth
 
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    <div class="text-2xl font-bold text-red-600 dark:text-red-400">
-                                        {{ number_format($auction->current_price, 0, ',', '.') }} RSD
-                                    </div>
-                                    <div class="text-sm text-slate-500 dark:text-slate-300">
-                                        {{ $auction->total_bids }} ponuda
-                                    </div>
-                                </div>
-                                @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
-                                    <div class="text-right">
-                                        <div class="text-sm text-slate-500 dark:text-slate-300">Kupi odmah:</div>
-                                        <div class="text-lg font-bold text-green-600 dark:text-green-400">
-                                            {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <div class="text-2xl font-bold text-red-600 dark:text-red-400">
+                                            {{ number_format($auction->current_price, 0, ',', '.') }} RSD
+                                        </div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-300">
+                                            {{ $auction->total_bids }} ponuda
                                         </div>
                                     </div>
-                                @endif
-                            </div>
+                                    @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
+                                        <div class="text-right">
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">Kupi odmah:</div>
+                                            <div class="text-lg font-bold text-green-600 dark:text-green-400">
+                                                {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
 
-                            <p class="text-slate-700 dark:text-slate-200 text-sm mb-3"
-                                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                                {{ Str::limit(strip_tags($auction->listing->description), 100) }}
-                            </p>
+                                <p class="text-slate-700 dark:text-slate-200 text-sm mb-3"
+                                    style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    {{ Str::limit(strip_tags($auction->listing->description), 100) }}
+                                </p>
                             </div>
 
                             <!-- Buttons - Always at bottom -->
