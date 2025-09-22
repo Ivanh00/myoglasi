@@ -6,21 +6,40 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Http\UploadedFile;
+use App\Models\Setting;
 
 class ImageOptimizationService
 {
     protected $manager;
-
-    protected $sizes = [
-        'desktop' => ['width' => 1200, 'suffix' => '_desktop'],
-        'tablet' => ['width' => 800, 'suffix' => '_tablet'],
-        'mobile' => ['width' => 400, 'suffix' => '_mobile'],
-        'thumbnail' => ['width' => 200, 'suffix' => '_thumb'],
-    ];
+    protected $sizes;
 
     public function __construct()
     {
         $this->manager = new ImageManager(new Driver());
+
+        // Load sizes from settings with defaults
+        $this->sizes = [
+            'desktop' => [
+                'width' => Setting::get('image_desktop_width', 1200),
+                'quality' => Setting::get('image_desktop_quality', 85),
+                'suffix' => '_desktop'
+            ],
+            'tablet' => [
+                'width' => Setting::get('image_tablet_width', 800),
+                'quality' => Setting::get('image_tablet_quality', 80),
+                'suffix' => '_tablet'
+            ],
+            'mobile' => [
+                'width' => Setting::get('image_mobile_width', 400),
+                'quality' => Setting::get('image_mobile_quality', 75),
+                'suffix' => '_mobile'
+            ],
+            'thumbnail' => [
+                'width' => Setting::get('image_thumbnail_width', 200),
+                'quality' => Setting::get('image_thumbnail_quality', 75),
+                'suffix' => '_thumb'
+            ],
+        ];
     }
 
     /**
@@ -46,8 +65,9 @@ class ImageOptimizationService
             $originalImage->scale(width: $this->sizes['desktop']['width']);
         }
 
-        // Save original with compression
-        $originalImage->toJpeg(quality: 85)->save(storage_path('app/public/' . $originalPath));
+        // Save original with compression (use desktop quality setting)
+        $originalQuality = $this->sizes['desktop']['quality'];
+        $originalImage->toJpeg(quality: $originalQuality)->save(storage_path('app/public/' . $originalPath));
         $uploadedFiles['original'] = $originalPath;
 
         // Create responsive versions
@@ -62,12 +82,8 @@ class ImageOptimizationService
                 $image->scale(width: $sizeConfig['width']);
             }
 
-            // Adjust quality based on size
-            $quality = match($sizeName) {
-                'mobile', 'thumbnail' => 75,
-                'tablet' => 80,
-                default => 85,
-            };
+            // Use quality from settings
+            $quality = $sizeConfig['quality'] ?? 85;
 
             // Save optimized version
             $image->toJpeg(quality: $quality)->save(storage_path('app/public/' . $resizedPath));

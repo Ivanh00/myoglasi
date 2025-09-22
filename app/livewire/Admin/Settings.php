@@ -36,7 +36,17 @@ class Settings extends Component
     public $serviceFeeEnabled;
     public $serviceFeeAmount;
     public $maxGiveawayRequests;
-    
+
+    // Image Optimization Settings
+    public $imageDesktopWidth;
+    public $imageTabletWidth;
+    public $imageMobileWidth;
+    public $imageThumbnailWidth;
+    public $imageDesktopQuality;
+    public $imageTabletQuality;
+    public $imageMobileQuality;
+    public $imageThumbnailQuality;
+
     // Credit Earning Settings
     public $gameCreditEnabled;
     public $gameCreditAmount;
@@ -110,6 +120,15 @@ class Settings extends Component
         'showLastSeen' => 'required|boolean',
         'serviceFeeEnabled' => 'required|boolean',
         'serviceFeeAmount' => 'required|integer|min:1|max:10000',
+        // Image optimization
+        'imageDesktopWidth' => 'required|integer|min:800|max:2400',
+        'imageTabletWidth' => 'required|integer|min:600|max:1600',
+        'imageMobileWidth' => 'required|integer|min:300|max:800',
+        'imageThumbnailWidth' => 'required|integer|min:100|max:400',
+        'imageDesktopQuality' => 'required|integer|min:60|max:100',
+        'imageTabletQuality' => 'required|integer|min:60|max:100',
+        'imageMobileQuality' => 'required|integer|min:60|max:100',
+        'imageThumbnailQuality' => 'required|integer|min:60|max:100',
         'gameCreditEnabled' => 'required|boolean',
         'gameCreditAmount' => 'required|integer|min:1|max:1000',
         'dailyContestEnabled' => 'required|boolean',
@@ -183,6 +202,17 @@ class Settings extends Component
         $this->serviceFeeEnabled = Setting::get('service_fee_enabled', true);
         $this->serviceFeeAmount = Setting::get('service_fee_amount', 100);
         $this->maxGiveawayRequests = Setting::get('max_giveaway_requests', 9);
+
+        // Image Optimization Settings
+        $this->imageDesktopWidth = Setting::get('image_desktop_width', 1200);
+        $this->imageTabletWidth = Setting::get('image_tablet_width', 800);
+        $this->imageMobileWidth = Setting::get('image_mobile_width', 400);
+        $this->imageThumbnailWidth = Setting::get('image_thumbnail_width', 200);
+        $this->imageDesktopQuality = Setting::get('image_desktop_quality', 85);
+        $this->imageTabletQuality = Setting::get('image_tablet_quality', 80);
+        $this->imageMobileQuality = Setting::get('image_mobile_quality', 75);
+        $this->imageThumbnailQuality = Setting::get('image_thumbnail_quality', 75);
+
         $this->gameCreditEnabled = Setting::get('game_credit_enabled', true);
         $this->gameCreditAmount = Setting::get('game_credit_amount', 100);
         $this->dailyContestEnabled = Setting::get('daily_contest_enabled', true);
@@ -295,6 +325,15 @@ class Settings extends Component
             'promotionDoubleImagesDays' => 'required|integer|min:1|max:365',
             'promotionExtendedDurationPrice' => 'required|integer|min:1|max:10000',
             'promotionExtendedDurationDays' => 'required|integer|min:1|max:365',
+            // Image optimization
+            'imageDesktopWidth' => 'required|integer|min:800|max:2400',
+            'imageTabletWidth' => 'required|integer|min:600|max:1600',
+            'imageMobileWidth' => 'required|integer|min:300|max:800',
+            'imageThumbnailWidth' => 'required|integer|min:100|max:400',
+            'imageDesktopQuality' => 'required|integer|min:60|max:100',
+            'imageTabletQuality' => 'required|integer|min:60|max:100',
+            'imageMobileQuality' => 'required|integer|min:60|max:100',
+            'imageThumbnailQuality' => 'required|integer|min:60|max:100',
         ]);
 
         Setting::set('site_name', $this->siteName, 'string', 'general');
@@ -313,7 +352,17 @@ class Settings extends Component
         Setting::set('daily_contest_amount', $this->dailyContestAmount, 'integer', 'general');
         Setting::set('game_leaderboard_enabled', $this->gameLeaderboardEnabled, 'boolean', 'general');
         Setting::set('game_leaderboard_bonus', $this->gameLeaderboardBonus, 'integer', 'general');
-        
+
+        // Save image optimization settings
+        Setting::set('image_desktop_width', $this->imageDesktopWidth, 'integer', 'general');
+        Setting::set('image_tablet_width', $this->imageTabletWidth, 'integer', 'general');
+        Setting::set('image_mobile_width', $this->imageMobileWidth, 'integer', 'general');
+        Setting::set('image_thumbnail_width', $this->imageThumbnailWidth, 'integer', 'general');
+        Setting::set('image_desktop_quality', $this->imageDesktopQuality, 'integer', 'general');
+        Setting::set('image_tablet_quality', $this->imageTabletQuality, 'integer', 'general');
+        Setting::set('image_mobile_quality', $this->imageMobileQuality, 'integer', 'general');
+        Setting::set('image_thumbnail_quality', $this->imageThumbnailQuality, 'integer', 'general');
+
         // Save promotion settings
         Setting::set('promotion_featured_category_price', $this->promotionFeaturedCategoryPrice, 'integer', 'promotions');
         Setting::set('promotion_featured_category_days', $this->promotionFeaturedCategoryDays, 'integer', 'promotions');

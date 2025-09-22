@@ -548,6 +548,113 @@
                 </div>
             </div>
 
+            <!-- Image Optimization Settings -->
+            <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md p-6 space-y-6 mt-6">
+                <div class="border-b border-slate-200 dark:border-slate-600 pb-4">
+                    <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100">
+                        <i class="fas fa-image mr-2"></i>
+                        Optimizacija slika
+                    </h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                        Podesite veličine i kvalitet slika za različite uređaje
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Width Settings -->
+                    <div class="space-y-4">
+                        <h4 class="font-medium text-slate-700 dark:text-slate-200">Širina slika (px)</h4>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Desktop</label>
+                            <input type="number" wire:model="imageDesktopWidth" min="800" max="2400"
+                                class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                            @error('imageDesktopWidth')
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Tablet</label>
+                            <input type="number" wire:model="imageTabletWidth" min="600" max="1600"
+                                class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                            @error('imageTabletWidth')
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Mobilni</label>
+                            <input type="number" wire:model="imageMobileWidth" min="300" max="800"
+                                class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                            @error('imageMobileWidth')
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Thumbnail</label>
+                            <input type="number" wire:model="imageThumbnailWidth" min="100" max="400"
+                                class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                            @error('imageThumbnailWidth')
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Quality Settings -->
+                    <div class="space-y-4">
+                        <h4 class="font-medium text-slate-700 dark:text-slate-200">Kvalitet slika (%)</h4>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Desktop kvalitet</label>
+                            <input type="number" wire:model="imageDesktopQuality" min="60" max="100"
+                                class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                            @error('imageDesktopQuality')
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Tablet kvalitet</label>
+                            <input type="number" wire:model="imageTabletQuality" min="60" max="100"
+                                class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                            @error('imageTabletQuality')
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Mobilni kvalitet</label>
+                            <input type="number" wire:model="imageMobileQuality" min="60" max="100"
+                                class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                            @error('imageMobileQuality')
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Thumbnail kvalitet</label>
+                            <input type="number" wire:model="imageThumbnailQuality" min="60" max="100"
+                                class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                            @error('imageThumbnailQuality')
+                                <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs text-blue-600 mt-3 p-3 bg-blue-100 border border-blue-300 rounded">
+                    💡 <strong>Preporuke:</strong>
+                    <ul class="mt-2 space-y-1">
+                        <li>• Desktop: 1200px širine, 85% kvalitet</li>
+                        <li>• Tablet: 800px širine, 80% kvalitet</li>
+                        <li>• Mobilni: 400px širine, 75% kvalitet</li>
+                        <li>• Veći kvalitet = bolje slike ali sporije učitavanje</li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="flex justify-end mt-10">
                 <button wire:click="saveGeneralSettings"
                     class="px-6 py-3 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition-colors">
