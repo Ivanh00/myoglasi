@@ -60,7 +60,10 @@
                             </button>
                             @foreach($categories as $category)
                                 <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900' : '' }} {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900' : '' }} {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                    @if($category->icon)
+                                        <i class="{{ $category->icon }} text-amber-600 dark:text-amber-400 mr-2"></i>
+                                    @endif
                                     {{ $category->name }}
                                 </button>
                             @endforeach
@@ -190,7 +193,10 @@
                             </button>
                             @foreach($categories as $category)
                                 <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900' : '' }} {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900' : '' }} {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                    @if($category->icon)
+                                        <i class="{{ $category->icon }} text-amber-600 dark:text-amber-400 mr-2"></i>
+                                    @endif
                                     {{ $category->name }}
                                 </button>
                             @endforeach
