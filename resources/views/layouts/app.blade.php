@@ -18,11 +18,12 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <!-- Global Dark Mode Styles for Custom Components -->
     <style>
         /* Prevent horizontal overflow on mobile */
-        html, body {
+        html,
+        body {
             overflow-x: hidden !important;
             max-width: 100vw !important;
             width: 100%;
@@ -71,135 +72,163 @@
             }
 
             /* Ensure flex items don't overflow */
-            .flex > * {
+            .flex>* {
                 min-width: 0;
                 max-width: 100%;
             }
         }
+
         /* Dark mode for notification modal only - make it transparent */
         .dark .notification-modal {
             background-color: transparent !important;
             border-color: transparent !important;
         }
+
         .dark .notification-modal .modal-content {
             background-color: rgb(31 41 55) !important;
             color: rgb(229 231 235) !important;
         }
-        
+
         /* Specific fixes for notification and conversation windows */
-        .dark .notification-popup-header, .dark .conversation-header {
-            background-color: rgb(31 41 55) !important; /* slate-800 */
+        .dark .notification-popup-header,
+        .dark .conversation-header {
+            background-color: rgb(31 41 55) !important;
+            /* slate-800 */
             color: rgb(229 231 235) !important;
             border-bottom: 1px solid rgb(75 85 99) !important;
         }
-        .dark .notification-popup, .dark .conversation-window {
-            background-color: rgb(17 24 39) !important; /* slate-900 */
+
+        .dark .notification-popup,
+        .dark .conversation-window {
+            background-color: rgb(17 24 39) !important;
+            /* slate-900 */
         }
-        .dark .notification-cards, .dark .info-cards {
-            background-color: rgb(55 65 81) !important; /* slate-700 */
+
+        .dark .notification-cards,
+        .dark .info-cards {
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 */
             border: 1px solid rgb(75 85 99) !important;
         }
+
         .dark .message-input-area {
-            background-color: rgb(31 41 55) !important; /* slate-800 */
+            background-color: rgb(31 41 55) !important;
+            /* slate-800 */
             border-top: 1px solid rgb(75 85 99) !important;
         }
-        
+
         /* Override white backgrounds only in notification modal */
-        .dark .notification-modal [class*="bg-white"], 
-        .dark .notification-modal div[style*="background: white"], 
+        .dark .notification-modal [class*="bg-white"],
+        .dark .notification-modal div[style*="background: white"],
         .dark .notification-modal div[style*="background-color: white"],
-        .dark .notification-modal div[style*="background:#fff"], 
+        .dark .notification-modal div[style*="background:#fff"],
         .dark .notification-modal div[style*="background-color:#fff"],
-        .dark .notification-modal div[style*="background: #fff"], 
+        .dark .notification-modal div[style*="background: #fff"],
         .dark .notification-modal div[style*="background-color: #ffffff"] {
             background-color: rgb(31 41 55) !important;
             color: rgb(229 231 235) !important;
         }
-        
+
         /* Force dark mode on notification modal content only */
-        .dark .notification-modal .modal-dialog, 
+        .dark .notification-modal .modal-dialog,
         .dark .notification-modal .modal-body,
-        .dark .notification-modal[role="dialog"], 
+        .dark .notification-modal[role="dialog"],
         .dark .notification-modal[role="alertdialog"] {
             background-color: rgb(31 41 55) !important;
             color: rgb(229 231 235) !important;
         }
-        
+
         /* Dark mode for notification modal parts only */
-        .dark .notification-modal .modal-header, 
+        .dark .notification-modal .modal-header,
         .dark .notification-modal .modal-footer,
         .dark .notification-modal .modal-body {
             background-color: rgb(31 41 55) !important;
             color: rgb(229 231 235) !important;
             border-color: rgb(75 85 99) !important;
         }
-        
+
         /* Message and admin contact specific */
-        .dark .chat-window, .dark .conversation-view, .dark .admin-chat {
-            background-color: rgb(17 24 39) !important; /* slate-900 */
+        .dark .chat-window,
+        .dark .conversation-view,
+        .dark .admin-chat {
+            background-color: rgb(17 24 39) !important;
+            /* slate-900 */
         }
-        
+
         /* Info sections in popups */
-        .dark .listing-info, .dark .user-info-section, .dark .notification-details {
-            background-color: rgb(55 65 81) !important; /* slate-700 */
+        .dark .listing-info,
+        .dark .user-info-section,
+        .dark .notification-details {
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 */
             border-color: rgb(75 85 99) !important;
         }
-        
+
         /* Target specific notification popup elements only */
-        .dark .notification-modal .modal-content, 
-        .dark .notification-modal .modal-header, 
-        .dark .notification-modal .modal-body, 
+        .dark .notification-modal .modal-content,
+        .dark .notification-modal .modal-header,
+        .dark .notification-modal .modal-body,
         .dark .notification-modal .modal-footer {
-            background-color: rgb(31 41 55) !important; /* slate-800 */
+            background-color: rgb(31 41 55) !important;
+            /* slate-800 */
             color: rgb(229 231 235) !important;
             border-color: rgb(75 85 99) !important;
         }
-        
+
         .dark .notification-modal .notification-details {
-            background-color: rgb(55 65 81) !important; /* slate-700 */
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 */
             color: rgb(229 231 235) !important;
             border: 1px solid rgb(75 85 99) !important;
             border-radius: 0.5rem !important;
             padding: 1rem !important;
             margin: 0.5rem 0 !important;
         }
-        
-        .dark .notification-modal .notification-listing-info, 
-        .dark .notification-modal .notification-user-info, 
+
+        .dark .notification-modal .notification-listing-info,
+        .dark .notification-modal .notification-user-info,
         .dark .notification-modal .notification-time-info {
-            background-color: rgb(55 65 81) !important; /* slate-700 */
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 */
             color: rgb(229 231 235) !important;
             border: 1px solid rgb(75 85 99) !important;
-            border-left: 4px solid rgb(14, 165, 233) !important; /* sky-500 left border */
+            border-left: 4px solid rgb(14, 165, 233) !important;
+            /* sky-500 left border */
             border-radius: 0.5rem !important;
             padding: 1rem !important;
             margin: 0.5rem 0 !important;
         }
-        
+
         .dark .notification-modal .listing-link {
-            color: rgb(14, 165, 233) !important; /* sky-500 - brighter blue */
+            color: rgb(14, 165, 233) !important;
+            /* sky-500 - brighter blue */
         }
-        
+
         .dark .notification-modal .view-listing-btn {
-            background-color: rgb(2, 132, 199) !important; /* sky-600 */
+            background-color: rgb(2, 132, 199) !important;
+            /* sky-600 */
             color: white !important;
         }
-        
+
         /* Specific red auction button in notification popup only */
-        .dark .notification-modal .modal-footer a[href*="auction"], 
+        .dark .notification-modal .modal-footer a[href*="auction"],
         .dark .notification-modal .modal-body a[href*="auction"] {
-            background-color: rgb(220 38 38) !important; /* red-600 */
+            background-color: rgb(220 38 38) !important;
+            /* red-600 */
             color: white !important;
         }
-        
+
         .dark .notification-modal .close-btn {
-            background-color: rgb(75 85 99) !important; /* slate-600 */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 */
             color: rgb(229 231 235) !important;
         }
+
         .dark .notification-modal .close-btn:hover {
-            background-color: rgb(107 114 128) !important; /* slate-500 */
+            background-color: rgb(107 114 128) !important;
+            /* slate-500 */
         }
-        
+
         /* Specific overrides for white cards only in notification modal */
         .dark .notification-modal div[class*="bg-white"],
         .dark .notification-modal div[class*="rounded"] {
@@ -207,13 +236,17 @@
             color: rgb(229 231 235) !important;
             border-color: rgb(75 85 99) !important;
         }
-        
+
         /* Headers and titles only in notification modal */
-        .dark .notification-modal h1, .dark .notification-modal h2, .dark .notification-modal h3,
-        .dark .notification-modal h4, .dark .notification-modal h5, .dark .notification-modal h6 {
+        .dark .notification-modal h1,
+        .dark .notification-modal h2,
+        .dark .notification-modal h3,
+        .dark .notification-modal h4,
+        .dark .notification-modal h5,
+        .dark .notification-modal h6 {
             color: rgb(229 231 235) !important;
         }
-        
+
         /* Buttons only in notification modal */
         .dark .notification-modal button[class*="bg-gray"],
         .dark .notification-modal .btn-secondary {
@@ -221,180 +254,227 @@
             color: rgb(229 231 235) !important;
             border-color: rgb(107 114 128) !important;
         }
-        
+
         /* Force text to be light only in notification modal - exclude overlay */
         .dark .notification-modal *:not(.modal-overlay) {
             color: rgb(229 231 235) !important;
         }
-        
+
         /* Ensure modal overlay remains transparent in dark mode */
         .dark .modal-overlay {
             background-color: rgba(0, 0, 0, 0.5) !important;
         }
-        
-        
-        
+
+
+
         /* Preserve colored text only in notification modal */
-        .dark .notification-modal .text-sky-600, 
-        .dark .notification-modal .text-sky-700, 
+        .dark .notification-modal .text-sky-600,
+        .dark .notification-modal .text-sky-700,
         .dark .notification-modal .text-sky-800 {
-            color: rgb(147 197 253) !important; /* sky-300 */
+            color: rgb(147 197 253) !important;
+            /* sky-300 */
         }
-        .dark .notification-modal .text-green-600, 
+
+        .dark .notification-modal .text-green-600,
         .dark .notification-modal .text-green-700 {
-            color: rgb(134 239 172) !important; /* green-300 */
+            color: rgb(134 239 172) !important;
+            /* green-300 */
         }
-        .dark .notification-modal .text-red-600, 
+
+        .dark .notification-modal .text-red-600,
         .dark .notification-modal .text-red-700 {
-            color: rgb(252 165 165) !important; /* red-300 */
+            color: rgb(252 165 165) !important;
+            /* red-300 */
         }
-        .dark .notification-modal .text-amber-600, 
+
+        .dark .notification-modal .text-amber-600,
         .dark .notification-modal .text-amber-700 {
-            color: rgb(253 224 71) !important; /* amber-300 */
+            color: rgb(253 224 71) !important;
+            /* amber-300 */
         }
-        
+
         /* Close button styling only in notification modal */
-        .dark .notification-modal button[class*="bg-gray-"], 
-        .dark .notification-modal .btn-cancel, 
+        .dark .notification-modal button[class*="bg-gray-"],
+        .dark .notification-modal .btn-cancel,
         .dark .notification-modal .btn-close {
-            background-color: rgb(75 85 99) !important; /* slate-600 */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 */
             color: rgb(229 231 235) !important;
-            border: 1px solid rgb(107 114 128) !important; /* slate-500 */
+            border: 1px solid rgb(107 114 128) !important;
+            /* slate-500 */
         }
-        .dark .notification-modal button[class*="bg-gray-"]:hover, 
-        .dark .notification-modal .btn-cancel:hover, 
+
+        .dark .notification-modal button[class*="bg-gray-"]:hover,
+        .dark .notification-modal .btn-cancel:hover,
         .dark .notification-modal .btn-close:hover {
-            background-color: rgb(107 114 128) !important; /* slate-500 - lighter on hover */
+            background-color: rgb(107 114 128) !important;
+            /* slate-500 - lighter on hover */
             color: rgb(255 255 255) !important;
         }
-        
+
         /* X close button specific only in notification modal */
-        .dark .notification-modal .close-button, 
+        .dark .notification-modal .close-button,
         .dark .notification-modal button[type="button"]:not([class*="bg-blue"]):not([class*="bg-red"]):not([class*="bg-green"]):not([class*="bg-yellow"]) {
             background-color: rgb(75 85 99) !important;
             color: rgb(229 231 235) !important;
         }
+
         .dark .notification-modal .close-button:hover {
             background-color: rgb(107 114 128) !important;
             color: rgb(255 255 255) !important;
         }
-        
+
         /* Fix popup buttons in all modals and forms */
         .dark .bg-sky-600 {
-            background-color: rgb(2, 132, 199) !important; /* sky-600 */
+            background-color: rgb(2, 132, 199) !important;
+            /* sky-600 */
         }
-        
+
         .dark .hover\\:bg-sky-700:hover {
-            background-color: rgb(29 78 216) !important; /* sky-700 */
+            background-color: rgb(29 78 216) !important;
+            /* sky-700 */
         }
-        
+
         .dark .bg-slate-600 {
-            background-color: rgb(75 85 99) !important; /* slate-600 */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 */
         }
-        
+
         .dark .hover\\:bg-slate-50:hover {
-            background-color: rgb(55 65 81) !important; /* slate-700 */
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 */
         }
-        
+
         .dark .text-slate-600 {
-            color: rgb(156 163 175) !important; /* slate-400 */
+            color: rgb(156 163 175) !important;
+            /* slate-400 */
         }
-        
+
         .dark .border-slate-300 {
-            border-color: rgb(75 85 99) !important; /* slate-600 */
+            border-color: rgb(75 85 99) !important;
+            /* slate-600 */
         }
-        
+
         /* Secondary/Cancel buttons styling */
         .dark button[class*="text-slate-600"][class*="border-slate-300"],
         .dark a[class*="text-slate-600"][class*="border-slate-300"] {
-            background-color: rgb(55 65 81) !important; /* slate-700 - dark background */
-            color: rgb(209 213 219) !important; /* slate-300 - light text */
-            border-color: rgb(75 85 99) !important; /* slate-600 - visible border */
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 - dark background */
+            color: rgb(209 213 219) !important;
+            /* slate-300 - light text */
+            border-color: rgb(75 85 99) !important;
+            /* slate-600 - visible border */
         }
-        
+
         .dark button[class*="text-slate-600"][class*="hover:bg-slate-50"]:hover,
         .dark a[class*="text-slate-600"][class*="hover:bg-slate-50"]:hover {
-            background-color: rgb(75 85 99) !important; /* slate-600 - lighter on hover */
-            color: rgb(229 231 235) !important; /* slate-200 - even lighter text */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 - lighter on hover */
+            color: rgb(229 231 235) !important;
+            /* slate-200 - even lighter text */
         }
-        
+
         /* Cancel/Close buttons with bg-slate-300 styling - direct approach */
         .dark .bg-slate-300 {
-            background-color: rgb(55 65 81) !important; /* slate-700 - dark background */
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 - dark background */
         }
-        
+
         .dark .text-slate-700 {
-            color: rgb(209 213 219) !important; /* slate-300 - light text */
+            color: rgb(209 213 219) !important;
+            /* slate-300 - light text */
         }
-        
+
         .dark .hover\\:bg-slate-400:hover {
-            background-color: rgb(75 85 99) !important; /* slate-600 - lighter on hover */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 - lighter on hover */
         }
-        
+
         /* Direct targeting for all gray buttons in dark mode */
         .dark button.bg-slate-300 {
-            background-color: rgb(55 65 81) !important; /* slate-700 */
-            color: rgb(209 213 219) !important; /* slate-300 */
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 */
+            color: rgb(209 213 219) !important;
+            /* slate-300 */
         }
-        
+
         .dark button.bg-slate-300:hover {
-            background-color: rgb(75 85 99) !important; /* slate-600 */
-            color: rgb(229 231 235) !important; /* slate-200 */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 */
+            color: rgb(229 231 235) !important;
+            /* slate-200 */
         }
-        
+
         .dark button.text-slate-700 {
-            color: rgb(209 213 219) !important; /* slate-300 */
+            color: rgb(209 213 219) !important;
+            /* slate-300 */
         }
-        
+
         /* Specific styling for cancel buttons */
         .dark button[class*="bg-slate-300"][class*="text-slate-700"] {
-            background-color: rgb(55 65 81) !important; /* slate-700 */
-            color: rgb(209 213 219) !important; /* slate-300 */
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 */
+            color: rgb(209 213 219) !important;
+            /* slate-300 */
         }
-        
+
         .dark button[class*="bg-slate-300"][class*="hover:bg-slate-400"]:hover {
-            background-color: rgb(75 85 99) !important; /* slate-600 - lighter on hover */
-            color: rgb(229 231 235) !important; /* slate-200 - even lighter text */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 - lighter on hover */
+            color: rgb(229 231 235) !important;
+            /* slate-200 - even lighter text */
         }
-        
+
         /* Cancel buttons with bg-white styling */
         .dark button.bg-white {
-            background-color: rgb(55 65 81) !important; /* slate-700 */
-            color: rgb(209 213 219) !important; /* slate-300 */
-            border-color: rgb(75 85 99) !important; /* slate-600 */
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 */
+            color: rgb(209 213 219) !important;
+            /* slate-300 */
+            border-color: rgb(75 85 99) !important;
+            /* slate-600 */
         }
-        
+
         .dark button.bg-white:hover {
-            background-color: rgb(75 85 99) !important; /* slate-600 */
-            color: rgb(229 231 235) !important; /* slate-200 */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 */
+            color: rgb(229 231 235) !important;
+            /* slate-200 */
         }
-        
+
         /* All types of cancel buttons - comprehensive coverage */
         .dark button[class*="bg-white"][class*="text-slate-700"],
         .dark button[class*="bg-white"][class*="border-slate-300"] {
-            background-color: rgb(55 65 81) !important; /* slate-700 */
-            color: rgb(209 213 219) !important; /* slate-300 */
-            border-color: rgb(75 85 99) !important; /* slate-600 */
+            background-color: rgb(55 65 81) !important;
+            /* slate-700 */
+            color: rgb(209 213 219) !important;
+            /* slate-300 */
+            border-color: rgb(75 85 99) !important;
+            /* slate-600 */
         }
-        
+
         .dark button[class*="bg-white"]:hover {
-            background-color: rgb(75 85 99) !important; /* slate-600 */
-            color: rgb(229 231 235) !important; /* slate-200 */
+            background-color: rgb(75 85 99) !important;
+            /* slate-600 */
+            color: rgb(229 231 235) !important;
+            /* slate-200 */
         }
-        
+
         /* Remove focus ring from cancel buttons completely - like other cancel buttons */
         .dark button[class*="bg-white"][class*="focus:ring-sky-500"]:focus,
         .dark button[class*="bg-slate-300"][class*="focus:ring-sky-500"]:focus,
         .dark button[class*="text-slate-600"][class*="focus:ring-sky-500"]:focus {
-            --tw-ring-color: transparent !important; /* no ring */
+            --tw-ring-color: transparent !important;
+            /* no ring */
             box-shadow: none !important;
         }
-        
+
         /* Also remove in light mode for consistency */
         button[class*="bg-white"][class*="focus:ring-sky-500"]:focus,
         button[class*="bg-slate-300"][class*="focus:ring-sky-500"]:focus,
         button[class*="text-slate-600"][class*="focus:ring-sky-500"]:focus {
-            --tw-ring-color: transparent !important; /* no ring in light mode either */
+            --tw-ring-color: transparent !important;
+            /* no ring in light mode either */
             box-shadow: none !important;
         }
     </style>
@@ -402,7 +482,8 @@
     <!-- Dark Mode Script (must be in head to prevent flash) -->
     <script>
         // Check for saved theme preference or default to system preference
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
         } else {
             document.documentElement.classList.remove('dark')
@@ -461,7 +542,7 @@
         <!-- Main Content with Sidebar -->
         <div class="flex">
             <!-- Desktop Sidebar -->
-            <aside class="hidden md:block w-64 bg-white dark:bg-slate-800 shadow-md sticky top-16 h-screen">
+            <aside class="hidden md:block w-64 bg-white dark:bg-slate-800 shadow-md sticky h-screen">
                 <livewire:category-sidebar />
             </aside>
 
@@ -525,7 +606,9 @@
             applyTheme();
 
             // Dispatch custom event for other components to update their UI
-            window.dispatchEvent(new CustomEvent('theme-changed', { detail: newTheme }));
+            window.dispatchEvent(new CustomEvent('theme-changed', {
+                detail: newTheme
+            }));
         }
 
         // Global function to set specific theme
@@ -534,7 +617,9 @@
             applyTheme();
 
             // Dispatch custom event for other components to update their UI
-            window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
+            window.dispatchEvent(new CustomEvent('theme-changed', {
+                detail: theme
+            }));
         }
 
         // Apply theme before each Livewire request to ensure consistency

@@ -294,8 +294,8 @@
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open" type="button"
                                 class="inline-flex items-center justify-center w-10 h-10 border border-slate-300 dark:border-slate-600 rounded-full shadow-sm bg-white dark:bg-slate-700 hover:bg-green-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400">
-                                <svg class="h-5 w-5 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-slate-700 dark:text-slate-200" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
@@ -361,7 +361,7 @@
             </div>
 
             <!-- Mobile Search Bar - Full width below navigation -->
-            <div class="md:hidden px-2 py-3 border-t border-slate-200 dark:border-slate-700">
+            <div class="md:hidden px-0 md:px-2 py-3 border-t border-slate-200 dark:border-slate-700">
                 @include('livewire.layout.search-new')
             </div>
 

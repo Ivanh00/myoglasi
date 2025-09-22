@@ -87,7 +87,7 @@
             @if (request()->routeIs('home'))
                 Ukupno: <span class="font-semibold">{{ $results->total() }}</span>
                 @if ($content_type === 'all')
-                    objava (oglasi, aukcije, usluge, pokloni)
+                    objava
                 @elseif($content_type === 'auctions')
                     aukcija
                 @elseif($content_type === 'services')
@@ -234,7 +234,7 @@
                 @if (request()->routeIs('home'))
                     Ukupno: <span class="font-semibold">{{ $results->total() }}</span>
                     @if ($content_type === 'all')
-                        objava (oglasi, aukcije, usluge, pokloni)
+                        objava
                     @elseif($content_type === 'auctions')
                         aukcija
                     @elseif($content_type === 'services')
