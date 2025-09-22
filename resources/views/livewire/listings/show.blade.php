@@ -11,7 +11,7 @@
         </div>
     @else
         <!-- Navigacija - breadcrumbs -->
-        <nav class="mb-6 flex" aria-label="Breadcrumb">
+        {{-- <nav class="mb-6 flex" aria-label="Breadcrumb">
             <ol class="flex items-center space-x-2">
                 <li>
                     <a href="{{ route('home') }}"
@@ -41,7 +41,7 @@
                         class="text-slate-700 dark:text-slate-200 font-medium truncate">{{ Str::limit($listing->title, 30) }}</span>
                 </li>
             </ol>
-        </nav>
+        </nav> --}}
 
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden">
             <!-- Glavni deo - slika i osnovne informacije -->
