@@ -50,26 +50,29 @@
                 <div>
                     @if ($listing->images->count() > 0)
                         @php
-                            $imageArray = $listing->images->map(function($img) use ($listing) {
-                                return ['url' => $img->url, 'alt' => $listing->title];
-                            })->toArray();
+                            $imageArray = $listing->images
+                                ->map(function ($img) use ($listing) {
+                                    return ['url' => $img->url, 'alt' => $listing->title];
+                                })
+                                ->toArray();
                         @endphp
                         <x-image-lightbox :images="$imageArray" :title="$listing->title">
                             <div class="relative">
                                 <!-- Glavna slika -->
                                 <div class="mb-4 rounded-lg overflow-hidden relative">
-                                    <img id="mainImage"
-                                        src="{{ $listing->images->first()->url }}"
+                                    <img id="mainImage" src="{{ $listing->images->first()->url }}"
                                         alt="{{ $listing->title }}"
                                         class="w-full h-80 object-cover rounded-lg cursor-pointer hover:opacity-95 transition-opacity"
                                         @click="openLightbox(0)">
 
                                     <!-- Zoom icon overlay -->
                                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-20"
-                                         @click="openLightbox(0)">
+                                        @click="openLightbox(0)">
                                         <div class="bg-white bg-opacity-90 rounded-full p-3">
-                                            <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
+                                            <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
                                             </svg>
                                         </div>
                                     </div>
@@ -436,7 +439,7 @@
             </div>
 
             <!-- Opis oglasa -->
-            <div class="border-t border-slate-200 dark:border-slate-600 p-6">
+            <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6">
                 <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">
                     @if ($listing->isService())
                         Opis usluge
@@ -450,7 +453,7 @@
             </div>
 
             {{-- Uslovi prodaje – prikaz ako postoje --}}
-            <div class="border-t border-slate-200 dark:border-slate-600 p-6">
+            <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6">
                 @if ($listing->user->seller_terms)
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">Uslovi prodaje</h3>
@@ -463,7 +466,7 @@
 
             <!-- Informacije o prodavcu (only for authenticated users) -->
             @auth
-                <div class="border-t border-slate-200 dark:border-slate-600 p-6 bg-slate-50 dark:bg-slate-700">
+                <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6 bg-slate-50 dark:bg-slate-700">
                     <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">
                         @if ($listing->isService())
                             Informacije o pružaocu usluge

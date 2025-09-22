@@ -38,24 +38,27 @@
             <div>
                 @if ($service->images->count() > 0)
                     @php
-                        $imageArray = $service->images->map(function($img) use ($service) {
-                            return ['url' => $img->url, 'alt' => $service->title];
-                        })->toArray();
+                        $imageArray = $service->images
+                            ->map(function ($img) use ($service) {
+                                return ['url' => $img->url, 'alt' => $service->title];
+                            })
+                            ->toArray();
                     @endphp
                     <x-image-lightbox :images="$imageArray" :title="$service->title">
                         <div class="relative">
                             <!-- Glavna slika -->
                             <div class="mb-4 rounded-lg overflow-hidden relative">
-                                <img id="mainImage"
-                                     src="{{ $service->images->first()->url }}"
-                                     alt="{{ $service->title }}"
-                                     class="w-full h-80 object-cover rounded-lg cursor-pointer hover:opacity-95 transition-opacity"
-                                     @click="openLightbox(0)">
+                                <img id="mainImage" src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
+                                    class="w-full h-80 object-cover rounded-lg cursor-pointer hover:opacity-95 transition-opacity"
+                                    @click="openLightbox(0)">
                                 <!-- Zoom icon overlay -->
-                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-20">
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-20">
                                     <div class="bg-white bg-opacity-90 rounded-full p-3">
-                                        <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
+                                        <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
                                         </svg>
                                     </div>
                                 </div>
@@ -282,13 +285,13 @@
         </div>
 
         <!-- Opis usluge -->
-        <div class="border-t border-slate-200 dark:border-slate-600 p-6">
+        <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6">
             <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">Opis usluge</h2>
             <div class="text-slate-700 dark:text-slate-200 whitespace-pre-line">{{ $service->description }}</div>
         </div>
 
         {{-- Uslovi pružanja usluge – prikaz ako postoje --}}
-        <div class="border-t border-slate-200 dark:border-slate-600 p-6">
+        <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6">
             @if ($service->user->seller_terms)
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">Uslovi pružanja usluge
@@ -302,7 +305,7 @@
 
         <!-- Informacije o pružaocu usluge -->
         @auth
-            <div class="border-t border-slate-200 dark:border-slate-600 p-6 bg-slate-50 dark:bg-slate-700">
+            <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6 bg-slate-50 dark:bg-slate-700">
                 <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">Informacije o pružaocu usluge
                 </h2>
                 <div class="flex items-start">
