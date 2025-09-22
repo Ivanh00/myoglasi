@@ -77,7 +77,7 @@
                 <!-- Auction Info -->
                 <div>
                     <!-- Current Price -->
-                    <div class="text-center mb-6 p-6 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                    <div class="text-center mb-6 p-2 md:p-6 bg-slate-50 dark:bg-slate-700 rounded-lg">
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Trenutna cena</h3>
                         <div class="text-4xl font-bold text-red-600 dark:text-red-400 mb-2">
                             {{ number_format($auction->current_price, 0, ',', '.') }} RSD
@@ -112,7 +112,7 @@
                         @if (auth()->id() === $auction->user_id)
                             <!-- Owner Controls -->
                             <div
-                                class="mb-6 p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
+                                class="mb-6 p-2 md:p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
                                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                                     <i class="fas fa-crown text-amber-600 dark:text-amber-400 mr-2"></i>
                                     Vaša aukcija
@@ -170,7 +170,7 @@
                         @elseif(auth()->id() !== $auction->user_id)
                             @if ($auction->isActive())
                                 <div
-                                    class="mb-6 p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
+                                    class="mb-6 p-2 md:p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Postavite
                                         ponudu</h3>
 
@@ -390,7 +390,7 @@
         </div>
 
         <!-- Listing Description -->
-        <div class="border-t border-slate-200 dark:border-slate-600 p-6 bg-white dark:bg-slate-800">
+        <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6 bg-white dark:bg-slate-800">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">Opis proizvoda</h3>
             <div class="text-slate-700 dark:text-slate-200 whitespace-pre-line">{{ $auction->listing->description }}
             </div>

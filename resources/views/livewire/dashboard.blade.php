@@ -121,7 +121,7 @@
     </div>
 
     <!-- Monthly Overview -->
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6 mb-8">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 sm:p-6 mb-8">
         <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-4">
             <i class="fas fa-chart-line text-sky-600 dark:text-sky-400 mr-2"></i>
             Ovaj mesec ({{ Carbon\Carbon::now()->format('F Y') }})
@@ -186,7 +186,7 @@
     <!-- Quick Actions -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8 mb-8">
         <!-- Quick Actions -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-bolt text-orange-600 mr-2"></i>
                 Brze akcije
@@ -241,7 +241,7 @@
         </div>
 
         <!-- Recent Activity -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-clock text-sky-600 dark:text-sky-400 mr-2"></i>
                 Poslednje aktivnosti
@@ -289,7 +289,7 @@
         </div>
 
         <!-- Account Overview -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-user text-green-600 mr-2"></i>
                 Pregled naloga
@@ -352,7 +352,7 @@
 
     <!-- Recent Auctions (if any) -->
     @if ($activity['recent_auctions']->count() > 0)
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6 mb-8">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 sm:p-6 mb-8">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
                     <i class="fas fa-gavel text-amber-600 dark:text-amber-400 mr-2"></i>
@@ -411,7 +411,7 @@
     <!-- Financial Overview -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
         <!-- Transaction History -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-receipt text-green-600 mr-2"></i>
                 Poslednje transakcije
@@ -420,7 +420,7 @@
             @if ($activity['recent_transactions']->count() > 0)
                 <div class="space-y-3">
                     @foreach ($activity['recent_transactions'] as $transaction)
-                        <div class="flex items-center justify-between p-3 border rounded-lg">
+                        <div class="flex items-center justify-between p-2 md:p-3 border rounded-lg">
                             <div class="flex items-center">
                                 <div
                                     class="w-8 h-8 rounded-full flex items-center justify-center mr-3
@@ -459,7 +459,7 @@
         </div>
 
         <!-- Achievements & Stats -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 sm:p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 sm:p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-trophy text-amber-600 dark:text-amber-400 mr-2"></i>
                 Vaši uspesi
