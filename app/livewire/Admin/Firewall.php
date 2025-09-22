@@ -168,8 +168,14 @@ class Firewall extends Component
         ]);
 
         foreach ($this->rateLimitSettings as $key => $value) {
-            Setting::set('rate_limit_' . $key, $value, 
-                is_bool($value) ? 'boolean' : (is_array($value) ? 'json' : 'string'), 'firewall');
+            // Save auto_block settings without prefix, others with rate_limit_ prefix
+            if (in_array($key, ['auto_block_enabled', 'auto_block_threshold', 'auto_block_duration'])) {
+                Setting::set($key, $value,
+                    is_bool($value) ? 'boolean' : (is_array($value) ? 'json' : 'string'), 'firewall');
+            } else {
+                Setting::set('rate_limit_' . $key, $value,
+                    is_bool($value) ? 'boolean' : (is_array($value) ? 'json' : 'string'), 'firewall');
+            }
         }
 
         session()->flash('success', 'Rate limiting podešavanja su uspešno sačuvana.');
