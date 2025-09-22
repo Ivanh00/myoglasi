@@ -202,7 +202,7 @@
                             <!-- Main Category -->
                             <div x-data="{ open: false }" x-init="open = false" class="relative">
                                 <button @click="open = !open" type="button"
-                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border @error('category_id') border-red-500 @else border-slate-300 dark:border-slate-600 @enderror rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                    class="w-full px-3 mb-4 py-2 bg-white dark:bg-slate-700 border @error('category_id') border-red-500 @else border-slate-300 dark:border-slate-600 @enderror rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
                                     <span>
                                         @if ($category_id)
                                             {{ $categories->firstWhere('id', $category_id)->name ?? 'Odaberite glavnu kategoriju' }}
@@ -325,7 +325,7 @@
                             </label>
                             <div x-data="{ open: false }" x-init="open = false" class="relative">
                                 <button @click="open = !open" type="button"
-                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border @error('condition_id') border-red-500 @else border-slate-300 dark:border-slate-600 @enderror rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                    class="w-full px-3 py-2 mb-4 bg-white dark:bg-slate-700 border @error('condition_id') border-red-500 @else border-slate-300 dark:border-slate-600 @enderror rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
                                     <span>
                                         @if ($condition_id)
                                             {{ $conditions->firstWhere('id', $condition_id)->name ?? 'Odaberite stanje' }}
