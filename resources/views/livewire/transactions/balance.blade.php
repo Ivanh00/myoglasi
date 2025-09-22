@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-slate-50 dark:bg-slate-700 py-8">
     <div class="max-w-4xl mx-auto px-4">
         <!-- Current Balance Card -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8">
             <div class="text-center">
                 <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">Vaš kredit</h1>
                 <div
@@ -87,7 +87,7 @@
         </div>
 
         <!-- Recent Transactions -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
             <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4">Poslednje transakcije</h2>
 
             @if ($this->transactions->count() > 0)

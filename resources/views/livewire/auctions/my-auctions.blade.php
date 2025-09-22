@@ -247,7 +247,7 @@
         </div>
 
         <!-- Auction Rules Section - Desktop only (after desktop table) -->
-        <div class="hidden lg:block bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mt-6">
+        <div class="hidden lg:block bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mt-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-info-circle text-sky-600 dark:text-sky-400 mr-2"></i>
                 Pravila za upravljanje aukcijama
@@ -450,7 +450,7 @@
         </div>
 
         <!-- Auction Rules Section - Mobile only (after mobile cards) -->
-        <div class="lg:hidden bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mt-6">
+        <div class="lg:hidden bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mt-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 <i class="fas fa-info-circle text-sky-600 dark:text-sky-400 mr-2"></i>
                 Pravila za upravljanje aukcijama

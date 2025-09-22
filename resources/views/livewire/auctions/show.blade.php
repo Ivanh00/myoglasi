@@ -489,7 +489,7 @@
     @endauth
 
     <!-- Bid History Section -->
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Istorija ponuda</h3>
             <button wire:click="$refresh"
@@ -557,7 +557,7 @@
     </div>
 
     <!-- Auction Rules Section -->
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mt-6">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mt-6">
         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
             <i class="fas fa-info-circle text-sky-600 dark:text-sky-400 mr-2"></i>
             Pravila licitiranja

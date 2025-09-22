@@ -45,7 +45,7 @@
     @if ($this->remainingCredits > 0)
         <!-- Game Selection -->
         @if (!$gameActive && !$gameCompleted)
-            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8">
                 <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6">Izaberite igru</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -90,7 +90,7 @@
 
         <!-- Active Game Area -->
         @if ($gameActive && $selectedGame === 'click_game')
-            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8">
                 <div class="text-center">
                     <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">Igra klikanja</h2>
 
@@ -129,7 +129,7 @@
 
         <!-- Memory Game -->
         @if ($gameActive && $selectedGame === 'memory_game')
-            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8">
                 <div class="text-center">
                     <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">Igra memorije</h2>
 
@@ -173,7 +173,7 @@ bg-slate-300 hover:bg-slate-400
 
         <!-- Number Game -->
         @if ($gameActive && $selectedGame === 'number_game')
-            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8">
                 <div class="text-center">
                     <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">Igra brojeva</h2>
 
@@ -214,7 +214,7 @@ bg-slate-300 hover:bg-slate-400
 
         <!-- Game Completed -->
         @if ($gameCompleted)
-            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8">
                 <div class="text-center">
                     <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-trophy text-green-600 dark:text-green-400 text-3xl"></i>
@@ -238,7 +238,7 @@ bg-slate-300 hover:bg-slate-400
         @endif
     @else
         <!-- Daily limit reached -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8 text-center">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8 text-center">
             <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i class="fas fa-clock text-slate-400 text-3xl"></i>
             </div>
@@ -250,7 +250,7 @@ bg-slate-300 hover:bg-slate-400
     @endif
 
     <!-- Today's Leaderboard -->
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-8">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">
                 <i class="fas fa-trophy text-amber-500 mr-2"></i>
@@ -337,7 +337,7 @@ bg-slate-300 hover:bg-slate-400
 
     <!-- Recent Earnings -->
     @if ($recentEarnings->count() > 0)
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
             <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6">Vaše zarade (7 dana)</h2>
 
             <div class="space-y-3">

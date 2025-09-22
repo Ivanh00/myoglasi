@@ -1,6 +1,6 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
     @if (!$listing)
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 text-center">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 text-center">
             <i class="fas fa-exclamation-triangle text-amber-500 text-5xl mb-4"></i>
             <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2">Sadržaj nije pronađen</h2>
             <p class="text-slate-600 dark:text-slate-400 mb-4">Traženi sadržaj ne postoji ili je obrisan.</p>
@@ -144,7 +144,8 @@
                     <div class="flex items-center mb-4">
                         @if ($listing->isGiveaway())
                             <span class="text-3xl font-bold text-green-600 dark:text-green-400">BESPLATNO</span>
-                            <span class="ml-4 px-3 py-1 bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
+                            <span
+                                class="ml-4 px-3 py-1 bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
                                 POKLON
                             </span>
                         @else
@@ -603,7 +604,8 @@
 
                                         <div class="flex items-center justify-between">
                                             @if ($relatedListing->isGiveaway())
-                                                <div class="text-green-600 dark:text-green-400 font-bold text-xl">BESPLATNO</div>
+                                                <div class="text-green-600 dark:text-green-400 font-bold text-xl">
+                                                    BESPLATNO</div>
                                             @else
                                                 <div class="text-sky-600 font-bold text-xl">
                                                     {{ number_format($relatedListing->price, 2) }} RSD

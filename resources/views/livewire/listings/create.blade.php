@@ -1,5 +1,5 @@
 <div class="max-w-4xl mx-auto py-6 px-4">
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
         <!-- Profile Completion Check -->
         @if (!auth()->user()->city || !auth()->user()->phone)
             <div class="mb-6 p-4 bg-red-50 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-lg">
@@ -168,7 +168,7 @@
             </div>
 
             <!-- Main Content Section -->
-            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
                 <!-- Basic Information -->
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Osnovne informacije</h3>
@@ -204,14 +204,16 @@
                                 <button @click="open = !open" type="button"
                                     class="w-full px-3 py-2 bg-white dark:bg-slate-700 border @error('category_id') border-red-500 @else border-slate-300 dark:border-slate-600 @enderror rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
                                     <span>
-                                        @if($category_id)
+                                        @if ($category_id)
                                             {{ $categories->firstWhere('id', $category_id)->name ?? 'Odaberite glavnu kategoriju' }}
                                         @else
                                             Odaberite glavnu kategoriju
                                         @endif
                                     </span>
-                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
                                     </svg>
                                 </button>
 
@@ -222,7 +224,8 @@
                                         Odaberite glavnu kategoriju
                                     </button>
                                     @foreach ($categories as $category)
-                                        <button @click="$wire.set('category_id', '{{ $category->id }}'); open = false" type="button"
+                                        <button @click="$wire.set('category_id', '{{ $category->id }}'); open = false"
+                                            type="button"
                                             class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
                                             {{ $category->name }}
                                         </button>
@@ -245,25 +248,30 @@
                                             <button @click="open = !open" type="button"
                                                 class="w-full px-3 py-2 bg-white dark:bg-slate-700 border @error('subcategory_id') border-red-500 @else border-slate-300 dark:border-slate-600 @enderror rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
                                                 <span>
-                                                    @if($subcategory_id)
+                                                    @if ($subcategory_id)
                                                         {{ $subcategories->firstWhere('id', $subcategory_id)->name ?? 'Odaberite podkategoriju' }}
                                                     @else
                                                         Odaberite podkategoriju
                                                     @endif
                                                 </span>
-                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                <svg class="w-4 h-4 text-slate-400" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                                 </svg>
                                             </button>
 
                                             <div x-show="open" @click.away="open = false" x-transition
                                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                                <button @click="$wire.set('subcategory_id', ''); open = false" type="button"
+                                                <button @click="$wire.set('subcategory_id', ''); open = false"
+                                                    type="button"
                                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
                                                     Odaberite podkategoriju
                                                 </button>
                                                 @foreach ($subcategories as $subcategory)
-                                                    <button @click="$wire.set('subcategory_id', '{{ $subcategory->id }}'); open = false" type="button"
+                                                    <button
+                                                        @click="$wire.set('subcategory_id', '{{ $subcategory->id }}'); open = false"
+                                                        type="button"
                                                         class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
                                                         {{ $subcategory->name }}
                                                     </button>
@@ -319,14 +327,16 @@
                                 <button @click="open = !open" type="button"
                                     class="w-full px-3 py-2 bg-white dark:bg-slate-700 border @error('condition_id') border-red-500 @else border-slate-300 dark:border-slate-600 @enderror rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
                                     <span>
-                                        @if($condition_id)
+                                        @if ($condition_id)
                                             {{ $conditions->firstWhere('id', $condition_id)->name ?? 'Odaberite stanje' }}
                                         @else
                                             Odaberite stanje
                                         @endif
                                     </span>
-                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
                                     </svg>
                                 </button>
 
@@ -337,7 +347,9 @@
                                         Odaberite stanje
                                     </button>
                                     @foreach ($conditions as $condition)
-                                        <button @click="$wire.set('condition_id', '{{ $condition->id }}'); open = false" type="button"
+                                        <button
+                                            @click="$wire.set('condition_id', '{{ $condition->id }}'); open = false"
+                                            type="button"
                                             class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
                                             {{ $condition->name }}
                                         </button>
@@ -420,8 +432,10 @@
                                     <span>
                                         {{ $duration }} {{ $duration == 1 ? 'dan' : 'dana' }}
                                     </span>
-                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
                                     </svg>
                                 </button>
 
