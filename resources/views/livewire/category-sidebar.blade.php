@@ -314,23 +314,31 @@
 
     function updateThemeButtons() {
         const isDark = document.documentElement.classList.contains('dark');
-        const lightBtn = document.querySelector('.light-theme');
-        const darkBtn = document.querySelector('.dark-theme');
+        // Get ALL theme buttons (including mobile sidebar)
+        const lightBtns = document.querySelectorAll('.light-theme');
+        const darkBtns = document.querySelectorAll('.dark-theme');
 
-        if (lightBtn && darkBtn) {
-            // Remove all ring classes from both buttons first
+        // Update all light buttons
+        lightBtns.forEach(lightBtn => {
+            // Remove all ring classes first
             lightBtn.classList.remove('ring-2', 'ring-sky-500', 'ring-sky-400', 'ring-sky-600');
-            darkBtn.classList.remove('ring-2', 'ring-sky-500', 'ring-sky-400', 'ring-sky-600');
 
-            // Apply ring to the active button
-            if (isDark) {
-                // Dark mode is active - add ring to dark button
-                darkBtn.classList.add('ring-2', 'ring-sky-400');
-            } else {
-                // Light mode is active - add ring to light button
+            // Apply ring if light mode is active
+            if (!isDark) {
                 lightBtn.classList.add('ring-2', 'ring-sky-500');
             }
-        }
+        });
+
+        // Update all dark buttons
+        darkBtns.forEach(darkBtn => {
+            // Remove all ring classes first
+            darkBtn.classList.remove('ring-2', 'ring-sky-500', 'ring-sky-400', 'ring-sky-600');
+
+            // Apply ring if dark mode is active
+            if (isDark) {
+                darkBtn.classList.add('ring-2', 'ring-sky-400');
+            }
+        });
     }
 
     // Initialize theme on page load
