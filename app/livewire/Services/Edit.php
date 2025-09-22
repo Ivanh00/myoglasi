@@ -7,6 +7,8 @@ use App\Models\ServiceCategory;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use App\Services\ImageOptimizationService;
+use Illuminate\Support\Facades\Storage;
 
 class Edit extends Component
 {
@@ -45,6 +47,17 @@ class Edit extends Component
 
     public function removeImage($index)
     {
+        // If removing an existing image from database
+        if (isset($this->images[$index]) && isset($this->images[$index]['id'])) {
+            $image = \App\Models\ServiceImage::find($this->images[$index]['id']);
+            if ($image && $image->service_id == $this->service->id) {
+                // Delete all responsive versions of the image
+                $imageService = new ImageOptimizationService();
+                $imageService->deleteImageVersions($image->image_path);
+                // Delete database record
+                $image->delete();
+            }
+        }
         unset($this->images[$index]);
         $this->images = array_values($this->images);
     }
@@ -151,11 +164,20 @@ class Edit extends Component
         ]);
 
         // Handle new images if any
+        // Add new images with optimization
+        $imageService = new ImageOptimizationService();
+
         if (!empty($this->tempImages)) {
             foreach ($this->tempImages as $image) {
-                $path = $image->store('services', 'public');
+                $filename = Str::random(40) . '.jpg';
+                $optimizedPaths = $imageService->processImage(
+                    $image,
+                    'services',
+                    $filename
+                );
+
                 $this->service->images()->create([
-                    'image_path' => $path,
+                    'image_path' => $optimizedPaths['original'],
                     'order' => $this->service->images()->count()
                 ]);
             }

@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\ListingCondition;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use App\Services\ImageOptimizationService;
+use Illuminate\Support\Str;
 
 class Edit extends Component
 {
@@ -157,8 +159,9 @@ class Edit extends Component
     {
         $image = \App\Models\ListingImage::find($imageId);
         if ($image && $image->listing_id == $this->listing->id) {
-            // Obriši fizički fajl
-            Storage::disk('public')->delete($image->image_path);
+            // Obriši sve verzije slike (original, desktop, tablet, mobile, thumbnail)
+            $imageService = new ImageOptimizationService();
+            $imageService->deleteImageVersions($image->image_path);
             // Obriši zapis iz baze
             $image->delete();
             
@@ -247,12 +250,19 @@ class Edit extends Component
         ]);
 
         // Dodaj nove slike ako postoje
+        $imageService = new ImageOptimizationService();
+
         if (!empty($this->newImages)) {
             foreach ($this->newImages as $image) {
-                $path = $image->store('listings', 'public');
-                
+                $filename = Str::random(40) . '.jpg';
+                $optimizedPaths = $imageService->processImage(
+                    $image,
+                    'listings',
+                    $filename
+                );
+
                 $this->listing->images()->create([
-                    'image_path' => $path,
+                    'image_path' => $optimizedPaths['original'],
                     'order' => 0
                 ]);
             }

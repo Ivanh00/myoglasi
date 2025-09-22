@@ -7,6 +7,7 @@ use App\Models\ServiceCategory;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use App\Services\ImageOptimizationService;
 
 class Create extends Component
 {
@@ -122,12 +123,20 @@ class Create extends Component
             ]);
         }
 
-        // Save images
+        // Save and optimize images
         $imagePaths = [];
+        $imageService = new ImageOptimizationService();
+
         if (!empty($this->images)) {
             foreach ($this->images as $image) {
-                $path = $image->store('services', 'public');
-                $imagePaths[] = $path;
+                $filename = Str::random(40) . '.jpg';
+                $optimizedPaths = $imageService->processImage(
+                    $image,
+                    'services',
+                    $filename
+                );
+                // Store the original path for database
+                $imagePaths[] = $optimizedPaths['original'];
             }
         }
 

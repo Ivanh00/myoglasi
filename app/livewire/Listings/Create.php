@@ -10,6 +10,7 @@ use App\Models\ListingCondition;
 use App\Models\Auction;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Services\ImageOptimizationService;
 
 class Create extends Component
 {
@@ -201,12 +202,20 @@ class Create extends Component
             ]);
         }
 
-        // Sačuvaj slike
+        // Sačuvaj i optimizuj slike
         $imagePaths = [];
+        $imageService = new ImageOptimizationService();
+
         if (!empty($this->images)) {
             foreach ($this->images as $image) {
-                $path = $image->store('listings', 'public');
-                $imagePaths[] = $path;
+                $filename = Str::random(40) . '.jpg';
+                $optimizedPaths = $imageService->processImage(
+                    $image,
+                    'listings',
+                    $filename
+                );
+                // Store the original path for database
+                $imagePaths[] = $optimizedPaths['original'];
             }
         }
 

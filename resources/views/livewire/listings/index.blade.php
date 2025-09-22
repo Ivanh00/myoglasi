@@ -315,8 +315,8 @@
                         <div class="w-full h-48">
                             <a href="{{ route('listings.show', $listing) }}">
                                 @if ($listing->images->count() > 0)
-                                    <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
-                                        class="w-full h-full object-cover">
+                                    <x-responsive-image :image="$listing->images->first()" :alt="$listing->title"
+                                        class="w-full h-full object-cover" />
                                 @else
                                     <div class="w-full h-full bg-slate-200 flex items-center justify-center">
                                         <i class="fas fa-image text-slate-400 text-3xl"></i>
@@ -508,8 +508,8 @@
                             <div class="w-full md:w-48 md:min-w-48 h-48"> <!-- Full width na mobile -->
                                 <a href="{{ route('listings.show', $listing) }}">
                                     @if ($listing->images->count() > 0)
-                                        <img src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}"
-                                            class="w-full h-full object-cover">
+                                        <x-responsive-image :image="$listing->images->first()" :alt="$listing->title"
+                                            class="w-full h-full object-cover" />
                                         <!-- object-cover osigurava da slika popuni kontejner -->
                                     @else
                                         <div class="w-full h-full bg-slate-200 flex items-center justify-center">
