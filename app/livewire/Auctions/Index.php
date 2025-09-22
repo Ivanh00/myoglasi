@@ -5,6 +5,7 @@ namespace App\Livewire\Auctions;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Auction;
+use App\Models\Category;
 use App\Traits\HasViewMode;
 
 class Index extends Component
@@ -13,15 +14,30 @@ class Index extends Component
 
     public $sortBy = 'ending_soon'; // ending_soon, newest, highest_price, most_bids
     public $perPage = 20;
+    public $selectedCategory = null;
+    public $categories;
+    public $currentCategory = null;
 
     protected $queryString = [
         'sortBy' => ['except' => 'ending_soon'],
-        'perPage' => ['except' => 20]
+        'perPage' => ['except' => 20],
+        'selectedCategory' => ['except' => '']
     ];
 
     public function mount()
     {
         $this->mountHasViewMode(); // Initialize view mode from session
+
+        // Load categories
+        $this->categories = Category::whereNull('parent_id')
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+
+        // Load current category if selected
+        if ($this->selectedCategory) {
+            $this->currentCategory = Category::with('parent')->find($this->selectedCategory);
+        }
     }
 
     public function updatedSortBy()
@@ -34,6 +50,12 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function updatedSelectedCategory()
+    {
+        $this->currentCategory = Category::with('parent')->find($this->selectedCategory);
+        $this->resetPage();
+    }
+
     public function render()
     {
         // Active auctions query
@@ -43,6 +65,23 @@ class Index extends Component
                 $query->where('starts_at', '<=', now())
                       ->where('ends_at', '>', now());
             });
+
+        // Apply category filter
+        if ($this->selectedCategory) {
+            $category = Category::find($this->selectedCategory);
+
+            if ($category) {
+                $categoryIds = [$category->id];
+                $categoryIds = array_merge($categoryIds, $category->children->pluck('id')->toArray());
+
+                $activeQuery->whereHas('listing', function($q) use ($categoryIds) {
+                    $q->where(function($subQ) use ($categoryIds) {
+                        $subQ->whereIn('category_id', $categoryIds)
+                             ->orWhereIn('subcategory_id', $categoryIds);
+                    });
+                });
+            }
+        }
 
         // Sorting for active auctions
         switch ($this->sortBy) {
@@ -63,21 +102,54 @@ class Index extends Component
         $auctions = $activeQuery->paginate($this->perPage);
 
         // Scheduled auctions (not yet started)
-        $scheduledAuctions = Auction::with(['listing.images', 'listing.user', 'listing.category'])
+        $scheduledQuery = Auction::with(['listing.images', 'listing.user', 'listing.category'])
             ->where('status', 'active')
-            ->where('starts_at', '>', now())
-            ->orderBy('starts_at', 'asc')
-            ->get();
+            ->where('starts_at', '>', now());
+
+        // Apply category filter to scheduled auctions
+        if ($this->selectedCategory) {
+            $category = Category::find($this->selectedCategory);
+
+            if ($category) {
+                $categoryIds = [$category->id];
+                $categoryIds = array_merge($categoryIds, $category->children->pluck('id')->toArray());
+
+                $scheduledQuery->whereHas('listing', function($q) use ($categoryIds) {
+                    $q->where(function($subQ) use ($categoryIds) {
+                        $subQ->whereIn('category_id', $categoryIds)
+                             ->orWhereIn('subcategory_id', $categoryIds);
+                    });
+                });
+            }
+        }
+
+        $scheduledAuctions = $scheduledQuery->orderBy('starts_at', 'asc')->get();
 
         // Ended auctions (last 5)
-        $endedAuctions = Auction::with(['listing.images', 'listing.user', 'listing.category', 'winningBid.user', 'winner'])
+        $endedQuery = Auction::with(['listing.images', 'listing.user', 'listing.category', 'winningBid.user', 'winner'])
             ->where(function($query) {
                 $query->where('status', 'ended')
                       ->orWhere('ends_at', '<=', now());
-            })
-            ->orderBy('ends_at', 'desc')
-            ->limit(5)
-            ->get();
+            });
+
+        // Apply category filter to ended auctions
+        if ($this->selectedCategory) {
+            $category = Category::find($this->selectedCategory);
+
+            if ($category) {
+                $categoryIds = [$category->id];
+                $categoryIds = array_merge($categoryIds, $category->children->pluck('id')->toArray());
+
+                $endedQuery->whereHas('listing', function($q) use ($categoryIds) {
+                    $q->where(function($subQ) use ($categoryIds) {
+                        $subQ->whereIn('category_id', $categoryIds)
+                             ->orWhereIn('subcategory_id', $categoryIds);
+                    });
+                });
+            }
+        }
+
+        $endedAuctions = $endedQuery->orderBy('ends_at', 'desc')->limit(5)->get();
 
         return view('livewire.auctions.index', [
             'auctions' => $auctions,

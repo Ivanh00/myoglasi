@@ -1,14 +1,73 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
 
+    <!-- Breadcrumb when category is selected -->
+    @if($selectedCategory && $currentCategory)
+        <div class="mb-4 flex items-center text-sm text-slate-600 dark:text-slate-300">
+            <a href="{{ route('auctions.index') }}" class="hover:text-amber-600 dark:hover:text-amber-400">
+                Sve aukcije
+            </a>
+            @if($currentCategory->parent)
+                <span class="mx-2">></span>
+                <a href="{{ route('auctions.index', ['selectedCategory' => $currentCategory->parent->id]) }}"
+                   class="hover:text-amber-600 dark:hover:text-amber-400">
+                    {{ $currentCategory->parent->name }}
+                </a>
+            @endif
+            <span class="mx-2">></span>
+            <span class="text-slate-900 dark:text-slate-100 font-medium">{{ $currentCategory->name }}</span>
+            <a href="{{ route('auctions.index') }}"
+               class="ml-4 text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300">
+                <i class="fas fa-times mr-1"></i> Ukloni filter
+            </a>
+        </div>
+    @endif
+
     <!-- Filters -->
     <div class="bg-amber-50 dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6">
         <!-- Desktop Layout -->
         <div class="hidden md:block">
             <div class="text-slate-600 dark:text-slate-300 mb-4">
-                Aktivnih aukcija: <span class="font-semibold">{{ $auctions->total() }}</span>
+                @if($selectedCategory && $currentCategory)
+                    Aukcija u kategoriji "{{ $currentCategory->name }}": <span class="font-semibold">{{ $auctions->total() }}</span>
+                @else
+                    Aktivnih aukcija: <span class="font-semibold">{{ $auctions->total() }}</span>
+                @endif
             </div>
 
             <div class="flex items-center justify-between gap-4">
+                <!-- Category Filter -->
+                <div class="w-60" x-data="{ open: false }" x-init="open = false">
+                    <div class="relative">
+                        <button @click="open = !open" type="button"
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                            <span>
+                                @if($selectedCategory)
+                                    {{ $currentCategory->name ?? 'Sve kategorije' }}
+                                @else
+                                    Sve kategorije
+                                @endif
+                            </span>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false" x-transition
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-64 overflow-y-auto">
+                            <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ !$selectedCategory ? 'bg-amber-50 dark:bg-amber-900' : '' }} rounded-t-lg">
+                                Sve kategorije
+                            </button>
+                            @foreach($categories as $category)
+                                <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900' : '' }} {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                    {{ $category->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Sort Options -->
                 <div class="w-60" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
@@ -105,7 +164,54 @@
 
         <!-- Mobile Layout -->
         <div class="md:hidden">
+            <div class="flex gap-3 mb-3">
+                <!-- Category Filter Mobile -->
+                <div class="flex-1" x-data="{ open: false }" x-init="open = false">
+                    <div class="relative">
+                        <button @click="open = !open" type="button"
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                            <span>
+                                @if($selectedCategory)
+                                    {{ $currentCategory->name ?? 'Sve' }}
+                                @else
+                                    Sve
+                                @endif
+                            </span>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false" x-transition
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-64 overflow-y-auto">
+                            <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ !$selectedCategory ? 'bg-amber-50 dark:bg-amber-900' : '' }} rounded-t-lg">
+                                Sve kategorije
+                            </button>
+                            @foreach($categories as $category)
+                                <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900' : '' }} {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                    {{ $category->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View Toggle Mobile -->
+                <div class="flex bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm">
+                    <button wire:click="setViewMode('list')"
+                        class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-l-lg transition-colors">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <button wire:click="setViewMode('grid')"
+                        class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-r-lg transition-colors">
+                        <i class="fas fa-th"></i>
+                    </button>
+                </div>
+            </div>
             <div class="flex gap-3">
+                <!-- Sort Mobile -->
                 <div class="flex-1" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
