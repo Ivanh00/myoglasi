@@ -640,16 +640,16 @@
                             </div>
 
                             <!-- Bottom section with time and button -->
-                            <div class="p-4 border-t border-slate-200 dark:border-slate-600 bg-amber-700 dark:bg-amber-800">
+                            <div class="p-4 border-t border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-slate-700">
                                 <div class="text-center mb-3">
-                                    <div class="text-sm font-bold text-amber-100">
+                                    <div class="text-sm font-bold text-amber-700 dark:text-amber-400">
                                         <i class="fas fa-calendar-alt mr-1"></i>
                                         Počinje za:
                                     </div>
-                                    <div class="text-lg font-bold text-white">
+                                    <div class="text-lg font-bold text-amber-700 dark:text-amber-300">
                                         {{ \App\Helpers\DateHelper::diffForHumansSr($auction->starts_at) }}
                                     </div>
-                                    <div class="text-xs text-amber-100 mt-1">
+                                    <div class="text-xs text-amber-700 dark:text-amber-400 mt-1">
                                         {{ $auction->starts_at->format('d.m.Y \\u H:i') }}
                                     </div>
                                 </div>
@@ -657,18 +657,18 @@
                                 @auth
                                     @if (auth()->id() === $auction->user_id)
                                         <a href="{{ route('listings.edit', $auction->listing) }}"
-                                            class="block w-full text-center px-3 py-2 bg-white text-amber-700 rounded-lg hover:bg-amber-50 transition-colors text-sm font-medium">
+                                            class="block w-full text-center px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm font-medium">
                                             <i class="fas fa-gavel mr-2"></i> Uredi
                                         </a>
                                     @else
                                         <a href="{{ route('auction.show', $auction) }}"
-                                            class="block w-full text-center px-3 py-2 bg-white text-amber-700 rounded-lg hover:bg-amber-50 transition-colors text-sm font-medium">
+                                            class="block w-full text-center px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm font-medium">
                                             <i class="fas fa-eye mr-2"></i> Detalji
                                         </a>
                                     @endif
                                 @else
                                     <a href="{{ route('auction.show', $auction) }}"
-                                        class="block w-full text-center px-3 py-2 bg-white text-amber-700 rounded-lg hover:bg-amber-50 transition-colors text-sm font-medium">
+                                        class="block w-full text-center px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm font-medium">
                                         <i class="fas fa-eye mr-2"></i> Detalji
                                     </a>
                                 @endauth
@@ -776,17 +776,17 @@
 
                                 <!-- Sidebar -->
                                 <div
-                                    class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-amber-900">
+                                    class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-slate-700">
                                     <div class="flex flex-col h-full justify-between">
                                         <div class="text-center mb-4">
-                                            <div class="text-sm font-bold text-amber-600 dark:text-amber-300">
+                                            <div class="text-sm font-bold text-amber-700 dark:text-amber-400">
                                                 <i class="fas fa-calendar-alt mr-1"></i>
                                                 Počinje za:
                                             </div>
-                                            <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
+                                            <div class="text-lg font-bold text-amber-700 dark:text-amber-300">
                                                 {{ \App\Helpers\DateHelper::diffForHumansSr($auction->starts_at) }}
                                             </div>
-                                            <div class="text-xs text-amber-700 dark:text-amber-200 mt-1">
+                                            <div class="text-xs text-amber-700 dark:text-amber-400 mt-1">
                                                 {{ $auction->starts_at->format('d.m.Y \\u H:i') }}
                                             </div>
                                         </div>
@@ -795,20 +795,20 @@
                                             @auth
                                                 @if (auth()->id() === $auction->user_id)
                                                     <a href="{{ route('listings.edit', $auction->listing) }}"
-                                                        class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
+                                                        class="block w-full text-center px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm">
                                                         <i class="fas fa-gavel mr-2"></i> Uredi aukciju
                                                     </a>
                                                 @else
                                                     <a href="{{ route('auction.show', $auction) }}"
-                                                        class="block w-full text-center px-3 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors text-sm">
+                                                        class="block w-full text-center px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm">
                                                         <i class="fas fa-eye mr-2"></i> Pogledaj detalje
                                                     </a>
                                                 @endif
                                             @else
                                                 <a href="{{ route('auction.show', $auction) }}"
-                                                    class="block w-full text-center px-3 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors text-sm">
+                                                    class="block w-full text-center px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm">
                                                     <i class="fas fa-eye mr-2"></i> Pogledaj detalje
-                                                </a>
+                                                    </a>
                                             @endauth
                                         </div>
                                     </div>
@@ -912,19 +912,19 @@
                             </div>
 
                             <!-- Bottom section -->
-                            <div class="p-4 border-t border-slate-200 dark:border-slate-600 bg-amber-700 dark:bg-amber-800">
+                            <div class="p-4 border-t border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-slate-700">
                                 <div class="text-center mb-3">
-                                    <div class="text-sm font-bold text-white">
+                                    <div class="text-sm font-bold text-amber-700 dark:text-amber-400">
                                         <i class="fas fa-flag-checkered mr-1"></i>
                                         Završeno
                                     </div>
-                                    <div class="text-xs text-amber-100">
+                                    <div class="text-xs text-amber-700 dark:text-amber-400">
                                         {{ \App\Helpers\DateHelper::diffForHumansSr($auction->ends_at) }}
                                     </div>
                                 </div>
 
                                 <a href="{{ route('auction.show', $auction) }}"
-                                    class="block w-full text-center px-3 py-2 bg-white text-amber-700 rounded-lg hover:bg-amber-50 transition-colors text-sm font-medium">
+                                    class="block w-full text-center px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm font-medium">
                                     <i class="fas fa-eye mr-2"></i> Rezultati
                                 </a>
                             </div>
@@ -1037,21 +1037,21 @@
 
                                 <!-- Sidebar -->
                                 <div
-                                    class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-amber-900">
+                                    class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-slate-700">
                                     <div class="flex flex-col h-full justify-between">
                                         <div class="text-center mb-4">
-                                            <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
+                                            <div class="text-lg font-bold text-amber-700 dark:text-amber-400">
                                                 <i class="fas fa-flag-checkered mr-1"></i>
                                                 Završeno
                                             </div>
-                                            <div class="text-xs text-amber-600 dark:text-amber-400">
+                                            <div class="text-xs text-amber-700 dark:text-amber-400">
                                                 {{ \App\Helpers\DateHelper::diffForHumansSr($auction->ends_at) }}
                                             </div>
                                         </div>
 
                                         <div class="space-y-2">
                                             <a href="{{ route('auction.show', $auction) }}"
-                                                class="block w-full text-center px-3 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors text-sm">
+                                                class="block w-full text-center px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm">
                                                 <i class="fas fa-eye mr-2"></i> Pregled rezultata
                                             </a>
                                         </div>
