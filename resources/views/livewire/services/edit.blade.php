@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto py-6 px-4">
+<div class="max-w-4xl mx-auto py-6 px-2 md:px-4">
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
         <!-- Header -->
         <div class="mb-6 border-b border-slate-200 dark:border-slate-600 pb-4">

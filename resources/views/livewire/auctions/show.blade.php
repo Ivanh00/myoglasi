@@ -43,7 +43,7 @@
             </div>
 
             <!-- Main Content Area -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-0 md:p-6">
                 <!-- Images -->
                 <div>
                     @if ($auction->listing->images->count() > 0)

@@ -45,7 +45,7 @@
 
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden">
             <!-- Glavni deo - slika i osnovne informacije -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-0 md:p-6">
                 <!-- Slike oglasa -->
                 <div>
                     @if ($listing->images->count() > 0)

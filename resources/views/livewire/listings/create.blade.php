@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto py-6 px-4">
+<div class="max-w-4xl mx-auto py-6 px-2 md:px-4">
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
         <!-- Profile Completion Check -->
         @if (!auth()->user()->city || !auth()->user()->phone)
@@ -96,7 +96,8 @@
 
         <form wire:submit.prevent="save" class="space-y-6">
             <!-- Listing Type Selector -->
-            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
+            <div
+                class="bg-slate-50 dark:bg-slate-700 p-0 md:p-4 rounded-lg border border-slate-200 dark:border-slate-600">
                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-3">
                     Tip objave <span class="text-red-500">*</span>
                 </label>
@@ -168,7 +169,7 @@
             </div>
 
             <!-- Main Content Section -->
-            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-0 md:p-6">
                 <!-- Basic Information -->
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Osnovne informacije</h3>

@@ -553,7 +553,7 @@
             </aside>
 
             <!-- Page Content -->
-            <main class="flex-1 p-0 md:p-2 md:p-6 pt-20 md:pt-6">
+            <main class="flex-1 p-2 md:p-2 md:p-6 pt-20 md:pt-6">
                 {{ $slot }}
             </main>
         </div>
