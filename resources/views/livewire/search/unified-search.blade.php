@@ -117,6 +117,33 @@
             @endif
         </div>
 
+        <!-- Mobile Content Type Selector -->
+        <div class="flex items-center justify-center space-x-1 mb-3">
+            <button wire:click="$set('content_type', 'all')"
+                class="px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'all' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                Sve
+            </button>
+            <button wire:click="$set('content_type', 'listings')"
+                class="px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'listings' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                Oglasi
+            </button>
+            <button wire:click="$set('content_type', 'services')"
+                class="px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'services' ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                <i class="fas fa-tools mr-1"></i>
+                Usluge
+            </button>
+            <button wire:click="$set('content_type', 'giveaways')"
+                class="px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'giveaways' ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                <i class="fas fa-gift mr-1"></i>
+                Pokloni
+            </button>
+            <button wire:click="$set('content_type', 'auctions')"
+                class="px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'auctions' ? 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                <i class="fas fa-gavel mr-1"></i>
+                Aukcije
+            </button>
+        </div>
+
         <!-- Mobile Category Dropdown -->
         @if ($content_type === 'services')
             <!-- Service Category Dropdown -->
@@ -132,10 +159,9 @@
                                 Sve kategorije
                             @endif
                         </span>
-                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7"></path>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
                         </svg>
                     </button>
 
@@ -172,10 +198,9 @@
                                 Sve kategorije
                             @endif
                         </span>
-                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7"></path>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
                         </svg>
                     </button>
 
@@ -190,8 +215,7 @@
                                 type="button"
                                 class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $search_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                 @if ($category->icon)
-                                    <i
-                                        class="{{ $category->icon }} text-slate-600 dark:text-slate-400 mr-2"></i>
+                                    <i class="{{ $category->icon }} text-slate-600 dark:text-slate-400 mr-2"></i>
                                 @endif
                                 {{ $category->name }}
                             </button>
@@ -204,7 +228,7 @@
 
     <!-- Results and Controls -->
     <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6">
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between">
             <!-- Desktop Results Count (Hidden on mobile) -->
             <div class="hidden md:block text-slate-600 dark:text-slate-300">
                 @if (request()->routeIs('home'))
@@ -240,8 +264,8 @@
                 @endif
             </div>
 
-            <!-- Content Type Selector -->
-            <div class="flex items-center space-x-2">
+            <!-- Desktop Content Type Selector (Hidden on mobile) -->
+            <div class="hidden md:flex items-center space-x-2">
                 <button wire:click="$set('content_type', 'all')"
                     class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'all' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
                     Sve
@@ -341,7 +365,8 @@
                                     <i class="fas fa-plus text-green-500 mr-2"></i>
                                     Najnovije
                                 </button>
-                                <button @click="$wire.set('auction_type', 'highest_price'); open = false" type="button"
+                                <button @click="$wire.set('auction_type', 'highest_price'); open = false"
+                                    type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
                                     <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
                                     Najviša cena
@@ -859,7 +884,8 @@
                                     <div>
                                         @if (isset($listing->is_auction))
                                             <div class="text-2xl font-bold text-red-600 dark:text-red-400">
-                                                {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
+                                                {{ number_format($listing->auction_data->current_price, 0, ',', '.') }}
+                                                RSD
                                             </div>
                                             <div class="text-sm text-slate-500 dark:text-slate-300">
                                                 {{ $listing->auction_data->total_bids }}
