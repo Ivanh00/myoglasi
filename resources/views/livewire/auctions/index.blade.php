@@ -329,6 +329,11 @@
                                 <span>{{ $auction->listing->category->name }}</span>
                             </div>
 
+                            <p class="text-slate-700 dark:text-slate-200 mb-3 text-sm"
+                                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                {{ Str::limit(strip_tags($auction->listing->description), 80) }}
+                            </p>
+
                             <div class="mb-3">
                                 <div class="text-xl font-bold text-red-600 dark:text-red-400">
                                     {{ number_format($auction->current_price, 0, ',', '.') }} RSD
