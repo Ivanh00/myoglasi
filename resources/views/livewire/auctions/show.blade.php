@@ -47,26 +47,40 @@
                 <!-- Images -->
                 <div>
                     @if ($auction->listing->images->count() > 0)
-                        <div class="relative">
-                            <!-- Main image -->
-                            <div class="mb-4 rounded-lg overflow-hidden relative">
-                                <img id="mainImage" src="{{ $auction->listing->images->first()->url }}"
-                                    alt="{{ $auction->listing->title }}" class="w-full h-80 object-cover rounded-lg">
-                            </div>
-
-                            <!-- Thumbnail gallery -->
-                            <div class="grid grid-cols-4 gap-2">
-                                @foreach ($auction->listing->images as $index => $image)
-                                    <div
-                                        class="cursor-pointer border-2 rounded-lg overflow-hidden {{ $index === 0 ? 'border-amber-500' : 'border-slate-200' }}">
-                                        <img src="{{ $image->url }}"
-                                            alt="{{ $auction->listing->title }} - slika {{ $index + 1 }}"
-                                            class="w-full h-20 object-cover"
-                                            onclick="changeMainImage('{{ $image->url }}', this)">
+                        <x-image-lightbox :images="$auction->listing->images->map(function($img) use ($auction) { return ['url' => $img->url, 'alt' => $auction->listing->title]; })" :title="$auction->listing->title">
+                            <div class="relative">
+                                <!-- Main image -->
+                                <div class="mb-4 rounded-lg overflow-hidden relative">
+                                    <img id="mainImage"
+                                        src="{{ $auction->listing->images->first()->url }}"
+                                        alt="{{ $auction->listing->title }}"
+                                        class="w-full h-80 object-cover rounded-lg cursor-pointer hover:opacity-95 transition-opacity"
+                                        @click="openLightbox(0)">
+                                    <!-- Zoom icon overlay -->
+                                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-20"
+                                         @click="openLightbox(0)">
+                                        <div class="bg-white bg-opacity-90 rounded-full p-3">
+                                            <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
+                                            </svg>
+                                        </div>
                                     </div>
-                                @endforeach
+                                </div>
+
+                                <!-- Thumbnail gallery -->
+                                <div class="grid grid-cols-4 gap-2">
+                                    @foreach ($auction->listing->images as $index => $image)
+                                        <div
+                                            class="cursor-pointer border-2 rounded-lg overflow-hidden {{ $index === 0 ? 'border-amber-500' : 'border-slate-200' }}">
+                                            <img src="{{ $image->url }}"
+                                                alt="{{ $auction->listing->title }} - slika {{ $index + 1 }}"
+                                                class="w-full h-20 object-cover"
+                                                @click="currentIndex = {{ $index }}; changeMainImage('{{ $image->url }}', $el)">
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
+                        </x-image-lightbox>
                     @else
                         <div class="w-full h-80 bg-slate-200 rounded-lg flex items-center justify-center">
                             <i class="fas fa-gavel text-slate-400 text-5xl"></i>
@@ -974,8 +988,10 @@
         });
 
         // Add border to selected image
-        element.parentElement.classList.remove('border-slate-200');
-        element.parentElement.classList.add('border-amber-500');
+        if (element && element.parentElement) {
+            element.parentElement.classList.remove('border-slate-200');
+            element.parentElement.classList.add('border-amber-500');
+        }
     }
     document.addEventListener('DOMContentLoaded', function() {
         const countdownElement = document.querySelector('.auction-countdown');
