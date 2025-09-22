@@ -610,9 +610,7 @@
                                 <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                     <i class="fas fa-map-marker-alt mr-1"></i>
                                     <span>{{ $auction->listing->location }}</span>
-                                </div>
-
-                                <div class="text-sm text-slate-600 dark:text-slate-300 mb-2">
+                                    <span class="mx-2">•</span>
                                     <i class="fas fa-folder mr-1"></i>
                                     <span>{{ $auction->listing->category->name }}</span>
                                 </div>
@@ -737,8 +735,7 @@
                                                 </p>
                                             @endauth
 
-                                            <div
-                                                class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
+                                            <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                                 <i class="fas fa-map-marker-alt mr-1"></i>
                                                 <span>{{ $auction->listing->location }}</span>
                                                 <span class="mx-2">•</span>
@@ -882,9 +879,7 @@
                                 <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                     <i class="fas fa-map-marker-alt mr-1"></i>
                                     <span>{{ $auction->listing->location }}</span>
-                                </div>
-
-                                <div class="text-sm text-slate-600 dark:text-slate-300 mb-2">
+                                    <span class="mx-2">•</span>
                                     <i class="fas fa-folder mr-1"></i>
                                     <span>{{ $auction->listing->category->name }}</span>
                                 </div>
@@ -994,8 +989,7 @@
                                                 </p>
                                             @endauth
 
-                                            <div
-                                                class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
+                                            <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                                 <i class="fas fa-map-marker-alt mr-1"></i>
                                                 <span>{{ $auction->listing->location }}</span>
                                                 <span class="mx-2">•</span>
