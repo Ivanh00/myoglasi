@@ -412,16 +412,17 @@
                             Postavi oglas
                         </a>
                         <a href="{{ route('listings.my') }}"
-                            class="text-slate-700 dark:text-slate-200 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">
+                            class="!bg-sky-50 !text-sky-700 hover:!bg-sky-100 dark:!bg-sky-900/50 dark:!text-sky-300 dark:hover:!bg-sky-900/30 block px-3 py-2 rounded-md text-base font-medium">
+                            <i class="fas fa-list mr-2"></i>
                             Moji oglasi
                         </a>
                         <a href="{{ route('auctions.my') }}"
-                            class="bg-amber-600 text-white hover:bg-amber-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                            class="!bg-amber-50 !text-amber-700 hover:!bg-amber-100 dark:!bg-amber-900/50 dark:!text-amber-300 dark:hover:!bg-amber-900/30 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                             <i class="fas fa-gavel mr-2"></i>
                             Moje aukcije
                         </a>
                         <a href="{{ route('services.my') }}"
-                            class="bg-slate-600 text-white hover:bg-slate-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                            class="!bg-slate-100 !text-slate-700 hover:!bg-slate-200 dark:!bg-slate-800/70 dark:!text-slate-300 dark:hover:!bg-slate-800/50 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                             <i class="fas fa-tools mr-2"></i>
                             Moje usluge
                         </a>
@@ -471,7 +472,8 @@
                             @csrf
                             <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); this.closest('form').submit();"
-                                class="text-red-600 hover:text-red-800 block px-3 py-2 rounded-md text-base font-medium">
+                                class="!bg-red-50 !text-red-700 hover:!bg-red-100 dark:!bg-red-900/50 dark:!text-red-300 dark:hover:!bg-red-900/30 block px-3 py-2 rounded-md text-base font-medium">
+                                <i class="fas fa-sign-out-alt mr-2"></i>
                                 Odjavi se
                             </a>
                         </form>
