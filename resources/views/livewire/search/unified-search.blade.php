@@ -81,10 +81,132 @@
         </div>
     @endif
 
+    <!-- Mobile Results Count and Category (Visible only on mobile, at top) -->
+    <div class="md:hidden bg-white dark:bg-slate-700 rounded-lg shadow-md p-4 mb-4">
+        <div class="text-slate-600 dark:text-slate-300 text-center mb-3">
+            @if (request()->routeIs('home'))
+                Ukupno: <span class="font-semibold">{{ $results->total() }}</span>
+                @if ($content_type === 'all')
+                    objava (oglasi, aukcije, usluge, pokloni)
+                @elseif($content_type === 'auctions')
+                    aukcija
+                @elseif($content_type === 'services')
+                    usluga
+                @elseif($content_type === 'giveaways')
+                    poklona
+                @elseif($content_type === 'listings')
+                    oglasa
+                @else
+                    objava
+                @endif
+            @else
+                Pronađeno: <span class="font-semibold">{{ $results->total() }}</span>
+                @if ($content_type === 'all')
+                    rezultata
+                @elseif($content_type === 'auctions')
+                    aukcija
+                @elseif($content_type === 'services')
+                    usluga
+                @elseif($content_type === 'giveaways')
+                    poklona
+                @elseif($content_type === 'listings')
+                    oglasa
+                @else
+                    rezultata
+                @endif
+            @endif
+        </div>
+
+        <!-- Mobile Category Dropdown -->
+        @if ($content_type === 'services')
+            <!-- Service Category Dropdown -->
+            <div class="w-full" x-data="{ open: false }" x-init="open = false">
+                <div class="relative">
+                    <button @click="open = !open" type="button"
+                        class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                        <span>
+                            @if ($service_category)
+                                @php $selectedCat = $serviceCategories->firstWhere('id', $service_category); @endphp
+                                {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
+                            @else
+                                Sve kategorije
+                            @endif
+                        </span>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        <button @click="$wire.setServiceCategory(''); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                            Sve kategorije
+                        </button>
+                        @foreach ($serviceCategories as $category)
+                            <button @click="$wire.setServiceCategory('{{ $category->id }}'); open = false"
+                                type="button"
+                                class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $service_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                @if ($category->icon)
+                                    <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400 mr-2"></i>
+                                @endif
+                                {{ $category->name }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @elseif($content_type !== 'auctions' && $content_type !== 'all')
+            <!-- Regular Category Dropdown for Listings/Giveaways -->
+            <div class="w-full" x-data="{ open: false }" x-init="open = false">
+                <div class="relative">
+                    <button @click="open = !open" type="button"
+                        class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                        <span>
+                            @if ($search_category)
+                                @php $selectedCat = $categories->firstWhere('id', $search_category); @endphp
+                                {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
+                            @else
+                                Sve kategorije
+                            @endif
+                        </span>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        <button @click="$wire.set('search_category', ''); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$search_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                            Sve kategorije
+                        </button>
+                        @foreach ($categories as $category)
+                            <button @click="$wire.set('search_category', '{{ $category->id }}'); open = false"
+                                type="button"
+                                class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $search_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                @if ($category->icon)
+                                    <i
+                                        class="{{ $category->icon }} text-slate-600 dark:text-slate-400 mr-2"></i>
+                                @endif
+                                {{ $category->name }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
+
     <!-- Results and Controls -->
     <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6">
         <div class="flex items-center justify-between mb-4">
-            <div class="text-slate-600 dark:text-slate-300">
+            <!-- Desktop Results Count (Hidden on mobile) -->
+            <div class="hidden md:block text-slate-600 dark:text-slate-300">
                 @if (request()->routeIs('home'))
                     Ukupno: <span class="font-semibold">{{ $results->total() }}</span>
                     @if ($content_type === 'all')
@@ -252,10 +374,10 @@
                     </div>
                 </div>
 
-                <!-- Category Dropdown -->
+                <!-- Category Dropdown (Desktop visible, mobile hidden) -->
                 @if ($content_type === 'services')
                     <!-- Service Category Dropdown -->
-                    <div class="w-60" x-data="{ open: false }" x-init="open = false">
+                    <div class="hidden md:block w-60" x-data="{ open: false }" x-init="open = false">
                         <div class="relative">
                             <button @click="open = !open" type="button"
                                 class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
@@ -293,9 +415,9 @@
                             </div>
                         </div>
                     </div>
-                @elseif($content_type !== 'auctions')
+                @elseif($content_type !== 'auctions' && $content_type !== 'all')
                     <!-- Regular Category Dropdown for Listings/Giveaways -->
-                    <div class="w-56" x-data="{ open: false }" x-init="open = false">
+                    <div class="hidden md:block w-56" x-data="{ open: false }" x-init="open = false">
                         <div class="relative">
                             <button @click="open = !open" type="button"
                                 class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
@@ -368,8 +490,8 @@
                 </div>
             </div>
 
-            <!-- Right: View Mode Toggle -->
-            <div class="flex bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm">
+            <!-- Right: View Mode Toggle (Hidden on mobile) -->
+            <div class="hidden md:flex bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm">
                 <button wire:click="setViewMode('list')"
                     class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-l-lg transition-colors">
                     <i class="fas fa-list"></i>
