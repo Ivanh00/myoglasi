@@ -58,13 +58,13 @@
                 <div x-show="open" @click.away="open = false" x-transition
                     class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                     <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
-                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedCategory ? 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300' : 'text-slate-700 dark:text-slate-200' }}">
+                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedCategory ? 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300' : 'text-slate-700 dark:text-slate-200' }}">
                         Sve kategorije
                     </button>
                     @foreach ($categories as $category)
                         <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false"
                             type="button"
-                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300' : 'text-slate-700 dark:text-slate-200' }}">
                             @if ($category->icon)
                                 <i class="{{ $category->icon }} text-slate-600 dark:text-slate-400 mr-2"></i>
                             @endif
@@ -195,13 +195,13 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedCategory ? 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300' : 'text-slate-700 dark:text-slate-200' }}">
+                                class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedCategory ? 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300' : 'text-slate-700 dark:text-slate-200' }}">
                                 Sve kategorije
                             </button>
                             @foreach ($categories as $category)
                                 <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false"
                                     type="button"
-                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300' : 'text-slate-700 dark:text-slate-200' }}">
                                     @if ($category->icon)
                                         <i class="{{ $category->icon }} text-slate-600 dark:text-slate-400 mr-2"></i>
                                     @endif
