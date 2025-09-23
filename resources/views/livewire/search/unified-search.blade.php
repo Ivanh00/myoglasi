@@ -300,6 +300,138 @@
                 </div>
             @endif
         @endif
+
+        <!-- Mobile Sorting and Per Page Controls -->
+        <div class="md:hidden mt-3">
+            <div class="flex gap-3">
+                <!-- Mobile sorting (50% width) -->
+                <div class="flex-1" x-data="{ open: false }" x-init="open = false">
+                    <div class="relative">
+                        <button @click="open = !open" type="button"
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                            <span>
+                                @if ($content_type === 'auctions')
+                                    @switch($auction_type ?: 'ending_soon')
+                                        @case('scheduled')
+                                            Zakazane aukcije
+                                        @break
+                                        @case('ending_soon')
+                                            Završavaju uskoro
+                                        @break
+                                        @case('newest')
+                                            Najnovije
+                                        @break
+                                        @case('highest_price')
+                                            Najviša cena
+                                        @break
+                                        @case('most_bids')
+                                            Najviše ponuda
+                                        @break
+                                        @default
+                                            Završavaju uskoro
+                                    @endswitch
+                                @else
+                                    @switch($sortBy)
+                                        @case('newest')
+                                            Najnovije
+                                        @break
+                                        @case('price_asc')
+                                            Cena ↑
+                                        @break
+                                        @case('price_desc')
+                                            Cena ↓
+                                        @break
+                                        @default
+                                            Najnovije
+                                    @endswitch
+                                @endif
+                            </span>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false" x-transition
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
+                            @if ($content_type === 'auctions')
+                                <button @click="$wire.set('auction_type', 'ending_soon'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                    <i class="fas fa-clock text-red-500 mr-2"></i>
+                                    Završavaju uskoro
+                                </button>
+                                <button @click="$wire.set('auction_type', 'newest'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    <i class="fas fa-plus text-green-500 mr-2"></i>
+                                    Najnovije
+                                </button>
+                                <button @click="$wire.set('auction_type', 'highest_price'); open = false"
+                                    type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
+                                    Najviša cena
+                                </button>
+                                <button @click="$wire.set('auction_type', 'most_bids'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    <i class="fas fa-gavel text-orange-500 mr-2"></i>
+                                    Najviše ponuda
+                                </button>
+                                <button @click="$wire.set('auction_type', 'scheduled'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    <i class="fas fa-calendar text-amber-500 mr-2"></i>
+                                    Zakazane aukcije
+                                </button>
+                            @else
+                                <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                    Najnovije
+                                </button>
+                                <button @click="$wire.set('sortBy', 'price_asc'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    Cena ↑
+                                </button>
+                                <button @click="$wire.set('sortBy', 'price_desc'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    Cena ↓
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile per page (50% width) -->
+                <div class="flex-1" x-data="{ open: false }" x-init="open = false">
+                    <div class="relative">
+                        <button @click="open = !open" type="button"
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                            <span>{{ $perPage }} po strani</span>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false" x-transition
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
+                            <button @click="$wire.set('perPage', 20); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                20 po strani
+                            </button>
+                            <button @click="$wire.set('perPage', 50); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                50 po strani
+                            </button>
+                            <button @click="$wire.set('perPage', 100); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                100 po strani
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Results and Controls -->
@@ -369,8 +501,8 @@
         </div>
 
         <!-- Controls -->
-        <div class="flex items-center justify-between">
-            <!-- Left: Sort Options and Per Page (50/50 on mobile) -->
+        <div class="hidden md:flex items-center justify-between">
+            <!-- Left: Sort Options and Per Page -->
             <div class="flex items-center gap-3 w-full md:w-auto">
                 <!-- Sort Options -->
                 <div class="flex-1 md:flex-initial md:w-40" x-data="{ open: false }" x-init="open = false">
