@@ -854,20 +854,20 @@ if (!empty($auctionType)) {
         </div>
 
         <!-- Filter Actions -->
-        <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-200">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mt-6 pt-4 border-t border-slate-200 space-y-3 md:space-y-0">
             <button type="button" @click="resetFilters()"
-                class="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
+                class="w-full md:w-auto inline-flex items-center justify-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
                 <i class="fas fa-times mr-2"></i>
                 Resetuj filtere
             </button>
 
-            <div class="flex space-x-3">
+            <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
                 <button type="button" @click="showFilters = false"
-                    class="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
+                    class="w-full md:w-auto inline-flex items-center justify-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
                     Sakrij filtere
                 </button>
                 <button type="button" @click="submitSearch()"
-                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-sky-600 dark:bg-sky-600 hover:bg-sky-700 dark:hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-500 transition-colors">
+                    class="w-full md:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-sky-600 dark:bg-sky-600 hover:bg-sky-700 dark:hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-500 transition-colors">
                     <i class="fas fa-search mr-2"></i>
                     <span>Primeni filtere</span>
                     <span x-show="hasActiveFilters()"
