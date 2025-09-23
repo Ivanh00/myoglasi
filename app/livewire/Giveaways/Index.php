@@ -13,9 +13,18 @@ class Index extends Component
     use WithPagination, HasViewMode;
 
     public $selectedCategory = null;
+    public $selectedSubcategory = null;
     public $categories;
+    public $subcategories = [];
     public $sortBy = 'newest';
     public $perPage = 20;
+
+    protected $queryString = [
+        'selectedCategory' => ['except' => ''],
+        'selectedSubcategory' => ['except' => ''],
+        'sortBy' => ['except' => 'newest'],
+        'perPage' => ['except' => 20]
+    ];
 
     public function mount()
     {
@@ -23,16 +32,43 @@ class Index extends Component
 
         // Get selectedCategory from URL parameter
         $this->selectedCategory = request()->get('selectedCategory');
+        $this->selectedSubcategory = request()->get('selectedSubcategory');
 
         $this->categories = Category::whereNull('parent_id')
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
+
+        // Load subcategories if category is selected
+        if ($this->selectedCategory) {
+            $this->subcategories = Category::where('parent_id', $this->selectedCategory)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        }
     }
 
     public function setCategory($categoryId)
     {
         $this->selectedCategory = $categoryId;
+        $this->selectedSubcategory = null; // Reset subcategory when category changes
+
+        // Load subcategories for the selected category
+        if ($this->selectedCategory) {
+            $this->subcategories = Category::where('parent_id', $this->selectedCategory)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        } else {
+            $this->subcategories = [];
+        }
+
+        $this->resetPage();
+    }
+
+    public function setSubcategory($subcategoryId)
+    {
+        $this->selectedSubcategory = $subcategoryId;
         $this->resetPage();
     }
 
@@ -162,7 +198,20 @@ class Index extends Component
             }]);
 
         $currentCategory = null;
-        if ($this->selectedCategory) {
+        if ($this->selectedSubcategory) {
+            // If subcategory is selected, filter by subcategory
+            $subcategory = Category::find($this->selectedSubcategory);
+            $currentCategory = $subcategory;
+
+            if ($subcategory) {
+                $subcategoryIds = $subcategory->getAllCategoryIds();
+                $query->where(function($q) use ($subcategoryIds) {
+                    $q->whereIn('category_id', $subcategoryIds)
+                      ->orWhereIn('subcategory_id', $subcategoryIds);
+                });
+            }
+        } elseif ($this->selectedCategory) {
+            // If only category is selected, filter by category and its children
             $category = Category::find($this->selectedCategory);
             $currentCategory = $category;
 

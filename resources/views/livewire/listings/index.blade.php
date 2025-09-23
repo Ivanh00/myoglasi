@@ -73,6 +73,40 @@
                     @endforeach
                 </div>
             </div>
+            <!-- Subcategory dropdown (mobile) -->
+            @if ($selectedCategory && count($subcategories) > 0)
+                <div class="relative mb-2" x-data="{ open: false }" x-init="open = false">
+                    <button @click="open = !open" type="button"
+                        class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                        <span>
+                            @if ($selectedSubcategory)
+                                @php $selectedSubcat = $subcategories->firstWhere('id', $selectedSubcategory); @endphp
+                                {{ $selectedSubcat ? $selectedSubcat->name : 'Sve podkategorije' }}
+                            @else
+                                Sve podkategorije
+                            @endif
+                        </span>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        <button @click="$wire.set('selectedSubcategory', ''); open = false" type="button"
+                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedSubcategory ? 'bg-sky-50 dark:bg-sky-900 text-sky-700 dark:text-sky-200' : 'text-slate-700 dark:text-slate-200' }}">
+                            Sve podkategorije
+                        </button>
+                        @foreach ($subcategories as $subcategory)
+                            <button @click="$wire.set('selectedSubcategory', '{{ $subcategory->id }}'); open = false"
+                                type="button"
+                                class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $selectedSubcategory == $subcategory->id ? 'bg-sky-50 dark:bg-sky-900 text-sky-700 dark:text-sky-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                {{ $subcategory->name }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
             <!-- Filteri i sortiranje -->
             <div class="md:hidden">
                 <div class="flex gap-3">
@@ -211,6 +245,45 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Subcategory dropdown (desktop) -->
+                @if ($selectedCategory && count($subcategories) > 0)
+                    <div class="w-60" x-data="{ open: false }" x-init="open = false">
+                        <div class="relative">
+                            <button @click="open = !open" type="button"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                                <span>
+                                    @if ($selectedSubcategory)
+                                        @php $selectedSubcat = $subcategories->firstWhere('id', $selectedSubcategory); @endphp
+                                        {{ $selectedSubcat ? $selectedSubcat->name : 'Sve podkategorije' }}
+                                    @else
+                                        Sve podkategorije
+                                    @endif
+                                </span>
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                <button @click="$wire.set('selectedSubcategory', ''); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedSubcategory ? 'bg-sky-50 dark:bg-sky-900 text-sky-700 dark:text-sky-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                    Sve podkategorije
+                                </button>
+                                @foreach ($subcategories as $subcategory)
+                                    <button @click="$wire.set('selectedSubcategory', '{{ $subcategory->id }}'); open = false"
+                                        type="button"
+                                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $selectedSubcategory == $subcategory->id ? 'bg-sky-50 dark:bg-sky-900 text-sky-700 dark:text-sky-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                        {{ $subcategory->name }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 <!-- Center: Filters -->
                 <div class="flex items-center gap-3">

@@ -15,13 +15,16 @@ class Index extends Component
     public $sortBy = 'ending_soon'; // ending_soon, newest, highest_price, most_bids
     public $perPage = 20;
     public $selectedCategory = null;
+    public $selectedSubcategory = null;
     public $categories;
+    public $subcategories = [];
     public $currentCategory = null;
 
     protected $queryString = [
         'sortBy' => ['except' => 'ending_soon'],
         'perPage' => ['except' => 20],
-        'selectedCategory' => ['except' => '']
+        'selectedCategory' => ['except' => ''],
+        'selectedSubcategory' => ['except' => '']
     ];
 
     public function mount()
@@ -37,6 +40,11 @@ class Index extends Component
         // Load current category if selected
         if ($this->selectedCategory) {
             $this->currentCategory = Category::with('parent')->find($this->selectedCategory);
+            // Load subcategories for the selected category
+            $this->subcategories = Category::where('parent_id', $this->selectedCategory)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
         }
     }
 
@@ -53,6 +61,23 @@ class Index extends Component
     public function updatedSelectedCategory()
     {
         $this->currentCategory = Category::with('parent')->find($this->selectedCategory);
+        $this->selectedSubcategory = null; // Reset subcategory when category changes
+
+        // Load subcategories for the selected category
+        if ($this->selectedCategory) {
+            $this->subcategories = Category::where('parent_id', $this->selectedCategory)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        } else {
+            $this->subcategories = [];
+        }
+
+        $this->resetPage();
+    }
+
+    public function updatedSelectedSubcategory()
+    {
         $this->resetPage();
     }
 
@@ -67,7 +92,23 @@ class Index extends Component
             });
 
         // Apply category filter
-        if ($this->selectedCategory) {
+        if ($this->selectedSubcategory) {
+            // If subcategory is selected, filter by subcategory
+            $subcategory = Category::find($this->selectedSubcategory);
+
+            if ($subcategory) {
+                $subcategoryIds = [$subcategory->id];
+                $subcategoryIds = array_merge($subcategoryIds, $subcategory->children->pluck('id')->toArray());
+
+                $activeQuery->whereHas('listing', function($q) use ($subcategoryIds) {
+                    $q->where(function($subQ) use ($subcategoryIds) {
+                        $subQ->whereIn('category_id', $subcategoryIds)
+                             ->orWhereIn('subcategory_id', $subcategoryIds);
+                    });
+                });
+            }
+        } elseif ($this->selectedCategory) {
+            // If only category is selected, filter by category and its children
             $category = Category::find($this->selectedCategory);
 
             if ($category) {
