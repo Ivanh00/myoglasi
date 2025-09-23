@@ -168,7 +168,7 @@
                     <div x-show="open" @click.away="open = false" x-transition
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                         <button @click="$wire.setServiceCategory(''); open = false" type="button"
-                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_category ? 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                             Sve kategorije
                         </button>
                         @foreach ($serviceCategories as $category)
@@ -247,8 +247,16 @@
 
                     <div x-show="open" @click.away="open = false" x-transition
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        @php
+                            $allCategoriesClass = match($content_type) {
+                                'auctions' => !$search_category ? 'bg-amber-50 dark:bg-amber-900 text-amber-700 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200',
+                                'giveaways' => !$search_category ? 'bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-700 dark:text-slate-200',
+                                'services' => !$search_category ? 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200',
+                                default => !$search_category ? 'bg-sky-50 dark:bg-sky-900 text-sky-700 dark:text-sky-200' : 'text-slate-700 dark:text-slate-200'
+                            };
+                        @endphp
                         <button @click="$wire.set('search_category', ''); open = false" type="button"
-                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$search_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ $allCategoriesClass }}">
                             Sve kategorije
                         </button>
                         @foreach ($categories as $category)
@@ -542,7 +550,7 @@
                             <div x-show="open" @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                 <button @click="$wire.setServiceCategory(''); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_category ? 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                     Sve kategorije
                                 </button>
                                 @foreach ($serviceCategories as $category)
@@ -629,8 +637,16 @@
 
                             <div x-show="open" @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                @php
+                                    $allCategoriesClassDesktop = match($content_type) {
+                                        'auctions' => !$search_category ? 'bg-amber-50 dark:bg-amber-900 text-amber-700 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200',
+                                        'giveaways' => !$search_category ? 'bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-700 dark:text-slate-200',
+                                        'services' => !$search_category ? 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200',
+                                        default => !$search_category ? 'bg-sky-50 dark:bg-sky-900 text-sky-700 dark:text-sky-200' : 'text-slate-700 dark:text-slate-200'
+                                    };
+                                @endphp
                                 <button @click="$wire.set('search_category', ''); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$search_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ $allCategoriesClassDesktop }}">
                                     Sve kategorije
                                 </button>
                                 @foreach ($categories as $category)
