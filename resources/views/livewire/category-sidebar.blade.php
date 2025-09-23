@@ -1,4 +1,5 @@
-<div class="w-64 bg-white dark:bg-slate-800 shadow-lg h-screen sticky top-0 overflow-y-auto sidebar-scroll" x-data="{ openSection: null }">
+<div class="w-64 bg-white dark:bg-slate-800 shadow-lg h-screen sticky top-0 overflow-y-auto sidebar-scroll"
+    x-data="{ openSection: null }">
     <style>
         /* Hide scrollbar for Chrome, Safari and Opera */
         .sidebar-scroll::-webkit-scrollbar {
@@ -8,8 +9,10 @@
 
         /* Hide scrollbar for IE, Edge and Firefox */
         .sidebar-scroll {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
         }
 
         /* Ensure consistent width */
@@ -19,16 +22,16 @@
     </style>
     @php
         // Load categories at the beginning so they're available for all sections
-        $categoryTree = isset($categoryTree)
-            ? $categoryTree
-            : \App\Models\Category::with([
-                'children' => function ($query) {
-                    $query->where('is_active', true)->orderBy('sort_order');
-                },
-            ])
-                ->whereNull('parent_id')
-                ->where('is_active', true)
-                ->orderBy('sort_order')
+$categoryTree = isset($categoryTree)
+    ? $categoryTree
+    : \App\Models\Category::with([
+        'children' => function ($query) {
+            $query->where('is_active', true)->orderBy('sort_order');
+        },
+    ])
+        ->whereNull('parent_id')
+        ->where('is_active', true)
+        ->orderBy('sort_order')
                 ->get();
     @endphp
 
@@ -55,7 +58,8 @@
 
         <!-- Oglasi -->
         <div class="mb-2">
-            <div class="flex items-center bg-sky-600 rounded-lg {{ request()->routeIs('listings.index') && !request()->get('selectedCategory') ? 'bg-sky-700' : '' }}">
+            <div
+                class="flex items-center bg-sky-600 rounded-lg {{ request()->routeIs('listings.index') && !request()->get('selectedCategory') ? 'bg-sky-700' : '' }}">
                 <a href="{{ route('listings.index') }}"
                     class="flex-1 flex items-center px-4 py-3 text-white hover:bg-sky-700 transition-colors rounded-l-lg">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,16 +71,14 @@
                 <button @click="openSection = openSection === 'listings' ? null : 'listings'"
                     class="px-3 py-3 text-white hover:bg-sky-700 transition-colors rounded-r-lg border-l border-sky-700">
                     <svg class="w-4 h-4 transition-transform duration-200"
-                        :class="{ 'transform rotate-90': openSection === 'listings' }"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5l7 7-7 7" />
+                        :class="{ 'transform rotate-90': openSection === 'listings' }" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
             </div>
             <!-- Listings categories dropdown -->
-            <div class="mt-1 overflow-hidden transition-all duration-200"
-                x-data="{ openAuctionCategory: null }"
+            <div class="mt-1 overflow-hidden transition-all duration-200" x-data="{ openAuctionCategory: null }"
                 :class="{ 'max-h-0': openSection !== 'listings', 'max-h-none': openSection === 'listings' }">
 
                 @foreach ($categoryTree as $category)
@@ -93,11 +95,14 @@
                                 @php
                                     $listingCount = \App\Models\Listing::where('listing_type', 'standard')
                                         ->where('status', 'active')
-                                        ->where(function($q) use ($category) {
+                                        ->where(function ($q) use ($category) {
                                             $categoryIds = $category->getAllCategoryIds();
-                                            $q->whereIn('category_id', $categoryIds)
-                                              ->orWhereIn('subcategory_id', $categoryIds);
-                                        })->count();
+                                            $q->whereIn('category_id', $categoryIds)->orWhereIn(
+                                                'subcategory_id',
+                                                $categoryIds,
+                                            );
+                                        })
+                                        ->count();
                                 @endphp
                                 ({{ $listingCount ?? $category->getAllListingsCount() }})
                             </span>
@@ -109,7 +114,8 @@
 
         <!-- Aukcije -->
         <div class="mb-2">
-            <div class="flex items-center bg-amber-600 rounded-lg {{ request()->routeIs('auctions.index') ? 'bg-amber-700' : '' }}">
+            <div
+                class="flex items-center bg-amber-600 rounded-lg {{ request()->routeIs('auctions.index') ? 'bg-amber-700' : '' }}">
                 <a href="{{ route('auctions.index') }}"
                     class="flex-1 flex items-center px-4 py-3 text-white hover:bg-amber-700 transition-colors rounded-l-lg">
                     <i class="fas fa-gavel mr-3"></i>
@@ -118,16 +124,14 @@
                 <button @click="openSection = openSection === 'auctions' ? null : 'auctions'"
                     class="px-3 py-3 text-white hover:bg-amber-700 transition-colors rounded-r-lg border-l border-amber-700">
                     <svg class="w-4 h-4 transition-transform duration-200"
-                        :class="{ 'transform rotate-90': openSection === 'auctions' }"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5l7 7-7 7" />
+                        :class="{ 'transform rotate-90': openSection === 'auctions' }" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
             </div>
             <!-- Auction categories dropdown -->
-            <div class="mt-1 overflow-hidden transition-all duration-200"
-                x-data="{ openAuctionCategory: null }"
+            <div class="mt-1 overflow-hidden transition-all duration-200" x-data="{ openAuctionCategory: null }"
                 :class="{ 'max-h-0': openSection !== 'auctions', 'max-h-none': openSection === 'auctions' }">
 
                 @foreach ($categoryTree as $category)
@@ -144,11 +148,14 @@
                                 @php
                                     $auctionCount = \App\Models\Listing::where('listing_type', 'auction')
                                         ->where('status', 'active')
-                                        ->where(function($q) use ($category) {
+                                        ->where(function ($q) use ($category) {
                                             $categoryIds = $category->getAllCategoryIds();
-                                            $q->whereIn('category_id', $categoryIds)
-                                              ->orWhereIn('subcategory_id', $categoryIds);
-                                        })->count();
+                                            $q->whereIn('category_id', $categoryIds)->orWhereIn(
+                                                'subcategory_id',
+                                                $categoryIds,
+                                            );
+                                        })
+                                        ->count();
                                 @endphp
                                 ({{ $auctionCount }})
                             </span>
@@ -160,7 +167,8 @@
 
         <!-- Usluge -->
         <div class="mb-2">
-            <div class="flex items-center services-button rounded-lg {{ request()->routeIs('services.*') ? 'active' : '' }}">
+            <div
+                class="flex items-center services-button rounded-lg {{ request()->routeIs('services.*') ? 'active' : '' }}">
                 <a href="{{ route('services.index') }}"
                     class="flex-1 flex items-center px-4 py-3 text-white hover:opacity-90 transition-opacity rounded-l-lg">
                     <i class="fas fa-tools mr-3"></i>
@@ -169,16 +177,14 @@
                 <button @click="openSection = openSection === 'services' ? null : 'services'"
                     class="px-3 py-3 text-white hover:opacity-90 transition-opacity rounded-r-lg border-l border-slate-700">
                     <svg class="w-4 h-4 transition-transform duration-200"
-                        :class="{ 'transform rotate-90': openSection === 'services' }"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5l7 7-7 7" />
+                        :class="{ 'transform rotate-90': openSection === 'services' }" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
             </div>
             <!-- Service categories dropdown -->
-            <div class="mt-1 overflow-hidden transition-all duration-200"
-                x-data="{ openServiceCategory: null }"
+            <div class="mt-1 overflow-hidden transition-all duration-200" x-data="{ openServiceCategory: null }"
                 :class="{ 'max-h-0': openSection !== 'services', 'max-h-none': openSection === 'services' }">
 
                 @php
@@ -187,10 +193,10 @@
                             $query->where('is_active', true)->orderBy('sort_order');
                         },
                     ])
-                    ->whereNull('parent_id')
-                    ->where('is_active', true)
-                    ->orderBy('sort_order')
-                    ->get();
+                        ->whereNull('parent_id')
+                        ->where('is_active', true)
+                        ->orderBy('sort_order')
+                        ->get();
                 @endphp
 
                 @foreach ($serviceCategories as $serviceCategory)
@@ -198,7 +204,8 @@
                         <a href="{{ route('services.index', ['selectedCategory' => $serviceCategory->id]) }}"
                             class="flex items-center px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-50 dark:hover:bg-slate-600">
                             @if ($serviceCategory->icon)
-                                <i class="{{ $serviceCategory->icon }} text-slate-600 dark:text-slate-400 mr-2 w-4"></i>
+                                <i
+                                    class="{{ $serviceCategory->icon }} text-slate-600 dark:text-slate-400 mr-2 w-4"></i>
                             @else
                                 <i class="fas fa-tools text-slate-600 dark:text-slate-400 mr-2 w-4"></i>
                             @endif
@@ -206,14 +213,20 @@
                             <span class="text-xs text-slate-500 dark:text-slate-300">
                                 @php
                                     $serviceCount = \App\Models\Service::where('status', 'active')
-                                        ->where(function($q) use ($serviceCategory) {
+                                        ->where(function ($q) use ($serviceCategory) {
                                             $categoryIds = [$serviceCategory->id];
-                                            if($serviceCategory->children) {
-                                                $categoryIds = array_merge($categoryIds, $serviceCategory->children->pluck('id')->toArray());
+                                            if ($serviceCategory->children) {
+                                                $categoryIds = array_merge(
+                                                    $categoryIds,
+                                                    $serviceCategory->children->pluck('id')->toArray(),
+                                                );
                                             }
-                                            $q->whereIn('service_category_id', $categoryIds)
-                                              ->orWhereIn('subcategory_id', $categoryIds);
-                                        })->count();
+                                            $q->whereIn('service_category_id', $categoryIds)->orWhereIn(
+                                                'subcategory_id',
+                                                $categoryIds,
+                                            );
+                                        })
+                                        ->count();
                                 @endphp
                                 ({{ $serviceCount }})
                             </span>
@@ -225,7 +238,8 @@
 
         <!-- Poklanjam -->
         <div class="mb-2">
-            <div class="flex items-center bg-green-600 rounded-lg {{ request()->routeIs('giveaways.*') ? 'bg-green-700' : '' }}">
+            <div
+                class="flex items-center bg-green-600 rounded-lg {{ request()->routeIs('giveaways.*') ? 'bg-green-700' : '' }}">
                 <a href="{{ route('giveaways.index') }}"
                     class="flex-1 flex items-center px-4 py-3 text-white hover:bg-green-700 transition-colors rounded-l-lg">
                     <i class="fas fa-gift mr-3"></i>
@@ -234,16 +248,14 @@
                 <button @click="openSection = openSection === 'giveaways' ? null : 'giveaways'"
                     class="px-3 py-3 text-white hover:bg-green-700 transition-colors rounded-r-lg border-l border-green-700">
                     <svg class="w-4 h-4 transition-transform duration-200"
-                        :class="{ 'transform rotate-90': openSection === 'giveaways' }"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5l7 7-7 7" />
+                        :class="{ 'transform rotate-90': openSection === 'giveaways' }" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
             </div>
             <!-- Giveaway categories dropdown -->
-            <div class="mt-1 overflow-hidden transition-all duration-200"
-                x-data="{ openGiveawayCategory: null }"
+            <div class="mt-1 overflow-hidden transition-all duration-200" x-data="{ openGiveawayCategory: null }"
                 :class="{ 'max-h-0': openSection !== 'giveaways', 'max-h-none': openSection === 'giveaways' }">
 
                 @foreach ($categoryTree as $category)
@@ -260,11 +272,14 @@
                                 @php
                                     $giveawayCount = \App\Models\Listing::where('listing_type', 'giveaway')
                                         ->where('status', 'active')
-                                        ->where(function($q) use ($category) {
+                                        ->where(function ($q) use ($category) {
                                             $categoryIds = $category->getAllCategoryIds();
-                                            $q->whereIn('category_id', $categoryIds)
-                                              ->orWhereIn('subcategory_id', $categoryIds);
-                                        })->count();
+                                            $q->whereIn('category_id', $categoryIds)->orWhereIn(
+                                                'subcategory_id',
+                                                $categoryIds,
+                                            );
+                                        })
+                                        ->count();
                                 @endphp
                                 ({{ $giveawayCount }})
                             </span>
@@ -294,7 +309,7 @@
                 </a>
 
                 <a href="{{ route('messages.inbox') }}"
-                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700 mt-2">
+                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
@@ -315,7 +330,7 @@
                 </a>
 
                 <a href="{{ route('notifications.index') }}"
-                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700 mt-2">
+                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
@@ -338,8 +353,8 @@
         @else
             <!-- Regular User Sidebar -->
             <div class="border-t mt-4 pt-4 p-2">
-                <div class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                    Brze akcije</div>
+                {{-- <div class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    Brze akcije</div> --}}
 
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center px-3 py-2 text-red-500 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-slate-700">
@@ -353,7 +368,7 @@
                 </a>
 
                 <a href="{{ route('listings.create') }}"
-                    class="flex items-center px-3 py-2 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-50 dark:hover:bg-slate-700 mt-2">
+                    class="flex items-center px-3 py-2 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 6v6m0 0v6m0-6h6m-6 0H6">
@@ -363,7 +378,7 @@
                 </a>
 
                 <a href="{{ route('listings.my') }}"
-                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700 mt-2">
+                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -373,7 +388,7 @@
 
                 <!-- U sidebar.blade.php -->
                 <a href="{{ route('messages.inbox') }}"
-                    class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-slate-700 mt-2">
+                    class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
@@ -396,7 +411,7 @@
                 </a>
 
                 <a href="{{ route('notifications.index') }}"
-                    class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-slate-700 mt-2">
+                    class="flex items-center px-3 py-2 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-slate-700">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
