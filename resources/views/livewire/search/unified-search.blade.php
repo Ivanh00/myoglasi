@@ -516,10 +516,176 @@
 
         <!-- Controls -->
         <div class="hidden md:flex items-center justify-between">
-            <!-- Left: Sort Options -->
+            <!-- Left: Category Dropdowns -->
+            <div class="flex items-center gap-3">
+                @if ($content_type === 'services')
+                    <!-- Service Category Dropdown -->
+                    <div class="w-56" x-data="{ open: false }" x-init="open = false">
+                        <div class="relative">
+                            <button @click="open = !open" type="button"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                                <span>
+                                    @if ($service_category)
+                                        @php $selectedCat = $serviceCategories->firstWhere('id', $service_category); @endphp
+                                        {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
+                                    @else
+                                        Sve kategorije
+                                    @endif
+                                </span>
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                <button @click="$wire.setServiceCategory(''); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                    Sve kategorije
+                                </button>
+                                @foreach ($serviceCategories as $category)
+                                    <button @click="$wire.setServiceCategory('{{ $category->id }}'); open = false"
+                                        type="button"
+                                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $service_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                        @if ($category->icon)
+                                            <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400 mr-2"></i>
+                                        @endif
+                                        {{ $category->name }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Subcategory Dropdown (Desktop) -->
+                    @if ($service_category && count($serviceSubcategories) > 0)
+                        <div class="w-56" x-data="{ open: false }" x-init="open = false">
+                            <div class="relative">
+                                <button @click="open = !open" type="button"
+                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                                    <span>
+                                        @if ($service_subcategory)
+                                            @php $selectedSubcat = $serviceSubcategories->firstWhere('id', $service_subcategory); @endphp
+                                            {{ $selectedSubcat ? $selectedSubcat->name : 'Sve podkategorije' }}
+                                        @else
+                                            Sve podkategorije
+                                        @endif
+                                    </span>
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+
+                                <div x-show="open" @click.away="open = false" x-transition
+                                    class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                    <button @click="$wire.set('service_subcategory', ''); open = false" type="button"
+                                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_subcategory ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                        Sve podkategorije
+                                    </button>
+                                    @foreach ($serviceSubcategories as $subcategory)
+                                        <button
+                                            @click="$wire.set('service_subcategory', '{{ $subcategory->id }}'); open = false"
+                                            type="button"
+                                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $service_subcategory == $subcategory->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                            {{ $subcategory->name }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @elseif($content_type !== 'auctions' && $content_type !== 'all')
+                    <!-- Regular Category Dropdown for Listings/Giveaways -->
+                    <div class="w-56" x-data="{ open: false }" x-init="open = false">
+                        <div class="relative">
+                            <button @click="open = !open" type="button"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                                <span>
+                                    @if ($search_category)
+                                        @php $selectedCat = $categories->firstWhere('id', $search_category); @endphp
+                                        {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
+                                    @else
+                                        Sve kategorije
+                                    @endif
+                                </span>
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                <button @click="$wire.set('search_category', ''); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$search_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                    Sve kategorije
+                                </button>
+                                @foreach ($categories as $category)
+                                    <button @click="$wire.set('search_category', '{{ $category->id }}'); open = false"
+                                        type="button"
+                                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $search_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                        @if ($category->icon)
+                                            <i
+                                                class="{{ $category->icon }} text-slate-600 dark:text-slate-400 mr-2"></i>
+                                        @endif
+                                        {{ $category->name }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Regular Subcategory Dropdown (Desktop) -->
+                    @if ($search_category && count($subcategories) > 0)
+                        <div class="w-56" x-data="{ open: false }" x-init="open = false">
+                            <div class="relative">
+                                <button @click="open = !open" type="button"
+                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
+                                    <span>
+                                        @if ($search_subcategory)
+                                            @php $selectedSubcat = $subcategories->firstWhere('id', $search_subcategory); @endphp
+                                            {{ $selectedSubcat ? $selectedSubcat->name : 'Sve podkategorije' }}
+                                        @else
+                                            Sve podkategorije
+                                        @endif
+                                    </span>
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+
+                                <div x-show="open" @click.away="open = false" x-transition
+                                    class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                    <button @click="$wire.set('search_subcategory', ''); open = false" type="button"
+                                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$search_subcategory ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                        Sve podkategorije
+                                    </button>
+                                    @foreach ($subcategories as $subcategory)
+                                        <button
+                                            @click="$wire.set('search_subcategory', '{{ $subcategory->id }}'); open = false"
+                                            type="button"
+                                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $search_subcategory == $subcategory->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
+                                            {{ $subcategory->name }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endif
+            </div>
+
+            <!-- Center: Sort and Per Page -->
             <div class="flex items-center gap-3">
                 <!-- Sort Options -->
-                <div class="flex-1 md:flex-initial md:w-40" x-data="{ open: false }" x-init="open = false">
+                <div class="w-40" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
@@ -529,23 +695,18 @@
                                         @case('scheduled')
                                             Zakazane aukcije
                                         @break
-
                                         @case('ending_soon')
                                             Završavaju uskoro
                                         @break
-
                                         @case('newest')
                                             Najnovije
                                         @break
-
                                         @case('highest_price')
                                             Najviša cena
                                         @break
-
                                         @case('most_bids')
                                             Najviše ponuda
                                         @break
-
                                         @default
                                             Završavaju uskoro
                                     @endswitch
@@ -554,15 +715,12 @@
                                         @case('newest')
                                             Najnovije
                                         @break
-
                                         @case('price_asc')
                                             Cena ↑
                                         @break
-
                                         @case('price_desc')
                                             Cena ↓
                                         @break
-
                                         @default
                                             Najnovije
                                     @endswitch
@@ -621,176 +779,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Center: Category Dropdowns -->
-            <div class="flex items-center gap-3">
-                @if ($content_type === 'services')
-                    <!-- Service Category Dropdown -->
-                    <div class="hidden md:block w-60" x-data="{ open: false }" x-init="open = false">
-                        <div class="relative">
-                            <button @click="open = !open" type="button"
-                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
-                                <span>
-                                    @if ($service_category)
-                                        @php $selectedCat = $serviceCategories->firstWhere('id', $service_category); @endphp
-                                        {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
-                                    @else
-                                        Sve kategorije
-                                    @endif
-                                </span>
-                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
-
-                            <div x-show="open" @click.away="open = false" x-transition
-                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                <button @click="$wire.setServiceCategory(''); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                    Sve kategorije
-                                </button>
-                                @foreach ($serviceCategories as $category)
-                                    <button @click="$wire.setServiceCategory('{{ $category->id }}'); open = false"
-                                        type="button"
-                                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $service_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                        @if ($category->icon)
-                                            <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400 mr-2"></i>
-                                        @endif
-                                        {{ $category->name }}
-                                    </button>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Subcategory Dropdown (Desktop) -->
-                    @if ($service_category && count($serviceSubcategories) > 0)
-                        <div class="hidden md:block w-60" x-data="{ open: false }" x-init="open = false">
-                            <div class="relative">
-                                <button @click="open = !open" type="button"
-                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
-                                    <span>
-                                        @if ($service_subcategory)
-                                            @php $selectedSubcat = $serviceSubcategories->firstWhere('id', $service_subcategory); @endphp
-                                            {{ $selectedSubcat ? $selectedSubcat->name : 'Sve podkategorije' }}
-                                        @else
-                                            Sve podkategorije
-                                        @endif
-                                    </span>
-                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </button>
-
-                                <div x-show="open" @click.away="open = false" x-transition
-                                    class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                    <button @click="$wire.set('service_subcategory', ''); open = false" type="button"
-                                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_subcategory ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                        Sve podkategorije
-                                    </button>
-                                    @foreach ($serviceSubcategories as $subcategory)
-                                        <button
-                                            @click="$wire.set('service_subcategory', '{{ $subcategory->id }}'); open = false"
-                                            type="button"
-                                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $service_subcategory == $subcategory->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                            {{ $subcategory->name }}
-                                        </button>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                @elseif($content_type !== 'auctions' && $content_type !== 'all')
-                    <!-- Regular Category Dropdown for Listings/Giveaways -->
-                    <div class="hidden md:block w-56" x-data="{ open: false }" x-init="open = false">
-                        <div class="relative">
-                            <button @click="open = !open" type="button"
-                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
-                                <span>
-                                    @if ($search_category)
-                                        @php $selectedCat = $categories->firstWhere('id', $search_category); @endphp
-                                        {{ $selectedCat ? $selectedCat->name : 'Sve kategorije' }}
-                                    @else
-                                        Sve kategorije
-                                    @endif
-                                </span>
-                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
-
-                            <div x-show="open" @click.away="open = false" x-transition
-                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                <button @click="$wire.set('search_category', ''); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$search_category ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                    Sve kategorije
-                                </button>
-                                @foreach ($categories as $category)
-                                    <button @click="$wire.set('search_category', '{{ $category->id }}'); open = false"
-                                        type="button"
-                                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $search_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                        @if ($category->icon)
-                                            <i
-                                                class="{{ $category->icon }} text-slate-600 dark:text-slate-400 mr-2"></i>
-                                        @endif
-                                        {{ $category->name }}
-                                    </button>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Regular Subcategory Dropdown (Desktop) -->
-                    @if ($search_category && count($subcategories) > 0)
-                        <div class="hidden md:block w-56" x-data="{ open: false }" x-init="open = false">
-                            <div class="relative">
-                                <button @click="open = !open" type="button"
-                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
-                                    <span>
-                                        @if ($search_subcategory)
-                                            @php $selectedSubcat = $subcategories->firstWhere('id', $search_subcategory); @endphp
-                                            {{ $selectedSubcat ? $selectedSubcat->name : 'Sve podkategorije' }}
-                                        @else
-                                            Sve podkategorije
-                                        @endif
-                                    </span>
-                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </button>
-
-                                <div x-show="open" @click.away="open = false" x-transition
-                                    class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                    <button @click="$wire.set('search_subcategory', ''); open = false" type="button"
-                                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$search_subcategory ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                        Sve podkategorije
-                                    </button>
-                                    @foreach ($subcategories as $subcategory)
-                                        <button
-                                            @click="$wire.set('search_subcategory', '{{ $subcategory->id }}'); open = false"
-                                            type="button"
-                                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $search_subcategory == $subcategory->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                            {{ $subcategory->name }}
-                                        </button>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                @endif
-            </div>
-
-            <!-- Right: Per Page and View Mode -->
-            <div class="flex items-center gap-3">
                 <!-- Per Page -->
                 <div class="w-40" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
@@ -821,7 +810,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- Right: View Mode -->
+            <div class="flex items-center gap-3">
                 <!-- View Mode Toggle -->
                 <div class="flex bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm">
                     <button wire:click="setViewMode('list')"
