@@ -515,7 +515,7 @@
         </div>
 
         <!-- Controls -->
-        <div class="hidden md:flex items-center justify-between">
+        <div class="hidden md:flex items-center justify-between md:pt-4">
             <!-- Left: Category Dropdowns -->
             <div class="flex items-center gap-3">
                 @if ($content_type === 'services')
@@ -683,7 +683,7 @@
             </div>
 
             <!-- Center: Sort and Per Page -->
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 md:px-4">
                 <!-- Sort Options -->
                 <div class="w-40" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
