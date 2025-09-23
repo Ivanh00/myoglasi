@@ -236,14 +236,14 @@ $categoryTree = isset($categoryTree)
             </div>
         </div>
 
-        <!-- Poklanjam -->
+        <!-- Poklonim -->
         <div class="mb-2">
             <div
                 class="flex items-center bg-green-600 rounded-lg {{ request()->routeIs('giveaways.*') ? 'bg-green-700' : '' }}">
                 <a href="{{ route('giveaways.index') }}"
                     class="flex-1 flex items-center px-4 py-3 text-white hover:bg-green-700 transition-colors rounded-l-lg">
                     <i class="fas fa-gift mr-3"></i>
-                    Poklanjam
+                    Pokloni
                 </a>
                 <button @click="openSection = openSection === 'giveaways' ? null : 'giveaways'"
                     class="px-3 py-3 text-white hover:bg-green-700 transition-colors rounded-r-lg border-l border-green-700">

@@ -376,23 +376,19 @@ if (!empty($auctionType)) {
     </div>
 
     <!-- Mobile Overlay Background -->
-    <div x-show="showFilters && window.innerWidth < 768"
-         x-transition:enter="ease-out duration-200"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="ease-in duration-150"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
-         @click="toggleFilters()"
-         class="fixed inset-0 bg-black bg-opacity-50 z-[40] md:hidden"
-         style="display: none;">
+    <div x-show="showFilters && window.innerWidth < 768" x-transition:enter="ease-out duration-200"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" @click="toggleFilters()"
+        class="fixed inset-0 bg-black bg-opacity-50 z-[40] md:hidden" style="display: none;">
     </div>
 
     <!-- Expanded Filters (KupujemProdajem style) -->
     <div x-show="showFilters" x-transition:enter="ease-out duration-200"
         x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100"
         x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100"
-        x-transition:leave-end="opacity-0 transform scale-95" @click.away="if(window.innerWidth >= 768) showFilters = false"
+        x-transition:leave-end="opacity-0 transform scale-95"
+        @click.away="if(window.innerWidth >= 768) showFilters = false"
         class="fixed md:absolute top-[140px] md:top-full left-0 right-0 md:mt-2 bg-white dark:bg-slate-700 dark:bg-slate-800 md:rounded-lg shadow-lg border-t md:border border-slate-300 dark:border-slate-600 dark:border-slate-600 z-[90] md:z-[100] p-4 md:p-6 h-[calc(100vh-140px)] md:h-auto md:max-h-none overflow-y-auto md:overflow-visible"
         style="display: none;">
 
@@ -434,7 +430,7 @@ if (!empty($auctionType)) {
                         class="h-4 w-4 text-green-600 focus:ring-green-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-green-500">
                     <span class="ml-2 text-sm text-green-700 dark:text-green-200">
                         <i class="fas fa-gift mr-1"></i>
-                        Poklanjam
+                        Pokloni
                     </span>
                 </label>
             </div>
@@ -854,7 +850,8 @@ if (!empty($auctionType)) {
         </div>
 
         <!-- Filter Actions -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between mt-6 pt-4 border-t border-slate-200 space-y-3 md:space-y-0">
+        <div
+            class="flex flex-col md:flex-row md:items-center md:justify-between mt-6 pt-4 border-t border-slate-200 space-y-3 md:space-y-0">
             <button type="button" @click="resetFilters()"
                 class="w-full md:w-auto inline-flex items-center justify-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
                 <i class="fas fa-times mr-2"></i>
