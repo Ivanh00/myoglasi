@@ -258,7 +258,7 @@
                         <div class="relative">
                             <button @click="open = !open" type="button"
                                 class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
-                                <span>{{ $perPage }}</span>
+                                <span>{{ $perPage }} po strani</span>
                                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -270,15 +270,15 @@
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                                 <button @click="$wire.set('perPage', '20'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                    20
+                                    20 po strani
                                 </button>
                                 <button @click="$wire.set('perPage', '50'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                    50
+                                    50 po strani
                                 </button>
                                 <button @click="$wire.set('perPage', '100'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
-                                    100
+                                    100 po strani
                                 </button>
                             </div>
                         </div>
