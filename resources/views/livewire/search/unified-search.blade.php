@@ -256,7 +256,15 @@
                                 type="button"
                                 class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $search_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                 @if ($category->icon)
-                                    <i class="{{ $category->icon }} text-slate-600 dark:text-slate-400 mr-2"></i>
+                                    @php
+                                        $iconColor = match($content_type) {
+                                            'auctions' => 'text-amber-600 dark:text-amber-400',
+                                            'giveaways' => 'text-green-600 dark:text-green-400',
+                                            'services' => 'text-slate-600 dark:text-slate-400',
+                                            default => 'text-sky-600 dark:text-sky-400'
+                                        };
+                                    @endphp
+                                    <i class="{{ $category->icon }} {{ $iconColor }} mr-2"></i>
                                 @endif
                                 {{ $category->name }}
                             </button>
@@ -369,28 +377,23 @@
                             @if ($content_type === 'auctions')
                                 <button @click="$wire.set('auction_type', 'newest'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                    <i class="fas fa-plus text-green-500 mr-2"></i>
                                     Najnovije
                                 </button>
                                 <button @click="$wire.set('auction_type', 'ending_soon'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                    <i class="fas fa-clock text-red-500 mr-2"></i>
                                     Završavaju uskoro
                                 </button>
                                 <button @click="$wire.set('auction_type', 'highest_price'); open = false"
                                     type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                    <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
                                     Najviša cena
                                 </button>
                                 <button @click="$wire.set('auction_type', 'most_bids'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                    <i class="fas fa-gavel text-orange-500 mr-2"></i>
                                     Najviše ponuda
                                 </button>
                                 <button @click="$wire.set('auction_type', 'scheduled'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
-                                    <i class="fas fa-calendar text-amber-500 mr-2"></i>
                                     Zakazane aukcije
                                 </button>
                             @else
@@ -547,7 +550,15 @@
                                         type="button"
                                         class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $service_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                         @if ($category->icon)
-                                            <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400 mr-2"></i>
+                                            @php
+                                                $iconColor = match($content_type) {
+                                                    'auctions' => 'text-amber-600 dark:text-amber-400',
+                                                    'giveaways' => 'text-green-600 dark:text-green-400',
+                                                    'services' => 'text-slate-600 dark:text-slate-400',
+                                                    default => 'text-sky-600 dark:text-sky-400'
+                                                };
+                                            @endphp
+                                            <i class="{{ $category->icon }} {{ $iconColor }} mr-2"></i>
                                         @endif
                                         {{ $category->name }}
                                     </button>
@@ -627,8 +638,16 @@
                                         type="button"
                                         class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $search_category == $category->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                         @if ($category->icon)
+                                            @php
+                                                $iconColor = match($content_type) {
+                                                    'auctions' => 'text-amber-600 dark:text-amber-400',
+                                                    'giveaways' => 'text-green-600 dark:text-green-400',
+                                                    'services' => 'text-slate-600 dark:text-slate-400',
+                                                    default => 'text-sky-600 dark:text-sky-400'
+                                                };
+                                            @endphp
                                             <i
-                                                class="{{ $category->icon }} text-slate-600 dark:text-slate-400 mr-2"></i>
+                                                class="{{ $category->icon }} {{ $iconColor }} mr-2"></i>
                                         @endif
                                         {{ $category->name }}
                                     </button>
@@ -735,28 +754,23 @@
                             @if ($content_type === 'auctions')
                                 <button @click="$wire.set('auction_type', 'newest'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                    <i class="fas fa-plus text-green-500 mr-2"></i>
                                     Najnovije
                                 </button>
                                 <button @click="$wire.set('auction_type', 'ending_soon'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                    <i class="fas fa-clock text-red-500 mr-2"></i>
                                     Završavaju uskoro
                                 </button>
                                 <button @click="$wire.set('auction_type', 'highest_price'); open = false"
                                     type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                    <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
                                     Najviša cena
                                 </button>
                                 <button @click="$wire.set('auction_type', 'most_bids'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                    <i class="fas fa-gavel text-orange-500 mr-2"></i>
                                     Najviše ponuda
                                 </button>
                                 <button @click="$wire.set('auction_type', 'scheduled'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
-                                    <i class="fas fa-calendar text-amber-500 mr-2"></i>
                                     Zakazane aukcije
                                 </button>
                             @else
