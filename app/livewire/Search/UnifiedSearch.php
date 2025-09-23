@@ -221,8 +221,34 @@ class UnifiedSearch extends Component
             ->orderBy('name')
             ->get();
 
+        // Get scheduled and ended auctions if viewing auctions
+        $scheduledAuctions = collect();
+        $endedAuctions = collect();
+
+        if ($this->content_type === 'auctions') {
+            // Scheduled auctions (not yet started)
+            $scheduledQuery = Auction::with(['listing.images', 'listing.user', 'listing.category', 'bids'])
+                ->where('status', 'active')
+                ->where('starts_at', '>', now());
+
+            $this->applyFiltersToQuery($scheduledQuery, 'auction');
+            $scheduledAuctions = $scheduledQuery->orderBy('starts_at', 'asc')->get();
+
+            // Ended auctions (last 10)
+            $endedQuery = Auction::with(['listing.images', 'listing.user', 'listing.category', 'winningBid.user', 'winner'])
+                ->where(function($query) {
+                    $query->where('status', 'ended')
+                          ->orWhere('ends_at', '<=', now());
+                });
+
+            $this->applyFiltersToQuery($endedQuery, 'auction');
+            $endedAuctions = $endedQuery->orderBy('ends_at', 'desc')->limit(10)->get();
+        }
+
         return view('livewire.search.unified-search', [
             'results' => $paginator,
+            'scheduledAuctions' => $scheduledAuctions,
+            'endedAuctions' => $endedAuctions,
             'categories' => $categories,
             'subcategories' => $subcategories,
             'serviceCategories' => $serviceCategories,
