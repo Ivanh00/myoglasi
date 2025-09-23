@@ -21,6 +21,9 @@ class Index extends Component
     {
         $this->mountHasViewMode(); // Initialize view mode from session
 
+        // Get selectedCategory from URL parameter
+        $this->selectedCategory = request()->get('selectedCategory');
+
         $this->categories = ServiceCategory::whereNull('parent_id')
             ->where('is_active', true)
             ->orderBy('sort_order')
