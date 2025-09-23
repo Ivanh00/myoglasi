@@ -301,7 +301,7 @@
             @endif
         @endif
 
-        <!-- Mobile Sorting and Per Page Controls -->
+        <!-- Mobile Filters i sortiranje -->
         <div class="md:hidden mt-3">
             <div class="flex gap-3">
                 <!-- Mobile sorting (50% width) -->
@@ -502,8 +502,8 @@
 
         <!-- Controls -->
         <div class="hidden md:flex items-center justify-between">
-            <!-- Left: Sort Options and Per Page -->
-            <div class="flex items-center gap-3 w-full md:w-auto">
+            <!-- Left: Sort Options -->
+            <div class="flex items-center gap-3">
                 <!-- Sort Options -->
                 <div class="flex-1 md:flex-initial md:w-40" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
@@ -607,8 +607,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Category Dropdown (Desktop visible, mobile hidden) -->
+            <!-- Center: Category Dropdowns -->
+            <div class="flex items-center gap-3">
                 @if ($content_type === 'services')
                     <!-- Service Category Dropdown -->
                     <div class="hidden md:block w-60" x-data="{ open: false }" x-init="open = false">
@@ -769,9 +771,12 @@
                         </div>
                     @endif
                 @endif
+            </div>
 
+            <!-- Right: Per Page and View Mode -->
+            <div class="flex items-center gap-3">
                 <!-- Per Page -->
-                <div class="flex-1 md:flex-initial md:w-40" x-data="{ open: false }" x-init="open = false">
+                <div class="w-40" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
@@ -800,10 +805,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Right: View Mode Toggle (Hidden on mobile) -->
-            <div class="hidden md:flex bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm">
+                <!-- View Mode Toggle -->
+                <div class="flex bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm">
                 <button wire:click="setViewMode('list')"
                     class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-l-lg transition-colors">
                     <i class="fas fa-list"></i>
@@ -812,6 +816,7 @@
                     class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-r-lg transition-colors">
                     <i class="fas fa-th"></i>
                 </button>
+                </div>
             </div>
         </div>
     </div>
