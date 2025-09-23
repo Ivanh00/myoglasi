@@ -1,4 +1,19 @@
-<div class="w-64 bg-white dark:bg-slate-800 shadow-lg h-screen sticky top-0 overflow-y-auto " x-data="{ openCategory: null }">
+<div class="w-64 bg-white dark:bg-slate-800 shadow-lg h-screen sticky top-0 overflow-y-auto " x-data="{ openSection: null }">
+    @php
+        // Load categories at the beginning so they're available for all sections
+        $categoryTree = isset($categoryTree)
+            ? $categoryTree
+            : \App\Models\Category::with([
+                'children' => function ($query) {
+                    $query->where('is_active', true)->orderBy('sort_order');
+                },
+            ])
+                ->whereNull('parent_id')
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+    @endphp
+
     <div class="p-2">
         <!-- Theme Switcher -->
         <div class="mb-4 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
@@ -21,128 +36,274 @@
         </div>
 
         <!-- Aukcije -->
-        <a href="{{ route('auctions.index') }}"
-            class="flex items-center px-4 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors mb-2 {{ request()->routeIs('auctions.index') ? 'bg-amber-700' : '' }}">
-            <i class="fas fa-gavel mr-3"></i>
-            Aukcije
-        </a>
+        <div class="mb-2">
+            <div class="flex items-center bg-amber-600 rounded-lg {{ request()->routeIs('auctions.index') ? 'bg-amber-700' : '' }}">
+                <a href="{{ route('auctions.index') }}"
+                    class="flex-1 flex items-center px-4 py-3 text-white hover:bg-amber-700 transition-colors rounded-l-lg">
+                    <i class="fas fa-gavel mr-3"></i>
+                    Aukcije
+                </a>
+                <button @click="openSection = openSection === 'auctions' ? null : 'auctions'"
+                    class="px-3 py-3 text-white hover:bg-amber-700 transition-colors rounded-r-lg border-l border-amber-700">
+                    <svg class="w-4 h-4 transition-transform duration-200"
+                        :class="{ 'transform rotate-90': openSection === 'auctions' }"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Auction categories dropdown -->
+            <div class="mt-1 overflow-hidden transition-all duration-200"
+                x-data="{ openAuctionCategory: null }"
+                :class="{ 'max-h-0': openSection !== 'auctions', 'max-h-[600px] overflow-y-auto': openSection === 'auctions' }">
+
+                @foreach ($categoryTree as $category)
+                    <div class="mt-1">
+                        <a href="{{ route('auctions.index', ['selectedCategory' => $category->id]) }}"
+                            class="flex items-center px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-amber-50 dark:hover:bg-amber-900/20 {{ request()->get('selectedCategory') == $category->id ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-300' : '' }}">
+                            @if ($category->icon)
+                                <i class="{{ $category->icon }} text-amber-600 dark:text-amber-400 mr-2 w-4"></i>
+                            @else
+                                <i class="fas fa-folder text-amber-600 dark:text-amber-400 mr-2 w-4"></i>
+                            @endif
+                            <span>{{ $category->name }}</span>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
 
         <!-- Usluge -->
-        <a href="{{ route('services.index') }}"
-            class="flex items-center px-4 py-3 services-button text-white rounded-lg transition-colors mb-2 {{ request()->routeIs('services.*') ? 'active' : '' }}">
-            <i class="fas fa-tools mr-3"></i>
-            Usluge
-        </a>
+        <div class="mb-2">
+            <div class="flex items-center services-button rounded-lg {{ request()->routeIs('services.*') ? 'active' : '' }}">
+                <a href="{{ route('services.index') }}"
+                    class="flex-1 flex items-center px-4 py-3 text-white hover:opacity-90 transition-opacity rounded-l-lg">
+                    <i class="fas fa-tools mr-3"></i>
+                    Usluge
+                </a>
+                <button @click="openSection = openSection === 'services' ? null : 'services'"
+                    class="px-3 py-3 text-white hover:opacity-90 transition-opacity rounded-r-lg border-l border-slate-700">
+                    <svg class="w-4 h-4 transition-transform duration-200"
+                        :class="{ 'transform rotate-90': openSection === 'services' }"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Service categories dropdown -->
+            <div class="mt-1 overflow-hidden transition-all duration-200"
+                x-data="{ openServiceCategory: null }"
+                :class="{ 'max-h-0': openSection !== 'services', 'max-h-[600px] overflow-y-auto': openSection === 'services' }">
 
-        <!-- Poklanjam -->
-        <a href="{{ route('giveaways.index') }}"
-            class="flex items-center px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mb-2 {{ request()->routeIs('giveaways.*') ? 'bg-green-700' : '' }}">
-            <i class="fas fa-gift mr-3"></i>
-            Poklanjam
-        </a>
-
-        <!-- Globalni "Oglasi" -->
-        <a href="{{ route('listings.index') }}"
-            class="flex items-center px-4 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors mb-2 {{ request()->routeIs('listings.index') && !request()->get('selectedCategory') ? 'bg-sky-700' : '' }}">
-            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19 11H5m14-8H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"></path>
-            </svg>
-            Oglasi
-        </a>
-
-        @php
-            // Učitaj kategorije direktno ovde ako nisu prosleđene
-            $categoryTree = isset($categoryTree)
-                ? $categoryTree
-                : \App\Models\Category::with([
-                    'children' => function ($query) {
-                        $query->where('is_active', true)->orderBy('sort_order');
-                    },
-                ])
+                @php
+                    $serviceCategories = \App\Models\ServiceCategory::with([
+                        'children' => function ($query) {
+                            $query->where('is_active', true)->orderBy('sort_order');
+                        },
+                    ])
                     ->whereNull('parent_id')
                     ->where('is_active', true)
                     ->orderBy('sort_order')
                     ->get();
-        @endphp
+                @endphp
 
-        @foreach ($categoryTree as $category)
-            <div class="mt-1">
-                <!-- Glavna kategorija - ceo red je klikabilan za otvaranje/zatvaranje -->
-                <div class="flex items-center justify-between group cursor-pointer rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 {{ request()->get('selectedCategory') == $category->id ? 'bg-sky-50 dark:bg-slate-700' : '' }}"
-                    @click="openCategory = openCategory === '{{ $category->id }}' ? null : '{{ $category->id }}'">
-
-                    <!-- Levi deo - ikonica i naziv -->
-                    <div
-                        class="flex items-center flex-1 px-3 py-2 text-slate-700 dark:text-slate-200 {{ request()->get('selectedCategory') == $category->id ? 'text-sky-600 dark:text-sky-400' : '' }}">
-                        @if ($category->icon)
-                            <div class="w-5 h-5 mr-3 flex items-center justify-center">
-                                <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400"></i>
+                @foreach ($serviceCategories as $serviceCategory)
+                    <div class="mt-1">
+                        <!-- Service category with subcategories -->
+                        @if ($serviceCategory->children->count() > 0)
+                            <div class="flex items-center justify-between group cursor-pointer rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"
+                                @click="openServiceCategory = openServiceCategory === '{{ $serviceCategory->id }}' ? null : '{{ $serviceCategory->id }}'">
+                                <div class="flex items-center flex-1 px-3 py-2 text-slate-700 dark:text-slate-200">
+                                    @if ($serviceCategory->icon)
+                                        <i class="{{ $serviceCategory->icon }} text-slate-600 dark:text-slate-400 mr-2 w-4"></i>
+                                    @else
+                                        <i class="fas fa-tools text-slate-600 dark:text-slate-400 mr-2 w-4"></i>
+                                    @endif
+                                    <span>{{ $serviceCategory->name }}</span>
+                                </div>
+                                <div class="p-2 text-slate-500 dark:text-slate-300">
+                                    <svg class="w-4 h-4 transition-transform duration-200"
+                                        :class="{ 'transform rotate-90': openServiceCategory === '{{ $serviceCategory->id }}' }"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-1 overflow-hidden transition-all duration-200"
+                                :class="{ 'max-h-0': openServiceCategory !== '{{ $serviceCategory->id }}', 'max-h-96': openServiceCategory === '{{ $serviceCategory->id }}' }">
+                                <a href="{{ route('services.index', ['selectedCategory' => $serviceCategory->id]) }}"
+                                    class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600">
+                                    📁 Sve usluge u {{ $serviceCategory->name }}
+                                </a>
+                                @foreach ($serviceCategory->children as $child)
+                                    <a href="{{ route('services.index', ['selectedCategory' => $child->id]) }}"
+                                        class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 pl-8">
+                                        • {{ $child->name }}
+                                    </a>
+                                @endforeach
                             </div>
                         @else
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4">
-                                </path>
-                            </svg>
+                            <a href="{{ route('services.index', ['selectedCategory' => $serviceCategory->id]) }}"
+                                class="flex items-center px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600">
+                                @if ($serviceCategory->icon)
+                                    <i class="{{ $serviceCategory->icon }} text-slate-600 dark:text-slate-400 mr-2 w-4"></i>
+                                @else
+                                    <i class="fas fa-tools text-slate-600 dark:text-slate-400 mr-2 w-4"></i>
+                                @endif
+                                <span>{{ $serviceCategory->name }}</span>
+                            </a>
                         @endif
-                        <span class="flex-1">{{ $category->name }}</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
-                            (@if (method_exists($category, 'getAllListingsCount'))
-                                {{ $category->getAllListingsCount() }}
-                            @else
-                                {{ $category->listings_count ?? 0 }}
-                            @endif)
-                        </span>
                     </div>
+                @endforeach
+            </div>
+        </div>
 
-                    <!-- Desni deo - strelica samo ako ima podkategorija -->
-                    @if ($category->children->count() > 0)
-                        <div class="p-2 text-slate-500 dark:text-slate-300">
-                            <svg class="w-4 h-4 transition-transform duration-200"
-                                :class="{ 'transform rotate-90': openCategory === '{{ $category->id }}' }"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </div>
-                    @endif
-                </div>
+        <!-- Poklanjam -->
+        <div class="mb-2">
+            <div class="flex items-center bg-green-600 rounded-lg {{ request()->routeIs('giveaways.*') ? 'bg-green-700' : '' }}">
+                <a href="{{ route('giveaways.index') }}"
+                    class="flex-1 flex items-center px-4 py-3 text-white hover:bg-green-700 transition-colors rounded-l-lg">
+                    <i class="fas fa-gift mr-3"></i>
+                    Poklanjam
+                </a>
+                <button @click="openSection = openSection === 'giveaways' ? null : 'giveaways'"
+                    class="px-3 py-3 text-white hover:bg-green-700 transition-colors rounded-r-lg border-l border-green-700">
+                    <svg class="w-4 h-4 transition-transform duration-200"
+                        :class="{ 'transform rotate-90': openSection === 'giveaways' }"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Giveaway categories dropdown -->
+            <div class="mt-1 overflow-hidden transition-all duration-200"
+                x-data="{ openGiveawayCategory: null }"
+                :class="{ 'max-h-0': openSection !== 'giveaways', 'max-h-[600px] overflow-y-auto': openSection === 'giveaways' }">
 
-                <!-- Podkategorije i "Svi oglasi" link -->
-                @if ($category->children->count() > 0)
-                    <div class="mt-1 overflow-hidden transition-all duration-200"
-                        :class="{ 'max-h-0': openCategory !== '{{ $category->id }}', 'max-h-96': openCategory === '{{ $category->id }}' }">
-
-                        <!-- "Svi oglasi" za ovu kategoriju -->
-                        <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
-                            class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
-                            📁 Svi oglasi u {{ $category->name }}
+                @foreach ($categoryTree as $category)
+                    <div class="mt-1">
+                        <a href="{{ route('giveaways.index', ['selectedCategory' => $category->id]) }}"
+                            class="flex items-center px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-green-50 dark:hover:bg-green-900/20 {{ request()->get('selectedCategory') == $category->id ? 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-300' : '' }}">
+                            @if ($category->icon)
+                                <i class="{{ $category->icon }} text-green-600 dark:text-green-400 mr-2 w-4"></i>
+                            @else
+                                <i class="fas fa-folder text-green-600 dark:text-green-400 mr-2 w-4"></i>
+                            @endif
+                            <span>{{ $category->name }}</span>
                         </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
 
-                        @foreach ($category->children as $child)
-                            <a href="{{ route('listings.index', ['selectedCategory' => $child->id]) }}"
-                                class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $child->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
-                                • {{ $child->name }}
-                                <span class="text-xs text-slate-500 dark:text-slate-300 ml-1">
-                                    (@if (method_exists($child, 'getAllListingsCount'))
-                                        {{ $child->getAllListingsCount() }}
+        <!-- Oglasi -->
+        <div class="mb-2">
+            <div class="flex items-center bg-sky-600 rounded-lg {{ request()->routeIs('listings.index') && !request()->get('selectedCategory') ? 'bg-sky-700' : '' }}">
+                <a href="{{ route('listings.index') }}"
+                    class="flex-1 flex items-center px-4 py-3 text-white hover:bg-sky-700 transition-colors rounded-l-lg">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 11H5m14-8H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"></path>
+                    </svg>
+                    Oglasi
+                </a>
+                <button @click="openSection = openSection === 'listings' ? null : 'listings'"
+                    class="px-3 py-3 text-white hover:bg-sky-700 transition-colors rounded-r-lg border-l border-sky-700">
+                    <svg class="w-4 h-4 transition-transform duration-200"
+                        :class="{ 'transform rotate-90': openSection === 'listings' }"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Listings categories dropdown -->
+            <div class="mt-1 overflow-hidden transition-all duration-200"
+                x-data="{ openCategory: null }"
+                :class="{ 'max-h-0': openSection !== 'listings', 'max-h-[600px] overflow-y-auto': openSection === 'listings' }">
+
+                @foreach ($categoryTree as $category)
+                    <div class="mt-1">
+                        <!-- Glavna kategorija - ceo red je klikabilan za otvaranje/zatvaranje -->
+                        <div class="flex items-center justify-between group cursor-pointer rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 {{ request()->get('selectedCategory') == $category->id ? 'bg-sky-50 dark:bg-slate-700' : '' }}"
+                            @click="openCategory = openCategory === '{{ $category->id }}' ? null : '{{ $category->id }}'">
+
+                            <!-- Levi deo - ikonica i naziv -->
+                            <div
+                                class="flex items-center flex-1 px-3 py-2 text-slate-700 dark:text-slate-200 {{ request()->get('selectedCategory') == $category->id ? 'text-sky-600 dark:text-sky-400' : '' }}">
+                                @if ($category->icon)
+                                    <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                                        <i class="{{ $category->icon }} text-sky-600 dark:text-sky-400"></i>
+                                    </div>
+                                @else
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4">
+                                        </path>
+                                    </svg>
+                                @endif
+                                <span class="flex-1">{{ $category->name }}</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
+                                    (@if (method_exists($category, 'getAllListingsCount'))
+                                        {{ $category->getAllListingsCount() }}
                                     @else
-                                        {{ $child->listings_count ?? 0 }}
+                                        {{ $category->listings_count ?? 0 }}
                                     @endif)
                                 </span>
+                            </div>
+
+                            <!-- Desni deo - strelica samo ako ima podkategorija -->
+                            @if ($category->children->count() > 0)
+                                <div class="p-2 text-slate-500 dark:text-slate-300">
+                                    <svg class="w-4 h-4 transition-transform duration-200"
+                                        :class="{ 'transform rotate-90': openCategory === '{{ $category->id }}' }"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Podkategorije i "Svi oglasi" link -->
+                        @if ($category->children->count() > 0)
+                            <div class="mt-1 overflow-hidden transition-all duration-200"
+                                :class="{ 'max-h-0': openCategory !== '{{ $category->id }}', 'max-h-96': openCategory === '{{ $category->id }}' }">
+
+                                <!-- "Svi oglasi" za ovu kategoriju -->
+                                <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
+                                    class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
+                                    📁 Svi oglasi u {{ $category->name }}
+                                </a>
+
+                                @foreach ($category->children as $child)
+                                    <a href="{{ route('listings.index', ['selectedCategory' => $child->id]) }}"
+                                        class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $child->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
+                                        • {{ $child->name }}
+                                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-1">
+                                            (@if (method_exists($child, 'getAllListingsCount'))
+                                                {{ $child->getAllListingsCount() }}
+                                            @else
+                                                {{ $child->listings_count ?? 0 }}
+                                            @endif)
+                                        </span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        @else
+                            <!-- Ako nema podkategorija, "Svi oglasi" link bude uvek vidljiv -->
+                            <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
+                                class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
+                                📁 Svi oglasi u {{ $category->name }}
                             </a>
-                        @endforeach
+                        @endif
                     </div>
-                @else
-                    <!-- Ako nema podkategorija, "Svi oglasi" link bude uvek vidljiv -->
-                    <a href="{{ route('listings.index', ['selectedCategory' => $category->id]) }}"
-                        class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 {{ request()->get('selectedCategory') == $category->id ? 'bg-sky-100 dark:bg-slate-600 text-sky-600 dark:text-sky-300' : '' }}">
-                        📁 Svi oglasi u {{ $category->name }}
-                    </a>
-                @endif
+                @endforeach
             </div>
-        @endforeach
+        </div>
     </div>
 
     @auth
