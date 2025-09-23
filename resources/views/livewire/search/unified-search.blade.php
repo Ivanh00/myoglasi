@@ -199,8 +199,10 @@
                                     Sve podkategorije
                                 @endif
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7">
                                 </path>
                             </svg>
                         </button>
@@ -212,7 +214,8 @@
                                 Sve podkategorije
                             </button>
                             @foreach ($serviceSubcategories as $subcategory)
-                                <button @click="$wire.set('service_subcategory', '{{ $subcategory->id }}'); open = false"
+                                <button
+                                    @click="$wire.set('service_subcategory', '{{ $subcategory->id }}'); open = false"
                                     type="button"
                                     class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $service_subcategory == $subcategory->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                     {{ $subcategory->name }}
@@ -276,8 +279,10 @@
                                     Sve podkategorije
                                 @endif
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7">
                                 </path>
                             </svg>
                         </button>
@@ -289,7 +294,8 @@
                                 Sve podkategorije
                             </button>
                             @foreach ($subcategories as $subcategory)
-                                <button @click="$wire.set('search_subcategory', '{{ $subcategory->id }}'); open = false"
+                                <button
+                                    @click="$wire.set('search_subcategory', '{{ $subcategory->id }}'); open = false"
                                     type="button"
                                     class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $search_subcategory == $subcategory->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                     {{ $subcategory->name }}
@@ -315,18 +321,23 @@
                                         @case('scheduled')
                                             Zakazane aukcije
                                         @break
+
                                         @case('ending_soon')
                                             Završavaju uskoro
                                         @break
+
                                         @case('newest')
                                             Najnovije
                                         @break
+
                                         @case('highest_price')
                                             Najviša cena
                                         @break
+
                                         @case('most_bids')
                                             Najviše ponuda
                                         @break
+
                                         @default
                                             Završavaju uskoro
                                     @endswitch
@@ -335,12 +346,15 @@
                                         @case('newest')
                                             Najnovije
                                         @break
+
                                         @case('price_asc')
                                             Cena ↑
                                         @break
+
                                         @case('price_desc')
                                             Cena ↓
                                         @break
+
                                         @default
                                             Najnovije
                                     @endswitch
@@ -435,7 +449,7 @@
     </div>
 
     <!-- Results and Controls -->
-    <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6">
+    <div class="hidden md:block bg-white dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6">
         <div class="flex items-center justify-between">
             <!-- Desktop Results Count (Hidden on mobile) -->
             <div class="hidden md:block text-slate-600 dark:text-slate-300">
@@ -680,7 +694,8 @@
                                         Sve podkategorije
                                     </button>
                                     @foreach ($serviceSubcategories as $subcategory)
-                                        <button @click="$wire.set('service_subcategory', '{{ $subcategory->id }}'); open = false"
+                                        <button
+                                            @click="$wire.set('service_subcategory', '{{ $subcategory->id }}'); open = false"
                                             type="button"
                                             class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $service_subcategory == $subcategory->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                             {{ $subcategory->name }}
@@ -760,7 +775,8 @@
                                         Sve podkategorije
                                     </button>
                                     @foreach ($subcategories as $subcategory)
-                                        <button @click="$wire.set('search_subcategory', '{{ $subcategory->id }}'); open = false"
+                                        <button
+                                            @click="$wire.set('search_subcategory', '{{ $subcategory->id }}'); open = false"
                                             type="button"
                                             class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 {{ $search_subcategory == $subcategory->id ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                             {{ $subcategory->name }}
@@ -808,14 +824,14 @@
 
                 <!-- View Mode Toggle -->
                 <div class="flex bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm">
-                <button wire:click="setViewMode('list')"
-                    class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-l-lg transition-colors">
-                    <i class="fas fa-list"></i>
-                </button>
-                <button wire:click="setViewMode('grid')"
-                    class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-r-lg transition-colors">
-                    <i class="fas fa-th"></i>
-                </button>
+                    <button wire:click="setViewMode('list')"
+                        class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-l-lg transition-colors">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <button wire:click="setViewMode('grid')"
+                        class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-r-lg transition-colors">
+                        <i class="fas fa-th"></i>
+                    </button>
                 </div>
             </div>
         </div>
