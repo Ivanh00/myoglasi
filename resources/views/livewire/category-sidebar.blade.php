@@ -1,4 +1,22 @@
-<div class="w-64 bg-white dark:bg-slate-800 shadow-lg h-screen sticky top-0 overflow-y-auto " x-data="{ openSection: null }">
+<div class="w-64 bg-white dark:bg-slate-800 shadow-lg h-screen sticky top-0 overflow-y-auto sidebar-scroll" x-data="{ openSection: null }">
+    <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .sidebar-scroll {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Ensure consistent width */
+        .sidebar-content {
+            padding-right: 0;
+        }
+    </style>
     @php
         // Load categories at the beginning so they're available for all sections
         $categoryTree = isset($categoryTree)
@@ -56,7 +74,7 @@
             <!-- Auction categories dropdown -->
             <div class="mt-1 overflow-hidden transition-all duration-200"
                 x-data="{ openAuctionCategory: null }"
-                :class="{ 'max-h-0': openSection !== 'auctions', 'max-h-[600px] overflow-y-auto': openSection === 'auctions' }">
+                :class="{ 'max-h-0': openSection !== 'auctions', 'max-h-none': openSection === 'auctions' }">
 
                 @foreach ($categoryTree as $category)
                     <div class="mt-1">
@@ -107,7 +125,7 @@
             <!-- Service categories dropdown -->
             <div class="mt-1 overflow-hidden transition-all duration-200"
                 x-data="{ openServiceCategory: null }"
-                :class="{ 'max-h-0': openSection !== 'services', 'max-h-[600px] overflow-y-auto': openSection === 'services' }">
+                :class="{ 'max-h-0': openSection !== 'services', 'max-h-none': openSection === 'services' }">
 
                 @php
                     $serviceCategories = \App\Models\ServiceCategory::with([
@@ -172,7 +190,7 @@
             <!-- Giveaway categories dropdown -->
             <div class="mt-1 overflow-hidden transition-all duration-200"
                 x-data="{ openGiveawayCategory: null }"
-                :class="{ 'max-h-0': openSection !== 'giveaways', 'max-h-[600px] overflow-y-auto': openSection === 'giveaways' }">
+                :class="{ 'max-h-0': openSection !== 'giveaways', 'max-h-none': openSection === 'giveaways' }">
 
                 @foreach ($categoryTree as $category)
                     <div class="mt-1">
@@ -225,7 +243,7 @@
             </div>
             <!-- Listings categories dropdown -->
             <div class="mt-1 overflow-hidden transition-all duration-200"
-                :class="{ 'max-h-0': openSection !== 'listings', 'max-h-[600px] overflow-y-auto': openSection === 'listings' }">
+                :class="{ 'max-h-0': openSection !== 'listings', 'max-h-none': openSection === 'listings' }">
 
                 @foreach ($categoryTree as $category)
                     <div class="mt-1">
