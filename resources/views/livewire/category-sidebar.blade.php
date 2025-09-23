@@ -67,7 +67,19 @@
                             @else
                                 <i class="fas fa-folder text-amber-600 dark:text-amber-400 mr-2 w-4"></i>
                             @endif
-                            <span>{{ $category->name }}</span>
+                            <span class="flex-1">{{ $category->name }}</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-300">
+                                @php
+                                    $auctionCount = \App\Models\Listing::where('listing_type', 'auction')
+                                        ->where('status', 'active')
+                                        ->where(function($q) use ($category) {
+                                            $categoryIds = $category->getAllCategoryIds();
+                                            $q->whereIn('category_id', $categoryIds)
+                                              ->orWhereIn('subcategory_id', $categoryIds);
+                                        })->count();
+                                @endphp
+                                ({{ $auctionCount }})
+                            </span>
                         </a>
                     </div>
                 @endforeach
@@ -121,7 +133,21 @@
                                     @else
                                         <i class="fas fa-tools text-slate-600 dark:text-slate-400 mr-2 w-4"></i>
                                     @endif
-                                    <span>{{ $serviceCategory->name }}</span>
+                                    <span class="flex-1">{{ $serviceCategory->name }}</span>
+                                    <span class="text-xs text-slate-500 dark:text-slate-300">
+                                        @php
+                                            $serviceCount = \App\Models\Service::where('status', 'active')
+                                                ->where(function($q) use ($serviceCategory) {
+                                                    $categoryIds = [$serviceCategory->id];
+                                                    if($serviceCategory->children) {
+                                                        $categoryIds = array_merge($categoryIds, $serviceCategory->children->pluck('id')->toArray());
+                                                    }
+                                                    $q->whereIn('service_category_id', $categoryIds)
+                                                      ->orWhereIn('subcategory_id', $categoryIds);
+                                                })->count();
+                                        @endphp
+                                        ({{ $serviceCount }})
+                                    </span>
                                 </div>
                                 <div class="p-2 text-slate-500 dark:text-slate-300">
                                     <svg class="w-4 h-4 transition-transform duration-200"
@@ -139,8 +165,11 @@
                                 </a>
                                 @foreach ($serviceCategory->children as $child)
                                     <a href="{{ route('services.index', ['selectedCategory' => $child->id]) }}"
-                                        class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 pl-8">
-                                        • {{ $child->name }}
+                                        class="flex items-center px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-600 pl-8">
+                                        <span class="flex-1">• {{ $child->name }}</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-300">
+                                            ({{ \App\Models\Service::where('status', 'active')->where('subcategory_id', $child->id)->count() }})
+                                        </span>
                                     </a>
                                 @endforeach
                             </div>
@@ -152,7 +181,10 @@
                                 @else
                                     <i class="fas fa-tools text-slate-600 dark:text-slate-400 mr-2 w-4"></i>
                                 @endif
-                                <span>{{ $serviceCategory->name }}</span>
+                                <span class="flex-1">{{ $serviceCategory->name }}</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-300">
+                                    ({{ \App\Models\Service::where('status', 'active')->where('service_category_id', $serviceCategory->id)->count() }})
+                                </span>
                             </a>
                         @endif
                     </div>
@@ -192,7 +224,19 @@
                             @else
                                 <i class="fas fa-folder text-green-600 dark:text-green-400 mr-2 w-4"></i>
                             @endif
-                            <span>{{ $category->name }}</span>
+                            <span class="flex-1">{{ $category->name }}</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-300">
+                                @php
+                                    $giveawayCount = \App\Models\Listing::where('listing_type', 'giveaway')
+                                        ->where('status', 'active')
+                                        ->where(function($q) use ($category) {
+                                            $categoryIds = $category->getAllCategoryIds();
+                                            $q->whereIn('category_id', $categoryIds)
+                                              ->orWhereIn('subcategory_id', $categoryIds);
+                                        })->count();
+                                @endphp
+                                ({{ $giveawayCount }})
+                            </span>
                         </a>
                     </div>
                 @endforeach
