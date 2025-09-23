@@ -174,6 +174,9 @@ class Index extends Component
 
         // Sorting
         switch ($this->sortBy) {
+            case 'oldest':
+                $query->orderBy('created_at', 'asc');
+                break;
             case 'newest':
             default:
                 $query->orderBy('created_at', 'desc');

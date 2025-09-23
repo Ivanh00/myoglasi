@@ -83,11 +83,9 @@
                                 class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-green-500 transition-colors flex items-center justify-between">
                                 <span>
                                     @if ($sortBy === 'newest')
-                                        Najnovije
-                                    @elseif($sortBy === 'price_asc')
-                                        Cena ↑
-                                    @elseif($sortBy === 'price_desc')
-                                        Cena ↓
+                                        Najnovije ↓
+                                    @elseif($sortBy === 'oldest')
+                                        Najstarije ↓
                                     @endif
                                 </span>
                                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
@@ -101,15 +99,11 @@
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                                 <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                    Najnovije
+                                    Najnovije ↓
                                 </button>
-                                <button @click="$wire.set('sortBy', 'price_asc'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                    Cena ↑
-                                </button>
-                                <button @click="$wire.set('sortBy', 'price_desc'); open = false" type="button"
+                                <button @click="$wire.set('sortBy', 'oldest'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
-                                    Cena ↓
+                                    Najstarije ↓
                                 </button>
                             </div>
                         </div>
@@ -221,11 +215,9 @@
                                 class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-green-500 transition-colors flex items-center justify-between">
                                 <span>
                                     @if ($sortBy === 'newest')
-                                        Najnovije
-                                    @elseif($sortBy === 'price_asc')
-                                        Cena ↑
-                                    @elseif($sortBy === 'price_desc')
-                                        Cena ↓
+                                        Najnovije ↓
+                                    @elseif($sortBy === 'oldest')
+                                        Najstarije ↓
                                     @endif
                                 </span>
                                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
@@ -239,15 +231,11 @@
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                                 <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                    Najnovije
+                                    Najnovije ↓
                                 </button>
-                                <button @click="$wire.set('sortBy', 'price_asc'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                    Cena ↑
-                                </button>
-                                <button @click="$wire.set('sortBy', 'price_desc'); open = false" type="button"
+                                <button @click="$wire.set('sortBy', 'oldest'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
-                                    Cena ↓
+                                    Najstarije ↓
                                 </button>
                             </div>
                         </div>
