@@ -39,6 +39,11 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
+
 
     public $showReservationModal = false;
     public $selectedGiveaway = null;
@@ -152,10 +157,12 @@ class Index extends Component
             ->with(['category', 'subcategory', 'images', 'user', 'condition', 'approvedReservation', 'giveawayReservations' => function($q) {
                 $q->where('requester_id', auth()->id() ?? 0);
             }]);
-            
+
+        $currentCategory = null;
         if ($this->selectedCategory) {
             $category = Category::find($this->selectedCategory);
-            
+            $currentCategory = $category;
+
             if ($category) {
                 $categoryIds = $category->getAllCategoryIds();
                 $query->where(function($q) use ($categoryIds) {
@@ -164,7 +171,7 @@ class Index extends Component
                 });
             }
         }
-        
+
         // Sorting
         switch ($this->sortBy) {
             case 'newest':
@@ -172,12 +179,13 @@ class Index extends Component
                 $query->orderBy('created_at', 'desc');
                 break;
         }
-        
+
         $giveaways = $query->paginate($this->perPage);
-        
+
         return view('livewire.giveaways.index', [
             'giveaways' => $giveaways,
-            'categories' => $this->categories
+            'categories' => $this->categories,
+            'currentCategory' => $currentCategory
         ])->layout('layouts.app');
     }
 }
