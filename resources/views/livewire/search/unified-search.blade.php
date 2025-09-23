@@ -972,10 +972,31 @@
                                                 {{ Str::limit(strip_tags($listing->description), 120) }}
                                             </p>
 
-                                            <div class="text-sm text-slate-600 dark:text-slate-300 mb-2">
-                                                Prodavac: <span class="font-medium">{{ $listing->user->name }}</span>
-                                                {!! $listing->user->verified_icon !!}
-                                            </div>
+                                            @auth
+                                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                                    Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
+                                                    @if ($listing->user)
+                                                        {!! $listing->user->verified_icon !!}
+                                                    @endif
+                                                    @if ($listing->user && $listing->user->is_banned)
+                                                        <span
+                                                            class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
+                                                    @endif
+                                                    @if ($listing->user && $listing->user->shouldShowLastSeen())
+                                                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
+                                                            @if ($listing->user->is_online)
+                                                                <span class="inline-flex items-center">
+                                                                    <span
+                                                                        class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                                    {{ $listing->user->last_seen }}
+                                                                </span>
+                                                            @else
+                                                                {{ $listing->user->last_seen }}
+                                                            @endif
+                                                        </span>
+                                                    @endif
+                                                </p>
+                                            @endauth
                                         </div>
 
                                         <div class="flex items-center justify-between">
@@ -1165,20 +1186,11 @@
                                     @endif
                                 </a>
 
-                                <!-- Auction Badge -->
+                                <!-- Time overlay -->
                                 @if (isset($listing->is_auction))
-                                    {{-- <div class="absolute top-2 left-2">
-                                    <span
-                                        class="inline-flex items-center px-2 py-1 bg-amber-50 dark:bg-slate-6000 bg-opacity-90 text-white text-xs font-medium rounded">
-                                        <i class="fas fa-gavel mr-1"></i>
-                                        Aukcija
-                                    </span>
-                                </div> --}}
-
                                     @if ($listing->auction_data->time_left)
                                         <div class="absolute top-2 right-2">
-                                            <span
-                                                class="px-2 py-1 bg-red-600 bg-opacity-90 text-white text-xs font-medium rounded">
+                                            <span class="px-2 py-1 bg-green-600 bg-opacity-90 text-white text-xs font-medium rounded">
                                                 {{ $listing->auction_data->time_left['formatted'] }}
                                             </span>
                                         </div>
@@ -1221,54 +1233,103 @@
                                         <span>{{ $listing->category->name }}</span>
                                     </div>
 
-                                    <p class="text-slate-700 dark:text-slate-200 text-sm mb-3"
+                                    <p class="text-slate-700 dark:text-slate-200 mb-3 text-sm"
                                         style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                                        {{ Str::limit(strip_tags($listing->description), 100) }}
+                                        {{ Str::limit(strip_tags($listing->description), 80) }}
                                     </p>
 
-                                    <div class="text-sm text-slate-600 dark:text-slate-300 mb-3">
-                                        Prodavac: {{ $listing->user->name }}
-                                        {!! $listing->user->verified_icon !!}
-                                    </div>
-
-                                    <div class="flex items-center justify-between mb-3">
-                                        <div>
-                                            @if (isset($listing->is_auction))
-                                                <div class="text-2xl font-bold text-red-600 dark:text-red-400">
-                                                    {{ number_format($listing->auction_data->current_price, 0, ',', '.') }}
-                                                    RSD
-                                                </div>
-                                                <div class="text-sm text-slate-500 dark:text-slate-300">
-                                                    {{ $listing->auction_data->total_bids }}
-                                                    ponuda</div>
-                                            @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
-                                                <div class="text-2xl font-bold text-green-600">BESPLATNO</div>
-                                            @else
-                                                <div class="text-2xl font-bold text-sky-600 dark:text-sky-400">
-                                                    {{ number_format($listing->price, 2, ',', '.') }} RSD
-                                                </div>
-                                            @endif
+                                    @if (isset($listing->is_auction))
+                                        <div class="mb-3">
+                                            <div class="text-xl font-bold text-red-600 dark:text-red-400">
+                                                {{ number_format($listing->auction_data->current_price, 0, ',', '.') }} RSD
+                                            </div>
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">
+                                                {{ $listing->auction_data->total_bids }} ponuda
+                                            </div>
                                         </div>
 
-                                        <div class="flex items-center gap-2">
-                                            @if ($listing instanceof \App\Models\Listing && $listing->getTypeBadge())
-                                                <span
-                                                    class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
-                                                    {{ $listing->getTypeBadge()['text'] }}
-                                                </span>
-                                            @endif
+                                        @if ($listing->auction_data->buy_now_price && $listing->auction_data->current_price < $listing->auction_data->buy_now_price)
+                                            <div class="mb-3">
+                                                <div class="text-xs text-slate-500 dark:text-slate-300">Kupi odmah:</div>
+                                                <div class="text-lg font-bold text-green-600 dark:text-green-400">
+                                                    {{ number_format($listing->auction_data->buy_now_price, 0, ',', '.') }} RSD
+                                                </div>
+                                            </div>
+                                        @endif
 
-                                            @if ($listing->condition)
-                                                <span
-                                                    class="px-2 py-1 bg-slate-100 text-slate-800 text-xs font-medium rounded-full">
-                                                    {{ $listing->condition->name }}
-                                                </span>
-                                            @endif
+                                        <!-- Auction bottom section -->
+                                        <div class="bg-amber-50 dark:bg-amber-900 p-4 -mx-4 -mb-4">
+                                            <div class="text-center mb-3">
+                                                <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
+                                                    @if ($listing->auction_data->time_left)
+                                                        {{ $listing->auction_data->time_left['formatted'] }}
+                                                    @endif
+                                                </div>
+                                                <div class="text-xs text-amber-600 dark:text-amber-400">vremena ostalo</div>
+                                            </div>
+
+                                            <div class="space-y-2">
+                                                @auth
+                                                    @if (auth()->id() === $listing->auction_data->user_id)
+                                                        <a href="{{ route('listings.edit', $listing) }}"
+                                                            class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
+                                                            <i class="fas fa-gavel mr-2"></i> Uredi
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('auction.show', $listing->auction_data) }}"
+                                                            class="block w-full text-center px-3 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors text-sm">
+                                                            <i class="fas fa-gavel mr-2"></i> Licitiraj
+                                                        </a>
+                                                        @if ($listing->auction_data->buy_now_price && $listing->auction_data->current_price < $listing->auction_data->buy_now_price)
+                                                            <a href="{{ route('auction.show', $listing->auction_data) }}"
+                                                                class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-xs">
+                                                                <i class="fas fa-shopping-cart mr-1"></i> Kupi odmah
+                                                            </a>
+                                                        @endif
+                                                    @endif
+                                                @else
+                                                    <a href="{{ route('login') }}"
+                                                        class="block w-full text-center px-3 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors text-sm">
+                                                        <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
+                                                    </a>
+                                                @endauth
+                                            </div>
                                         </div>
-                                    </div>
+                                    @else
+                                        <div class="text-sm text-slate-600 dark:text-slate-300 mb-3">
+                                            Prodavac: {{ $listing->user->name }}
+                                            {!! $listing->user->verified_icon !!}
+                                        </div>
 
-                                    <!-- Stats -->
-                                    @if (!isset($listing->is_auction))
+                                        <div class="flex items-center justify-between mb-3">
+                                            <div>
+                                                @if ($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
+                                                    <div class="text-2xl font-bold text-green-600">BESPLATNO</div>
+                                                @else
+                                                    <div class="text-2xl font-bold text-sky-600 dark:text-sky-400">
+                                                        {{ number_format($listing->price, 2, ',', '.') }} RSD
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <div class="flex items-center gap-2">
+                                                @if ($listing instanceof \App\Models\Listing && $listing->getTypeBadge())
+                                                    <span
+                                                        class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
+                                                        {{ $listing->getTypeBadge()['text'] }}
+                                                    </span>
+                                                @endif
+
+                                                @if ($listing->condition)
+                                                    <span
+                                                        class="px-2 py-1 bg-slate-100 text-slate-800 text-xs font-medium rounded-full">
+                                                        {{ $listing->condition->name }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <!-- Stats -->
                                         <div
                                             class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300 mb-3">
                                             <div class="flex items-center">
@@ -1279,76 +1340,43 @@
                                                 <span>❤️ {{ $listing->favorites_count ?? 0 }}</span>
                                             </div>
                                         </div>
-                                    @endif
 
-                                    <div class="text-xs text-slate-500 dark:text-slate-300 mb-3">
-                                        <i class="fas fa-clock mr-1"></i>
-                                        Objavljeno {{ $listing->created_at->diffForHumans() }}
-                                    </div>
-                                </div>
+                                        <div class="text-xs text-slate-500 dark:text-slate-300 mb-3">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            Objavljeno {{ $listing->created_at->diffForHumans() }}
+                                        </div>
 
-                                <!-- Action Button -->
-                                <div class="space-y-2 mt-auto">
-                                    @if (isset($listing->is_auction))
-                                        @auth
-                                            @if (auth()->id() === $listing->auction_data->user_id)
-                                                <!-- Owner buttons -->
-                                                <a href="{{ route('listings.edit', $listing) }}"
-                                                    class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
-                                                    <i class="fas fa-edit mr-2"></i> Uredi aukciju
-                                                </a>
-                                            @else
-                                                <!-- Buyer buttons -->
-                                                <a href="{{ route('auction.show', $listing->auction_data) }}"
-                                                    class="block w-full text-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
-                                                    <i class="fas fa-gavel mr-2"></i> Licitiraj
-                                                </a>
+                                        <!-- Non-auction action buttons -->
+                                        <div class="space-y-2 mt-auto">
+                                            @auth
+                                                @if ($listing instanceof \App\Models\Listing && auth()->id() === $listing->user_id)
+                                                    <!-- Owner buttons for listings -->
+                                                    @if ($listing->listing_type === 'listing' && !$listing->auction)
+                                                        <a href="{{ route('auction.setup', $listing) }}"
+                                                            class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
+                                                            <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
+                                                        </a>
+                                                    @endif
 
-                                                @if (
-                                                    $listing->auction_data->buy_now_price &&
-                                                        $listing->auction_data->current_price < $listing->auction_data->buy_now_price)
-                                                    <a href="{{ route('auction.show', $listing->auction_data) }}"
-                                                        class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
-                                                        <i class="fas fa-shopping-cart mr-2"></i> Kupi odmah
+                                                    <a href="{{ route('listings.edit', $listing) }}"
+                                                        class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm">
+                                                        <i class="fas fa-edit mr-2"></i> Uredi oglas
+                                                    </a>
+                                                @else
+                                                    <!-- Regular view button -->
+                                                    <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
+                                                        class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm">
+                                                        <i class="fas fa-eye mr-2"></i> Pregled
                                                     </a>
                                                 @endif
-                                            @endif
-                                        @else
-                                            <!-- Guest user buttons -->
-                                            <a href="{{ route('login') }}"
-                                                class="block w-full text-center px-3 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors text-sm">
-                                                <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
-                                            </a>
-                                        @endauth
-                                    @else
-                                        @auth
-                                            @if ($listing instanceof \App\Models\Listing && auth()->id() === $listing->user_id)
-                                                <!-- Owner buttons for listings -->
-                                                @if ($listing->listing_type === 'listing' && !$listing->auction)
-                                                    <a href="{{ route('auction.setup', $listing) }}"
-                                                        class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
-                                                        <i class="fas fa-gavel mr-2"></i> Prodaj na aukciji
-                                                    </a>
-                                                @endif
-
-                                                <a href="{{ route('listings.edit', $listing) }}"
-                                                    class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm">
-                                                    <i class="fas fa-edit mr-2"></i> Uredi oglas
-                                                </a>
                                             @else
-                                                <!-- Regular view button -->
+                                                <!-- Guest user buttons -->
                                                 <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
                                                     class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm">
                                                     <i class="fas fa-eye mr-2"></i> Pregled
                                                 </a>
-                                            @endif
-                                        @else
-                                            <!-- Guest user buttons -->
-                                            <a href="{{ $listing instanceof \App\Models\Service ? route('services.show', $listing) : route('listings.show', $listing) }}"
-                                                class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm">
-                                                <i class="fas fa-eye mr-2"></i> Pregled
-                                            </a>
-                                        @endauth
+                                            @endauth
+                                        </div>
                                     @endif
                                 </div>
                             </div>
@@ -1361,22 +1389,9 @@
             <div class="mt-8">
                 {{ $results->links() }}
             </div>
-        @else
-            <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md p-8 text-center">
-                <i class="fas fa-search text-slate-400 text-5xl mb-4"></i>
-                <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-2">Nema rezultata</h3>
-                <p class="text-slate-600 dark:text-slate-300 mb-4">
-                    Pokušajte sa drugačijim filterima ili ključnim rečima.
-                </p>
-                <button onclick="window.location.href = '{{ route('search.unified') }}'"
-                    class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
-                    Poništi filtere
-                </button>
-            </div>
-        @endif
 
-        <!-- Scheduled Auctions Section (Only for auction content type) -->
             @if ($content_type === 'auctions' && $scheduledAuctions->count() > 0)
+            <!-- Scheduled Auctions Section -->
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-6">
                         <div>
@@ -1644,8 +1659,8 @@
                 </div>
             @endif
 
-            <!-- Ended Auctions Section (Only for auction content type) -->
             @if ($content_type === 'auctions' && $endedAuctions->count() > 0)
+                <!-- Ended Auctions Section -->
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-6">
                         <div>
@@ -1741,8 +1756,8 @@
                     @endif
 
                     @if ($viewMode === 'list')
-                <!-- List View -->
-                <div class="space-y-4">
+                        <!-- List View -->
+                        <div class="space-y-4">
                     @foreach ($endedAuctions as $auction)
                         <div
                             class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-amber-700">
@@ -1867,9 +1882,22 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                        @endforeach
+                        </div>
+                    @endif
                 </div>
             @endif
-        </div>
-    @endif
-    </div>
+        @else
+            <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md p-8 text-center">
+                <i class="fas fa-search text-slate-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-2">Nema rezultata</h3>
+                <p class="text-slate-600 dark:text-slate-300 mb-4">
+                    Pokušajte sa drugačijim filterima ili ključnim rečima.
+                </p>
+                <button onclick="window.location.href = '{{ route('search.unified') }}'"
+                    class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
+                    Poništi filtere
+                </button>
+            </div>
+        @endif
+</div>
