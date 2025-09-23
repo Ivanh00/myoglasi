@@ -39,14 +39,21 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
+
 
     public function render()
     {
         $query = Service::where('status', 'active')
             ->with(['category', 'subcategory', 'images', 'user', 'promotions']);
 
+        $currentCategory = null;
         if ($this->selectedCategory) {
             $category = ServiceCategory::find($this->selectedCategory);
+            $currentCategory = $category;
 
             if ($category) {
                 // Get all category IDs (including children)
@@ -80,7 +87,8 @@ class Index extends Component
 
         return view('livewire.services.index', [
             'services' => $services,
-            'categories' => $this->categories
+            'categories' => $this->categories,
+            'currentCategory' => $currentCategory
         ])->layout('layouts.app');
     }
 }
