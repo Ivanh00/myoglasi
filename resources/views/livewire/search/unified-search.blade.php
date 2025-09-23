@@ -225,8 +225,8 @@
                     </div>
                 </div>
             @endif
-        @elseif($content_type !== 'auctions' && $content_type !== 'all')
-            <!-- Regular Category Dropdown for Listings/Giveaways -->
+        @elseif($content_type !== 'all')
+            <!-- Regular Category Dropdown for Listings/Giveaways/Auctions -->
             <div class="w-full" x-data="{ open: false }" x-init="open = false">
                 <div class="relative">
                     <button @click="open = !open" type="button"
@@ -317,17 +317,13 @@
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
                             <span>
                                 @if ($content_type === 'auctions')
-                                    @switch($auction_type ?: 'ending_soon')
+                                    @switch($auction_type)
                                         @case('scheduled')
                                             Zakazane aukcije
                                         @break
 
                                         @case('ending_soon')
                                             Završavaju uskoro
-                                        @break
-
-                                        @case('newest')
-                                            Najnovije
                                         @break
 
                                         @case('highest_price')
@@ -338,8 +334,9 @@
                                             Najviše ponuda
                                         @break
 
+                                        @case('newest')
                                         @default
-                                            Završavaju uskoro
+                                            Najnovije
                                     @endswitch
                                 @else
                                     @switch($sortBy)
@@ -370,15 +367,15 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
                             @if ($content_type === 'auctions')
-                                <button @click="$wire.set('auction_type', 'ending_soon'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                    <i class="fas fa-clock text-red-500 mr-2"></i>
-                                    Završavaju uskoro
-                                </button>
                                 <button @click="$wire.set('auction_type', 'newest'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
                                     <i class="fas fa-plus text-green-500 mr-2"></i>
                                     Najnovije
+                                </button>
+                                <button @click="$wire.set('auction_type', 'ending_soon'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    <i class="fas fa-clock text-red-500 mr-2"></i>
+                                    Završavaju uskoro
                                 </button>
                                 <button @click="$wire.set('auction_type', 'highest_price'); open = false"
                                     type="button"
@@ -598,8 +595,8 @@
                             </div>
                         </div>
                     @endif
-                @elseif($content_type !== 'auctions' && $content_type !== 'all')
-                    <!-- Regular Category Dropdown for Listings/Giveaways -->
+                @elseif($content_type !== 'all')
+                    <!-- Regular Category Dropdown for Listings/Giveaways/Auctions -->
                     <div class="w-56" x-data="{ open: false }" x-init="open = false">
                         <div class="relative">
                             <button @click="open = !open" type="button"
@@ -691,7 +688,7 @@
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-sky-500 transition-colors flex items-center justify-between">
                             <span>
                                 @if ($content_type === 'auctions')
-                                    @switch($auction_type ?: 'ending_soon')
+                                    @switch($auction_type)
                                         @case('scheduled')
                                             Zakazane aukcije
                                         @break
@@ -736,15 +733,15 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
                             @if ($content_type === 'auctions')
-                                <button @click="$wire.set('auction_type', 'ending_soon'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                    <i class="fas fa-clock text-red-500 mr-2"></i>
-                                    Završavaju uskoro
-                                </button>
                                 <button @click="$wire.set('auction_type', 'newest'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
                                     <i class="fas fa-plus text-green-500 mr-2"></i>
                                     Najnovije
+                                </button>
+                                <button @click="$wire.set('auction_type', 'ending_soon'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    <i class="fas fa-clock text-red-500 mr-2"></i>
+                                    Završavaju uskoro
                                 </button>
                                 <button @click="$wire.set('auction_type', 'highest_price'); open = false"
                                     type="button"

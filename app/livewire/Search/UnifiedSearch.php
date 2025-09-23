@@ -167,8 +167,10 @@ class UnifiedSearch extends Component
             $results = $results->merge($auctionListings);
         }
         
-        // Sort unified results
-        $results = $this->sortUnifiedResults($results);
+        // Sort unified results - skip if viewing only auctions with auction-specific sorting
+        if (!($this->content_type === 'auctions' && in_array($this->auction_type, ['ending_soon', 'highest_price', 'most_bids', 'scheduled']))) {
+            $results = $this->sortUnifiedResults($results);
+        }
         
         // Paginate manually
         $perPage = $this->perPage;
@@ -323,12 +325,13 @@ class UnifiedSearch extends Component
     {
         $query = Auction::where('status', 'active');
 
-        // Filter based on auction type - separate scheduled from active
+        // Filter based on auction type - only scheduled needs special filtering
         if ($this->auction_type === 'scheduled') {
             // Only scheduled auctions (not yet started)
             $query->where('starts_at', '>', now());
         } else {
-            // Only active auctions (started but not ended) - exclude scheduled
+            // For all other types (newest, ending_soon, highest_price, most_bids)
+            // Show active auctions (started but not ended)
             $query->where('starts_at', '<=', now())
                   ->where('ends_at', '>', now());
         }
@@ -338,9 +341,7 @@ class UnifiedSearch extends Component
         $this->applyFiltersToQuery($query, 'auction');
 
         // Auction-specific sorting
-        $auctionType = $this->auction_type ?: 'ending_soon';
-
-        switch ($auctionType) {
+        switch ($this->auction_type) {
             case 'scheduled':
                 // For scheduled auctions, sort by start date
                 $query->orderBy('starts_at', 'asc');
@@ -348,17 +349,17 @@ class UnifiedSearch extends Component
             case 'ending_soon':
                 $query->orderBy('ends_at', 'asc');
                 break;
-            case 'newest':
-                $query->orderBy('created_at', 'desc');
-                break;
             case 'highest_price':
                 $query->orderBy('current_price', 'desc');
                 break;
             case 'most_bids':
                 $query->orderBy('total_bids', 'desc');
                 break;
+            case 'newest':
+            case '':
             default:
-                $query->orderBy('ends_at', 'asc');
+                // Default to newest
+                $query->orderBy('created_at', 'desc');
                 break;
         }
         

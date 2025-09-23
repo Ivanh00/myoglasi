@@ -138,6 +138,9 @@ class Index extends Component
             case 'most_bids':
                 $activeQuery->orderBy('total_bids', 'desc');
                 break;
+            default:
+                $activeQuery->orderBy('ends_at', 'asc');
+                break;
         }
 
         $auctions = $activeQuery->paginate($this->perPage);
