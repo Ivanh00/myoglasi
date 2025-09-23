@@ -1,4 +1,24 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
+    <!-- Mobile specific adjustments -->
+    <style>
+        @media (max-width: 768px) {
+            .auction-card {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            .scrollbar-hide {
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    </style>
 
     <!-- Breadcrumb when category is selected -->
     @if($selectedCategory && $currentCategory)
@@ -22,10 +42,145 @@
         </div>
     @endif
 
-    <!-- Filters -->
-    <div class="bg-amber-50 dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6">
+    <!-- Mobile kategorija dropdown -->
+    <div class="md:hidden mb-6">
+        <div class="bg-amber-50 dark:bg-slate-700 rounded-lg shadow-md p-4">
+            <div class="text-slate-600 dark:text-slate-300 mb-2">
+                @if($selectedCategory && $currentCategory)
+                    Aukcija u kategoriji "{{ $currentCategory->name }}": <span class="font-semibold">{{ $auctions->total() }}</span>
+                @else
+                    Aktivnih aukcija: <span class="font-semibold">{{ $auctions->total() }}</span>
+                @endif
+            </div>
+            <div class="relative mb-2" x-data="{ open: false }" x-init="open = false">
+                <button @click="open = !open" type="button"
+                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                    <span>
+                        @if($selectedCategory)
+                            {{ $currentCategory->name ?? 'Sve kategorije' }}
+                        @else
+                            Sve kategorije
+                        @endif
+                    </span>
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <div x-show="open" @click.away="open = false" x-transition
+                    class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
+                        class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedCategory ? 'bg-amber-50 dark:bg-amber-900 text-amber-700 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200' }}">
+                        Sve kategorije
+                    </button>
+                    @foreach($categories as $category)
+                        <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false"
+                            type="button"
+                            class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900 text-amber-700 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200' }}">
+                            @if($category->icon)
+                                <i class="{{ $category->icon }} text-amber-600 dark:text-amber-400 mr-2"></i>
+                            @endif
+                            {{ $category->name }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+            <!-- Filteri i sortiranje -->
+            <div class="md:hidden">
+                <div class="flex gap-3">
+                    <!-- Mobile filters (50/50 split) -->
+                    <div class="flex-1" x-data="{ open: false }" x-init="open = false">
+                        <div class="relative">
+                            <button @click="open = !open" type="button"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                                <span>
+                                    @switch($sortBy)
+                                        @case('ending_soon')
+                                            Završavaju uskoro
+                                        @break
+
+                                        @case('newest')
+                                            Najnovije
+                                        @break
+
+                                        @case('highest_price')
+                                            Najviša cena
+                                        @break
+
+                                        @case('most_bids')
+                                            Najviše ponuda
+                                        @break
+                                    @endswitch
+                                </span>
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
+                                <button @click="$wire.set('sortBy', 'ending_soon'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                    Završavaju uskoro
+                                </button>
+                                <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    Najnovije
+                                </button>
+                                <button @click="$wire.set('sortBy', 'highest_price'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    Najviša cena
+                                </button>
+                                <button @click="$wire.set('sortBy', 'most_bids'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    Najviše ponuda
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile per page -->
+                    <div class="flex-1" x-data="{ open: false }" x-init="open = false">
+                        <div class="relative">
+                            <button @click="open = !open" type="button"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                                <span>{{ $perPage }} po strani</span>
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
+                                <button @click="$wire.set('perPage', '20'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                    20 po strani
+                                </button>
+                                <button @click="$wire.set('perPage', '50'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    50 po strani
+                                </button>
+                                <button @click="$wire.set('perPage', '100'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    100 po strani
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="bg-amber-50 dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6 hidden md:block">
         <!-- Desktop Layout -->
         <div class="hidden md:block">
+            <!-- Results Info (Desktop - Left aligned) -->
             <div class="text-slate-600 dark:text-slate-300 mb-4">
                 @if($selectedCategory && $currentCategory)
                     Aukcija u kategoriji "{{ $currentCategory->name }}": <span class="font-semibold">{{ $auctions->total() }}</span>
@@ -34,12 +189,13 @@
                 @endif
             </div>
 
+            <!-- Filter Controls -->
             <div class="flex items-center justify-between gap-4">
-                <!-- Category Filter -->
+                <!-- Left: Category dropdown -->
                 <div class="w-60" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
                             <span>
                                 @if($selectedCategory)
                                     {{ $currentCategory->name ?? 'Sve kategorije' }}
@@ -47,20 +203,23 @@
                                     Sve kategorije
                                 @endif
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
 
                         <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-64 overflow-y-auto">
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedCategory ? 'bg-amber-50 dark:bg-amber-900 text-amber-700 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200' }}">
                                 Sve kategorije
                             </button>
                             @foreach($categories as $category)
-                                <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900' : '' }} {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false"
+                                    type="button"
+                                    class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900 text-amber-700 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200' }}">
                                     @if($category->icon)
                                         <i class="{{ $category->icon }} text-amber-600 dark:text-amber-400 mr-2"></i>
                                     @endif
@@ -71,88 +230,96 @@
                     </div>
                 </div>
 
-                <!-- Sort Options -->
-                <div class="w-60" x-data="{ open: false }" x-init="open = false">
-                    <div class="relative">
-                        <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
-                            <span>
-                                @switch($sortBy)
-                                    @case('ending_soon')
-                                        Završavaju uskoro
-                                    @break
+                <!-- Center: Filters -->
+                <div class="flex items-center gap-3">
+                    <!-- Sortiranje -->
+                    <div class="w-40" x-data="{ open: false }" x-init="open = false">
+                        <div class="relative">
+                            <button @click="open = !open" type="button"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                                <span>
+                                    @switch($sortBy)
+                                        @case('ending_soon')
+                                            Završavaju uskoro
+                                        @break
 
-                                    @case('newest')
-                                        Najnovije
-                                    @break
+                                        @case('newest')
+                                            Najnovije
+                                        @break
 
-                                    @case('highest_price')
-                                        Najviša cena
-                                    @break
+                                        @case('highest_price')
+                                            Najviša cena
+                                        @break
 
-                                    @case('most_bids')
-                                        Najviše ponuda
-                                    @break
-                                @endswitch
-                            </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
+                                        @case('most_bids')
+                                            Najviše ponuda
+                                        @break
+                                    @endswitch
+                                </span>
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
 
-                        <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
-                            <button @click="$wire.set('sortBy', 'ending_soon'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                Završavaju uskoro
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
+                                <button @click="$wire.set('sortBy', 'ending_soon'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                    Završavaju uskoro
+                                </button>
+                                <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    Najnovije
+                                </button>
+                                <button @click="$wire.set('sortBy', 'highest_price'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    Najviša cena
+                                </button>
+                                <button @click="$wire.set('sortBy', 'most_bids'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    Najviše ponuda
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Per page -->
+                    <div class="w-32" x-data="{ open: false }" x-init="open = false">
+                        <div class="relative">
+                            <button @click="open = !open" type="button"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                                <span>{{ $perPage }}</span>
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
                             </button>
-                            <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                Najnovije
-                            </button>
-                            <button @click="$wire.set('sortBy', 'highest_price'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                Najviša cena
-                            </button>
-                            <button @click="$wire.set('sortBy', 'most_bids'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
-                                Najviše ponuda
-                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
+                                <button @click="$wire.set('perPage', '20'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                    20
+                                </button>
+                                <button @click="$wire.set('perPage', '50'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                    50
+                                </button>
+                                <button @click="$wire.set('perPage', '100'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    100
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Per page -->
-                <div class="w-32" x-data="{ open: false }" x-init="open = false">
-                    <div class="relative">
-                        <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
-                            <span>{{ $perPage }}</span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-
-                        <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
-                            <button @click="$wire.set('perPage', '20'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                20
-                            </button>
-                            <button @click="$wire.set('perPage', '50'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                50
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- View Toggle -->
-                <div class="flex bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm">
+                <!-- Right: View Mode Toggle -->
+                <div
+                    class="flex bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm">
                     <button wire:click="setViewMode('list')"
                         class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }} rounded-l-lg transition-colors">
                         <i class="fas fa-list"></i>
@@ -165,51 +332,14 @@
             </div>
         </div>
 
-        <!-- Mobile Layout -->
+        <!-- Mobile Sort/PerPage Layout -->
         <div class="md:hidden">
-            <div class="flex gap-3 mb-3">
-                <!-- Category Filter Mobile -->
-                <div class="flex-1" x-data="{ open: false }" x-init="open = false">
-                    <div class="relative">
-                        <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
-                            <span>
-                                @if($selectedCategory)
-                                    {{ $currentCategory->name ?? 'Sve' }}
-                                @else
-                                    Sve
-                                @endif
-                            </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-
-                        <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-64 overflow-y-auto">
-                            <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedCategory ? 'bg-amber-50 dark:bg-amber-900 text-amber-700 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200' }}">
-                                Sve kategorije
-                            </button>
-                            @foreach($categories as $category)
-                                <button @click="$wire.set('selectedCategory', '{{ $category->id }}'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $selectedCategory == $category->id ? 'bg-amber-50 dark:bg-amber-900' : '' }} {{ $loop->last ? 'rounded-b-lg' : '' }}">
-                                    @if($category->icon)
-                                        <i class="{{ $category->icon }} text-amber-600 dark:text-amber-400 mr-2"></i>
-                                    @endif
-                                    {{ $category->name }}
-                                </button>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="flex gap-3">
-                <!-- Sort Mobile -->
+                <!-- Mobile filters (50/50 split) -->
                 <div class="flex-1" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
                             <span>
                                 @switch($sortBy)
                                     @case('ending_soon')
@@ -237,7 +367,7 @@
                         </button>
 
                         <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('sortBy', 'ending_soon'); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
                                 Završavaju uskoro
@@ -258,10 +388,11 @@
                     </div>
                 </div>
 
+                <!-- Mobile per page -->
                 <div class="flex-1" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
                         <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 focus:outline-none focus:border-amber-500 transition-colors flex items-center justify-between">
                             <span>{{ $perPage }} po strani</span>
                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
@@ -271,7 +402,7 @@
                         </button>
 
                         <div x-show="open" @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('perPage', '20'); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
                                 20 po strani
@@ -279,6 +410,10 @@
                             <button @click="$wire.set('perPage', '50'); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
                                 50 po strani
+                            </button>
+                            <button @click="$wire.set('perPage', '100'); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                100 po strani
                             </button>
                         </div>
                     </div>
