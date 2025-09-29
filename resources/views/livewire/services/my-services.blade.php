@@ -70,7 +70,7 @@
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
-                <div class="grid grid-cols-[35%_20%_15%_15%_15%] bg-slate-50 dark:bg-slate-700">
+                <div class="grid grid-cols-[40%_20%_15%_10%_15%] bg-slate-50 dark:bg-slate-700">
                     <div
                         class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Usluga</div>
@@ -92,7 +92,7 @@
             <!-- Data Rows -->
             @foreach ($services as $service)
                 <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden border-l-4 border-slate-500">
-                    <div class="grid grid-cols-[35%_20%_15%_15%_15%] hover:bg-slate-50 dark:hover:bg-slate-700">
+                    <div class="grid grid-cols-[40%_20%_15%_10%_15%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Usluga Column -->
                         <div class="px-6 py-2">
                             <div class="flex items-center">
