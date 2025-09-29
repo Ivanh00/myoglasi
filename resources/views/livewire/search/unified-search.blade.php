@@ -934,7 +934,7 @@
             </div>
         @endif
 
-        @if (!isset($skipScheduledAuctions) && !empty($scheduledAuctions))
+        @if ($content_type === 'auctions' && !isset($skipScheduledAuctions) && !empty($scheduledAuctions))
             <!-- Scheduled Auctions Section -->
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-6">
