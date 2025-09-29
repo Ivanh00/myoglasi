@@ -77,18 +77,19 @@
             </div>
 
             <!-- Stats -->
-            <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+            <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300 mb-3">
                 <div class="flex items-center">
-                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M12 4.5C7.5 4.5 3.5 8.5 2 12c1.5 3.5 5.5 7.5 10 7.5s8.5-4 10-7.5c-1.5-3.5-5.5-7.5-10-7.5zm0 12c-2.5 0-4.5-2-4.5-4.5S9.5 8.5 12 8.5 16.5 10.5 16.5 12 14.5 16.5 12 16.5zm0-7c-1.5 0-2.5 1-2.5 2.5S10.5 14.5 12 14.5 14.5 13.5 14.5 12 13.5 9.5 12 9.5z" />
-                    </svg>
+                    <i class="fas fa-eye mr-1"></i>
                     <span>{{ $service->views ?? 0 }}</span>
                 </div>
-                <div>
-                    <i class="fas fa-clock mr-1"></i>
-                    Pre {{ $service->created_at ? floor($service->created_at->diffInDays()) : 0 }} dana
+                <div class="flex items-center">
+                    <span>❤️ 0</span>
                 </div>
+            </div>
+
+            <div class="text-xs text-slate-500 dark:text-slate-300 mb-3">
+                <i class="fas fa-clock mr-1"></i>
+                Postavljeno pre {{ $service->created_at ? floor($service->created_at->diffInDays()) : 0 }} dana
             </div>
         </div>
 
@@ -105,14 +106,14 @@
                     <!-- Contact button -->
                     <a href="{{ route('services.show', $service) }}"
                         class="block w-full text-center px-3 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors text-sm">
-                        <i class="fas fa-eye mr-2"></i> Detalji
+                        <i class="fas fa-eye mr-2"></i> Pregled
                     </a>
                 @endif
             @else
                 <!-- Guest button -->
                 <a href="{{ route('services.show', $service) }}"
                     class="block w-full text-center px-3 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors text-sm">
-                    <i class="fas fa-eye mr-2"></i> Detalji
+                    <i class="fas fa-eye mr-2"></i> Pregled
                 </a>
             @endauth
         </div>
