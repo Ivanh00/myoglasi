@@ -1,30 +1,32 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
-    <!-- Naslov -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Omiljeno</h1>
-        <p class="text-slate-600 dark:text-slate-300 mt-2">Vaši sačuvani oglasi i usluge</p>
-    </div>
-
-    <!-- Filter tipova -->
-    <div class="flex gap-2 mb-4">
-        <button wire:click="setFilterType('all')"
-            class="px-4 py-2 rounded-lg transition-colors {{ $filterType === 'all' ? 'bg-sky-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600' }}">
-            Sve
-        </button>
-        <button wire:click="setFilterType('listings')"
-            class="px-4 py-2 rounded-lg transition-colors {{ $filterType === 'listings' ? 'bg-sky-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600' }}">
-            Oglasi
-        </button>
-        <button wire:click="setFilterType('services')"
-            class="px-4 py-2 rounded-lg transition-colors {{ $filterType === 'services' ? 'bg-sky-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600' }}">
-            Usluge
-        </button>
-    </div>
-
-    <!-- Sortiranje i info -->
+    <!-- Filters and sorting row -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+        <!-- Count -->
         <div class="text-slate-600 dark:text-slate-300">
             Ukupno: <span class="font-semibold">{{ $favorites->total() }}</span> omiljenih stavki
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="flex rounded-lg overflow-hidden border border-slate-300 dark:border-slate-600">
+            <button wire:click="setFilterType('all')"
+                class="px-4 py-2 flex items-center gap-2 transition-colors font-medium text-sm
+                {{ $filterType === 'all' ? 'bg-sky-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700' }}">
+                Sve
+            </button>
+            <button wire:click="setFilterType('listings')"
+                class="px-4 py-2 flex items-center gap-2 transition-colors font-medium text-sm border-l border-slate-300 dark:border-slate-600
+                {{ $filterType === 'listings' ? 'bg-sky-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700' }}">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-8H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"></path>
+                </svg>
+                Oglasi
+            </button>
+            <button wire:click="setFilterType('services')"
+                class="px-4 py-2 flex items-center gap-2 transition-colors font-medium text-sm border-l border-slate-300 dark:border-slate-600
+                {{ $filterType === 'services' ? 'bg-slate-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700' }}">
+                <i class="fas fa-tools w-4"></i>
+                Usluge
+            </button>
         </div>
 
         <!-- Sortiranje -->
