@@ -187,10 +187,12 @@
                                 </a>
 
                                 @if ($listing->isActive() && !$listing->auction)
-                                    <a href="{{ route('auction.setup', $listing) }}"
-                                        class="inline-flex items-center px-2 py-1 text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 rounded">
-                                        <i class="fas fa-gavel mr-1"></i> Prodaj na aukciji
-                                    </a>
+                                    @if (!$listing->isGiveaway())
+                                        <a href="{{ route('auction.setup', $listing) }}"
+                                            class="inline-flex items-center px-2 py-1 text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 rounded">
+                                            <i class="fas fa-gavel mr-1"></i> Prodaj na aukciji
+                                        </a>
+                                    @endif
                                     <a href="{{ route('listings.edit', $listing) }}"
                                         class="inline-flex items-center px-2 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 rounded">
                                         <i class="fas fa-edit mr-1"></i> Izmeni
@@ -372,11 +374,13 @@
                             </a>
 
                             @if ($listing->isActive() && !$listing->auction)
-                                <a href="{{ route('auction.setup', $listing) }}"
-                                    class="inline-flex items-center px-3 py-1.5 bg-amber-100 dark:bg-amber-800 text-amber-700 dark:text-amber-200 text-xs font-medium rounded-lg hover:bg-amber-200 dark:hover:bg-amber-700 transition-colors">
-                                    <i class="fas fa-gavel mr-1"></i>
-                                    Prodaj na aukciji
-                                </a>
+                                @if (!$listing->isGiveaway())
+                                    <a href="{{ route('auction.setup', $listing) }}"
+                                        class="inline-flex items-center px-3 py-1.5 bg-amber-100 dark:bg-amber-800 text-amber-700 dark:text-amber-200 text-xs font-medium rounded-lg hover:bg-amber-200 dark:hover:bg-amber-700 transition-colors">
+                                        <i class="fas fa-gavel mr-1"></i>
+                                        Prodaj na aukciji
+                                    </a>
+                                @endif
                                 <a href="{{ route('listings.edit', $listing) }}"
                                     class="inline-flex items-center px-3 py-1.5 bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200 text-xs font-medium rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-700 transition-colors">
                                     <i class="fas fa-edit mr-1"></i>
