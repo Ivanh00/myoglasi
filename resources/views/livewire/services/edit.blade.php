@@ -81,17 +81,36 @@
                 </div>
 
                 <!-- Price -->
+                <!-- Price Type -->
+                <div>
+                    <label for="price_type" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                        Tip cene <span class="text-red-500">*</span>
+                    </label>
+                    <select wire:model.live="price_type" id="price_type"
+                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        <option value="fixed">Fiksna cena</option>
+                        <option value="hourly">Po satu</option>
+                        <option value="negotiable">Po dogovoru</option>
+                    </select>
+                    @error('price_type')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Price -->
+                @if($price_type !== 'negotiable')
                 <div>
                     <label for="price" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Cena usluge (RSD) <span class="text-red-500">*</span>
                     </label>
                     <input type="number" wire:model="price" id="price" step="0.01"
                         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 @error('price') border-red-500 @enderror"
-                        placeholder="0.00">
+                        placeholder="{{ $price_type === 'hourly' ? 'Cena po satu' : 'Unesite cenu' }}">
                     @error('price')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                @endif
             </div>
 
             <!-- Description -->

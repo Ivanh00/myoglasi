@@ -17,6 +17,7 @@ class Create extends Component
     public $title;
     public $description;
     public $price;
+    public $price_type = 'fixed';
     public $location;
     public $contact_phone;
     public $images = [];
@@ -84,7 +85,8 @@ class Create extends Component
         $rules = [
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',
-            'price' => 'required|numeric|min:1',
+            'price' => 'nullable|numeric|min:1',
+            'price_type' => 'required|in:fixed,hourly,negotiable',
             'service_category_id' => 'required|exists:service_categories,id',
             'location' => 'required|string|max:255',
             'contact_phone' => 'nullable|string|max:20',
@@ -92,6 +94,11 @@ class Create extends Component
             'images.*' => 'nullable|image|max:5120',
             'tempImages.*' => 'nullable|image|max:5120',
         ];
+
+        // Price is required only if price_type is not negotiable
+        if ($this->price_type !== 'negotiable') {
+            $rules['price'] = 'required|numeric|min:1';
+        }
 
         $this->validate($rules);
 
@@ -146,7 +153,8 @@ class Create extends Component
             'user_id' => auth()->id(),
             'title' => $this->title,
             'description' => $this->description,
-            'price' => $this->price,
+            'price' => $this->price_type === 'negotiable' ? 0 : $this->price,
+            'price_type' => $this->price_type,
             'service_category_id' => $this->service_category_id,
             'subcategory_id' => $this->subcategory_id,
             'location' => $this->location,
