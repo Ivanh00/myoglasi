@@ -105,10 +105,10 @@
 
             <div class="flex items-center justify-between mb-3">
                 @if ($listing->isGiveaway())
-                    <div class="text-green-600 dark:text-green-400 font-bold text-lg">BESPLATNO
+                    <div class="text-green-600 dark:text-green-400 font-bold text-xl">BESPLATNO
                     </div>
                 @else
-                    <div class="text-sky-600 dark:text-sky-400 font-bold text-lg">
+                    <div class="text-sky-600 dark:text-sky-400 font-bold text-xl">
                         {{ number_format($listing->price, 2) }} RSD
                     </div>
                 @endif

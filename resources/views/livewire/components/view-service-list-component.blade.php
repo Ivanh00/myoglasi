@@ -110,7 +110,7 @@
                 <!-- Cena i dugmad -->
                 <div class="flex items-center justify-between">
                     <div>
-                        <span class="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                        <span class="text-xl font-bold text-slate-700 dark:text-slate-300">
                             @if ($service->price_type === 'fixed')
                                 {{ number_format($service->price, 0, ',', '.') }} RSD
                             @elseif($service->price_type === 'hourly')

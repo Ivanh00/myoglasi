@@ -74,7 +74,7 @@
 
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-2xl font-bold text-red-600 dark:text-red-400">
+                        <div class="text-xl font-bold text-amber-700 dark:text-amber-400">
                             {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                         </div>
                         <div class="text-sm text-slate-500 dark:text-slate-300">
@@ -86,7 +86,7 @@
                         <div class="text-right">
                             <div class="text-sm text-slate-500 dark:text-slate-300">Kupi odmah:
                             </div>
-                            <div class="text-lg font-bold text-green-600 dark:text-green-400">
+                            <div class="text-base font-bold text-green-600 dark:text-green-400">
                                 {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                             </div>
                         </div>
