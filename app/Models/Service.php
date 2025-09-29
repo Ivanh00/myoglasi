@@ -57,6 +57,12 @@ class Service extends Model
         return $this->hasMany(ListingPromotion::class);
     }
 
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'service_favorites')
+                    ->withTimestamps();
+    }
+
     // Auto-generate slug
     protected static function boot()
     {

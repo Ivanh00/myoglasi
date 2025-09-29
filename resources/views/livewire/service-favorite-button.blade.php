@@ -1,6 +1,6 @@
 <div class="w-full">
     @auth
-        @if (auth()->id() !== $listing->user_id)
+        @if (auth()->id() !== $service->user_id)
             <button wire:click="toggleFavorite"
                 class="w-full flex items-center justify-center px-4 py-3 border rounded-lg transition-colors
                            {{ $isFavorited ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-red-300 dark:border-red-600 hover:bg-red-100 dark:hover:bg-red-900/30' : 'border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700' }}">

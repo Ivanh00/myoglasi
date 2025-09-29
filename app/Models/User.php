@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\Rating;
+use App\Models\Service;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -290,6 +291,34 @@ public function removeFromFavorites(Listing $listing)
                 ->where('listing_id', $listing->id)
                 ->delete();
 }
+
+    // Service favorites methods
+    public function serviceFavorites()
+    {
+        return $this->belongsToMany(Service::class, 'service_favorites')
+                    ->withTimestamps();
+    }
+
+    public function hasServiceFavorited(Service $service)
+    {
+        return $this->serviceFavorites()
+                    ->where('service_id', $service->id)
+                    ->exists();
+    }
+
+    public function addServiceToFavorites(Service $service)
+    {
+        if (!$this->hasServiceFavorited($service)) {
+            $this->serviceFavorites()->attach($service->id);
+            return true;
+        }
+        return false;
+    }
+
+    public function removeServiceFromFavorites(Service $service)
+    {
+        return $this->serviceFavorites()->detach($service->id);
+    }
 
     public function unreadMessages()
 {
