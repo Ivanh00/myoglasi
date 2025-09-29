@@ -192,7 +192,11 @@
                                 <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('messages.inbox') }}"
                                     class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                                    <i class="fas fa-envelope mr-2"></i> Pošalji poruku
+                                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                                        </path>
+                                    </svg> Pošalji poruku
                                 </a>
 
                                 <!-- Dugme za deljenje -->
@@ -228,7 +232,11 @@
                         <!-- Dugme za neautentifikovane korisnike -->
                         <a href="{{ route('login') }}"
                             class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors mb-3">
-                            <i class="fas fa-envelope mr-2"></i> Prijavite se za kontakt
+                            <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                                </path>
+                            </svg> Prijavite se za kontakt
                         </a>
 
                         <!-- Dugme za deljenje (dostupno svima) -->
@@ -247,7 +255,11 @@
                                 <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('messages.inbox') }}"
                                     class="w-full flex items-center justify-center px-4 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
-                                    <i class="fas fa-envelope mr-2"></i> Pošalji poruku
+                                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                                        </path>
+                                    </svg> Pošalji poruku
                                 </a>
 
                                 <!-- Dugme za deljenje -->
@@ -283,7 +295,11 @@
                         <!-- Dugme za neautentifikovane korisnike -->
                         <a href="{{ route('login') }}"
                             class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fas fa-envelope mr-2"></i> Prijavite se za kontakt
+                            <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                                </path>
+                            </svg> Prijavite se za kontakt
                         </a>
                     @endauth
                 </div>
