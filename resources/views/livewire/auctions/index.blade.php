@@ -144,6 +144,10 @@
                                         @case('most_bids')
                                             Najviše ponuda
                                         @break
+
+                                        @case('scheduled')
+                                            Zakazane
+                                        @break
                                     @endswitch
                                 </span>
                                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
@@ -168,8 +172,12 @@
                                     Najviša cena
                                 </button>
                                 <button @click="$wire.set('sortBy', 'most_bids'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
                                     Najviše ponuda
+                                </button>
+                                <button @click="$wire.set('sortBy', 'scheduled'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    Zakazane
                                 </button>
                             </div>
                         </div>
@@ -327,6 +335,10 @@
                                         @case('most_bids')
                                             Najviše ponuda
                                         @break
+
+                                        @case('scheduled')
+                                            Zakazane
+                                        @break
                                     @endswitch
                                 </span>
                                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
@@ -351,8 +363,12 @@
                                     Najviša cena
                                 </button>
                                 <button @click="$wire.set('sortBy', 'most_bids'); open = false" type="button"
-                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
                                     Najviše ponuda
+                                </button>
+                                <button @click="$wire.set('sortBy', 'scheduled'); open = false" type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                    Zakazane
                                 </button>
                             </div>
                         </div>
@@ -434,6 +450,10 @@
                                             Najviše ponuda
                                         @break
 
+                                        @case('scheduled')
+                                            Zakazane
+                                        @break
+
                                         @default
                                             Sve aukcije
                                     @endswitch
@@ -466,8 +486,12 @@
                                 Najviša cena
                             </button>
                             <button @click="$wire.set('sortBy', 'most_bids'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
                                 Najviše ponuda
+                            </button>
+                            <button @click="$wire.set('sortBy', 'scheduled'); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                Zakazane
                             </button>
                         </div>
                     </div>
