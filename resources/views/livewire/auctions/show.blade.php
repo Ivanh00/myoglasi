@@ -599,7 +599,7 @@
     </div>
 
     <!-- Preporučeni oglasi -->
-    @if ($recommendedListings && $recommendedListings->count() > 0)
+    {{-- @if ($recommendedListings && $recommendedListings->count() > 0)
         <div class="mt-12">
             <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
                 @if ($recommendationType === 'seller')
@@ -684,7 +684,7 @@
                 @endforeach
             </div>
         </div>
-    @endif
+    @endif --}}
 
     <!-- Buy Now Confirmation Modal -->
     @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
@@ -1091,7 +1091,7 @@
         fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
         fbLink.target = '_blank';
         fbLink.className =
-        'flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
+            'flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
         fbLink.innerHTML = '<i class="fab fa-facebook-f w-6"></i><span class="ml-3">Podeli na Facebook-u</span>';
 
         // WhatsApp
