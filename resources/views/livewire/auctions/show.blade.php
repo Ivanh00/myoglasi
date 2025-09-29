@@ -1055,23 +1055,14 @@
         const title = '{{ $auction->listing->title }}';
         const text = `{{ $auction->listing->title }} - Aukcija na PazAriO`;
 
-        // Detect if mobile or small screen
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-
-        if (isMobile && navigator.share) {
-            // Use Web Share API for mobile
-            navigator.share({
-                title: title,
-                text: text,
-                url: url
-            }).catch(err => console.log('Share cancelled or failed'));
-        } else {
-            // Show popup for desktop
-            showSharePopup(url, title, text);
-        }
+        // Always show share popup with all options
+        showSharePopup(url, title, text);
     }
 
     function showSharePopup(url, title, text) {
+        // Detect if mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
         // Remove existing popup if any
         const existingPopup = document.getElementById('sharePopup');
         if (existingPopup) {
@@ -1090,6 +1081,15 @@
                     </div>
 
                     <div class="space-y-3">
+                        ${isMobile && navigator.share ? `
+                        <!-- Native Share (Mobile only) -->
+                        <button onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}'', text: '${text.replace(/'/g, "\\'")}'', url: '${url}'}).then(() => document.getElementById('sharePopup').remove())"
+                                class="flex items-center w-full p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <i class="fas fa-share-alt text-sky-600 text-xl w-8"></i>
+                            <span class="ml-3 text-slate-700 dark:text-slate-300">Podeli</span>
+                        </button>
+                        ` : ''}
+
                         <!-- Facebook -->
                         <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}"
                            target="_blank"
@@ -1098,12 +1098,14 @@
                             <span class="ml-3 text-slate-700 dark:text-slate-300">Facebook</span>
                         </a>
 
-                        <!-- Viber -->
+                        ${isMobile ? `
+                        <!-- Viber (Mobile only) -->
                         <a href="viber://forward?text=${encodeURIComponent(text + ' ' + url)}"
                            class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                             <i class="fab fa-viber text-purple-600 text-xl w-8"></i>
                             <span class="ml-3 text-slate-700 dark:text-slate-300">Viber</span>
                         </a>
+                        ` : ''}
 
                         <!-- WhatsApp -->
                         <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}"
@@ -1111,6 +1113,13 @@
                            class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                             <i class="fab fa-whatsapp text-green-600 text-xl w-8"></i>
                             <span class="ml-3 text-slate-700 dark:text-slate-300">WhatsApp</span>
+                        </a>
+
+                        <!-- Email -->
+                        <a href="mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(text + '\\n\\n' + url)}"
+                           class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <i class="fas fa-envelope text-indigo-600 text-xl w-8"></i>
+                            <span class="ml-3 text-slate-700 dark:text-slate-300">Pošalji Email</span>
                         </a>
 
                         <!-- Copy link -->

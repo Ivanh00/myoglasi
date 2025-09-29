@@ -480,23 +480,14 @@
         const title = "{{ $service->title }}";
         const text = 'Pogledaj ovu uslugu: ' + title;
 
-        // Check if it's mobile (rough check)
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-
-        if (isMobile && navigator.share) {
-            // Use Web Share API for mobile
-            navigator.share({
-                title: title,
-                text: text,
-                url: url
-            }).catch(err => console.log('Share cancelled or failed'));
-        } else {
-            // Desktop: Show share options popup
-            showSharePopup(url, title, text);
-        }
+        // Always show share popup with all options
+        showSharePopup(url, title, text);
     }
 
     function showSharePopup(url, title, text) {
+        // Detect if mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
         // Create popup overlay
         const overlay = document.createElement('div');
         overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
@@ -514,6 +505,15 @@
             </div>
 
             <div class="space-y-3">
+                ${isMobile && navigator.share ? `
+                <!-- Native Share (Mobile only) -->
+                <button onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}'', text: '${text.replace(/'/g, "\\'")}'', url: '${url}'}).then(() => closeSharePopup())"
+                        class="w-full flex items-center p-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
+                    <i class="fas fa-share-alt w-6"></i>
+                    <span class="ml-3">Podeli</span>
+                </button>
+                ` : ''}
+
                 <!-- Facebook -->
                 <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}"
                    target="_blank"
@@ -522,12 +522,14 @@
                     <span class="ml-3">Podeli na Facebook-u</span>
                 </a>
 
-                <!-- Viber -->
+                ${isMobile ? `
+                <!-- Viber (Mobile only) -->
                 <a href="viber://forward?text=${encodeURIComponent(text + ' ' + url)}"
                    class="flex items-center p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
                     <i class="fab fa-viber w-6"></i>
                     <span class="ml-3">Podeli na Viber-u</span>
                 </a>
+                ` : ''}
 
                 <!-- WhatsApp -->
                 <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}"
@@ -535,6 +537,13 @@
                    class="flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                     <i class="fab fa-whatsapp w-6"></i>
                     <span class="ml-3">Podeli na WhatsApp-u</span>
+                </a>
+
+                <!-- Email -->
+                <a href="mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(text + '\\n\\n' + url)}"
+                   class="flex items-center p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                    <i class="fas fa-envelope w-6"></i>
+                    <span class="ml-3">Pošalji Email</span>
                 </a>
 
                 <!-- Copy Link -->
