@@ -64,7 +64,7 @@
     </div>
 
     <!-- Bottom section - now always starts at same position -->
-    <div class="bg-amber-50 dark:bg-amber-900 p-4 flex flex-col justify-between flex-grow mt-auto">
+    <div class="bg-amber-50 dark:bg-amber-900/50 p-4 flex flex-col justify-between flex-grow mt-auto">
         <div class="text-center mb-3">
             <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
                 @if ($auction->time_left)

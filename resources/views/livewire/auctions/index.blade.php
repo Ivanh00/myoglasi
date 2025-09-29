@@ -588,9 +588,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                     @foreach ($scheduledAuctions as $auction)
                         <div
-                            class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-amber-700">
+                            class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-amber-700 flex flex-col h-full">
                             <!-- Image -->
-                            <div class="relative h-48">
+                            <div class="relative h-48 flex-shrink-0">
                                 @if ($auction->listing->images->count() > 0)
                                     <img src="{{ $auction->listing->images->first()->url }}"
                                         alt="{{ $auction->listing->title }}" class="w-full h-full object-cover">
@@ -611,7 +611,7 @@
 
                             <!-- Content -->
                             <div class="p-4">
-                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 line-clamp-1">
                                     {{ $auction->listing->title }}
                                 </h3>
 
@@ -646,17 +646,20 @@
                                 </div>
 
                                 @if ($auction->buy_now_price)
-                                    <div class="mb-3">
+                                    <div>
                                         <div class="text-sm text-slate-500 dark:text-slate-300">Kupi odmah:</div>
                                         <div class="text-lg font-bold text-green-600 dark:text-green-400">
                                             {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                                         </div>
                                     </div>
+                                @else
+                                    <!-- Empty placeholder to maintain consistent height -->
+                                    <div class="h-10"></div>
                                 @endif
                             </div>
 
                             <!-- Bottom section with time and button -->
-                            <div class="p-4 border-t border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-slate-700">
+                            <div class="p-4 bg-amber-50 dark:bg-amber-900/50 flex flex-col justify-between flex-grow mt-auto">
                                 <div class="text-center mb-3">
                                     <div class="text-sm font-bold text-amber-700 dark:text-amber-400">
                                         <i class="fas fa-calendar-alt mr-1"></i>
@@ -670,6 +673,7 @@
                                     </div>
                                 </div>
 
+                                <div class="space-y-2 mt-auto">
                                 @auth
                                     @if (auth()->id() === $auction->user_id)
                                         <a href="{{ route('listings.edit', $auction->listing) }}"
@@ -688,6 +692,7 @@
                                         <i class="fas fa-eye mr-2"></i> Detalji
                                     </a>
                                 @endauth
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -855,9 +860,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                     @foreach ($endedAuctions as $auction)
                         <div
-                            class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-amber-700">
+                            class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-amber-700 flex flex-col h-full">
                             <!-- Image -->
-                            <div class="relative h-48">
+                            <div class="relative h-48 flex-shrink-0">
                                 @if ($auction->listing->images->count() > 0)
                                     <img src="{{ $auction->listing->images->first()->url }}"
                                         alt="{{ $auction->listing->title }}"
@@ -880,7 +885,7 @@
 
                             <!-- Content -->
                             <div class="p-4">
-                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 line-clamp-1">
                                     {{ $auction->listing->title }}
                                 </h3>
 
@@ -922,10 +927,13 @@
                                         {{ $auction->total_bids }} ponuda
                                     </div>
                                 </div>
+
+                                <!-- Empty placeholder to maintain consistent height -->
+                                <div class="h-10"></div>
                             </div>
 
                             <!-- Bottom section -->
-                            <div class="p-4 border-t border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-slate-700">
+                            <div class="p-4 bg-amber-50 dark:bg-amber-900/50 flex flex-col justify-between flex-grow mt-auto">
                                 <div class="text-center mb-3">
                                     <div class="text-sm font-bold text-amber-700 dark:text-amber-400">
                                         <i class="fas fa-flag-checkered mr-1"></i>
@@ -936,10 +944,12 @@
                                     </div>
                                 </div>
 
+                                <div class="space-y-2 mt-auto">
                                 <a href="{{ route('auction.show', $auction) }}"
                                     class="block w-full text-center px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm font-medium">
                                     <i class="fas fa-eye mr-2"></i> Rezultati
                                 </a>
+                                </div>
                             </div>
                         </div>
                     @endforeach
