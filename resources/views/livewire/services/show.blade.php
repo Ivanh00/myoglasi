@@ -185,19 +185,19 @@
                 @endif
 
                 <!-- Desktop Actions -->
-                <div class="hidden md:flex space-x-4 mt-8">
+                <div class="hidden md:block space-y-3 mt-8">
                     @auth
                         @if (auth()->id() !== $service->user_id)
                             @if (!$service->user->is_banned)
                                 <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('messages.inbox') }}"
-                                    class="flex-1 flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                                    class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                     <i class="fas fa-envelope mr-2"></i> Pošalji poruku
                                 </a>
 
                                 <!-- Dugme za deljenje -->
                                 <button onclick="shareService()"
-                                    class="flex-1 flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                                    class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                     <i class="fas fa-share-alt mr-2"></i> Podeli
                                 </button>
                             @else
@@ -214,22 +214,28 @@
                         @else
                             <!-- Dugme za vlasnike usluge -->
                             <div
-                                class="flex items-center justify-center px-4 py-3 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg">
+                                class="w-full flex items-center justify-center px-4 py-3 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg mb-3">
                                 <i class="fas fa-tools mr-2"></i> Vaša usluga
                             </div>
 
                             <!-- Dugme za uređivanje svoje usluge -->
                             <a href="{{ route('services.edit', $service) }}"
-                                class="flex items-center justify-center px-4 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
+                                class="w-full flex items-center justify-center px-4 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
                                 <i class="fas fa-edit mr-2"></i> Uredi uslugu
                             </a>
                         @endif
                     @else
                         <!-- Dugme za neautentifikovane korisnike -->
                         <a href="{{ route('login') }}"
-                            class="flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                            class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors mb-3">
                             <i class="fas fa-envelope mr-2"></i> Prijavite se za kontakt
                         </a>
+
+                        <!-- Dugme za deljenje (dostupno svima) -->
+                        <button onclick="shareService()"
+                            class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                            <i class="fas fa-share-alt mr-2"></i> Podeli
+                        </button>
                     @endauth
                 </div>
 

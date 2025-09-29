@@ -372,6 +372,14 @@
                                             <i class="fas fa-envelope mr-2"></i>
                                             Pošaljite poruku prodavcu
                                         </a>
+
+                                        <!-- Share link (after message button) -->
+                                        <button
+                                            onclick="shareAuction()"
+                                            class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
+                                            <i class="fas fa-share-alt mr-2"></i>
+                                            Podeli link
+                                        </button>
                                     @else
                                         <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
                                             <div class="flex items-center justify-center">
@@ -380,21 +388,29 @@
                                                     blokiran</span>
                                             </div>
                                         </div>
+
+                                        <!-- Share link (even when seller is banned) -->
+                                        <button
+                                            onclick="shareAuction()"
+                                            class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
+                                            <i class="fas fa-share-alt mr-2"></i>
+                                            Podeli link
+                                        </button>
                                     @endif
                                 @else
                                     <div class="text-center text-slate-600 dark:text-slate-400 text-sm mb-2">
                                         <a href="{{ route('login') }}" class="text-sky-500 hover:text-sky-700">Prijavite
                                             se</a> da biste koristili ove opcije
                                     </div>
-                                @endauth
 
-                                <!-- Share link (available to all) -->
-                                <button
-                                    onclick="shareAuction()"
-                                    class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
-                                    <i class="fas fa-share-alt mr-2"></i>
-                                    Podeli link
-                                </button>
+                                    <!-- Share link (available to all non-authenticated) -->
+                                    <button
+                                        onclick="shareAuction()"
+                                        class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
+                                        <i class="fas fa-share-alt mr-2"></i>
+                                        Podeli link
+                                    </button>
+                                @endauth
                             </div>
                         </div>
                     @endif

@@ -286,24 +286,24 @@
                     @endif
 
                     <!-- Desktop Actions -->
-                    <div class="hidden md:flex space-x-4 mt-8">
+                    <div class="hidden md:block space-y-3 mt-8">
                         @auth
                             @if (auth()->id() !== $listing->user_id)
                                 @if (!$listing->user->is_banned)
-                                    <!-- Dugme za slanje poruke -->
-                                    <a href="{{ route('listing.chat', ['slug' => $listing->slug]) }}"
-                                        class="flex-1 flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                                        <i class="fas fa-envelope mr-2"></i> Pošalji poruku
-                                    </a>
-
                                     <!-- Favorite dugme (Livewire komponenta) -->
-                                    <div class="flex-1" id="favorite-button-desktop">
+                                    <div class="w-full" id="favorite-button-desktop">
                                         <livewire:favorite-button :listing="$listing" />
                                     </div>
 
+                                    <!-- Dugme za slanje poruke -->
+                                    <a href="{{ route('listing.chat', ['slug' => $listing->slug]) }}"
+                                        class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                                        <i class="fas fa-envelope mr-2"></i> Pošalji poruku
+                                    </a>
+
                                     <!-- Dugme za deljenje -->
                                     <button onclick="shareListing()"
-                                        class="flex-1 flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                                        class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                         <i class="fas fa-share-alt mr-2"></i> Podeli
                                     </button>
                                 @else
