@@ -96,7 +96,7 @@
                     <!-- Current Price -->
                     <div class="text-center mb-6 p-2 md:p-6 bg-slate-50 dark:bg-slate-700 rounded-lg">
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Trenutna cena</h3>
-                        <div class="text-4xl font-bold text-red-600 dark:text-red-400 mb-2">
+                        <div class="text-4xl font-bold text-amber-700 dark:text-amber-400 mb-2">
                             {{ number_format($auction->current_price, 0, ',', '.') }} RSD
                         </div>
                         @if ($auction->total_bids > 0)
@@ -200,7 +200,7 @@
                                             </label>
                                             <input type="number" wire:model="bidAmount" id="bidAmount"
                                                 min="{{ $auction->minimum_bid }}" step="{{ $auction->bid_increment }}"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
                                             @error('bidAmount')
                                                 <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                             @enderror
@@ -212,7 +212,7 @@
                                         <div class="flex items-center justify-between">
                                             <label class="flex items-center cursor-pointer">
                                                 <input type="checkbox" wire:model.live="isAutoBid"
-                                                    class="mr-3 h-4 w-4 text-red-600 focus:ring-red-500 rounded">
+                                                    class="mr-3 h-4 w-4 text-amber-600 focus:ring-amber-500 rounded">
                                                 <span class="text-sm text-slate-700 dark:text-slate-200">Automatska
                                                     ponuda</span>
                                             </label>
@@ -295,7 +295,7 @@
                                     @if (!$isAutoBid)
                                         <div class="space-y-3">
                                             <button type="button" wire:click="placeBid"
-                                                class="w-full px-4 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors">
+                                                class="w-full px-4 py-3 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition-colors">
                                                 <i class="fas fa-gavel mr-2"></i>
                                                 Pošaljite ponudu
                                             </button>
@@ -402,7 +402,7 @@
 
                                     <!-- Add to favorites -->
                                     <button wire:click="toggleFavorite"
-                                        class="w-full px-4 py-2 {{ $isFavorited ? 'bg-slate-500 hover:bg-slate-600' : 'bg-red-500 hover:bg-red-600' }} text-white font-medium rounded-lg transition-colors">
+                                        class="w-full px-4 py-2 {{ $isFavorited ? 'bg-slate-500 hover:bg-slate-600' : 'bg-amber-500 hover:bg-amber-600' }} text-white font-medium rounded-lg transition-colors">
                                         <i class="fas fa-heart mr-2"></i>
                                         {{ $isFavorited ? 'Ukloni iz omiljenih' : 'Dodaj u omiljene' }}
                                     </button>
