@@ -172,7 +172,19 @@
                                     @endif
                                 @else
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200">{{ ucfirst($auction->status) }}</span>
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200">
+                                        @if($auction->status === 'active' && $auction->starts_at->isFuture())
+                                            Zakazana
+                                        @elseif($auction->status === 'active')
+                                            Aktivna
+                                        @elseif($auction->status === 'ended')
+                                            Završena
+                                        @elseif($auction->status === 'cancelled')
+                                            Otkazana
+                                        @else
+                                            {{ ucfirst($auction->status) }}
+                                        @endif
+                                    </span>
                                 @endif
                             </div>
                         </div>
