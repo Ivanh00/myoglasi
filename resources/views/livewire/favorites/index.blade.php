@@ -1,14 +1,30 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
     <!-- Naslov -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Omiljeni oglasi</h1>
-        <p class="text-slate-600 dark:text-slate-300 mt-2">Vaši sačuvani oglasi</p>
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Omiljeno</h1>
+        <p class="text-slate-600 dark:text-slate-300 mt-2">Vaši sačuvani oglasi i usluge</p>
+    </div>
+
+    <!-- Filter tipova -->
+    <div class="flex gap-2 mb-4">
+        <button wire:click="setFilterType('all')"
+            class="px-4 py-2 rounded-lg transition-colors {{ $filterType === 'all' ? 'bg-sky-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600' }}">
+            Sve
+        </button>
+        <button wire:click="setFilterType('listings')"
+            class="px-4 py-2 rounded-lg transition-colors {{ $filterType === 'listings' ? 'bg-sky-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600' }}">
+            Oglasi
+        </button>
+        <button wire:click="setFilterType('services')"
+            class="px-4 py-2 rounded-lg transition-colors {{ $filterType === 'services' ? 'bg-sky-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600' }}">
+            Usluge
+        </button>
     </div>
 
     <!-- Sortiranje i info -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
         <div class="text-slate-600 dark:text-slate-300">
-            Ukupno: <span class="font-semibold">{{ $favorites->total() }}</span> omiljenih oglasa
+            Ukupno: <span class="font-semibold">{{ $favorites->total() }}</span> omiljenih stavki
         </div>
 
         <!-- Sortiranje -->
@@ -97,41 +113,61 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-600">
-                    @foreach ($favorites as $listing)
+                    @foreach ($favorites as $item)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
-                                        @if ($listing->images->count() > 0)
+                                        @if ($item->images->count() > 0)
                                             <img class="h-10 w-10 rounded-full object-cover"
-                                                src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}">
+                                                src="{{ $item->images->first()->url }}" alt="{{ $item->title }}">
                                         @else
                                             <div
                                                 class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center">
-                                                <i class="fas fa-image text-slate-400"></i>
+                                                <i class="fas {{ $item->item_type === 'service' ? 'fa-tools' : 'fa-image' }} text-slate-400"></i>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
-                                            {{ Str::limit($listing->title, 40) }}</div>
+                                            {{ Str::limit($item->title, 40) }}</div>
                                         <div class="text-sm text-slate-500 dark:text-slate-300">
-                                            {{ $listing->category->name }}</div>
-                                        <div class="text-xs text-slate-400">{{ $listing->location }}</div>
+                                            @if($item->item_type === 'service')
+                                                {{ $item->category->name ?? 'Usluga' }}
+                                            @else
+                                                {{ $item->category->name }}
+                                            @endif
+                                        </div>
+                                        <div class="text-xs text-slate-400">{{ $item->location }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-sky-600 dark:text-sky-400 font-bold">
-                                    {{ number_format($listing->price, 2) }} RSD</div>
+                                <div class="text-sm {{ $item->item_type === 'service' ? 'text-slate-600 dark:text-slate-400' : 'text-sky-600 dark:text-sky-400' }} font-bold">
+                                    @if($item->item_type === 'service')
+                                        @if($item->price_type === 'fixed')
+                                            {{ number_format($item->price, 2) }} RSD
+                                        @elseif($item->price_type === 'hourly')
+                                            {{ number_format($item->price, 2) }} RSD/sat
+                                        @elseif($item->price_type === 'daily')
+                                            {{ number_format($item->price, 2) }} RSD/dan
+                                        @elseif($item->price_type === 'per_m2')
+                                            {{ number_format($item->price, 2) }} RSD/m²
+                                        @else
+                                            Po dogovoru
+                                        @endif
+                                    @else
+                                        {{ number_format($item->price, 2) }} RSD
+                                    @endif
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if ($listing->status === 'active')
+                                @if ($item->status === 'active')
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">
                                         Aktivan
                                     </span>
-                                @elseif($listing->status === 'expired')
+                                @elseif($item->status === 'expired')
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200">
                                         Istekao
@@ -139,28 +175,35 @@
                                 @else
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
-                                        {{ ucfirst($listing->status) }}
+                                        {{ ucfirst($item->status) }}
                                     </span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300">
-                                {{ $listing->pivot->created_at->format('d.m.Y H:i') }}
+                                {{ $item->pivot->created_at->format('d.m.Y H:i') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex items-center space-x-2">
-                                    <a href="{{ route('listings.show', $listing) }}"
-                                        class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
-                                        <i class="fas fa-eye mr-1"></i> Pregled
-                                    </a>
+                                    @if($item->item_type === 'service')
+                                        <a href="{{ route('services.show', $item) }}"
+                                            class="inline-flex items-center px-2 py-1 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-300 rounded">
+                                            <i class="fas fa-eye mr-1"></i> Pregled
+                                        </a>
+                                    @else
+                                        <a href="{{ route('listings.show', $item) }}"
+                                            class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
+                                            <i class="fas fa-eye mr-1"></i> Pregled
+                                        </a>
+                                    @endif
 
                                     <button
-                                        onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')"
+                                        onclick="navigator.clipboard.writeText('{{ $item->item_type === 'service' ? route('services.show', $item) : route('listings.show', $item) }}'); alert('Link kopiran!')"
                                         class="inline-flex items-center px-2 py-1 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 rounded">
                                         <i class="fas fa-share-alt mr-1"></i> Podeli
                                     </button>
 
-                                    <button wire:click="removeFromFavorites({{ $listing->id }})"
-                                        wire:confirm="Da li ste sigurni da želite da uklonite ovaj oglas iz omiljenih?"
+                                    <button wire:click="removeFromFavorites({{ $item->id }}, '{{ $item->item_type }}')"
+                                        wire:confirm="Da li ste sigurni da želite da uklonite {{ $item->item_type === 'service' ? 'ovu uslugu' : 'ovaj oglas' }} iz omiljenih?"
                                         class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
                                         <i class="fas fa-heart-broken mr-1"></i> Ukloni
                                     </button>
@@ -179,7 +222,7 @@
 
         <!-- Mobile Card View -->
         <div class="lg:hidden space-y-4">
-            @foreach ($favorites as $listing)
+            @foreach ($favorites as $item)
                 <div class="bg-white dark:bg-slate-800 shadow rounded-lg overflow-hidden">
                     <!-- Card Header -->
                     <div class="p-4 border-b border-slate-200 dark:border-slate-600">
@@ -187,35 +230,55 @@
                             <div class="flex items-start flex-1">
                                 <!-- Image -->
                                 <div class="flex-shrink-0 h-16 w-16 mr-3">
-                                    @if ($listing->images->count() > 0)
+                                    @if ($item->images->count() > 0)
                                         <img class="h-16 w-16 rounded-lg object-cover"
-                                            src="{{ $listing->images->first()->url }}" alt="{{ $listing->title }}">
+                                            src="{{ $item->images->first()->url }}" alt="{{ $item->title }}">
                                     @else
                                         <div class="h-16 w-16 rounded-lg bg-slate-200 flex items-center justify-center">
-                                            <i class="fas fa-image text-slate-400"></i>
+                                            <i class="fas {{ $item->item_type === 'service' ? 'fa-tools' : 'fa-image' }} text-slate-400"></i>
                                         </div>
                                     @endif
                                 </div>
 
-                                <!-- Listing Info -->
+                                <!-- Item Info -->
                                 <div class="flex-1 min-w-0">
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
-                                        {{ $listing->title }}</h3>
+                                        {{ $item->title }}</h3>
                                     <p class="text-sm text-slate-500 dark:text-slate-300 mb-1">
-                                        {{ $listing->category->name }}</p>
-                                    <p class="text-xs text-slate-400 mb-2">{{ $listing->location }}</p>
-                                    <p class="text-xl font-bold text-sky-600 dark:text-sky-400">
-                                        {{ number_format($listing->price, 2) }} RSD</p>
+                                        @if($item->item_type === 'service')
+                                            {{ $item->category->name ?? 'Usluga' }}
+                                        @else
+                                            {{ $item->category->name }}
+                                        @endif
+                                    </p>
+                                    <p class="text-xs text-slate-400 mb-2">{{ $item->location }}</p>
+                                    <p class="text-xl font-bold {{ $item->item_type === 'service' ? 'text-slate-600 dark:text-slate-400' : 'text-sky-600 dark:text-sky-400' }}">
+                                        @if($item->item_type === 'service')
+                                            @if($item->price_type === 'fixed')
+                                                {{ number_format($item->price, 2) }} RSD
+                                            @elseif($item->price_type === 'hourly')
+                                                {{ number_format($item->price, 2) }} RSD/sat
+                                            @elseif($item->price_type === 'daily')
+                                                {{ number_format($item->price, 2) }} RSD/dan
+                                            @elseif($item->price_type === 'per_m2')
+                                                {{ number_format($item->price, 2) }} RSD/m²
+                                            @else
+                                                Po dogovoru
+                                            @endif
+                                        @else
+                                            {{ number_format($item->price, 2) }} RSD
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
 
                             <!-- Status Badge -->
-                            @if ($listing->status === 'active')
+                            @if ($item->status === 'active')
                                 <span
                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">
                                     Aktivan
                                 </span>
-                            @elseif($listing->status === 'expired')
+                            @elseif($item->status === 'expired')
                                 <span
                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200">
                                     Istekao
@@ -223,7 +286,7 @@
                             @else
                                 <span
                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
-                                    {{ ucfirst($listing->status) }}
+                                    {{ ucfirst($item->status) }}
                                 </span>
                             @endif
                         </div>
@@ -237,18 +300,18 @@
                                 class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
                                 Dodato u omiljene</div>
                             <div class="text-sm text-slate-900 dark:text-slate-100">
-                                {{ $listing->pivot->created_at->format('d.m.Y H:i') }}</div>
+                                {{ $item->pivot->created_at->format('d.m.Y H:i') }}</div>
                         </div>
 
-                        @if ($listing->user)
+                        @if ($item->user)
                             <!-- Seller Info -->
                             <div class="mb-4">
                                 <div
                                     class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
-                                    Prodavac</div>
+                                    {{ $item->item_type === 'service' ? 'Pružalac usluge' : 'Prodavac' }}</div>
                                 <div class="text-sm text-slate-900 dark:text-slate-100">
-                                    {{ $listing->user->name }}
-                                    @if ($listing->user->is_banned)
+                                    {{ $item->user->name }}
+                                    @if ($item->user->is_banned)
                                         <span class="text-red-600 dark:text-red-400 text-xs ml-1">BLOKIRAN</span>
                                     @endif
                                 </div>
@@ -257,21 +320,29 @@
 
                         <!-- Action Buttons -->
                         <div class="flex flex-wrap gap-2">
-                            <a href="{{ route('listings.show', $listing) }}"
-                                class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
-                                <i class="fas fa-eye mr-1"></i>
-                                Pregled
-                            </a>
+                            @if($item->item_type === 'service')
+                                <a href="{{ route('services.show', $item) }}"
+                                    class="inline-flex items-center px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg hover:bg-slate-200 transition-colors">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    Pregled
+                                </a>
+                            @else
+                                <a href="{{ route('listings.show', $item) }}"
+                                    class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    Pregled
+                                </a>
+                            @endif
 
                             <button
-                                onclick="navigator.clipboard.writeText('{{ route('listings.show', $listing) }}'); alert('Link kopiran!')"
+                                onclick="navigator.clipboard.writeText('{{ $item->item_type === 'service' ? route('services.show', $item) : route('listings.show', $item) }}'); alert('Link kopiran!')"
                                 class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
                                 <i class="fas fa-share-alt mr-1"></i>
                                 Podeli
                             </button>
 
-                            <button wire:click="removeFromFavorites({{ $listing->id }})"
-                                wire:confirm="Da li ste sigurni da želite da uklonite ovaj oglas iz omiljenih?"
+                            <button wire:click="removeFromFavorites({{ $item->id }}, '{{ $item->item_type }}')"
+                                wire:confirm="Da li ste sigurni da želite da uklonite {{ $item->item_type === 'service' ? 'ovu uslugu' : 'ovaj oglas' }} iz omiljenih?"
                                 class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
                                 <i class="fas fa-heart-broken mr-1"></i>
                                 Ukloni
@@ -289,11 +360,11 @@
     @else
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-heart text-slate-400 text-5xl mb-4"></i>
-            <h3 class="text-xl font-semibold text-slate-800 mb-2">Nemate omiljene oglase</h3>
-            <p class="text-slate-600 dark:text-slate-300 mb-4">Počnite da čuvate oglase koje volite klikom na srce.</p>
+            <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">Nemate omiljenih stavki</h3>
+            <p class="text-slate-600 dark:text-slate-300 mb-4">Počnite da čuvate oglase i usluge koje volite klikom na srce.</p>
             <a href="{{ route('home') }}"
                 class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
-                Pretraži oglase
+                Pretraži oglase i usluge
             </a>
         </div>
     @endif

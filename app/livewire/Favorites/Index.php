@@ -11,26 +11,32 @@ use App\Models\Favorite;
 class Index extends Component
 {
     use WithPagination;
-    
+
     public $sortBy = 'newest'; // newest, oldest, price_asc, price_desc
+    public $filterType = 'all'; // all, listings, services
 
     protected $listeners = [
         'favoriteRemoved' => '$refresh'
     ];
 
-    public function removeFromFavorites($listingId)
+    public function removeFromFavorites($listingId, $type = 'listing')
     {
         if (!Auth::check()) {
             return;
         }
 
-        $favorite = Favorite::where('user_id', Auth::id())
-                           ->where('listing_id', $listingId)
-                           ->first();
+        if ($type === 'listing') {
+            $favorite = Favorite::where('user_id', Auth::id())
+                               ->where('listing_id', $listingId)
+                               ->first();
 
-        if ($favorite) {
-            $favorite->delete();
-            session()->flash('success', 'Oglas je uklonjen iz omiljenih.');
+            if ($favorite) {
+                $favorite->delete();
+                session()->flash('success', 'Oglas je uklonjen iz omiljenih.');
+            }
+        } else if ($type === 'service') {
+            Auth::user()->removeServiceFromFavorites(\App\Models\Service::find($listingId));
+            session()->flash('success', 'Usluga je uklonjena iz omiljenih.');
         }
 
         $this->dispatch('favoriteRemoved');
@@ -42,32 +48,80 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function setFilterType($type)
+    {
+        $this->filterType = $type;
+        $this->resetPage();
+    }
+
     public function getFavoritesProperty()
     {
         if (!Auth::check()) {
             return collect([]);
         }
 
-        $query = Auth::user()->favoriteListings()
-                           ->with(['images', 'category', 'user'])
-                           ->where('status', 'active');
+        $favorites = collect();
 
+        // Get favorite listings
+        if ($this->filterType === 'all' || $this->filterType === 'listings') {
+            $listings = Auth::user()->favoriteListings()
+                                   ->with(['images', 'category', 'user'])
+                                   ->where('status', 'active')
+                                   ->get()
+                                   ->map(function($listing) {
+                                       $listing->item_type = 'listing';
+                                       $listing->sort_price = $listing->price;
+                                       $listing->sort_date = $listing->pivot->created_at;
+                                       return $listing;
+                                   });
+            $favorites = $favorites->concat($listings);
+        }
+
+        // Get favorite services
+        if ($this->filterType === 'all' || $this->filterType === 'services') {
+            $services = Auth::user()->serviceFavorites()
+                                   ->with(['images', 'category', 'user'])
+                                   ->where('status', 'active')
+                                   ->get()
+                                   ->map(function($service) {
+                                       $service->item_type = 'service';
+                                       $service->sort_price = $service->price_type === 'negotiable' ? 0 : $service->price;
+                                       $service->sort_date = $service->pivot->created_at;
+                                       return $service;
+                                   });
+            $favorites = $favorites->concat($services);
+        }
+
+        // Sort the combined collection
         switch ($this->sortBy) {
             case 'oldest':
-                $query->orderBy('favorites.created_at', 'asc');
+                $favorites = $favorites->sortBy('sort_date');
                 break;
             case 'price_asc':
-                $query->orderBy('price', 'asc');
+                $favorites = $favorites->sortBy('sort_price');
                 break;
             case 'price_desc':
-                $query->orderBy('price', 'desc');
+                $favorites = $favorites->sortByDesc('sort_price');
                 break;
             default: // newest
-                $query->orderBy('favorites.created_at', 'desc');
+                $favorites = $favorites->sortByDesc('sort_date');
                 break;
         }
 
-        return $query->paginate(12);
+        // Manual pagination
+        $perPage = 12;
+        $page = request()->get('page', 1);
+        $total = $favorites->count();
+
+        $items = $favorites->slice(($page - 1) * $perPage, $perPage)->values();
+
+        return new \Illuminate\Pagination\LengthAwarePaginator(
+            $items,
+            $total,
+            $perPage,
+            $page,
+            ['path' => request()->url()]
+        );
     }
 
     public function render()
