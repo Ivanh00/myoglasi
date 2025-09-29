@@ -153,6 +153,7 @@
                     </div>
 
                     <!-- Plan Comparison -->
+                    @if (auth()->user()->payment_enabled)
                     <div class="mb-8">
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Poređenje planova</h3>
                         <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
@@ -196,8 +197,10 @@
                             </div>
                         </div>
                     </div>
+                    @endif
 
                     <!-- Action Buttons -->
+                    @if (auth()->user()->payment_enabled)
                     <div class="flex justify-between items-center">
                         <button type="button" wire:click="cancelPlanSelection"
                             class="px-6 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors">
@@ -221,6 +224,7 @@
                             @endif
                         </button>
                     </div>
+                    @endif
 
                     @error('selectedPlan')
                         <p class="text-red-600 dark:text-red-400 text-sm mt-2">{{ $message }}</p>
