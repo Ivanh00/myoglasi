@@ -24,7 +24,7 @@
 
     <!-- Mobile kategorija dropdown -->
     <div class="md:hidden mb-6">
-        <div class="bg-green-50 dark:bg-slate-700 rounded-lg shadow-md p-4">
+        <div class="bg-green-50 dark:bg-green-900/50 border border-green-200 dark:border-green-600 rounded-lg shadow-md p-4">
             <div class="text-slate-600 dark:text-slate-300 mb-2">
                 Pronađeno poklona: <span class="font-semibold">{{ $giveaways->total() }}</span>
                 @if ($selectedCategory)
@@ -179,7 +179,7 @@
     </div>
 
 
-    <div class="bg-green-50 dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6 hidden md:block">
+    <div class="bg-green-50 dark:bg-green-900/50 border border-green-200 dark:border-green-600 rounded-lg shadow-md p-4 mb-6 hidden md:block">
         <!-- Desktop Layout -->
         <div class="hidden md:block">
             <!-- Results Info (Desktop - Left aligned) -->
@@ -525,7 +525,7 @@
 
                             <!-- Desna strana - akcije -->
                             <div
-                                class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-green-50 dark:bg-slate-600">
+                                class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-green-50 dark:bg-green-900/50">
                                 <div class="flex flex-col h-full justify-between">
                                     <div
                                         class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-300 mb-4">

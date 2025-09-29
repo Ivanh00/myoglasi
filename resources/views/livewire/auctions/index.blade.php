@@ -44,7 +44,7 @@
 
     <!-- Mobile kategorija dropdown -->
     <div class="md:hidden mb-6">
-        <div class="bg-amber-50 dark:bg-slate-700 rounded-lg shadow-md p-4">
+        <div class="bg-amber-50 dark:bg-amber-900/50 border border-amber-200 dark:border-amber-600 rounded-lg shadow-md p-4">
             <div class="text-slate-600 dark:text-slate-300 mb-2">
                 @if($selectedCategory && $currentCategory)
                     Aukcija u kategoriji "{{ $currentCategory->name }}": <span class="font-semibold">{{ $auctions->total() }}</span>
@@ -219,7 +219,7 @@
     </div>
 
 
-    <div class="bg-amber-50 dark:bg-slate-700 rounded-lg shadow-md p-4 mb-6 hidden md:block">
+    <div class="bg-amber-50 dark:bg-amber-900/50 border border-amber-200 dark:border-amber-600 rounded-lg shadow-md p-4 mb-6 hidden md:block">
         <!-- Desktop Layout -->
         <div class="hidden md:block">
             <!-- Results Info (Desktop - Left aligned) -->
