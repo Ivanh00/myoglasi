@@ -465,7 +465,7 @@
             <!-- Listing Description -->
             <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6">
                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">Opis proizvoda</h3>
-                <div class="text-slate-700 dark:text-slate-200 whitespace-pre-line">
+                <div class="text-slate-700 dark:text-slate-200">
                     {{ $auction->listing->description }}
                 </div>
             </div>
