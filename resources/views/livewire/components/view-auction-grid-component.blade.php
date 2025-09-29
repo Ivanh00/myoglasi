@@ -1,8 +1,8 @@
 @props(['auction'])
 
-<div class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-amber-500">
+<div class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-amber-500 flex flex-col h-full">
     <!-- Image -->
-    <div class="w-full h-48 relative">
+    <div class="w-full h-48 relative flex-shrink-0">
         @if ($auction->listing->images->count() > 0)
             <img src="{{ $auction->listing->images->first()->url }}"
                 alt="{{ $auction->listing->title }}" class="w-full h-full object-cover">
@@ -51,17 +51,20 @@
         </div>
 
         @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
-            <div class="mb-3">
+            <div>
                 <div class="text-xs text-slate-500 dark:text-slate-300">Kupi odmah:</div>
                 <div class="text-base font-bold text-green-600 dark:text-green-400">
                     {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
                 </div>
             </div>
+        @else
+            <!-- Empty placeholder to maintain consistent height -->
+            <div class="h-10"></div>
         @endif
     </div>
 
-    <!-- Bottom section -->
-    <div class="bg-amber-50 dark:bg-amber-900 p-4">
+    <!-- Bottom section - now always starts at same position -->
+    <div class="bg-amber-50 dark:bg-amber-900 p-4 flex flex-col justify-between flex-grow mt-auto">
         <div class="text-center mb-3">
             <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
                 @if ($auction->time_left)
@@ -71,7 +74,7 @@
             <div class="text-xs text-amber-600 dark:text-amber-400">vremena ostalo</div>
         </div>
 
-        <div class="space-y-2">
+        <div class="space-y-2 mt-auto">
             @auth
                 @if (auth()->id() === $auction->user_id)
                     <a href="{{ route('listings.edit', $auction->listing) }}"
@@ -80,19 +83,19 @@
                     </a>
                 @else
                     <a href="{{ route('auction.show', $auction) }}"
-                        class="block w-full text-center px-3 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors text-sm">
+                        class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
                         <i class="fas fa-gavel mr-2"></i> Licitiraj
                     </a>
                     @if ($auction->buy_now_price && $auction->current_price < $auction->buy_now_price)
                         <a href="{{ route('auction.show', $auction) }}"
-                            class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-xs">
+                            class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
                             <i class="fas fa-shopping-cart mr-1"></i> Kupi odmah
                         </a>
                     @endif
                 @endif
             @else
                 <a href="{{ route('login') }}"
-                    class="block w-full text-center px-3 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors text-sm">
+                    class="block w-full text-center px-3 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
                     <i class="fas fa-sign-in-alt mr-2"></i> Prijavite se
                 </a>
             @endauth
