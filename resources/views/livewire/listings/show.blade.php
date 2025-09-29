@@ -116,7 +116,15 @@
                                     @foreach ($listing->images as $index => $image)
                                         <div
                                             class="cursor-pointer border-2 rounded-lg overflow-hidden
-                                    {{ $index === 0 ? 'border-sky-500' : 'border-slate-200' }}">
+                                    @if($index === 0)
+                                        @if($listing->isGiveaway())
+                                            border-green-500
+                                        @else
+                                            border-sky-500
+                                        @endif
+                                    @else
+                                        border-slate-200
+                                    @endif">
                                             <img src="{{ $image->url }}"
                                                 alt="{{ $listing->title }} - slika {{ $index + 1 }}"
                                                 class="w-full h-20 object-cover"
@@ -785,16 +793,20 @@
         // Postavi glavnu sliku
         document.getElementById('mainImage').src = src;
 
+        // Determine border color based on listing type
+        const isGiveaway = {{ $listing->isGiveaway() ? 'true' : 'false' }};
+        const borderColor = isGiveaway ? 'border-green-500' : 'border-sky-500';
+
         // Ukloni prethodni border
-        document.querySelectorAll('.border-sky-500').forEach(item => {
-            item.classList.remove('border-sky-500');
+        document.querySelectorAll('.border-sky-500, .border-green-500').forEach(item => {
+            item.classList.remove('border-sky-500', 'border-green-500');
             item.classList.add('border-slate-200');
         });
 
         // Dodaj border na selektovanu sliku
         if (element && element.parentElement) {
             element.parentElement.classList.remove('border-slate-200');
-            element.parentElement.classList.add('border-sky-500');
+            element.parentElement.classList.add(borderColor);
         }
     }
 

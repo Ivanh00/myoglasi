@@ -69,7 +69,7 @@
                                 @foreach ($service->images as $index => $image)
                                     <div
                                         class="cursor-pointer border-2 rounded-lg overflow-hidden
-                                {{ $index === 0 ? 'border-sky-500' : 'border-slate-200' }}">
+                                {{ $index === 0 ? 'border-slate-500' : 'border-slate-200' }}">
                                         <img src="{{ $image->url }}"
                                             alt="{{ $service->title }} - slika {{ $index + 1 }}"
                                             class="w-full h-20 object-cover"
@@ -462,15 +462,15 @@
         document.getElementById('mainImage').src = src;
 
         // Ukloni prethodni border
-        document.querySelectorAll('.border-sky-500').forEach(item => {
-            item.classList.remove('border-sky-500');
+        document.querySelectorAll('.border-slate-500').forEach(item => {
+            item.classList.remove('border-slate-500');
             item.classList.add('border-slate-200');
         });
 
         // Dodaj border na selektovanu sliku
         if (element && element.parentElement) {
             element.parentElement.classList.remove('border-slate-200');
-            element.parentElement.classList.add('border-sky-500');
+            element.parentElement.classList.add('border-slate-500');
         }
     }
 
