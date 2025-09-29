@@ -55,10 +55,10 @@
 
         <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
             <i class="fas fa-map-marker-alt mr-1"></i>
-            <span>{{ Str::limit($auction->listing->location, 15) }}</span>
+            <span class="truncate">{{ Str::limit($auction->listing->location, 15) }}</span>
             <span class="mx-2">•</span>
             <i class="fas fa-folder mr-1"></i>
-            <span>{{ $auction->listing->category->name }}</span>
+            <span class="truncate">{{ Str::limit($auction->listing->category->name, 15) }}</span>
         </div>
 
         <p class="text-slate-700 dark:text-slate-200 mb-3 text-sm"
