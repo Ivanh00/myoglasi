@@ -2,7 +2,7 @@
 
 <!-- List View -->
 <div
-    class="listing-card {{ $listing->isHighlighted() ? 'bg-amber-100 dark:bg-amber-900 border-2 border-amber-400 dark:border-amber-600' : 'bg-white dark:bg-slate-700 border-l-4 border-sky-500' }} rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    class="listing-card {{ $listing->isHighlighted() ? 'bg-amber-100 dark:bg-amber-900 border-2 border-amber-400 dark:border-amber-600' : 'bg-white dark:bg-slate-700 border-l-4 ' . ($listing->isGiveaway() ? 'border-green-500' : 'border-sky-500') }} rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
     <div class="flex flex-col md:flex-row">
         <!-- Slika oglasa - responsive -->
         <div class="w-full md:w-48 md:min-w-48 h-48"> <!-- Full width na mobile -->
@@ -139,7 +139,7 @@
 
         <!-- Desna strana - akcije i dodatne informacije -->
         <div
-            class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 {{ $listing->isHighlighted() ? 'bg-amber-50 dark:bg-amber-800' : 'bg-sky-50 dark:bg-slate-600' }}">
+            class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 {{ $listing->isHighlighted() ? 'bg-amber-50 dark:bg-amber-800' : ($listing->isGiveaway() ? 'bg-green-50 dark:bg-green-900/50' : 'bg-sky-50 dark:bg-sky-900/50') }}">
             <div class="flex flex-col h-full justify-between">
                 <div
                     class="flex items-center justify-between text-sm text-slate-500 dark:text-slate-300 mb-4">
@@ -177,7 +177,7 @@
                             @endif
 
                             <a href="{{ route('listings.edit', $listing) }}"
-                                class="block w-full text-center px-3 py-2 {{ $listing->auction ? 'bg-amber-600 hover:bg-amber-700' : 'bg-sky-600 hover:bg-sky-700' }} text-white rounded-lg transition-colors text-sm">
+                                class="block w-full text-center px-3 py-2 {{ $listing->auction ? 'bg-amber-600 hover:bg-amber-700' : ($listing->isGiveaway() ? 'bg-green-600 hover:bg-green-700' : 'bg-sky-600 hover:bg-sky-700') }} text-white rounded-lg transition-colors text-sm">
                                 @if ($listing->auction)
                                     <i class="fas fa-gavel mr-2"></i> Uredi aukciju
                                 @else
@@ -187,14 +187,14 @@
                         @else
                             <!-- Regular view button -->
                             <a href="{{ route('listings.show', $listing) }}"
-                                class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm">
+                                class="block w-full text-center px-3 py-2 {{ $listing->isGiveaway() ? 'bg-green-600 hover:bg-green-700' : 'bg-sky-600 hover:bg-sky-700' }} text-white rounded-lg transition-colors text-sm">
                                 <i class="fas fa-eye mr-2"></i> Pregled
                             </a>
                         @endif
                     @else
                         <!-- Guest user button -->
                         <a href="{{ route('listings.show', $listing) }}"
-                            class="block w-full text-center px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm">
+                            class="block w-full text-center px-3 py-2 {{ $listing->isGiveaway() ? 'bg-green-600 hover:bg-green-700' : 'bg-sky-600 hover:bg-sky-700' }} text-white rounded-lg transition-colors text-sm">
                             <i class="fas fa-eye mr-2"></i> Pregled
                         </a>
                     @endauth

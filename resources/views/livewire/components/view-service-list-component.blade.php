@@ -126,7 +126,7 @@
 
         <!-- Desna strana - dodatne informacije i dugmad -->
         <div
-            class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800">
+            class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50">
             <div class="flex flex-col h-full justify-between">
                 <!-- Stats -->
                 <div class="mb-4 space-y-2">

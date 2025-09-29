@@ -97,7 +97,7 @@
 
         <!-- Sidebar -->
         <div
-            class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-amber-900">
+            class="md:w-48 md:min-w-48 p-4 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-600 bg-amber-50 dark:bg-amber-900/50">
             <div class="flex flex-col h-full justify-between">
                 <div class="text-center mb-4">
                     <div class="text-lg font-bold text-amber-700 dark:text-amber-200">
