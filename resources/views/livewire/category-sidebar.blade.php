@@ -436,6 +436,22 @@ $categoryTree = isset($categoryTree)
 
             </div>
         @endif
+    @else
+        <!-- Guest User Sidebar -->
+        <div class="border-t mt-4 pt-4 p-2">
+            <div class="space-y-2">
+                <a href="{{ route('login') }}"
+                    class="flex items-center justify-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 transition-colors">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Prijavi se
+                </a>
+                <a href="{{ route('register') }}"
+                    class="flex items-center justify-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 transition-colors">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Registruj se
+                </a>
+            </div>
+        </div>
     @endauth
 </div>
 
