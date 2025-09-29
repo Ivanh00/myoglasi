@@ -64,25 +64,19 @@
                 </p>
             @endauth
 
-            <p class="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-2">
-                {{ Str::limit($service->description, 100) }}
-            </p>
-
-            <!-- Kategorija -->
-            @if ($service->serviceCategory)
-                <div class="flex items-center text-xs text-slate-600 dark:text-slate-400 mb-3">
-                    @if ($service->serviceCategory->icon)
-                        <i class="{{ $service->serviceCategory->icon }} mr-1"></i>
-                    @endif
-                    {{ $service->serviceCategory->name }}
-                </div>
-            @endif
-
-            <!-- Lokacija -->
-            <div class="flex items-center text-xs text-slate-600 dark:text-slate-400 mb-3">
+            <!-- Lokacija i kategorija -->
+            <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                 <i class="fas fa-map-marker-alt mr-1"></i>
-                {{ $service->location }}
+                <span>{{ Str::limit($service->location, 15) }}</span>
+                <span class="mx-2">•</span>
+                <i class="fas fa-folder mr-1"></i>
+                <span>{{ $service->category ? $service->category->name : 'Bez kategorije' }}</span>
             </div>
+
+            <p class="text-slate-700 dark:text-slate-200 mb-3 text-sm"
+                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                {{ Str::limit(strip_tags($service->description), 80) }}
+            </p>
 
             <!-- Cena -->
             <div class="mb-3">
