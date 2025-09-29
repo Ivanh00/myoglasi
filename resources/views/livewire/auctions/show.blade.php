@@ -831,8 +831,9 @@
     @endif
 
     <!-- Remove from Auction Confirmation Modal -->
-    @if (auth()->check() && auth()->id() === $auction->user_id)
-        <div x-data="{ showRemoveAuctionModal: false }" x-show="showRemoveAuctionModal"
+    <div x-data="{ showRemoveAuctionModal: false }"
+        @if (auth()->check() && auth()->id() === $auction->user_id)
+        x-show="showRemoveAuctionModal"
             x-on:open-remove-auction-modal.window="showRemoveAuctionModal = true"
             x-on:close-remove-auction-modal.window="showRemoveAuctionModal = false"
             x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
@@ -970,12 +971,15 @@
                     </div>
                 </div>
             </div>
-        </div>
-    @endif
-</div>
+        @else
+            <!-- Empty div when not authorized -->
+        @endif
+    </div>
 
-<!-- Real-time countdown script using Carbon data -->
-<script>
+    </div>  <!-- Close wrapper div from line 3 -->
+
+    <!-- Real-time countdown script using Carbon data -->
+    <script>
     // Image gallery function
     function changeMainImage(src, element) {
         // Set main image
@@ -1053,105 +1057,50 @@
     function shareAuction() {
         const url = window.location.href;
         const title = '{{ $auction->listing->title }}';
-        const text = `{{ $auction->listing->title }} - Aukcija na PazAriO`;
+        const text = title + ' - Aukcija na PazAriO';
 
-        // Always show share popup with all options
-        showSharePopup(url, title, text);
-    }
-
-    function showSharePopup(url, title, text) {
-        // Detect if mobile
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-
-        // Remove existing popup if any
-        const existingPopup = document.getElementById('sharePopup');
-        if (existingPopup) {
-            existingPopup.remove();
+        // Check if mobile and has native share
+        if (navigator.share && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // Use native share on mobile
+            navigator.share({
+                title: title,
+                text: text,
+                url: url
+            }).catch(err => {
+                // If share fails, copy to clipboard
+                copyToClipboard(url);
+            });
+        } else {
+            // Desktop or no native share - copy to clipboard
+            copyToClipboard(url);
         }
-
-        // Create popup HTML
-        const popupHTML = `
-            <div id="sharePopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onclick="if(event.target === this) this.remove()">
-                <div class="bg-white dark:bg-slate-800 rounded-lg p-6 max-w-md w-full mx-4">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200">Podeli aukciju</h3>
-                        <button onclick="document.getElementById('sharePopup').remove()" class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-
-                    <div class="space-y-3">
-                        ${isMobile && navigator.share ? `
-                        <!-- Native Share (Mobile only) -->
-                        <button onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}'', text: '${text.replace(/'/g, "\\'")}'', url: '${url}'}).then(() => document.getElementById('sharePopup').remove())"
-                                class="flex items-center w-full p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fas fa-share-alt text-sky-600 text-xl w-8"></i>
-                            <span class="ml-3 text-slate-700 dark:text-slate-300">Podeli</span>
-                        </button>
-                        ` : ''}
-
-                        <!-- Facebook -->
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}"
-                           target="_blank"
-                           class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fab fa-facebook text-blue-600 text-xl w-8"></i>
-                            <span class="ml-3 text-slate-700 dark:text-slate-300">Facebook</span>
-                        </a>
-
-                        ${isMobile ? `
-                        <!-- Viber (Mobile only) -->
-                        <a href="viber://forward?text=${encodeURIComponent(text + ' ' + url)}"
-                           class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fab fa-viber text-purple-600 text-xl w-8"></i>
-                            <span class="ml-3 text-slate-700 dark:text-slate-300">Viber</span>
-                        </a>
-                        ` : ''}
-
-                        <!-- WhatsApp -->
-                        <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}"
-                           target="_blank"
-                           class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fab fa-whatsapp text-green-600 text-xl w-8"></i>
-                            <span class="ml-3 text-slate-700 dark:text-slate-300">WhatsApp</span>
-                        </a>
-
-                        <!-- Email -->
-                        <a href="mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(text + '\\n\\n' + url)}"
-                           class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fas fa-envelope text-indigo-600 text-xl w-8"></i>
-                            <span class="ml-3 text-slate-700 dark:text-slate-300">Pošalji Email</span>
-                        </a>
-
-                        <!-- Copy link -->
-                        <button onclick="copyLink('${url.replace(/'/g, "\\'")}')"
-                                class="flex items-center w-full p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fas fa-link text-slate-600 dark:text-slate-400 text-xl w-8"></i>
-                            <span class="ml-3 text-slate-700 dark:text-slate-300">Kopiraj link</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        // Add popup to body
-        document.body.insertAdjacentHTML('beforeend', popupHTML);
     }
 
-    function copyLink(url) {
+    function copyToClipboard(url) {
         navigator.clipboard.writeText(url).then(() => {
             // Show success message
-            const popup = document.getElementById('sharePopup');
-            if (popup) {
-                const button = popup.querySelector('button[onclick*="copyLink"]');
-                if (button) {
-                    const originalHTML = button.innerHTML;
-                    button.innerHTML = '<i class="fas fa-check text-green-600 text-xl w-8"></i><span class="ml-3 text-green-600">Link je kopiran!</span>';
-                    setTimeout(() => {
-                        button.innerHTML = originalHTML;
-                    }, 2000);
-                }
-            }
+            const message = document.createElement('div');
+            message.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
+
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-check mr-2';
+
+            const text = document.createElement('span');
+            text.textContent = 'Link je kopiran u clipboard!';
+
+            message.appendChild(icon);
+            message.appendChild(text);
+            document.body.appendChild(message);
+
+            setTimeout(() => {
+                message.style.opacity = '0';
+                message.style.transition = 'opacity 0.3s';
+                setTimeout(() => message.remove(), 300);
+            }, 2000);
+        }).catch(() => {
+            // Fallback for older browsers
+            prompt('Kopiraj link:', url);
         });
     }
-</script>
-</div>
+    </script>
+</div>  <!-- Close root div from line 1 -->

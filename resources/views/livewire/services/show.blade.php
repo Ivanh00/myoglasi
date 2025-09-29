@@ -480,115 +480,48 @@
         const title = "{{ $service->title }}";
         const text = 'Pogledaj ovu uslugu: ' + title;
 
-        // Always show share popup with all options
-        showSharePopup(url, title, text);
-    }
-
-    function showSharePopup(url, title, text) {
-        // Detect if mobile
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-
-        // Create popup overlay
-        const overlay = document.createElement('div');
-        overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
-        overlay.id = 'shareOverlay';
-
-        const popup = document.createElement('div');
-        popup.className = 'bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 max-w-md w-full mx-4';
-
-        popup.innerHTML = `
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Podeli uslugu</h3>
-                <button onclick="closeSharePopup()" class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-
-            <div class="space-y-3">
-                ${isMobile && navigator.share ? `
-                <!-- Native Share (Mobile only) -->
-                <button onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}'', text: '${text.replace(/'/g, "\\'")}'', url: '${url}'}).then(() => closeSharePopup())"
-                        class="w-full flex items-center p-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
-                    <i class="fas fa-share-alt w-6"></i>
-                    <span class="ml-3">Podeli</span>
-                </button>
-                ` : ''}
-
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}"
-                   target="_blank"
-                   class="flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                    <i class="fab fa-facebook-f w-6"></i>
-                    <span class="ml-3">Podeli na Facebook-u</span>
-                </a>
-
-                ${isMobile ? `
-                <!-- Viber (Mobile only) -->
-                <a href="viber://forward?text=${encodeURIComponent(text + ' ' + url)}"
-                   class="flex items-center p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                    <i class="fab fa-viber w-6"></i>
-                    <span class="ml-3">Podeli na Viber-u</span>
-                </a>
-                ` : ''}
-
-                <!-- WhatsApp -->
-                <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}"
-                   target="_blank"
-                   class="flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                    <i class="fab fa-whatsapp w-6"></i>
-                    <span class="ml-3">Podeli na WhatsApp-u</span>
-                </a>
-
-                <!-- Email -->
-                <a href="mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(text + '\\n\\n' + url)}"
-                   class="flex items-center p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                    <i class="fas fa-envelope w-6"></i>
-                    <span class="ml-3">Pošalji Email</span>
-                </a>
-
-                <!-- Copy Link -->
-                <button onclick="copyToClipboard('${url}')"
-                        class="w-full flex items-center p-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors">
-                    <i class="fas fa-link w-6"></i>
-                    <span class="ml-3">Kopiraj link</span>
-                </button>
-            </div>
-        `;
-
-        overlay.appendChild(popup);
-        document.body.appendChild(overlay);
-
-        // Close popup when clicking overlay
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) {
-                closeSharePopup();
-            }
-        });
-    }
-
-    function closeSharePopup() {
-        const overlay = document.getElementById('shareOverlay');
-        if (overlay) {
-            overlay.remove();
+        // Check if mobile and has native share
+        if (navigator.share && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // Use native share on mobile
+            navigator.share({
+                title: title,
+                text: text,
+                url: url
+            }).catch(err => {
+                // If share fails, copy to clipboard
+                copyToClipboard(url);
+            });
+        } else {
+            // Desktop or no native share - copy to clipboard
+            copyToClipboard(url);
         }
     }
 
     function copyToClipboard(url) {
-        navigator.clipboard.writeText(url).then(function() {
+        navigator.clipboard.writeText(url).then(() => {
             // Show success message
-            const button = event.currentTarget;
-            const originalContent = button.innerHTML;
-            button.innerHTML = '<i class="fas fa-check w-6"></i><span class="ml-3">Link kopiran!</span>';
-            button.classList.remove('bg-slate-600', 'hover:bg-slate-700');
-            button.classList.add('bg-green-600');
+            const message = document.createElement('div');
+            message.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
+
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-check mr-2';
+
+            const text = document.createElement('span');
+            text.textContent = 'Link je kopiran u clipboard!';
+
+            message.appendChild(icon);
+            message.appendChild(text);
+            document.body.appendChild(message);
 
             setTimeout(() => {
-                button.innerHTML = originalContent;
-                button.classList.remove('bg-green-600');
-                button.classList.add('bg-slate-600', 'hover:bg-slate-700');
+                message.style.opacity = '0';
+                message.style.transition = 'opacity 0.3s';
+                setTimeout(() => message.remove(), 300);
             }, 2000);
-        }).catch(function() {
-            prompt('Kopiraj ovaj link:', url);
+        }).catch(() => {
+            // Fallback for older browsers
+            prompt('Kopiraj link:', url);
         });
     }
+
 </script>
