@@ -277,10 +277,12 @@
                         <div class="flex space-x-2">
                             <a href="{{ route('login') }}"
                                 class="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400">
+                                <i class="fas fa-sign-in-alt mr-2"></i>
                                 Prijavi se
                             </a>
                             <a href="{{ route('register') }}"
-                                class="bg-sky-600 dark:bg-sky-500 text-white hover:bg-sky-700 dark:hover:bg-sky-600 px-4 py-2 rounded-md text-sm font-medium">
+                                class="inline-flex items-center bg-sky-600 dark:bg-sky-500 text-white hover:bg-sky-700 dark:hover:bg-sky-600 px-4 py-2 rounded-md text-sm font-medium">
+                                <i class="fas fa-user-plus mr-2"></i>
                                 Registruj se
                             </a>
                         </div>
@@ -347,15 +349,19 @@
                             @endif
                         </button>
                     @else
-                        <!-- Mobile Login Button -->
-                        <a href="{{ route('login') }}"
-                            class="inline-flex items-center justify-center w-10 h-10 border border-slate-300 rounded-full shadow-sm bg-white hover:bg-sky-50 focus:outline-none">
-                            <svg class="h-5 w-5 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                            </svg>
-                        </a>
+                        <!-- Mobile Login/Register Buttons -->
+                        <div class="flex items-center space-x-2">
+                            <!-- Mobile Login Button -->
+                            <a href="{{ route('login') }}"
+                                class="inline-flex items-center justify-center w-10 h-10 border border-slate-300 dark:border-slate-600 rounded-full shadow-sm bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 focus:outline-none">
+                                <i class="fas fa-sign-in-alt text-slate-700 dark:text-slate-200"></i>
+                            </a>
+                            <!-- Mobile Register Button -->
+                            <a href="{{ route('register') }}"
+                                class="inline-flex items-center justify-center w-10 h-10 bg-sky-600 dark:bg-sky-500 rounded-full shadow-sm text-white hover:bg-sky-700 dark:hover:bg-sky-600 focus:outline-none">
+                                <i class="fas fa-user-plus"></i>
+                            </a>
+                        </div>
                     @endauth
                 </div>
             </div>
