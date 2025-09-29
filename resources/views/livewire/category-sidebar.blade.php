@@ -45,13 +45,13 @@ $categoryTree = isset($categoryTree)
                     class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn light-theme
                     bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
                     <i class="fas fa-sun mr-1"></i>
-                    Light
+                    Svetla
                 </button>
                 <button onclick="setTheme('dark')"
                     class="flex items-center justify-center px-3 py-2 text-xs font-medium rounded-md transition-colors theme-btn dark-theme
                     bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700">
                     <i class="fas fa-moon mr-1"></i>
-                    Dark
+                    Tamna
                 </button>
             </div>
         </div>
@@ -381,14 +381,48 @@ $categoryTree = isset($categoryTree)
                     Dodaj oglas
                 </a>
 
-                <a href="{{ route('listings.my') }}"
-                    class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
-                    Moji oglasi
-                </a>
+                @php
+                    // Listings WITHOUT auctions (standard and giveaway, but not those with auctions)
+                    $myListingsCount = \App\Models\Listing::where('user_id', auth()->id())
+                        ->doesntHave('auction')
+                        ->count();
+
+                    // Listings WITH auctions
+                    $myAuctionsCount = \App\Models\Listing::where('user_id', auth()->id())
+                        ->has('auction')
+                        ->count();
+
+                    // Services are separate
+                    $myServicesCount = class_exists('\App\Models\Service') ?
+                        \App\Models\Service::where('user_id', auth()->id())->count() : 0;
+                @endphp
+
+                @if($myListingsCount > 0)
+                    <a href="{{ route('listings.my') }}"
+                        class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700">
+                        <i class="fas fa-list mr-3"></i>
+                        Moji oglasi
+                        <span class="ml-auto text-xs text-slate-500 dark:text-slate-400">({{ $myListingsCount }})</span>
+                    </a>
+                @endif
+
+                @if($myAuctionsCount > 0)
+                    <a href="{{ route('auctions.my') }}"
+                        class="flex items-center px-3 py-2 text-amber-600 dark:text-amber-400 rounded-lg hover:bg-amber-50 dark:hover:bg-slate-700">
+                        <i class="fas fa-gavel mr-3"></i>
+                        Moje aukcije
+                        <span class="ml-auto text-xs text-slate-500 dark:text-slate-400">({{ $myAuctionsCount }})</span>
+                    </a>
+                @endif
+
+                @if($myServicesCount > 0)
+                    <a href="{{ route('services.my') }}"
+                        class="flex items-center px-3 py-2 text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700">
+                        <i class="fas fa-tools mr-3"></i>
+                        Moje usluge
+                        <span class="ml-auto text-xs text-slate-500 dark:text-slate-400">({{ $myServicesCount }})</span>
+                    </a>
+                @endif
 
                 <!-- U sidebar.blade.php -->
                 <a href="{{ route('messages.inbox') }}"
