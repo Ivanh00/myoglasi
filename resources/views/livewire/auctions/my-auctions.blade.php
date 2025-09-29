@@ -1,6 +1,6 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
     <!-- Header with background -->
-    <div class="bg-amber-100 dark:bg-amber-900/50 rounded-t-lg px-6 py-4 mb-6">
+    <div class="bg-amber-100 dark:bg-amber-900/50 rounded-t-lg px-4 py-4 mb-6">
         <div class="flex justify-between items-center">
             <h1 class="text-xl font-semibold text-amber-900 dark:text-amber-100">Moje aukcije</h1>
             <a href="{{ route('listings.create') }}?type=auction"
@@ -84,19 +84,19 @@
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
                 <div class="grid grid-cols-[25%_20%_15%_15%_25%] bg-slate-50 dark:bg-slate-700">
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Oglas</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Početna/Trenutna cena</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Ponude</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Status</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Datum/Vreme</div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                     class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-amber-500">
                     <div class="grid grid-cols-[25%_20%_15%_15%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Oglas Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
                                     @if ($auction->listing->images->count() > 0)
@@ -130,7 +130,7 @@
                             </div>
                         </div>
                         <!-- Početna/Trenutna cena Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             <div class="text-sm">
                                 <div class="text-slate-600 dark:text-slate-300">Početna:
                                     {{ number_format($auction->starting_price, 0, ',', '.') }} RSD</div>
@@ -143,7 +143,7 @@
                             </div>
                         </div>
                         <!-- Ponude Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             <div class="text-sm">
                                 <div class="text-slate-900 dark:text-slate-100 font-semibold">
                                     {{ $auction->total_bids }} ponuda</div>
@@ -155,7 +155,7 @@
                             </div>
                         </div>
                         <!-- Status Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             <div class="flex flex-col items-start">
                                 @if ($auction->isActive())
                                     <span
@@ -193,7 +193,7 @@
                             </div>
                         </div>
                         <!-- Datum/Vreme Column -->
-                        <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-300">
+                        <div class="px-4 py-2 text-sm text-slate-500 dark:text-slate-300">
                             <div class="flex flex-col space-y-1">
                                 <div>Počinje: {{ $auction->starts_at->format('d.m.Y') }}
                                     {{ $auction->starts_at->format('H:i') }}</div>
@@ -203,7 +203,7 @@
                         </div>
                     </div>
                     <!-- Actions Row -->
-                    <div class="border-t border-slate-200 dark:border-slate-600 px-6 py-2 bg-slate-50 dark:bg-slate-700/50">
+                    <div class="border-t border-slate-200 dark:border-slate-600 px-4 py-2 bg-slate-50 dark:bg-slate-700/50">
                         <div class="flex flex-wrap gap-2">
                                 <a href="{{ route('auction.show', $auction) }}"
                                     class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">

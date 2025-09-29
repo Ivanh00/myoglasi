@@ -1,6 +1,6 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
     <!-- Header with background -->
-    <div class="bg-sky-100 dark:bg-sky-900/50 rounded-t-lg px-6 py-4 mb-6">
+    <div class="bg-sky-100 dark:bg-sky-900/50 rounded-t-lg px-4 py-4 mb-6">
         <div class="flex justify-between items-center">
             <h1 class="text-xl font-semibold text-sky-900 dark:text-sky-100">Moji oglasi</h1>
             <a href="{{ route('listings.create') }}"
@@ -67,16 +67,16 @@
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
                 <div class="grid grid-cols-[35%_20%_20%_25%] bg-slate-50 dark:bg-slate-700">
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Oglas</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Cena</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Status</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Datum</div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                 <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 {{ $listing->isGiveaway() ? 'border-green-500' : 'border-sky-500' }}">
                     <div class="grid grid-cols-[35%_20%_20%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Oglas Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
                                     @if ($listing->images->count() > 0)
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                         <!-- Cena Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             <div class="text-sm text-slate-900 dark:text-slate-100 font-bold whitespace-nowrap">
                                 @if ($listing->isGiveaway())
                                     <span class="text-green-600 dark:text-green-400">BESPLATNO</span>
@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <!-- Status Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             <div class="flex flex-col items-start">
                                 @if ($listing->isExpired() || $listing->status == 'expired')
                                     <span
@@ -162,7 +162,7 @@
                             </div>
                         </div>
                         <!-- Datum Column -->
-                        <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-300">
+                        <div class="px-4 py-2 text-sm text-slate-500 dark:text-slate-300">
                             <div class="flex flex-col">
                                 <span>{{ $listing->created_at->format('d.m.Y') }}</span>
                                 @if ($listing->renewed_at)
@@ -177,7 +177,7 @@
                         </div>
                     </div>
                     <!-- Actions Row -->
-                    <div class="border-t border-slate-200 dark:border-slate-600 px-6 py-2 bg-slate-50 dark:bg-slate-700/50">
+                    <div class="border-t border-slate-200 dark:border-slate-600 px-4 py-2 bg-slate-50 dark:bg-slate-700/50">
                         <div class="flex flex-wrap gap-2">
                                 <a href="{{ route('listings.show', $listing) }}"
                                     class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">

@@ -1,6 +1,6 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
     <!-- Header with background -->
-    <div class="bg-slate-200 dark:bg-slate-700 rounded-t-lg px-6 py-4 mb-6">
+    <div class="bg-slate-200 dark:bg-slate-700 rounded-t-lg px-4 py-4 mb-6">
         <div class="flex justify-between items-center">
             <h1 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Moje usluge</h1>
             <a href="{{ route('services.create') }}"
@@ -72,19 +72,19 @@
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
                 <div class="grid grid-cols-[40%_20%_15%_10%_15%] bg-slate-50 dark:bg-slate-700">
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Usluga</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Cena</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Status</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Pregledi</div>
                     <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Datum</div>
                 </div>
             </div>
@@ -94,7 +94,7 @@
                 <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden border-l-4 border-slate-500">
                     <div class="grid grid-cols-[40%_20%_15%_10%_15%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Usluga Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             <div class="flex items-center">
                                 @if ($service->images->count() > 0)
                                     <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
@@ -126,13 +126,13 @@
                             </div>
                         </div>
                         <!-- Cena Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             <div class="text-sm text-slate-900 dark:text-slate-100 whitespace-nowrap">
                                 {{ number_format($service->price, 2) }} RSD
                             </div>
                         </div>
                         <!-- Status Column -->
-                        <div class="px-6 py-2">
+                        <div class="px-4 py-2">
                             @if ($service->status === 'active')
                                 <span
                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">
@@ -146,16 +146,16 @@
                             @endif
                         </div>
                         <!-- Pregledi Column -->
-                        <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-300 whitespace-nowrap">
+                        <div class="px-4 py-2 text-sm text-slate-500 dark:text-slate-300 whitespace-nowrap">
                             {{ $service->views ?? 0 }}
                         </div>
                         <!-- Datum Column -->
-                        <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-300 whitespace-nowrap">
+                        <div class="px-4 py-2 text-sm text-slate-500 dark:text-slate-300 whitespace-nowrap">
                             {{ $service->created_at->format('d.m.Y') }}
                         </div>
                     </div>
                     <!-- Actions Row -->
-                    <div class="border-t border-slate-200 dark:border-slate-600 px-6 py-2 bg-slate-50 dark:bg-slate-700/50">
+                    <div class="border-t border-slate-200 dark:border-slate-600 px-4 py-2 bg-slate-50 dark:bg-slate-700/50">
                         <div class="flex flex-wrap gap-2">
                                 <a href="{{ route('services.show', $service->slug) }}"
                                     class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
