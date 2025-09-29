@@ -1,13 +1,17 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
-    <!-- Naslov -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Moje aukcije</h1>
-        <p class="text-slate-600 dark:text-slate-300 mt-2">Upravljajte svojim aukcijama</p>
+    <!-- Header with background -->
+    <div class="bg-amber-100 dark:bg-amber-900/50 rounded-t-lg px-6 py-4 mb-6">
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl font-semibold text-amber-900 dark:text-amber-100">Moje aukcije</h1>
+            <a href="{{ route('listings.create') }}?type=auction"
+                class="inline-flex items-center px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm">
+                <i class="fas fa-plus mr-2"></i> Dodaj novu aukciju
+            </a>
+        </div>
     </div>
 
     <!-- Filter -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
-        <div></div> <!-- Empty div for spacing -->
+    <div class="flex justify-end mb-6">
 
         <!-- Filter -->
         <div class="flex items-center space-x-4">

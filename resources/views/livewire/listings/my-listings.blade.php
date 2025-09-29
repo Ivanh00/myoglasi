@@ -1,18 +1,18 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
-    <!-- Naslov -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Moji oglasi</h1>
-        <p class="text-slate-600 dark:text-slate-400 mt-2">Upravljajte svojim oglasima</p>
+    <!-- Header with background -->
+    <div class="bg-sky-100 dark:bg-sky-900/50 rounded-t-lg px-6 py-4 mb-6">
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl font-semibold text-sky-900 dark:text-sky-100">Moji oglasi</h1>
+            <a href="{{ route('listings.create') }}"
+                class="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors text-sm">
+                <i class="fas fa-plus mr-2"></i> Dodaj novi oglas
+            </a>
+        </div>
     </div>
 
-    <!-- Dugme za dodavanje novog oglasa i filter -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
-        <a href="{{ route('listings.create') }}"
-            class="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
-            <i class="fas fa-plus mr-2"></i> Dodaj novi oglas
-        </a>
+    <!-- Filter -->
+    <div class="flex justify-end mb-6">
 
-        <!-- Filter -->
         <div class="flex items-center space-x-4">
             <label class="text-sm font-medium text-slate-700 dark:text-slate-200">Prikaži:</label>
             <div class="w-60" x-data="{ open: false }" x-init="open = false">

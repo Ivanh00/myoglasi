@@ -1,13 +1,13 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
-    <div class="mb-6 flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Moje usluge</h1>
-            <p class="text-slate-600 dark:text-slate-400">Upravljajte svojim uslugama</p>
+    <!-- Header with background -->
+    <div class="bg-slate-100 dark:bg-slate-700/50 rounded-t-lg px-6 py-4 mb-6">
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Moje usluge</h1>
+            <a href="{{ route('services.create') }}"
+                class="inline-flex items-center px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm">
+                <i class="fas fa-plus mr-2"></i> Dodaj novu uslugu
+            </a>
         </div>
-        <a href="{{ route('services.create') }}"
-            class="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
-            <i class="fas fa-plus mr-2"></i> Dodaj novu uslugu
-        </a>
     </div>
 
     <!-- Search and filters -->
