@@ -152,10 +152,10 @@
                         </div>
                         <!-- Status Column -->
                         <div class="px-6 py-2">
-                            <div class="flex flex-col">
+                            <div class="flex flex-col items-start">
                                 @if ($auction->isActive())
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1">Aktivna</span>
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1 w-fit">Aktivna</span>
                                     @if ($auction->time_left)
                                         <span
                                             class="text-xs text-slate-500 dark:text-slate-300">{{ $auction->time_left['formatted'] }}
@@ -163,7 +163,7 @@
                                     @endif
                                 @elseif($auction->hasEnded())
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">Završena</span>
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1 w-fit">Završena</span>
                                     @if ($auction->winner)
                                         <span class="text-xs text-green-600">Pobednik:
                                             {{ $auction->winner->name }}</span>
@@ -172,7 +172,7 @@
                                     @endif
                                 @else
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200">
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200 w-fit">
                                         @if($auction->status === 'active' && $auction->starts_at->isFuture())
                                             Zakazana
                                         @elseif($auction->status === 'active')

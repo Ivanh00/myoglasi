@@ -118,24 +118,24 @@
                         </div>
                         <!-- Status Column -->
                         <div class="px-6 py-2">
-                            <div class="flex flex-col">
+                            <div class="flex flex-col items-start">
                                 @if ($listing->isExpired() || $listing->status == 'expired')
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1">Istekao</span>
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 mb-1 w-fit">Istekao</span>
                                     @if ($listing->expires_at)
                                         <span class="text-xs text-slate-500 dark:text-slate-300">Istekao
                                             {{ $listing->expires_at->format('d.m.Y') }}</span>
                                     @endif
                                 @elseif ($listing->status == 'active')
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1">Aktivan</span>
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1 w-fit">Aktivan</span>
                                     @if ($listing->expires_at)
                                         @php
                                             $daysLeft = now()->diffInDays($listing->expires_at, false);
                                             $daysLeft = max(0, (int) $daysLeft); // Ensure positive number
                                         @endphp
                                         <span
-                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full w-fit
                                                 @if ($daysLeft <= 5) bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200
                                                 @elseif($daysLeft <= 10) bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200
                                                 @elseif($daysLeft > 10) bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200
@@ -153,11 +153,11 @@
                                     @endif
                                 @elseif($listing->status == 'pending')
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200">Na
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200 w-fit">Na
                                         čekanju</span>
                                 @else
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">{{ ucfirst($listing->status) }}</span>
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 w-fit">{{ ucfirst($listing->status) }}</span>
                                 @endif
                             </div>
                         </div>
