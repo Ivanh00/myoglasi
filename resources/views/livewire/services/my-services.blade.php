@@ -1,6 +1,6 @@
 <div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
     <!-- Header with background -->
-    <div class="bg-slate-100 dark:bg-slate-700/50 rounded-t-lg px-6 py-4 mb-6">
+    <div class="bg-slate-200 dark:bg-slate-700 rounded-t-lg px-6 py-4 mb-6">
         <div class="flex justify-between items-center">
             <h1 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Moje usluge</h1>
             <a href="{{ route('services.create') }}"
