@@ -89,62 +89,62 @@
         </div>
     @endif
 
-    <!-- Desktop Tabela oglasa -->
+    <!-- Desktop Lista -->
     @if ($favorites->count() > 0)
-        <div class="hidden lg:block bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
-            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-600">
-                <thead class="bg-slate-50 dark:bg-slate-700">
-                    <tr>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                            Oglas</th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                            Cena</th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                            Status</th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                            Dodato</th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                            Akcije</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-600">
-                    @foreach ($favorites as $item)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        @if ($item->images->count() > 0)
-                                            <img class="h-10 w-10 rounded-full object-cover"
-                                                src="{{ $item->images->first()->url }}" alt="{{ $item->title }}">
+        <div class="hidden lg:block space-y-1">
+            <!-- Header -->
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+                <div class="grid grid-cols-[35%_20%_20%_25%] bg-slate-50 dark:bg-slate-700">
+                    <div class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        Stavka</div>
+                    <div class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        Cena</div>
+                    <div class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        Status</div>
+                    <div class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                        Dodato</div>
+                </div>
+            </div>
+
+            <!-- Data Rows -->
+            @foreach ($favorites as $item)
+                <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 {{ $item->item_type === 'service' ? 'border-slate-500' : (method_exists($item, 'isGiveaway') && $item->isGiveaway() ? 'border-green-500' : 'border-sky-500') }}">
+                    <div class="grid grid-cols-[35%_20%_20%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
+                        <!-- Stavka Column -->
+                        <div class="px-4 py-2">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    @if ($item->images->count() > 0)
+                                        <img class="h-10 w-10 rounded-lg object-cover"
+                                            src="{{ $item->images->first()->url }}" alt="{{ $item->title }}">
+                                    @else
+                                        <div class="h-10 w-10 rounded-lg bg-slate-200 flex items-center justify-center">
+                                            <i class="fas {{ $item->item_type === 'service' ? 'fa-tools' : 'fa-image' }} text-slate-400"></i>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-slate-900 dark:text-slate-100 break-words">
+                                        {{ Str::limit($item->title, 40) }}</div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-300">
+                                        @if($item->item_type === 'service')
+                                            {{ $item->category->name ?? 'Usluga' }}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-600 text-slate-800 dark:text-slate-200 ml-1">USLUGA</span>
                                         @else
-                                            <div
-                                                class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center">
-                                                <i class="fas {{ $item->item_type === 'service' ? 'fa-tools' : 'fa-image' }} text-slate-400"></i>
-                                            </div>
+                                            {{ $item->category->name }}
+                                            @if(method_exists($item, 'isGiveaway') && $item->isGiveaway())
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 ml-1">POKLON</span>
+                                            @endif
                                         @endif
                                     </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
-                                            {{ Str::limit($item->title, 40) }}</div>
-                                        <div class="text-sm text-slate-500 dark:text-slate-300">
-                                            @if($item->item_type === 'service')
-                                                {{ $item->category->name ?? 'Usluga' }}
-                                            @else
-                                                {{ $item->category->name }}
-                                            @endif
-                                        </div>
-                                        <div class="text-xs text-slate-400">{{ $item->location }}</div>
-                                    </div>
                                 </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm {{ $item->item_type === 'service' ? 'text-slate-600 dark:text-slate-400' : 'text-sky-600 dark:text-sky-400' }} font-bold">
-                                    @if($item->item_type === 'service')
+                            </div>
+                        </div>
+                        <!-- Cena Column -->
+                        <div class="px-4 py-2">
+                            <div class="text-sm font-bold whitespace-nowrap">
+                                @if($item->item_type === 'service')
+                                    <span class="text-slate-600 dark:text-slate-400">
                                         @if($item->price_type === 'fixed')
                                             {{ number_format($item->price, 2) }} RSD
                                         @elseif($item->price_type === 'hourly')
@@ -156,63 +156,65 @@
                                         @else
                                             Po dogovoru
                                         @endif
-                                    @else
-                                        {{ number_format($item->price, 2) }} RSD
-                                    @endif
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if ($item->status === 'active')
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">
-                                        Aktivan
                                     </span>
-                                @elseif($item->status === 'expired')
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200">
-                                        Istekao
-                                    </span>
+                                @elseif(method_exists($item, 'isGiveaway') && $item->isGiveaway())
+                                    <span class="text-green-600 dark:text-green-400">BESPLATNO</span>
                                 @else
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
-                                        {{ ucfirst($item->status) }}
-                                    </span>
+                                    <span class="text-sky-600 dark:text-sky-400">{{ number_format($item->price, 2) }} RSD</span>
                                 @endif
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300">
-                                {{ $item->pivot->created_at->format('d.m.Y H:i') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex items-center space-x-2">
-                                    @if($item->item_type === 'service')
-                                        <a href="{{ route('services.show', $item) }}"
-                                            class="inline-flex items-center px-2 py-1 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-300 rounded">
-                                            <i class="fas fa-eye mr-1"></i> Pregled
-                                        </a>
-                                    @else
-                                        <a href="{{ route('listings.show', $item) }}"
-                                            class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
-                                            <i class="fas fa-eye mr-1"></i> Pregled
-                                        </a>
-                                    @endif
+                            </div>
+                        </div>
+                        <!-- Status Column -->
+                        <div class="px-4 py-2">
+                            @if ($item->status === 'active')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">
+                                    Aktivan
+                                </span>
+                            @elseif($item->status === 'expired')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200">
+                                    Istekao
+                                </span>
+                            @else
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
+                                    {{ ucfirst($item->status) }}
+                                </span>
+                            @endif
+                        </div>
+                        <!-- Datum Column -->
+                        <div class="px-4 py-2 text-sm text-slate-500 dark:text-slate-300">
+                            {{ $item->pivot->created_at->format('d.m.Y H:i') }}
+                        </div>
+                    </div>
+                    <!-- Actions Row -->
+                    <div class="border-t border-slate-200 dark:border-slate-600 px-4 py-2 bg-slate-50 dark:bg-slate-700/50">
+                        <div class="flex flex-wrap gap-2">
+                            @if($item->item_type === 'service')
+                                <a href="{{ route('services.show', $item) }}"
+                                    class="inline-flex items-center px-2 py-1 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-300 rounded">
+                                    <i class="fas fa-eye mr-1"></i> Pregled
+                                </a>
+                            @else
+                                <a href="{{ route('listings.show', $item) }}"
+                                    class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
+                                    <i class="fas fa-eye mr-1"></i> Pregled
+                                </a>
+                            @endif
 
-                                    <button
-                                        onclick="navigator.clipboard.writeText('{{ $item->item_type === 'service' ? route('services.show', $item) : route('listings.show', $item) }}'); alert('Link kopiran!')"
-                                        class="inline-flex items-center px-2 py-1 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 rounded">
-                                        <i class="fas fa-share-alt mr-1"></i> Podeli
-                                    </button>
+                            <button
+                                onclick="navigator.clipboard.writeText('{{ $item->item_type === 'service' ? route('services.show', $item) : route('listings.show', $item) }}'); alert('Link kopiran!')"
+                                class="inline-flex items-center px-2 py-1 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 rounded">
+                                <i class="fas fa-share-alt mr-1"></i> Podeli
+                            </button>
 
-                                    <button wire:click="removeFromFavorites({{ $item->id }}, '{{ $item->item_type }}')"
-                                        wire:confirm="Da li ste sigurni da želite da uklonite {{ $item->item_type === 'service' ? 'ovu uslugu' : 'ovaj oglas' }} iz omiljenih?"
-                                        class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
-                                        <i class="fas fa-heart-broken mr-1"></i> Ukloni
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            <button wire:click="removeFromFavorites({{ $item->id }}, '{{ $item->item_type }}')"
+                                wire:confirm="Da li ste sigurni da želite da uklonite {{ $item->item_type === 'service' ? 'ovu uslugu' : 'ovaj oglas' }} iz omiljenih?"
+                                class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
+                                <i class="fas fa-heart-broken mr-1"></i> Ukloni
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
         <!-- Desktop Paginacija -->
