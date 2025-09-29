@@ -886,15 +886,13 @@
                 <!-- List View -->
                 <div class="space-y-4">
                     @foreach ($results as $listing)
-                        <div
-                            class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 
-                        @if (isset($listing->is_auction)) border-l-4 border-amber-500
+                        @if(isset($listing->is_auction))
+                            @include('livewire.components.view-auction-component', ['auction' => $listing->auction_data, 'viewMode' => 'list'])
                         @elseif($listing instanceof \App\Models\Service)
-                            border-l-4 border-slate-500
-                        @elseif($listing instanceof \App\Models\Listing && $listing->listing_type === 'giveaway')
-                            border-l-4 border-green-500
+                            @include('livewire.components.view-service-component', ['service' => $listing, 'viewMode' => 'list'])
                         @else
-                            border-l-4 border-sky-500 @endif">
+                            @include('livewire.components.view-listing-component', ['listing' => $listing, 'viewMode' => 'list'])
+                        @endif
                             <div class="flex flex-col md:flex-row">
                                 <!-- Image -->
                                 <div class="w-full md:w-48 md:min-w-48 h-48 relative">
