@@ -177,98 +177,110 @@
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    @if (auth()->user()->is_admin)
-                                        <!-- Admin dropdown menu -->
-                                        <x-dropdown-link href="{{ route('profile') }}">
-                                            Moj profil
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('messages.inbox') }}">
-                                            Poruke
-                                            @if ($this->unreadMessagesCount > 0)
-                                                <span
-                                                    class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadMessagesCount }}</span>
-                                            @endif
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('notifications.index') }}">
-                                            Obaveštenja
-                                            @if ($this->unreadNotificationsCount > 0)
-                                                <span
-                                                    class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadNotificationsCount }}</span>
-                                            @endif
-                                        </x-dropdown-link>
-                                    @else
-                                        <!-- Regular user dropdown menu -->
-                                        <x-dropdown-link href="{{ route('dashboard') }}">
-                                            <i class="fas fa-tachometer-alt mr-2"></i>
-                                            Dashboard
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('profile') }}">
-                                            Moj profil
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('listings.my') }}"
-                                            class="!bg-sky-50 !text-sky-700 hover:!bg-sky-100 dark:!bg-sky-900/50 dark:!text-sky-300 dark:hover:!bg-sky-900/30">
-                                            <i class="fas fa-list mr-2"></i>
-                                            Moji oglasi
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('auctions.my') }}"
-                                            class="!bg-amber-50 !text-amber-700 hover:!bg-amber-100 dark:!bg-amber-900/50 dark:!text-amber-300 dark:hover:!bg-amber-900/30">
-                                            <i class="fas fa-gavel mr-2"></i>
-                                            Moje aukcije
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('services.my') }}"
-                                            class="!bg-slate-100 !text-slate-700 hover:!bg-slate-200 dark:!bg-slate-800/70 dark:!text-slate-300 dark:hover:!bg-slate-800/50">
-                                            <i class="fas fa-tools mr-2"></i>
-                                            Moje usluge
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('favorites.index') }}">
-                                            Omiljeni
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('messages.inbox') }}">
-                                            Poruke
-                                            @if ($this->unreadMessagesCount > 0)
-                                                <span
-                                                    class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadMessagesCount }}</span>
-                                            @endif
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('notifications.index') }}">
-                                            Obaveštenja
-                                            @if ($this->unreadNotificationsCount > 0)
-                                                <span
-                                                    class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadNotificationsCount }}</span>
-                                            @endif
-                                        </x-dropdown-link>
+                                    <div class="max-h-[70vh] overflow-y-auto scrollbar-hide">
+                                        <style>
+                                            /* Hide scrollbar but keep functionality */
+                                            .scrollbar-hide::-webkit-scrollbar {
+                                                display: none;
+                                            }
+                                            .scrollbar-hide {
+                                                -ms-overflow-style: none;  /* IE and Edge */
+                                                scrollbar-width: none;  /* Firefox */
+                                            }
+                                        </style>
+                                        @if (auth()->user()->is_admin)
+                                            <!-- Admin dropdown menu -->
+                                            <x-dropdown-link href="{{ route('profile') }}">
+                                                Moj profil
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('messages.inbox') }}">
+                                                Poruke
+                                                @if ($this->unreadMessagesCount > 0)
+                                                    <span
+                                                        class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadMessagesCount }}</span>
+                                                @endif
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('notifications.index') }}">
+                                                Obaveštenja
+                                                @if ($this->unreadNotificationsCount > 0)
+                                                    <span
+                                                        class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadNotificationsCount }}</span>
+                                                @endif
+                                            </x-dropdown-link>
+                                        @else
+                                            <!-- Regular user dropdown menu -->
+                                            <x-dropdown-link href="{{ route('dashboard') }}">
+                                                <i class="fas fa-tachometer-alt mr-2"></i>
+                                                Dashboard
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('profile') }}">
+                                                Moj profil
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('listings.my') }}"
+                                                class="!bg-sky-50 !text-sky-700 hover:!bg-sky-100 dark:!bg-sky-900/50 dark:!text-sky-300 dark:hover:!bg-sky-900/30">
+                                                <i class="fas fa-list mr-2"></i>
+                                                Moji oglasi
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('auctions.my') }}"
+                                                class="!bg-amber-50 !text-amber-700 hover:!bg-amber-100 dark:!bg-amber-900/50 dark:!text-amber-300 dark:hover:!bg-amber-900/30">
+                                                <i class="fas fa-gavel mr-2"></i>
+                                                Moje aukcije
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('services.my') }}"
+                                                class="!bg-slate-100 !text-slate-700 hover:!bg-slate-200 dark:!bg-slate-800/70 dark:!text-slate-300 dark:hover:!bg-slate-800/50">
+                                                <i class="fas fa-tools mr-2"></i>
+                                                Moje usluge
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('favorites.index') }}">
+                                                Omiljeni
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('messages.inbox') }}">
+                                                Poruke
+                                                @if ($this->unreadMessagesCount > 0)
+                                                    <span
+                                                        class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadMessagesCount }}</span>
+                                                @endif
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('notifications.index') }}">
+                                                Obaveštenja
+                                                @if ($this->unreadNotificationsCount > 0)
+                                                    <span
+                                                        class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadNotificationsCount }}</span>
+                                                @endif
+                                            </x-dropdown-link>
 
-                                        <x-dropdown-link href="{{ route('ratings.my') }}">
-                                            Moje ocene
-                                            @php
-                                                $totalRatings = auth()->user()->total_ratings_count ?? 0;
-                                            @endphp
-                                            @if ($totalRatings > 0)
-                                                <span
-                                                    class="ml-2 bg-green-600 text-white rounded px-2 py-1 text-xs font-medium">
-                                                    {{ $totalRatings }}
-                                                </span>
-                                            @endif
-                                        </x-dropdown-link>
-                                        <x-dropdown-link href="{{ route('balance.index') }}">
-                                            Balans
-                                        </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('ratings.my') }}">
+                                                Moje ocene
+                                                @php
+                                                    $totalRatings = auth()->user()->total_ratings_count ?? 0;
+                                                @endphp
+                                                @if ($totalRatings > 0)
+                                                    <span
+                                                        class="ml-2 bg-green-600 text-white rounded px-2 py-1 text-xs font-medium">
+                                                        {{ $totalRatings }}
+                                                    </span>
+                                                @endif
+                                            </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('balance.index') }}">
+                                                Balans
+                                            </x-dropdown-link>
 
-                                        <x-dropdown-link href="{{ route('admin.contact') }}">
-                                            Piši Adminu
-                                        </x-dropdown-link>
-                                    @endif
+                                            <x-dropdown-link href="{{ route('admin.contact') }}">
+                                                Piši Adminu
+                                            </x-dropdown-link>
+                                        @endif
 
-                                    <div class="border-t border-slate-100"></div>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <x-dropdown-link href="{{ route('logout') }}"
-                                            onclick="event.preventDefault(); this.closest('form').submit();"
-                                            class="!bg-red-50 !text-red-700 hover:!bg-red-100 dark:!bg-red-900/50 dark:!text-red-300 dark:hover:!bg-red-900/30">
-                                            <i class="fas fa-sign-out-alt mr-2"></i>
-                                            Odjavi se
-                                        </x-dropdown-link>
-                                    </form>
+                                        <div class="border-t border-slate-100"></div>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <x-dropdown-link href="{{ route('logout') }}"
+                                                onclick="event.preventDefault(); this.closest('form').submit();"
+                                                class="!bg-red-50 !text-red-700 hover:!bg-red-100 dark:!bg-red-900/50 dark:!text-red-300 dark:hover:!bg-red-900/30">
+                                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                                Odjavi se
+                                            </x-dropdown-link>
+                                        </form>
+                                    </div>
                                 </x-slot>
                             </x-dropdown>
                         </div>
@@ -374,7 +386,7 @@
             <!-- Mobile menu (hidden by default) -->
             <div id="mobile-menu" class="md:hidden hidden">
                 <div
-                    class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-slate-800 shadow-lg border-t border-slate-200 dark:border-slate-700">
+                    class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-slate-800 shadow-lg border-t border-slate-200 dark:border-slate-700 max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-hide">
                     {{-- <a href="{{ route('home') }}"
                     class="{{ request()->routeIs('home') ? 'bg-slate-100 text-sky-600' : 'text-slate-700 dark:text-slate-200 hover:text-sky-600' }} block px-3 py-2 rounded-md text-base font-medium">
                     Početna
