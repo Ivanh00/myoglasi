@@ -913,9 +913,11 @@
             @endif
 
             <!-- Pagination -->
-            <div class="mt-8 bg-white dark:bg-slate-700 rounded-lg shadow-sm p-4">
-                {{ $results->links() }}
-            </div>
+            @if ($results->hasPages())
+                <div class="mt-8 bg-white dark:bg-slate-700 rounded-lg shadow-sm p-4">
+                    {{ $results->links() }}
+                </div>
+            @endif
         @else
             <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md p-8 text-center">
                 <i class="fas fa-search text-slate-400 text-5xl mb-4"></i>
