@@ -66,6 +66,10 @@
                         {{ number_format($service->price, 0, ',', '.') }} RSD
                     @elseif($service->price_type === 'hourly')
                         {{ number_format($service->price, 0, ',', '.') }} RSD/sat
+                    @elseif($service->price_type === 'daily')
+                        {{ number_format($service->price, 0, ',', '.') }} RSD/dan
+                    @elseif($service->price_type === 'per_m2')
+                        {{ number_format($service->price, 0, ',', '.') }} RSD/m²
                     @else
                         Po dogovoru
                     @endif

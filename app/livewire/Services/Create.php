@@ -86,7 +86,7 @@ class Create extends Component
             'title' => 'required|string|min:5|max:100',
             'description' => 'required|string|min:10|max:2000',
             'price' => 'nullable|numeric|min:1',
-            'price_type' => 'required|in:fixed,hourly,negotiable',
+            'price_type' => 'required|in:fixed,hourly,daily,per_m2,negotiable',
             'service_category_id' => 'required|exists:service_categories,id',
             'location' => 'required|string|max:255',
             'contact_phone' => 'nullable|string|max:20',

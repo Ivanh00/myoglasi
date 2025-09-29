@@ -90,6 +90,8 @@
                         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                         <option value="fixed">Fiksna cena</option>
                         <option value="hourly">Po satu</option>
+                        <option value="daily">Po danu</option>
+                        <option value="per_m2">Po kvadratu (m²)</option>
                         <option value="negotiable">Po dogovoru</option>
                     </select>
                     @error('price_type')
@@ -105,7 +107,7 @@
                     </label>
                     <input type="number" wire:model="price" id="price" step="0.01"
                         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 @error('price') border-red-500 @enderror"
-                        placeholder="{{ $price_type === 'hourly' ? 'Cena po satu' : 'Unesite cenu' }}">
+                        placeholder="{{ $price_type === 'hourly' ? 'Cena po satu' : ($price_type === 'daily' ? 'Cena po danu' : ($price_type === 'per_m2' ? 'Cena po m²' : 'Unesite cenu')) }}">
                     @error('price')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror

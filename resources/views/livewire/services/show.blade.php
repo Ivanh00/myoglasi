@@ -93,9 +93,19 @@
                 </div>
 
                 <div class="flex items-center mb-4">
-                    <span
-                        class="text-3xl font-bold text-sky-600 dark:text-sky-400">{{ number_format($service->price, 2) }}
-                        RSD</span>
+                    <span class="text-3xl font-bold text-sky-600 dark:text-sky-400">
+                        @if ($service->price_type === 'fixed')
+                            {{ number_format($service->price, 0, ',', '.') }} RSD
+                        @elseif($service->price_type === 'hourly')
+                            {{ number_format($service->price, 0, ',', '.') }} RSD/sat
+                        @elseif($service->price_type === 'daily')
+                            {{ number_format($service->price, 0, ',', '.') }} RSD/dan
+                        @elseif($service->price_type === 'per_m2')
+                            {{ number_format($service->price, 0, ',', '.') }} RSD/m²
+                        @else
+                            Po dogovoru
+                        @endif
+                    </span>
                     <span
                         class="ml-4 px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium rounded-full">
                         USLUGA
@@ -405,7 +415,17 @@
 
                                     <div class="flex items-center justify-between">
                                         <div class="text-sky-600 dark:text-sky-400 font-bold text-xl">
-                                            {{ number_format($relatedService->price, 2) }} RSD
+                                            @if ($relatedService->price_type === 'fixed')
+                                                {{ number_format($relatedService->price, 0, ',', '.') }} RSD
+                                            @elseif($relatedService->price_type === 'hourly')
+                                                {{ number_format($relatedService->price, 0, ',', '.') }} RSD/sat
+                                            @elseif($relatedService->price_type === 'daily')
+                                                {{ number_format($relatedService->price, 0, ',', '.') }} RSD/dan
+                                            @elseif($relatedService->price_type === 'per_m2')
+                                                {{ number_format($relatedService->price, 0, ',', '.') }} RSD/m²
+                                            @else
+                                                Po dogovoru
+                                            @endif
                                         </div>
                                         <span
                                             class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium rounded-full">
