@@ -325,72 +325,15 @@
             @endif
         </div>
 
-        <!-- Informacije o pružaocu usluge -->
+        <!-- Seller Information Section -->
         @auth
-            <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6 bg-slate-50 dark:bg-slate-700">
-                <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">Informacije o pružaocu usluge
-                </h2>
-                <div class="flex items-start">
-                    <!-- Avatar -->
-                    <div class="w-16 h-16 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                        @if ($service->user->avatar)
-                            <img src="{{ $service->user->avatar_url }}" alt="{{ $service->user->name }}"
-                                class="w-16 h-16 rounded-full object-cover">
-                        @else
-                            <div
-                                class="w-16 h-16 bg-sky-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                                {{ strtoupper(substr($service->user->name, 0, 1)) }}
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="flex-1">
-                        <h3 class="font-medium text-slate-900 dark:text-slate-100 text-lg">
-                            {{ $service->user->name }}
-                            {!! $service->user->verified_icon !!}
-                            @if ($service->user->is_banned)
-                                <span class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
-                            @endif
-                            @if ($service->user->shouldShowLastSeen())
-                                <div class="text-sm text-slate-500 dark:text-slate-300 mt-1">
-                                    @if ($service->user->is_online)
-                                        <span class="inline-flex items-center">
-                                            <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
-                                            {{ $service->user->last_seen }}
-                                        </span>
-                                    @else
-                                        {{ $service->user->last_seen }}
-                                    @endif
-                                </div>
-                            @endif
-                        </h3>
-                        <p class="text-slate-600 dark:text-slate-400 text-sm mb-3">Član od:
-                            {{ $service->user->created_at->format('m/Y') }}</p>
-
-                        {{-- User ratings --}}
-                        @if ($service->user->total_ratings_count > 0)
-                            <a href="{{ route('user.ratings', $service->user->id) }}"
-                                class="inline-flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                                <span class="text-green-600 dark:text-green-400 mr-2">😊
-                                    {{ $service->user->positive_ratings_count }}</span>
-                                <span class="text-amber-600 dark:text-green-400 mr-2">😐
-                                    {{ $service->user->neutral_ratings_count }}</span>
-                                <span class="text-red-600 dark:text-green-400 mr-2">😞
-                                    {{ $service->user->negative_ratings_count }}</span>
-                                @if ($service->user->rating_badge)
-                                    <span class="ml-1 mr-2">{{ $service->user->rating_badge }}</span>
-                                @endif
-                                <span
-                                    class="text-sky-500 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300">Pogledaj
-                                    ocene</span>
-                                <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                            </a>
-                        @else
-                            <p class="text-slate-500 dark:text-slate-300 text-sm">Još nema ocena</p>
-                        @endif
-                    </div>
+            @if (auth()->id() !== $service->user_id)
+                <x-seller-info :seller="$service->user" :listing="$service" />
+            @else
+                <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6 bg-slate-50 dark:bg-slate-700">
+                    <p class="text-slate-600 dark:text-slate-400 text-center">Ovo je vaša usluga</p>
                 </div>
-            </div>
+            @endif
         @endauth
     </div>
 
