@@ -199,11 +199,6 @@
                     @auth
                         @if (auth()->id() !== $service->user_id)
                             @if (!$service->user->is_banned)
-                                <!-- Favorite dugme (Livewire komponenta) -->
-                                <div class="w-full" id="service-favorite-button-desktop">
-                                    <livewire:service-favorite-button :service="$service" />
-                                </div>
-
                                 <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('messages.inbox') }}"
                                     class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
@@ -213,6 +208,11 @@
                                         </path>
                                     </svg> Pošalji poruku
                                 </a>
+
+                                <!-- Favorite dugme (Livewire komponenta) -->
+                                <div class="w-full" id="service-favorite-button-desktop">
+                                    <livewire:service-favorite-button :service="$service" />
+                                </div>
 
                                 <!-- Dugme za deljenje -->
                                 <button onclick="shareService()"
@@ -245,10 +245,6 @@
                         @endif
                     @else
                         <!-- Dugme za neautentifikovane korisnike -->
-                        <div class="w-full" id="service-favorite-button-desktop">
-                            <livewire:service-favorite-button :service="$service" />
-                        </div>
-
                         <a href="{{ route('login') }}"
                             class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                             <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -257,6 +253,10 @@
                                 </path>
                             </svg> Prijavite se za kontakt
                         </a>
+
+                        <div class="w-full" id="service-favorite-button-desktop">
+                            <livewire:service-favorite-button :service="$service" />
+                        </div>
 
                         <!-- Dugme za deljenje (dostupno svima) -->
                         <button onclick="shareService()"
@@ -271,9 +271,6 @@
                     @auth
                         @if (auth()->id() !== $service->user_id)
                             @if (!$service->user->is_banned)
-                                <!-- Favorite dugme (shared component) -->
-                                <div class="w-full" id="service-favorite-button-mobile"></div>
-
                                 <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('messages.inbox') }}"
                                     class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
@@ -283,6 +280,9 @@
                                         </path>
                                     </svg> Pošalji poruku
                                 </a>
+
+                                <!-- Favorite dugme (shared component) -->
+                                <div class="w-full" id="service-favorite-button-mobile"></div>
 
                                 <!-- Dugme za deljenje -->
                                 <button onclick="shareService()"
@@ -315,8 +315,6 @@
                         @endif
                     @else
                         <!-- Dugme za neautentifikovane korisnike -->
-                        <div class="w-full" id="service-favorite-button-mobile"></div>
-
                         <a href="{{ route('login') }}"
                             class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                             <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -325,6 +323,8 @@
                                 </path>
                             </svg> Prijavite se za kontakt
                         </a>
+
+                        <div class="w-full" id="service-favorite-button-mobile"></div>
                     @endauth
                 </div>
             </div>

@@ -190,7 +190,7 @@
                         <div class="flex flex-wrap gap-2">
                             @if($item->item_type === 'service')
                                 <a href="{{ route('services.show', $item) }}"
-                                    class="inline-flex items-center px-2 py-1 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-300 rounded">
+                                    class="inline-flex items-center px-2 py-1 text-slate-600 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded">
                                     <i class="fas fa-eye mr-1"></i> Pregled
                                 </a>
                             @else
@@ -206,8 +206,7 @@
                                 <i class="fas fa-share-alt mr-1"></i> Podeli
                             </button>
 
-                            <button wire:click="removeFromFavorites({{ $item->id }}, '{{ $item->item_type }}')"
-                                wire:confirm="Da li ste sigurni da želite da uklonite {{ $item->item_type === 'service' ? 'ovu uslugu' : 'ovaj oglas' }} iz omiljenih?"
+                            <button x-data @click="$dispatch('open-remove-modal', { itemId: {{ $item->id }}, itemType: '{{ $item->item_type }}' })"
                                 class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
                                 <i class="fas fa-heart-broken mr-1"></i> Ukloni
                             </button>
@@ -324,7 +323,7 @@
                         <div class="flex flex-wrap gap-2">
                             @if($item->item_type === 'service')
                                 <a href="{{ route('services.show', $item) }}"
-                                    class="inline-flex items-center px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg hover:bg-slate-200 transition-colors">
+                                    class="inline-flex items-center px-3 py-1.5 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-medium rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
                                     <i class="fas fa-eye mr-1"></i>
                                     Pregled
                                 </a>
@@ -343,8 +342,7 @@
                                 Podeli
                             </button>
 
-                            <button wire:click="removeFromFavorites({{ $item->id }}, '{{ $item->item_type }}')"
-                                wire:confirm="Da li ste sigurni da želite da uklonite {{ $item->item_type === 'service' ? 'ovu uslugu' : 'ovaj oglas' }} iz omiljenih?"
+                            <button x-data @click="$dispatch('open-remove-modal', { itemId: {{ $item->id }}, itemType: '{{ $item->item_type }}' })"
                                 class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
                                 <i class="fas fa-heart-broken mr-1"></i>
                                 Ukloni
@@ -370,4 +368,140 @@
             </a>
         </div>
     @endif
+
+    <!-- Remove from Favorites Modal -->
+    <div x-data="{
+        showRemoveModal: false,
+        selectedItem: null,
+        removeFromFavorites() {
+            if (this.selectedItem) {
+                @this.removeFromFavorites(this.selectedItem.id, this.selectedItem.type);
+                this.showRemoveModal = false;
+            }
+        }
+    }"
+        @open-remove-modal.window="
+            showRemoveModal = true;
+            selectedItem = {
+                id: $event.detail.itemId,
+                type: $event.detail.itemType,
+                data: $favorites.find(f => f.id === $event.detail.itemId && f.item_type === $event.detail.itemType)
+            };
+        "
+        x-show="showRemoveModal" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto">
+
+        <!-- Background overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="showRemoveModal = false"></div>
+
+        <!-- Modal content -->
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                class="relative inline-block align-bottom bg-white dark:bg-slate-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+
+                <!-- Modal header with heart-broken icon -->
+                <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
+                                <i class="fas fa-heart-broken text-white text-xl"></i>
+                            </div>
+                            <h3 class="ml-3 text-xl font-bold text-white">Uklanjanje iz omiljenih</h3>
+                        </div>
+                        <button @click="showRemoveModal = false" class="text-white hover:text-slate-200">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal body -->
+                <div class="px-6 py-5">
+                    <!-- Warning message -->
+                    <div class="mb-4">
+                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                            Da li ste sigurni?
+                        </h4>
+                        <p class="text-slate-600 dark:text-slate-400">
+                            <span x-text="selectedItem?.type === 'service' ? 'Ova usluga' : 'Ovaj oglas'"></span>
+                            će biti uklonjen iz vaše liste omiljenih stavki.
+                        </p>
+                    </div>
+
+                    <!-- Item info -->
+                    <template x-if="selectedItem?.data">
+                        <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 mb-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-start">
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Naziv:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100 text-right ml-2"
+                                        x-text="selectedItem?.data?.title || 'N/A'"></span>
+                                </div>
+                                <div class="flex justify-between items-start">
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Kategorija:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100 text-right ml-2"
+                                        x-text="selectedItem?.data?.category?.name || 'N/A'"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Tip:</span>
+                                    <span class="text-sm font-medium"
+                                        :class="{
+                                            'text-slate-600 dark:text-slate-400': selectedItem?.type === 'service',
+                                            'text-sky-600 dark:text-sky-400': selectedItem?.type !== 'service'
+                                        }"
+                                        x-text="selectedItem?.type === 'service' ? 'Usluga' : 'Oglas'"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Dodato:</span>
+                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100"
+                                        x-text="selectedItem?.data?.pivot?.created_at ? new Date(selectedItem.data.pivot.created_at).toLocaleDateString('sr-RS') : 'N/A'"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Info notice -->
+                    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-info-circle text-blue-600 dark:text-blue-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-blue-800 dark:text-blue-200">
+                                    <strong>Napomena:</strong> Možete ponovo dodati ovu stavku u omiljene klikom na srce na stranici
+                                    <span x-text="selectedItem?.type === 'service' ? 'usluge' : 'oglasa'"></span>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer with actions -->
+                <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-4">
+                    <div class="flex space-x-3">
+                        <button type="button" @click="showRemoveModal = false"
+                            class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                            <i class="fas fa-times mr-2"></i>
+                            Otkaži
+                        </button>
+                        <button type="button" @click="removeFromFavorites()"
+                            class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105">
+                            <i class="fas fa-heart-broken mr-2"></i>
+                            Ukloni iz omiljenih
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.$favorites = @json($favorites->items());
+    </script>
 </div>
