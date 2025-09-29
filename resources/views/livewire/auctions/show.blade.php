@@ -390,7 +390,7 @@
 
                                 <!-- Share link (available to all) -->
                                 <button
-                                    onclick="navigator.clipboard.writeText(window.location.href); alert('Link je kopiran!')"
+                                    onclick="shareAuction()"
                                     class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
                                     <i class="fas fa-share-alt mr-2"></i>
                                     Podeli link
@@ -1048,5 +1048,101 @@
             }, 500);
         });
     });
+
+    // Share functionality
+    function shareAuction() {
+        const url = window.location.href;
+        const title = '{{ $auction->listing->title }}';
+        const text = `{{ $auction->listing->title }} - Aukcija na PazAriO`;
+
+        // Detect if mobile or small screen
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+        if (isMobile && navigator.share) {
+            // Use Web Share API for mobile
+            navigator.share({
+                title: title,
+                text: text,
+                url: url
+            }).catch(err => console.log('Share cancelled or failed'));
+        } else {
+            // Show popup for desktop
+            showSharePopup(url, title, text);
+        }
+    }
+
+    function showSharePopup(url, title, text) {
+        // Remove existing popup if any
+        const existingPopup = document.getElementById('sharePopup');
+        if (existingPopup) {
+            existingPopup.remove();
+        }
+
+        // Create popup HTML
+        const popupHTML = `
+            <div id="sharePopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onclick="if(event.target === this) this.remove()">
+                <div class="bg-white dark:bg-slate-800 rounded-lg p-6 max-w-md w-full mx-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200">Podeli aukciju</h3>
+                        <button onclick="document.getElementById('sharePopup').remove()" class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="space-y-3">
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}"
+                           target="_blank"
+                           class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <i class="fab fa-facebook text-blue-600 text-xl w-8"></i>
+                            <span class="ml-3 text-slate-700 dark:text-slate-300">Facebook</span>
+                        </a>
+
+                        <!-- Viber -->
+                        <a href="viber://forward?text=${encodeURIComponent(text + ' ' + url)}"
+                           class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <i class="fab fa-viber text-purple-600 text-xl w-8"></i>
+                            <span class="ml-3 text-slate-700 dark:text-slate-300">Viber</span>
+                        </a>
+
+                        <!-- WhatsApp -->
+                        <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}"
+                           target="_blank"
+                           class="flex items-center p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <i class="fab fa-whatsapp text-green-600 text-xl w-8"></i>
+                            <span class="ml-3 text-slate-700 dark:text-slate-300">WhatsApp</span>
+                        </a>
+
+                        <!-- Copy link -->
+                        <button onclick="copyLink('${url.replace(/'/g, "\\'")}')"
+                                class="flex items-center w-full p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <i class="fas fa-link text-slate-600 dark:text-slate-400 text-xl w-8"></i>
+                            <span class="ml-3 text-slate-700 dark:text-slate-300">Kopiraj link</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add popup to body
+        document.body.insertAdjacentHTML('beforeend', popupHTML);
+    }
+
+    function copyLink(url) {
+        navigator.clipboard.writeText(url).then(() => {
+            // Show success message
+            const popup = document.getElementById('sharePopup');
+            if (popup) {
+                const button = popup.querySelector('button[onclick*="copyLink"]');
+                if (button) {
+                    const originalHTML = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check text-green-600 text-xl w-8"></i><span class="ml-3 text-green-600">Link je kopiran!</span>';
+                    setTimeout(() => {
+                        button.innerHTML = originalHTML;
+                    }, 2000);
+                }
+            }
+        });
+    }
 </script>
 </div>

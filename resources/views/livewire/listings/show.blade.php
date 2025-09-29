@@ -849,23 +849,109 @@
     function shareListing() {
         const url = window.location.href;
         const title = "{{ $listing->title }}";
+        const text = 'Pogledaj ovaj oglas: ' + title;
 
-        if (navigator.share) {
-            // Koristi Web Share API ako je dostupan (mobilni browsers)
+        // Check if it's mobile (rough check)
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+        if (isMobile && navigator.share) {
+            // Use Web Share API for mobile
             navigator.share({
                 title: title,
-                text: 'Pogledaj ovaj oglas',
+                text: text,
                 url: url
-            });
+            }).catch(err => console.log('Share cancelled or failed'));
         } else {
-            // Fallback - kopiraj u clipboard
-            navigator.clipboard.writeText(url).then(function() {
-                alert('Link je kopiran u clipboard!');
-            }, function() {
-                // Ako clipboard ne radi, prikaži URL
-                prompt('Kopiraj ovaj link:', url);
-            });
+            // Desktop: Show share options popup
+            showSharePopup(url, title, text);
         }
+    }
+
+    function showSharePopup(url, title, text) {
+        // Create popup overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
+        overlay.id = 'shareOverlay';
+
+        const popup = document.createElement('div');
+        popup.className = 'bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 max-w-md w-full mx-4';
+
+        popup.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Podeli oglas</h3>
+                <button onclick="closeSharePopup()" class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}"
+                   target="_blank"
+                   class="flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fab fa-facebook-f w-6"></i>
+                    <span class="ml-3">Podeli na Facebook-u</span>
+                </a>
+
+                <!-- Viber -->
+                <a href="viber://forward?text=${encodeURIComponent(text + ' ' + url)}"
+                   class="flex items-center p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                    <i class="fab fa-viber w-6"></i>
+                    <span class="ml-3">Podeli na Viber-u</span>
+                </a>
+
+                <!-- WhatsApp -->
+                <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}"
+                   target="_blank"
+                   class="flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <i class="fab fa-whatsapp w-6"></i>
+                    <span class="ml-3">Podeli na WhatsApp-u</span>
+                </a>
+
+                <!-- Copy Link -->
+                <button onclick="copyToClipboard('${url}')"
+                        class="w-full flex items-center p-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors">
+                    <i class="fas fa-link w-6"></i>
+                    <span class="ml-3">Kopiraj link</span>
+                </button>
+            </div>
+        `;
+
+        overlay.appendChild(popup);
+        document.body.appendChild(overlay);
+
+        // Close popup when clicking overlay
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                closeSharePopup();
+            }
+        });
+    }
+
+    function closeSharePopup() {
+        const overlay = document.getElementById('shareOverlay');
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+
+    function copyToClipboard(url) {
+        navigator.clipboard.writeText(url).then(function() {
+            // Show success message
+            const button = event.currentTarget;
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check w-6"></i><span class="ml-3">Link kopiran!</span>';
+            button.classList.remove('bg-slate-600', 'hover:bg-slate-700');
+            button.classList.add('bg-green-600');
+
+            setTimeout(() => {
+                button.innerHTML = originalContent;
+                button.classList.remove('bg-green-600');
+                button.classList.add('bg-slate-600', 'hover:bg-slate-700');
+            }, 2000);
+        }).catch(function() {
+            prompt('Kopiraj ovaj link:', url);
+        });
     }
 
     // Move favorite button between desktop and mobile based on viewport
