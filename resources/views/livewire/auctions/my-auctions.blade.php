@@ -78,7 +78,7 @@
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
-                <div class="grid grid-cols-[20%_15%_12%_10%_18%_25%] bg-slate-50 dark:bg-slate-700">
+                <div class="grid grid-cols-[25%_20%_15%_15%_25%] bg-slate-50 dark:bg-slate-700">
                     <div
                         class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Oglas</div>
@@ -94,9 +94,6 @@
                     <div
                         class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Datum/Vreme</div>
-                    <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                        Akcije</div>
                 </div>
             </div>
 
@@ -104,7 +101,7 @@
             @foreach ($auctions as $auction)
                 <div
                     class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-amber-500">
-                    <div class="grid grid-cols-[20%_15%_12%_10%_18%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
+                    <div class="grid grid-cols-[25%_20%_15%_15%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Oglas Column -->
                         <div class="px-6 py-2">
                             <div class="flex items-center">
@@ -188,9 +185,10 @@
                                     {{ $auction->ends_at->format('H:i') }}</div>
                             </div>
                         </div>
-                        <!-- Akcije Column -->
-                        <div class="px-6 py-1 text-sm font-medium">
-                            <div class="flex flex-wrap gap-1">
+                    </div>
+                    <!-- Actions Row -->
+                    <div class="border-t border-slate-200 dark:border-slate-600 px-6 py-2 bg-slate-50 dark:bg-slate-700/50">
+                        <div class="flex flex-wrap gap-2">
                                 <a href="{{ route('auction.show', $auction) }}"
                                     class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
                                     <i class="fas fa-eye mr-1"></i> Pregled
@@ -234,7 +232,6 @@
                                         <i class="fas fa-times mr-1"></i> Ukloni iz aukcije
                                     </button>
                                 @endif
-                            </div>
                         </div>
                     </div>
                 </div>

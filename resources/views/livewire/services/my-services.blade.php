@@ -70,7 +70,7 @@
         <div class="hidden lg:block space-y-1">
             <!-- Header -->
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
-                <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] bg-slate-50 dark:bg-slate-700">
+                <div class="grid grid-cols-[35%_20%_15%_15%_15%] bg-slate-50 dark:bg-slate-700">
                     <div
                         class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Usluga</div>
@@ -86,16 +86,13 @@
                     <div
                         class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Datum</div>
-                    <div
-                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                        Akcije</div>
                 </div>
             </div>
 
             <!-- Data Rows -->
             @foreach ($services as $service)
                 <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden border-l-4 border-slate-500">
-                    <div class="grid grid-cols-[30%_15%_10%_10%_10%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
+                    <div class="grid grid-cols-[35%_20%_15%_15%_15%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Usluga Column -->
                         <div class="px-6 py-2">
                             <div class="flex items-center">
@@ -156,9 +153,10 @@
                         <div class="px-6 py-2 text-sm text-slate-500 dark:text-slate-300 whitespace-nowrap">
                             {{ $service->created_at->format('d.m.Y') }}
                         </div>
-                        <!-- Akcije Column -->
-                        <div class="px-6 py-1 text-sm font-medium">
-                            <div class="flex flex-wrap gap-1">
+                    </div>
+                    <!-- Actions Row -->
+                    <div class="border-t border-slate-200 dark:border-slate-600 px-6 py-2 bg-slate-50 dark:bg-slate-700/50">
+                        <div class="flex flex-wrap gap-2">
                                 <a href="{{ route('services.show', $service->slug) }}"
                                     class="inline-flex items-center px-2 py-1 text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 rounded">
                                     <i class="fas fa-eye mr-1"></i> Pregled
@@ -191,7 +189,6 @@
                                     class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
                                     <i class="fas fa-trash mr-1"></i> Obriši
                                 </button>
-                            </div>
                         </div>
                     </div>
                 </div>
