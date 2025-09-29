@@ -1,14 +1,14 @@
 <div>
-    <div class="min-h-screen bg-slate-50 py-8">
+    <div class="min-h-screen bg-slate-50 dark:bg-slate-900 py-8">
         <div class="max-w-4xl mx-auto px-4">
-            <div class="bg-white rounded-lg shadow-lg p-6">
-                <h1 class="text-2xl font-bold text-slate-900 mb-6">Dopuna kredita</h1>
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">Dopuna kredita</h1>
 
                 <div class="mb-6">
-                    <div class="bg-sky-50 border border-sky-200 rounded-lg p-4">
+                    <div class="bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-600 rounded-lg p-4">
                         <div class="flex items-center">
                             <i class="fas fa-info-circle text-sky-500 mr-2"></i>
-                            <span class="text-sky-800">
+                            <span class="text-sky-800 dark:text-sky-200">
                                 Trenutni kredit: <strong>{{ auth()->user()->balance }} RSD</strong>
                             </span>
                         </div>
@@ -19,16 +19,16 @@
                 <div class="space-y-4 mb-6">
                     <!-- Mobile Banking -->
                     <div
-                        class="border rounded-lg {{ $selectedMethod === 'mobile' ? 'border-sky-500 bg-sky-50' : 'border-slate-200' }} transition-all">
+                        class="border rounded-lg {{ $selectedMethod === 'mobile' ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20' : 'border-slate-200 dark:border-slate-600' }} transition-all">
                         <button wire:click="selectMethod('mobile')"
-                            class="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50 transition-colors">
+                            class="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                             <div class="flex items-center space-x-4">
                                 <div
                                     class="w-16 h-16 bg-gradient-to-r from-sky-500 to-purple-600 rounded-lg flex items-center justify-center">
                                     <i class="fas fa-qrcode text-white text-2xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-semibold text-slate-900">Elektronsko i mobilno bankarstvo
+                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Elektronsko i mobilno bankarstvo
                                     </h3>
                                     <p class="text-slate-600 dark:text-slate-400 text-sm">Dopunite kredit putem
                                         aplikacije ili web stranice
@@ -49,16 +49,16 @@
 
                     <!-- Bank Transfer -->
                     <div
-                        class="border rounded-lg {{ $selectedMethod === 'bank' ? 'border-sky-500 bg-sky-50' : 'border-slate-200' }} transition-all">
+                        class="border rounded-lg {{ $selectedMethod === 'bank' ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20' : 'border-slate-200 dark:border-slate-600' }} transition-all">
                         <button wire:click="selectMethod('bank')"
-                            class="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50 transition-colors">
+                            class="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                             <div class="flex items-center space-x-4">
                                 <div
                                     class="w-16 h-16 bg-gradient-to-r from-green-500 to-sky-600 rounded-lg flex items-center justify-center">
                                     <i class="fas fa-university text-white text-2xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-semibold text-slate-900">Nalog za uplatu ili prenos</h3>
+                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Nalog za uplatu ili prenos</h3>
                                     <p class="text-slate-600 dark:text-slate-400 text-sm">Dopunite kredit u banci, pošti
                                         ili na drugom
                                         platežnom mestu.</p>
@@ -72,16 +72,16 @@
 
                     <!-- Credit Card -->
                     <div
-                        class="border rounded-lg {{ $selectedMethod === 'card' ? 'border-sky-500 bg-sky-50' : 'border-slate-200' }} transition-all">
+                        class="border rounded-lg {{ $selectedMethod === 'card' ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20' : 'border-slate-200 dark:border-slate-600' }} transition-all">
                         <button wire:click="selectMethod('card')"
-                            class="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50 transition-colors">
+                            class="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                             <div class="flex items-center space-x-4">
                                 <div
                                     class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
                                     <i class="fas fa-credit-card text-white text-2xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-semibold text-slate-900">Platna kartica</h3>
+                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Platna kartica</h3>
                                     <p class="text-slate-600 dark:text-slate-400 text-sm">Dopunite kredit platnom
                                         karticom bez odlaska u
                                         banku.</p>
@@ -97,12 +97,12 @@
                 <!-- Amount Selection - Only show if method is selected -->
                 @if ($selectedMethod)
                     <div class="border-t pt-6">
-                        <h3 class="text-lg font-semibold text-slate-900 mb-4">Odaberite iznos</h3>
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Odaberite iznos</h3>
 
                         <!-- Payer Type Selection for Bank Transfer -->
                         @if ($selectedMethod === 'bank' && !$showPaymentSlip)
-                            <div class="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                                <h4 class="text-md font-semibold text-slate-900 mb-3">Tip uplatnica</h4>
+                            <div class="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-600 rounded-lg">
+                                <h4 class="text-md font-semibold text-slate-900 dark:text-slate-100 mb-3">Tip uplatnica</h4>
                                 <div class="space-y-2">
                                     <label class="flex items-center cursor-pointer">
                                         <input type="radio" wire:model="payerType" value="physical" name="payerType"
@@ -127,7 +127,7 @@
                             @foreach ($predefinedAmounts as $predefAmount)
                                 <button wire:click="selectAmount({{ $predefAmount }})"
                                     class="p-3 border rounded-lg text-center font-semibold transition-all
-                                {{ $amount == $predefAmount ? 'border-sky-500 bg-sky-50 text-sky-700' : 'border-slate-300 hover:border-sky-300' }}">
+                                {{ $amount == $predefAmount ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-300' : 'border-slate-300 dark:border-slate-600 hover:border-sky-300 dark:hover:border-sky-500 text-slate-900 dark:text-slate-100' }}">
                                     {{ number_format($predefAmount, 0, ',', '.') }} RSD
                                 </button>
                             @endforeach
@@ -140,7 +140,7 @@
                                 iznos:</label>
                             <input type="number" wire:model.lazy="customAmount" wire:blur="setCustomAmount"
                                 placeholder="Unesite iznos (minimum 100 RSD)"
-                                class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                             @error('amount')
                                 <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -148,17 +148,17 @@
 
                         <!-- Selected Amount Display -->
                         @if ($amount)
-                            <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                            <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-600 rounded-lg p-4 mb-4">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-green-800 font-semibold">Iznos za dopunu:</span>
+                                    <span class="text-green-800 dark:text-green-200 font-semibold">Iznos za dopunu:</span>
                                     <span
-                                        class="text-green-900 text-lg font-bold">{{ number_format($amount, 0, ',', '.') }}
+                                        class="text-green-900 dark:text-green-100 text-lg font-bold">{{ number_format($amount, 0, ',', '.') }}
                                         RSD</span>
                                 </div>
                                 <div class="flex items-center justify-between mt-2 text-sm">
-                                    <span class="text-green-700 dark:text-green-200">Stanje nakon dopune:</span>
+                                    <span class="text-green-700 dark:text-green-300">Stanje nakon dopune:</span>
                                     <span
-                                        class="text-green-800 font-semibold">{{ number_format(auth()->user()->balance + $amount, 0, ',', '.') }}
+                                        class="text-green-800 dark:text-green-200 font-semibold">{{ number_format(auth()->user()->balance + $amount, 0, ',', '.') }}
                                         RSD</span>
                                 </div>
                             </div>
@@ -207,10 +207,10 @@
                 @endif
 
                 @if ($selectedMethod === 'mobile')
-                    <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                    <div class="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-600 rounded-lg">
                         <div class="flex items-center">
                             <i class="fas fa-exclamation-triangle text-amber-600 dark:text-amber-400 mr-2"></i>
-                            <span class="text-amber-800">
+                            <span class="text-amber-800 dark:text-amber-200">
                                 <strong>Obaveštenje:</strong> Opcija mobilnog bankarstva će biti dostupna uskoro kada
                                 nabavimo NBS IPS QR kod.
                             </span>
@@ -222,10 +222,10 @@
                 @if ($showPaymentSlip && $this->paymentSlipData)
                     <div class="border-t pt-6 mt-6">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-bold text-slate-900">{{ $this->paymentSlipData['slip_title'] }}
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">{{ $this->paymentSlipData['slip_title'] }}
                             </h3>
                             <button wire:click="printPaymentSlip"
-                                class="inline-flex items-center px-3 py-2 border border-sky-300 rounded-md shadow-sm text-sm font-medium text-sky-700 bg-sky-50 hover:bg-sky-100 transition-colors">
+                                class="inline-flex items-center px-3 py-2 border border-sky-300 dark:border-sky-600 rounded-md shadow-sm text-sm font-medium text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-900/50 hover:bg-sky-100 dark:hover:bg-sky-900/70 transition-colors">
                                 <i class="fas fa-print mr-2"></i>
                                 Štampaj uplatnicu
                             </button>
@@ -233,9 +233,9 @@
 
                         <!-- Payment Slip -->
                         <div id="payment-slip"
-                            class="border-2 border-slate-800 rounded-lg p-6 bg-white print:border-black print:shadow-none">
+                            class="border-2 border-slate-800 dark:border-slate-600 rounded-lg p-6 bg-white dark:bg-slate-800 print:border-black print:shadow-none">
                             <div class="text-center mb-6 print:mb-4">
-                                <h2 class="text-2xl font-bold text-slate-900 print:text-xl">
+                                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 print:text-xl">
                                     {{ $this->paymentSlipData['slip_title'] }}</h2>
                                 <p class="text-slate-600 dark:text-slate-400 text-sm print:text-xs">
                                     {{ $this->paymentSlipData['slip_title'] === 'NALOG ZA PRENOS' ? 'Transfer Order' : 'Payment Order' }}
@@ -249,7 +249,7 @@
                                     <div class="border border-slate-400 p-3 print:p-2">
                                         <p class="text-xs text-slate-600 dark:text-slate-400 mb-1 print:text-[10px]">
                                             платилац</p>
-                                        <p class="font-semibold print:text-sm">
+                                        <p class="font-semibold text-slate-900 dark:text-slate-100 print:text-sm">
                                             {{ $this->paymentSlipData['payer_name'] }}</p>
                                     </div>
 
@@ -257,7 +257,7 @@
                                     <div class="border border-slate-400 p-3 print:p-2">
                                         <p class="text-xs text-slate-600 dark:text-slate-400 mb-1 print:text-[10px]">
                                             сврха плаћања</p>
-                                        <p class="font-semibold print:text-sm">
+                                        <p class="font-semibold text-slate-900 dark:text-slate-100 print:text-sm">
                                             {{ $this->paymentSlipData['payment_purpose'] }}</p>
                                     </div>
 
@@ -265,9 +265,9 @@
                                     <div class="border border-slate-400 p-3 print:p-2">
                                         <p class="text-xs text-slate-600 dark:text-slate-400 mb-1 print:text-[10px]">
                                             прималац</p>
-                                        <p class="font-semibold print:text-sm">
+                                        <p class="font-semibold text-slate-900 dark:text-slate-100 print:text-sm">
                                             {{ $this->paymentSlipData['company_name'] }}</p>
-                                        <p class="font-semibold print:text-sm text-sm mt-1">
+                                        <p class="font-semibold text-slate-900 dark:text-slate-100 print:text-sm text-sm mt-1">
                                             {{ $this->paymentSlipData['company_address'] }}</p>
                                     </div>
 
@@ -304,18 +304,18 @@
                                         <div class="border border-slate-400 p-2 text-center print:p-1">
                                             <p class="text-xs text-slate-600 dark:text-slate-400 print:text-[10px]">
                                                 шифра<br>плаћања</p>
-                                            <p class="font-bold text-lg print:text-sm">
+                                            <p class="font-bold text-lg text-slate-900 dark:text-slate-100 print:text-sm">
                                                 {{ $this->paymentSlipData['payment_code'] }}</p>
                                         </div>
                                         <div class="border border-slate-400 p-2 text-center print:p-1">
                                             <p class="text-xs text-slate-600 dark:text-slate-400 print:text-[10px]">
                                                 валута</p>
-                                            <p class="font-bold print:text-sm">DIN</p>
+                                            <p class="font-bold text-slate-900 dark:text-slate-100 print:text-sm">DIN</p>
                                         </div>
                                         <div class="border border-slate-400 p-2 text-center print:p-1">
                                             <p class="text-xs text-slate-600 dark:text-slate-400 print:text-[10px]">
                                                 износ</p>
-                                            <p class="font-bold print:text-sm">=
+                                            <p class="font-bold text-slate-900 dark:text-slate-100 print:text-sm">=
                                                 {{ number_format($this->paymentSlipData['amount'], 2, ',', '.') }}</p>
                                         </div>
                                     </div>
@@ -354,7 +354,7 @@
                                     <div class="border border-slate-400 p-3 print:p-2">
                                         <p class="text-xs text-slate-600 dark:text-slate-400 mb-1 print:text-[10px]">
                                             рачун примаоца</p>
-                                        <p class="font-semibold font-mono text-lg print:text-sm">
+                                        <p class="font-semibold font-mono text-lg text-slate-900 dark:text-slate-100 print:text-sm">
                                             {{ $this->paymentSlipData['bank_account'] }}</p>
                                     </div>
 
@@ -365,11 +365,11 @@
                                             (одобрење)</p>
                                         <div class="grid grid-cols-2 gap-2 print:gap-1">
                                             <div class="border border-slate-300 p-2 text-center print:p-1">
-                                                <p class="font-bold print:text-sm">
+                                                <p class="font-bold text-slate-900 dark:text-slate-100 print:text-sm">
                                                     {{ $this->paymentSlipData['model_number'] }}</p>
                                             </div>
                                             <div class="border border-slate-300 p-2 print:p-1">
-                                                <p class="font-bold print:text-sm">
+                                                <p class="font-bold text-slate-900 dark:text-slate-100 print:text-sm">
                                                     {{ $this->paymentSlipData['reference_number'] }}</p>
                                             </div>
                                         </div>
@@ -426,19 +426,19 @@
                             </button>
 
                             <button wire:click="selectMethod(null)"
-                                class="px-4 py-2 border border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-colors">
+                                class="px-4 py-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors">
                                 <i class="fas fa-arrow-left mr-2"></i>
                                 Nazad na opcije
                             </button>
                         </div>
 
                         <!-- Important Notice -->
-                        <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg print:hidden">
+                        <div class="mt-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-600 rounded-lg print:hidden">
                             <div class="flex items-start">
                                 <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 mr-3 mt-1"></i>
                                 <div>
-                                    <h3 class="text-red-900 font-semibold mb-2">Važne napomene</h3>
-                                    <ul class="text-red-800 text-sm space-y-1">
+                                    <h3 class="text-red-900 dark:text-red-100 font-semibold mb-2">Važne napomene</h3>
+                                    <ul class="text-red-800 dark:text-red-200 text-sm space-y-1">
                                         <li>• Uplatite tačan iznos sa pozivom na broj</li>
                                         <li>• Kredit će biti uvećan automatski kada sistem verifikuje uplatu</li>
                                         <li>• Verifikacija može da traje 1-2 radna dana</li>

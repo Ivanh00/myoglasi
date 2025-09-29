@@ -186,9 +186,9 @@
 
     <!-- Credit Transfer Modal -->
     @if ($showTransferModal)
-        <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="fixed inset-0 bg-slate-600/50 dark:bg-slate-900/75 overflow-y-auto h-full w-full z-50">
             <div
-                class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white dark:bg-slate-800">
+                class="relative top-20 mx-auto p-5 border border-slate-200 dark:border-slate-600 w-full max-w-md shadow-lg rounded-md bg-white dark:bg-slate-800">
                 <div class="mt-3">
                     <!-- Modal Header -->
                     <div class="flex items-center justify-between mb-4">
@@ -207,12 +207,12 @@
 
                     <!-- Current Balance Info -->
                     <div
-                        class="{{ auth()->user()->balance > 0 ? 'bg-sky-50 border-sky-200' : 'bg-red-50 border-red-200' }} p-3 rounded-lg mb-4 border">
+                        class="{{ auth()->user()->balance > 0 ? 'bg-sky-50 dark:bg-sky-900/20 border-sky-200 dark:border-sky-600' : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-600' }} p-3 rounded-lg mb-4 border">
                         <div class="flex items-center">
                             <i
                                 class="fas fa-wallet {{ auth()->user()->balance > 0 ? 'text-sky-600 dark:text-sky-300' : 'text-red-600 dark:text-red-300' }} mr-2"></i>
                             <span
-                                class="{{ auth()->user()->balance > 0 ? 'text-sky-900' : 'text-red-900' }} font-medium">
+                                class="{{ auth()->user()->balance > 0 ? 'text-sky-900 dark:text-sky-100' : 'text-red-900 dark:text-red-100' }} font-medium">
                                 Vaš trenutni balans: {{ number_format(auth()->user()->balance, 0, ',', '.') }} RSD
                             </span>
                         </div>
@@ -233,7 +233,7 @@
                                 <div class="relative">
                                     <input type="text" wire:model.live="recipientName"
                                         placeholder="Ukucajte ime korisnika..."
-                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md focus:ring-purple-500 focus:border-purple-500">
 
                                     <!-- Search Results -->
                                     @if (!empty($userSearchResults))
@@ -242,13 +242,13 @@
                                             @foreach ($userSearchResults as $user)
                                                 <button type="button"
                                                     wire:click="selectRecipient({{ $user->id }})"
-                                                    class="w-full text-left px-3 py-2 hover:bg-purple-50 flex items-center">
+                                                    class="w-full text-left px-3 py-2 hover:bg-purple-50 dark:hover:bg-purple-900/20 flex items-center">
                                                     <div
-                                                        class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-7000 flex items-center justify-center text-white text-xs mr-3">
+                                                        class="w-8 h-8 rounded-full bg-purple-500 dark:bg-purple-600 flex items-center justify-center text-white text-xs mr-3">
                                                         {{ strtoupper(substr($user->name, 0, 1)) }}
                                                     </div>
                                                     <div>
-                                                        <div class="font-medium">
+                                                        <div class="font-medium text-slate-900 dark:text-slate-100">
                                                             {{ $user->name }}
                                                             @if ($user->shouldShowLastSeen())
                                                                 <span
@@ -277,9 +277,9 @@
                                 <!-- Selected Recipient -->
                                 @if ($selectedRecipient)
                                     <div
-                                        class="mt-2 p-2 bg-green-50 border border-green-200 rounded flex items-center">
+                                        class="mt-2 p-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-600 rounded flex items-center">
                                         <i class="fas fa-check-circle text-green-600 dark:text-green-300 mr-2"></i>
-                                        <span class="text-green-900">Izabran: {{ $selectedRecipient->name }}</span>
+                                        <span class="text-green-900 dark:text-green-100">Izabran: {{ $selectedRecipient->name }}</span>
                                         <button type="button" wire:click="$set('selectedRecipient', null)"
                                             class="ml-auto text-green-600 dark:text-green-300 hover:text-green-800">
                                             <i class="fas fa-times"></i>
@@ -300,7 +300,7 @@
                                     min="{{ \App\Models\Setting::get('minimum_credit_transfer', 10) }}"
                                     step="10"
                                     placeholder="Unesite iznos u RSD (min. {{ number_format(\App\Models\Setting::get('minimum_credit_transfer', 10), 0, ',', '.') }} RSD)"
-                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md focus:ring-purple-500 focus:border-purple-500">
                                 @error('transferAmount')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -312,7 +312,7 @@
                                     class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Napomena
                                     (opciono)</label>
                                 <textarea wire:model="transferNote" rows="2" placeholder="Razlog transfer-a ili poruka..."
-                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md focus:ring-purple-500 focus:border-purple-500"></textarea>
+                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md focus:ring-purple-500 focus:border-purple-500"></textarea>
                                 @error('transferNote')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -322,7 +322,7 @@
                         <!-- Modal Actions -->
                         <div class="flex items-center justify-end space-x-3 mt-6">
                             <button type="button" wire:click="$set('showTransferModal', false)"
-                                class="px-4 py-2 bg-slate-300 text-slate-700 dark:text-slate-200 rounded-md hover:bg-slate-400">
+                                class="px-4 py-2 bg-slate-300 dark:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-md hover:bg-slate-400 dark:hover:bg-slate-500">
                                 Otkaži
                             </button>
                             <button type="submit"

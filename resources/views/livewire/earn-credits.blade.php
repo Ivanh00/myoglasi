@@ -2,40 +2,40 @@
 
     <!-- Current Status -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-sky-50 p-6 rounded-lg border border-sky-200">
+        <div class="bg-sky-50 dark:bg-sky-900/20 p-6 rounded-lg border border-sky-200 dark:border-sky-600">
             <div class="flex items-center">
-                <div class="p-2 bg-sky-100 rounded-lg">
+                <div class="p-2 bg-sky-100 dark:bg-sky-800 rounded-lg">
                     <i class="fas fa-wallet text-sky-600 dark:text-sky-400"></i>
                 </div>
                 <div class="ml-4">
                     <p class="text-sm text-sky-600 dark:text-sky-400">Trenutni balans</p>
-                    <p class="text-xl font-semibold text-sky-900">
+                    <p class="text-xl font-semibold text-sky-900 dark:text-sky-100">
                         {{ number_format(auth()->user()->balance, 0, ',', '.') }} RSD</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+        <div class="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg border border-green-200 dark:border-green-600">
             <div class="flex items-center">
-                <div class="p-2 bg-green-100 rounded-lg">
+                <div class="p-2 bg-green-100 dark:bg-green-800 rounded-lg">
                     <i class="fas fa-trophy text-green-600 dark:text-green-400"></i>
                 </div>
                 <div class="ml-4">
                     <p class="text-sm text-green-600 dark:text-green-400">Danas zaradio</p>
-                    <p class="text-xl font-semibold text-green-900">
+                    <p class="text-xl font-semibold text-green-900 dark:text-green-100">
                         {{ number_format($this->todaysEarnings, 0, ',', '.') }} RSD</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-amber-50 p-6 rounded-lg border border-amber-200">
+        <div class="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-lg border border-amber-200 dark:border-amber-600">
             <div class="flex items-center">
-                <div class="p-2 bg-amber-100 rounded-lg">
+                <div class="p-2 bg-amber-100 dark:bg-amber-800 rounded-lg">
                     <i class="fas fa-gamepad text-amber-600 dark:text-amber-400"></i>
                 </div>
                 <div class="ml-4">
                     <p class="text-sm text-amber-600 dark:text-amber-400">Preostalo danas</p>
-                    <p class="text-xl font-semibold text-amber-900">
+                    <p class="text-xl font-semibold text-amber-900 dark:text-amber-100">
                         {{ number_format($this->remainingCredits, 0, ',', '.') }} RSD</p>
                 </div>
             </div>
@@ -50,38 +50,38 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Click Game -->
-                    <div class="border-2 border-slate-200 rounded-lg p-6 text-center hover:border-sky-500 hover:bg-sky-50 transition-all cursor-pointer"
+                    <div class="border-2 border-slate-200 dark:border-slate-600 rounded-lg p-6 text-center hover:border-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/20 transition-all cursor-pointer"
                         wire:click="startGame('click_game')">
-                        <div class="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div class="w-16 h-16 bg-sky-100 dark:bg-sky-800 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-mouse-pointer text-sky-600 dark:text-sly-400 text-2xl"></i>
                         </div>
                         <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-2">Igra klikanja</h3>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Klikni što više puta za 30 sekundi
                         </p>
-                        <span class="bg-sky-100 text-sky-800 text-xs px-2 py-1 rounded-full">Do 10 RSD</span>
+                        <span class="bg-sky-100 dark:bg-sky-800 text-sky-800 dark:text-sky-200 text-xs px-2 py-1 rounded-full">Do 10 RSD</span>
                     </div>
 
                     <!-- Memory Game -->
-                    <div class="border-2 border-slate-200 rounded-lg p-6 text-center hover:border-green-500 hover:bg-green-50 transition-all cursor-pointer"
+                    <div class="border-2 border-slate-200 dark:border-slate-600 rounded-lg p-6 text-center hover:border-green-500 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all cursor-pointer"
                         wire:click="startGame('memory_game')">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-brain text-green-600 dark:text-green-400 text-2xl"></i>
                         </div>
                         <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-2">Igra memorije</h3>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Zapamti parove boja</p>
-                        <span class="bg-green-100 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full">Do
+                        <span class="bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full">Do
                             15 RSD</span>
                     </div>
 
                     <!-- Number Game -->
-                    <div class="border-2 border-slate-200 rounded-lg p-6 text-center hover:border-purple-500 hover:bg-purple-50 transition-all cursor-pointer"
+                    <div class="border-2 border-slate-200 dark:border-slate-600 rounded-lg p-6 text-center hover:border-purple-500 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all cursor-pointer"
                         wire:click="startGame('number_game')">
-                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div class="w-16 h-16 bg-purple-100 dark:bg-purple-800 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-calculator text-purple-600 dark:text-purple-400 text-2xl"></i>
                         </div>
                         <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-2">Igra brojeva</h3>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Pogodi broj matematički</p>
-                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Do 20 RSD</span>
+                        <span class="bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 text-xs px-2 py-1 rounded-full">Do 20 RSD</span>
                     </div>
 
                 </div>
@@ -118,7 +118,7 @@
                             }, 1000);">
                             Vreme: <span x-text="timeLeft"></span>s
                         </div>
-                        <div class="w-full bg-slate-200 rounded-full h-2 mt-2">
+                        <div class="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2 mt-2">
                             <div class="bg-sky-600 h-2 rounded-full transition-all duration-1000" style="width: 100%"
                                 x-bind:style="'width: ' + (timeLeft / 30 * 100) + '%'"></div>
                         </div>
@@ -216,7 +216,7 @@ bg-slate-300 hover:bg-slate-400
         @if ($gameCompleted)
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8">
                 <div class="text-center">
-                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="w-20 h-20 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-trophy text-green-600 dark:text-green-400 text-3xl"></i>
                     </div>
 
@@ -239,7 +239,7 @@ bg-slate-300 hover:bg-slate-400
     @else
         <!-- Daily limit reached -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6 mb-8 text-center">
-            <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div class="w-20 h-20 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i class="fas fa-clock text-slate-400 text-3xl"></i>
             </div>
             <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4">Dnevni limit dostignut</h2>
@@ -265,7 +265,7 @@ bg-slate-300 hover:bg-slate-400
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach ($todaysLeaderboard as $gameType => $players)
                 @if (in_array($gameType, ['click_game', 'memory_game', 'number_game']))
-                    <div class="border border-slate-200 rounded-lg p-4">
+                    <div class="border border-slate-200 dark:border-slate-600 rounded-lg p-4">
                         <h3 class="font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
                             @if ($gameType === 'click_game')
                                 <i class="fas fa-mouse-pointer text-sky-600 dark:text-sky-400 mr-2"></i>
@@ -283,7 +283,7 @@ bg-slate-300 hover:bg-slate-400
                             <div class="space-y-2">
                                 @foreach ($players->take(5) as $index => $player)
                                     <div
-                                        class="flex items-center justify-between p-2 rounded {{ $index === 0 ? 'bg-amber-50 border border-amber-200' : 'bg-slate-50' }}">
+                                        class="flex items-center justify-between p-2 rounded {{ $index === 0 ? 'bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-600' : 'bg-slate-50 dark:bg-slate-700' }}">
                                         <div class="flex items-center">
                                             <div
                                                 class="w-6 h-6 rounded-full flex items-center justify-center mr-3 {{ $index === 0 ? 'bg-amber-500 text-white' : 'bg-slate-400 text-white' }} text-xs font-bold">
@@ -322,10 +322,10 @@ bg-slate-300 hover:bg-slate-400
         </div>
 
         @if (\App\Models\Setting::get('game_leaderboard_enabled', true))
-            <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+            <div class="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-600 rounded-lg">
                 <div class="flex items-center">
                     <i class="fas fa-info-circle text-amber-600 dark:text-amber-400 mr-2"></i>
-                    <span class="text-sm text-amber-800">
+                    <span class="text-sm text-amber-800 dark:text-amber-200">
                         <strong>Dnevni bonus:</strong> Najbolji igrač po igri svaki dan dobija
                         {{ number_format(\App\Models\Setting::get('game_leaderboard_bonus', 50), 0, ',', '.') }} RSD
                         bonus!
@@ -342,9 +342,9 @@ bg-slate-300 hover:bg-slate-400
 
             <div class="space-y-3">
                 @foreach ($recentEarnings as $earning)
-                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <div class="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                         <div class="flex items-center">
-                            <div class="p-2 bg-green-100 rounded-lg mr-3">
+                            <div class="p-2 bg-green-100 dark:bg-green-800 rounded-lg mr-3">
                                 @if (str_contains($earning->type, 'leaderboard'))
                                     <i class="fas fa-trophy text-amber-600 dark:text-amber-400"></i>
                                 @else
