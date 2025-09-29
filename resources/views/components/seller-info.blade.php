@@ -1,6 +1,6 @@
 @props(['seller', 'listing', 'showPhone' => true])
 
-<div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden">
+<div class="border-t border-slate-200 dark:border-slate-600">
     <div class="p-2 md:p-6 bg-slate-50 dark:bg-slate-700">
         <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">Informacije o
             @if(class_exists('\App\Models\Service') && $listing instanceof \App\Models\Service)

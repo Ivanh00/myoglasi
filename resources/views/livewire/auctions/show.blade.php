@@ -47,21 +47,24 @@
                 <!-- Images -->
                 <div>
                     @if ($auction->listing->images->count() > 0)
-                        <x-image-lightbox :images="$auction->listing->images->map(function($img) use ($auction) { return ['url' => $img->url, 'alt' => $auction->listing->title]; })" :title="$auction->listing->title">
+                        <x-image-lightbox :images="$auction->listing->images->map(function ($img) use ($auction) {
+                            return ['url' => $img->url, 'alt' => $auction->listing->title];
+                        })" :title="$auction->listing->title">
                             <div class="relative">
                                 <!-- Main image -->
                                 <div class="mb-4 rounded-lg overflow-hidden relative">
-                                    <img id="mainImage"
-                                        src="{{ $auction->listing->images->first()->url }}"
+                                    <img id="mainImage" src="{{ $auction->listing->images->first()->url }}"
                                         alt="{{ $auction->listing->title }}"
                                         class="w-full h-80 object-cover rounded-lg cursor-pointer hover:opacity-95 transition-opacity"
                                         @click="openLightbox(0)">
                                     <!-- Zoom icon overlay -->
                                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-20"
-                                         @click="openLightbox(0)">
+                                        @click="openLightbox(0)">
                                         <div class="bg-white bg-opacity-90 rounded-full p-3">
-                                            <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
+                                            <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
                                             </svg>
                                         </div>
                                     </div>
@@ -126,7 +129,7 @@
                         @if (auth()->id() === $auction->user_id)
                             <!-- Owner Controls -->
                             <div
-                                class="mb-6 p-2 md:p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
+                                class="p-2 md:p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
                                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
                                     <i class="fas fa-crown text-amber-600 dark:text-amber-400 mr-2"></i>
                                     Vaša aukcija
@@ -184,7 +187,7 @@
                         @elseif(auth()->id() !== $auction->user_id)
                             @if ($auction->isActive())
                                 <div
-                                    class="mb-6 p-2 md:p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
+                                    class="p-2 md:p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Postavite
                                         ponudu</h3>
 
@@ -313,7 +316,8 @@
                                         @if (!$auction->seller->is_banned)
                                             <a href="{{ route('listing.chat', ['slug' => $auction->listing->slug]) }}"
                                                 class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
-                                                <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
                                                     </path>
@@ -322,8 +326,7 @@
                                             </a>
 
                                             <!-- Share link (after message button) -->
-                                            <button
-                                                onclick="shareAuction()"
+                                            <button onclick="shareAuction()"
                                                 class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                                 <i class="fas fa-share-alt mr-2"></i>
                                                 Podeli link
@@ -338,8 +341,7 @@
                                             </div>
 
                                             <!-- Share link (even when seller is banned) -->
-                                            <button
-                                                onclick="shareAuction()"
+                                            <button onclick="shareAuction()"
                                                 class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                                 <i class="fas fa-share-alt mr-2"></i>
                                                 Podeli link
@@ -355,14 +357,15 @@
                 <!-- Share button for non-authenticated users in active auctions -->
                 @guest
                     @if ($auction->isActive())
-                        <div class="mb-6 p-2 md:p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
+                        <div
+                            class="p-2 md:p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
                             <div class="text-center text-slate-600 dark:text-slate-400 text-sm mb-4">
-                                <a href="{{ route('login') }}" class="text-sky-500 hover:text-sky-700">Prijavite se</a> da biste učestvovali u aukciji
+                                <a href="{{ route('login') }}" class="text-sky-500 hover:text-sky-700">Prijavite se</a>
+                                da biste učestvovali u aukciji
                             </div>
 
                             <!-- Share link (available to all) -->
-                            <button
-                                onclick="shareAuction()"
+                            <button onclick="shareAuction()"
                                 class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fas fa-share-alt mr-2"></i>
                                 Podeli link
@@ -408,7 +411,8 @@
                                     @if (!$auction->seller->is_banned)
                                         <a href="{{ route('listing.chat', ['slug' => $auction->listing->slug]) }}"
                                             class="w-full flex items-center justify-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors">
-                                            <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
                                                 </path>
@@ -417,8 +421,7 @@
                                         </a>
 
                                         <!-- Share link (after message button) -->
-                                        <button
-                                            onclick="shareAuction()"
+                                        <button onclick="shareAuction()"
                                             class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
                                             <i class="fas fa-share-alt mr-2"></i>
                                             Podeli link
@@ -433,8 +436,7 @@
                                         </div>
 
                                         <!-- Share link (even when seller is banned) -->
-                                        <button
-                                            onclick="shareAuction()"
+                                        <button onclick="shareAuction()"
                                             class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
                                             <i class="fas fa-share-alt mr-2"></i>
                                             Podeli link
@@ -447,8 +449,7 @@
                                     </div>
 
                                     <!-- Share link (available to all non-authenticated) -->
-                                    <button
-                                        onclick="shareAuction()"
+                                    <button onclick="shareAuction()"
                                         class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
                                         <i class="fas fa-share-alt mr-2"></i>
                                         Podeli link
@@ -460,23 +461,23 @@
                 @endif
 
             </div>
-        </div>
 
-        <!-- Listing Description -->
-        <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6 bg-white dark:bg-slate-800">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">Opis proizvoda</h3>
-            <div class="text-slate-700 dark:text-slate-200 whitespace-pre-line">{{ $auction->listing->description }}
+            <!-- Listing Description -->
+            <div class="border-t border-slate-200 dark:border-slate-600 p-2 md:p-6">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">Opis proizvoda</h3>
+                <div class="text-slate-700 dark:text-slate-200 whitespace-pre-line">
+                    {{ $auction->listing->description }}
+                </div>
             </div>
+
+            <!-- Seller Information Section -->
+            @auth
+                @if (auth()->id() !== $auction->user_id)
+                    <x-seller-info :seller="$auction->seller" :listing="$auction->listing" />
+                @endif
+            @endauth
         </div>
-
     </div>
-
-    <!-- Seller Information Section -->
-    @auth
-        @if (auth()->id() !== $auction->user_id)
-            <x-seller-info :seller="$auction->seller" :listing="$auction->listing" />
-        @endif
-    @endauth
 
     <!-- Bid History Section -->
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
@@ -808,8 +809,7 @@
 
     <!-- Remove from Auction Confirmation Modal -->
     <div x-data="{ showRemoveAuctionModal: false }"
-        @if (auth()->check() && auth()->id() === $auction->user_id)
-        x-show="showRemoveAuctionModal"
+        @if (auth()->check() && auth()->id() === $auction->user_id) x-show="showRemoveAuctionModal"
             x-on:open-remove-auction-modal.window="showRemoveAuctionModal = true"
             x-on:close-remove-auction-modal.window="showRemoveAuctionModal = false"
             x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
@@ -925,37 +925,35 @@
                                         </p>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
-                    </div>
+                            </div> @endif
+        </div>
 
-                    <!-- Modal footer with actions -->
-                    <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-4">
-                        <div class="flex space-x-3">
-                            <button type="button" @click="showRemoveAuctionModal = false"
-                                class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-                                <i class="fas fa-times mr-2"></i>
-                                Otkaži
-                            </button>
-                            <button type="button" wire:click="removeFromAuction"
-                                @click="showRemoveAuctionModal = false"
-                                class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105">
-                                <i class="fas fa-trash mr-2"></i>
-                                Ukloni aukciju
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <!-- Modal footer with actions -->
+        <div class="bg-slate-50 dark:bg-slate-700/50 px-6 py-4">
+            <div class="flex space-x-3">
+                <button type="button" @click="showRemoveAuctionModal = false"
+                    class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                    <i class="fas fa-times mr-2"></i>
+                    Otkaži
+                </button>
+                <button type="button" wire:click="removeFromAuction" @click="showRemoveAuctionModal = false"
+                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105">
+                    <i class="fas fa-trash mr-2"></i>
+                    Ukloni aukciju
+                </button>
             </div>
-        @else
-            <!-- Empty div when not authorized -->
-        @endif
+        </div>
     </div>
+</div>
+@else
+<!-- Empty div when not authorized -->
+@endif
+</div>
 
-    </div>  <!-- Close wrapper div from line 3 -->
+</div> <!-- Close wrapper div from line 3 -->
 
-    <!-- Real-time countdown script using Carbon data -->
-    <script>
+<!-- Real-time countdown script using Carbon data -->
+<script>
     // Image gallery function
     function changeMainImage(src, element) {
         // Set main image
@@ -1092,25 +1090,30 @@
         const fbLink = document.createElement('a');
         fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
         fbLink.target = '_blank';
-        fbLink.className = 'flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
+        fbLink.className =
+        'flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
         fbLink.innerHTML = '<i class="fab fa-facebook-f w-6"></i><span class="ml-3">Podeli na Facebook-u</span>';
 
         // WhatsApp
         const waLink = document.createElement('a');
         waLink.href = 'https://wa.me/?text=' + encodeURIComponent(text + ' ' + url);
         waLink.target = '_blank';
-        waLink.className = 'flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors';
+        waLink.className =
+            'flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors';
         waLink.innerHTML = '<i class="fab fa-whatsapp w-6"></i><span class="ml-3">Podeli na WhatsApp-u</span>';
 
         // Email
         const emailLink = document.createElement('a');
-        emailLink.href = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(text + '\n\n' + url);
-        emailLink.className = 'flex items-center p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors';
+        emailLink.href = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(text + '\n\n' +
+            url);
+        emailLink.className =
+            'flex items-center p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors';
         emailLink.innerHTML = '<i class="fas fa-envelope w-6"></i><span class="ml-3">Pošalji Email</span>';
 
         // Copy link button
         const copyBtn = document.createElement('button');
-        copyBtn.className = 'w-full flex items-center p-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors';
+        copyBtn.className =
+            'w-full flex items-center p-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors';
         copyBtn.innerHTML = '<i class="fas fa-link w-6"></i><span class="ml-3">Kopiraj link</span>';
         copyBtn.onclick = () => {
             copyToClipboard(url);
@@ -1140,7 +1143,8 @@
         navigator.clipboard.writeText(url).then(() => {
             // Show success message
             const message = document.createElement('div');
-            message.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
+            message.className =
+                'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
 
             const icon = document.createElement('i');
             icon.className = 'fas fa-check mr-2';
@@ -1162,5 +1166,5 @@
             prompt('Kopiraj link:', url);
         });
     }
-    </script>
-</div>  <!-- Close root div from line 1 -->
+</script>
+</div> <!-- Close root div from line 1 -->
