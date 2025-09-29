@@ -522,7 +522,7 @@
         <!-- Mobile Sidebar Toggle Button -->
         <div class="md:hidden fixed top-36 left-2 z-[95]">
             <button type="button" id="mobile-sidebar-button"
-                class="bg-white p-2 rounded-md shadow-lg border border-slate-300 text-slate-400 hover:text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                class="bg-white dark:bg-slate-700 p-2 rounded-md shadow-lg border-2 border-sky-500 text-slate-600 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 ring-2 ring-sky-400 dark:ring-sky-500">
                 <span class="sr-only">Open sidebar</span>
                 <!-- Hamburger icon -->
                 <svg id="sidebar-menu-icon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

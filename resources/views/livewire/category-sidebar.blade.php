@@ -69,6 +69,7 @@ $categoryTree = isset($categoryTree)
                     Oglasi
                 </a>
                 <button @click="openSection = openSection === 'listings' ? null : 'listings'"
+                    :class="openSection === 'listings' ? 'bg-sky-700 ring-2 ring-sky-400' : ''"
                     class="px-3 py-3 text-white hover:bg-sky-700 transition-colors rounded-r-lg border-l border-sky-700">
                     <svg class="w-4 h-4 transition-transform duration-200"
                         :class="{ 'transform rotate-90': openSection === 'listings' }" fill="none"
@@ -122,6 +123,7 @@ $categoryTree = isset($categoryTree)
                     Aukcije
                 </a>
                 <button @click="openSection = openSection === 'auctions' ? null : 'auctions'"
+                    :class="openSection === 'auctions' ? 'bg-amber-700 ring-2 ring-amber-400' : ''"
                     class="px-3 py-3 text-white hover:bg-amber-700 transition-colors rounded-r-lg border-l border-amber-700">
                     <svg class="w-4 h-4 transition-transform duration-200"
                         :class="{ 'transform rotate-90': openSection === 'auctions' }" fill="none"
@@ -175,6 +177,7 @@ $categoryTree = isset($categoryTree)
                     Usluge
                 </a>
                 <button @click="openSection = openSection === 'services' ? null : 'services'"
+                    :class="openSection === 'services' ? 'ring-2 ring-slate-400' : ''"
                     class="px-3 py-3 text-white hover:opacity-90 transition-opacity rounded-r-lg border-l border-slate-700">
                     <svg class="w-4 h-4 transition-transform duration-200"
                         :class="{ 'transform rotate-90': openSection === 'services' }" fill="none"
@@ -246,6 +249,7 @@ $categoryTree = isset($categoryTree)
                     Pokloni
                 </a>
                 <button @click="openSection = openSection === 'giveaways' ? null : 'giveaways'"
+                    :class="openSection === 'giveaways' ? 'bg-green-700 ring-2 ring-green-400' : ''"
                     class="px-3 py-3 text-white hover:bg-green-700 transition-colors rounded-r-lg border-l border-green-700">
                     <svg class="w-4 h-4 transition-transform duration-200"
                         :class="{ 'transform rotate-90': openSection === 'giveaways' }" fill="none"
