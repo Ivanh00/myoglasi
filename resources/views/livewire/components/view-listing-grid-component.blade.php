@@ -45,13 +45,7 @@
             {{-- Seller info --}}
             @auth
                 <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
-                    @if ($listing->isService())
-                        Pružalac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
-                    @elseif($listing->isGiveaway())
-                        Poklanja: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
-                    @else
-                        Prodavac: {{ $listing->user->name ?? 'Nepoznat korisnik' }}
-                    @endif
+                    {{ $listing->user->name ?? 'Nepoznat korisnik' }}
                     @if ($listing->user)
                         {!! $listing->user->verified_icon !!}
                     @endif

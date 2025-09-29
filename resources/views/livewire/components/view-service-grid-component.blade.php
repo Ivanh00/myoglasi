@@ -39,6 +39,31 @@
                 @endif
             </div>
 
+            {{-- User info --}}
+            @auth
+                <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                    {{ $service->user->name ?? 'Nepoznat korisnik' }}
+                    @if ($service->user)
+                        {!! $service->user->verified_icon !!}
+                    @endif
+                    @if ($service->user && $service->user->is_banned)
+                        <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
+                    @endif
+                    @if ($service->user && $service->user->shouldShowLastSeen())
+                        <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
+                            @if ($service->user->is_online)
+                                <span class="inline-flex items-center">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                    {{ $service->user->last_seen }}
+                                </span>
+                            @else
+                                {{ $service->user->last_seen }}
+                            @endif
+                        </span>
+                    @endif
+                </p>
+            @endauth
+
             <p class="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-2">
                 {{ Str::limit($service->description, 100) }}
             </p>

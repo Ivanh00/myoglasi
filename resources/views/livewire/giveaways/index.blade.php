@@ -615,6 +615,31 @@
                                     {{ $giveaway->title }}
                                 </h3>
 
+                                {{-- User info --}}
+                                @auth
+                                    <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                        {{ $giveaway->user->name ?? 'Nepoznat korisnik' }}
+                                        @if ($giveaway->user)
+                                            {!! $giveaway->user->verified_icon !!}
+                                        @endif
+                                        @if ($giveaway->user && $giveaway->user->is_banned)
+                                            <span class="text-red-600 dark:text-red-400 font-bold ml-1">BLOKIRAN</span>
+                                        @endif
+                                        @if ($giveaway->user && $giveaway->user->shouldShowLastSeen())
+                                            <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
+                                                @if ($giveaway->user->is_online)
+                                                    <span class="inline-flex items-center">
+                                                        <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                                        {{ $giveaway->user->last_seen }}
+                                                    </span>
+                                                @else
+                                                    {{ $giveaway->user->last_seen }}
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </p>
+                                @endauth
+
                                 <p class="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-2">
                                     {{ Str::limit($giveaway->description, 100) }}
                                 </p>
@@ -627,17 +652,10 @@
                                     {{ $giveaway->category->name }}
                                 </div>
 
-                                <!-- Korisnik i vreme -->
-                                <div
-                                    class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
-                                    <div>
-                                        <i class="fas fa-user mr-1"></i>
-                                        {{ $giveaway->user->name }}
-                                    </div>
-                                    <div>
-                                        <i class="fas fa-clock mr-1"></i>
-                                        Pre {{ floor($giveaway->created_at->diffInDays()) }} dana
-                                    </div>
+                                <!-- Vreme -->
+                                <div class="text-xs text-slate-500 dark:text-slate-400 mb-3">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    Pre {{ floor($giveaway->created_at->diffInDays()) }} dana
                                 </div>
                             </div>
 
