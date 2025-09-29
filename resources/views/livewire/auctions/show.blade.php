@@ -316,6 +316,14 @@
                                                 <i class="fas fa-envelope mr-2"></i>
                                                 Pošaljite poruku prodavcu
                                             </a>
+
+                                            <!-- Share link (after message button) -->
+                                            <button
+                                                onclick="shareAuction()"
+                                                class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                                                <i class="fas fa-share-alt mr-2"></i>
+                                                Podeli link
+                                            </button>
                                         @else
                                             <div class="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
                                                 <div class="flex items-center justify-center">
@@ -324,6 +332,14 @@
                                                         blokiran</span>
                                                 </div>
                                             </div>
+
+                                            <!-- Share link (even when seller is banned) -->
+                                            <button
+                                                onclick="shareAuction()"
+                                                class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                                                <i class="fas fa-share-alt mr-2"></i>
+                                                Podeli link
+                                            </button>
                                         @endif
                                     </div>
                                 </div>
@@ -331,6 +347,25 @@
                     @endif
                     @endif
                 @endauth
+
+                <!-- Share button for non-authenticated users in active auctions -->
+                @guest
+                    @if ($auction->isActive())
+                        <div class="mb-6 p-2 md:p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
+                            <div class="text-center text-slate-600 dark:text-slate-400 text-sm mb-4">
+                                <a href="{{ route('login') }}" class="text-sky-500 hover:text-sky-700">Prijavite se</a> da biste učestvovali u aukciji
+                            </div>
+
+                            <!-- Share link (available to all) -->
+                            <button
+                                onclick="shareAuction()"
+                                class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                                <i class="fas fa-share-alt mr-2"></i>
+                                Podeli link
+                            </button>
+                        </div>
+                    @endif
+                @endguest
 
                 <!-- Scheduled Auction Info and Actions (for non-owners) -->
                 @if (!auth()->check() || auth()->id() !== $auction->user_id)
