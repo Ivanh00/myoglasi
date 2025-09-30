@@ -60,8 +60,8 @@
         </div>
     </div>
 
-    <!-- Auctions Table -->
-    <div class="bg-white shadow rounded-lg overflow-hidden">
+    <!-- Desktop Auctions Table -->
+    <div class="hidden lg:block bg-white shadow rounded-lg overflow-hidden">
         <table class="min-w-full divide-y divide-slate-200">
             <thead class="bg-slate-50">
                 <tr>
@@ -307,12 +307,192 @@
                     @endforelse
                 </tbody>
             </table>
-        </div>
 
-        <!-- Pagination -->
+        <!-- Desktop Pagination -->
         <div class="mt-6">
             {{ $auctions->links() }}
         </div>
+    </div>
+
+    <!-- Mobile Auctions Cards -->
+    <div class="lg:hidden space-y-4">
+        @forelse($auctions as $auction)
+            <div class="bg-white shadow rounded-lg p-4">
+                <!-- Header -->
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        <div class="text-sm text-slate-500 dark:text-slate-300 mb-1">Aukcija #{{ $auction->id }}</div>
+                        <div class="text-lg font-semibold text-slate-900 mb-2">{{ Str::limit($auction->listing->title, 40) }}
+                        </div>
+                        <div class="flex items-center space-x-4 text-sm text-slate-500 dark:text-slate-300 mb-2">
+                            <span><i class="fas fa-tag mr-1"></i>{{ $auction->listing->category->name ?? 'N/A' }}</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="text-sm">
+                                <span class="text-slate-600 dark:text-slate-400">Trenutna:</span>
+                                <span class="font-bold text-green-600">{{ number_format($auction->current_price, 0, ',', '.') }} RSD</span>
+                            </div>
+                            <div class="text-xs text-slate-500 dark:text-slate-300">
+                                Početna: {{ number_format($auction->starting_price, 0, ',', '.') }} RSD
+                            </div>
+                            @if ($auction->buy_now_price)
+                                <div class="text-xs text-green-600">
+                                    Kupi odmah: {{ number_format($auction->buy_now_price, 0, ',', '.') }} RSD
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Image -->
+                    @if ($auction->listing->images->count() > 0)
+                        <div class="flex-shrink-0 ml-4">
+                            <img class="h-16 w-16 rounded-lg object-cover" src="{{ $auction->listing->images->first()->url }}"
+                                alt="{{ $auction->listing->title }}">
+                        </div>
+                    @else
+                        <div class="flex-shrink-0 ml-4">
+                            <div class="h-16 w-16 rounded-lg bg-slate-200 flex items-center justify-center">
+                                <i class="fas fa-gavel text-slate-400"></i>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Seller Info -->
+                <div class="bg-slate-50 p-3 rounded-lg mb-4">
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                        Prodavac</div>
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-8 w-8">
+                            @if ($auction->seller->avatar)
+                                <img class="h-8 w-8 rounded-full object-cover" src="{{ $auction->seller->avatar_url }}"
+                                    alt="{{ $auction->seller->name }}">
+                            @else
+                                <div
+                                    class="h-8 w-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-xs">
+                                    {{ strtoupper(substr($auction->seller->name, 0, 1)) }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="ml-3">
+                            <div class="text-sm font-medium text-slate-900">{{ $auction->seller->name }}</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-300">{{ $auction->seller->email }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bids and Status Info -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                            Ponude</div>
+                        <div class="text-sm text-slate-900">{{ $auction->total_bids }} ponuda</div>
+                        @if ($auction->winner)
+                            <div class="text-xs text-green-600 mt-1">Pobednik: {{ $auction->winner->name }}</div>
+                        @elseif($auction->total_bids > 0)
+                            @php
+                                $winningBid = $auction->bids()->where('is_winning', true)->first();
+                            @endphp
+                            @if ($winningBid)
+                                <div class="text-xs text-sky-600 dark:text-sky-400 mt-1">Vodi: {{ $winningBid->user->name }}</div>
+                            @endif
+                        @endif
+                    </div>
+
+                    <div>
+                        <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                            Status</div>
+                        @if ($auction->deleted_at)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                Obrisana
+                            </span>
+                        @else
+                            @switch($auction->status)
+                                @case('pending')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                        Na čekanju
+                                    </span>
+                                @break
+                                @case('active')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Aktivna
+                                    </span>
+                                @break
+                                @case('ended')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
+                                        Završena
+                                    </span>
+                                @break
+                                @case('cancelled')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        Otkazana
+                                    </span>
+                                @break
+                            @endswitch
+                        @endif
+                    </div>
+                </div>
+
+                <!-- End Time -->
+                <div class="mb-4">
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                        Završava</div>
+                    <div class="text-sm text-slate-900">{{ $auction->ends_at->format('d.m.Y H:i') }}</div>
+                    @if ($auction->isActive())
+                        @php
+                            $timeLeft = $auction->time_left;
+                        @endphp
+                        @if ($timeLeft)
+                            <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
+                                {{ $timeLeft['formatted'] }} ostalo
+                            </div>
+                        @endif
+                    @endif
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <a href="{{ route('auction.show', $auction) }}" target="_blank"
+                        class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
+                        <i class="fas fa-eye mr-1"></i>
+                        Pregled
+                    </a>
+
+                    <button wire:click="editAuction({{ $auction->id }})"
+                        class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
+                        <i class="fas fa-edit mr-1"></i>
+                        Uredi
+                    </button>
+
+                    @if ($auction->isActive())
+                        <button x-data
+                            x-on:click.prevent="if (confirm('Da li ste sigurni da želite da završite ovu aukciju?')) { $wire.endAuction({{ $auction->id }}) }"
+                            class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
+                            <i class="fas fa-stop-circle mr-1"></i>
+                            Završi
+                        </button>
+                    @endif
+
+                    <button wire:click="confirmDelete({{ $auction->id }})"
+                        class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                        <i class="fas fa-trash mr-1"></i>
+                        Obriši
+                    </button>
+                </div>
+            </div>
+        @empty
+            <div class="bg-white rounded-lg shadow p-8 text-center">
+                <i class="fas fa-gavel text-slate-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-slate-800 mb-2">Nema aukcija</h3>
+                <p class="text-slate-600 dark:text-slate-400">Nema aukcija koje odgovaraju filterima.</p>
+            </div>
+        @endforelse
+
+        <!-- Mobile Pagination -->
+        <div class="mt-6">
+            {{ $auctions->links() }}
+        </div>
+    </div>
 
         <!-- Edit Modal -->
         @if ($showEditModal)

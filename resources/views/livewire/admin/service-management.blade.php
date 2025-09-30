@@ -55,8 +55,8 @@
         </div>
     </div>
 
-    <!-- Tabela usluga -->
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
+    <!-- Desktop Tabela usluga -->
+    <div class="hidden lg:block bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
                 <thead class="bg-slate-50 dark:bg-slate-700">
@@ -288,6 +288,141 @@
                 {{ $services->links() }}
             </div>
         </div>
+
+    <!-- Mobile Services Cards -->
+    <div class="lg:hidden space-y-4">
+        @forelse($services as $service)
+            <div class="bg-white dark:bg-slate-800 shadow rounded-lg p-4">
+                <!-- Header -->
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        <div class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">{{ Str::limit($service->title, 40) }}
+                        </div>
+                        <div class="flex items-center space-x-4 text-sm text-slate-500 dark:text-slate-300">
+                            <span><i class="fas fa-tools mr-1"></i>{{ $service->category->name ?? 'N/A' }}</span>
+                            <span><i class="fas fa-map-marker-alt mr-1"></i>{{ $service->location }}</span>
+                        </div>
+                        <div class="mt-2">
+                            <span
+                                class="text-lg font-bold text-green-600">{{ number_format($service->price, 2) }}
+                                RSD</span>
+                        </div>
+                    </div>
+
+                    <!-- Image -->
+                    @if ($service->images->count() > 0)
+                        <div class="flex-shrink-0 ml-4">
+                            <img class="h-16 w-16 rounded-lg object-cover" src="{{ $service->images->first()->url }}"
+                                alt="{{ $service->title }}">
+                        </div>
+                    @else
+                        <div class="flex-shrink-0 ml-4">
+                            <div class="h-16 w-16 rounded-lg bg-slate-200 dark:bg-slate-600 flex items-center justify-center">
+                                <i class="fas fa-tools text-slate-400"></i>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- User Info -->
+                <div class="bg-slate-50 dark:bg-slate-700 p-3 rounded-lg mb-4">
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                        Pružalac usluge</div>
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-8 w-8">
+                            @if ($service->user->avatar)
+                                <img class="h-8 w-8 rounded-full object-cover" src="{{ $service->user->avatar_url }}"
+                                    alt="{{ $service->user->name }}">
+                            @else
+                                <div
+                                    class="h-8 w-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-xs">
+                                    {{ strtoupper(substr($service->user->name, 0, 1)) }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="ml-3">
+                            <div class="text-sm font-medium text-slate-900 dark:text-slate-100">{{ $service->user->name }}</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-300">{{ $service->user->email }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status and Date Info -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <div
+                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                            Status</div>
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            @if ($service->status === 'active') bg-green-100 text-green-800
+                            @elseif($service->status === 'inactive') bg-slate-100 text-slate-800
+                            @elseif($service->status === 'expired') bg-red-100 text-red-800 @endif">
+                            @switch($service->status)
+                                @case('active') Aktivan @break
+                                @case('inactive') Neaktivan @break
+                                @case('expired') Istekao @break
+                                @default {{ ucfirst($service->status) }}
+                            @endswitch
+                        </span>
+                    </div>
+
+                    <div>
+                        <div
+                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                            Datum</div>
+                        <div class="text-sm text-slate-900 dark:text-slate-100">{{ $service->created_at->format('d.m.Y') }}</div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <a href="{{ route('services.show', $service) }}" target="_blank"
+                        class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
+                        <i class="fas fa-eye mr-1"></i>
+                        Pregled
+                    </a>
+
+                    <button wire:click="editService({{ $service->id }})"
+                        class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
+                        <i class="fas fa-edit mr-1"></i>
+                        Uredi
+                    </button>
+
+                    @if ($service->status === 'active')
+                        <button wire:click="deactivateService({{ $service->id }})"
+                            class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
+                            <i class="fas fa-ban mr-1"></i>
+                            Deaktiviraj
+                        </button>
+                    @else
+                        <button wire:click="activateService({{ $service->id }})"
+                            class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
+                            <i class="fas fa-check-circle mr-1"></i>
+                            Aktiviraj
+                        </button>
+                    @endif
+
+                    <button wire:click="confirmDeleteService({{ $service->id }})"
+                        class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
+                        <i class="fas fa-trash mr-1"></i>
+                        Obriši
+                    </button>
+                </div>
+            </div>
+        @empty
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-8 text-center">
+                <i class="fas fa-tools text-slate-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-2">Nema usluga</h3>
+                <p class="text-slate-600 dark:text-slate-400">Nema usluga koji odgovaraju kriterijumima pretrage.</p>
+            </div>
+        @endforelse
+
+        <!-- Mobile Pagination -->
+        <div class="mt-6">
+            {{ $services->links() }}
+        </div>
+    </div>
 
         <!-- Edit Service Modal -->
         @if ($showEditModal)
