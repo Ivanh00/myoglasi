@@ -3,43 +3,86 @@
     <!-- Filter Summary -->
     @php
         $activeFilters = array_filter([
-            $content_type !== 'all'
-                ? 'Tip: ' .
-                    [
-                        'listings' => 'Oglasi',
-                        'auctions' => 'Aukcije',
-                        'services' => 'Usluge',
-                        'giveaways' => 'Pokloni',
-                    ][$content_type]
+            'content_type' => $content_type !== 'all'
+                ? [
+                    'label' => 'Tip: ' .
+                        [
+                            'listings' => 'Oglasi',
+                            'auctions' => 'Aukcije',
+                            'services' => 'Usluge',
+                            'giveaways' => 'Pokloni',
+                        ][$content_type],
+                    'action' => "wire:click=\"\$set('content_type', 'all')\"",
+                ]
                 : null,
-            $query ? "Pretraga: '{$query}'" : null,
-            $city ? "Grad: {$city}" : null,
-            $search_category && $content_type === 'listings'
-                ? 'Kategorija: ' . ($categories->firstWhere('id', $search_category)->name ?? 'N/A')
+            'query' => $query
+                ? [
+                    'label' => "Pretraga: '{$query}'",
+                    'action' => "wire:click=\"\$set('query', '')\"",
+                ]
                 : null,
-            $search_subcategory && $content_type === 'listings'
-                ? 'Podkategorija: ' . ($subcategories->firstWhere('id', $search_subcategory)->name ?? 'N/A')
+            'city' => $city
+                ? [
+                    'label' => "Grad: {$city}",
+                    'action' => "wire:click=\"\$set('city', '')\"",
+                ]
                 : null,
-            $service_category && $content_type === 'services'
-                ? 'Kategorija usluga: ' . ($serviceCategories->firstWhere('id', $service_category)->name ?? 'N/A')
+            'search_category' => $search_category && $content_type === 'listings'
+                ? [
+                    'label' => 'Kategorija: ' . ($categories->firstWhere('id', $search_category)->name ?? 'N/A'),
+                    'action' => "wire:click=\"\$set('search_category', '')\"",
+                ]
                 : null,
-            $service_subcategory && $content_type === 'services'
-                ? 'Podkategorija usluga: ' .
-                    ($serviceSubcategories->firstWhere('id', $service_subcategory)->name ?? 'N/A')
+            'search_subcategory' => $search_subcategory && $content_type === 'listings'
+                ? [
+                    'label' => 'Podkategorija: ' . ($subcategories->firstWhere('id', $search_subcategory)->name ?? 'N/A'),
+                    'action' => "wire:click=\"\$set('search_subcategory', '')\"",
+                ]
                 : null,
-            $condition_id ? 'Stanje: ' . ($conditions->firstWhere('id', $condition_id)->name ?? 'N/A') : null,
-            $auction_type
-                ? 'Aukcije: ' .
-                    [
-                        'ending_soon' => 'Završavaju uskoro',
-                        'newest' => 'Najnovije',
-                        'highest_price' => 'Najviša cena',
-                        'most_bids' => 'Najviše ponuda',
-                        'scheduled' => 'Zakazane aukcije',
-                    ][$auction_type]
+            'service_category' => $service_category && $content_type === 'services'
+                ? [
+                    'label' => 'Kategorija usluga: ' . ($serviceCategories->firstWhere('id', $service_category)->name ?? 'N/A'),
+                    'action' => "wire:click=\"\$set('service_category', '')\"",
+                ]
                 : null,
-            $price_min ? 'Cena od: ' . number_format($price_min, 0, ',', '.') . ' RSD' : null,
-            $price_max ? 'Cena do: ' . number_format($price_max, 0, ',', '.') . ' RSD' : null,
+            'service_subcategory' => $service_subcategory && $content_type === 'services'
+                ? [
+                    'label' => 'Podkategorija usluga: ' .
+                        ($serviceSubcategories->firstWhere('id', $service_subcategory)->name ?? 'N/A'),
+                    'action' => "wire:click=\"\$set('service_subcategory', '')\"",
+                ]
+                : null,
+            'condition_id' => $condition_id
+                ? [
+                    'label' => 'Stanje: ' . ($conditions->firstWhere('id', $condition_id)->name ?? 'N/A'),
+                    'action' => "wire:click=\"\$set('condition_id', '')\"",
+                ]
+                : null,
+            'auction_type' => $auction_type
+                ? [
+                    'label' => 'Aukcije: ' .
+                        [
+                            'ending_soon' => 'Završavaju uskoro',
+                            'newest' => 'Najnovije',
+                            'highest_price' => 'Najviša cena',
+                            'most_bids' => 'Najviše ponuda',
+                            'scheduled' => 'Zakazane aukcije',
+                        ][$auction_type],
+                    'action' => "wire:click=\"\$set('auction_type', '')\"",
+                ]
+                : null,
+            'price_min' => $price_min
+                ? [
+                    'label' => 'Cena od: ' . number_format($price_min, 0, ',', '.') . ' RSD',
+                    'action' => "wire:click=\"\$set('price_min', '')\"",
+                ]
+                : null,
+            'price_max' => $price_max
+                ? [
+                    'label' => 'Cena do: ' . number_format($price_max, 0, ',', '.') . ' RSD',
+                    'action' => "wire:click=\"\$set('price_max', '')\"",
+                ]
+                : null,
         ]);
 
         // Check if we have any filters (including content type)
@@ -65,8 +108,11 @@
                     </h3>
                     @foreach ($activeFilters as $filter)
                         <span
-                            class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-sky-100 dark:bg-sky-800 text-sky-800 dark:text-sky-200">
-                            {{ $filter }}
+                            class="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-sky-100 dark:bg-sky-800 text-sky-800 dark:text-sky-200">
+                            {{ $filter['label'] }}
+                            <button {!! $filter['action'] !!} class="hover:text-sky-600 dark:hover:text-sky-400 transition">
+                                <i class="fas fa-times text-xs"></i>
+                            </button>
                         </span>
                     @endforeach
                 </div>
