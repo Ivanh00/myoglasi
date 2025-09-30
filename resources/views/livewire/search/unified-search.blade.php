@@ -332,8 +332,10 @@
         @endif
 
         <!-- Mobile Additional Filters -->
-        <div class="md:hidden mt-4">
-            @include('livewire.components.search-filters')
+        <div class="md:hidden mt-4 bg-white dark:bg-slate-700 rounded-lg shadow-md p-4">
+            <div class="grid grid-cols-1 gap-4">
+                @include('livewire.components.search-filters')
+            </div>
         </div>
 
         <!-- Mobile Filters i sortiranje -->
@@ -533,6 +535,13 @@
                         <i class="fas fa-gavel mr-1"></i>
                         Aukcije
                     </button>
+                </div>
+            </div>
+
+            <!-- Desktop Additional Filters (inside controls section) -->
+            <div class="hidden md:block pt-4 border-t border-slate-200 dark:border-slate-600">
+                <div class="grid grid-cols-4 gap-4">
+                    @include('livewire.components.search-filters')
                 </div>
             </div>
 
@@ -883,11 +892,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Desktop Additional Filters -->
-        <div class="hidden md:block mt-6 mb-6">
-            @include('livewire.components.search-filters')
         </div>
 
         <!-- Results -->
