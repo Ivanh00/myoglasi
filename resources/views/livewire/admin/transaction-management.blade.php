@@ -225,14 +225,11 @@
                         <th
                             class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Status</th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                            Akcije</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-slate-200">
+                <tbody class="bg-white">
                     @forelse($transactions as $transaction)
-                        <tr class="hover:bg-slate-50">
+                        <tr class="hover:bg-slate-50 border-t border-slate-200">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-slate-900">{{ $transaction->created_at->format('d.m.Y.') }}
                                 </div>
@@ -291,7 +288,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                 @if ($transaction->status === 'completed' || in_array($transaction->id, $processedTransactions)) bg-green-100 text-green-800
                                 @elseif($transaction->status === 'pending') bg-amber-100 text-amber-800
                                 @elseif($transaction->status === 'failed') bg-red-100 text-red-800 @endif">
@@ -302,50 +299,29 @@
                                     @endif
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex space-x-2">
+                        </tr>
+                        <!-- Actions Row -->
+                        <tr class="border-t border-slate-200">
+                            <td colspan="6" class="px-4 py-2 bg-slate-50">
+                                <div class="flex flex-wrap gap-2">
                                     <button wire:click="viewTransaction({{ $transaction->id }})"
-                                        class="text-sky-600 hover:text-sky-900" title="Pregled">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                            </path>
-                                        </svg>
+                                        class="inline-flex items-center px-2 py-1 text-sky-600 hover:text-sky-800 rounded">
+                                        <i class="fas fa-eye mr-1"></i> Pregled
                                     </button>
-
                                     @if ($transaction->status !== 'completed' && !in_array($transaction->id, $processedTransactions))
                                         <button wire:click="editTransaction({{ $transaction->id }})"
-                                            class="text-amber-600 hover:text-amber-900" title="Izmeni">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="1.5"
-                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                                </path>
-                                            </svg>
+                                            class="inline-flex items-center px-2 py-1 text-amber-600 hover:text-amber-800 rounded">
+                                            <i class="fas fa-edit mr-1"></i> Izmeni
                                         </button>
                                     @endif
-
                                     @if ($transaction->status === 'pending' && !in_array($transaction->id, $processedTransactions))
                                         <button wire:click="markAsCompleted({{ $transaction->id }})"
-                                            class="text-green-600 hover:text-green-900" title="Označi kao završeno">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="1.5" d="M5 13l4 4L19 7"></path>
-                                            </svg>
+                                            class="inline-flex items-center px-2 py-1 text-green-600 hover:text-green-800 rounded">
+                                            <i class="fas fa-check mr-1"></i> Označi kao završeno
                                         </button>
-
                                         <button wire:click="markAsFailed({{ $transaction->id }})"
-                                            class="text-red-600 hover:text-red-900" title="Označi kao neuspešno">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
+                                            class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-800 rounded">
+                                            <i class="fas fa-times mr-1"></i> Označi kao neuspešno
                                         </button>
                                     @endif
                                 </div>
@@ -353,7 +329,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7"
+                            <td colspan="6"
                                 class="px-6 py-4 text-center text-sm text-slate-500 dark:text-slate-300">
                                 Nema pronađenih transakcija.
                             </td>
