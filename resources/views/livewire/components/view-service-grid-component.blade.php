@@ -6,15 +6,17 @@
     {{ $service->hasActivePromotion('highlighted') ? 'bg-amber-50 dark:bg-amber-900' : '' }}">
     <!-- Slika usluge -->
     <div class="w-full h-48">
-        @if ($service->images->count() > 0)
-            <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
-                class="w-full h-full object-cover">
-        @else
-            <div
-                class="w-full h-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                <i class="fas fa-tools text-slate-400 dark:text-slate-500 text-4xl"></i>
-            </div>
-        @endif
+        <a href="{{ route('services.show', $service) }}">
+            @if ($service->images->count() > 0)
+                <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
+                    class="w-full h-full object-cover">
+            @else
+                <div
+                    class="w-full h-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+                    <i class="fas fa-tools text-slate-400 dark:text-slate-500 text-4xl"></i>
+                </div>
+            @endif
+        </a>
     </div>
 
     <!-- Informacije o usluzi -->
@@ -22,10 +24,12 @@
         <!-- Main content -->
         <div class="flex-1">
             <div class="flex items-start justify-between mb-2">
-                <h3
-                    class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-slate-600 dark:hover:text-slate-400 transition-colors">
-                    {{ $service->title }}
-                </h3>
+                <a href="{{ route('services.show', $service) }}" class="flex-1">
+                    <h3
+                        class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-slate-600 dark:hover:text-slate-400 transition-colors">
+                        {{ $service->title }}
+                    </h3>
+                </a>
                 <!-- Promotion Badges -->
                 @if ($service->hasActivePromotion())
                     <div class="flex flex-wrap gap-1">

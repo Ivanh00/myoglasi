@@ -395,22 +395,15 @@
                                 @auth
                                     <!-- Notify about auction start -->
                                     <button wire:click="toggleNotification"
-                                        class="w-full px-4 py-2 {{ $isNotificationSet ? 'bg-slate-500 hover:bg-slate-600' : 'bg-amber-500 hover:bg-amber-600' }} text-white font-medium rounded-lg transition-colors">
+                                        class="w-full flex items-center justify-center px-4 py-3 {{ $isNotificationSet ? 'border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700' : 'bg-amber-600 text-white hover:bg-amber-700' }} rounded-lg transition-colors">
                                         <i class="fas {{ $isNotificationSet ? 'fa-bell-slash' : 'fa-bell' }} mr-2"></i>
                                         {{ $isNotificationSet ? 'Ukloni obaveštenje' : 'Obavesti me o početku aukcije' }}
-                                    </button>
-
-                                    <!-- Add to favorites -->
-                                    <button wire:click="toggleFavorite"
-                                        class="w-full px-4 py-2 {{ $isFavorited ? 'bg-slate-500 hover:bg-slate-600' : 'bg-amber-500 hover:bg-amber-600' }} text-white font-medium rounded-lg transition-colors">
-                                        <i class="fas fa-heart mr-2"></i>
-                                        {{ $isFavorited ? 'Ukloni iz omiljenih' : 'Dodaj u omiljene' }}
                                     </button>
 
                                     <!-- Message seller button -->
                                     @if (!$auction->seller->is_banned)
                                         <a href="{{ route('listing.chat', ['slug' => $auction->listing->slug]) }}"
-                                            class="w-full flex items-center justify-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors">
+                                            class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                             <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -422,7 +415,7 @@
 
                                         <!-- Share link (after message button) -->
                                         <button onclick="shareAuction()"
-                                            class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
+                                            class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                             <i class="fas fa-share-alt mr-2"></i>
                                             Podeli link
                                         </button>
@@ -437,7 +430,7 @@
 
                                         <!-- Share link (even when seller is banned) -->
                                         <button onclick="shareAuction()"
-                                            class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
+                                            class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                             <i class="fas fa-share-alt mr-2"></i>
                                             Podeli link
                                         </button>
@@ -450,7 +443,7 @@
 
                                     <!-- Share link (available to all non-authenticated) -->
                                     <button onclick="shareAuction()"
-                                        class="w-full px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors">
+                                        class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                         <i class="fas fa-share-alt mr-2"></i>
                                         Podeli link
                                     </button>

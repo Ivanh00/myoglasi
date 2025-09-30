@@ -448,15 +448,17 @@
                         <div class="flex flex-col md:flex-row">
                             <!-- Slika poklonja -->
                             <div class="w-full md:w-48 md:min-w-48 h-48">
-                                @if ($giveaway->images->count() > 0)
-                                    <img src="{{ $giveaway->images->first()->url }}" alt="{{ $giveaway->title }}"
-                                        class="w-full h-full object-cover">
-                                @else
-                                    <div
-                                        class="w-full h-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
-                                        <i class="fas fa-gift text-green-500 dark:text-green-400 text-3xl"></i>
-                                    </div>
-                                @endif
+                                <a href="{{ route('listings.show', $giveaway) }}">
+                                    @if ($giveaway->images->count() > 0)
+                                        <img src="{{ $giveaway->images->first()->url }}" alt="{{ $giveaway->title }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                            <i class="fas fa-gift text-green-500 dark:text-green-400 text-3xl"></i>
+                                        </div>
+                                    @endif
+                                </a>
                             </div>
 
                             <!-- Informacije o poklonju -->
@@ -464,10 +466,12 @@
                                 <div class="flex flex-col h-full">
                                     <div class="flex-1">
                                         <div class="flex items-center mb-2">
-                                            <h3
-                                                class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-green-600 transition-colors">
-                                                {{ $giveaway->title }}
-                                            </h3>
+                                            <a href="{{ route('listings.show', $giveaway) }}" class="flex-1">
+                                                <h3
+                                                    class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                                                    {{ $giveaway->title }}
+                                                </h3>
+                                            </a>
                                             <span
                                                 class="ml-2 bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full font-medium">
                                                 BESPLATNO
@@ -576,7 +580,7 @@
                                             </a>
                                         @endauth
 
-                                        <a href="{{ route('giveaways.show', $giveaway) }}"
+                                        <a href="{{ route('listings.show', $giveaway) }}"
                                             class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
                                             <i class="fas fa-gift mr-2"></i> Pregled
                                         </a>
@@ -595,25 +599,29 @@
                         class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-green-500 flex flex-col h-full">
                         <!-- Slika poklonja -->
                         <div class="w-full h-48">
-                            @if ($giveaway->images->count() > 0)
-                                <img src="{{ $giveaway->images->first()->url }}" alt="{{ $giveaway->title }}"
-                                    class="w-full h-full object-cover">
-                            @else
-                                <div
-                                    class="w-full h-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
-                                    <i class="fas fa-gift text-green-500 dark:text-green-400 text-4xl"></i>
-                                </div>
-                            @endif
+                            <a href="{{ route('listings.show', $giveaway) }}">
+                                @if ($giveaway->images->count() > 0)
+                                    <img src="{{ $giveaway->images->first()->url }}" alt="{{ $giveaway->title }}"
+                                        class="w-full h-full object-cover">
+                                @else
+                                    <div
+                                        class="w-full h-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                        <i class="fas fa-gift text-green-500 dark:text-green-400 text-4xl"></i>
+                                    </div>
+                                @endif
+                            </a>
                         </div>
 
                         <!-- Informacije o poklonju -->
                         <div class="p-4 flex flex-col flex-1">
                             <!-- Main content -->
                             <div class="flex-1">
-                                <h3
-                                    class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-green-600 transition-colors mb-2">
-                                    {{ $giveaway->title }}
-                                </h3>
+                                <a href="{{ route('listings.show', $giveaway) }}">
+                                    <h3
+                                        class="text-lg font-semibold text-slate-900 dark:text-slate-100 hover:text-green-600 dark:hover:text-green-400 transition-colors mb-2">
+                                        {{ $giveaway->title }}
+                                    </h3>
+                                </a>
 
                                 {{-- User info --}}
                                 @auth
@@ -698,7 +706,7 @@
                                     </a>
                                 @endauth
 
-                                <a href="{{ route('giveaways.show', $giveaway) }}"
+                                <a href="{{ route('listings.show', $giveaway) }}"
                                     class="block w-full text-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
                                     <i class="fas fa-gift mr-2"></i> Pregled
                                 </a>

@@ -7,14 +7,16 @@
     <div class="flex flex-col md:flex-row">
         <!-- Slika usluge -->
         <div class="w-full md:w-48 md:min-w-48 h-48">
-            @if ($service->images->count() > 0)
-                <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
-                    class="w-full h-full object-cover">
-            @else
-                <div class="w-full h-full bg-slate-200 flex items-center justify-center">
-                    <i class="fas fa-tools text-slate-400 text-3xl"></i>
-                </div>
-            @endif
+            <a href="{{ route('services.show', $service) }}">
+                @if ($service->images->count() > 0)
+                    <img src="{{ $service->images->first()->url }}" alt="{{ $service->title }}"
+                        class="w-full h-full object-cover">
+                @else
+                    <div class="w-full h-full bg-slate-200 flex items-center justify-center">
+                        <i class="fas fa-tools text-slate-400 text-3xl"></i>
+                    </div>
+                @endif
+            </a>
         </div>
 
         <!-- Informacije o usluzi -->
@@ -22,10 +24,12 @@
             <div class="flex flex-col h-full">
                 <div class="flex-1">
                     <div class="flex items-start">
-                        <h3
-                            class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 hover:text-sky-600 transition-colors">
-                            {{ $service->title }}
-                        </h3>
+                        <a href="{{ route('services.show', $service) }}" class="flex-1">
+                            <h3
+                                class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 hover:text-slate-600 dark:hover:text-slate-400 transition-colors">
+                                {{ $service->title }}
+                            </h3>
+                        </a>
 
                         <!-- Promotion Badges -->
                         @if ($service->hasActivePromotion())
@@ -43,7 +47,7 @@
                     <!-- Pružalac usluge -->
                     @auth
                         <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
-                            Pružalac: {{ $service->user->name ?? 'Nepoznat korisnik' }}
+                            {{ $service->user->name ?? 'Nepoznat korisnik' }}
                             @if ($service->user)
                                 {!! $service->user->verified_icon !!}
                             @endif

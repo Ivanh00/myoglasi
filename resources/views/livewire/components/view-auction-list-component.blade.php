@@ -4,14 +4,16 @@
     <div class="flex flex-col md:flex-row">
         <!-- Image -->
         <div class="w-full md:w-48 md:min-w-48 h-48 relative">
-            @if ($auction->listing->images->count() > 0)
-                <img src="{{ $auction->listing->images->first()->url }}"
-                    alt="{{ $auction->listing->title }}" class="w-full h-full object-cover">
-            @else
-                <div class="w-full h-full bg-slate-200 flex items-center justify-center">
-                    <i class="fas fa-image text-slate-400 text-3xl"></i>
-                </div>
-            @endif
+            <a href="{{ route('auction.show', $auction) }}">
+                @if ($auction->listing->images->count() > 0)
+                    <img src="{{ $auction->listing->images->first()->url }}"
+                        alt="{{ $auction->listing->title }}" class="w-full h-full object-cover">
+                @else
+                    <div class="w-full h-full bg-slate-200 flex items-center justify-center">
+                        <i class="fas fa-image text-slate-400 text-3xl"></i>
+                    </div>
+                @endif
+            </a>
 
             <!-- Time overlay -->
             <div class="absolute top-2 right-2">
@@ -28,30 +30,33 @@
         <div class="flex-1 p-4 md:p-6">
             <div class="flex flex-col h-full">
                 <div class="flex-1">
-                    <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                        {{ $auction->listing->title }}</h3>
+                    <a href="{{ route('auction.show', $auction) }}">
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 hover:text-amber-600 dark:hover:text-amber-400 transition-colors mb-2">
+                            {{ $auction->listing->title }}
+                        </h3>
+                    </a>
 
-                    {{-- Prodavac info --}}
+                    {{-- User info --}}
                     @auth
                         <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
-                            Prodavac: {{ $auction->seller->name ?? 'Nepoznat korisnik' }}
-                            @if ($auction->seller)
-                                {!! $auction->seller->verified_icon !!}
+                            {{ $auction->listing->user->name ?? 'Nepoznat korisnik' }}
+                            @if ($auction->listing->user)
+                                {!! $auction->listing->user->verified_icon !!}
                             @endif
-                            @if ($auction->seller && $auction->seller->is_banned)
+                            @if ($auction->listing->user && $auction->listing->user->is_banned)
                                 <span
                                     class="text-red-600 dark:text-red-400 font-bold ml-2">BLOKIRAN</span>
                             @endif
-                            @if ($auction->seller && $auction->seller->shouldShowLastSeen())
+                            @if ($auction->listing->user && $auction->listing->user->shouldShowLastSeen())
                                 <span class="text-xs text-slate-500 dark:text-slate-300 ml-2">
-                                    @if ($auction->seller->is_online)
+                                    @if ($auction->listing->user->is_online)
                                         <span class="inline-flex items-center">
                                             <span
                                                 class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
-                                            {{ $auction->seller->last_seen }}
+                                            {{ $auction->listing->user->last_seen }}
                                         </span>
                                     @else
-                                        {{ $auction->seller->last_seen }}
+                                        {{ $auction->listing->user->last_seen }}
                                     @endif
                                 </span>
                             @endif
