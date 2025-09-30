@@ -292,7 +292,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex items-center space-x-2">
-                                    <button wire:click="viewReportDetails({{ $report->id }})"
+                                    <button wire:click="viewReportDetails({{ $report->id }}, '{{ $report->report_type }}')"
                                         class="text-sky-600 hover:text-sky-900 p-1 rounded" title="Detalji">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
@@ -305,7 +305,7 @@
                                     </button>
 
                                     @if ($report->status === 'pending')
-                                        <button wire:click="markAsReviewed({{ $report->id }})"
+                                        <button wire:click="markAsReviewed({{ $report->id }}, '{{ $report->report_type }}')"
                                             class="text-indigo-600 hover:text-indigo-900 p-1 rounded"
                                             title="Označi kao pregledano">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
@@ -317,7 +317,7 @@
                                     @endif
 
                                     @if ($report->status !== 'resolved')
-                                        <button wire:click="markAsResolved({{ $report->id }})"
+                                        <button wire:click="markAsResolved({{ $report->id }}, '{{ $report->report_type }}')"
                                             class="text-green-600 hover:text-green-900 p-1 rounded"
                                             title="Označi kao rešeno">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
@@ -362,10 +362,14 @@
                                         </span>
                                     @endif
 
-                                    @if ($report->listing && $report->listing->status === 'inactive')
-                                        <button wire:click="restoreListing({{ $report->id }})"
+                                    @php
+                                        $item = $report->report_type === 'service' ? $report->service : $report->listing;
+                                    @endphp
+
+                                    @if ($item && $item->status === 'inactive')
+                                        <button wire:click="restoreListing({{ $report->id }}, '{{ $report->report_type }}')"
                                             class="text-green-600 hover:text-green-900 p-1 rounded"
-                                            title="Vrati oglas">
+                                            title="Vrati {{ $report->report_type === 'service' ? 'uslugu' : 'oglas' }}">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -374,7 +378,7 @@
                                             </svg>
                                         </button>
 
-                                        <button wire:click="confirmDeleteListing({{ $report->id }})"
+                                        <button wire:click="confirmDeleteListing({{ $report->id }}, '{{ $report->report_type }}')"
                                             class="text-red-600 hover:text-red-900 p-1 rounded" title="Trajno obriši">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -385,8 +389,8 @@
                                             </svg>
                                         </button>
                                     @else
-                                        <button wire:click="confirmDeleteListing({{ $report->id }})"
-                                            class="text-red-600 hover:text-red-900 p-1 rounded" title="Obriši oglas">
+                                        <button wire:click="confirmDeleteListing({{ $report->id }}, '{{ $report->report_type }}')"
+                                            class="text-red-600 hover:text-red-900 p-1 rounded" title="Obriši {{ $report->report_type === 'service' ? 'uslugu' : 'oglas' }}">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -535,14 +539,14 @@
 
                     <!-- Action Buttons -->
                     <div class="flex flex-wrap gap-2">
-                        <button wire:click="viewReportDetails({{ $report->id }})"
+                        <button wire:click="viewReportDetails({{ $report->id }}, '{{ $report->report_type }}')"
                             class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200 transition-colors">
                             <i class="fas fa-eye mr-1 "></i>
                             Detalji
                         </button>
 
                         @if ($report->status === 'pending')
-                            <button wire:click="markAsReviewed({{ $report->id }})"
+                            <button wire:click="markAsReviewed({{ $report->id }}, '{{ $report->report_type }}')"
                                 class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200 transition-colors">
                                 <i class="fas fa-check mr-1 "></i>
                                 Pregledano
@@ -550,7 +554,7 @@
                         @endif
 
                         @if ($report->status !== 'resolved')
-                            <button wire:click="markAsResolved({{ $report->id }})"
+                            <button wire:click="markAsResolved({{ $report->id }}, '{{ $report->report_type }}')"
                                 class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
                                 <i class="fas fa-check-circle mr-1 "></i>
                                 Rešeno
@@ -573,23 +577,27 @@
                             </a>
                         @endif
 
-                        @if ($report->listing && $report->listing->status === 'inactive')
-                            <button wire:click="restoreListing({{ $report->id }})"
+                        @php
+                            $item = $report->report_type === 'service' ? $report->service : $report->listing;
+                        @endphp
+
+                        @if ($item && $item->status === 'inactive')
+                            <button wire:click="restoreListing({{ $report->id }}, '{{ $report->report_type }}')"
                                 class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 transition-colors">
                                 <i class="fas fa-undo mr-1 "></i>
-                                Vrati oglas
+                                Vrati {{ $report->report_type === 'service' ? 'uslugu' : 'oglas' }}
                             </button>
 
-                            <button wire:click="confirmDeleteListing({{ $report->id }})"
+                            <button wire:click="confirmDeleteListing({{ $report->id }}, '{{ $report->report_type }}')"
                                 class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
                                 <i class="fas fa-trash-alt mr-1 "></i>
                                 Trajno obriši
                             </button>
                         @else
-                            <button wire:click="confirmDeleteListing({{ $report->id }})"
+                            <button wire:click="confirmDeleteListing({{ $report->id }}, '{{ $report->report_type }}')"
                                 class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
                                 <i class="fas fa-trash mr-1 "></i>
-                                Obriši oglas
+                                Obriši {{ $report->report_type === 'service' ? 'uslugu' : 'oglas' }}
                             </button>
                         @endif
                     </div>
@@ -724,69 +732,97 @@
                                     </div>
                                 </div>
 
-                                <!-- Listing Info -->
+                                <!-- Listing/Service Info -->
                                 <div class="space-y-4">
-                                    <div class="bg-slate-50 p-4 rounded-lg">
-                                        <h4 class="font-semibold text-slate-800 mb-3">Prijavljeni oglas</h4>
+                                    @php
+                                        $reportedItem = $selectedReport->report_type === 'service' ? $selectedReport->service : $selectedReport->listing;
+                                        $itemType = $selectedReport->report_type === 'service' ? 'usluga' : 'oglas';
+                                    @endphp
 
-                                        <!-- Listing Image -->
-                                        <div class="mb-4">
-                                            @if ($selectedReport->listing->images->count() > 0)
-                                                <img src="{{ $selectedReport->listing->images->first()->url }}"
-                                                    alt="{{ $selectedReport->listing->title }}"
-                                                    class="w-full h-48 rounded-lg object-cover">
-                                            @else
-                                                <div
-                                                    class="w-full h-48 rounded-lg bg-slate-200 flex items-center justify-center">
-                                                    <i class="fas fa-image text-slate-400 text-4xl "></i>
+                                    @if($reportedItem)
+                                        <div class="bg-slate-50 p-4 rounded-lg">
+                                            <h4 class="font-semibold text-slate-800 mb-3">Prijavljeni {{ $itemType }}</h4>
+
+                                            <!-- Item Image -->
+                                            <div class="mb-4">
+                                                @if ($reportedItem->images && $reportedItem->images->count() > 0)
+                                                    <img src="{{ $reportedItem->images->first()->url }}"
+                                                        alt="{{ $reportedItem->title }}"
+                                                        class="w-full h-48 rounded-lg object-cover">
+                                                @else
+                                                    <div
+                                                        class="w-full h-48 rounded-lg bg-slate-200 flex items-center justify-center">
+                                                        <i class="fas fa-image text-slate-400 text-4xl "></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <div class="space-y-2">
+                                                <div>
+                                                    <span
+                                                        class="text-sm font-medium text-slate-600 dark:text-slate-400">Naslov:</span>
+                                                    <div class="text-sm font-medium text-slate-900 mt-1">
+                                                        {{ $reportedItem->title }}</div>
                                                 </div>
-                                            @endif
-                                        </div>
 
-                                        <div class="space-y-2">
-                                            <div>
-                                                <span
-                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Naslov:</span>
-                                                <div class="text-sm font-medium text-slate-900 mt-1">
-                                                    {{ $selectedReport->listing->title }}</div>
-                                            </div>
+                                                <div>
+                                                    <span
+                                                        class="text-sm font-medium text-slate-600 dark:text-slate-400">Cena:</span>
+                                                    <div class="text-sm text-slate-900 mt-1">
+                                                        @if($selectedReport->report_type === 'service' && $reportedItem->price_type === 'negotiable')
+                                                            PO DOGOVORU
+                                                        @elseif($selectedReport->report_type === 'listing' && $reportedItem->listing_type === 'giveaway')
+                                                            BESPLATNO
+                                                        @else
+                                                            {{ number_format($reportedItem->price, 0) }} RSD
+                                                        @endif
+                                                    </div>
+                                                </div>
 
-                                            <div>
-                                                <span
-                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Cena:</span>
-                                                <div class="text-sm text-slate-900 mt-1">
-                                                    {{ number_format($selectedReport->listing->price, 0) }} RSD</div>
-                                            </div>
+                                                <div>
+                                                    <span
+                                                        class="text-sm font-medium text-slate-600 dark:text-slate-400">Vlasnik:</span>
+                                                    <div class="text-sm text-slate-900 mt-1">
+                                                        {{ $reportedItem->user->name }}
+                                                        ({{ $reportedItem->user->email }})
+                                                    </div>
+                                                </div>
 
-                                            <div>
-                                                <span
-                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Vlasnik:</span>
-                                                <div class="text-sm text-slate-900 mt-1">
-                                                    {{ $selectedReport->listing->user->name }}
-                                                    ({{ $selectedReport->listing->user->email }})
+                                                <div>
+                                                    <span
+                                                        class="text-sm font-medium text-slate-600 dark:text-slate-400">Objavljen:</span>
+                                                    <div class="text-sm text-slate-900 mt-1">
+                                                        {{ $reportedItem->created_at->format('d.m.Y H:i') }}</div>
                                                 </div>
                                             </div>
-
-                                            <div>
-                                                <span
-                                                    class="text-sm font-medium text-slate-600 dark:text-slate-400">Objavljen:</span>
-                                                <div class="text-sm text-slate-900 mt-1">
-                                                    {{ $selectedReport->listing->created_at->format('d.m.Y H:i') }}</div>
-                                            </div>
                                         </div>
+                                    @else
+                                        <div class="bg-slate-50 p-4 rounded-lg">
+                                            <p class="text-slate-600">{{ ucfirst($itemType) }} je obrisan.</p>
+                                        </div>
+                                    @endif
 
                                         <!-- Quick Actions -->
                                         <div class="mt-4 pt-4 border-t border-slate-200">
                                             <div class="flex flex-wrap gap-2">
-                                                <a href="{{ route('listings.show', $selectedReport->listing) }}"
-                                                    target="_blank"
-                                                    class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200">
-                                                    <i class="fas fa-external-link-alt mr-1 "></i>
-                                                    Pogledaj oglas
-                                                </a>
+                                                @if ($selectedReport->report_type === 'listing' && $selectedReport->listing)
+                                                    <a href="{{ route('listings.show', $selectedReport->listing) }}"
+                                                        target="_blank"
+                                                        class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200">
+                                                        <i class="fas fa-external-link-alt mr-1 "></i>
+                                                        Pogledaj oglas
+                                                    </a>
+                                                @elseif ($selectedReport->report_type === 'service' && $selectedReport->service)
+                                                    <a href="{{ route('services.show', $selectedReport->service) }}"
+                                                        target="_blank"
+                                                        class="inline-flex items-center px-3 py-1.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-lg hover:bg-sky-200">
+                                                        <i class="fas fa-external-link-alt mr-1 "></i>
+                                                        Pogledaj uslugu
+                                                    </a>
+                                                @endif
 
                                                 @if ($selectedReport->status === 'pending')
-                                                    <button wire:click="markAsReviewed({{ $selectedReport->id }})"
+                                                    <button wire:click="markAsReviewed({{ $selectedReport->id }}, '{{ $selectedReport->report_type }}')"
                                                         class="inline-flex items-center px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-lg hover:bg-indigo-200">
                                                         <i class="fas fa-check mr-1 "></i>
                                                         Označi kao pregledano
@@ -794,14 +830,14 @@
                                                 @endif
 
                                                 @if ($selectedReport->status !== 'resolved')
-                                                    <button wire:click="markAsResolved({{ $selectedReport->id }})"
+                                                    <button wire:click="markAsResolved({{ $selectedReport->id }}, '{{ $selectedReport->report_type }}')"
                                                         class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200">
                                                         <i class="fas fa-check-circle mr-1 "></i>
                                                         Označi kao rešeno
                                                     </button>
                                                 @endif
 
-                                                <button wire:click="confirmDeleteListing({{ $selectedReport->id }})"
+                                                <button wire:click="confirmDeleteListing({{ $selectedReport->id }}, '{{ $selectedReport->report_type }}')"
                                                     class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200">
                                                     <i class="fas fa-trash mr-1 "></i>
                                                     Obriši oglas

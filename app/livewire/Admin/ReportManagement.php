@@ -56,21 +56,39 @@ class ReportManagement extends Component
         }
     }
 
-    public function viewReport($reportId)
+    public function viewReport($reportId, $type = 'listing')
     {
-        $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+        if ($type === 'service') {
+            $this->selectedReport = ServiceReport::with(['user', 'service'])->find($reportId);
+            $this->selectedReport->report_type = 'service';
+        } else {
+            $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+            $this->selectedReport->report_type = 'listing';
+        }
         $this->showViewModal = true;
     }
 
-    public function viewDetails($reportId)
+    public function viewDetails($reportId, $type = 'listing')
     {
-        $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+        if ($type === 'service') {
+            $this->selectedReport = ServiceReport::with(['user', 'service'])->find($reportId);
+            $this->selectedReport->report_type = 'service';
+        } else {
+            $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+            $this->selectedReport->report_type = 'listing';
+        }
         $this->showDetailsModal = true;
     }
 
-    public function openActionModal($reportId, $action)
+    public function openActionModal($reportId, $action, $type = 'listing')
     {
-        $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+        if ($type === 'service') {
+            $this->selectedReport = ServiceReport::with(['user', 'service'])->find($reportId);
+            $this->selectedReport->report_type = 'service';
+        } else {
+            $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+            $this->selectedReport->report_type = 'listing';
+        }
         $this->adminAction = $action;
         $this->adminNotes = '';
         $this->showActionModal = true;
@@ -158,81 +176,115 @@ class ReportManagement extends Component
         ]);
     }
 
-    public function viewReportDetails($reportId)
+    public function viewReportDetails($reportId, $type = 'listing')
     {
-        $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+        if ($type === 'service') {
+            $this->selectedReport = ServiceReport::with(['user', 'service'])->find($reportId);
+            $this->selectedReport->report_type = 'service';
+        } else {
+            $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+            $this->selectedReport->report_type = 'listing';
+        }
         $this->showDetailsModal = true;
     }
 
-    public function markAsReviewed($reportId)
+    public function markAsReviewed($reportId, $type = 'listing')
     {
         try {
-            $report = ListingReport::with(['user', 'listing'])->find($reportId);
-            
+            if ($type === 'service') {
+                $report = ServiceReport::with(['user', 'service'])->find($reportId);
+                $itemType = 'usluge';
+                $itemTitle = $report->service->title ?? 'N/A';
+                $itemId = $report->service_id;
+            } else {
+                $report = ListingReport::with(['user', 'listing'])->find($reportId);
+                $itemType = 'oglasa';
+                $itemTitle = $report->listing->title ?? 'N/A';
+                $itemId = $report->listing_id;
+            }
+
             if (!$report) {
                 $this->dispatch('notify', type: 'error', message: 'Prijava nije pronađena.');
                 return;
             }
-            
+
             $report->update([
                 'status' => 'reviewed',
                 'admin_notes' => 'Pregledano od strane administratora ' . auth()->user()->name
             ]);
-            
+
             // Send notification to reporting user
             Message::create([
                 'sender_id' => auth()->id(),
                 'receiver_id' => $report->user_id,
-                'listing_id' => $report->listing_id,
-                'message' => "Vaša prijava oglasa '{$report->listing->title}' je pregledana od strane administratora.",
+                'listing_id' => $type === 'listing' ? $itemId : null,
+                'service_id' => $type === 'service' ? $itemId : null,
+                'message' => "Vaša prijava {$itemType} '{$itemTitle}' je pregledana od strane administratora.",
                 'subject' => 'Prijava pregledana',
                 'is_system_message' => true,
                 'is_read' => false
             ]);
-            
+
             $this->dispatch('notify', type: 'success', message: 'Prijava je označena kao pregledana.');
-            
+
         } catch (\Exception $e) {
             $this->dispatch('notify', type: 'error', message: 'Greška: ' . $e->getMessage());
         }
     }
 
-    public function markAsResolved($reportId)
+    public function markAsResolved($reportId, $type = 'listing')
     {
         try {
-            $report = ListingReport::with(['user', 'listing'])->find($reportId);
-            
+            if ($type === 'service') {
+                $report = ServiceReport::with(['user', 'service'])->find($reportId);
+                $itemType = 'usluge';
+                $itemTitle = $report->service->title ?? 'N/A';
+                $itemId = $report->service_id;
+            } else {
+                $report = ListingReport::with(['user', 'listing'])->find($reportId);
+                $itemType = 'oglasa';
+                $itemTitle = $report->listing->title ?? 'N/A';
+                $itemId = $report->listing_id;
+            }
+
             if (!$report) {
                 $this->dispatch('notify', type: 'error', message: 'Prijava nije pronađena.');
                 return;
             }
-            
+
             $report->update([
                 'status' => 'resolved',
                 'admin_notes' => 'Rešeno od strane administratora ' . auth()->user()->name
             ]);
-            
+
             // Send notification to reporting user
             Message::create([
                 'sender_id' => auth()->id(),
                 'receiver_id' => $report->user_id,
-                'listing_id' => $report->listing_id,
-                'message' => "Vaša prijava oglasa '{$report->listing->title}' je rešena.",
+                'listing_id' => $type === 'listing' ? $itemId : null,
+                'service_id' => $type === 'service' ? $itemId : null,
+                'message' => "Vaša prijava {$itemType} '{$itemTitle}' je rešena.",
                 'subject' => 'Prijava rešena',
                 'is_system_message' => true,
                 'is_read' => false
             ]);
-            
+
             $this->dispatch('notify', type: 'success', message: 'Prijava je označena kao rešena.');
-            
+
         } catch (\Exception $e) {
             $this->dispatch('notify', type: 'error', message: 'Greška: ' . $e->getMessage());
         }
     }
 
-    public function confirmDeleteListing($reportId)
+    public function confirmDeleteListing($reportId, $type = 'listing')
     {
-        $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+        if ($type === 'service') {
+            $this->selectedReport = ServiceReport::with(['user', 'service'])->find($reportId);
+            $this->selectedReport->report_type = 'service';
+        } else {
+            $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+            $this->selectedReport->report_type = 'listing';
+        }
         $this->showDeleteModal = true;
         $this->notifyUser = true;
         $this->adminNotes = '';
@@ -282,37 +334,48 @@ class ReportManagement extends Component
         }
     }
 
-    public function restoreListing($reportId)
+    public function restoreListing($reportId, $type = 'listing')
     {
         try {
-            $report = ListingReport::with(['user', 'listing'])->find($reportId);
-            
-            if (!$report || !$report->listing) {
-                $this->dispatch('notify', type: 'error', message: 'Oglas nije pronađen.');
+            if ($type === 'service') {
+                $report = ServiceReport::with(['user', 'service'])->find($reportId);
+                $item = $report->service ?? null;
+                $itemType = 'Usluga';
+                $itemId = $report->service_id;
+            } else {
+                $report = ListingReport::with(['user', 'listing'])->find($reportId);
+                $item = $report->listing ?? null;
+                $itemType = 'Oglas';
+                $itemId = $report->listing_id;
+            }
+
+            if (!$report || !$item) {
+                $this->dispatch('notify', type: 'error', message: $itemType . ' nije pronađen.');
                 return;
             }
-            
-            $report->listing->update(['status' => 'active']);
-            
+
+            $item->update(['status' => 'active']);
+
             $report->update([
-                'admin_notes' => $report->admin_notes . ' | Oglas vraćen ' . now()->format('d.m.Y H:i')
+                'admin_notes' => $report->admin_notes . ' | ' . $itemType . ' vraćen ' . now()->format('d.m.Y H:i')
             ]);
-            
-            // Send notification to listing owner
+
+            // Send notification to item owner
             Message::create([
                 'sender_id' => auth()->id(),
-                'receiver_id' => $report->listing->user_id,
-                'listing_id' => $report->listing_id,
-                'message' => "Vaš oglas '{$report->listing->title}' je vraćen na platformu.",
-                'subject' => 'Oglas vraćen',
+                'receiver_id' => $item->user_id,
+                'listing_id' => $type === 'listing' ? $itemId : null,
+                'service_id' => $type === 'service' ? $itemId : null,
+                'message' => "Vaš " . strtolower($itemType) . " '{$item->title}' je vraćen na platformu.",
+                'subject' => $itemType . ' vraćen',
                 'is_system_message' => true,
                 'is_read' => false
             ]);
-            
-            $this->dispatch('notify', type: 'success', message: 'Oglas je vraćen na platformu.');
-            
+
+            $this->dispatch('notify', type: 'success', message: $itemType . ' je vraćen na platformu.');
+
         } catch (\Exception $e) {
-            $this->dispatch('notify', type: 'error', message: 'Greška pri vraćanju oglasa: ' . $e->getMessage());
+            $this->dispatch('notify', type: 'error', message: 'Greška pri vraćanju: ' . $e->getMessage());
         }
     }
 
@@ -327,9 +390,15 @@ class ReportManagement extends Component
         $this->dispatch('notify', type: 'success', message: 'Napomene su sačuvane.');
     }
 
-    public function openDeleteModal($reportId)
+    public function openDeleteModal($reportId, $type = 'listing')
     {
-        $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+        if ($type === 'service') {
+            $this->selectedReport = ServiceReport::with(['user', 'service'])->find($reportId);
+            $this->selectedReport->report_type = 'service';
+        } else {
+            $this->selectedReport = ListingReport::with(['user', 'listing'])->find($reportId);
+            $this->selectedReport->report_type = 'listing';
+        }
         $this->showDeleteModal = true;
         $this->notifyUser = true;
         $this->adminNotes = '';

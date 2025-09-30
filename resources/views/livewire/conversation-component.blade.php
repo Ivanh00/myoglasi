@@ -102,104 +102,79 @@
                 </div>
                 
                 <!-- Rating button -->
-                @if($otherUser->canBeRatedBy(auth()->id(), $listing->id))
+                @if($listing && $otherUser->canBeRatedBy(auth()->id(), $listing->id))
                     <a href="{{ route('ratings.create') }}?user={{ $otherUser->id }}&listing={{ $listing->id }}"
                        class="inline-flex items-center px-3 py-1.5 bg-amber-100 dark:bg-amber-600 text-amber-700 dark:text-white rounded-lg hover:bg-amber-200 dark:hover:bg-amber-700 transition-colors text-sm">
                         <i class="fas fa-star mr-1"></i>
                         Ocenite
                     </a>
-                @else
+                @elseif($listing)
                     <span class="text-xs text-slate-500 dark:text-slate-300">Već ste ocenili</span>
                 @endif
             </div>
         </div>
     </section>
 
-    <!-- Informacije o oglasu -->
+    <!-- Informacije o oglasu/usluzi -->
     <article class="ad-info-holder dark:bg-slate-800">
         <!-- Desktop layout (original) -->
         <div class="hidden md:flex justify-between items-center">
-            <a class="ad-link" href="{{ route('listings.show', $listing) }}">
-                <div class="ad-image-holder">
-                    <img src="{{ $listing->images->first()->url ?? 'https://via.placeholder.com/80x60' }}"
-                        alt="{{ $listing->title }}" width="80" height="60">
-                </div>
-            </a>
-
-            <a class="ad-title" href="{{ route('listings.show', $listing) }}">
-                <div>{{ $listing->title }}</div>
-            </a>
-
-            <div class="ad-price">
-                @if($listing->listing_type === 'giveaway')
-                    <div style="color: #10b981; font-weight: 600;">BESPLATNO</div>
-                @else
-                    <div>{{ number_format($listing->price, 0, ',', '.') }} RSD</div>
-                @endif
-            </div>
-
-            <section class="ad-stats flex space-x-4">
-                <div class="stat-item flex items-center">
-                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#6b7280" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.00001 3.50067C5.31267 3.45533 2.53334 5.33333 0.786007 7.25667C0.406129 7.6784 0.406129 8.31893 0.786007 8.74067C2.49534 10.6233 5.26667 12.5447 8.00001 12.4987C10.7333 12.5447 13.5053 10.6233 15.216 8.74067C15.5959 8.31893 15.5959 7.6784 15.216 7.25667C13.4667 5.33333 10.6873 3.45533 8.00001 3.50067Z"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M10.5 8C10.4996 9.38062 9.38018 10.4996 7.99956 10.4993C6.61893 10.4991 5.49988 9.37973 5.5 7.99911C5.50012 6.61848 6.61937 5.49933 8 5.49933C8.66321 5.49915 9.2993 5.76258 9.7682 6.2316C10.2371 6.70063 10.5004 7.33678 10.5 8V8Z"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
-                    </svg>
-                    <span class="stat-count ml-1">{{ $listing->views }}</span>
-                </div>
-
-                <div class="stat-item flex items-center">
-                    <i class="fas fa-heart text-red-500 mr-1"></i>
-                    <span class="stat-count">{{ $listing->favorites_count }}</span>
-                </div>
-            </section>
-
-            <section class="ad-posted-date">
-                {{ $listing->created_at->diffForHumans() }}
-            </section>
-
-            <section class="ad-location">
-                {{ $listing->location }}
-            </section>
-        </div>
-
-        <!-- Mobile layout (new organized structure) -->
-        <div class="md:hidden flex justify-between">
-            <!-- Left column: Image + Title + Price -->
-            <div class="mobile-left-column">
+            @if($listing)
                 <a class="ad-link" href="{{ route('listings.show', $listing) }}">
                     <div class="ad-image-holder">
                         <img src="{{ $listing->images->first()->url ?? 'https://via.placeholder.com/80x60' }}"
                             alt="{{ $listing->title }}" width="80" height="60">
                     </div>
                 </a>
-                
+
                 <a class="ad-title" href="{{ route('listings.show', $listing) }}">
-                    {{ $listing->title }}
+                    <div>{{ $listing->title }}</div>
                 </a>
-                
+
                 <div class="ad-price">
                     @if($listing->listing_type === 'giveaway')
-                        <span style="color: #10b981; font-weight: 600;">BESPLATNO</span>
+                        <div style="color: #10b981; font-weight: 600;">BESPLATNO</div>
                     @else
-                        {{ number_format($listing->price, 0, ',', '.') }} RSD
+                        <div>{{ number_format($listing->price, 0, ',', '.') }} RSD</div>
                     @endif
                 </div>
-            </div>
+            @elseif($service)
+                <a class="ad-link" href="{{ route('services.show', $service) }}">
+                    <div class="ad-image-holder">
+                        <img src="{{ $service->images->first()->url ?? 'https://via.placeholder.com/80x60' }}"
+                            alt="{{ $service->title }}" width="80" height="60">
+                    </div>
+                </a>
 
-            <!-- Right column: Stats + Date + Location -->
-            <div class="mobile-right-column">
-                <section class="ad-stats">
+                <a class="ad-title" href="{{ route('services.show', $service) }}">
+                    <div>{{ $service->title }}</div>
+                </a>
+
+                <div class="ad-price">
+                    @if($service->price_type === 'negotiable')
+                        <div style="color: #3b82f6; font-weight: 600;">PO DOGOVORU</div>
+                    @else
+                        <div>{{ number_format($service->price, 0, ',', '.') }} RSD</div>
+                    @endif
+                </div>
+            @endif
+
+            @if($listing)
+                <section class="ad-stats flex space-x-4">
                     <div class="stat-item flex items-center">
-                        <i class="fas fa-eye text-slate-500 dark:text-slate-300 mr-1" style="font-size: 14px;"></i>
-                        <span class="stat-count">{{ $listing->views }}</span>
+                        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#6b7280" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M8.00001 3.50067C5.31267 3.45533 2.53334 5.33333 0.786007 7.25667C0.406129 7.6784 0.406129 8.31893 0.786007 8.74067C2.49534 10.6233 5.26667 12.5447 8.00001 12.4987C10.7333 12.5447 13.5053 10.6233 15.216 8.74067C15.5959 8.31893 15.5959 7.6784 15.216 7.25667C13.4667 5.33333 10.6873 3.45533 8.00001 3.50067Z"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M10.5 8C10.4996 9.38062 9.38018 10.4996 7.99956 10.4993C6.61893 10.4991 5.49988 9.37973 5.5 7.99911C5.50012 6.61848 6.61937 5.49933 8 5.49933C8.66321 5.49915 9.2993 5.76258 9.7682 6.2316C10.2371 6.70063 10.5004 7.33678 10.5 8V8Z"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                        </svg>
+                        <span class="stat-count ml-1">{{ $listing->views }}</span>
                     </div>
 
                     <div class="stat-item flex items-center">
-                        <i class="fas fa-heart text-red-500 mr-1" style="font-size: 14px;"></i>
+                        <i class="fas fa-heart text-red-500 mr-1"></i>
                         <span class="stat-count">{{ $listing->favorites_count }}</span>
                     </div>
                 </section>
@@ -211,7 +186,98 @@
                 <section class="ad-location">
                     {{ $listing->location }}
                 </section>
-            </div>
+            @elseif($service)
+                <section class="ad-posted-date">
+                    {{ $service->created_at->diffForHumans() }}
+                </section>
+
+                <section class="ad-location">
+                    {{ $service->location }}
+                </section>
+            @endif
+        </div>
+
+        <!-- Mobile layout (new organized structure) -->
+        <div class="md:hidden flex justify-between">
+            @if($listing)
+                <!-- Left column: Image + Title + Price -->
+                <div class="mobile-left-column">
+                    <a class="ad-link" href="{{ route('listings.show', $listing) }}">
+                        <div class="ad-image-holder">
+                            <img src="{{ $listing->images->first()->url ?? 'https://via.placeholder.com/80x60' }}"
+                                alt="{{ $listing->title }}" width="80" height="60">
+                        </div>
+                    </a>
+
+                    <a class="ad-title" href="{{ route('listings.show', $listing) }}">
+                        {{ $listing->title }}
+                    </a>
+
+                    <div class="ad-price">
+                        @if($listing->listing_type === 'giveaway')
+                            <span style="color: #10b981; font-weight: 600;">BESPLATNO</span>
+                        @else
+                            {{ number_format($listing->price, 0, ',', '.') }} RSD
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Right column: Stats + Date + Location -->
+                <div class="mobile-right-column">
+                    <section class="ad-stats">
+                        <div class="stat-item flex items-center">
+                            <i class="fas fa-eye text-slate-500 dark:text-slate-300 mr-1" style="font-size: 14px;"></i>
+                            <span class="stat-count">{{ $listing->views }}</span>
+                        </div>
+
+                        <div class="stat-item flex items-center">
+                            <i class="fas fa-heart text-red-500 mr-1" style="font-size: 14px;"></i>
+                            <span class="stat-count">{{ $listing->favorites_count }}</span>
+                        </div>
+                    </section>
+
+                    <section class="ad-posted-date">
+                        {{ $listing->created_at->diffForHumans() }}
+                    </section>
+
+                    <section class="ad-location">
+                        {{ $listing->location }}
+                    </section>
+                </div>
+            @elseif($service)
+                <!-- Left column: Image + Title + Price -->
+                <div class="mobile-left-column">
+                    <a class="ad-link" href="{{ route('services.show', $service) }}">
+                        <div class="ad-image-holder">
+                            <img src="{{ $service->images->first()->url ?? 'https://via.placeholder.com/80x60' }}"
+                                alt="{{ $service->title }}" width="80" height="60">
+                        </div>
+                    </a>
+
+                    <a class="ad-title" href="{{ route('services.show', $service) }}">
+                        {{ $service->title }}
+                    </a>
+
+                    <div class="ad-price">
+                        @if($service->price_type === 'negotiable')
+                            <span style="color: #3b82f6; font-weight: 600;">PO DOGOVORU</span>
+                        @else
+                            {{ number_format($service->price, 0, ',', '.') }} RSD
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Right column: Date + Location -->
+                <div class="mobile-right-column">
+                    <section class="ad-posted-date">
+                        {{ $service->created_at->diffForHumans() }}
+                    </section>
+
+                    <section class="ad-location">
+                        {{ $service->location }}
+                    </section>
+                </div>
+            @endif
         </div>
     </article>
 
@@ -445,7 +511,7 @@
 
             // Pretplata na kanal za real-time poruke
             @auth
-            const channel = pusher.subscribe('private-conversation.{{ $listing->id }}.{{ Auth::id() }}');
+            const channel = pusher.subscribe('private-conversation.{{ $listing ? $listing->id : $service->id }}.{{ Auth::id() }}');
 
             // Slušaj nove poruke
             channel.bind('App\\Events\\NewMessage', function(data) {

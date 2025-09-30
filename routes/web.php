@@ -251,6 +251,7 @@ Route::middleware(['auth', 'conditional.verified'])->get('/moj-kp/poruke', Messa
 
 // Ruta za konverzaciju sa dodatnim parametrom za korisnika
 Route::middleware(['auth', 'conditional.verified'])->get('/oglasi/{slug}/poruka/{user?}', ConversationComponent::class)->name('listing.chat');
+Route::middleware(['auth', 'conditional.verified'])->get('/usluge/{slug}/poruka/{user?}', ConversationComponent::class)->name('service.chat');
 
 // Ruta za prikaz pojedinačnog oglasa
 Route::get('/oglasi/{listing:slug}', [App\Http\Controllers\ListingController::class, 'show'])->name('listing.show');

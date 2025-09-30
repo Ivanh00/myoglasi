@@ -6,6 +6,7 @@ use Log;
 use Validator;
 use App\Models\User;
 use App\Models\Listing;
+use App\Models\Service;
 use App\Models\Message;
 use Livewire\Component;
 use App\Events\MessageRead;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 class ConversationComponent extends Component
 {
     public $listing;
+    public $service;
     public $otherUser;
     public $messages;
     public $newMessage = '';
@@ -29,17 +31,33 @@ class ConversationComponent extends Component
         \Log::info('CONVERSATION MOUNT START', [
             'slug' => $slug,
             'user_param' => $user,
-            'full_url' => request()->fullUrl()
+            'full_url' => request()->fullUrl(),
+            'route_name' => request()->route()->getName()
         ]);
 
         if (!$slug) {
-            abort(404, 'Oglas nije pronađen');
+            abort(404, 'Sadržaj nije pronađen');
         }
 
-        $this->listing = Listing::where('slug', $slug)->with('user')->first();
+        // Determine if this is a listing or service conversation based on route
+        $routeName = request()->route()->getName();
 
-        if (!$this->listing) {
-            abort(404, 'Oglas nije pronađen');
+        if ($routeName === 'service.chat') {
+            $this->service = Service::where('slug', $slug)->with('user')->first();
+
+            if (!$this->service) {
+                abort(404, 'Usluga nije pronađena');
+            }
+
+            $owner = $this->service->user;
+        } else {
+            $this->listing = Listing::where('slug', $slug)->with('user')->first();
+
+            if (!$this->listing) {
+                abort(404, 'Oglas nije pronađen');
+            }
+
+            $owner = $this->listing->user;
         }
         
         if (!Auth::check()) {
@@ -52,8 +70,8 @@ class ConversationComponent extends Component
             // Ako je prosleđen ID drugog korisnika (iz URL parametra)
             $this->otherUser = User::find($user);
         } else {
-            // Ako nije prosleđen ID, to znači da kupac otvara konverzaciju sa vlasnikom oglasa
-            $this->otherUser = $this->listing->user;
+            // Ako nije prosleđen ID, to znači da kupac otvara konverzaciju sa vlasnikom
+            $this->otherUser = $owner;
         }
 
         if (!$this->otherUser) {
@@ -63,8 +81,8 @@ class ConversationComponent extends Component
         \Log::info('ConversationComponent mount parameters', [
             'slug' => $slug,
             'user_param' => $user,
-            'listing_id' => $this->listing->id,
-            'listing_user_id' => $this->listing->user_id,
+            'listing_id' => $this->listing ? $this->listing->id : null,
+            'service_id' => $this->service ? $this->service->id : null,
             'auth_id' => Auth::id(),
             'other_user_id' => $this->otherUser->id,
             'are_auth_and_other_equal' => Auth::id() == $this->otherUser->id
@@ -82,7 +100,9 @@ class ConversationComponent extends Component
             return redirect()->route('messages.inbox');
         }
 
-        $this->conversationId = "conversation_{$this->listing->id}_{$this->otherUser->id}";
+        $itemType = $this->listing ? 'listing' : 'service';
+        $itemId = $this->listing ? $this->listing->id : $this->service->id;
+        $this->conversationId = "conversation_{$itemType}_{$itemId}_{$this->otherUser->id}";
         
         $this->messages = collect([]);
         $this->loadMessages();
@@ -93,12 +113,21 @@ class ConversationComponent extends Component
     {
         try {
             \Log::info('Loading messages for conversation', [
-                'listing_id' => $this->listing->id,
+                'listing_id' => $this->listing ? $this->listing->id : null,
+                'service_id' => $this->service ? $this->service->id : null,
                 'auth_id' => Auth::id(),
                 'other_user_id' => $this->otherUser->id
             ]);
 
-            $this->messages = Message::where('listing_id', $this->listing->id)
+            $query = Message::query();
+
+            if ($this->listing) {
+                $query->where('listing_id', $this->listing->id);
+            } elseif ($this->service) {
+                $query->where('service_id', $this->service->id);
+            }
+
+            $this->messages = $query
                 ->where(function($query) {
                     $query->where(function($q) {
                         $q->where('sender_id', Auth::id())
@@ -129,8 +158,15 @@ class ConversationComponent extends Component
     public function markMessagesAsRead()
     {
         try {
-            Message::where('listing_id', $this->listing->id)
-                ->where('sender_id', $this->otherUser->id)
+            $query = Message::query();
+
+            if ($this->listing) {
+                $query->where('listing_id', $this->listing->id);
+            } elseif ($this->service) {
+                $query->where('service_id', $this->service->id);
+            }
+
+            $query->where('sender_id', $this->otherUser->id)
                 ->where('receiver_id', Auth::id())
                 ->where('is_system_message', false) // Only mark regular messages as read, NOT notifications
                 ->where('is_read', false)
@@ -167,7 +203,8 @@ class ConversationComponent extends Component
             $message = new Message();
             $message->sender_id = Auth::id();
             $message->receiver_id = $this->otherUser->id;
-            $message->listing_id = $this->listing->id;
+            $message->listing_id = $this->listing ? $this->listing->id : null;
+            $message->service_id = $this->service ? $this->service->id : null;
             $message->message = trim($this->newMessage);
             $message->is_read = false;
             $message->is_system_message = false; // 👈 Uvek false za regularne poruke
@@ -210,8 +247,15 @@ class ConversationComponent extends Component
     
     public function markAllMessagesAsRead()
     {
-        $unreadMessages = Message::where('listing_id', $this->listing->id)
-            ->where('receiver_id', Auth::id())
+        $query = Message::query();
+
+        if ($this->listing) {
+            $query->where('listing_id', $this->listing->id);
+        } elseif ($this->service) {
+            $query->where('service_id', $this->service->id);
+        }
+
+        $unreadMessages = $query->where('receiver_id', Auth::id())
             ->where('is_read', false)
             ->where('is_system_message', false) // 👈 Samo regularne poruke
             ->get();
@@ -240,13 +284,20 @@ class ConversationComponent extends Component
     public function checkMessagesReadStatus()
     {
         if (Auth::id() !== $this->otherUser->id) {
-            Message::where('listing_id', $this->listing->id)
-                ->where('sender_id', $this->otherUser->id)
+            $query = Message::query();
+
+            if ($this->listing) {
+                $query->where('listing_id', $this->listing->id);
+            } elseif ($this->service) {
+                $query->where('service_id', $this->service->id);
+            }
+
+            $query->where('sender_id', $this->otherUser->id)
                 ->where('receiver_id', Auth::id())
                 ->where('is_system_message', false) // 👈 Samo regularne poruke
                 ->update(['is_read' => true]);
         }
-        
+
         $this->loadMessages();
     }
 

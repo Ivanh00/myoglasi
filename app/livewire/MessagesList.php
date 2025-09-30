@@ -121,28 +121,44 @@ class MessagesList extends Component
     public function selectConversation($conversationKey)
     {
         $conversation = $this->conversations[$conversationKey] ?? null;
-        
+
         if ($conversation) {
-            // Check if this is admin contact (no listing)
-            if (!$conversation['listing']) {
-                // Redirect to admin contact page
-                return redirect()->route('admin.contact');
+            // Check if this is a service conversation
+            if ($conversation['service']) {
+                $url = route('service.chat', [
+                    'slug' => $conversation['service']->slug,
+                    'user' => $conversation['other_user']->id
+                ]);
+
+                \Log::info('Redirecting to service conversation', [
+                    'url' => $url,
+                    'service_slug' => $conversation['service']->slug,
+                    'other_user_id' => $conversation['other_user']->id,
+                    'auth_id' => Auth::id()
+                ]);
+
+                return redirect()->to($url);
             }
-            
-            // Regular listing conversation
-            $url = route('listing.chat', [
-                'slug' => $conversation['listing']->slug,
-                'user' => $conversation['other_user']->id
-            ]);
-            
-            \Log::info('Redirecting to conversation', [
-                'url' => $url,
-                'listing_slug' => $conversation['listing']->slug,
-                'other_user_id' => $conversation['other_user']->id,
-                'auth_id' => Auth::id()
-            ]);
-            
-            return redirect()->to($url);
+
+            // Check if this is a listing conversation
+            if ($conversation['listing']) {
+                $url = route('listing.chat', [
+                    'slug' => $conversation['listing']->slug,
+                    'user' => $conversation['other_user']->id
+                ]);
+
+                \Log::info('Redirecting to listing conversation', [
+                    'url' => $url,
+                    'listing_slug' => $conversation['listing']->slug,
+                    'other_user_id' => $conversation['other_user']->id,
+                    'auth_id' => Auth::id()
+                ]);
+
+                return redirect()->to($url);
+            }
+
+            // Admin contact (no listing or service)
+            return redirect()->route('admin.contact');
         }
     }
 
