@@ -111,7 +111,7 @@
         </div>
 
         <!-- Modal za detaljnu pretragu -->
-        <div x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+        <div x-show="open" x-cloak x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
             x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
             class="fixed inset-0 overflow-y-auto z-50" style="display: none;"
@@ -156,7 +156,7 @@
                                 </button>
 
                                 <!-- Popup za gradove -->
-                                <div x-show="cityOpen" x-transition @click.away="cityOpen = false"
+                                <div x-show="cityOpen" x-cloak x-transition @click.away="cityOpen = false"
                                     class="absolute z-20 mt-1 w-full bg-white border border-slate-300 rounded-md shadow-lg">
 
                                     <!-- Search bar za gradove -->

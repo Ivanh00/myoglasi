@@ -21,6 +21,11 @@
 
     <!-- Global Dark Mode Styles for Custom Components -->
     <style>
+        /* Alpine.js cloak - hide elements until Alpine is ready */
+        [x-cloak] {
+            display: none !important;
+        }
+
         /* Prevent horizontal overflow on mobile */
         html,
         body {

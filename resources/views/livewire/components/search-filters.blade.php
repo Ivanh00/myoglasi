@@ -25,7 +25,7 @@
         </svg>
     </button>
 
-    <div x-show="cityOpen" x-transition @click.away="cityOpen = false"
+    <div x-show="cityOpen" x-cloak x-transition @click.away="cityOpen = false"
         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
         <!-- Search input for cities -->
         <div class="p-2 border-b border-slate-200 dark:border-slate-600">
@@ -85,7 +85,7 @@
         </svg>
     </button>
 
-    <div x-show="conditionOpen" x-transition @click.away="conditionOpen = false"
+    <div x-show="conditionOpen" x-cloak x-transition @click.away="conditionOpen = false"
         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
         <div class="p-1">
             <button type="button" wire:click="$set('condition_id', '')" @click="conditionOpen = false"

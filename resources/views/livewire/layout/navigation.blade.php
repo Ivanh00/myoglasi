@@ -4,7 +4,7 @@
 
     <!-- Credit Received Toast Notification -->
     @if (session()->has('credit_received'))
-        <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
+        <div x-data="{ show: true }" x-show="show" x-cloak x-transition x-init="setTimeout(() => show = false, 5000)"
             class="fixed top-4 right-4 z-[9999] bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg max-w-sm">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -35,8 +35,8 @@
 
     <nav x-data="{
         notificationShown: @if ($publicNotification) !localStorage.getItem('hidden_public_notification_' + {{ $publicNotification->id }}) @else false @endif
-    }" :class="notificationShown ? 'top-[60px]' : 'top-0'"
-        class="bg-white dark:bg-slate-800 shadow-lg fixed left-0 right-0 z-[90] border-b border-slate-200 dark:border-slate-700 transition-all duration-300">
+    }" :class="notificationShown ? 'top-[60px]' : ''"
+        class="bg-white dark:bg-slate-800 shadow-lg fixed top-0 left-0 right-0 z-[90] border-b border-slate-200 dark:border-slate-700 transition-all duration-300">
 
         @if ($publicNotification)
             <div x-data="{
@@ -46,14 +46,13 @@
                     localStorage.setItem('hidden_public_notification_' + {{ $publicNotification->id }}, 'true');
                     $dispatch('notification-hidden');
                 }
-            }" x-show="show" x-init="$watch('show', value => { notificationShown = value })"
+            }" x-show="show" x-cloak x-init="$watch('show', value => { notificationShown = value })"
                 @notification-hidden.window="notificationShown = false" x-transition:enter="ease-out duration-300"
                 x-transition:enter-start="opacity-0 transform -translate-y-2"
                 x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="ease-in duration-200"
                 x-transition:leave-start="opacity-100 transform translate-y-0"
                 x-transition:leave-end="opacity-0 transform -translate-y-2"
-                class="bg-green-700 text-white text-center py-3 px-4 fixed top-0 left-0 right-0 z-[60]"
-                style="display: none;">
+                class="bg-green-700 text-white text-center py-3 px-4 fixed top-0 left-0 right-0 z-[60]">
                 <div class="max-w-7xl mx-auto flex items-center justify-between">
                     <div class="flex-1 flex items-center justify-center">
                         <i class="fas fa-bullhorn mr-3"></i>
@@ -108,7 +107,7 @@
                                     </svg>
                                 </button>
 
-                                <div x-show="open" @click.away="open = false" x-transition
+                                <div x-show="open" x-cloak @click.away="open = false" x-transition
                                     class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-slate-700 ring-1 ring-black ring-opacity-5 z-50">
                                     <div class="py-1">
                                         <a href="{{ route('listings.create') }}" @click="open = false"
@@ -315,7 +314,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-slate-700 ring-1 ring-black ring-opacity-5 z-[100]">
                                 <div class="py-1">
                                     <a href="{{ route('listings.create') }}" @click="open = false"

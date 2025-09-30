@@ -60,7 +60,7 @@
                         </svg>
                     </button>
 
-                    <div x-show="open" @click.away="open = false" x-transition
+                    <div x-show="open" x-cloak @click.away="open = false" x-transition
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                         <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
                             class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ $sortBy === 'newest' ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-sky-300' : '' }}">
@@ -390,7 +390,7 @@
                 data: $favorites.find(f => f.id === $event.detail.itemId && f.item_type === $event.detail.itemType)
             };
         "
-        x-show="showRemoveModal" x-transition:enter="transition ease-out duration-300"
+        x-show="showRemoveModal" x-cloak x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto">

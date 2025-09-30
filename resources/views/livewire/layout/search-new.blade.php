@@ -392,7 +392,7 @@ if (!empty($auctionType)) {
     </div>
 
     <!-- Mobile Overlay Background -->
-    <div x-show="showFilters && window.innerWidth < 768" x-transition:enter="ease-out duration-200"
+    <div x-show="showFilters && window.innerWidth < 768" x-cloak x-transition:enter="ease-out duration-200"
         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
         x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0" @click="toggleFilters()"
@@ -400,7 +400,7 @@ if (!empty($auctionType)) {
     </div>
 
     <!-- Expanded Filters (KupujemProdajem style) -->
-    <div x-show="showFilters" x-transition:enter="ease-out duration-200"
+    <div x-show="showFilters" x-cloak x-transition:enter="ease-out duration-200"
         x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100"
         x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100"
         x-transition:leave-end="opacity-0 transform scale-95"
@@ -472,7 +472,7 @@ if (!empty($auctionType)) {
                         </svg>
                     </button>
 
-                    <div x-show="cityOpen" x-transition @click.away="cityOpen = false"
+                    <div x-show="cityOpen" x-cloak x-transition @click.away="cityOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-2 border-b">
                             <input type="text" x-model="citySearch" placeholder="Pretraži grad..."
@@ -516,7 +516,7 @@ if (!empty($auctionType)) {
                         </svg>
                     </button>
 
-                    <div x-show="categoryOpen" x-transition @click.away="categoryOpen = false"
+                    <div x-show="categoryOpen" x-cloak x-transition @click.away="categoryOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectCategory('', ''); categoryOpen = false"
@@ -562,7 +562,7 @@ if (!empty($auctionType)) {
                         </svg>
                     </button>
 
-                    <div x-show="subcategoryOpen" x-transition @click.away="subcategoryOpen = false"
+                    <div x-show="subcategoryOpen" x-cloak x-transition @click.away="subcategoryOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectSubcategory('', ''); subcategoryOpen = false"
@@ -616,7 +616,7 @@ if (!empty($auctionType)) {
                         </svg>
                     </button>
 
-                    <div x-show="serviceCategoryOpen" x-transition @click.away="serviceCategoryOpen = false"
+                    <div x-show="serviceCategoryOpen" x-cloak x-transition @click.away="serviceCategoryOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectServiceCategory('', ''); serviceCategoryOpen = false"
@@ -664,7 +664,7 @@ if (!empty($auctionType)) {
                         </svg>
                     </button>
 
-                    <div x-show="serviceSubcategoryOpen" x-transition @click.away="serviceSubcategoryOpen = false"
+                    <div x-show="serviceSubcategoryOpen" x-cloak x-transition @click.away="serviceSubcategoryOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button"
@@ -745,7 +745,7 @@ if (!empty($auctionType)) {
                         </svg>
                     </button>
 
-                    <div x-show="conditionOpen" x-transition @click.away="conditionOpen = false"
+                    <div x-show="conditionOpen" x-cloak x-transition @click.away="conditionOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectCondition('', ''); conditionOpen = false"
@@ -797,7 +797,7 @@ if (!empty($auctionType)) {
                         </svg>
                     </button>
 
-                    <div x-show="auctionOpen" x-transition @click.away="auctionOpen = false"
+                    <div x-show="auctionOpen" x-cloak x-transition @click.away="auctionOpen = false"
                         class="absolute z-10 mt-1 w-full bg-amber-100 dark:bg-amber-800 dark:bg-amber-900 border border-amber-300 dark:border-amber-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button" @click="selectAuctionType('', ''); auctionOpen = false"

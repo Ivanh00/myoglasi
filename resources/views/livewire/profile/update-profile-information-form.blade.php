@@ -275,7 +275,7 @@ $removeAvatar = function () {
             </button>
 
             <!-- Popup -->
-            <div x-show="open" x-transition @click.away="open = false"
+            <div x-show="open" x-cloak x-transition @click.away="open = false"
                 class="absolute z-20 mt-2 w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-md shadow-lg">
 
                 <!-- Search bar -->

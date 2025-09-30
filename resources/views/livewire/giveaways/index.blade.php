@@ -55,7 +55,7 @@
                     </svg>
                 </button>
 
-                <div x-show="open" @click.away="open = false" x-transition
+                <div x-show="open" x-cloak @click.away="open = false" x-transition
                     class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                     <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
                         class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedCategory ? 'bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -91,7 +91,7 @@
                         </svg>
                     </button>
 
-                    <div x-show="open" @click.away="open = false" x-transition
+                    <div x-show="open" x-cloak @click.away="open = false" x-transition
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                         <button @click="$wire.set('selectedSubcategory', ''); open = false" type="button"
                             class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedSubcategory ? 'bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -129,7 +129,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                                 <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
@@ -156,7 +156,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                                 <button @click="$wire.set('perPage', '20'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
@@ -220,7 +220,7 @@
                             </svg>
                         </button>
 
-                        <div x-show="open" @click.away="open = false" x-transition
+                        <div x-show="open" x-cloak @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             <button @click="$wire.set('selectedCategory', ''); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedCategory ? 'bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -261,7 +261,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                 <button @click="$wire.set('selectedSubcategory', ''); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$selectedSubcategory ? 'bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -300,7 +300,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                                 <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
@@ -327,7 +327,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                                 <button @click="$wire.set('perPage', '20'); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
@@ -385,7 +385,7 @@
                             </svg>
                         </button>
 
-                        <div x-show="open" @click.away="open = false" x-transition
+                        <div x-show="open" x-cloak @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('sortBy', 'newest'); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
@@ -416,7 +416,7 @@
                             </svg>
                         </button>
 
-                        <div x-show="open" @click.away="open = false" x-transition
+                        <div x-show="open" x-cloak @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                             <button @click="$wire.set('perPage', '20'); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">

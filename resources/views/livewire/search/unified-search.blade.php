@@ -209,7 +209,7 @@
                         </svg>
                     </button>
 
-                    <div x-show="open" @click.away="open = false" x-transition
+                    <div x-show="open" x-cloak @click.away="open = false" x-transition
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                         <button @click="$wire.setServiceCategory(''); open = false" type="button"
                             class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_category ? 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -251,7 +251,7 @@
                             </svg>
                         </button>
 
-                        <div x-show="open" @click.away="open = false" x-transition
+                        <div x-show="open" x-cloak @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             <button @click="$wire.set('service_subcategory', ''); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_subcategory ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -289,7 +289,7 @@
                         </svg>
                     </button>
 
-                    <div x-show="open" @click.away="open = false" x-transition
+                    <div x-show="open" x-cloak @click.away="open = false" x-transition
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                         @php
                             $allCategoriesClass = match ($content_type) {
@@ -355,7 +355,7 @@
                             </svg>
                         </button>
 
-                        <div x-show="open" @click.away="open = false" x-transition
+                        <div x-show="open" x-cloak @click.away="open = false" x-transition
                             class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             <button @click="$wire.set('search_subcategory', ''); open = false" type="button"
                                 class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$search_subcategory ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -440,7 +440,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
                                 @if ($content_type === 'auctions')
                                     <button @click="$wire.set('auction_type', 'newest'); open = false" type="button"
@@ -495,7 +495,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
                                 <button @click="$wire.set('perPage', 20); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
@@ -614,7 +614,7 @@
                                     </svg>
                                 </button>
 
-                                <div x-show="open" @click.away="open = false" x-transition
+                                <div x-show="open" x-cloak @click.away="open = false" x-transition
                                     class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                     <button @click="$wire.setServiceCategory(''); open = false" type="button"
                                         class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_category ? 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -663,7 +663,7 @@
                                         </svg>
                                     </button>
 
-                                    <div x-show="open" @click.away="open = false" x-transition
+                                    <div x-show="open" x-cloak @click.away="open = false" x-transition
                                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                         <button @click="$wire.set('service_subcategory', ''); open = false" type="button"
                                             class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$service_subcategory ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -702,7 +702,7 @@
                                     </svg>
                                 </button>
 
-                                <div x-show="open" @click.away="open = false" x-transition
+                                <div x-show="open" x-cloak @click.away="open = false" x-transition
                                     class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                     @php
                                         $allCategoriesClassDesktop = match ($content_type) {
@@ -767,7 +767,7 @@
                                         </svg>
                                     </button>
 
-                                    <div x-show="open" @click.away="open = false" x-transition
+                                    <div x-show="open" x-cloak @click.away="open = false" x-transition
                                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                         <button @click="$wire.set('search_subcategory', ''); open = false" type="button"
                                             class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$search_subcategory ? 'bg-sky-50 dark:bg-slate-600 text-sky-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
@@ -847,7 +847,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
                                 @if ($content_type === 'auctions')
                                     <button @click="$wire.set('auction_type', 'newest'); open = false" type="button"
@@ -902,7 +902,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click.away="open = false" x-transition
+                            <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg">
                                 <button @click="$wire.set('perPage', 20); open = false" type="button"
                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
