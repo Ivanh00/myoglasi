@@ -327,7 +327,23 @@ if (!empty($auctionType)) {
             (this.price_min ? 1 : 0) +
             (this.price_max ? 1 : 0);
     }
-}" x-init="syncFromUrl()">
+}" x-init="
+    syncFromUrl();
+
+    // Listen for browser back/forward navigation
+    window.addEventListener('popstate', () => {
+        syncFromUrl();
+    });
+
+    // Listen for URL changes from Livewire (when filters change on unified-search page)
+    let lastUrl = window.location.href;
+    const urlObserver = setInterval(() => {
+        if (window.location.href !== lastUrl) {
+            lastUrl = window.location.href;
+            syncFromUrl();
+        }
+    }, 500);
+">
     <!-- Main Search Bar -->
     <div
         class="bg-white dark:bg-slate-700 dark:bg-slate-800 rounded-lg shadow-sm border border-slate-300 dark:border-slate-600 dark:border-slate-600 overflow-hidden">
