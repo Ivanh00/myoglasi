@@ -591,14 +591,16 @@
                             class="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 border-amber-700 flex flex-col h-full">
                             <!-- Image -->
                             <div class="relative h-48 flex-shrink-0">
-                                @if ($auction->listing->images->count() > 0)
-                                    <img src="{{ $auction->listing->images->first()->url }}"
-                                        alt="{{ $auction->listing->title }}" class="w-full h-full object-cover">
-                                @else
-                                    <div class="w-full h-full bg-slate-200 flex items-center justify-center">
-                                        <i class="fas fa-clock text-slate-400 text-3xl"></i>
-                                    </div>
-                                @endif
+                                <a href="{{ route('auction.show', $auction) }}">
+                                    @if ($auction->listing->images->count() > 0)
+                                        <img src="{{ $auction->listing->images->first()->url }}"
+                                            alt="{{ $auction->listing->title }}" class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-slate-200 flex items-center justify-center">
+                                            <i class="fas fa-clock text-slate-400 text-3xl"></i>
+                                        </div>
+                                    @endif
+                                </a>
 
                                 <!-- Scheduled overlay -->
                                 <div class="absolute top-2 right-2">
@@ -611,9 +613,11 @@
 
                             <!-- Content -->
                             <div class="p-4">
-                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 line-clamp-1">
-                                    {{ $auction->listing->title }}
-                                </h3>
+                                <a href="{{ route('auction.show', $auction) }}">
+                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 line-clamp-1 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                                        {{ $auction->listing->title }}
+                                    </h3>
+                                </a>
 
                                 {{-- User info --}}
                                 @auth
@@ -642,10 +646,10 @@
 
                                 <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                     <i class="fas fa-map-marker-alt mr-1"></i>
-                                    <span>{{ $auction->listing->location }}</span>
+                                    <span class="truncate">{{ Str::limit($auction->listing->location, 15) }}</span>
                                     <span class="mx-2">•</span>
                                     <i class="fas fa-folder mr-1"></i>
-                                    <span>{{ $auction->listing->category->name }}</span>
+                                    <span class="truncate">{{ Str::limit($auction->listing->category->name, 15) }}</span>
                                 </div>
 
                                 <p class="text-slate-700 dark:text-slate-200 mb-3 text-sm"
@@ -721,14 +725,16 @@
                             <div class="flex flex-col md:flex-row">
                                 <!-- Image -->
                                 <div class="w-full md:w-48 md:min-w-48 h-48 relative">
-                                    @if ($auction->listing->images->count() > 0)
-                                        <img src="{{ $auction->listing->images->first()->url }}"
-                                            alt="{{ $auction->listing->title }}" class="w-full h-full object-cover">
-                                    @else
-                                        <div class="w-full h-full bg-slate-200 flex items-center justify-center">
-                                            <i class="fas fa-clock text-slate-400 text-3xl"></i>
-                                        </div>
-                                    @endif
+                                    <a href="{{ route('auction.show', $auction) }}">
+                                        @if ($auction->listing->images->count() > 0)
+                                            <img src="{{ $auction->listing->images->first()->url }}"
+                                                alt="{{ $auction->listing->title }}" class="w-full h-full object-cover">
+                                        @else
+                                            <div class="w-full h-full bg-slate-200 flex items-center justify-center">
+                                                <i class="fas fa-clock text-slate-400 text-3xl"></i>
+                                            </div>
+                                        @endif
+                                    </a>
 
                                     <!-- Scheduled overlay -->
                                     <div class="absolute top-2 right-2">
@@ -743,8 +749,11 @@
                                 <div class="flex-1 p-4 md:p-6">
                                     <div class="flex flex-col h-full">
                                         <div class="flex-1">
-                                            <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                                                {{ $auction->listing->title }}</h3>
+                                            <a href="{{ route('auction.show', $auction) }}">
+                                                <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                                                    {{ $auction->listing->title }}
+                                                </h3>
+                                            </a>
 
                                             {{-- User info --}}
                                             @auth
@@ -878,16 +887,18 @@
                             class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-amber-700 flex flex-col h-full">
                             <!-- Image -->
                             <div class="relative h-48 flex-shrink-0">
-                                @if ($auction->listing->images->count() > 0)
-                                    <img src="{{ $auction->listing->images->first()->url }}"
-                                        alt="{{ $auction->listing->title }}"
-                                        class="w-full h-full object-cover opacity-75">
-                                @else
-                                    <div
-                                        class="w-full h-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center opacity-75">
-                                        <i class="fas fa-gavel text-slate-400 text-3xl"></i>
-                                    </div>
-                                @endif
+                                <a href="{{ route('auction.show', $auction) }}">
+                                    @if ($auction->listing->images->count() > 0)
+                                        <img src="{{ $auction->listing->images->first()->url }}"
+                                            alt="{{ $auction->listing->title }}"
+                                            class="w-full h-full object-cover opacity-75">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center opacity-75">
+                                            <i class="fas fa-gavel text-slate-400 text-3xl"></i>
+                                        </div>
+                                    @endif
+                                </a>
 
                                 <!-- Ended badge -->
                                 <div class="absolute top-2 right-2">
@@ -900,9 +911,11 @@
 
                             <!-- Content -->
                             <div class="p-4">
-                                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 line-clamp-1">
-                                    {{ $auction->listing->title }}
-                                </h3>
+                                <a href="{{ route('auction.show', $auction) }}">
+                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2 line-clamp-1 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                                        {{ $auction->listing->title }}
+                                    </h3>
+                                </a>
 
                                 {{-- User info --}}
                                 @auth
@@ -931,10 +944,10 @@
 
                                 <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-2">
                                     <i class="fas fa-map-marker-alt mr-1"></i>
-                                    <span>{{ $auction->listing->location }}</span>
+                                    <span class="truncate">{{ Str::limit($auction->listing->location, 15) }}</span>
                                     <span class="mx-2">•</span>
                                     <i class="fas fa-folder mr-1"></i>
-                                    <span>{{ $auction->listing->category->name }}</span>
+                                    <span class="truncate">{{ Str::limit($auction->listing->category->name, 15) }}</span>
                                 </div>
 
                                 @if ($auction->winner)
@@ -993,16 +1006,18 @@
                             <div class="flex flex-col md:flex-row">
                                 <!-- Image -->
                                 <div class="w-full md:w-48 md:min-w-48 h-48 relative">
-                                    @if ($auction->listing->images->count() > 0)
-                                        <img src="{{ $auction->listing->images->first()->url }}"
-                                            alt="{{ $auction->listing->title }}"
-                                            class="w-full h-full object-cover opacity-75">
-                                    @else
-                                        <div
-                                            class="w-full h-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center opacity-75">
-                                            <i class="fas fa-gavel text-slate-400 text-3xl"></i>
-                                        </div>
-                                    @endif
+                                    <a href="{{ route('auction.show', $auction) }}">
+                                        @if ($auction->listing->images->count() > 0)
+                                            <img src="{{ $auction->listing->images->first()->url }}"
+                                                alt="{{ $auction->listing->title }}"
+                                                class="w-full h-full object-cover opacity-75">
+                                        @else
+                                            <div
+                                                class="w-full h-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center opacity-75">
+                                                <i class="fas fa-gavel text-slate-400 text-3xl"></i>
+                                            </div>
+                                        @endif
+                                    </a>
 
                                     <!-- Ended badge -->
                                     <div class="absolute top-2 right-2">
@@ -1017,8 +1032,11 @@
                                 <div class="flex-1 p-4 md:p-6">
                                     <div class="flex flex-col h-full">
                                         <div class="flex-1">
-                                            <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                                                {{ $auction->listing->title }}</h3>
+                                            <a href="{{ route('auction.show', $auction) }}">
+                                                <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                                                    {{ $auction->listing->title }}
+                                                </h3>
+                                            </a>
 
                                             {{-- User info --}}
                                             @auth
