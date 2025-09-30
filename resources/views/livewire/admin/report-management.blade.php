@@ -174,14 +174,11 @@
                         <th
                             class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                             Razlog</th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                            Akcije</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-slate-200">
+                <tbody class="bg-white">
                     @forelse($reports as $report)
-                        <tr class="hover:bg-slate-50">
+                        <tr class="hover:bg-slate-50 border-t border-slate-200">
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900">
                                 {{ $report->created_at->format('d.m.Y H:i') }}
                             </td>
@@ -290,76 +287,40 @@
                                     {{ $reasonLabels[$report->reason] ?? $report->reason }}
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <div class="flex items-center space-x-2">
+                        </tr>
+                        <!-- Actions Row -->
+                        <tr class="border-t border-slate-200">
+                            <td colspan="5" class="px-4 py-2 bg-slate-50">
+                                <div class="flex flex-wrap gap-2">
                                     <button wire:click="viewReportDetails({{ $report->id }}, '{{ $report->report_type }}')"
-                                        class="text-sky-600 hover:text-sky-900 p-1 rounded" title="Detalji">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                            </path>
-                                        </svg>
+                                        class="inline-flex items-center px-2 py-1 text-sky-600 hover:text-sky-800 rounded">
+                                        <i class="fas fa-eye mr-1"></i> Detalji
                                     </button>
 
                                     @if ($report->status === 'pending')
                                         <button wire:click="markAsReviewed({{ $report->id }}, '{{ $report->report_type }}')"
-                                            class="text-indigo-600 hover:text-indigo-900 p-1 rounded"
-                                            title="Označi kao pregledano">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="1.5" d="M5 13l4 4L19 7"></path>
-                                            </svg>
+                                            class="inline-flex items-center px-2 py-1 text-indigo-600 hover:text-indigo-800 rounded">
+                                            <i class="fas fa-check mr-1"></i> Pregledano
                                         </button>
                                     @endif
 
                                     @if ($report->status !== 'resolved')
                                         <button wire:click="markAsResolved({{ $report->id }}, '{{ $report->report_type }}')"
-                                            class="text-green-600 hover:text-green-900 p-1 rounded"
-                                            title="Označi kao rešeno">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="1.5"
-                                                    d="M9 12l2 2 4-4m5-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
+                                            class="inline-flex items-center px-2 py-1 text-green-600 hover:text-green-800 rounded">
+                                            <i class="fas fa-check-circle mr-1"></i> Rešeno
                                         </button>
                                     @endif
 
                                     @if ($report->report_type === 'listing' && $report->listing)
                                         <a href="{{ route('listings.show', $report->listing) }}" target="_blank"
-                                            class="text-purple-600 hover:text-purple-900 p-1 rounded"
-                                            title="Pogledaj oglas">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
-                                                </path>
-                                            </svg>
+                                            class="inline-flex items-center px-2 py-1 text-purple-600 hover:text-purple-800 rounded">
+                                            <i class="fas fa-external-link-alt mr-1"></i> Pogledaj oglas
                                         </a>
                                     @elseif ($report->report_type === 'service' && $report->service)
                                         <a href="{{ route('services.show', $report->service) }}" target="_blank"
-                                            class="text-purple-600 hover:text-purple-900 p-1 rounded"
-                                            title="Pogledaj uslugu">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
-                                                </path>
-                                            </svg>
+                                            class="inline-flex items-center px-2 py-1 text-purple-600 hover:text-purple-800 rounded">
+                                            <i class="fas fa-external-link-alt mr-1"></i> Pogledaj uslugu
                                         </a>
-                                    @else
-                                        <span class="text-slate-400 p-1 rounded" title="Obrisano">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M6 18L18 6M6 6l12 12">
-                                                </path>
-                                            </svg>
-                                        </span>
                                     @endif
 
                                     @php
@@ -368,44 +329,28 @@
 
                                     @if ($item && $item->status === 'inactive')
                                         <button wire:click="restoreListing({{ $report->id }}, '{{ $report->report_type }}')"
-                                            class="text-green-600 hover:text-green-900 p-1 rounded"
-                                            title="Vrati {{ $report->report_type === 'service' ? 'uslugu' : 'oglas' }}">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="1.5" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6">
-                                                </path>
-                                            </svg>
+                                            class="inline-flex items-center px-2 py-1 text-emerald-600 hover:text-emerald-800 rounded">
+                                            <i class="fas fa-undo mr-1"></i> Vrati {{ $report->report_type === 'service' ? 'uslugu' : 'oglas' }}
                                         </button>
 
                                         <button wire:click="confirmDeleteListing({{ $report->id }}, '{{ $report->report_type }}')"
-                                            class="text-red-600 hover:text-red-900 p-1 rounded" title="Trajno obriši">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="1.5"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                </path>
-                                            </svg>
+                                            class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-800 rounded">
+                                            <i class="fas fa-trash-alt mr-1"></i> Trajno obriši
                                         </button>
                                     @else
-                                        <button wire:click="confirmDeleteListing({{ $report->id }}, '{{ $report->report_type }}')"
-                                            class="text-red-600 hover:text-red-900 p-1 rounded" title="Obriši {{ $report->report_type === 'service' ? 'uslugu' : 'oglas' }}">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="1.5"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                </path>
-                                            </svg>
-                                        </button>
+                                        @if ($item)
+                                            <button wire:click="confirmDeleteListing({{ $report->id }}, '{{ $report->report_type }}')"
+                                                class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-800 rounded">
+                                                <i class="fas fa-trash mr-1"></i> Obriši {{ $report->report_type === 'service' ? 'uslugu' : 'oglas' }}
+                                            </button>
+                                        @endif
                                     @endif
                                 </div>
                             </td>
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-4 text-center text-slate-500 dark:text-slate-300">
+                                <td colspan="5" class="px-6 py-4 text-center text-slate-500 dark:text-slate-300">
                                     Nema prijava koje odgovaraju kriterijumima pretrage.
                                 </td>
                             </tr>
