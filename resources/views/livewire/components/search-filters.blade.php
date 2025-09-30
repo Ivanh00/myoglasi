@@ -78,15 +78,3 @@
         </div>
     </div>
 </div>
-
-<!-- Clear Filters Button (after grid, parent needs to handle placement) -->
-@if($city || $price_min || $price_max || $condition_id)
-    <div class="col-span-full mt-3 flex justify-end">
-        <button type="button"
-            wire:click="$set('city', ''); $set('price_min', ''); $set('price_max', ''); $set('condition_id', '')"
-            class="inline-flex items-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-xs font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
-            <i class="fas fa-times mr-1.5 text-xs"></i>
-            Poništi filtere
-        </button>
-    </div>
-@endif
