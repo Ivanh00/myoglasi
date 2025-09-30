@@ -12,30 +12,6 @@
                                 <h1 class="text-xl font-bold">{{ $auction->listing->title }}</h1>
                                 <p class="text-amber-100">Aukcija #{{ $auction->id }}</p>
                             </div>
-
-                            <!-- Report button -->
-                            @auth
-                                @if (auth()->id() !== $auction->user_id)
-                                    @php
-                                        $userReport = \App\Models\ListingReport::where('user_id', auth()->id())
-                                            ->where('listing_id', $auction->listing->id)
-                                            ->first();
-                                    @endphp
-                                    @if ($userReport)
-                                        <span
-                                            class="inline-flex items-center px-3 py-1.5 {{ $userReport->status_badge }} rounded-lg text-sm">
-                                            <i class="fas fa-flag mr-1"></i>
-                                            Prijavljen ({{ $userReport->status_text }})
-                                        </span>
-                                    @else
-                                        <a href="{{ route('listing.report', ['slug' => $auction->listing->slug]) }}"
-                                            class="inline-flex items-center px-3 py-1.5 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 rounded-lg hover:bg-red-300 dark:hover:bg-red-700 transition-colors text-sm">
-                                            <i class="fas fa-flag mr-1"></i>
-                                            Prijavi
-                                        </a>
-                                    @endif
-                                @endif
-                            @endauth
                         </div>
                         <!-- Category display -->
                         <div class="flex items-center text-amber-100 text-sm mt-1">
@@ -123,7 +99,31 @@
                 <!-- Auction Info -->
                 <div>
                     <!-- Current Price -->
-                    <div class="text-center mb-6 p-2 md:p-6 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                    <div class="relative text-center mb-6 p-2 md:p-6 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                        <!-- Report button - absolute positioned -->
+                        @auth
+                            @if (auth()->id() !== $auction->user_id)
+                                @php
+                                    $userReport = \App\Models\ListingReport::where('user_id', auth()->id())
+                                        ->where('listing_id', $auction->listing->id)
+                                        ->first();
+                                @endphp
+                                @if ($userReport)
+                                    <span
+                                        class="absolute top-2 right-2 inline-flex items-center px-2 py-1 {{ $userReport->status_badge }} rounded-lg text-xs">
+                                        <i class="fas fa-flag mr-1"></i>
+                                        Prijavljen
+                                    </span>
+                                @else
+                                    <a href="{{ route('listing.report', ['slug' => $auction->listing->slug]) }}"
+                                        class="absolute top-2 right-2 inline-flex items-center px-2 py-1 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 rounded-lg hover:bg-red-300 dark:hover:bg-red-700 transition-colors text-xs">
+                                        <i class="fas fa-flag mr-1"></i>
+                                        Prijavi
+                                    </a>
+                                @endif
+                            @endif
+                        @endauth
+
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Trenutna cena</h3>
                         <div class="text-4xl font-bold text-amber-700 dark:text-amber-400 mb-2">
                             {{ number_format($auction->current_price, 0, ',', '.') }} RSD
