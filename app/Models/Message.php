@@ -13,6 +13,7 @@ class Message extends Model
         'sender_id',
         'receiver_id',
         'listing_id',
+        'service_id',
         'giveaway_reservation_id',
         'message',
         'subject',
@@ -49,6 +50,11 @@ class Message extends Model
     public function listing()
     {
         return $this->belongsTo(Listing::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
     }
 
     public function giveawayReservation()

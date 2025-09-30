@@ -94,9 +94,10 @@ class ReportService extends Component
                 'sender_id' => auth()->id(),
                 'receiver_id' => $admin->id,
                 'listing_id' => null,
+                'service_id' => $this->service->id,
                 'message' => $reportMessage,
                 'subject' => 'Prijava usluge: ' . $this->service->title,
-                'is_system_message' => false,
+                'is_system_message' => true,
                 'is_read' => false
             ]);
 

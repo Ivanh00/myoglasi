@@ -38,18 +38,22 @@ class MessagesList extends Component
                       ->where('deleted_by_receiver', false);
                 });
             })
-            ->with(['listing', 'sender', 'receiver'])
+            ->with(['listing', 'service', 'sender', 'receiver'])
             ->get()
             ->groupBy(function ($message) use ($userId) {
-                // Grupiši po kombinaciji oglas + drugi korisnik
-                $otherUserId = $message->sender_id == $userId 
-                    ? $message->receiver_id 
+                // Grupiši po kombinaciji oglas/usluga + drugi korisnik
+                $otherUserId = $message->sender_id == $userId
+                    ? $message->receiver_id
                     : $message->sender_id;
-                
-                // Handle null listing_id for admin contact
-                $listingKey = $message->listing_id ?? 'admin_contact';
-                    
-                return $listingKey . '-' . $otherUserId;
+
+                // Handle null listing_id and service_id for admin contact
+                $itemKey = $message->listing_id
+                    ? 'listing-' . $message->listing_id
+                    : ($message->service_id
+                        ? 'service-' . $message->service_id
+                        : 'admin_contact');
+
+                return $itemKey . '-' . $otherUserId;
             })
             ->map(function ($messages) use ($userId) {
                 $lastMessage = $messages->sortByDesc('created_at')->first();
@@ -75,6 +79,7 @@ class MessagesList extends Component
 
                 return [
                     'listing' => $lastMessage->listing, // Can be null for admin contact
+                    'service' => $lastMessage->service, // Can be null if not service-related
                     'other_user' => $otherUser,
                     'last_message' => $lastMessage,
                     'unread_count' => $unreadCount,
@@ -98,8 +103,11 @@ class MessagesList extends Component
                     $searchTerm = strtolower($this->search);
                     $userName = strtolower($conversation['other_user']->name ?? '');
                     $listingTitle = strtolower($conversation['listing']->title ?? '');
-                    
-                    if (strpos($userName, $searchTerm) === false && strpos($listingTitle, $searchTerm) === false) {
+                    $serviceTitle = strtolower($conversation['service']->title ?? '');
+
+                    if (strpos($userName, $searchTerm) === false
+                        && strpos($listingTitle, $searchTerm) === false
+                        && strpos($serviceTitle, $searchTerm) === false) {
                         return false;
                     }
                 }

@@ -5,8 +5,10 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\ListingReport;
+use App\Models\ServiceReport;
 use App\Models\Message;
 use App\Models\Listing;
+use App\Models\Service;
 
 class ReportManagement extends Component
 {
@@ -347,11 +349,15 @@ class ReportManagement extends Component
 
     public function render()
     {
-        $query = ListingReport::with(['user', 'listing']);
+        // Get listing reports
+        $listingQuery = ListingReport::with(['user', 'listing']);
 
-        // Search filter
+        // Get service reports
+        $serviceQuery = ServiceReport::with(['user', 'service']);
+
+        // Search filter for listings
         if ($this->search) {
-            $query->where(function($q) {
+            $listingQuery->where(function($q) {
                 $q->whereHas('user', function($userQuery) {
                     $userQuery->where('name', 'like', '%' . $this->search . '%')
                              ->orWhere('email', 'like', '%' . $this->search . '%');
@@ -362,22 +368,66 @@ class ReportManagement extends Component
                 ->orWhere('reason', 'like', '%' . $this->search . '%')
                 ->orWhere('details', 'like', '%' . $this->search . '%');
             });
+
+            // Search filter for services
+            $serviceQuery->where(function($q) {
+                $q->whereHas('user', function($userQuery) {
+                    $userQuery->where('name', 'like', '%' . $this->search . '%')
+                             ->orWhere('email', 'like', '%' . $this->search . '%');
+                })
+                ->orWhereHas('service', function($serviceQuery) {
+                    $serviceQuery->where('title', 'like', '%' . $this->search . '%');
+                })
+                ->orWhere('reason', 'like', '%' . $this->search . '%')
+                ->orWhere('details', 'like', '%' . $this->search . '%');
+            });
         }
 
         // Status filter
         if ($this->statusFilter !== 'all') {
-            $query->where('status', $this->statusFilter);
+            $listingQuery->where('status', $this->statusFilter);
+            $serviceQuery->where('status', $this->statusFilter);
         }
 
-        $reports = $query->orderBy($this->sortField, $this->sortDirection)
-                        ->paginate($this->perPage);
+        // Get both types of reports
+        $listingReports = $listingQuery->get()->map(function($report) {
+            $report->report_type = 'listing';
+            return $report;
+        });
+
+        $serviceReports = $serviceQuery->get()->map(function($report) {
+            $report->report_type = 'service';
+            return $report;
+        });
+
+        // Concat (not merge - merge uses keys and IDs can overlap!)
+        $allReports = $listingReports->concat($serviceReports);
+
+        // Sort by the selected field
+        if ($this->sortDirection === 'desc') {
+            $allReports = $allReports->sortByDesc($this->sortField);
+        } else {
+            $allReports = $allReports->sortBy($this->sortField);
+        }
+
+        // Manual pagination
+        $currentPage = request()->get('page', 1);
+        $reports = new \Illuminate\Pagination\LengthAwarePaginator(
+            $allReports->forPage($currentPage, $this->perPage),
+            $allReports->count(),
+            $this->perPage,
+            $currentPage,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
 
         // Get statistics
         $stats = [
-            'total' => ListingReport::count(),
-            'pending' => ListingReport::where('status', 'pending')->count(),
-            'reviewed' => ListingReport::where('status', 'reviewed')->count(),
-            'resolved' => ListingReport::where('status', 'resolved')->count()
+            'total' => ListingReport::count() + ServiceReport::count(),
+            'pending' => ListingReport::where('status', 'pending')->count() + ServiceReport::where('status', 'pending')->count(),
+            'reviewed' => ListingReport::where('status', 'reviewed')->count() + ServiceReport::where('status', 'reviewed')->count(),
+            'resolved' => ListingReport::where('status', 'resolved')->count() + ServiceReport::where('status', 'resolved')->count(),
+            'listing_total' => ListingReport::count(),
+            'service_total' => ServiceReport::count()
         ];
 
         return view('livewire.admin.report-management', compact('reports', 'stats'))

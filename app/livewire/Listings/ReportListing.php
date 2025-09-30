@@ -96,7 +96,7 @@ class ReportListing extends Component
                 'listing_id' => $this->listing->id,
                 'message' => $reportMessage,
                 'subject' => 'Prijava oglasa: ' . $this->listing->title,
-                'is_system_message' => false,
+                'is_system_message' => true,
                 'is_read' => false
             ]);
             

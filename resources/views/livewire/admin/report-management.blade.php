@@ -109,6 +109,31 @@
                     <p class="text-2xl font-semibold text-green-600">{{ $stats['resolved'] ?? 0 }}</p>
                 </div>
             </div>
+
+            <!-- Additional stats -->
+            <div class="bg-white shadow rounded-lg p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 h-12 w-12 rounded-md bg-blue-100 flex items-center justify-center">
+                        <i class="fas fa-list text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Prijave oglasa</h3>
+                        <p class="text-2xl font-semibold text-blue-600">{{ $stats['listing_total'] ?? 0 }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow rounded-lg p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 h-12 w-12 rounded-md bg-sky-100 flex items-center justify-center">
+                        <i class="fas fa-tools text-sky-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-slate-500 dark:text-slate-300">Prijave usluga</h3>
+                        <p class="text-2xl font-semibold text-sky-600">{{ $stats['service_total'] ?? 0 }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -207,21 +232,45 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    @if ($report->listing->images->count() > 0)
-                                        <img src="{{ $report->listing->images->first()->url }}"
-                                            alt="{{ $report->listing->title }}"
-                                            class="w-10 h-10 rounded object-cover">
+                                    @if ($report->report_type === 'listing')
+                                        @if ($report->listing && $report->listing->images->count() > 0)
+                                            <img src="{{ $report->listing->images->first()->url }}"
+                                                alt="{{ $report->listing->title }}"
+                                                class="w-10 h-10 rounded object-cover">
+                                        @else
+                                            <div class="w-10 h-10 rounded bg-slate-200 flex items-center justify-center">
+                                                <i class="fas fa-image text-slate-400"></i>
+                                            </div>
+                                        @endif
+                                        <div class="ml-3">
+                                            <div class="text-sm font-medium text-slate-900">
+                                                {{ $report->listing ? Str::limit($report->listing->title, 30) : 'Obrisano' }}
+                                                <span class="ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Oglas</span>
+                                            </div>
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">
+                                                {{ $report->listing ? $report->listing->user->name : 'N/A' }}
+                                            </div>
+                                        </div>
                                     @else
-                                        <div class="w-10 h-10 rounded bg-slate-200 flex items-center justify-center">
-                                            <i class="fas fa-image text-slate-400 "></i>
+                                        @if ($report->service && $report->service->images->count() > 0)
+                                            <img src="{{ $report->service->images->first()->url }}"
+                                                alt="{{ $report->service->title }}"
+                                                class="w-10 h-10 rounded object-cover">
+                                        @else
+                                            <div class="w-10 h-10 rounded bg-slate-200 flex items-center justify-center">
+                                                <i class="fas fa-tools text-slate-400"></i>
+                                            </div>
+                                        @endif
+                                        <div class="ml-3">
+                                            <div class="text-sm font-medium text-slate-900">
+                                                {{ $report->service ? Str::limit($report->service->title, 30) : 'Obrisano' }}
+                                                <span class="ml-2 px-2 py-0.5 text-xs bg-sky-100 text-sky-800 rounded">Usluga</span>
+                                            </div>
+                                            <div class="text-sm text-slate-500 dark:text-slate-300">
+                                                {{ $report->service ? $report->service->user->name : 'N/A' }}
+                                            </div>
                                         </div>
                                     @endif
-                                    <div class="ml-3">
-                                        <div class="text-sm font-medium text-slate-900">
-                                            {{ Str::limit($report->listing->title, 30) }}</div>
-                                        <div class="text-sm text-slate-500 dark:text-slate-300">
-                                            {{ $report->listing->user->name }}</div>
-                                    </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -280,16 +329,38 @@
                                         </button>
                                     @endif
 
-                                    <a href="{{ route('listings.show', $report->listing) }}" target="_blank"
-                                        class="text-purple-600 hover:text-purple-900 p-1 rounded"
-                                        title="Pogledaj oglas">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
-                                            </path>
-                                        </svg>
-                                    </a>
+                                    @if ($report->report_type === 'listing' && $report->listing)
+                                        <a href="{{ route('listings.show', $report->listing) }}" target="_blank"
+                                            class="text-purple-600 hover:text-purple-900 p-1 rounded"
+                                            title="Pogledaj oglas">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                                </path>
+                                            </svg>
+                                        </a>
+                                    @elseif ($report->report_type === 'service' && $report->service)
+                                        <a href="{{ route('services.show', $report->service) }}" target="_blank"
+                                            class="text-purple-600 hover:text-purple-900 p-1 rounded"
+                                            title="Pogledaj uslugu">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                                </path>
+                                            </svg>
+                                        </a>
+                                    @else
+                                        <span class="text-slate-400 p-1 rounded" title="Obrisano">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                    d="M6 18L18 6M6 6l12 12">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                    @endif
 
                                     @if ($report->listing && $report->listing->status === 'inactive')
                                         <button wire:click="restoreListing({{ $report->id }})"
@@ -352,18 +423,36 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 h-10 w-10">
-                                @if ($report->listing->images->count() > 0)
-                                    <img src="{{ $report->listing->images->first()->url }}"
-                                        alt="{{ $report->listing->title }}" class="h-10 w-10 rounded object-cover">
+                                @if ($report->report_type === 'listing')
+                                    @if ($report->listing && $report->listing->images->count() > 0)
+                                        <img src="{{ $report->listing->images->first()->url }}"
+                                            alt="{{ $report->listing->title }}" class="h-10 w-10 rounded object-cover">
+                                    @else
+                                        <div class="h-10 w-10 rounded bg-slate-200 flex items-center justify-center">
+                                            <i class="fas fa-image text-slate-400"></i>
+                                        </div>
+                                    @endif
                                 @else
-                                    <div class="h-10 w-10 rounded bg-slate-200 flex items-center justify-center">
-                                        <i class="fas fa-image text-slate-400 "></i>
-                                    </div>
+                                    @if ($report->service && $report->service->images->count() > 0)
+                                        <img src="{{ $report->service->images->first()->url }}"
+                                            alt="{{ $report->service->title }}" class="h-10 w-10 rounded object-cover">
+                                    @else
+                                        <div class="h-10 w-10 rounded bg-slate-200 flex items-center justify-center">
+                                            <i class="fas fa-tools text-slate-400"></i>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                             <div class="ml-3 flex-1">
                                 <div class="text-sm font-semibold text-slate-900">
-                                    {{ Str::limit($report->listing->title, 25) }}</div>
+                                    @if ($report->report_type === 'listing')
+                                        {{ $report->listing ? Str::limit($report->listing->title, 25) : 'Obrisano' }}
+                                        <span class="ml-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded">Oglas</span>
+                                    @else
+                                        {{ $report->service ? Str::limit($report->service->title, 25) : 'Obrisano' }}
+                                        <span class="ml-1 px-2 py-0.5 text-xs bg-sky-100 text-sky-800 rounded">Usluga</span>
+                                    @endif
+                                </div>
                                 <div class="text-xs text-slate-500 dark:text-slate-300">
                                     {{ $report->created_at->format('d.m.Y H:i') }}</div>
                             </div>
@@ -432,8 +521,16 @@
                     <!-- Owner Info -->
                     <div class="mb-4">
                         <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
-                            Vlasnik oglasa</div>
-                        <div class="text-sm text-slate-900">{{ $report->listing->user->name }}</div>
+                            Vlasnik {{ $report->report_type === 'listing' ? 'oglasa' : 'usluge' }}</div>
+                        <div class="text-sm text-slate-900">
+                            @if ($report->report_type === 'listing' && $report->listing)
+                                {{ $report->listing->user->name }}
+                            @elseif ($report->report_type === 'service' && $report->service)
+                                {{ $report->service->user->name }}
+                            @else
+                                N/A
+                            @endif
+                        </div>
                     </div>
 
                     <!-- Action Buttons -->
@@ -460,7 +557,7 @@
                             </button>
                         @endif
 
-                        @if ($report->listing)
+                        @if ($report->report_type === 'listing' && $report->listing)
                             @if ($report->listing->status !== 'inactive')
                                 <a href="{{ route('listings.show', $report->listing) }}" target="_blank"
                                     class="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-medium rounded-lg hover:bg-purple-200 transition-colors">
@@ -468,6 +565,12 @@
                                     Pogledaj
                                 </a>
                             @endif
+                        @elseif ($report->report_type === 'service' && $report->service)
+                            <a href="{{ route('services.show', $report->service) }}" target="_blank"
+                                class="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-medium rounded-lg hover:bg-purple-200 transition-colors">
+                                <i class="fas fa-external-link-alt mr-1 "></i>
+                                Pogledaj
+                            </a>
                         @endif
 
                         @if ($report->listing && $report->listing->status === 'inactive')

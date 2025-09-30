@@ -143,6 +143,8 @@
                             <div class="listing-name">
                                 @if ($conversation['listing'])
                                     {{ $conversation['listing']->title }}
+                                @elseif ($conversation['service'])
+                                    {{ $conversation['service']->title }}
                                 @else
                                     <span class="text-slate-500 dark:text-slate-300">Direktna komunikacija</span>
                                 @endif
@@ -223,6 +225,8 @@
                                 <p class="text-xs text-slate-500 dark:text-slate-300 truncate">
                                     @if ($conversation['listing'])
                                         {{ $conversation['listing']->title }}
+                                    @elseif ($conversation['service'])
+                                        {{ $conversation['service']->title }}
                                     @else
                                         Direktna komunikacija
                                     @endif
