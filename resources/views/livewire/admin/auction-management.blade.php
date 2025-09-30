@@ -129,15 +129,11 @@
                         class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Prodavac
                     </th>
-                    <th
-                        class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                        Akcije
-                    </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-slate-200">
+            <tbody class="bg-white">
                 @forelse($auctions as $auction)
-                    <tr class="hover:bg-slate-50">
+                    <tr class="hover:bg-slate-50 border-t border-slate-200">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
                             #{{ $auction->id }}
                         </td>
@@ -253,53 +249,39 @@
                             <div class="text-sm text-slate-900 dark:text-slate-100">{{ $auction->seller->name }}</div>
                             <div class="text-sm text-slate-500 dark:text-slate-300">{{ $auction->seller->email }}</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div class="flex items-center justify-end space-x-2">
+                    </tr>
+                    <!-- Actions Row -->
+                    <tr class="border-t border-slate-200">
+                        <td colspan="7" class="px-4 py-2 bg-slate-50">
+                            <div class="flex flex-wrap gap-2">
                                 <a href="{{ route('auction.show', $auction) }}" target="_blank"
-                                    class="text-indigo-600 hover:text-indigo-900">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                        </path>
-                                    </svg>
+                                    class="inline-flex items-center px-2 py-1 text-indigo-600 hover:text-indigo-800 rounded">
+                                    <i class="fas fa-eye mr-1"></i> Pregled
                                 </a>
+
                                 <button wire:click="editAuction({{ $auction->id }})"
-                                    class="text-sky-600 hover:text-sky-900">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                        </path>
-                                    </svg>
+                                    class="inline-flex items-center px-2 py-1 text-sky-600 hover:text-sky-800 rounded">
+                                    <i class="fas fa-edit mr-1"></i> Uredi
                                 </button>
+
                                 @if ($auction->isActive())
                                     <button x-data
                                         x-on:click.prevent="if (confirm('Da li ste sigurni da želite da završite ovu aukciju?')) { $wire.endAuction({{ $auction->id }}) }"
-                                        class="text-orange-600 hover:text-orange-900">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M9 10h6v6H9z"></path>
-                                        </svg>
+                                        class="inline-flex items-center px-2 py-1 text-orange-600 hover:text-orange-800 rounded">
+                                        <i class="fas fa-stop-circle mr-1"></i> Završi aukciju
                                     </button>
                                 @endif
+
                                 <button wire:click="confirmDelete({{ $auction->id }})"
-                                    class="text-red-600 hover:text-red-900">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
-                                    </svg>
+                                    class="inline-flex items-center px-2 py-1 text-red-600 hover:text-red-800 rounded">
+                                    <i class="fas fa-trash mr-1"></i> Obriši
                                 </button>
                             </div>
                         </td>
                     </tr>
                     @empty
                         <tr>
-                            <td colspan="8"
+                            <td colspan="7"
                                 class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-300 text-center">
                                 Nema aukcija koje odgovaraju filterima.
                             </td>
