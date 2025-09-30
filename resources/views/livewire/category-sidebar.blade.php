@@ -80,7 +80,7 @@ $categoryTree = isset($categoryTree)
             </div>
             <!-- Listings categories dropdown -->
             <div class="mt-1 overflow-hidden transition-all duration-200 max-h-0" x-data="{ openAuctionCategory: null }"
-                x-cloak :class="{ 'max-h-0': openSection !== 'listings', 'max-h-none': openSection === 'listings' }">
+                :class="{ 'max-h-0': openSection !== 'listings', 'max-h-none': openSection === 'listings' }">
 
                 @foreach ($categoryTree as $category)
                     <div class="mt-1">
@@ -134,7 +134,7 @@ $categoryTree = isset($categoryTree)
             </div>
             <!-- Auction categories dropdown -->
             <div class="mt-1 overflow-hidden transition-all duration-200 max-h-0" x-data="{ openAuctionCategory: null }"
-                x-cloak :class="{ 'max-h-0': openSection !== 'auctions', 'max-h-none': openSection === 'auctions' }">
+                :class="{ 'max-h-0': openSection !== 'auctions', 'max-h-none': openSection === 'auctions' }">
 
                 @foreach ($categoryTree as $category)
                     <div class="mt-1">
@@ -188,7 +188,7 @@ $categoryTree = isset($categoryTree)
             </div>
             <!-- Service categories dropdown -->
             <div class="mt-1 overflow-hidden transition-all duration-200 max-h-0" x-data="{ openServiceCategory: null }"
-                x-cloak :class="{ 'max-h-0': openSection !== 'services', 'max-h-none': openSection === 'services' }">
+                :class="{ 'max-h-0': openSection !== 'services', 'max-h-none': openSection === 'services' }">
 
                 @php
                     $serviceCategories = \App\Models\ServiceCategory::with([
@@ -260,7 +260,7 @@ $categoryTree = isset($categoryTree)
             </div>
             <!-- Giveaway categories dropdown -->
             <div class="mt-1 overflow-hidden transition-all duration-200 max-h-0" x-data="{ openGiveawayCategory: null }"
-                x-cloak :class="{ 'max-h-0': openSection !== 'giveaways', 'max-h-none': openSection === 'giveaways' }">
+                :class="{ 'max-h-0': openSection !== 'giveaways', 'max-h-none': openSection === 'giveaways' }">
 
                 @foreach ($categoryTree as $category)
                     <div class="mt-1">
