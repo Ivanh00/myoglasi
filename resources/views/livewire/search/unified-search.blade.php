@@ -58,22 +58,20 @@
 
     @if ($hasFilters && !empty($activeFilters))
         <div class="bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg p-4 mb-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h3 class="text-sm font-medium text-sky-900 dark:text-sky-200 mb-2">
+            <div class="flex items-start justify-between gap-4">
+                <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="text-sm font-medium text-sky-900 dark:text-sky-200">
                         Aktivni filteri:
                     </h3>
-                    <div class="flex flex-wrap gap-2">
-                        @foreach ($activeFilters as $filter)
-                            <span
-                                class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-sky-100 dark:bg-sky-800 text-sky-800 dark:text-sky-200">
-                                {{ $filter }}
-                            </span>
-                        @endforeach
-                    </div>
+                    @foreach ($activeFilters as $filter)
+                        <span
+                            class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-sky-100 dark:bg-sky-800 text-sky-800 dark:text-sky-200">
+                            {{ $filter }}
+                        </span>
+                    @endforeach
                 </div>
                 <button onclick="window.location.href = '{{ route('search.unified') }}'"
-                    class="text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 text-sm font-medium">
+                    class="text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 text-sm font-medium flex-shrink-0">
                     <i class="fas fa-times mr-1"></i>
                     Poništi sve filtere
                 </button>
