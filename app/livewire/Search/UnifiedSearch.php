@@ -84,6 +84,26 @@ class UnifiedSearch extends Component
         $this->resetPage();
     }
 
+    public function updatedCity()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPriceMin()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPriceMax()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedConditionId()
+    {
+        $this->resetPage();
+    }
+
     public function updatedServiceCategory()
     {
         $this->service_subcategory = ''; // Reset subcategory when category changes
