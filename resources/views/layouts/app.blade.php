@@ -16,6 +16,10 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <!-- Preload critical images -->
+    <link rel="preload" as="image" href="{{ asset('images/logo-light.svg') }}" type="image/svg+xml">
+    <link rel="preload" as="image" href="{{ asset('images/logo-dark.svg') }}" type="image/svg+xml">
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

@@ -74,10 +74,10 @@
                     <a href="{{ route('home') }}" class="flex items-center">
                         <!-- Light theme logo -->
                         <img src="{{ asset('images/logo-light.svg') }}" alt="PazAriO"
-                            class="h-8 md:h-10 w-auto dark:hidden" loading="eager">
+                            class="h-8 md:h-10 w-auto dark:hidden">
                         <!-- Dark theme logo -->
                         <img src="{{ asset('images/logo-dark.svg') }}" alt="PazAriO"
-                            class="h-8 md:h-10 w-auto hidden dark:block" loading="eager">
+                            class="h-8 md:h-10 w-auto hidden dark:block">
                     </a>
                 </div>
 
@@ -156,7 +156,10 @@
                                         class="flex items-center text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 border border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 dark:hover:border-slate-500 bg-white dark:bg-slate-700">
                                         @if (auth()->user()->avatar)
                                             <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
-                                                class="w-8 h-8 rounded-full object-cover">
+                                                class="w-8 h-8 rounded-full object-cover bg-slate-200 dark:bg-slate-600"
+                                                style="opacity: 0; transition: opacity 0.15s ease-in;"
+                                                onload="this.style.opacity='1'"
+                                                fetchpriority="high">
                                         @else
                                             <div
                                                 class="px-4 py-2 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium">
@@ -351,7 +354,10 @@
                             class="flex items-center justify-center w-10 h-10 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 border-2 border-slate-300 hover:border-slate-400">
                             @if (auth()->user()->avatar)
                                 <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
-                                    class="w-10 h-10 rounded-full object-cover">
+                                    class="w-10 h-10 rounded-full object-cover bg-slate-200 dark:bg-slate-600"
+                                    style="opacity: 0; transition: opacity 0.15s ease-in;"
+                                    onload="this.style.opacity='1'"
+                                    fetchpriority="high">
                             @else
                                 <div
                                     class="w-10 h-10 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium">

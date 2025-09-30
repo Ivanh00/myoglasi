@@ -79,8 +79,8 @@ $categoryTree = isset($categoryTree)
                 </button>
             </div>
             <!-- Listings categories dropdown -->
-            <div class="mt-1 overflow-hidden transition-all duration-200" x-data="{ openAuctionCategory: null }"
-                :class="{ 'max-h-0': openSection !== 'listings', 'max-h-none': openSection === 'listings' }">
+            <div class="mt-1 overflow-hidden transition-all duration-200 max-h-0" x-data="{ openAuctionCategory: null }"
+                x-cloak :class="{ 'max-h-0': openSection !== 'listings', 'max-h-none': openSection === 'listings' }">
 
                 @foreach ($categoryTree as $category)
                     <div class="mt-1">
@@ -133,8 +133,8 @@ $categoryTree = isset($categoryTree)
                 </button>
             </div>
             <!-- Auction categories dropdown -->
-            <div class="mt-1 overflow-hidden transition-all duration-200" x-data="{ openAuctionCategory: null }"
-                :class="{ 'max-h-0': openSection !== 'auctions', 'max-h-none': openSection === 'auctions' }">
+            <div class="mt-1 overflow-hidden transition-all duration-200 max-h-0" x-data="{ openAuctionCategory: null }"
+                x-cloak :class="{ 'max-h-0': openSection !== 'auctions', 'max-h-none': openSection === 'auctions' }">
 
                 @foreach ($categoryTree as $category)
                     <div class="mt-1">
@@ -187,8 +187,8 @@ $categoryTree = isset($categoryTree)
                 </button>
             </div>
             <!-- Service categories dropdown -->
-            <div class="mt-1 overflow-hidden transition-all duration-200" x-data="{ openServiceCategory: null }"
-                :class="{ 'max-h-0': openSection !== 'services', 'max-h-none': openSection === 'services' }">
+            <div class="mt-1 overflow-hidden transition-all duration-200 max-h-0" x-data="{ openServiceCategory: null }"
+                x-cloak :class="{ 'max-h-0': openSection !== 'services', 'max-h-none': openSection === 'services' }">
 
                 @php
                     $serviceCategories = \App\Models\ServiceCategory::with([
@@ -259,8 +259,8 @@ $categoryTree = isset($categoryTree)
                 </button>
             </div>
             <!-- Giveaway categories dropdown -->
-            <div class="mt-1 overflow-hidden transition-all duration-200" x-data="{ openGiveawayCategory: null }"
-                :class="{ 'max-h-0': openSection !== 'giveaways', 'max-h-none': openSection === 'giveaways' }">
+            <div class="mt-1 overflow-hidden transition-all duration-200 max-h-0" x-data="{ openGiveawayCategory: null }"
+                x-cloak :class="{ 'max-h-0': openSection !== 'giveaways', 'max-h-none': openSection === 'giveaways' }">
 
                 @foreach ($categoryTree as $category)
                     <div class="mt-1">
