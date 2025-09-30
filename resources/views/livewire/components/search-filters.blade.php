@@ -1,6 +1,18 @@
 <!-- Search Filters Component -->
 <!-- City Filter -->
-<div x-data="{ cityOpen: false }" class="relative">
+<div x-data="{
+    cityOpen: false,
+    citySearch: '',
+    get filteredCities() {
+        const normalize = (str) => {
+            const map = { 'š': 's', 'ć': 'c', 'č': 'c', 'ž': 'z', 'đ': 'dj' };
+            return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
+        };
+        return @js(config('cities', [])).filter(c =>
+            normalize(c).includes(normalize(this.citySearch || ''))
+        );
+    }
+}" class="relative">
     <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Grad/Mesto</label>
     <button type="button" @click="cityOpen = !cityOpen"
         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white dark:bg-slate-600">
@@ -15,17 +27,28 @@
 
     <div x-show="cityOpen" x-transition @click.away="cityOpen = false"
         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+        <!-- Search input for cities -->
+        <div class="p-2 border-b border-slate-200 dark:border-slate-600">
+            <input type="text" x-model="citySearch" placeholder="Pretraži grad..."
+                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-sky-500">
+        </div>
+
         <div class="p-1">
             <button type="button" wire:click="$set('city', '')" @click="cityOpen = false"
                 class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition {{ !$city ? 'bg-slate-100 dark:bg-slate-600 text-sky-700 dark:text-sky-400 font-medium' : 'text-slate-700 dark:text-slate-200' }}">
                 Svi gradovi
             </button>
-            @foreach(config('cities', []) as $cityOption)
-                <button type="button" wire:click="$set('city', '{{ $cityOption }}')" @click="cityOpen = false"
-                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition {{ $city === $cityOption ? 'bg-slate-100 dark:bg-slate-600 text-sky-700 dark:text-sky-400 font-medium' : 'text-slate-700 dark:text-slate-200' }}">
-                    {{ $cityOption }}
+            <template x-for="cityOption in filteredCities" :key="cityOption">
+                <button type="button" @click="$wire.set('city', cityOption); cityOpen = false"
+                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition"
+                    :class="'{{ $city }}' === cityOption ? 'bg-slate-100 dark:bg-slate-600 text-sky-700 dark:text-sky-400 font-medium' : 'text-slate-700 dark:text-slate-200'">
+                    <span x-text="cityOption"></span>
                 </button>
-            @endforeach
+            </template>
+            <div x-show="filteredCities.length === 0"
+                class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
+                Nema rezultata
+            </div>
         </div>
     </div>
 </div>
