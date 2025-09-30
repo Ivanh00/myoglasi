@@ -6,9 +6,37 @@
             <div
                 class="bg-gradient-to-r from-orange-600 via-amber-400 to-orange-600 dark:from-orange-800 dark:via-amber-600 dark:to-orange-800 text-white p-4">
                 <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-xl font-bold">{{ $auction->listing->title }}</h1>
-                        <p class="text-amber-100">Aukcija #{{ $auction->id }}</p>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h1 class="text-xl font-bold">{{ $auction->listing->title }}</h1>
+                                <p class="text-amber-100">Aukcija #{{ $auction->id }}</p>
+                            </div>
+
+                            <!-- Report button -->
+                            @auth
+                                @if (auth()->id() !== $auction->user_id)
+                                    @php
+                                        $userReport = \App\Models\ListingReport::where('user_id', auth()->id())
+                                            ->where('listing_id', $auction->listing->id)
+                                            ->first();
+                                    @endphp
+                                    @if ($userReport)
+                                        <span
+                                            class="inline-flex items-center px-3 py-1.5 {{ $userReport->status_badge }} rounded-lg text-sm">
+                                            <i class="fas fa-flag mr-1"></i>
+                                            Prijavljen ({{ $userReport->status_text }})
+                                        </span>
+                                    @else
+                                        <a href="{{ route('listing.report', ['slug' => $auction->listing->slug]) }}"
+                                            class="inline-flex items-center px-3 py-1.5 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 rounded-lg hover:bg-red-300 dark:hover:bg-red-700 transition-colors text-sm">
+                                            <i class="fas fa-flag mr-1"></i>
+                                            Prijavi
+                                        </a>
+                                    @endif
+                                @endif
+                            @endauth
+                        </div>
                         <!-- Category display -->
                         <div class="flex items-center text-amber-100 text-sm mt-1">
                             <i class="fas fa-folder mr-1"></i>
@@ -19,6 +47,7 @@
                             @endif
                         </div>
                     </div>
+
                     <div class="text-right">
                         @if ($auction->isActive())
                             <div class="text-2xl font-bold auction-countdown"

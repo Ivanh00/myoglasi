@@ -90,6 +90,30 @@
             <div>
                 <div class="flex items-center justify-between mb-2">
                     <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">{{ $service->title }}</h1>
+
+                    <!-- Report button -->
+                    @auth
+                        @if (auth()->id() !== $service->user_id)
+                            @php
+                                $userReport = \App\Models\ServiceReport::where('user_id', auth()->id())
+                                    ->where('service_id', $service->id)
+                                    ->first();
+                            @endphp
+                            @if ($userReport)
+                                <span
+                                    class="inline-flex items-center px-3 py-1.5 {{ $userReport->status_badge }} rounded-lg text-sm">
+                                    <i class="fas fa-flag mr-1"></i>
+                                    Prijavljen ({{ $userReport->status_text }})
+                                </span>
+                            @else
+                                <a href="{{ route('service.report', ['slug' => $service->slug]) }}"
+                                    class="inline-flex items-center px-3 py-1.5 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 rounded-lg hover:bg-red-300 dark:hover:bg-red-700 transition-colors text-sm">
+                                    <i class="fas fa-flag mr-1"></i>
+                                    Prijavi
+                                </a>
+                            @endif
+                        @endif
+                    @endauth
                 </div>
 
                 <div class="flex items-center mb-4">

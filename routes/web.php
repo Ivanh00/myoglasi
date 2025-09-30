@@ -91,7 +91,8 @@ Route::middleware(['auth'])->group(function () {
     
     // Report routes
     Route::get('/listing/{slug}/report', \App\Livewire\Listings\ReportListing::class)->name('listing.report');
-    
+    Route::get('/service/{slug}/report', \App\Livewire\Services\ReportService::class)->name('service.report');
+
     // Admin contact
     Route::get('/contact-admin', \App\Livewire\AdminContact::class)->name('admin.contact');
     
