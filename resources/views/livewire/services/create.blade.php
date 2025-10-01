@@ -75,22 +75,22 @@
         @endif
 
         <form wire:submit.prevent="save" class="space-y-6">
-            <!-- Basic Information -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Title -->
-                <div class="md:col-span-2">
-                    <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                        Naslov usluge <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" wire:model="title" id="title"
-                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 @error('title') border-red-500 @enderror"
-                        placeholder="Unesite naslov usluge (npr. Web dizajn, Klima servis, Prevoz)">
-                    @error('title')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+            <!-- Title -->
+            <div>
+                <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                    Naslov usluge <span class="text-red-500">*</span>
+                </label>
+                <input type="text" wire:model="title" id="title"
+                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 @error('title') border-red-500 @enderror"
+                    placeholder="Unesite naslov usluge (npr. Web dizajn, Klima servis, Prevoz)">
+                @error('title')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <!-- Category Selection -->
+            <!-- Category and Price Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Category Selection - Left side on desktop -->
                 <div>
                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Kategorija usluge <span class="text-red-500">*</span>
@@ -135,9 +135,9 @@
 
                     <!-- Subcategory -->
                     @if ($service_category_id && $subcategories && $subcategories->count() > 0)
-                        <div class="mt-4">
+                        <div class="mt-6">
                             <label for="subcategory_id"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Podkategorija
                             </label>
                             <div x-data="{ open: false }" x-init="open = false" class="relative">
@@ -179,44 +179,50 @@
                         </div>
                     @elseif($service_category_id)
                         <div
-                            class="mt-4 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg text-sky-700 dark:text-sky-300 text-sm">
+                            class="mt-6 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg text-sky-700 dark:text-sky-300 text-sm">
                             <p><strong>Info:</strong> Odabrana kategorija nema dostupne podkategorije.</p>
                         </div>
                     @endif
                 </div>
 
-                <!-- Price Type -->
-                <div>
-                    <label for="price_type" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                        Tip cene <span class="text-red-500">*</span>
-                    </label>
-                    <select wire:model.live="price_type" id="price_type"
-                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        <option value="fixed">Fiksna cena</option>
-                        <option value="hourly">Po satu</option>
-                        <option value="daily">Po danu</option>
-                        <option value="per_m2">Po kvadratu (m²)</option>
-                        <option value="negotiable">Po dogovoru</option>
-                    </select>
-                    @error('price_type')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                <!-- Price and Price Type - Right side on desktop -->
+                <div class="space-y-6">
+                    <!-- Price -->
+                    <div>
+                        <label for="price" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                            Cena usluge (RSD) <span class="text-red-500">*</span>
+                        </label>
+                        @if($price_type === 'negotiable')
+                            <input type="text" value="Po dogovoru" readonly
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-600 text-slate-900 dark:text-slate-100 rounded-lg cursor-not-allowed">
+                        @else
+                            <input type="number" wire:model="price" id="price" step="0.01"
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 @error('price') border-red-500 @enderror"
+                                placeholder="{{ $price_type === 'hourly' ? 'Cena po satu' : ($price_type === 'daily' ? 'Cena po danu' : ($price_type === 'per_m2' ? 'Cena po m²' : 'Unesite cenu')) }}">
+                        @endif
+                        @error('price')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                <!-- Price -->
-                @if($price_type !== 'negotiable')
-                <div>
-                    <label for="price" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                        Cena usluge (RSD) <span class="text-red-500">*</span>
-                    </label>
-                    <input type="number" wire:model="price" id="price" step="0.01"
-                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 @error('price') border-red-500 @enderror"
-                        placeholder="{{ $price_type === 'hourly' ? 'Cena po satu' : ($price_type === 'daily' ? 'Cena po danu' : ($price_type === 'per_m2' ? 'Cena po m²' : 'Unesite cenu')) }}">
-                    @error('price')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                    <!-- Price Type -->
+                    <div>
+                        <label for="price_type" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                            Tip cene <span class="text-red-500">*</span>
+                        </label>
+                        <select wire:model.live="price_type" id="price_type"
+                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                            <option value="fixed">Fiksna cena</option>
+                            <option value="hourly">Po satu</option>
+                            <option value="daily">Po danu</option>
+                            <option value="per_m2">Po kvadratu (m²)</option>
+                            <option value="negotiable">Po dogovoru</option>
+                        </select>
+                        @error('price_type')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
-                @endif
             </div>
 
             <!-- Description -->
