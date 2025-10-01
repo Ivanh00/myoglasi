@@ -1,18 +1,30 @@
-<div>
+<div x-data="{ modalOpen: @entangle('show') }"
+     x-init="$watch('modalOpen', value => {
+         if (value) {
+             document.body.classList.add('overflow-hidden');
+             document.documentElement.classList.add('overflow-hidden');
+         } else {
+             document.body.classList.remove('overflow-hidden');
+             document.documentElement.classList.remove('overflow-hidden');
+         }
+     })"
+     @keydown.escape.window="if (modalOpen) $wire.closeModal()">
     <!-- Modal Overlay -->
     @if ($show)
-        <div class="fixed inset-0 z-[100] overflow-y-auto" x-data="{ show: @entangle('show') }">
+        <div class="fixed inset-0 z-[100]">
             <!-- Backdrop -->
             <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity" wire:click="closeModal"></div>
 
             <!-- Modal Container - Desktop: centered popup, Mobile: fullscreen -->
             <div class="flex min-h-full items-center justify-center p-0 md:p-4">
                 <div
-                    class="relative w-full h-screen md:h-auto md:max-w-2xl md:rounded-lg bg-white dark:bg-slate-800 shadow-xl overflow-hidden">
+                    class="relative w-full h-screen md:h-auto md:max-w-2xl md:rounded-lg bg-white dark:bg-slate-800 shadow-xl flex flex-col"
+                    style="max-height: 100vh; height: 100vh;"
+                    x-bind:style="window.innerWidth >= 768 ? 'max-height: 85vh; height: auto;' : 'max-height: 100vh; height: 100vh;'">
 
                     <!-- Header -->
                     <div
-                        class="sticky top-0 z-10 flex items-center justify-between px-4 md:px-6 py-4 bg-sky-600 dark:bg-sky-700 text-white">
+                        class="flex-shrink-0 flex items-center justify-between px-4 md:px-6 py-4 bg-sky-600 dark:bg-sky-700 text-white">
                         <h3 class="text-lg md:text-xl font-semibold">Brzo postavljanje - Korak {{ $step }}/5</h3>
                         <button wire:click="closeModal" class="text-white hover:text-slate-200">
                             <i class="fas fa-times text-xl"></i>
@@ -20,13 +32,14 @@
                     </div>
 
                     <!-- Progress Bar -->
-                    <div class="w-full bg-slate-200 dark:bg-slate-700 h-2">
+                    <div class="flex-shrink-0 w-full bg-slate-200 dark:bg-slate-700 h-2">
                         <div class="bg-sky-600 h-2 transition-all duration-300"
                             style="width: {{ ($step / 5) * 100 }}%"></div>
                     </div>
 
                     <!-- Content -->
-                    <div class="p-4 md:p-6 overflow-y-auto" style="max-height: calc(100vh - 180px);">
+                    <div class="flex-1 overflow-y-auto" style="min-height: 0;">
+                        <div class="p-4 md:p-6" style="padding-bottom: 300px;">
                         @if (session()->has('error'))
                             <div class="mb-4 p-3 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded">
                                 {{ session('error') }}
@@ -101,13 +114,38 @@
                                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                         Kategorija <span class="text-red-500">*</span>
                                     </label>
-                                    <select wire:model.live="category_id"
-                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                        <option value="">Izaberite kategoriju</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div x-data="{ open: false }" class="relative">
+                                        <button @click="open = !open" type="button"
+                                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                            <span>
+                                                @if ($category_id && $categories)
+                                                    {{ collect($categories)->firstWhere('id', $category_id)->name ?? 'Izaberite kategoriju' }}
+                                                @else
+                                                    Izaberite kategoriju
+                                                @endif
+                                            </span>
+                                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </button>
+
+                                        <div x-show="open" @click.away="open = false" x-transition
+                                            class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                            <button @click="$wire.set('category_id', ''); open = false" type="button"
+                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                Izaberite kategoriju
+                                            </button>
+                                            @foreach ($categories as $category)
+                                                <button @click="$wire.set('category_id', '{{ $category->id }}'); open = false"
+                                                    type="button"
+                                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                                    {{ $category->name }}
+                                                </button>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Subcategory -->
@@ -117,13 +155,38 @@
                                             class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                             Podkategorija
                                         </label>
-                                        <select wire:model="subcategory_id"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                            <option value="">Izaberite podkategoriju</option>
-                                            @foreach ($subcategories as $subcategory)
-                                                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <div x-data="{ open: false }" class="relative">
+                                            <button @click="open = !open" type="button"
+                                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                                <span>
+                                                    @if ($subcategory_id && $subcategories)
+                                                        {{ collect($subcategories)->firstWhere('id', $subcategory_id)->name ?? 'Izaberite podkategoriju' }}
+                                                    @else
+                                                        Izaberite podkategoriju
+                                                    @endif
+                                                </span>
+                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M19 9l-7 7-7-7"></path>
+                                                </svg>
+                                            </button>
+
+                                            <div x-show="open" @click.away="open = false" x-transition
+                                                class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                                <button @click="$wire.set('subcategory_id', ''); open = false" type="button"
+                                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                    Izaberite podkategoriju
+                                                </button>
+                                                @foreach ($subcategories as $subcategory)
+                                                    <button @click="$wire.set('subcategory_id', '{{ $subcategory->id }}'); open = false"
+                                                        type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                                        {{ $subcategory->name }}
+                                                    </button>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
                                 @endif
                             </div>
@@ -142,13 +205,38 @@
                                             class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                             Stanje
                                         </label>
-                                        <select wire:model="condition_id"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                            <option value="">Izaberite stanje</option>
-                                            @foreach ($conditions as $condition)
-                                                <option value="{{ $condition->id }}">{{ $condition->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <div x-data="{ open: false }" class="relative">
+                                            <button @click="open = !open" type="button"
+                                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                                <span>
+                                                    @if ($condition_id && $conditions)
+                                                        {{ collect($conditions)->firstWhere('id', $condition_id)->name ?? 'Izaberite stanje' }}
+                                                    @else
+                                                        Izaberite stanje
+                                                    @endif
+                                                </span>
+                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M19 9l-7 7-7-7"></path>
+                                                </svg>
+                                            </button>
+
+                                            <div x-show="open" @click.away="open = false" x-transition
+                                                class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                                <button @click="$wire.set('condition_id', ''); open = false" type="button"
+                                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                    Izaberite stanje
+                                                </button>
+                                                @foreach ($conditions as $condition)
+                                                    <button @click="$wire.set('condition_id', '{{ $condition->id }}'); open = false"
+                                                        type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                                        {{ $condition->name }}
+                                                    </button>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
                                 @endif
 
@@ -170,14 +258,48 @@
                                                 class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                                 Tip cene
                                             </label>
-                                            <select wire:model="price_type"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                                <option value="fixed">Fiksna cena</option>
-                                                <option value="hourly">Po satu</option>
-                                                <option value="daily">Po danu</option>
-                                                <option value="sqm">Po kvadratu</option>
-                                                <option value="negotiable">Po dogovoru</option>
-                                            </select>
+                                            <div x-data="{ open: false }" class="relative">
+                                                <button @click="open = !open" type="button"
+                                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                                    <span>
+                                                        @if ($price_type === 'fixed') Fiksna cena
+                                                        @elseif ($price_type === 'hourly') Po satu
+                                                        @elseif ($price_type === 'daily') Po danu
+                                                        @elseif ($price_type === 'sqm') Po kvadratu
+                                                        @elseif ($price_type === 'negotiable') Po dogovoru
+                                                        @endif
+                                                    </span>
+                                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 9l-7 7-7-7"></path>
+                                                    </svg>
+                                                </button>
+
+                                                <div x-show="open" @click.away="open = false" x-transition
+                                                    class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                                    <button @click="$wire.set('price_type', 'fixed'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                        Fiksna cena
+                                                    </button>
+                                                    <button @click="$wire.set('price_type', 'hourly'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                        Po satu
+                                                    </button>
+                                                    <button @click="$wire.set('price_type', 'daily'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                        Po danu
+                                                    </button>
+                                                    <button @click="$wire.set('price_type', 'sqm'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                        Po kvadratu
+                                                    </button>
+                                                    <button @click="$wire.set('price_type', 'negotiable'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                                        Po dogovoru
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     @endif
                                 @endif
@@ -212,11 +334,33 @@
                                                 class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                                 Početak aukcije <span class="text-red-500">*</span>
                                             </label>
-                                            <select wire:model.live="startType"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                                <option value="immediately">Odmah</option>
-                                                <option value="scheduled">Zakazano vreme</option>
-                                            </select>
+                                            <div x-data="{ open: false }" class="relative">
+                                                <button @click="open = !open" type="button"
+                                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                                    <span>
+                                                        @if ($startType === 'immediately') Odmah
+                                                        @elseif ($startType === 'scheduled') Zakazano vreme
+                                                        @endif
+                                                    </span>
+                                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 9l-7 7-7-7"></path>
+                                                    </svg>
+                                                </button>
+
+                                                <div x-show="open" @click.away="open = false" x-transition
+                                                    class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                                    <button @click="$wire.set('startType', 'immediately'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                        Odmah
+                                                    </button>
+                                                    <button @click="$wire.set('startType', 'scheduled'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                                        Zakazano vreme
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <!-- Scheduled Start DateTime -->
@@ -248,14 +392,48 @@
                                                 class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                                 Trajanje aukcije (dana) <span class="text-red-500">*</span>
                                             </label>
-                                            <select wire:model="duration"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                                <option value="1">1 dan</option>
-                                                <option value="3">3 dana</option>
-                                                <option value="5">5 dana</option>
-                                                <option value="7">7 dana</option>
-                                                <option value="10">10 dana</option>
-                                            </select>
+                                            <div x-data="{ open: false }" class="relative">
+                                                <button @click="open = !open" type="button"
+                                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                                    <span>
+                                                        @if ($duration == '1') 1 dan
+                                                        @elseif ($duration == '3') 3 dana
+                                                        @elseif ($duration == '5') 5 dana
+                                                        @elseif ($duration == '7') 7 dana
+                                                        @elseif ($duration == '10') 10 dana
+                                                        @endif
+                                                    </span>
+                                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 9l-7 7-7-7"></path>
+                                                    </svg>
+                                                </button>
+
+                                                <div x-show="open" @click.away="open = false" x-transition
+                                                    class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                                    <button @click="$wire.set('duration', '1'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                        1 dan
+                                                    </button>
+                                                    <button @click="$wire.set('duration', '3'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                        3 dana
+                                                    </button>
+                                                    <button @click="$wire.set('duration', '5'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                        5 dana
+                                                    </button>
+                                                    <button @click="$wire.set('duration', '7'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                        7 dana
+                                                    </button>
+                                                    <button @click="$wire.set('duration', '10'); open = false" type="button"
+                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                                        10 dana
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 @endif
@@ -300,6 +478,7 @@
                                 ])
                             </div>
                         @endif
+                        </div>
                     </div>
 
                     <!-- Footer Buttons -->
