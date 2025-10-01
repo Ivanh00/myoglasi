@@ -51,8 +51,8 @@
 
                                 <div class="grid grid-cols-2 gap-4">
                                     <!-- Oglas -->
-                                    <button wire:click="$set('listingType', 'standard')" type="button"
-                                        class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'standard' ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-sky-300' }}">
+                                    <button wire:click="$set('listingType', 'listing')" type="button"
+                                        class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'listing' ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-sky-300' }}">
                                         <i class="fas fa-box text-3xl mb-2 text-sky-600"></i>
                                         <div class="font-semibold text-slate-900 dark:text-slate-100">Oglas</div>
                                     </button>
@@ -162,6 +162,24 @@
                                         <input type="number" wire:model="price" step="0.01"
                                             class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
                                     </div>
+
+                                    <!-- Price Type for Services -->
+                                    @if ($listingType === 'service')
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Tip cene
+                                            </label>
+                                            <select wire:model="price_type"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                                <option value="fixed">Fiksna cena</option>
+                                                <option value="hourly">Po satu</option>
+                                                <option value="daily">Po danu</option>
+                                                <option value="sqm">Po kvadratu</option>
+                                                <option value="negotiable">Po dogovoru</option>
+                                            </select>
+                                        </div>
+                                    @endif
                                 @endif
 
                                 <!-- Auction Options -->
@@ -187,24 +205,22 @@
                                                 class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
                                         </div>
 
-                                        <!-- End Date -->
+                                        <!-- Duration -->
                                         <div>
                                             <label
                                                 class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Datum završetka <span class="text-red-500">*</span>
+                                                Trajanje aukcije (dana) <span class="text-red-500">*</span>
                                             </label>
-                                            <input type="date" wire:model="auction_end_date"
+                                            <select wire:model="duration"
                                                 class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                        </div>
-
-                                        <!-- End Time -->
-                                        <div>
-                                            <label
-                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Vreme završetka <span class="text-red-500">*</span>
-                                            </label>
-                                            <input type="time" wire:model="auction_end_time"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                                <option value="1">1 dan</option>
+                                                <option value="3">3 dana</option>
+                                                <option value="5">5 dana</option>
+                                                <option value="7">7 dana</option>
+                                                <option value="10">10 dana</option>
+                                                <option value="14">14 dana</option>
+                                                <option value="30">30 dana</option>
+                                            </select>
                                         </div>
                                     </div>
                                 @endif
