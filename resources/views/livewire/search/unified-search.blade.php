@@ -579,6 +579,16 @@
                     @endif
                 </div>
 
+                <!-- Desktop Additional Filters Toggle Button -->
+                <button @click="showAdditionalFilters = !showAdditionalFilters" type="button"
+                    class="hidden md:flex items-center px-4 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors">
+                    <i class="fas mr-2" :class="showAdditionalFilters ? 'fa-eye-slash' : 'fa-filter'"></i>
+                    <span x-text="showAdditionalFilters ? 'Sakrij dodatne filtere' : 'Prikaži dodatne filtere'"></span>
+                    <svg class="ml-2 w-4 h-4 transition-transform" :class="showAdditionalFilters ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
                 <!-- Desktop Content Type Selector (Hidden on mobile) -->
                 <div class="hidden md:flex items-center space-x-2">
                     <button wire:click="$set('content_type', 'all')"
@@ -609,7 +619,7 @@
             </div>
 
             <!-- Desktop Additional Filters (inside controls section) -->
-            <div class="hidden md:block pt-4 border-t border-slate-200 dark:border-slate-600">
+            <div x-show="showAdditionalFilters" x-cloak x-transition class="hidden md:block pt-4 border-t border-slate-200 dark:border-slate-600">
                 <div class="grid grid-cols-4 gap-4">
                     @include('livewire.components.search-filters')
                 </div>
