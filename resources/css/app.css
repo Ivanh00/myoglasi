@@ -1171,3 +1171,44 @@ input[readonly]:focus {
 .listings-filter select:hover {
     border-color: #94a3b8;
 }
+
+/* Search filter buttons hover states */
+.filter-btn-listings:not(.active):hover {
+    background-color: #e0f2fe !important; /* sky-100 */
+    color: #0369a1 !important; /* sky-700 */
+}
+
+.dark .filter-btn-listings:not(.active):hover {
+    background-color: #0c4a6e !important; /* sky-900 */
+    color: #7dd3fc !important; /* sky-300 */
+}
+
+.filter-btn-services:not(.active):hover {
+    background-color: #f1f5f9 !important; /* slate-100 */
+    color: #334155 !important; /* slate-700 */
+}
+
+.dark .filter-btn-services:not(.active):hover {
+    background-color: #475569 !important; /* slate-600 */
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+.filter-btn-giveaways:not(.active):hover {
+    background-color: #dcfce7 !important; /* green-100 */
+    color: #15803d !important; /* green-700 */
+}
+
+.dark .filter-btn-giveaways:not(.active):hover {
+    background-color: #14532d !important; /* green-900 */
+    color: #bbf7d0 !important; /* green-200 */
+}
+
+.filter-btn-auctions:not(.active):hover {
+    background-color: #fef3c7 !important; /* amber-100 */
+    color: #b45309 !important; /* amber-700 */
+}
+
+.dark .filter-btn-auctions:not(.active):hover {
+    background-color: #78350f !important; /* amber-900 */
+    color: #fcd34d !important; /* amber-300 */
+}

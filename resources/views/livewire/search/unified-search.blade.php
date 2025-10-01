@@ -180,21 +180,22 @@
                 Sve
             </button>
             <button wire:click="$set('content_type', 'listings')"
-                class="px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'listings' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                class="filter-btn-listings px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'listings' ? 'active bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300' }}">
+                <i class="fas fa-list mr-1"></i>
                 Oglasi
             </button>
             <button wire:click="$set('content_type', 'services')"
-                class="px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'services' ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                class="filter-btn-services px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'services' ? 'active bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'text-slate-600 dark:text-slate-300' }}">
                 <i class="fas fa-tools mr-1"></i>
                 Usluge
             </button>
             <button wire:click="$set('content_type', 'giveaways')"
-                class="px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'giveaways' ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                class="filter-btn-giveaways px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'giveaways' ? 'active bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-600 dark:text-slate-300' }}">
                 <i class="fas fa-gift mr-1"></i>
                 Pokloni
             </button>
             <button wire:click="$set('content_type', 'auctions')"
-                class="px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'auctions' ? 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                class="filter-btn-auctions px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'auctions' ? 'active bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300' : 'text-slate-600 dark:text-slate-300' }}">
                 <i class="fas fa-gavel mr-1"></i>
                 Aukcije
             </button>
@@ -573,21 +574,22 @@
                         Sve
                     </button>
                     <button wire:click="$set('content_type', 'listings')"
-                        class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'listings' ? 'bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                        class="filter-btn-listings px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'listings' ? 'active bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300' : 'text-slate-600 dark:text-slate-300' }}">
+                        <i class="fas fa-list mr-1"></i>
                         Oglasi
                     </button>
                     <button wire:click="$set('content_type', 'services')"
-                        class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'services' ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                        class="filter-btn-services px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'services' ? 'active bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'text-slate-600 dark:text-slate-300' }}">
                         <i class="fas fa-tools mr-1"></i>
                         Usluge
                     </button>
                     <button wire:click="$set('content_type', 'giveaways')"
-                        class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'giveaways' ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                        class="filter-btn-giveaways px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'giveaways' ? 'active bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200' : 'text-slate-600 dark:text-slate-300' }}">
                         <i class="fas fa-gift mr-1"></i>
                         Pokloni
                     </button>
                     <button wire:click="$set('content_type', 'auctions')"
-                        class="px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'auctions' ? 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600' }}">
+                        class="filter-btn-auctions px-3 py-1 rounded-md text-sm font-medium transition-colors {{ $content_type === 'auctions' ? 'active bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300' : 'text-slate-600 dark:text-slate-300' }}">
                         <i class="fas fa-gavel mr-1"></i>
                         Aukcije
                     </button>
