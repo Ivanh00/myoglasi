@@ -88,7 +88,7 @@
 
             <!-- Informacije o usluzi -->
             <div>
-                <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center justify-between p-2">
                     <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">{{ $service->title }}</h1>
 
                     <!-- Report button -->
@@ -116,7 +116,7 @@
                     @endauth
                 </div>
 
-                <div class="flex items-center mb-4">
+                <div class="flex items-center p-2">
                     <span class="text-3xl font-bold text-sky-600 dark:text-sky-400">
                         @if ($service->price_type === 'fixed')
                             {{ number_format($service->price, 0, ',', '.') }} RSD
@@ -226,7 +226,8 @@
                                 <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('messages.inbox') }}"
                                     class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
                                         </path>
@@ -291,14 +292,15 @@
                 </div>
 
                 <!-- Mobile Actions -->
-                <div class="md:hidden space-y-3 mt-8">
+                <div class="md:hidden space-y-3 mt-2 p-2">
                     @auth
                         @if (auth()->id() !== $service->user_id)
                             @if (!$service->user->is_banned)
                                 <!-- Dugme za slanje poruke -->
                                 <a href="{{ route('messages.inbox') }}"
                                     class="w-full flex items-center justify-center px-4 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
                                         </path>
@@ -560,25 +562,30 @@
         const fbLink = document.createElement('a');
         fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
         fbLink.target = '_blank';
-        fbLink.className = 'flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
+        fbLink.className =
+            'flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
         fbLink.innerHTML = '<i class="fab fa-facebook-f w-6"></i><span class="ml-3">Podeli na Facebook-u</span>';
 
         // WhatsApp
         const waLink = document.createElement('a');
         waLink.href = 'https://wa.me/?text=' + encodeURIComponent(text + ' ' + url);
         waLink.target = '_blank';
-        waLink.className = 'flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors';
+        waLink.className =
+            'flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors';
         waLink.innerHTML = '<i class="fab fa-whatsapp w-6"></i><span class="ml-3">Podeli na WhatsApp-u</span>';
 
         // Email
         const emailLink = document.createElement('a');
-        emailLink.href = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(text + '\n\n' + url);
-        emailLink.className = 'flex items-center p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors';
+        emailLink.href = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(text + '\n\n' +
+            url);
+        emailLink.className =
+            'flex items-center p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors';
         emailLink.innerHTML = '<i class="fas fa-envelope w-6"></i><span class="ml-3">Pošalji Email</span>';
 
         // Copy link button
         const copyBtn = document.createElement('button');
-        copyBtn.className = 'w-full flex items-center p-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors';
+        copyBtn.className =
+            'w-full flex items-center p-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors';
         copyBtn.innerHTML = '<i class="fas fa-link w-6"></i><span class="ml-3">Kopiraj link</span>';
         copyBtn.onclick = () => {
             copyToClipboard(url);
@@ -608,7 +615,8 @@
         navigator.clipboard.writeText(url).then(() => {
             // Show success message
             const message = document.createElement('div');
-            message.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
+            message.className =
+                'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
 
             const icon = document.createElement('i');
             icon.className = 'fas fa-check mr-2';
@@ -652,5 +660,4 @@
     // Initialize
     window.addEventListener('DOMContentLoaded', manageServiceFavoriteButton);
     window.addEventListener('resize', manageServiceFavoriteButton);
-
 </script>
