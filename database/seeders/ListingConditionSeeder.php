@@ -13,7 +13,6 @@ class ListingConditionSeeder extends Seeder
             ['name' => 'Novo'],
             ['name' => 'Polovno - kao novo'],
             ['name' => 'Polovno - dobro'],
-            ['name' => 'Polovno - zadovoljavajuće'],
             ['name' => 'Oštećeno'],
             ['name' => 'Neispravno']
         ];
