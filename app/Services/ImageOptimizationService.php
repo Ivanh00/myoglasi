@@ -52,6 +52,10 @@ class ImageOptimizationService
      */
     public function processImage(UploadedFile $file, string $path, string $filename): array
     {
+        // Temporarily increase memory limit for large images from mobile devices
+        $originalMemoryLimit = ini_get('memory_limit');
+        ini_set('memory_limit', '256M');
+
         $uploadedFiles = [];
         $nameWithoutExt = pathinfo($filename, PATHINFO_FILENAME);
         $extension = 'jpg'; // Convert all to JPG for optimization
@@ -89,6 +93,9 @@ class ImageOptimizationService
             $image->toJpeg(quality: $quality)->save(storage_path('app/public/' . $resizedPath));
             $uploadedFiles[$sizeName] = $resizedPath;
         }
+
+        // Restore original memory limit
+        ini_set('memory_limit', $originalMemoryLimit);
 
         return $uploadedFiles;
     }
