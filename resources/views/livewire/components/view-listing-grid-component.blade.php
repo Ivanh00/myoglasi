@@ -97,31 +97,33 @@
                 {{ Str::limit(strip_tags($listing->description), 100) }}
             </p>
 
-            <div class="flex items-center justify-between mb-3">
-                @if ($listing->isGiveaway())
-                    <div class="text-green-600 dark:text-green-400 font-bold text-xl">BESPLATNO
-                    </div>
-                @else
-                    <div class="text-sky-600 dark:text-sky-400 font-bold text-xl">
-                        {{ number_format($listing->price, 2) }} RSD
-                    </div>
-                @endif
+            <div class="mb-3">
+                <div class="flex items-center justify-between mb-2">
+                    @if ($listing->isGiveaway())
+                        <div class="text-green-600 dark:text-green-400 font-bold text-xl">BESPLATNO
+                        </div>
+                    @else
+                        <div class="text-sky-600 dark:text-sky-400 font-bold text-xl">
+                            {{ number_format($listing->price, 2) }} RSD
+                        </div>
+                    @endif
 
-                <div class="flex items-center gap-2">
                     @if ($listing->getTypeBadge())
                         <span
                             class="px-2 py-1 text-xs font-bold rounded-full {{ $listing->getTypeBadge()['class'] }}">
                             {{ $listing->getTypeBadge()['text'] }}
                         </span>
                     @endif
+                </div>
 
-                    @if ($listing->condition)
+                @if ($listing->condition)
+                    <div>
                         <span
                             class="px-2 py-1 bg-slate-200 dark:bg-slate-500 text-slate-800 dark:text-slate-100 text-xs font-medium rounded-full">
                             {{ $listing->condition->name }}
                         </span>
-                    @endif
-                </div>
+                    </div>
+                @endif
             </div>
 
             <!-- Stats -->

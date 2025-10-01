@@ -172,29 +172,33 @@
                         @endauth
                     </div>
 
-                    <div class="flex items-center mb-4">
-                        @if ($listing->isGiveaway())
-                            <span class="text-3xl font-bold text-green-600 dark:text-green-400">BESPLATNO</span>
-                            <span
-                                class="ml-4 px-3 py-1 bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
-                                POKLON
-                            </span>
-                        @else
-                            <span
-                                class="text-3xl font-bold text-sky-600 dark:text-sky-400">{{ number_format($listing->price, 2) }}
-                                RSD</span>
-                        @endif
+                    <div class="mb-4">
+                        <div class="flex items-center mb-2">
+                            @if ($listing->isGiveaway())
+                                <span class="text-3xl font-bold text-green-600 dark:text-green-400">BESPLATNO</span>
+                                <span
+                                    class="ml-4 px-3 py-1 bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
+                                    POKLON
+                                </span>
+                            @else
+                                <span
+                                    class="text-3xl font-bold text-sky-600 dark:text-sky-400">{{ number_format($listing->price, 2) }}
+                                    RSD</span>
+                            @endif
 
-                        @if ($listing->isService())
-                            <span class="ml-4 px-3 py-1 bg-slate-100 text-slate-800 text-sm font-medium rounded-full">
-                                USLUGA
-                            </span>
-                        @endif
+                            @if ($listing->isService())
+                                <span class="ml-4 px-3 py-1 bg-slate-100 text-slate-800 text-sm font-medium rounded-full">
+                                    USLUGA
+                                </span>
+                            @endif
+                        </div>
 
                         @if ($listing->condition)
-                            <span class="ml-4 px-3 py-1 bg-slate-100 text-slate-800 text-sm font-medium rounded-full">
-                                {{ $listing->condition->name }}
-                            </span>
+                            <div>
+                                <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium rounded-full">
+                                    {{ $listing->condition->name }}
+                                </span>
+                            </div>
                         @endif
                     </div>
 
