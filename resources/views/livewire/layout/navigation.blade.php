@@ -93,7 +93,8 @@
                         @if (!auth()->user()->is_admin)
                             <div class="relative" x-data="{ open: false }">
                                 <button @click="open = !open" type="button"
-                                    class="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400">
+                                    style="border: 2px solid rgb(239 68 68) !important; box-shadow: none !important;"
+                                    class="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 hover:bg-red-50 dark:hover:bg-slate-600 focus:outline-none">
                                     <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -308,7 +309,8 @@
                         <!-- Mobile Add Listing Dropdown -->
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open" type="button"
-                                class="inline-flex items-center justify-center w-10 h-10 border border-slate-300 dark:border-slate-600 rounded-full shadow-sm bg-white dark:bg-slate-700 hover:bg-green-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400">
+                                style="border: 2px solid rgb(239 68 68) !important; box-shadow: none !important;"
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-slate-700 hover:bg-red-50 dark:hover:bg-slate-600 focus:outline-none">
                                 <svg class="h-5 w-5 text-slate-700 dark:text-slate-200" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
