@@ -327,7 +327,7 @@ $categoryTree = isset($categoryTree)
                             ->count();
                     @endphp
                     @if ($unreadMessagesCount > 0)
-                        <span class="ml-2 bg-red-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                        <span class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                             {{ $unreadMessagesCount }}
                         </span>
                     @endif
@@ -348,7 +348,7 @@ $categoryTree = isset($categoryTree)
                             ->count();
                     @endphp
                     @if ($unreadNotificationsCount > 0)
-                        <span class="ml-2 bg-red-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                        <span class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                             {{ $unreadNotificationsCount }}
                         </span>
                     @endif
@@ -441,7 +441,7 @@ $categoryTree = isset($categoryTree)
                                 ->count();
                         @endphp
                         @if ($unreadMessagesCount > 0)
-                            <span class="ml-2 bg-red-500 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                            <span class="ml-2 bg-red-500 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                 {{ $unreadMessagesCount }}
                             </span>
                         @endif
@@ -465,7 +465,7 @@ $categoryTree = isset($categoryTree)
                                 ->count();
                         @endphp
                         @if ($unreadNotificationsCount > 0)
-                            <span class="ml-2 bg-red-500 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                            <span class="ml-2 bg-red-500 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                 {{ $unreadNotificationsCount }}
                             </span>
                         @endif
