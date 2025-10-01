@@ -198,14 +198,14 @@
                                                 Poruke
                                                 @if ($this->unreadMessagesCount > 0)
                                                     <span
-                                                        class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadMessagesCount }}</span>
+                                                        class="ml-2 bg-red-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">{{ $this->unreadMessagesCount }}</span>
                                                 @endif
                                             </x-dropdown-link>
                                             <x-dropdown-link href="{{ route('notifications.index') }}">
                                                 Obaveštenja
                                                 @if ($this->unreadNotificationsCount > 0)
                                                     <span
-                                                        class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadNotificationsCount }}</span>
+                                                        class="ml-2 bg-red-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">{{ $this->unreadNotificationsCount }}</span>
                                                 @endif
                                             </x-dropdown-link>
                                         @else
@@ -239,14 +239,14 @@
                                                 Poruke
                                                 @if ($this->unreadMessagesCount > 0)
                                                     <span
-                                                        class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadMessagesCount }}</span>
+                                                        class="ml-2 bg-red-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">{{ $this->unreadMessagesCount }}</span>
                                                 @endif
                                             </x-dropdown-link>
                                             <x-dropdown-link href="{{ route('notifications.index') }}">
                                                 Obaveštenja
                                                 @if ($this->unreadNotificationsCount > 0)
                                                     <span
-                                                        class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">{{ $this->unreadNotificationsCount }}</span>
+                                                        class="ml-2 bg-red-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">{{ $this->unreadNotificationsCount }}</span>
                                                 @endif
                                             </x-dropdown-link>
 
@@ -257,7 +257,7 @@
                                                 @endphp
                                                 @if ($totalRatings > 0)
                                                     <span
-                                                        class="ml-2 bg-green-600 text-white rounded px-2 py-1 text-xs font-medium">
+                                                        class="ml-2 bg-green-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                                         {{ $totalRatings }}
                                                     </span>
                                                 @endif
@@ -455,7 +455,7 @@
                             class="text-slate-700 dark:text-slate-200 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">
                             Poruke
                             @if ($this->unreadMessagesCount > 0)
-                                <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
+                                <span class="ml-2 bg-red-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                     {{ $this->unreadMessagesCount }}
                                 </span>
                             @endif
@@ -465,7 +465,7 @@
                             class="text-slate-700 dark:text-slate-200 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">
                             Obaveštenja
                             @if ($this->unreadNotificationsCount > 0)
-                                <span class="ml-2 bg-red-600 text-white rounded px-2 py-1 text-xs font-medium">
+                                <span class="ml-2 bg-red-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                     {{ $this->unreadNotificationsCount }}
                                 </span>
                             @endif
@@ -479,7 +479,7 @@
                                     $totalRatings = auth()->user()->total_ratings_count ?? 0;
                                 @endphp
                                 @if ($totalRatings > 0)
-                                    <span class="ml-1 bg-green-600 text-white rounded px-2 py-1 text-xs font-medium">
+                                    <span class="ml-1 bg-green-600 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                         {{ $totalRatings }}
                                     </span>
                                 @endif
