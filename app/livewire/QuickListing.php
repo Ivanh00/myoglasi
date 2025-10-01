@@ -37,7 +37,6 @@ class QuickListing extends Component
     public $price = '';
     public $price_type = 'fixed'; // For services
     public $starting_price = '';
-    public $reserve_price = '';
     public $buy_now_price = ''; // For auctions
     public $duration = '7'; // For auctions (string to match form input)
     public $startType = 'immediately'; // For auctions
@@ -128,7 +127,7 @@ class QuickListing extends Component
         $this->show = true;
         $this->step = 1;
         $this->loadCategories();
-        $this->reset(['listingType', 'title', 'category_id', 'subcategory_id', 'condition_id', 'price', 'starting_price', 'reserve_price', 'buy_now_price', 'description', 'images', 'startDate', 'startTime']);
+        $this->reset(['listingType', 'title', 'category_id', 'subcategory_id', 'condition_id', 'price', 'starting_price', 'buy_now_price', 'description', 'images', 'startDate', 'startTime']);
         $this->duration = '7'; // Reset to default
         $this->startType = 'immediately'; // Reset to default
     }
@@ -297,7 +296,6 @@ class QuickListing extends Component
                         'listing_id' => $listing->id,
                         'user_id' => $listing->user_id,
                         'starting_price' => $this->starting_price,
-                        'reserve_price' => $this->reserve_price ?: null,
                         'buy_now_price' => $this->buy_now_price ?: null,
                         'current_price' => $this->starting_price,
                         'starts_at' => $startsAt,
