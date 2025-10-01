@@ -112,13 +112,13 @@
                                     class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-slate-700 ring-1 ring-black ring-opacity-5 z-50">
                                     <div class="py-1">
                                         <button @click="open = false; $wire.dispatch('openQuickListing')" type="button"
-                                            class="w-full flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-                                            <i class="fas fa-bolt text-purple-600 mr-3"></i>
+                                            class="w-full flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
+                                            <i class="fas fa-bolt text-purple-600 dark:text-purple-400 mr-3"></i>
                                             Step-by-Step
                                         </button>
                                         <div class="border-t border-slate-200 dark:border-slate-600 my-1"></div>
                                         <a href="{{ route('listings.create') }}" @click="open = false"
-                                            class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-sky-900 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                                            class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-sky-900 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
                                             <svg class="w-5 h-5 mr-3 text-sky-600" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -128,17 +128,17 @@
                                             Oglas
                                         </a>
                                         <a href="{{ route('listings.create') }}?type=auction" @click="open = false"
-                                            class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-amber-900 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                                            class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-amber-900 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
                                             <i class="fas fa-gavel text-amber-600 mr-3"></i>
                                             Aukcija
                                         </a>
                                         <a href="{{ route('services.create') }}" @click="open = false"
-                                            class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                                            class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                             <i class="fas fa-tools text-slate-600 dark:text-slate-400 mr-3"></i>
                                             Usluga
                                         </a>
                                         <a href="{{ route('listings.create') }}?type=giveaway" @click="open = false"
-                                            class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                                            class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors">
                                             <i class="fas fa-gift text-green-600 mr-3"></i>
                                             Poklon
                                         </a>
@@ -328,13 +328,13 @@
                                 class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-slate-700 ring-1 ring-black ring-opacity-5 z-[100]">
                                 <div class="py-1">
                                     <button @click="open = false; $wire.dispatch('openQuickListing')" type="button"
-                                        class="w-full flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-                                        <i class="fas fa-bolt text-purple-600 mr-3"></i>
+                                        class="w-full flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
+                                        <i class="fas fa-bolt text-purple-600 dark:text-purple-400 mr-3"></i>
                                         Step-by-Step
                                     </button>
                                     <div class="border-t border-slate-200 dark:border-slate-600 my-1"></div>
                                     <a href="{{ route('listings.create') }}" @click="open = false"
-                                        class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-sky-900 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                                        class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-sky-900 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
                                         <svg class="w-5 h-5 mr-3 text-sky-600" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -344,17 +344,17 @@
                                         Oglas
                                     </a>
                                     <a href="{{ route('listings.create') }}?type=auction" @click="open = false"
-                                        class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-amber-900 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                                        class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-amber-900 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
                                         <i class="fas fa-gavel text-amber-600 mr-3"></i>
                                         Aukcija
                                     </a>
                                     <a href="{{ route('services.create') }}" @click="open = false"
-                                        class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                                        class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                         <i class="fas fa-tools text-slate-600 dark:text-slate-400 mr-3"></i>
                                         Usluga
                                     </a>
                                     <a href="{{ route('listings.create') }}?type=giveaway" @click="open = false"
-                                        class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                                        class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors">
                                         <i class="fas fa-gift text-green-600 mr-3"></i>
                                         Poklon
                                     </a>

@@ -52,6 +52,7 @@ class QuickListing extends Component
 
     // Step 5: Images
     public $images = [];
+    public $tempImages = [];
 
     public $categories = [];
     public $subcategories = [];
@@ -65,7 +66,6 @@ class QuickListing extends Component
             'category_id' => 'required',
             'description' => 'required|string|min:10',
             'price' => 'required_unless:listingType,giveaway,auction|numeric|min:0',
-            'images.*' => 'nullable|image|max:5120',
         ];
     }
 
@@ -115,6 +115,37 @@ class QuickListing extends Component
                 ->get();
         }
         $this->subcategory_id = '';
+    }
+
+    public function updatedTempImages()
+    {
+        $maxImages = \App\Models\Setting::get('max_images_per_listing', 10);
+
+        // Validate file size (15MB max before compression)
+        $this->validate([
+            'tempImages.*' => 'image|max:15360', // 15MB max before compression
+        ]);
+
+        if (!empty($this->tempImages)) {
+            // Add new images to existing images array
+            foreach ($this->tempImages as $tempImage) {
+                if (count($this->images) < $maxImages) {
+                    $this->images[] = $tempImage;
+                } else {
+                    session()->flash('error', "Možete dodati maksimalno {$maxImages} slika.");
+                    break;
+                }
+            }
+
+            // Clear temp images
+            $this->tempImages = [];
+        }
+    }
+
+    public function removeImage($index)
+    {
+        unset($this->images[$index]);
+        $this->images = array_values($this->images); // Re-index array
     }
 
     public function openQuickListing()

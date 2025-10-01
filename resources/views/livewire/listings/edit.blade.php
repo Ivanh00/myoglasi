@@ -334,22 +334,23 @@
             </div>
 
             <!-- Submit Buttons -->
-            <div class="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-600">
-                <a href="{{ route('listings.show', $listing) }}"
-                    class="px-4 py-2 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                    Nazad na oglas
-                </a>
+            <div class="pt-6 border-t border-slate-200 dark:border-slate-600">
+                <!-- Mobile: Stacked buttons -->
+                <div class="flex flex-col space-y-3 md:hidden">
+                    <a href="{{ route('listings.show', $listing) }}"
+                        class="w-full px-4 py-2 text-center text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                        Nazad na oglas
+                    </a>
 
-                <div class="flex space-x-3">
                     <a href="{{ route('listings.my') }}"
-                        class="px-4 py-2 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                        class="w-full px-4 py-2 text-center text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                         Moji oglasi
                     </a>
 
                     <button type="submit" wire:loading.attr="disabled"
-                        class="px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                        class="w-full px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                         <span wire:loading.remove wire:target="update">Sačuvaj izmene</span>
-                        <span wire:loading wire:target="update" class="flex items-center">
+                        <span wire:loading wire:target="update" class="flex items-center justify-center">
                             <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none"
                                 viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10"
@@ -361,6 +362,37 @@
                             Čuvanje...
                         </span>
                     </button>
+                </div>
+
+                <!-- Desktop: Original layout -->
+                <div class="hidden md:flex items-center justify-between">
+                    <a href="{{ route('listings.show', $listing) }}"
+                        class="px-4 py-2 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                        Nazad na oglas
+                    </a>
+
+                    <div class="flex space-x-3">
+                        <a href="{{ route('listings.my') }}"
+                            class="px-4 py-2 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                            Moji oglasi
+                        </a>
+
+                        <button type="submit" wire:loading.attr="disabled"
+                            class="px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                            <span wire:loading.remove wire:target="update">Sačuvaj izmene</span>
+                            <span wire:loading wire:target="update" class="flex items-center">
+                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                        stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                                Čuvanje...
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>

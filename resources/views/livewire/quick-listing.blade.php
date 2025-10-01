@@ -255,8 +255,6 @@
                                                 <option value="5">5 dana</option>
                                                 <option value="7">7 dana</option>
                                                 <option value="10">10 dana</option>
-                                                <option value="14">14 dana</option>
-                                                <option value="30">30 dana</option>
                                             </select>
                                         </div>
                                     </div>
@@ -295,25 +293,11 @@
                             <div class="space-y-4">
                                 <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Slike</h4>
 
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                        Dodajte slike
-                                    </label>
-                                    <input type="file" wire:model="images" multiple accept="image/*"
-                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Možete dodati više slika
-                                        (max 5MB po slici)</p>
-                                </div>
-
-                                @if ($images)
-                                    <div class="grid grid-cols-3 gap-2 mt-4">
-                                        @foreach ($images as $image)
-                                            <div class="relative">
-                                                <img src="{{ $image->temporaryUrl() }}" class="w-full h-24 object-cover rounded">
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endif
+                                @include('livewire.components.image-upload', [
+                                    'images' => $images,
+                                    'maxImages' => \App\Models\Setting::get('max_images_per_listing', 10),
+                                    'wireModel' => 'tempImages'
+                                ])
                             </div>
                         @endif
                     </div>
@@ -332,9 +316,22 @@
                                 Sledeće<i class="fas fa-arrow-right ml-2"></i>
                             </button>
                         @else
-                            <button wire:click="createListing" type="button"
-                                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
-                                <i class="fas fa-check mr-2"></i>Kreiraj oglas
+                            <button wire:click="createListing" type="button" wire:loading.attr="disabled"
+                                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span wire:loading.remove wire:target="createListing">
+                                    <i class="fas fa-check mr-2"></i>Kreiraj oglas
+                                </span>
+                                <span wire:loading wire:target="createListing" class="flex items-center">
+                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none"
+                                        viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10"
+                                            stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                        </path>
+                                    </svg>
+                                    Kreiranje...
+                                </span>
                             </button>
                         @endif
                     </div>
