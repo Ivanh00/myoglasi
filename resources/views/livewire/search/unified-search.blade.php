@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-6 px-1 sm:px-6 lg:px-8" x-data="{ showAdditionalFilters: false }">
 
     <!-- Filter Summary -->
     @php
@@ -388,8 +388,20 @@
             @endif
         @endif
 
+        <!-- Mobile Additional Filters Toggle Button -->
+        <div class="md:hidden mt-4">
+            <button @click="showAdditionalFilters = !showAdditionalFilters" type="button"
+                class="w-full flex items-center justify-center px-4 py-3 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors">
+                <i class="fas mr-2" :class="showAdditionalFilters ? 'fa-eye-slash' : 'fa-filter'"></i>
+                <span x-text="showAdditionalFilters ? 'Sakrij dodatne filtere' : 'Prikaži dodatne filtere'"></span>
+                <svg class="ml-2 w-4 h-4 transition-transform" :class="showAdditionalFilters ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+        </div>
+
         <!-- Mobile Additional Filters -->
-        <div class="md:hidden mt-4 bg-white dark:bg-slate-700 rounded-lg shadow-md p-4">
+        <div x-show="showAdditionalFilters" x-cloak x-transition class="md:hidden mt-4 bg-white dark:bg-slate-700 rounded-lg shadow-md p-4">
             <div class="grid grid-cols-1 gap-4">
                 @include('livewire.components.search-filters')
             </div>
