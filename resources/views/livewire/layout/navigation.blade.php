@@ -111,6 +111,12 @@
                                 <div x-show="open" x-cloak @click.away="open = false" x-transition
                                     class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-slate-700 ring-1 ring-black ring-opacity-5 z-50">
                                     <div class="py-1">
+                                        <button @click="open = false; $wire.dispatch('openQuickListing')" type="button"
+                                            class="w-full flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                                            <i class="fas fa-bolt text-purple-600 mr-3"></i>
+                                            Step-by-Step
+                                        </button>
+                                        <div class="border-t border-slate-200 dark:border-slate-600 my-1"></div>
                                         <a href="{{ route('listings.create') }}" @click="open = false"
                                             class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-sky-900 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
                                             <svg class="w-5 h-5 mr-3 text-sky-600" fill="none" stroke="currentColor"
@@ -321,6 +327,12 @@
                             <div x-show="open" x-cloak @click.away="open = false" x-transition
                                 class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-slate-700 ring-1 ring-black ring-opacity-5 z-[100]">
                                 <div class="py-1">
+                                    <button @click="open = false; $wire.dispatch('openQuickListing')" type="button"
+                                        class="w-full flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                                        <i class="fas fa-bolt text-purple-600 mr-3"></i>
+                                        Step-by-Step
+                                    </button>
+                                    <div class="border-t border-slate-200 dark:border-slate-600 my-1"></div>
                                     <a href="{{ route('listings.create') }}" @click="open = false"
                                         class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-sky-900 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
                                         <svg class="w-5 h-5 mr-3 text-sky-600" fill="none" stroke="currentColor"

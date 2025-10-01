@@ -572,6 +572,9 @@
         </div>
     </div>
 
+    <!-- Quick Listing Modal -->
+    <livewire:quick-listing />
+
     <!-- Footer -->
     <livewire:layout.footer />
     @livewireScripts
