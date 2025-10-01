@@ -102,7 +102,7 @@
                                         Kategorija <span class="text-red-500">*</span>
                                     </label>
                                     <select wire:model.live="category_id"
-                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-center">
+                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
                                         <option value="">Izaberite kategoriju</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -118,7 +118,7 @@
                                             Podkategorija
                                         </label>
                                         <select wire:model="subcategory_id"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-center">
+                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
                                             <option value="">Izaberite podkategoriju</option>
                                             @foreach ($subcategories as $subcategory)
                                                 <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
@@ -143,7 +143,7 @@
                                             Stanje
                                         </label>
                                         <select wire:model="condition_id"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-center">
+                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
                                             <option value="">Izaberite stanje</option>
                                             @foreach ($conditions as $condition)
                                                 <option value="{{ $condition->id }}">{{ $condition->name }}</option>
@@ -171,7 +171,7 @@
                                                 Tip cene
                                             </label>
                                             <select wire:model="price_type"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-center">
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
                                                 <option value="fixed">Fiksna cena</option>
                                                 <option value="hourly">Po satu</option>
                                                 <option value="daily">Po danu</option>
@@ -213,7 +213,7 @@
                                                 Početak aukcije <span class="text-red-500">*</span>
                                             </label>
                                             <select wire:model.live="startType"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-center">
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
                                                 <option value="immediately">Odmah</option>
                                                 <option value="scheduled">Zakazano vreme</option>
                                             </select>
@@ -249,7 +249,7 @@
                                                 Trajanje aukcije (dana) <span class="text-red-500">*</span>
                                             </label>
                                             <select wire:model="duration"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-center">
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
                                                 <option value="1">1 dan</option>
                                                 <option value="3">3 dana</option>
                                                 <option value="5">5 dana</option>
