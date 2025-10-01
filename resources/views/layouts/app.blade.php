@@ -653,7 +653,7 @@
 
     <!-- Mobile Sidebar JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        function initializeMobileSidebar() {
             const sidebarButton = document.getElementById('mobile-sidebar-button');
             const mobileSidebar = document.getElementById('mobile-sidebar');
             const sidebarOverlay = document.getElementById('mobile-sidebar-overlay');
@@ -661,45 +661,65 @@
             const closeIcon = document.getElementById('sidebar-close-icon');
 
             if (sidebarButton && mobileSidebar && sidebarOverlay) {
+                // Remove existing listeners by cloning and replacing elements
+                const newSidebarButton = sidebarButton.cloneNode(true);
+                sidebarButton.parentNode.replaceChild(newSidebarButton, sidebarButton);
+
+                const newSidebarOverlay = sidebarOverlay.cloneNode(true);
+                sidebarOverlay.parentNode.replaceChild(newSidebarOverlay, sidebarOverlay);
+
+                // Get fresh references
+                const button = document.getElementById('mobile-sidebar-button');
+                const overlay = document.getElementById('mobile-sidebar-overlay');
+                const sidebar = document.getElementById('mobile-sidebar');
+                const menu = document.getElementById('sidebar-menu-icon');
+                const close = document.getElementById('sidebar-close-icon');
+
                 // Toggle sidebar
-                sidebarButton.addEventListener('click', function() {
-                    const isOpen = !mobileSidebar.classList.contains('-translate-x-full');
+                button.addEventListener('click', function() {
+                    const isOpen = !sidebar.classList.contains('-translate-x-full');
 
                     if (isOpen) {
                         // Close sidebar
-                        mobileSidebar.classList.add('-translate-x-full');
-                        sidebarOverlay.classList.add('hidden');
-                        menuIcon.classList.remove('hidden');
-                        closeIcon.classList.add('hidden');
+                        sidebar.classList.add('-translate-x-full');
+                        overlay.classList.add('hidden');
+                        menu.classList.remove('hidden');
+                        close.classList.add('hidden');
                     } else {
                         // Open sidebar
-                        mobileSidebar.classList.remove('-translate-x-full');
-                        sidebarOverlay.classList.remove('hidden');
-                        menuIcon.classList.add('hidden');
-                        closeIcon.classList.remove('hidden');
+                        sidebar.classList.remove('-translate-x-full');
+                        overlay.classList.remove('hidden');
+                        menu.classList.add('hidden');
+                        close.classList.remove('hidden');
                     }
                 });
 
                 // Close sidebar when clicking overlay
-                sidebarOverlay.addEventListener('click', function() {
-                    mobileSidebar.classList.add('-translate-x-full');
-                    sidebarOverlay.classList.add('hidden');
-                    menuIcon.classList.remove('hidden');
-                    closeIcon.classList.add('hidden');
+                overlay.addEventListener('click', function() {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                    menu.classList.remove('hidden');
+                    close.classList.add('hidden');
                 });
 
                 // Close sidebar when clicking on links
-                const sidebarLinks = mobileSidebar.querySelectorAll('a');
+                const sidebarLinks = sidebar.querySelectorAll('a');
                 sidebarLinks.forEach(link => {
                     link.addEventListener('click', function() {
-                        mobileSidebar.classList.add('-translate-x-full');
-                        sidebarOverlay.classList.add('hidden');
-                        menuIcon.classList.remove('hidden');
-                        closeIcon.classList.add('hidden');
+                        sidebar.classList.add('-translate-x-full');
+                        overlay.classList.add('hidden');
+                        menu.classList.remove('hidden');
+                        close.classList.add('hidden');
                     });
                 });
             }
-        });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeMobileSidebar);
+
+        // Re-initialize after Livewire navigation
+        document.addEventListener('livewire:navigated', initializeMobileSidebar);
     </script>
 </body>
 
