@@ -195,6 +195,17 @@
                                                 class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
                                         </div>
 
+                                        <!-- Buy Now Price -->
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Kupi odmah cena (RSD)
+                                            </label>
+                                            <input type="number" wire:model="buy_now_price" step="0.01"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="Opcionalno">
+                                        </div>
+
                                         <!-- Reserve Price -->
                                         <div>
                                             <label
@@ -202,8 +213,45 @@
                                                 Rezervna cena (RSD)
                                             </label>
                                             <input type="number" wire:model="reserve_price" step="0.01"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="Opcionalno">
                                         </div>
+
+                                        <!-- Start Type -->
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Početak aukcije <span class="text-red-500">*</span>
+                                            </label>
+                                            <select wire:model.live="startType"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                                <option value="immediately">Odmah</option>
+                                                <option value="scheduled">Zakazano vreme</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Scheduled Start DateTime -->
+                                        @if ($startType === 'scheduled')
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        Datum početka <span class="text-red-500">*</span>
+                                                    </label>
+                                                    <input type="date" wire:model="startDate"
+                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                        min="{{ date('Y-m-d') }}">
+                                                </div>
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        Vreme početka <span class="text-red-500">*</span>
+                                                    </label>
+                                                    <input type="time" wire:model="startTime"
+                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                                </div>
+                                            </div>
+                                        @endif
 
                                         <!-- Duration -->
                                         <div>

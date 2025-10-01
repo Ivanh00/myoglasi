@@ -13,6 +13,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class QuickListing extends Component
 {
@@ -37,8 +38,11 @@ class QuickListing extends Component
     public $price_type = 'fixed'; // For services
     public $starting_price = '';
     public $reserve_price = '';
-    public $duration = 7; // For auctions
+    public $buy_now_price = ''; // For auctions
+    public $duration = '7'; // For auctions (string to match form input)
     public $startType = 'immediately'; // For auctions
+    public $startDate = ''; // For scheduled auctions
+    public $startTime = ''; // For scheduled auctions
 
     // Step 4: Description
     public $description = '';
@@ -124,8 +128,9 @@ class QuickListing extends Component
         $this->show = true;
         $this->step = 1;
         $this->loadCategories();
-        $this->reset(['listingType', 'title', 'category_id', 'subcategory_id', 'condition_id', 'price', 'starting_price', 'reserve_price', 'description', 'images']);
-        $this->duration = 7; // Reset to default
+        $this->reset(['listingType', 'title', 'category_id', 'subcategory_id', 'condition_id', 'price', 'starting_price', 'reserve_price', 'buy_now_price', 'description', 'images', 'startDate', 'startTime']);
+        $this->duration = '7'; // Reset to default
+        $this->startType = 'immediately'; // Reset to default
     }
 
     public function closeModal()
@@ -150,10 +155,17 @@ class QuickListing extends Component
 
         if ($this->step === 3) {
             if ($this->listingType === 'auction') {
-                $this->validate([
+                $rules = [
                     'starting_price' => 'required|numeric|min:1',
                     'duration' => 'required|integer|min:1|max:30',
-                ]);
+                ];
+
+                if ($this->startType === 'scheduled') {
+                    $rules['startDate'] = 'required|date|after_or_equal:today';
+                    $rules['startTime'] = 'required';
+                }
+
+                $this->validate($rules);
             } elseif ($this->listingType !== 'giveaway') {
                 $this->validate([
                     'price' => 'required|numeric|min:1',
@@ -275,15 +287,20 @@ class QuickListing extends Component
 
                 // Create auction if type is auction
                 if ($this->listingType === 'auction') {
-                    $endsAt = now()->addDays($this->duration);
+                    $startsAt = $this->startType === 'immediately'
+                        ? now()
+                        : Carbon::createFromFormat('Y-m-d H:i', $this->startDate . ' ' . $this->startTime);
+
+                    $endsAt = $startsAt->copy()->addDays((int)$this->duration);
 
                     Auction::create([
                         'listing_id' => $listing->id,
                         'user_id' => $listing->user_id,
                         'starting_price' => $this->starting_price,
                         'reserve_price' => $this->reserve_price ?: null,
+                        'buy_now_price' => $this->buy_now_price ?: null,
                         'current_price' => $this->starting_price,
-                        'starts_at' => now(),
+                        'starts_at' => $startsAt,
                         'ends_at' => $endsAt,
                         'status' => 'active',
                     ]);
