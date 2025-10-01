@@ -319,20 +319,48 @@ if (!empty($auctionType)) {
     },
 
     getActiveFilterCount() {
-        return (this.city ? 1 : 0) +
+        const count = (this.city ? 1 : 0) +
             (this.category ? 1 : 0) +
             (this.condition ? 1 : 0) +
             (this.auction_type ? 1 : 0) +
             (this.content_type !== 'all' ? 1 : 0) +
             (this.price_min ? 1 : 0) +
             (this.price_max ? 1 : 0);
+
+        // Update Alpine store
+        if (Alpine.store('searchFilters')) {
+            Alpine.store('searchFilters').updateCount(count);
+        }
+
+        return count;
+    },
+
+    updateFilterCount() {
+        const count = this.getActiveFilterCount();
+        if (Alpine.store('searchFilters')) {
+            Alpine.store('searchFilters').updateCount(count);
+        }
     }
 }" x-init="
     syncFromUrl();
 
+    // Watch for filter changes and update store
+    $watch('city', () => updateFilterCount());
+    $watch('category', () => updateFilterCount());
+    $watch('serviceCategory', () => updateFilterCount());
+    $watch('condition', () => updateFilterCount());
+    $watch('auction_type', () => updateFilterCount());
+    $watch('content_type', () => updateFilterCount());
+    $watch('price_min', () => updateFilterCount());
+    $watch('price_max', () => updateFilterCount());
+
+    // Initial count update
+    updateFilterCount();
+
     // Listen for browser back/forward navigation
     window.addEventListener('popstate', () => {
         syncFromUrl();
+        updateFilterCount();
     });
 
     // Listen for URL changes from Livewire (when filters change on unified-search page)
@@ -341,6 +369,7 @@ if (!empty($auctionType)) {
         if (window.location.href !== lastUrl) {
             lastUrl = window.location.href;
             syncFromUrl();
+            updateFilterCount();
         }
     }, 500);
 ">
@@ -373,10 +402,8 @@ if (!empty($auctionType)) {
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
-                        @if($hasFilters)
-                            <span class="ml-2 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
-                                x-text="getActiveFilterCount()"></span>
-                        @endif
+                        <span x-show="$store.searchFilters.activeCount > 0" class="ml-2 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
+                            x-text="$store.searchFilters.activeCount"></span>
                     </button>
                 </div>
             </div>
@@ -884,10 +911,8 @@ if (!empty($auctionType)) {
                     class="w-full md:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-sky-600 dark:bg-sky-600 hover:bg-sky-700 dark:hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-500 transition-colors">
                     <i class="fas fa-search mr-2"></i>
                     <span>Primeni filtere</span>
-                    @if($hasFilters)
-                        <span class="ml-1 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
-                            x-text="getActiveFilterCount()"></span>
-                    @endif
+                    <span x-show="$store.searchFilters.activeCount > 0" class="ml-1 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
+                        x-text="$store.searchFilters.activeCount"></span>
                 </button>
             </div>
         </div>
