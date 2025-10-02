@@ -25,6 +25,9 @@
         const existing = document.getElementById('sharePopup');
         if (existing) existing.remove();
 
+        // Check if mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
         // Create popup container
         const overlay = document.createElement('div');
         overlay.id = 'sharePopup';
@@ -67,6 +70,15 @@
         waLink.target = '_blank';
         waLink.className = 'flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors';
         waLink.innerHTML = '<i class="fab fa-whatsapp w-6"></i><span class="ml-3">Podeli na WhatsApp-u</span>';
+
+        // Viber (mobile only)
+        if (isMobile) {
+            const viberLink = document.createElement('a');
+            viberLink.href = 'viber://forward?text=' + encodeURIComponent(text + ' ' + url);
+            viberLink.className = 'flex items-center p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors';
+            viberLink.innerHTML = '<i class="fab fa-viber w-6"></i><span class="ml-3">Podeli na Viber-u</span>';
+            options.appendChild(viberLink);
+        }
 
         // Email
         const emailLink = document.createElement('a');
