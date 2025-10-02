@@ -244,6 +244,11 @@
                                                 <i class="fas fa-tools mr-2"></i>
                                                 Moje usluge
                                             </x-dropdown-link>
+                                            <x-dropdown-link href="{{ route('businesses.my') }}"
+                                                class="!bg-purple-50 !text-purple-700 hover:!bg-purple-100 dark:!bg-purple-900/50 dark:!text-purple-300 dark:hover:!bg-purple-900/30">
+                                                <i class="fas fa-briefcase mr-2"></i>
+                                                Moji Business
+                                            </x-dropdown-link>
                                             <x-dropdown-link href="{{ route('favorites.index') }}">
                                                 Omiljeni
                                             </x-dropdown-link>
@@ -470,6 +475,11 @@
                             class="!bg-slate-100 !text-slate-700 hover:!bg-slate-200 dark:!bg-slate-800/70 dark:!text-slate-300 dark:hover:!bg-slate-800/50 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                             <i class="fas fa-tools mr-2"></i>
                             Moje usluge
+                        </a>
+                        <a href="{{ route('businesses.my') }}"
+                            class="!bg-purple-50 !text-purple-700 hover:!bg-purple-100 dark:!bg-purple-900/50 dark:!text-purple-300 dark:hover:!bg-purple-900/30 block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                            <i class="fas fa-briefcase mr-2"></i>
+                            Moji Business
                         </a>
                         <a href="{{ route('favorites.index') }}"
                             class="text-slate-700 dark:text-slate-200 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">
