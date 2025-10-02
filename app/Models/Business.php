@@ -80,11 +80,6 @@ class Business extends Model
         return $this->hasMany(BusinessFavorite::class);
     }
 
-    public function getFavoritesCountAttribute()
-    {
-        return $this->favorites()->count();
-    }
-
     // Auto-generate slug
     protected static function boot()
     {

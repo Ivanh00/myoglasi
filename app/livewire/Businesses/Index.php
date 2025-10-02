@@ -111,7 +111,8 @@ class Index extends Component
     public function render()
     {
         $query = Business::where('status', 'active')
-            ->with(['category', 'subcategory', 'images', 'user']);
+            ->with(['category', 'subcategory', 'images', 'user'])
+            ->withCount('favorites');
 
         // Filter by city (location column)
         if ($this->selectedCity) {

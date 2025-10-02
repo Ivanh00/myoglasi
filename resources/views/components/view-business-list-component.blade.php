@@ -118,6 +118,9 @@
                         <i class="fas fa-eye mr-1"></i>
                         <span>{{ $business->views ?? 0 }}</span>
                     </div>
+                    <div class="flex items-center">
+                        <span>❤️ {{ $business->favorites_count ?? 0 }}</span>
+                    </div>
                 </div>
 
                 <div class="text-xs text-slate-700 dark:text-slate-200 mb-4">
