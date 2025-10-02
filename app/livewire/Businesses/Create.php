@@ -124,24 +124,31 @@ class Create extends Component
 
         $user = auth()->user();
 
-        // Check if user has active business plan with remaining businesses
-        $hasBusinessPlan = $user->payment_plan === 'business'
+        // Check if user has active business plan
+        $hasActiveBusinessPlan = $user->payment_plan === 'business'
             && $user->plan_expires_at
             && $user->plan_expires_at->isFuture()
-            && $user->business_plan_remaining > 0;
+            && $user->business_plan_total > 0;
 
         $fee = 0;
 
-        if ($hasBusinessPlan) {
-            // User has business plan - use one of their remaining businesses
-            $user->decrement('business_plan_remaining', 1);
+        if ($hasActiveBusinessPlan) {
+            // Check how many active businesses user currently has
+            $activeBusinessCount = $user->businesses()->where('status', 'active')->count();
+            $businessLimit = $user->business_plan_total;
 
+            if ($activeBusinessCount >= $businessLimit) {
+                session()->flash('error', 'Dostigli ste limit od ' . $businessLimit . ' aktivnih biznisa. Obrišite postojeći biznis da biste dodali novi.');
+                return redirect()->route('businesses.index');
+            }
+
+            // User has business plan and hasn't reached limit - no fee
             \App\Models\Transaction::create([
                 'user_id' => $user->id,
                 'type' => 'business_plan_usage',
                 'amount' => 0,
                 'status' => 'completed',
-                'description' => 'Korišćenje biznis plana za business: ' . $this->name . ' (preostalo: ' . ($user->business_plan_remaining - 1) . ')',
+                'description' => 'Korišćenje biznis plana za business: ' . $this->name . ' (' . ($activeBusinessCount + 1) . '/' . $businessLimit . ' aktivnih)',
                 'reference_number' => 'BUSINESS-PLAN-' . now()->timestamp,
             ]);
         } else {

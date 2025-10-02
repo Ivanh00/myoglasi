@@ -205,6 +205,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Listing::class);
     }
+
+    public function businesses()
+    {
+        return $this->hasMany(Business::class);
+    }
     
     public function sentMessages()
     {

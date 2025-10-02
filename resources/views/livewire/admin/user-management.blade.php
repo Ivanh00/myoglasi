@@ -260,9 +260,12 @@
                                                         {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
                                                     </span>
                                                 @endif
-                                                @if ($user->business_plan_remaining > 0)
+                                                @if ($user->business_plan_total > 0)
+                                                    @php
+                                                        $activeBusinesses = $user->businesses()->where('status', 'active')->count();
+                                                    @endphp
                                                     <span class="text-xs text-purple-600 font-medium">
-                                                        ({{ $user->business_plan_remaining }} preostalo)
+                                                        ({{ $activeBusinesses }}/{{ $user->business_plan_total }} aktivnih)
                                                     </span>
                                                 @endif
                                             @break
@@ -483,9 +486,12 @@
                                             {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
                                         </div>
                                     @endif
-                                    @if ($user->business_plan_remaining > 0)
+                                    @if ($user->business_plan_total > 0)
+                                        @php
+                                            $activeBusinessesDetail = $user->businesses()->where('status', 'active')->count();
+                                        @endphp
                                         <div class="text-xs text-purple-600 font-medium mt-1">
-                                            {{ $user->business_plan_remaining }} preostalo
+                                            {{ $activeBusinessesDetail }}/{{ $user->business_plan_total }} aktivnih
                                         </div>
                                     @endif
                                 @break

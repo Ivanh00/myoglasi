@@ -47,11 +47,12 @@
                 $hasBusinessPlan = $user->payment_plan === 'business'
                     && $user->plan_expires_at
                     && $user->plan_expires_at->isFuture()
-                    && $user->business_plan_remaining > 0;
+                    && $user->business_plan_total > 0;
 
                 $businessFeeEnabled = \App\Models\Setting::get('business_fee_enabled', false);
                 $businessFeeAmount = \App\Models\Setting::get('business_fee_amount', 2000);
-                $businessPlanTotal = $user->business_plan_total > 0 ? $user->business_plan_total : \App\Models\Setting::get('business_plan_limit', 10);
+                $businessPlanLimit = $user->business_plan_total;
+                $activeBusinessCount = $user->businesses()->where('status', 'active')->count();
             @endphp
 
             <!-- Business Plan Status Box -->
@@ -72,12 +73,12 @@
                             <div class="mt-2 flex items-center">
                                 <div class="flex-1">
                                     <div class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
-                                        <span>Iskorišćeno: {{ $businessPlanTotal - $user->business_plan_remaining }} / {{ $businessPlanTotal }}</span>
-                                        <span class="font-semibold">{{ $user->business_plan_remaining }} preostalo</span>
+                                        <span>Aktivni biznisi: {{ $activeBusinessCount }} / {{ $businessPlanLimit }}</span>
+                                        <span class="font-semibold">{{ $businessPlanLimit - $activeBusinessCount }} slobodnih</span>
                                     </div>
                                     <div class="w-full bg-purple-300/50 dark:bg-purple-600/50 rounded-full h-2">
                                         <div class="bg-purple-600 dark:bg-purple-200 h-2 rounded-full transition-all"
-                                            style="width: {{ (($businessPlanTotal - $user->business_plan_remaining) / $businessPlanTotal) * 100 }}%">
+                                            style="width: {{ $businessPlanLimit > 0 ? ($activeBusinessCount / $businessPlanLimit) * 100 : 0 }}%">
                                         </div>
                                     </div>
                                 </div>
