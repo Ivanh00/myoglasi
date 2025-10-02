@@ -651,7 +651,7 @@ border-slate-200
 
                                         <div class="text-xs text-slate-700 dark:text-slate-200 mb-4">
                                             <i class="fas fa-clock mr-1"></i>
-                                            Postavljeno pre {{ floor($relatedListing->created_at->diffInDays()) }} dana
+                                            Postavljeno {{ $relatedListing->created_at->diffForHumans() }}
                                         </div>
 
                                         <div class="space-y-2">
