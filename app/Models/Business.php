@@ -64,7 +64,9 @@ class Business extends Model
 
     public function promotions()
     {
-        return $this->hasMany(ListingPromotion::class);
+        // TODO: Create BusinessPromotion model and table
+        // For now, return empty relation
+        return $this->hasMany(BusinessImage::class)->whereRaw('1 = 0');
     }
 
     // Auto-generate slug
@@ -104,36 +106,19 @@ class Business extends Model
     // Promotion-related methods
     public function hasActivePromotion($type = null)
     {
-        $query = $this->promotions()
-            ->where('is_active', true)
-            ->where('starts_at', '<=', now())
-            ->where('expires_at', '>', now());
-
-        if ($type) {
-            $query->where('type', $type);
-        }
-
-        return $query->exists();
+        // TODO: Implement business promotions
+        return false;
     }
 
     public function getActivePromotions()
     {
-        return $this->promotions()
-            ->where('is_active', true)
-            ->where('starts_at', '<=', now())
-            ->where('expires_at', '>', now())
-            ->get();
+        // TODO: Implement business promotions
+        return collect();
     }
 
     public function getPromotionBadges()
     {
-        $badges = [];
-        $activePromotions = $this->getActivePromotions();
-
-        foreach ($activePromotions as $promotion) {
-            $badges[] = $promotion->getBadgeDetails();
-        }
-
-        return $badges;
+        // TODO: Implement business promotions
+        return [];
     }
 }

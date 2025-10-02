@@ -86,7 +86,7 @@ class Index extends Component
     public function render()
     {
         $query = Business::where('status', 'active')
-            ->with(['category', 'subcategory', 'images', 'user', 'promotions']);
+            ->with(['category', 'subcategory', 'images', 'user']);
 
         $currentCategory = null;
         if ($this->selectedSubcategory) {

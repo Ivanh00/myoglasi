@@ -8,6 +8,7 @@ class Show extends Component
 {
     public function render()
     {
-        return view('livewire.businesses.show');
+        return view('livewire.businesses.show')
+            ->layout('layouts.app');
     }
 }

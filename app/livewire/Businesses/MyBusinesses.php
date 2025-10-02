@@ -8,6 +8,7 @@ class MyBusinesses extends Component
 {
     public function render()
     {
-        return view('livewire.businesses.my-businesses');
+        return view('livewire.businesses.my-businesses')
+            ->layout('layouts.app');
     }
 }

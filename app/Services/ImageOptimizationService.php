@@ -56,6 +56,12 @@ class ImageOptimizationService
         $originalMemoryLimit = ini_get('memory_limit');
         ini_set('memory_limit', '256M');
 
+        // Ensure directory exists
+        $fullPath = storage_path('app/public/' . $path);
+        if (!file_exists($fullPath)) {
+            mkdir($fullPath, 0755, true);
+        }
+
         $uploadedFiles = [];
         $nameWithoutExt = pathinfo($filename, PATHINFO_FILENAME);
         $extension = 'jpg'; // Convert all to JPG for optimization
