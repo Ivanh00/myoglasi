@@ -291,42 +291,58 @@
                 <!-- Plan Benefits -->
                 <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-600">
                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Prednosti planova</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
-                        <div class="space-y-2">
-                            <h4 class="font-semibold text-sky-600 dark:text-sky-400">Plaćanje po oglasu</h4>
-                            <ul class="space-y-1 text-slate-600 dark:text-slate-400">
-                                <li>• Plaćate samo kad postavite oglas</li>
-                                <li>• Nema mesečnih obaveza</li>
-                                <li>• Idealno za povremeno korišćenje</li>
-                            </ul>
-                        </div>
+                    @php
+                        $benefitsGridClass = match($enabledPlansCount) {
+                            1 => 'grid-cols-1',
+                            2 => 'grid-cols-1 md:grid-cols-2',
+                            3 => 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+                            default => 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+                        };
+                    @endphp
+                    <div class="grid {{ $benefitsGridClass }} gap-6 text-sm">
+                        @if ($planPrices['per_listing']['enabled'])
+                            <div class="space-y-2">
+                                <h4 class="font-semibold text-sky-600 dark:text-sky-400">Plaćanje po oglasu</h4>
+                                <ul class="space-y-1 text-slate-600 dark:text-slate-400">
+                                    <li>• Plaćate samo kad postavite oglas</li>
+                                    <li>• Nema mesečnih obaveza</li>
+                                    <li>• Idealno za povremeno korišćenje</li>
+                                </ul>
+                            </div>
+                        @endif
 
-                        <div class="space-y-2">
-                            <h4 class="font-semibold text-green-600 dark:text-green-400">Mesečni plan</h4>
-                            <ul class="space-y-1 text-slate-600 dark:text-slate-400">
-                                <li>• Neograničeno oglasa 30 dana</li>
-                                <li>• Fiksna mesečna cena</li>
-                                <li>• Idealno za aktivne prodavce</li>
-                            </ul>
-                        </div>
+                        @if ($planPrices['monthly']['enabled'])
+                            <div class="space-y-2">
+                                <h4 class="font-semibold text-green-600 dark:text-green-400">Mesečni plan</h4>
+                                <ul class="space-y-1 text-slate-600 dark:text-slate-400">
+                                    <li>• Neograničeno oglasa 30 dana</li>
+                                    <li>• Fiksna mesečna cena</li>
+                                    <li>• Idealno za aktivne prodavce</li>
+                                </ul>
+                            </div>
+                        @endif
 
-                        <div class="space-y-2">
-                            <h4 class="font-semibold text-purple-600 dark:text-purple-400">Godišnji plan</h4>
-                            <ul class="space-y-1 text-slate-600 dark:text-slate-400">
-                                <li>• Neograničeno oglasa 365 dana</li>
-                                <li>• Najbolja cena po danu</li>
-                                <li>• Idealno za profesionalne prodavce</li>
-                            </ul>
-                        </div>
+                        @if ($planPrices['yearly']['enabled'])
+                            <div class="space-y-2">
+                                <h4 class="font-semibold text-purple-600 dark:text-purple-400">Godišnji plan</h4>
+                                <ul class="space-y-1 text-slate-600 dark:text-slate-400">
+                                    <li>• Neograničeno oglasa 365 dana</li>
+                                    <li>• Najbolja cena po danu</li>
+                                    <li>• Idealno za profesionalne prodavce</li>
+                                </ul>
+                            </div>
+                        @endif
 
-                        <div class="space-y-2">
-                            <h4 class="font-semibold text-orange-600 dark:text-orange-400">Biznis plan</h4>
-                            <ul class="space-y-1 text-slate-600 dark:text-slate-400">
-                                <li>• Plaćanje po business-u</li>
-                                <li>• Važi godinu dana</li>
-                                <li>• Idealno za firme i kompanije</li>
-                            </ul>
-                        </div>
+                        @if ($planPrices['business']['enabled'])
+                            <div class="space-y-2">
+                                <h4 class="font-semibold text-orange-600 dark:text-orange-400">Biznis plan</h4>
+                                <ul class="space-y-1 text-slate-600 dark:text-slate-400">
+                                    <li>• Plaćanje po business-u</li>
+                                    <li>• Važi godinu dana</li>
+                                    <li>• Idealno za firme i kompanije</li>
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endif
