@@ -148,18 +148,36 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
                             {{ $business->created_at->format('d.m.Y') }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @if ($business->status === 'active')
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
-                                    Aktivan
-                                </span>
-                            @else
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
-                                    {{ ucfirst($business->status) }}
-                                </span>
-                            @endif
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col space-y-1">
+                                @if ($business->status === 'active')
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 w-fit">
+                                        Aktivan
+                                    </span>
+                                @else
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 w-fit">
+                                        {{ ucfirst($business->status) }}
+                                    </span>
+                                @endif
+
+                                @if ($business->is_from_business_plan)
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 w-fit">
+                                        <i class="fas fa-briefcase mr-1"></i>Biznis plan
+                                    </span>
+                                @else
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 w-fit">
+                                        <i class="fas fa-credit-card mr-1"></i>Plaćen
+                                    </span>
+                                @endif
+
+                                @if ($business->expires_at)
+                                    <span class="text-xs text-slate-600 dark:text-slate-400">
+                                        <i class="fas fa-calendar-times mr-1"></i>Ističe: {{ $business->expires_at->format('d.m.Y') }}
+                                    </span>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     <!-- Actions Row -->
@@ -264,17 +282,35 @@
                     <div>
                         <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
                             Status</div>
-                        @if ($business->status === 'active')
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
-                                Aktivan
-                            </span>
-                        @else
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
-                                {{ ucfirst($business->status) }}
-                            </span>
-                        @endif
+                        <div class="flex flex-col space-y-1">
+                            @if ($business->status === 'active')
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 w-fit">
+                                    Aktivan
+                                </span>
+                            @else
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 w-fit">
+                                    {{ ucfirst($business->status) }}
+                                </span>
+                            @endif
+
+                            @if ($business->is_from_business_plan)
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 w-fit">
+                                    <i class="fas fa-briefcase mr-1"></i>Biznis plan
+                                </span>
+                            @else
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 w-fit">
+                                    <i class="fas fa-credit-card mr-1"></i>Plaćen
+                                </span>
+                            @endif
+
+                            @if ($business->expires_at)
+                                <span class="text-xs text-slate-600 dark:text-slate-400">
+                                    <i class="fas fa-calendar-times mr-1"></i>Ističe: {{ $business->expires_at->format('d.m.Y') }}
+                                </span>
+                            @endif
+                        </div>
                     </div>
 
                     <div>
