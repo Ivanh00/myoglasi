@@ -124,30 +124,51 @@ class Create extends Component
 
         $user = auth()->user();
 
-        // Calculate business fee
+        // Check if user has active business plan with remaining businesses
+        $hasBusinessPlan = $user->payment_plan === 'business'
+            && $user->plan_expires_at
+            && $user->plan_expires_at->isFuture()
+            && $user->business_plan_remaining > 0;
+
         $fee = 0;
-        if (\App\Models\Setting::get('business_fee_enabled', false)) {
-            $fee = \App\Models\Setting::get('business_fee_amount', 2000);
-        }
 
-        // Check balance if fee is required
-        if ($fee > 0 && $user->balance < $fee) {
-            session()->flash('error', 'Nemate dovoljno kredita za postavljanje business-a. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
-            return redirect()->route('balance.payment-options');
-        }
-
-        // Charge fee if required
-        if ($fee > 0) {
-            $user->decrement('balance', $fee);
+        if ($hasBusinessPlan) {
+            // User has business plan - use one of their remaining businesses
+            $user->decrement('business_plan_remaining', 1);
 
             \App\Models\Transaction::create([
                 'user_id' => $user->id,
-                'type' => 'business_fee',
-                'amount' => $fee,
+                'type' => 'business_plan_usage',
+                'amount' => 0,
                 'status' => 'completed',
-                'description' => 'Naplaćivanje za objavljivanje business-a: ' . $this->name,
-                'reference_number' => 'BUSINESS-FEE-' . now()->timestamp,
+                'description' => 'Korišćenje biznis plana za business: ' . $this->name . ' (preostalo: ' . ($user->business_plan_remaining - 1) . ')',
+                'reference_number' => 'BUSINESS-PLAN-' . now()->timestamp,
             ]);
+        } else {
+            // Calculate business fee
+            if (\App\Models\Setting::get('business_fee_enabled', false)) {
+                $fee = \App\Models\Setting::get('business_fee_amount', 2000);
+            }
+
+            // Check balance if fee is required
+            if ($fee > 0 && $user->balance < $fee) {
+                session()->flash('error', 'Nemate dovoljno kredita za postavljanje business-a. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+                return redirect()->route('balance.payment-options');
+            }
+
+            // Charge fee if required
+            if ($fee > 0) {
+                $user->decrement('balance', $fee);
+
+                \App\Models\Transaction::create([
+                    'user_id' => $user->id,
+                    'type' => 'business_fee',
+                    'amount' => $fee,
+                    'status' => 'completed',
+                    'description' => 'Naplaćivanje za objavljivanje business-a: ' . $this->name,
+                    'reference_number' => 'BUSINESS-FEE-' . now()->timestamp,
+                ]);
+            }
         }
 
         // Save and optimize logo

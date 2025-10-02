@@ -51,10 +51,24 @@
                             clip-rule="evenodd"></path>
                     </svg>
                     <span class="text-sm font-medium text-purple-800 dark:text-purple-200">
-                        Vaš trenutni balans: <strong>{{ number_format(auth()->user()->balance, 2) }} RSD</strong>
-                        | Cena objave: <strong>
-                            {{ \App\Models\Setting::get('business_fee_enabled', true) ? number_format(\App\Models\Setting::get('business_fee_amount', 200), 2) . ' RSD' : 'Besplatno' }}
-                        </strong>
+                        @php
+                            $user = auth()->user();
+                            $hasBusinessPlan = $user->payment_plan === 'business'
+                                && $user->plan_expires_at
+                                && $user->plan_expires_at->isFuture()
+                                && $user->business_plan_remaining > 0;
+                        @endphp
+
+                        @if ($hasBusinessPlan)
+                            <strong>Biznis plan aktivan!</strong>
+                            Preostalo business-a: <strong>{{ $user->business_plan_remaining }}</strong>
+                            | Važi do: <strong>{{ $user->plan_expires_at->format('d.m.Y') }}</strong>
+                        @else
+                            Vaš trenutni balans: <strong>{{ number_format($user->balance, 2) }} RSD</strong>
+                            | Cena objave: <strong>
+                                {{ \App\Models\Setting::get('business_fee_enabled', true) ? number_format(\App\Models\Setting::get('business_fee_amount', 200), 2) . ' RSD' : 'Besplatno' }}
+                            </strong>
+                        @endif
                     </span>
                 </div>
             </div>

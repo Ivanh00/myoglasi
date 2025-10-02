@@ -90,13 +90,7 @@ class PlanSelection extends Component
             return redirect()->route('balance.index');
         }
         
-        // Business plan is not a subscription - it's charged per business
-        if ($this->selectedPlan === 'business') {
-            session()->flash('info', 'Biznis plan nije pretplata. Naplaćuje se samo kada postavite business - ' . number_format($planData['price'], 0, ',', '.') . ' RSD po business-u.');
-            return redirect()->route('businesses.create');
-        }
-
-        // For monthly/yearly plans, check balance and charge
+        // For monthly/yearly/business plans, check balance and charge
         $price = $planData['price'];
 
         if ($user->balance < $price) {
@@ -108,14 +102,27 @@ class PlanSelection extends Component
         $user->decrement('balance', $price);
 
         // Set plan and expiry
-        $expiryDate = $this->selectedPlan === 'monthly' ?
-            Carbon::now()->addMonth() :
-            Carbon::now()->addYear();
+        if ($this->selectedPlan === 'monthly') {
+            $expiryDate = Carbon::now()->addMonth();
+        } elseif ($this->selectedPlan === 'business') {
+            $expiryDays = Setting::get('business_plan_duration', 365);
+            $expiryDate = Carbon::now()->addDays($expiryDays);
+        } else {
+            $expiryDate = Carbon::now()->addYear();
+        }
 
         $user->update([
             'payment_plan' => $this->selectedPlan,
             'plan_expires_at' => $expiryDate,
         ]);
+
+        // For business plan, also set the business limit
+        if ($this->selectedPlan === 'business') {
+            $businessLimit = Setting::get('business_plan_limit', 10);
+            $user->update([
+                'business_plan_remaining' => $businessLimit,
+            ]);
+        }
 
         // Create transaction record
         Transaction::create([
