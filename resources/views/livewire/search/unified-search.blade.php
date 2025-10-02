@@ -13,6 +13,7 @@
                                 'auctions' => 'Aukcije',
                                 'services' => 'Usluge',
                                 'giveaways' => 'Pokloni',
+                                'businesses' => 'Biznisi',
                             ][$content_type],
                         'action' => "wire:click=\"\$set('content_type', 'all')\"",
                     ]
@@ -990,6 +991,8 @@
                                 'service' => $listing,
                                 'viewMode' => 'list',
                             ])
+                        @elseif($listing instanceof \App\Models\Business)
+                            <x-view-business-list-component :business="$listing" />
                         @else
                             @include('livewire.components.view-listing-component', [
                                 'listing' => $listing,
@@ -1014,6 +1017,8 @@
                                 'service' => $listing,
                                 'viewMode' => 'grid',
                             ])
+                        @elseif($listing instanceof \App\Models\Business)
+                            <x-view-business-grid-component :business="$listing" />
                         @else
                             @include('livewire.components.view-listing-component', [
                                 'listing' => $listing,

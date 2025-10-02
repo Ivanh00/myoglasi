@@ -67,6 +67,12 @@ if (!empty($auctionType)) {
     serviceSubcategoryName: '',
     serviceSubcategories: [],
     loadingServiceSubcategories: false,
+    businessCategory: '{{ $urlParams['business_category'] ?? '' }}',
+    businessCategoryName: '',
+    businessSubcategory: '{{ $urlParams['business_subcategory'] ?? '' }}',
+    businessSubcategoryName: '',
+    businessSubcategories: [],
+    loadingBusinessSubcategories: false,
     condition: '{{ $conditionId ?? '' }}',
     conditionName: '{{ $selectedConditionName }}',
     auction_type: '{{ $auctionType ?? '' }}',
@@ -106,6 +112,21 @@ if (!empty($auctionType)) {
                 this.loadingServiceSubcategories = false;
             }
         }
+
+        // Load business subcategories on init if business category is already selected
+        if (this.businessCategory) {
+            this.loadingBusinessSubcategories = true;
+            try {
+                const response = await fetch(`/api/subcategories/businesses/${this.businessCategory}`);
+                if (response.ok) {
+                    this.businessSubcategories = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading business subcategories:', error);
+            } finally {
+                this.loadingBusinessSubcategories = false;
+            }
+        }
     },
 
     get filteredCities() {
@@ -137,6 +158,8 @@ if (!empty($auctionType)) {
         this.categoryName = '';
         this.serviceCategory = '';
         this.serviceCategoryName = '';
+        this.businessCategory = '';
+        this.businessCategoryName = '';
         this.condition = '';
         this.conditionName = '';
         this.auction_type = '';
@@ -157,6 +180,7 @@ if (!empty($auctionType)) {
         this.city = urlParams.get('city') || '';
         this.category = urlParams.get('search_category') || urlParams.get('category') || '';
         this.serviceCategory = urlParams.get('service_category') || '';
+        this.businessCategory = urlParams.get('business_category') || '';
         this.condition = urlParams.get('condition_id') || urlParams.get('condition') || '';
         this.auction_type = urlParams.get('auction_type') || '';
         this.content_type = urlParams.get('content_type') || 'all';
@@ -166,6 +190,7 @@ if (!empty($auctionType)) {
         // Get the mapping data
         const categoryMap = @js(\App\Models\Category::whereNull('parent_id')->where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
         const serviceCategoryMap = @js(\App\Models\ServiceCategory::whereNull('parent_id')->where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
+        const businessCategoryMap = @js(\App\Models\BusinessCategory::whereNull('parent_id')->where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
         const conditionMap = @js(\App\Models\ListingCondition::where('is_active', true)->get()->keyBy('id')->map(fn($c) => $c->name)->toArray());
 
         // Update category name
@@ -180,6 +205,13 @@ if (!empty($auctionType)) {
             this.serviceCategoryName = serviceCategoryMap[this.serviceCategory] || '';
         } else {
             this.serviceCategoryName = '';
+        }
+
+        // Update business category name
+        if (this.businessCategory) {
+            this.businessCategoryName = businessCategoryMap[this.businessCategory] || '';
+        } else {
+            this.businessCategoryName = '';
         }
 
         // Update condition name
@@ -262,6 +294,35 @@ if (!empty($auctionType)) {
         this.serviceSubcategoryName = name;
     },
 
+    async selectBusinessCategory(id, name) {
+        this.businessCategory = id;
+        this.businessCategoryName = name;
+        // Reset business subcategory when category changes
+        this.businessSubcategory = '';
+        this.businessSubcategoryName = '';
+        this.businessSubcategories = [];
+
+        // Load business subcategories if category is selected
+        if (id) {
+            this.loadingBusinessSubcategories = true;
+            try {
+                const response = await fetch(`/api/subcategories/businesses/${id}`);
+                if (response.ok) {
+                    this.businessSubcategories = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading business subcategories:', error);
+            } finally {
+                this.loadingBusinessSubcategories = false;
+            }
+        }
+    },
+
+    selectBusinessSubcategory(id, name) {
+        this.businessSubcategory = id;
+        this.businessSubcategoryName = name;
+    },
+
     selectCondition(id, name) {
         this.condition = id;
         this.conditionName = name;
@@ -294,6 +355,9 @@ if (!empty($auctionType)) {
         if (this.content_type === 'services') {
             if (this.serviceCategory) params.set('service_category', this.serviceCategory);
             if (this.serviceSubcategory) params.set('service_subcategory', this.serviceSubcategory);
+        } else if (this.content_type === 'businesses') {
+            if (this.businessCategory) params.set('business_category', this.businessCategory);
+            if (this.businessSubcategory) params.set('business_subcategory', this.businessSubcategory);
         } else {
             if (this.category) params.set('search_category', this.category);
             if (this.subcategory) params.set('search_subcategory', this.subcategory);
@@ -348,6 +412,7 @@ if (!empty($auctionType)) {
     $watch('city', () => updateFilterCount());
     $watch('category', () => updateFilterCount());
     $watch('serviceCategory', () => updateFilterCount());
+    $watch('businessCategory', () => updateFilterCount());
     $watch('condition', () => updateFilterCount());
     $watch('auction_type', () => updateFilterCount());
     $watch('content_type', () => updateFilterCount());
@@ -477,6 +542,14 @@ if (!empty($auctionType)) {
                         Pokloni
                     </span>
                 </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="content_type" x-model="content_type" value="businesses"
+                        class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-purple-500">
+                    <span class="ml-2 text-sm text-purple-700 dark:text-purple-200">
+                        <i class="fas fa-briefcase mr-1"></i>
+                        Biznisi
+                    </span>
+                </label>
             </div>
         </div>
 
@@ -525,7 +598,7 @@ if (!empty($auctionType)) {
                 </div>
 
                 <!-- Category (full width) -->
-                <div x-data="{ categoryOpen: false }" class="relative" x-show="content_type !== 'services'">
+                <div x-data="{ categoryOpen: false }" class="relative" x-show="content_type !== 'services' && content_type !== 'businesses'">
                     <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
@@ -574,7 +647,7 @@ if (!empty($auctionType)) {
                 </div>
 
                 <!-- Subcategory (full width) -->
-                <div x-data="{ subcategoryOpen: false }" class="relative" x-show="content_type !== 'services' && category">
+                <div x-data="{ subcategoryOpen: false }" class="relative" x-show="content_type !== 'services' && content_type !== 'businesses' && category">
                     <label
                         class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Podkategorija</label>
                     <button type="button" @click="subcategoryOpen = !subcategoryOpen"
@@ -723,6 +796,110 @@ if (!empty($auctionType)) {
                             </template>
                             <template
                                 x-if="!loadingServiceSubcategories && serviceSubcategories.length === 0 && serviceCategory">
+                                <div class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
+                                    Nema podkategorija
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Category (full width) -->
+                <div x-data="{ businessCategoryOpen: false }" class="relative" x-show="content_type === 'businesses'">
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Kategorija</label>
+                    <button type="button" @click="businessCategoryOpen = !businessCategoryOpen"
+                        class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                        <span
+                            :class="businessCategory ? 'text-slate-900 dark:text-slate-100' :
+                                'text-slate-500 dark:text-slate-300'">
+                            <span x-text="businessCategoryName || 'Sve kategorije'"></span>
+                        </span>
+                        <svg class="w-4 h-4 transition-transform" :class="businessCategoryOpen ? 'rotate-180' : ''"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="businessCategoryOpen" x-cloak x-transition @click.away="businessCategoryOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-1">
+                            <button type="button" @click="selectBusinessCategory('', ''); businessCategoryOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
+                                :class="!businessCategory ?
+                                    'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' :
+                                    'text-slate-700 dark:text-slate-300'">
+                                <span>Sve kategorije</span>
+                            </button>
+                            @foreach (\App\Models\BusinessCategory::whereNull('parent_id')->where('is_active', true)->orderBy('sort_order')->get() as $cat)
+                                <button type="button"
+                                    @click="selectBusinessCategory('{{ $cat->id }}', '{{ $cat->name }}'); businessCategoryOpen = false"
+                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
+                                    :class="businessCategory === '{{ $cat->id }}' ?
+                                        'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' :
+                                        'text-slate-700 dark:text-slate-300'">
+                                    @if ($cat->icon)
+                                        <i class="{{ $cat->icon }} text-purple-600 dark:text-purple-400 mr-2"></i>
+                                    @else
+                                        <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 mr-2"></i>
+                                    @endif
+                                    {{ $cat->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Subcategory (full width) -->
+                <div x-data="{ businessSubcategoryOpen: false }" class="relative"
+                    x-show="content_type === 'businesses' && businessCategory">
+                    <label
+                        class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Podkategorija</label>
+                    <button type="button" @click="businessSubcategoryOpen = !businessSubcategoryOpen"
+                        class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                        <span
+                            :class="businessSubcategory ? 'text-slate-900 dark:text-slate-100' :
+                                'text-slate-500 dark:text-slate-300'">
+                            <span x-text="businessSubcategoryName || 'Sve podkategorije'"></span>
+                        </span>
+                        <svg class="w-4 h-4 transition-transform" :class="businessSubcategoryOpen ? 'rotate-180' : ''"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="businessSubcategoryOpen" x-cloak x-transition @click.away="businessSubcategoryOpen = false"
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-1">
+                            <button type="button"
+                                @click="selectBusinessSubcategory('', ''); businessSubcategoryOpen = false"
+                                class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
+                                :class="!businessSubcategory ?
+                                    'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' :
+                                    'text-slate-700 dark:text-slate-300'">
+                                <span>Sve podkategorije</span>
+                            </button>
+                            <template x-if="loadingBusinessSubcategories">
+                                <div class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
+                                    <i class="fas fa-spinner fa-spin"></i> Učitavanje...
+                                </div>
+                            </template>
+                            <template x-if="!loadingBusinessSubcategories && businessSubcategories.length > 0">
+                                <template x-for="subcat in businessSubcategories" :key="subcat.id">
+                                    <button type="button"
+                                        @click="selectBusinessSubcategory(subcat.id, subcat.name); businessSubcategoryOpen = false"
+                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center pl-6"
+                                        :class="businessSubcategory == subcat.id ?
+                                            'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' :
+                                            'text-slate-700 dark:text-slate-300'">
+                                        <i class="fas fa-angle-right text-slate-400 mr-2"></i>
+                                        <span x-text="subcat.name"></span>
+                                    </button>
+                                </template>
+                            </template>
+                            <template
+                                x-if="!loadingBusinessSubcategories && businessSubcategories.length === 0 && businessCategory">
                                 <div class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
                                     Nema podkategorija
                                 </div>

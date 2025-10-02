@@ -7,8 +7,10 @@ use Livewire\WithPagination;
 use App\Models\Listing;
 use App\Models\Auction;
 use App\Models\Service;
+use App\Models\Business;
 use App\Models\Category;
 use App\Models\ServiceCategory;
+use App\Models\BusinessCategory;
 use App\Models\ListingCondition;
 use App\Traits\HasViewMode;
 
@@ -23,6 +25,8 @@ class UnifiedSearch extends Component
     public $search_subcategory = ''; // For listing subcategories
     public $service_category = ''; // For service categories
     public $service_subcategory = ''; // For service subcategories
+    public $business_category = ''; // For business categories
+    public $business_subcategory = ''; // For business subcategories
     public $condition_id = '';
     public $auction_type = '';
     public $price_min = '';
@@ -41,6 +45,8 @@ class UnifiedSearch extends Component
         'search_subcategory' => ['except' => ''],
         'service_category' => ['except' => ''],
         'service_subcategory' => ['except' => ''],
+        'business_category' => ['except' => ''],
+        'business_subcategory' => ['except' => ''],
         'condition_id' => ['except' => ''],
         'auction_type' => ['except' => ''],
         'content_type' => ['except' => 'all'],
@@ -126,6 +132,17 @@ class UnifiedSearch extends Component
         $this->resetPage();
     }
 
+    public function updatedBusinessCategory()
+    {
+        $this->business_subcategory = ''; // Reset subcategory when category changes
+        $this->resetPage();
+    }
+
+    public function updatedBusinessSubcategory()
+    {
+        $this->resetPage();
+    }
+
     public function setServiceCategory($categoryId)
     {
         $this->service_category = $categoryId;
@@ -144,9 +161,18 @@ class UnifiedSearch extends Component
         if ($this->content_type === 'services') {
             $this->search_category = '';  // Clear listing category
             $this->search_subcategory = ''; // Clear listing subcategory
+            $this->business_category = '';  // Clear business category
+            $this->business_subcategory = ''; // Clear business subcategory
+        } elseif ($this->content_type === 'businesses') {
+            $this->search_category = '';  // Clear listing category
+            $this->search_subcategory = ''; // Clear listing subcategory
+            $this->service_category = '';  // Clear service category
+            $this->service_subcategory = ''; // Clear service subcategory
         } elseif ($this->content_type === 'listings' || $this->content_type === 'giveaways') {
             $this->service_category = '';  // Clear service category
             $this->service_subcategory = ''; // Clear service subcategory
+            $this->business_category = '';  // Clear business category
+            $this->business_subcategory = ''; // Clear business subcategory
         }
 
         $this->resetPage();
@@ -172,6 +198,12 @@ class UnifiedSearch extends Component
         if (in_array($this->content_type, ['all', 'giveaways'])) {
             $giveaways = $this->getGiveaways();
             $results = $results->merge($giveaways);
+        }
+
+        // Get businesses if content_type is 'all' or 'businesses'
+        if (in_array($this->content_type, ['all', 'businesses'])) {
+            $businesses = $this->getBusinesses();
+            $results = $results->merge($businesses);
         }
 
         // Get auctions if content_type is 'all' or 'auctions'
@@ -237,6 +269,21 @@ class UnifiedSearch extends Component
                 ->get();
         }
 
+        $businessCategories = BusinessCategory::whereNull('parent_id')
+            ->where('is_active', true)
+            ->with('children')
+            ->orderBy('sort_order')
+            ->get();
+
+        // Get business subcategories if a business category is selected
+        $businessSubcategories = collect();
+        if ($this->business_category) {
+            $businessSubcategories = BusinessCategory::where('parent_id', $this->business_category)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        }
+
         $conditions = ListingCondition::where('is_active', true)
             ->orderBy('name')
             ->get();
@@ -273,6 +320,8 @@ class UnifiedSearch extends Component
             'subcategories' => $subcategories,
             'serviceCategories' => $serviceCategories,
             'serviceSubcategories' => $serviceSubcategories,
+            'businessCategories' => $businessCategories,
+            'businessSubcategories' => $businessSubcategories,
             'conditions' => $conditions
         ])->layout('layouts.app');
     }
@@ -347,6 +396,56 @@ class UnifiedSearch extends Component
             case 'price_desc':
                 $query->orderBy('price', 'desc');
                 break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
+        return $query->get();
+    }
+
+    private function getBusinesses()
+    {
+        $query = Business::where('status', 'active')
+            ->with(['category', 'subcategory', 'images', 'user'])
+            ->withCount('favorites');
+
+        // Apply business-specific filters
+        if ($this->query) {
+            $query->where(function($q) {
+                $q->where('name', 'like', '%' . $this->query . '%')
+                  ->orWhere('description', 'like', '%' . $this->query . '%');
+            });
+        }
+
+        if ($this->city) {
+            $query->where('location', 'like', '%' . $this->city . '%');
+        }
+
+        if ($this->business_category) {
+            // Get all category IDs including children
+            $category = BusinessCategory::find($this->business_category);
+            if ($category) {
+                $categoryIds = collect([$category->id]);
+                if ($category->children->count() > 0) {
+                    $categoryIds = $categoryIds->merge($category->children->pluck('id'));
+                }
+
+                $query->where(function($q) use ($categoryIds) {
+                    $q->whereIn('business_category_id', $categoryIds)
+                      ->orWhereIn('subcategory_id', $categoryIds);
+                });
+            }
+        }
+
+        // Apply subcategory filter for businesses
+        if ($this->business_subcategory) {
+            $query->where('subcategory_id', $this->business_subcategory);
+        }
+
+        // Apply sorting
+        switch ($this->sortBy) {
             case 'newest':
             default:
                 $query->orderBy('created_at', 'desc');

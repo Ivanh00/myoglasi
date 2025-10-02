@@ -345,3 +345,4 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 // API Routes for subcategories
 Route::get('/api/subcategories/listings/{categoryId}', [\App\Http\Controllers\Api\SubcategoryController::class, 'getListingSubcategories']);
 Route::get('/api/subcategories/services/{categoryId}', [\App\Http\Controllers\Api\SubcategoryController::class, 'getServiceSubcategories']);
+Route::get('/api/subcategories/businesses/{categoryId}', [\App\Http\Controllers\Api\SubcategoryController::class, 'getBusinessSubcategories']);
