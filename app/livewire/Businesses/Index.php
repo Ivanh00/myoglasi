@@ -113,9 +113,9 @@ class Index extends Component
         $query = Business::where('status', 'active')
             ->with(['category', 'subcategory', 'images', 'user']);
 
-        // Filter by city
+        // Filter by city (location column)
         if ($this->selectedCity) {
-            $query->where('city', $this->selectedCity);
+            $query->where('location', $this->selectedCity);
         }
 
         $currentCategory = null;
