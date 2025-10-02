@@ -137,6 +137,46 @@
                 @enderror
             </div>
 
+            <!-- Subcategory Selection -->
+            @if ($subcategories->count() > 0)
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                        Podkategorija
+                    </label>
+                    <div x-data="{ open: false }" x-init="open = false" class="relative">
+                        <button @click="open = !open" type="button"
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-purple-500 dark:focus:border-purple-400 transition-colors flex items-center justify-between">
+                            <span>
+                                @if ($subcategory_id)
+                                    {{ $subcategories->firstWhere('id', $subcategory_id)->name ?? 'Odaberite podkategoriju' }}
+                                @else
+                                    Odaberite podkategoriju (opciono)
+                                @endif
+                            </span>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div x-show="open" x-cloak @click.away="open = false" x-transition
+                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <button @click="$wire.set('subcategory_id', null); open = false" type="button"
+                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                                Bez podkategorije
+                            </button>
+                            @foreach ($subcategories as $subcategory)
+                                <button @click="$wire.set('subcategory_id', '{{ $subcategory->id }}'); open = false"
+                                    type="button"
+                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                                    {{ $subcategory->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Description -->
             <div>
                 <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
