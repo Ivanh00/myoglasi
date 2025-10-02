@@ -90,27 +90,33 @@ class PlanSelection extends Component
             return redirect()->route('balance.index');
         }
         
+        // Business plan is not a subscription - it's charged per business
+        if ($this->selectedPlan === 'business') {
+            session()->flash('info', 'Biznis plan nije pretplata. Naplaćuje se samo kada postavite business - ' . number_format($planData['price'], 0, ',', '.') . ' RSD po business-u.');
+            return redirect()->route('businesses.create');
+        }
+
         // For monthly/yearly plans, check balance and charge
         $price = $planData['price'];
-        
+
         if ($user->balance < $price) {
             session()->flash('error', 'Nemate dovoljno kredita. Potrebno: ' . number_format($price, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
             return redirect()->route('balance.payment-options');
         }
-        
+
         // Deduct balance
         $user->decrement('balance', $price);
-        
+
         // Set plan and expiry
-        $expiryDate = $this->selectedPlan === 'monthly' ? 
-            Carbon::now()->addMonth() : 
+        $expiryDate = $this->selectedPlan === 'monthly' ?
+            Carbon::now()->addMonth() :
             Carbon::now()->addYear();
-            
+
         $user->update([
             'payment_plan' => $this->selectedPlan,
             'plan_expires_at' => $expiryDate,
         ]);
-        
+
         // Create transaction record
         Transaction::create([
             'user_id' => $user->id,
@@ -119,9 +125,9 @@ class PlanSelection extends Component
             'status' => 'completed',
             'description' => 'Kupljen ' . $planData['title'] . ' - ' . $price . ' RSD',
         ]);
-        
+
         session()->flash('success', 'Uspešno ste aktivirali ' . $planData['title'] . '! Vaš plan važi do ' . $expiryDate->format('d.m.Y') . '.');
-        
+
         return redirect()->route('balance.index');
     }
     

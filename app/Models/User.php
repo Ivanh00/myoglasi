@@ -485,20 +485,29 @@ public function getAvatarUrlAttribute()
         if (!$this->payment_enabled) {
             return 'Isključeno plaćanje';
         }
-        
+
         if ($this->payment_plan === 'free') {
             return 'Besplatan plan';
         }
-        
+
         if ($this->payment_plan === 'per_listing') {
             return 'Plaćanje po oglasu';
         }
-        
+
         if ($this->hasActivePlan()) {
             $expiry = $this->plan_expires_at ? $this->plan_expires_at->format('d.m.Y') : 'Neograničeno';
-            return ucfirst($this->payment_plan) . ' plan (do ' . $expiry . ')';
+
+            $planNames = [
+                'monthly' => 'Mesečni',
+                'yearly' => 'Godišnji',
+                'business' => 'Biznis',
+            ];
+
+            $planName = $planNames[$this->payment_plan] ?? ucfirst($this->payment_plan);
+
+            return $planName . ' plan (do ' . $expiry . ')';
         }
-        
+
         return 'Plaćanje po oglasu';
     }
 
