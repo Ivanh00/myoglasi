@@ -40,25 +40,32 @@
 
         <!-- Header -->
         <div class="mb-6 border-b border-purple-200 dark:border-purple-700 pb-4">
-            <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Dodaj novi Business</h1>
-            <p class="text-slate-600 dark:text-slate-400 mt-2">Popunite sva polja i dodajte informacije o vašem business-u</p>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Dodaj novi Biznis</h1>
+            <p class="text-slate-600 dark:text-slate-400 mt-2">Popunite sva polja i dodajte informacije o vašem
+                business-u</p>
             @php
                 $user = auth()->user();
-                $hasBusinessPlan = $user->payment_plan === 'business'
-                    && $user->plan_expires_at
-                    && $user->plan_expires_at->isFuture()
-                    && $user->business_plan_total > 0;
+                $hasBusinessPlan =
+                    $user->payment_plan === 'business' &&
+                    $user->plan_expires_at &&
+                    $user->plan_expires_at->isFuture() &&
+                    $user->business_plan_total > 0;
 
                 $businessFeeEnabled = \App\Models\Setting::get('business_fee_enabled', false);
                 $businessFeeAmount = \App\Models\Setting::get('business_fee_amount', 2000);
                 $businessPlanLimit = $user->business_plan_total;
                 // Count only businesses created from business plan
-                $activeBusinessCount = $user->businesses()->where('status', 'active')->where('is_from_business_plan', true)->count();
+                $activeBusinessCount = $user
+                    ->businesses()
+                    ->where('status', 'active')
+                    ->where('is_from_business_plan', true)
+                    ->count();
             @endphp
 
             <!-- Business Plan Status Box -->
             @if ($hasBusinessPlan)
-                <div class="mt-2 p-4 bg-purple-50 dark:bg-purple-900 border border-purple-300 dark:border-purple-700 rounded-lg">
+                <div
+                    class="mt-2 p-4 bg-purple-50 dark:bg-purple-900 border border-purple-300 dark:border-purple-700 rounded-lg">
                     <div class="flex items-start">
                         <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-3 mt-0.5" fill="currentColor"
                             viewBox="0 0 20 20">
@@ -74,9 +81,12 @@
                             <div class="mt-2 flex items-center">
                                 <div class="flex-1">
                                     @if ($activeBusinessCount < $businessPlanLimit)
-                                        <div class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
-                                            <span>Aktivni biznisi: {{ $activeBusinessCount }} / {{ $businessPlanLimit }}</span>
-                                            <span class="font-semibold">{{ $businessPlanLimit - $activeBusinessCount }} slobodnih</span>
+                                        <div
+                                            class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
+                                            <span>Aktivni biznisi: {{ $activeBusinessCount }} /
+                                                {{ $businessPlanLimit }}</span>
+                                            <span class="font-semibold">{{ $businessPlanLimit - $activeBusinessCount }}
+                                                slobodnih</span>
                                         </div>
                                         <div class="w-full bg-purple-300/50 dark:bg-purple-600/50 rounded-full h-2">
                                             <div class="bg-purple-600 dark:bg-purple-200 h-2 rounded-full transition-all"
@@ -84,9 +94,12 @@
                                             </div>
                                         </div>
                                     @else
-                                        <div class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
-                                            <span>Aktivni biznisi: {{ $activeBusinessCount }} / {{ $businessPlanLimit }}</span>
-                                            <span class="font-semibold text-orange-600 dark:text-orange-400">Plan popunjen</span>
+                                        <div
+                                            class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
+                                            <span>Aktivni biznisi: {{ $activeBusinessCount }} /
+                                                {{ $businessPlanLimit }}</span>
+                                            <span class="font-semibold text-orange-600 dark:text-orange-400">Plan
+                                                popunjen</span>
                                         </div>
                                         <div class="w-full bg-purple-300/50 dark:bg-purple-600/50 rounded-full h-2">
                                             <div class="bg-purple-600 dark:bg-purple-200 h-2 rounded-full transition-all"
@@ -96,13 +109,16 @@
                                         @if ($businessFeeEnabled)
                                             <p class="text-xs text-orange-700 dark:text-orange-300 mt-2">
                                                 <i class="fas fa-exclamation-circle mr-1"></i>
-                                                Svaki sledeći biznis se naplaćuje: <strong>{{ number_format($businessFeeAmount, 0, ',', '.') }} RSD</strong>
+                                                Svaki sledeći biznis se naplaćuje:
+                                                <strong>{{ number_format($businessFeeAmount, 0, ',', '.') }}
+                                                    RSD</strong>
                                             </p>
                                         @endif
                                     @endif
                                 </div>
                             </div>
-                            <div class="mt-2 flex justify-between items-center text-xs text-purple-700 dark:text-purple-200">
+                            <div
+                                class="mt-2 flex justify-between items-center text-xs text-purple-700 dark:text-purple-200">
                                 <span>
                                     <i class="fas fa-calendar-alt mr-1"></i>
                                     Važi do: <strong>{{ $user->plan_expires_at->format('d.m.Y') }}</strong>
@@ -116,7 +132,8 @@
                     </div>
                 </div>
             @else
-                <div class="mt-2 p-3 bg-purple-50 dark:bg-purple-900 border border-purple-200 dark:border-purple-700 rounded">
+                <div
+                    class="mt-2 p-3 bg-purple-50 dark:bg-purple-900 border border-purple-200 dark:border-purple-700 rounded">
                     <div class="flex items-center">
                         <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-2" fill="currentColor"
                             viewBox="0 0 20 20">
@@ -141,7 +158,10 @@
                             @endif
                             @if (\App\Models\Setting::get('business_plan_enabled', false))
                                 <p class="text-xs text-purple-600 dark:text-purple-300 mt-2">
-                                    💡 <a href="{{ route('balance.plan-selection') }}" class="underline font-semibold">Kupite Biznis plan</a> za {{ number_format(\App\Models\Setting::get('business_plan_price', 10000), 0, ',', '.') }} RSD i dobijte {{ \App\Models\Setting::get('business_plan_limit', 10) }} business-a!
+                                    💡 <a href="{{ route('balance.plan-selection') }}"
+                                        class="underline font-semibold">Kupite Biznis plan</a> za
+                                    {{ number_format(\App\Models\Setting::get('business_plan_price', 10000), 0, ',', '.') }}
+                                    RSD i dobijte {{ \App\Models\Setting::get('business_plan_limit', 10) }} business-a!
                                 </p>
                             @endif
                         </div>
@@ -206,8 +226,10 @@
                                 Odaberite kategoriju
                             @endif
                         </span>
-                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
                         </svg>
                     </button>
 
@@ -243,7 +265,8 @@
                                     Odaberite podkategoriju (opciono)
                                 @endif
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -319,10 +342,12 @@
                 </div>
 
                 <div>
-                    <label for="established_year" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                    <label for="established_year"
+                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Godina osnivanja
                     </label>
-                    <input type="number" wire:model="established_year" id="established_year" min="1800" max="{{ date('Y') }}"
+                    <input type="number" wire:model="established_year" id="established_year" min="1800"
+                        max="{{ date('Y') }}"
                         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('established_year') border-red-500 @enderror"
                         placeholder="{{ date('Y') }}">
                     @error('established_year')
@@ -337,7 +362,8 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="contact_phone" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                        <label for="contact_phone"
+                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                             Kontakt telefon
                             <span class="text-xs text-slate-500">(iz profila)</span>
                         </label>
@@ -349,7 +375,8 @@
                     </div>
 
                     <div>
-                        <label for="contact_email" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                        <label for="contact_email"
+                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                             Kontakt email
                             <span class="text-xs text-slate-500">(iz profila)</span>
                         </label>
@@ -363,12 +390,14 @@
 
                 <!-- Additional Contacts -->
                 <div class="border-t border-slate-200 dark:border-slate-600 pt-4">
-                    <h4 class="text-md font-medium text-slate-700 dark:text-slate-200 mb-3">Dodatni kontakti (opciono)</h4>
+                    <h4 class="text-md font-medium text-slate-700 dark:text-slate-200 mb-3">Dodatni kontakti (opciono)
+                    </h4>
 
                     <!-- Contact 2 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label for="contact_name_2" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                            <label for="contact_name_2"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Ime kontakt osobe 2
                             </label>
                             <input type="text" wire:model="contact_name_2" id="contact_name_2"
@@ -379,7 +408,8 @@
                             @enderror
                         </div>
                         <div>
-                            <label for="contact_phone_2" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                            <label for="contact_phone_2"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Telefon 2
                             </label>
                             <input type="text" wire:model="contact_phone_2" id="contact_phone_2"
@@ -394,7 +424,8 @@
                     <!-- Contact 3 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label for="contact_name_3" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                            <label for="contact_name_3"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Ime kontakt osobe 3
                             </label>
                             <input type="text" wire:model="contact_name_3" id="contact_name_3"
@@ -405,7 +436,8 @@
                             @enderror
                         </div>
                         <div>
-                            <label for="contact_phone_3" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                            <label for="contact_phone_3"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                                 Telefon 3
                             </label>
                             <input type="text" wire:model="contact_phone_3" id="contact_phone_3"
@@ -422,9 +454,10 @@
             <!-- Social Links -->
             <div class="space-y-4">
                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Društvene mreže i web</h3>
-                
+
                 <div>
-                    <label for="website_url" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                    <label for="website_url"
+                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         <i class="fas fa-globe mr-1"></i> Website URL
                     </label>
                     <input type="url" wire:model="website_url" id="website_url"
@@ -436,7 +469,8 @@
                 </div>
 
                 <div>
-                    <label for="facebook_url" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                    <label for="facebook_url"
+                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         <i class="fab fa-facebook mr-1"></i> Facebook URL
                     </label>
                     <input type="url" wire:model="facebook_url" id="facebook_url"
@@ -448,7 +482,8 @@
                 </div>
 
                 <div>
-                    <label for="instagram_url" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                    <label for="instagram_url"
+                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         <i class="fab fa-instagram mr-1"></i> Instagram URL
                     </label>
                     <input type="url" wire:model="instagram_url" id="instagram_url"
@@ -460,7 +495,8 @@
                 </div>
 
                 <div>
-                    <label for="youtube_url" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                    <label for="youtube_url"
+                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         <i class="fab fa-youtube mr-1"></i> YouTube URL
                     </label>
                     <input type="url" wire:model="youtube_url" id="youtube_url"
@@ -484,7 +520,8 @@
                 @enderror
                 @if ($logo)
                     <div class="mt-2">
-                        <img src="{{ $logo->temporaryUrl() }}" class="h-32 w-32 object-contain border border-slate-300 dark:border-slate-600 rounded">
+                        <img src="{{ $logo->temporaryUrl() }}"
+                            class="h-32 w-32 object-contain border border-slate-300 dark:border-slate-600 rounded">
                     </div>
                 @endif
             </div>
@@ -494,31 +531,39 @@
                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Slike (maksimalno {{ \App\Models\Setting::get('max_images_per_business', 10) }})
                     @if (!empty($images))
-                        <span class="text-purple-600 dark:text-purple-400">({{ count($images) }}/{{ \App\Models\Setting::get('max_images_per_business', 10) }})</span>
+                        <span
+                            class="text-purple-600 dark:text-purple-400">({{ count($images) }}/{{ \App\Models\Setting::get('max_images_per_business', 10) }})</span>
                     @endif
                 </label>
 
                 <!-- Upload Area -->
                 @php $maxImages = \App\Models\Setting::get('max_images_per_business', 10); @endphp
                 @if (count($images ?? []) < $maxImages)
-                    <div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center hover:border-purple-400 transition-colors">
-                        <svg class="w-12 h-12 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div
+                        class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center hover:border-purple-400 transition-colors">
+                        <svg class="w-12 h-12 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
                             </path>
                         </svg>
-                        <input type="file" wire:model="tempImages" multiple accept="image/*" class="hidden" id="business-images">
+                        <input type="file" wire:model="tempImages" multiple accept="image/*" class="hidden"
+                            id="business-images">
                         <label for="business-images" class="cursor-pointer">
-                            <span class="text-purple-600 hover:text-purple-500 font-medium">Kliknite za dodavanje slika</span>
+                            <span class="text-purple-600 hover:text-purple-500 font-medium">Kliknite za dodavanje
+                                slika</span>
                             <span class="text-slate-500 dark:text-slate-300"> ili prevucite ovde</span>
                         </label>
                         <p class="text-slate-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici</p>
                     </div>
                 @else
-                    <div class="border-2 border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-800">
+                    <div
+                        class="border-2 border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-800">
                         <i class="fas fa-images text-slate-400 text-4xl mb-2"></i>
-                        <p class="text-slate-600 dark:text-slate-400 font-medium">Dostigli ste maksimum od {{ $maxImages }} slika</p>
-                        <p class="text-slate-500 dark:text-slate-300 text-sm">Obrišite neku sliku da biste dodali novu</p>
+                        <p class="text-slate-600 dark:text-slate-400 font-medium">Dostigli ste maksimum od
+                            {{ $maxImages }} slika</p>
+                        <p class="text-slate-500 dark:text-slate-300 text-sm">Obrišite neku sliku da biste dodali novu
+                        </p>
                     </div>
                 @endif
 

@@ -22,9 +22,10 @@
 
     <!-- Mobile kategorija dropdown -->
     <div class="md:hidden mb-6">
-        <div class="bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-lg shadow-md p-4">
+        <div
+            class="bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-lg shadow-md p-4">
             <div class="text-slate-600 dark:text-slate-300 mb-2">
-                Pronađeno business-a: <span class="font-semibold">{{ $businesses->total() }}</span>
+                Pronađeno biznisa: <span class="font-semibold">{{ $businesses->total() }}</span>
                 @if ($selectedCategory)
                     @if ($currentCategory)
                         u kategoriji: <span class="font-semibold">
@@ -86,7 +87,8 @@
                             @endif
                         </span>
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
                         </svg>
                     </button>
 
@@ -191,40 +193,41 @@
     </div>
 
     <!-- Desktop view -->
-    <div class="bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-lg shadow-md p-4 mb-6 hidden md:block" x-data="{
-        cityDropdownOpen: false,
-        citySearch: '',
-        recentCities: JSON.parse(localStorage.getItem('recentCitiesBusinesses') || '[]'),
-        get filteredCities() {
-            const normalize = (str) => {
-                const map = { 'š': 's', 'ć': 'c', 'č': 'c', 'ž': 'z', 'đ': 'dj' };
-                return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
-            };
-            return @js(config('cities', [])).filter(c =>
-                normalize(c).includes(normalize(this.citySearch || ''))
-            );
-        },
-        addRecentCity(city) {
-            if (!city) return;
-            // Remove if already exists
-            this.recentCities = this.recentCities.filter(c => c !== city);
-            // Add to beginning
-            this.recentCities.unshift(city);
-            // Keep only 5
-            this.recentCities = this.recentCities.slice(0, 5);
-            // Save to localStorage
-            localStorage.setItem('recentCitiesBusinesses', JSON.stringify(this.recentCities));
-        },
-        removeRecentCity(city) {
-            this.recentCities = this.recentCities.filter(c => c !== city);
-            localStorage.setItem('recentCitiesBusinesses', JSON.stringify(this.recentCities));
-        }
-    }">
+    <div class="bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-lg shadow-md p-4 mb-6 hidden md:block"
+        x-data="{
+            cityDropdownOpen: false,
+            citySearch: '',
+            recentCities: JSON.parse(localStorage.getItem('recentCitiesBusinesses') || '[]'),
+            get filteredCities() {
+                const normalize = (str) => {
+                    const map = { 'š': 's', 'ć': 'c', 'č': 'c', 'ž': 'z', 'đ': 'dj' };
+                    return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
+                };
+                return @js(config('cities', [])).filter(c =>
+                    normalize(c).includes(normalize(this.citySearch || ''))
+                );
+            },
+            addRecentCity(city) {
+                if (!city) return;
+                // Remove if already exists
+                this.recentCities = this.recentCities.filter(c => c !== city);
+                // Add to beginning
+                this.recentCities.unshift(city);
+                // Keep only 5
+                this.recentCities = this.recentCities.slice(0, 5);
+                // Save to localStorage
+                localStorage.setItem('recentCitiesBusinesses', JSON.stringify(this.recentCities));
+            },
+            removeRecentCity(city) {
+                this.recentCities = this.recentCities.filter(c => c !== city);
+                localStorage.setItem('recentCitiesBusinesses', JSON.stringify(this.recentCities));
+            }
+        }">
         <!-- Desktop Layout -->
         <div class="hidden md:block">
             <!-- Results Info (Desktop - Left aligned) -->
             <div class="text-slate-600 dark:text-slate-300 mb-4">
-                Pronađeno business-a: <span class="font-semibold">{{ $businesses->total() }}</span>
+                Pronađeno biznisa: <span class="font-semibold">{{ $businesses->total() }}</span>
                 @if ($selectedCategory)
                     @if ($currentCategory)
                         u kategoriji: <span class="font-semibold">
@@ -271,7 +274,8 @@
                                     type="button"
                                     class="w-full px-3 py-2 text-left text-sm hover:bg-purple-50 dark:hover:bg-purple-900/20 flex items-center {{ $selectedCategory == $category->id ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300' : 'text-slate-700 dark:text-slate-200' }}">
                                     @if ($category->icon)
-                                        <i class="{{ $category->icon }} text-purple-600 dark:text-purple-400 mr-2"></i>
+                                        <i
+                                            class="{{ $category->icon }} text-purple-600 dark:text-purple-400 mr-2"></i>
                                     @endif
                                     {{ $category->name }}
                                 </button>
@@ -308,7 +312,8 @@
                                     Sve podkategorije
                                 </button>
                                 @foreach ($subcategories as $subcategory)
-                                    <button @click="$wire.set('selectedSubcategory', '{{ $subcategory->id }}'); open = false"
+                                    <button
+                                        @click="$wire.set('selectedSubcategory', '{{ $subcategory->id }}'); open = false"
                                         type="button"
                                         class="w-full px-3 py-2 text-left text-sm hover:bg-purple-50 dark:hover:bg-purple-900/20 {{ $selectedSubcategory == $subcategory->id ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300' : 'text-slate-700 dark:text-slate-200' }}">
                                         {{ $subcategory->name }}
@@ -326,7 +331,8 @@
                         <button @click="cityDropdownOpen = !cityDropdownOpen" type="button"
                             class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-purple-400 focus:outline-none focus:border-purple-500 transition-colors flex items-center justify-between">
                             <span x-text="$wire.selectedCity || 'Grad/Mesto'"
-                                :class="$wire.selectedCity ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-300'"></span>
+                                :class="$wire.selectedCity ? 'text-slate-900 dark:text-slate-100' :
+                                    'text-slate-500 dark:text-slate-300'"></span>
                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -383,53 +389,55 @@
                 <!-- City Dropdown Panel (Positioned relative to filter controls) -->
                 <div x-show="cityDropdownOpen" x-cloak x-transition @click.away="cityDropdownOpen = false"
                     class="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-2xl max-h-[600px] overflow-y-auto z-50">
-            <div class="p-3 border-b sticky top-0 bg-white dark:bg-slate-700 z-10">
-                <input type="text" x-model="citySearch" placeholder="Pretraži grad..."
-                    class="w-full px-3 py-2 border border-purple-300 dark:border-purple-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
-            </div>
-            <div class="p-3">
-                <!-- Svi gradovi + Recent Cities -->
-                <div class="flex flex-wrap items-center gap-2 mb-3">
-                    <button type="button" @click="$wire.set('selectedCity', ''); cityDropdownOpen = false"
-                        class="inline-flex items-center px-3 py-2 text-sm rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition"
-                        :class="!$wire.selectedCity ?
-                            'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-semibold' :
-                            'text-slate-700 dark:text-slate-200'">
-                        <i class="fas fa-globe mr-2"></i>
-                        <span>Svi gradovi</span>
-                    </button>
-
-                    <!-- Recent Cities (inline) -->
-                    <template x-for="city in recentCities" :key="city">
-                        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-lg text-sm">
-                            <button type="button" @click="$wire.set('selectedCity', city); addRecentCity(city); cityDropdownOpen = false"
-                                class="hover:underline"
-                                x-text="city"></button>
-                            <button type="button" @click.stop="removeRecentCity(city)"
-                                class="opacity-60 hover:opacity-100 transition-opacity">
-                                <i class="fas fa-times text-xs"></i>
+                    <div class="p-3 border-b sticky top-0 bg-white dark:bg-slate-700 z-10">
+                        <input type="text" x-model="citySearch" placeholder="Pretraži grad..."
+                            class="w-full px-3 py-2 border border-purple-300 dark:border-purple-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div class="p-3">
+                        <!-- Svi gradovi + Recent Cities -->
+                        <div class="flex flex-wrap items-center gap-2 mb-3">
+                            <button type="button" @click="$wire.set('selectedCity', ''); cityDropdownOpen = false"
+                                class="inline-flex items-center px-3 py-2 text-sm rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition"
+                                :class="!$wire.selectedCity ?
+                                    'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-semibold' :
+                                    'text-slate-700 dark:text-slate-200'">
+                                <i class="fas fa-globe mr-2"></i>
+                                <span>Svi gradovi</span>
                             </button>
-                        </div>
-                    </template>
-                </div>
 
-                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1.5">
-                    <template x-for="cityOption in filteredCities" :key="cityOption">
-                        <button type="button" @click="$wire.set('selectedCity', cityOption); addRecentCity(cityOption); cityDropdownOpen = false"
-                            class="text-left px-3 py-2 text-sm rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition"
-                            :class="$wire.selectedCity === cityOption ?
-                                'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-medium' :
-                                'text-slate-700 dark:text-slate-200'">
-                            <span x-text="cityOption"></span>
-                        </button>
-                    </template>
-                </div>
-                <div x-show="filteredCities.length === 0"
-                    class="text-center text-slate-500 dark:text-slate-300 py-6 text-sm">
-                    <i class="fas fa-search text-2xl mb-2 opacity-50"></i>
-                    <p>Nema rezultata</p>
-                </div>
-            </div>
+                            <!-- Recent Cities (inline) -->
+                            <template x-for="city in recentCities" :key="city">
+                                <div
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-lg text-sm">
+                                    <button type="button"
+                                        @click="$wire.set('selectedCity', city); addRecentCity(city); cityDropdownOpen = false"
+                                        class="hover:underline" x-text="city"></button>
+                                    <button type="button" @click.stop="removeRecentCity(city)"
+                                        class="opacity-60 hover:opacity-100 transition-opacity">
+                                        <i class="fas fa-times text-xs"></i>
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+
+                        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1.5">
+                            <template x-for="cityOption in filteredCities" :key="cityOption">
+                                <button type="button"
+                                    @click="$wire.set('selectedCity', cityOption); addRecentCity(cityOption); cityDropdownOpen = false"
+                                    class="text-left px-3 py-2 text-sm rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition"
+                                    :class="$wire.selectedCity === cityOption ?
+                                        'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-medium' :
+                                        'text-slate-700 dark:text-slate-200'">
+                                    <span x-text="cityOption"></span>
+                                </button>
+                            </template>
+                        </div>
+                        <div x-show="filteredCities.length === 0"
+                            class="text-center text-slate-500 dark:text-slate-300 py-6 text-sm">
+                            <i class="fas fa-search text-2xl mb-2 opacity-50"></i>
+                            <p>Nema rezultata</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

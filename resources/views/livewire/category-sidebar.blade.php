@@ -466,6 +466,9 @@ $categoryTree = isset($categoryTree)
                     // Services are separate
                     $myServicesCount = class_exists('\App\Models\Service') ?
                         \App\Models\Service::where('user_id', auth()->id())->count() : 0;
+
+                    // Businesses count
+                    $myBusinessesCount = \App\Models\Business::where('user_id', auth()->id())->count();
                 @endphp
 
                 @if($myListingsCount > 0)
@@ -492,6 +495,15 @@ $categoryTree = isset($categoryTree)
                         <i class="fas fa-tools mr-3"></i>
                         Moje usluge
                         <span class="ml-auto text-xs text-slate-500 dark:text-slate-400">({{ $myServicesCount }})</span>
+                    </a>
+                @endif
+
+                @if($myBusinessesCount > 0)
+                    <a href="{{ route('businesses.my') }}"
+                        class="flex items-center px-3 py-2 text-purple-600 dark:text-purple-400 rounded-lg hover:bg-purple-50 dark:hover:bg-slate-700">
+                        <i class="fas fa-briefcase mr-3"></i>
+                        Moji biznisi
+                        <span class="ml-auto text-xs text-slate-500 dark:text-slate-400">({{ $myBusinessesCount }})</span>
                     </a>
                 @endif
 

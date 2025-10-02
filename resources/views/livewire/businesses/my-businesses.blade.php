@@ -5,7 +5,7 @@
             <h1 class="text-xl font-semibold text-purple-900 dark:text-purple-100">Moji Business</h1>
             <a href="{{ route('businesses.create') }}"
                 class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm">
-                <i class="fas fa-plus mr-2"></i> Dodaj novi business
+                <i class="fas fa-plus mr-2"></i> Dodaj novi biznis
             </a>
         </div>
     </div>
@@ -82,7 +82,8 @@
 
             <!-- Data Rows -->
             @foreach ($businesses as $business)
-                <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-purple-500">
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 border-purple-500">
                     <div class="grid grid-cols-[35%_20%_20%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Business Column -->
                         <div class="px-4 py-2">
@@ -94,8 +95,10 @@
                                                 src="{{ Storage::url($business->logo) }}" alt="{{ $business->name }}">
                                         </div>
                                     @else
-                                        <div class="w-full h-full rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-                                            <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl"></i>
+                                        <div
+                                            class="w-full h-full rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                                            <i
+                                                class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl"></i>
                                         </div>
                                     @endif
                                 </div>
@@ -103,7 +106,8 @@
                                     <div class="text-sm font-medium text-slate-900 dark:text-slate-100 break-words">
                                         {{ Str::limit($business->name, 40) }}</div>
                                     <div class="text-sm text-slate-500 dark:text-slate-300">
-                                        <i class="fas fa-map-marker-alt mr-1"></i>{{ $business->location }}</div>
+                                        <i class="fas fa-map-marker-alt mr-1"></i>{{ $business->location }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +197,8 @@
                         </div>
                     </div>
                     <!-- Actions Row -->
-                    <div class="border-t border-slate-200 dark:border-slate-600 px-4 py-2 bg-slate-50 dark:bg-slate-700/50">
+                    <div
+                        class="border-t border-slate-200 dark:border-slate-600 px-4 py-2 bg-slate-50 dark:bg-slate-700/50">
                         <div class="flex flex-wrap gap-2">
                             <a href="{{ route('businesses.show', $business->slug) }}"
                                 class="inline-flex items-center px-2 py-1 text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 rounded">
@@ -252,11 +257,14 @@
                                     @if ($business->logo)
                                         <div class="w-full h-full flex items-center justify-start">
                                             <img class="max-w-full max-h-full rounded-lg object-contain"
-                                                src="{{ Storage::url($business->logo) }}" alt="{{ $business->name }}">
+                                                src="{{ Storage::url($business->logo) }}"
+                                                alt="{{ $business->name }}">
                                         </div>
                                     @else
-                                        <div class="w-full h-full rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-                                            <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl"></i>
+                                        <div
+                                            class="w-full h-full rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                                            <i
+                                                class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl"></i>
                                         </div>
                                     @endif
                                 </div>
@@ -266,7 +274,8 @@
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
                                         {{ $business->name }}</h3>
                                     <p class="text-sm text-slate-500 dark:text-slate-300 mb-2">
-                                        <i class="fas fa-map-marker-alt mr-1"></i>{{ $business->location }}</p>
+                                        <i class="fas fa-map-marker-alt mr-1"></i>{{ $business->location }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -348,7 +357,8 @@
                                         {{ $business->renewed_at->format('d.m.Y') }}</div>
                                 @endif
                                 @if ($business->renewal_count > 0)
-                                    <div class="text-xs text-slate-400">Obnovljen {{ $business->renewal_count }}x</div>
+                                    <div class="text-xs text-slate-400">Obnovljen {{ $business->renewal_count }}x
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -362,7 +372,8 @@
                                 <div class="text-sm text-slate-900 dark:text-slate-100">
                                     {{ $business->category->name }}
                                     @if ($business->subcategory)
-                                        <span class="text-slate-500 dark:text-slate-400">- {{ $business->subcategory->name }}</span>
+                                        <span class="text-slate-500 dark:text-slate-400">-
+                                            {{ $business->subcategory->name }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -439,7 +450,8 @@
                 wire:click.stop>
                 <div class="mt-3">
                     <!-- Header -->
-                    <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
+                    <div
+                        class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
                             <i class="fas fa-power-off mr-2 text-purple-600"></i>
                             Aktivacija biznisa
@@ -460,12 +472,17 @@
                     <!-- Check if user has business plan -->
                     @php
                         $user = auth()->user();
-                        $hasActiveBusinessPlan = $user->payment_plan === 'business'
-                            && $user->plan_expires_at
-                            && $user->plan_expires_at->isFuture()
-                            && $user->business_plan_total > 0;
+                        $hasActiveBusinessPlan =
+                            $user->payment_plan === 'business' &&
+                            $user->plan_expires_at &&
+                            $user->plan_expires_at->isFuture() &&
+                            $user->business_plan_total > 0;
                         // Count only businesses from business plan
-                        $activeBusinessCount = $user->businesses()->where('status', 'active')->where('is_from_business_plan', true)->count();
+                        $activeBusinessCount = $user
+                            ->businesses()
+                            ->where('status', 'active')
+                            ->where('is_from_business_plan', true)
+                            ->count();
                         $businessLimit = $user->business_plan_total;
                         $hasAvailableSlots = $hasActiveBusinessPlan && $activeBusinessCount < $businessLimit;
                         $businessFeeEnabled = \App\Models\Setting::get('business_fee_enabled', false);
@@ -479,13 +496,15 @@
                             <button wire:click="activateWithPlan"
                                 class="w-full p-4 bg-purple-100 dark:bg-purple-900 border-2 border-purple-300 dark:border-purple-700 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors text-left">
                                 <div class="flex items-start">
-                                    <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl mr-3 mt-1"></i>
+                                    <i
+                                        class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl mr-3 mt-1"></i>
                                     <div class="flex-1">
                                         <h4 class="font-semibold text-purple-900 dark:text-purple-100">
                                             Aktiviraj preko biznis plana (Besplatno)
                                         </h4>
                                         <p class="text-sm text-purple-700 dark:text-purple-300 mt-1">
-                                            Imate {{ $businessLimit - $activeBusinessCount }} slobodnih mesta u vašem biznis planu
+                                            Imate {{ $businessLimit - $activeBusinessCount }} slobodnih mesta u vašem
+                                            biznis planu
                                         </p>
                                         <p class="text-xs text-purple-600 dark:text-purple-400 mt-1">
                                             Plan važi do: {{ $user->plan_expires_at->format('d.m.Y') }}
@@ -503,21 +522,27 @@
                             <button wire:click="activateWithPayment"
                                 class="w-full p-4 {{ $hasEnoughBalance ? 'bg-orange-100 dark:bg-orange-900 border-orange-300 dark:border-orange-700 hover:bg-orange-200 dark:hover:bg-orange-800' : 'bg-red-100 dark:bg-red-900 border-red-300 dark:border-red-700 hover:bg-red-200 dark:hover:bg-red-800' }} border-2 rounded-lg transition-colors text-left">
                                 <div class="flex items-start">
-                                    <i class="fas {{ $hasEnoughBalance ? 'fa-credit-card text-orange-600 dark:text-orange-400' : 'fa-exclamation-triangle text-red-600 dark:text-red-400' }} text-2xl mr-3 mt-1"></i>
+                                    <i
+                                        class="fas {{ $hasEnoughBalance ? 'fa-credit-card text-orange-600 dark:text-orange-400' : 'fa-exclamation-triangle text-red-600 dark:text-red-400' }} text-2xl mr-3 mt-1"></i>
                                     <div class="flex-1">
-                                        <h4 class="font-semibold {{ $hasEnoughBalance ? 'text-orange-900 dark:text-orange-100' : 'text-red-900 dark:text-red-100' }}">
+                                        <h4
+                                            class="font-semibold {{ $hasEnoughBalance ? 'text-orange-900 dark:text-orange-100' : 'text-red-900 dark:text-red-100' }}">
                                             {{ $hasEnoughBalance ? 'Plati i aktiviraj' : 'Nedovoljno kredita' }}
                                         </h4>
-                                        <p class="text-sm {{ $hasEnoughBalance ? 'text-orange-700 dark:text-orange-300' : 'text-red-700 dark:text-red-300' }} mt-1">
+                                        <p
+                                            class="text-sm {{ $hasEnoughBalance ? 'text-orange-700 dark:text-orange-300' : 'text-red-700 dark:text-red-300' }} mt-1">
                                             Cena: {{ number_format($businessFeeAmount, 0, ',', '.') }} RSD
                                         </p>
-                                        <p class="text-xs {{ $hasEnoughBalance ? 'text-orange-600 dark:text-orange-400' : 'text-red-600 dark:text-red-400' }} mt-1">
+                                        <p
+                                            class="text-xs {{ $hasEnoughBalance ? 'text-orange-600 dark:text-orange-400' : 'text-red-600 dark:text-red-400' }} mt-1">
                                             Vaš kredit: {{ number_format($user->balance, 0, ',', '.') }} RSD
                                         </p>
                                         @if (!$hasEnoughBalance)
                                             <p class="text-xs text-red-700 dark:text-red-300 mt-2 font-semibold">
                                                 <i class="fas fa-info-circle mr-1"></i>
-                                                Nedostaje: {{ number_format($businessFeeAmount - $user->balance, 0, ',', '.') }} RSD
+                                                Nedostaje:
+                                                {{ number_format($businessFeeAmount - $user->balance, 0, ',', '.') }}
+                                                RSD
                                             </p>
                                         @endif
                                     </div>
@@ -530,7 +555,8 @@
                             <a href="{{ route('balance.plan-selection') }}"
                                 class="block w-full p-4 bg-sky-100 dark:bg-sky-900 border-2 border-sky-300 dark:border-sky-700 rounded-lg hover:bg-sky-200 dark:hover:bg-sky-800 transition-colors text-left">
                                 <div class="flex items-start">
-                                    <i class="fas fa-shopping-cart text-sky-600 dark:text-sky-400 text-2xl mr-3 mt-1"></i>
+                                    <i
+                                        class="fas fa-shopping-cart text-sky-600 dark:text-sky-400 text-2xl mr-3 mt-1"></i>
                                     <div class="flex-1">
                                         <h4 class="font-semibold text-sky-900 dark:text-sky-100">
                                             Kupi biznis plan

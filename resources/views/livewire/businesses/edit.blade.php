@@ -2,7 +2,7 @@
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
         <!-- Header -->
         <div class="mb-6 border-b border-purple-200 dark:border-purple-700 pb-4">
-            <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Izmeni Business</h1>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Izmeni Biznis</h1>
             <p class="text-slate-600 dark:text-slate-400 mt-2">Ažurirajte informacije o vašem business-u</p>
         </div>
 
@@ -21,7 +21,8 @@
         @endif
 
         @if (session()->has('success'))
-            <div class="mb-4 p-4 bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg">
+            <div
+                class="mb-4 p-4 bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg">
                 <div class="flex">
                     <svg class="w-5 h-5 text-green-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
@@ -76,7 +77,8 @@
                             @endif
                         </span>
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
                         </svg>
                     </button>
 
@@ -112,7 +114,8 @@
                                     Odaberite podkategoriju (opciono)
                                 @endif
                             </span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -413,7 +416,8 @@
                                         class="w-full h-32 object-cover rounded border border-slate-200 dark:border-slate-600">
                                     <button type="button" wire:click="removeExistingImage({{ $existingImage->id }})"
                                         class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
@@ -429,7 +433,8 @@
                         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
 
                     <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">
-                        Trenutno: {{ count($existing_images) + count($images) }}/{{ \App\Models\Setting::get('max_images_per_business', 10) }}
+                        Trenutno:
+                        {{ count($existing_images) + count($images) }}/{{ \App\Models\Setting::get('max_images_per_business', 10) }}
                         slika
                     </p>
 
@@ -452,7 +457,8 @@
                                         class="w-full h-32 object-cover rounded border border-slate-200 dark:border-slate-600">
                                     <button type="button" wire:click="removeImage({{ $index }})"
                                         class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
