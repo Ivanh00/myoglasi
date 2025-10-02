@@ -112,7 +112,7 @@
 
             <div class="text-xs text-slate-500 dark:text-slate-300 mb-3">
                 <i class="fas fa-clock mr-1"></i>
-                Postavljeno pre {{ $service->created_at ? floor($service->created_at->diffInDays()) : 0 }} dana
+                Postavljeno {{ $service->created_at?->diffForHumans() ?? 'nepoznato' }}
             </div>
         </div>
 

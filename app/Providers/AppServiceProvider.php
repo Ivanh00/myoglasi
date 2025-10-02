@@ -29,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
 {
     View::share('year', date('Y'));
 
+    // Set Carbon locale to Serbian
+    \Carbon\Carbon::setLocale(config('app.locale'));
+
     // view()->composer('*', function ($view) {
     //     if (!app()->runningInConsole()) {
     //         // DODAJTE ->toArray() !!!

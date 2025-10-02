@@ -3,5 +3,18 @@
     "to": "do",
     "of": "od",
     "results": "rezultata",
-    "Go to page :page": "Idi na stranu :page"
+    "Go to page :page": "Idi na stranu :page",
+    "just now": "upravo sada",
+    "minute ago": "pre :count minut",
+    "minutes ago": "pre :count minuta",
+    "hour ago": "pre :count sat",
+    "hours ago": "pre :count sata",
+    "day ago": "pre :count dan",
+    "days ago": "pre :count dana",
+    "week ago": "pre :count nedelju",
+    "weeks ago": "pre :count nedelja",
+    "month ago": "pre :count mesec",
+    "months ago": "pre :count meseci",
+    "year ago": "pre :count godinu",
+    "years ago": "pre :count godina"
 }
