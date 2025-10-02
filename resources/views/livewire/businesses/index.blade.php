@@ -194,6 +194,7 @@
     <div class="bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-lg shadow-md p-4 mb-6 hidden md:block" x-data="{
         cityDropdownOpen: false,
         citySearch: '',
+        recentCities: JSON.parse(localStorage.getItem('recentCitiesBusinesses') || '[]'),
         get filteredCities() {
             const normalize = (str) => {
                 const map = { 'š': 's', 'ć': 'c', 'č': 'c', 'ž': 'z', 'đ': 'dj' };
@@ -202,6 +203,21 @@
             return @js(config('cities', [])).filter(c =>
                 normalize(c).includes(normalize(this.citySearch || ''))
             );
+        },
+        addRecentCity(city) {
+            if (!city) return;
+            // Remove if already exists
+            this.recentCities = this.recentCities.filter(c => c !== city);
+            // Add to beginning
+            this.recentCities.unshift(city);
+            // Keep only 5
+            this.recentCities = this.recentCities.slice(0, 5);
+            // Save to localStorage
+            localStorage.setItem('recentCitiesBusinesses', JSON.stringify(this.recentCities));
+        },
+        removeRecentCity(city) {
+            this.recentCities = this.recentCities.filter(c => c !== city);
+            localStorage.setItem('recentCitiesBusinesses', JSON.stringify(this.recentCities));
         }
     }">
         <!-- Desktop Layout -->
@@ -372,17 +388,34 @@
                     class="w-full px-3 py-2 border border-purple-300 dark:border-purple-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
             </div>
             <div class="p-3">
-                <button type="button" @click="$wire.set('selectedCity', ''); cityDropdownOpen = false"
-                    class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition mb-2"
-                    :class="!$wire.selectedCity ?
-                        'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-semibold' :
-                        'text-slate-700 dark:text-slate-200'">
-                    <i class="fas fa-globe mr-2"></i>
-                    <span>Svi gradovi</span>
-                </button>
+                <!-- Svi gradovi + Recent Cities -->
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                    <button type="button" @click="$wire.set('selectedCity', ''); cityDropdownOpen = false"
+                        class="inline-flex items-center px-3 py-2 text-sm rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition"
+                        :class="!$wire.selectedCity ?
+                            'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-semibold' :
+                            'text-slate-700 dark:text-slate-200'">
+                        <i class="fas fa-globe mr-2"></i>
+                        <span>Svi gradovi</span>
+                    </button>
+
+                    <!-- Recent Cities (inline) -->
+                    <template x-for="city in recentCities" :key="city">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-lg text-sm">
+                            <button type="button" @click="$wire.set('selectedCity', city); addRecentCity(city); cityDropdownOpen = false"
+                                class="hover:underline"
+                                x-text="city"></button>
+                            <button type="button" @click.stop="removeRecentCity(city)"
+                                class="opacity-60 hover:opacity-100 transition-opacity">
+                                <i class="fas fa-times text-xs"></i>
+                            </button>
+                        </div>
+                    </template>
+                </div>
+
                 <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1.5">
                     <template x-for="cityOption in filteredCities" :key="cityOption">
-                        <button type="button" @click="$wire.set('selectedCity', cityOption); cityDropdownOpen = false"
+                        <button type="button" @click="$wire.set('selectedCity', cityOption); addRecentCity(cityOption); cityDropdownOpen = false"
                             class="text-left px-3 py-2 text-sm rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition"
                             :class="$wire.selectedCity === cityOption ?
                                 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-medium' :
