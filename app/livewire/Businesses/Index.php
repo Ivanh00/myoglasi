@@ -14,6 +14,7 @@ class Index extends Component
 
     public $selectedCategory = null;
     public $selectedSubcategory = null;
+    public $selectedCity = null;
     public $categories;
     public $subcategories = [];
     public $sortBy = 'newest';
@@ -22,6 +23,7 @@ class Index extends Component
     protected $queryString = [
         'selectedCategory' => ['except' => ''],
         'selectedSubcategory' => ['except' => ''],
+        'selectedCity' => ['except' => ''],
         'sortBy' => ['except' => 'newest'],
         'perPage' => ['except' => 20]
     ];
@@ -30,9 +32,10 @@ class Index extends Component
     {
         $this->mountHasViewMode(); // Initialize view mode from session
 
-        // Get selectedCategory from URL parameter
+        // Get parameters from URL
         $this->selectedCategory = request()->get('selectedCategory');
         $this->selectedSubcategory = request()->get('selectedSubcategory');
+        $this->selectedCity = request()->get('selectedCity');
 
         $this->categories = BusinessCategory::whereNull('parent_id')
             ->where('is_active', true)
@@ -83,10 +86,20 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function updatedSelectedCity()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $query = Business::where('status', 'active')
             ->with(['category', 'subcategory', 'images', 'user']);
+
+        // Filter by city
+        if ($this->selectedCity) {
+            $query->where('city', $this->selectedCity);
+        }
 
         $currentCategory = null;
         if ($this->selectedSubcategory) {

@@ -87,13 +87,15 @@
                         <!-- Business Column -->
                         <div class="px-4 py-2">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10">
+                                <div class="flex-shrink-0" style="width: 80px; height: 60px;">
                                     @if ($business->logo)
-                                        <img class="h-10 w-10 rounded-lg object-cover"
-                                            src="{{ Storage::url($business->logo) }}" alt="{{ $business->name }}">
+                                        <div class="w-full h-full flex items-center justify-start">
+                                            <img class="max-w-full max-h-full rounded-lg object-contain"
+                                                src="{{ Storage::url($business->logo) }}" alt="{{ $business->name }}">
+                                        </div>
                                     @else
-                                        <div class="h-10 w-10 rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-                                            <i class="fas fa-briefcase text-purple-600 dark:text-purple-400"></i>
+                                        <div class="w-full h-full rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                                            <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl"></i>
                                         </div>
                                     @endif
                                 </div>
@@ -246,14 +248,15 @@
                         <div class="flex items-start justify-between">
                             <div class="flex items-start flex-1">
                                 <!-- Logo -->
-                                <div class="flex-shrink-0 h-16 w-16 mr-3">
+                                <div class="flex-shrink-0 mr-3" style="width: 80px; height: 60px;">
                                     @if ($business->logo)
-                                        <img class="h-16 w-16 rounded-lg object-cover"
-                                            src="{{ Storage::url($business->logo) }}" alt="{{ $business->name }}">
+                                        <div class="w-full h-full flex items-center justify-start">
+                                            <img class="max-w-full max-h-full rounded-lg object-contain"
+                                                src="{{ Storage::url($business->logo) }}" alt="{{ $business->name }}">
+                                        </div>
                                     @else
-                                        <div
-                                            class="h-16 w-16 rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-                                            <i class="fas fa-briefcase text-purple-600 dark:text-purple-400"></i>
+                                        <div class="w-full h-full rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                                            <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl"></i>
                                         </div>
                                     @endif
                                 </div>
