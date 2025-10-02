@@ -467,20 +467,29 @@
 
                         @if ($businessFeeEnabled)
                             <!-- Option 2: Activate with Payment -->
+                            @php
+                                $hasEnoughBalance = $user->balance >= $businessFeeAmount;
+                            @endphp
                             <button wire:click="activateWithPayment"
-                                class="w-full p-4 bg-orange-100 dark:bg-orange-900 border-2 border-orange-300 dark:border-orange-700 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-800 transition-colors text-left">
+                                class="w-full p-4 {{ $hasEnoughBalance ? 'bg-orange-100 dark:bg-orange-900 border-orange-300 dark:border-orange-700 hover:bg-orange-200 dark:hover:bg-orange-800' : 'bg-red-100 dark:bg-red-900 border-red-300 dark:border-red-700 hover:bg-red-200 dark:hover:bg-red-800' }} border-2 rounded-lg transition-colors text-left">
                                 <div class="flex items-start">
-                                    <i class="fas fa-credit-card text-orange-600 dark:text-orange-400 text-2xl mr-3 mt-1"></i>
+                                    <i class="fas {{ $hasEnoughBalance ? 'fa-credit-card text-orange-600 dark:text-orange-400' : 'fa-exclamation-triangle text-red-600 dark:text-red-400' }} text-2xl mr-3 mt-1"></i>
                                     <div class="flex-1">
-                                        <h4 class="font-semibold text-orange-900 dark:text-orange-100">
-                                            Plati i aktiviraj
+                                        <h4 class="font-semibold {{ $hasEnoughBalance ? 'text-orange-900 dark:text-orange-100' : 'text-red-900 dark:text-red-100' }}">
+                                            {{ $hasEnoughBalance ? 'Plati i aktiviraj' : 'Nedovoljno kredita' }}
                                         </h4>
-                                        <p class="text-sm text-orange-700 dark:text-orange-300 mt-1">
+                                        <p class="text-sm {{ $hasEnoughBalance ? 'text-orange-700 dark:text-orange-300' : 'text-red-700 dark:text-red-300' }} mt-1">
                                             Cena: {{ number_format($businessFeeAmount, 0, ',', '.') }} RSD
                                         </p>
-                                        <p class="text-xs text-orange-600 dark:text-orange-400 mt-1">
+                                        <p class="text-xs {{ $hasEnoughBalance ? 'text-orange-600 dark:text-orange-400' : 'text-red-600 dark:text-red-400' }} mt-1">
                                             Vaš kredit: {{ number_format($user->balance, 0, ',', '.') }} RSD
                                         </p>
+                                        @if (!$hasEnoughBalance)
+                                            <p class="text-xs text-red-700 dark:text-red-300 mt-2 font-semibold">
+                                                <i class="fas fa-info-circle mr-1"></i>
+                                                Nedostaje: {{ number_format($businessFeeAmount - $user->balance, 0, ',', '.') }} RSD
+                                            </p>
+                                        @endif
                                     </div>
                                 </div>
                             </button>
