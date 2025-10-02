@@ -1133,6 +1133,12 @@
                             Aukcije
                         </a>
 
+                        <a href="{{ route('admin.businesses.index') }}"
+                            class="flex items-center px-4 py-2 text-slate-700 rounded-lg hover:bg-slate-100 {{ request()->routeIs('admin.businesses.*') ? 'bg-sky-50 text-sky-700' : '' }}">
+                            <i class="fas fa-briefcase w-5 h-5 mr-3"></i>
+                            Business
+                        </a>
+
                         <a href="{{ route('admin.transactions.index') }}"
                             class="flex items-center px-4 py-2 text-slate-700 rounded-lg hover:bg-slate-100 {{ request()->routeIs('admin.transactions.*') ? 'bg-sky-50 text-sky-700' : '' }}">
                             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1291,6 +1297,12 @@
                             class="flex items-center px-4 py-2 text-slate-700 rounded-lg hover:bg-slate-100 {{ request()->routeIs('admin.auctions.*') ? 'bg-sky-50 text-sky-700' : '' }}">
                             <i class="fas fa-gavel w-5 h-5 mr-3"></i>
                             Aukcije
+                        </a>
+
+                        <a href="{{ route('admin.businesses.index') }}"
+                            class="flex items-center px-4 py-2 text-slate-700 rounded-lg hover:bg-slate-100 {{ request()->routeIs('admin.businesses.*') ? 'bg-sky-50 text-sky-700' : '' }}">
+                            <i class="fas fa-briefcase w-5 h-5 mr-3"></i>
+                            Business
                         </a>
 
                         <a href="{{ route('admin.transactions.index') }}"

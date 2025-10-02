@@ -327,7 +327,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/listings', \App\Livewire\Admin\ListingManagement::class)->name('listings.index');
     Route::get('/services', \App\Livewire\Admin\ServiceManagement::class)->name('services.index');
     Route::get('/auctions', \App\Livewire\Admin\AuctionManagement::class)->name('auctions.index');
-    // Route::get('/businesses', \App\Livewire\Admin\BusinessManagement::class)->name('businesses.index');
+    Route::get('/businesses', \App\Livewire\Admin\BusinessManagement::class)->name('businesses.index');
     Route::get('/categories', \App\Livewire\Admin\CategoryManagement::class)->name('categories.index');
     Route::get('/service-categories', \App\Livewire\Admin\ServiceCategoryManagement::class)->name('service-categories.index');
     Route::get('/business-categories', \App\Livewire\Admin\BusinessCategoryManagement::class)->name('business-categories.index');
