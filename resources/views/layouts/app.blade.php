@@ -509,74 +509,76 @@
 
 <body class="font-sans antialiased bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
     <livewire:layout.navigation />
-    <div class="min-h-screen">
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white dark:bg-slate-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
+    <!-- Page Heading -->
+    @if (isset($header))
+        <header class="bg-white dark:bg-slate-800 shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
+    @endif
 
-        @auth
-            @php
-                $unreadNotificationsCount = \App\Models\Message::where('receiver_id', auth()->id())
-                    ->where('is_system_message', true)
-                    ->where('is_read', false)
-                    ->count();
-            @endphp
-            <script>
-                window.unreadNotificationsCount = {{ $unreadNotificationsCount }};
-            </script>
-        @endauth
+    @auth
+        @php
+            $unreadNotificationsCount = \App\Models\Message::where('receiver_id', auth()->id())
+                ->where('is_system_message', true)
+                ->where('is_read', false)
+                ->count();
+        @endphp
+        <script>
+            window.unreadNotificationsCount = {{ $unreadNotificationsCount }};
+        </script>
+    @endauth
 
-        <!-- Mobile Sidebar Toggle Button -->
-        <div class="md:hidden fixed top-36 left-2 z-[95]">
-            <button type="button" id="mobile-sidebar-button"
-                class="bg-white dark:bg-slate-700 p-2 rounded-md shadow-lg border-2 border-sky-500 text-slate-600 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 ring-2 ring-sky-400 dark:ring-sky-500">
-                <span class="sr-only">Open sidebar</span>
-                <!-- Hamburger icon -->
-                <svg id="sidebar-menu-icon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-                <!-- X icon (hidden by default) -->
-                <svg id="sidebar-close-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Mobile Sidebar Overlay -->
-        <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-slate-500 bg-opacity-75 z-[94] md:hidden hidden"></div>
-
-        <!-- Main Content with Sidebar -->
-        <div class="flex">
-            <!-- Desktop Sidebar -->
-            <aside class="hidden md:block w-64 bg-white dark:bg-slate-800 shadow-md sticky h-screen">
-                <livewire:category-sidebar />
-            </aside>
-
-            <!-- Mobile Sidebar -->
-            <aside id="mobile-sidebar"
-                class="fixed left-0 top-0 w-64 bg-white dark:bg-slate-800 shadow-lg h-screen z-[95] transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
-                <livewire:category-sidebar />
-            </aside>
-
-            <!-- Page Content -->
-            <main class="flex-1 p-2  pt-16 md:pt-2">
-                {{ $slot }}
-            </main>
-        </div>
+    <!-- Mobile Sidebar Toggle Button -->
+    <div class="md:hidden fixed top-36 left-2 z-[95]">
+        <button type="button" id="mobile-sidebar-button"
+            class="bg-white dark:bg-slate-700 p-2 rounded-md shadow-lg border-2 border-sky-500 text-slate-600 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 ring-2 ring-sky-400 dark:ring-sky-500">
+            <span class="sr-only">Open sidebar</span>
+            <!-- Hamburger icon -->
+            <svg id="sidebar-menu-icon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <!-- X icon (hidden by default) -->
+            <svg id="sidebar-close-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
     </div>
 
-    <!-- Quick Listing Modal -->
-    <livewire:quick-listing />
+    <!-- Mobile Sidebar Overlay -->
+    <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-slate-500 bg-opacity-75 z-[94] md:hidden hidden"></div>
+
+    <!-- Main Content with Sidebar -->
+    <div class="flex min-h-screen">
+        <!-- Desktop Sidebar Container -->
+        <div class="hidden md:block w-64 flex-shrink-0">
+            <aside id="desktop-sidebar" class="w-64 bg-white dark:bg-slate-800 shadow-md fixed left-0 top-16 z-10 overflow-y-auto transition-all" style="height: calc(100vh - 4rem);">
+                <livewire:category-sidebar />
+            </aside>
+            <!-- Spacer to maintain layout -->
+            <div class="w-64"></div>
+        </div>
+
+        <!-- Mobile Sidebar -->
+        <aside id="mobile-sidebar"
+            class="fixed left-0 top-0 w-64 bg-white dark:bg-slate-800 shadow-lg h-screen z-[95] transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+            <livewire:category-sidebar />
+        </aside>
+
+        <!-- Page Content -->
+        <main class="flex-1 p-2 pt-16 md:p-2">
+            {{ $slot }}
+        </main>
+    </div>
 
     <!-- Footer -->
     <livewire:layout.footer />
+
+    <!-- Quick Listing Modal -->
+    <livewire:quick-listing />
     @livewireScripts
 
     <!-- Global Dark Mode Persistence Script -->
@@ -626,6 +628,39 @@
                 detail: newTheme
             }));
         }
+
+        // Sidebar position control to prevent overlap with footer
+        function adjustSidebarPosition() {
+            const sidebar = document.getElementById('desktop-sidebar');
+            if (!sidebar || window.innerWidth < 768) return; // Only on desktop
+
+            const footer = document.querySelector('footer');
+            if (!footer) return;
+
+            const footerRect = footer.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const navbarHeight = 64; // 4rem = 64px
+
+            // Check if footer is visible in viewport
+            if (footerRect.top < viewportHeight) {
+                // Footer is visible, adjust sidebar bottom position
+                const footerTop = footerRect.top;
+                const availableHeight = footerTop - navbarHeight;
+                sidebar.style.height = Math.max(0, availableHeight) + 'px';
+            } else {
+                // Footer not visible, use full height
+                sidebar.style.height = 'calc(100vh - 4rem)';
+            }
+        }
+
+        // Run on scroll, resize, and load
+        window.addEventListener('scroll', adjustSidebarPosition);
+        window.addEventListener('resize', adjustSidebarPosition);
+        window.addEventListener('load', adjustSidebarPosition);
+        document.addEventListener('livewire:navigated', adjustSidebarPosition);
+
+        // Initial call
+        adjustSidebarPosition();
 
         // Global function to set specific theme
         window.setTheme = function(theme) {

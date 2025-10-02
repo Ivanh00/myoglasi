@@ -1,5 +1,5 @@
-<div class="w-64 bg-white dark:bg-slate-800 shadow-lg h-screen sticky top-0 overflow-y-auto sidebar-scroll"
-    x-data="{ openSection: null }">
+<div class="w-64 bg-white dark:bg-slate-800 overflow-y-auto sidebar-scroll"
+    x-data="{ openSection: null }" style="height: 100%;">
     <style>
         /* Hide scrollbar for Chrome, Safari and Opera */
         .sidebar-scroll::-webkit-scrollbar {
