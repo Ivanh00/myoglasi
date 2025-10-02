@@ -14,7 +14,7 @@ class PlanSelection extends Component
     public $planPrices = [];
     
     protected $rules = [
-        'selectedPlan' => 'required|in:per_listing,monthly,yearly',
+        'selectedPlan' => 'required|in:per_listing,monthly,yearly,business',
     ];
 
     public function mount()
@@ -45,6 +45,12 @@ class PlanSelection extends Component
                 'enabled' => Setting::get('yearly_plan_enabled', false),
                 'title' => 'Godišnji plan',
                 'description' => 'Neograničeno oglasa jednu godinu',
+            ],
+            'business' => [
+                'price' => Setting::get('business_plan_price', 2000),
+                'enabled' => Setting::get('business_plan_enabled', false),
+                'title' => 'Biznis plan',
+                'description' => 'Cena po jednom business-u godišnje',
             ],
         ];
     }

@@ -23,6 +23,8 @@ class Settings extends Component
     public $monthlyPlanPrice;
     public $yearlyPlanEnabled;
     public $yearlyPlanPrice;
+    public $businessPlanEnabled;
+    public $businessPlanPrice;
     public $freeListingsPerMonth;
     
     // General Settings
@@ -110,6 +112,8 @@ class Settings extends Component
         'monthlyPlanPrice' => 'required|integer|min:100|max:50000',
         'yearlyPlanEnabled' => 'required|boolean',
         'yearlyPlanPrice' => 'required|integer|min:1000|max:500000',
+        'businessPlanEnabled' => 'required|boolean',
+        'businessPlanPrice' => 'required|integer|min:100|max:100000',
         'freeListingsPerMonth' => 'required|integer|min:0|max:100',
         'siteName' => 'required|string|max:100',
         'maxImagesPerListing' => 'required|integer|min:1|max:50',
@@ -189,6 +193,8 @@ class Settings extends Component
         $this->monthlyPlanPrice = Setting::get('monthly_plan_price', 500);
         $this->yearlyPlanEnabled = Setting::get('yearly_plan_enabled', false);
         $this->yearlyPlanPrice = Setting::get('yearly_plan_price', 5000);
+        $this->businessPlanEnabled = Setting::get('business_plan_enabled', false);
+        $this->businessPlanPrice = Setting::get('business_plan_price', 2000);
         $this->freeListingsPerMonth = Setting::get('free_listings_per_month', 0);
         
         // General Settings
@@ -280,6 +286,8 @@ class Settings extends Component
             'monthlyPlanPrice' => 'required|integer|min:100|max:50000',
             'yearlyPlanEnabled' => 'required|boolean',
             'yearlyPlanPrice' => 'required|integer|min:1000|max:500000',
+            'businessPlanEnabled' => 'required|boolean',
+            'businessPlanPrice' => 'required|integer|min:100|max:100000',
             'freeListingsPerMonth' => 'required|integer|min:0|max:100',
         ]);
 
@@ -289,6 +297,8 @@ class Settings extends Component
         Setting::set('monthly_plan_price', $this->monthlyPlanPrice, 'integer', 'payments');
         Setting::set('yearly_plan_enabled', $this->yearlyPlanEnabled, 'boolean', 'payments');
         Setting::set('yearly_plan_price', $this->yearlyPlanPrice, 'integer', 'payments');
+        Setting::set('business_plan_enabled', $this->businessPlanEnabled, 'boolean', 'payments');
+        Setting::set('business_plan_price', $this->businessPlanPrice, 'integer', 'payments');
         Setting::set('free_listings_per_month', $this->freeListingsPerMonth, 'integer', 'payments');
 
         session()->flash('success', 'Podešavanja plaćanja su uspešno sačuvana.');

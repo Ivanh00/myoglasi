@@ -164,6 +164,40 @@
                         </div>
                     </div>
 
+                    <!-- Business Plan -->
+                    <div class="border border-slate-200 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">
+                            <i class="fas fa-briefcase mr-2 text-orange-600"></i>
+                            Biznis plan
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="business_plan_enabled" wire:model="businessPlanEnabled"
+                                    class="h-4 w-4 text-orange-600 focus:ring-orange-500 border-slate-300 rounded">
+                                <label for="business_plan_enabled"
+                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
+                                    Uključi biznis plan
+                                </label>
+                            </div>
+
+                            @if ($businessPlanEnabled)
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                        biznis plana
+                                        (RSD)</label>
+                                    <input type="number" wire:model="businessPlanPrice" min="100" max="100000"
+                                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Cena po jednom
+                                        postavljenom business-u godišnje</p>
+                                    @error('businessPlanPrice')
+                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
                     <!-- Payment Summary -->
                     <div class="border border-slate-200 rounded-lg p-4 bg-sky-50">
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">
@@ -192,6 +226,14 @@
                                 <div class="flex justify-between">
                                     <span>Godišnji plan:</span>
                                     <span class="font-semibold">{{ number_format($yearlyPlanPrice, 0, ',', '.') }}
+                                        RSD</span>
+                                </div>
+                            @endif
+
+                            @if ($businessPlanEnabled)
+                                <div class="flex justify-between">
+                                    <span>Biznis plan:</span>
+                                    <span class="font-semibold">{{ number_format($businessPlanPrice, 0, ',', '.') }}
                                         RSD</span>
                                 </div>
                             @endif

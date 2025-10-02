@@ -50,7 +50,16 @@
             @if (!auth()->user()->payment_enabled || true)
                 <!-- Plan Selection -->
                 <form wire:submit.prevent="purchasePlan">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    @php
+                        $enabledPlansCount = collect($planPrices)->where('enabled', true)->count();
+                        $gridClass = match($enabledPlansCount) {
+                            1 => 'grid-cols-1',
+                            2 => 'grid-cols-1 md:grid-cols-2',
+                            3 => 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+                            default => 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+                        };
+                    @endphp
+                    <div class="grid {{ $gridClass }} gap-6 mb-8">
                         <!-- Per Listing Plan -->
                         @if ($planPrices['per_listing']['enabled'])
                             <div class="border rounded-lg p-6 {{ $selectedPlan === 'per_listing' ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20' : 'border-slate-200 dark:border-slate-600' }} transition-all cursor-pointer"
@@ -150,6 +159,42 @@
                                 </div>
                             </div>
                         @endif
+
+                        <!-- Business Plan -->
+                        @if ($planPrices['business']['enabled'])
+                            <div class="border rounded-lg p-6 {{ $selectedPlan === 'business' ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20' : 'border-slate-200 dark:border-slate-600' }} transition-all cursor-pointer"
+                                wire:click="$set('selectedPlan', 'business')">
+                                <div class="text-center">
+                                    <div
+                                        class="w-16 h-16 bg-orange-100 dark:bg-orange-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i class="fas fa-briefcase text-orange-600 dark:text-orange-400 text-2xl"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                                        {{ $planPrices['business']['title'] }}</h3>
+                                    <div class="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-2">
+                                        {{ number_format($planPrices['business']['price'], 0, ',', '.') }} RSD
+                                    </div>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">po business-u</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-300 mb-2">
+                                        {{ $planPrices['business']['description'] }}
+                                    </p>
+
+                                    @if (auth()->user()->balance >= $planPrices['business']['price'])
+                                        <p class="text-xs text-green-600 dark:text-green-400">✓ Dovoljno kredita</p>
+                                    @else
+                                        <p class="text-xs text-red-600 dark:text-red-400">✗ Potrebno još
+                                            {{ number_format($planPrices['business']['price'] - auth()->user()->balance, 0, ',', '.') }}
+                                            RSD</p>
+                                    @endif
+
+                                    @if ($selectedPlan === 'business')
+                                        <div class="mt-4">
+                                            <i class="fas fa-check-circle text-orange-500 text-xl"></i>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <!-- Plan Comparison -->
@@ -157,7 +202,7 @@
                     <div class="mb-8">
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Poređenje planova</h3>
                         <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div class="grid {{ $gridClass }} gap-4 text-sm">
                                 @if ($planPrices['per_listing']['enabled'])
                                     <div class="text-center">
                                         <h4 class="font-semibold text-sky-600 dark:text-sky-400 mb-2">Po oglasu</h4>
@@ -191,6 +236,18 @@
                                             Isplativo od
                                             {{ ceil($planPrices['yearly']['price'] / $planPrices['per_listing']['price']) }}
                                             oglasa godišnje
+                                        </p>
+                                    </div>
+                                @endif
+
+                                @if ($planPrices['business']['enabled'])
+                                    <div class="text-center">
+                                        <h4 class="font-semibold text-orange-600 dark:text-orange-400 mb-2">Biznis
+                                        </h4>
+                                        <p>{{ number_format($planPrices['business']['price'], 0, ',', '.') }} RSD
+                                            po business-u</p>
+                                        <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">
+                                            Plaćanje po postavljenom business-u
                                         </p>
                                     </div>
                                 @endif
@@ -234,7 +291,7 @@
                 <!-- Plan Benefits -->
                 <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-600">
                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Prednosti planova</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
                         <div class="space-y-2">
                             <h4 class="font-semibold text-sky-600 dark:text-sky-400">Plaćanje po oglasu</h4>
                             <ul class="space-y-1 text-slate-600 dark:text-slate-400">
@@ -259,6 +316,15 @@
                                 <li>• Neograničeno oglasa 365 dana</li>
                                 <li>• Najbolja cena po danu</li>
                                 <li>• Idealno za profesionalne prodavce</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-semibold text-orange-600 dark:text-orange-400">Biznis plan</h4>
+                            <ul class="space-y-1 text-slate-600 dark:text-slate-400">
+                                <li>• Plaćanje po business-u</li>
+                                <li>• Važi godinu dana</li>
+                                <li>• Idealno za firme i kompanije</li>
                             </ul>
                         </div>
                     </div>
