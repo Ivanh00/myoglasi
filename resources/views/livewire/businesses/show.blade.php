@@ -249,6 +249,27 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Favorite Card -->
+            @auth
+                @if(auth()->id() !== $business->user_id)
+                    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
+                            <i class="fas fa-heart mr-2 text-purple-600"></i>
+                            Omiljeni
+                        </h3>
+                        <livewire:business-favorite-button :business="$business" />
+                    </div>
+                @endif
+            @else
+                <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
+                        <i class="fas fa-heart mr-2 text-purple-600"></i>
+                        Omiljeni
+                    </h3>
+                    <livewire:business-favorite-button :business="$business" />
+                </div>
+            @endauth
         </div>
     </div>
 </div>

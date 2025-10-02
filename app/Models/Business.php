@@ -75,6 +75,16 @@ class Business extends Model
         return $this->hasMany(BusinessImage::class)->whereRaw('1 = 0');
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(BusinessFavorite::class);
+    }
+
+    public function getFavoritesCountAttribute()
+    {
+        return $this->favorites()->count();
+    }
+
     // Auto-generate slug
     protected static function boot()
     {

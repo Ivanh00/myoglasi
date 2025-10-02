@@ -13,7 +13,7 @@ class Index extends Component
     use WithPagination;
 
     public $sortBy = 'newest'; // newest, oldest, price_asc, price_desc
-    public $filterType = 'all'; // all, listings, services
+    public $filterType = 'all'; // all, listings, services, businesses
 
     protected $listeners = [
         'favoriteRemoved' => '$refresh'
@@ -37,6 +37,9 @@ class Index extends Component
         } else if ($type === 'service') {
             Auth::user()->removeServiceFromFavorites(\App\Models\Service::find($listingId));
             session()->flash('success', 'Usluga je uklonjena iz omiljenih.');
+        } else if ($type === 'business') {
+            Auth::user()->removeBusinessFromFavorites(\App\Models\Business::find($listingId));
+            session()->flash('success', 'Biznis je uklonjen iz omiljenih.');
         }
 
         $this->dispatch('favoriteRemoved');
@@ -90,6 +93,26 @@ class Index extends Component
                                        return $service;
                                    });
             $favorites = $favorites->concat($services);
+        }
+
+        // Get favorite businesses
+        if ($this->filterType === 'all' || $this->filterType === 'businesses') {
+            $businesses = Auth::user()->businessFavorites()
+                                     ->with(['business.images', 'business.category', 'business.user'])
+                                     ->whereHas('business', function($query) {
+                                         $query->where('status', 'active');
+                                     })
+                                     ->get()
+                                     ->map(function($favorite) {
+                                         $business = $favorite->business;
+                                         $business->item_type = 'business';
+                                         $business->title = $business->name; // Map name to title for consistency
+                                         $business->sort_price = 0; // Businesses don't have price
+                                         $business->sort_date = $favorite->created_at;
+                                         $business->pivot = (object)['created_at' => $favorite->created_at];
+                                         return $business;
+                                     });
+            $favorites = $favorites->concat($businesses);
         }
 
         // Sort the combined collection

@@ -27,6 +27,12 @@
                 <i class="fas fa-tools w-4"></i>
                 Usluge
             </button>
+            <button wire:click="setFilterType('businesses')"
+                class="px-4 py-2 flex items-center gap-2 transition-colors font-medium text-sm border-l border-slate-300 dark:border-slate-600
+                {{ $filterType === 'businesses' ? 'bg-purple-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700' }}">
+                <i class="fas fa-briefcase w-4"></i>
+                Biznisi
+            </button>
         </div>
 
         <!-- Sortiranje -->
@@ -110,7 +116,7 @@
 
             <!-- Data Rows -->
             @foreach ($favorites as $item)
-                <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 {{ $item->item_type === 'service' ? 'border-slate-500' : (method_exists($item, 'isGiveaway') && $item->isGiveaway() ? 'border-green-500' : 'border-sky-500') }}">
+                <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 {{ $item->item_type === 'business' ? 'border-purple-500' : ($item->item_type === 'service' ? 'border-slate-500' : (method_exists($item, 'isGiveaway') && $item->isGiveaway() ? 'border-green-500' : 'border-sky-500')) }}">
                     <div class="grid grid-cols-[35%_20%_20%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Stavka Column -->
                         <div class="px-4 py-2">
@@ -129,7 +135,10 @@
                                     <div class="text-sm font-medium text-slate-900 dark:text-slate-100 break-words">
                                         {{ Str::limit($item->title, 40) }}</div>
                                     <div class="text-sm text-slate-500 dark:text-slate-300">
-                                        @if($item->item_type === 'service')
+                                        @if($item->item_type === 'business')
+                                            {{ $item->category->name ?? 'Biznis' }}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 ml-1">BIZNIS</span>
+                                        @elseif($item->item_type === 'service')
                                             {{ $item->category->name ?? 'Usluga' }}
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-600 text-slate-800 dark:text-slate-200 ml-1">USLUGA</span>
                                         @else
@@ -145,7 +154,9 @@
                         <!-- Cena Column -->
                         <div class="px-4 py-2">
                             <div class="text-sm font-bold whitespace-nowrap">
-                                @if($item->item_type === 'service')
+                                @if($item->item_type === 'business')
+                                    <span class="text-slate-500 dark:text-slate-400">-</span>
+                                @elseif($item->item_type === 'service')
                                     <span class="text-slate-600 dark:text-slate-400">
                                         @if($item->price_type === 'fixed')
                                             {{ number_format($item->price, 2) }} RSD
@@ -190,7 +201,12 @@
                     <!-- Actions Row -->
                     <div class="border-t border-slate-200 dark:border-slate-600 px-4 py-2 bg-slate-50 dark:bg-slate-700/50">
                         <div class="flex flex-wrap gap-2">
-                            @if($item->item_type === 'service')
+                            @if($item->item_type === 'business')
+                                <a href="{{ route('businesses.show', $item) }}"
+                                    class="inline-flex items-center px-2 py-1 text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 rounded">
+                                    <i class="fas fa-eye mr-1"></i> Pregled
+                                </a>
+                            @elseif($item->item_type === 'service')
                                 <a href="{{ route('services.show', $item) }}"
                                     class="inline-flex items-center px-2 py-1 text-slate-600 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded">
                                     <i class="fas fa-eye mr-1"></i> Pregled
@@ -203,7 +219,7 @@
                             @endif
 
                             <button
-                                onclick="shareItem('{{ $item->item_type === 'service' ? route('services.show', $item) : route('listings.show', $item) }}', '{{ addslashes($item->title) }}', '{{ $item->item_type }}')"
+                                onclick="shareItem('{{ $item->item_type === 'business' ? route('businesses.show', $item) : ($item->item_type === 'service' ? route('services.show', $item) : route('listings.show', $item)) }}', '{{ addslashes($item->title) }}', '{{ $item->item_type }}')"
                                 class="inline-flex items-center px-2 py-1 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 rounded">
                                 <i class="fas fa-share-alt mr-1"></i> Podeli
                             </button>
@@ -248,30 +264,34 @@
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
                                         {{ $item->title }}</h3>
                                     <p class="text-sm text-slate-500 dark:text-slate-300 mb-1">
-                                        @if($item->item_type === 'service')
+                                        @if($item->item_type === 'business')
+                                            {{ $item->category->name ?? 'Biznis' }}
+                                        @elseif($item->item_type === 'service')
                                             {{ $item->category->name ?? 'Usluga' }}
                                         @else
                                             {{ $item->category->name }}
                                         @endif
                                     </p>
                                     <p class="text-xs text-slate-400 mb-2">{{ $item->location }}</p>
-                                    <p class="text-xl font-bold {{ $item->item_type === 'service' ? 'text-slate-600 dark:text-slate-400' : 'text-sky-600 dark:text-sky-400' }}">
-                                        @if($item->item_type === 'service')
-                                            @if($item->price_type === 'fixed')
-                                                {{ number_format($item->price, 2) }} RSD
-                                            @elseif($item->price_type === 'hourly')
-                                                {{ number_format($item->price, 2) }} RSD/sat
-                                            @elseif($item->price_type === 'daily')
-                                                {{ number_format($item->price, 2) }} RSD/dan
-                                            @elseif($item->price_type === 'per_m2')
-                                                {{ number_format($item->price, 2) }} RSD/m²
+                                    @if($item->item_type !== 'business')
+                                        <p class="text-xl font-bold {{ $item->item_type === 'service' ? 'text-slate-600 dark:text-slate-400' : 'text-sky-600 dark:text-sky-400' }}">
+                                            @if($item->item_type === 'service')
+                                                @if($item->price_type === 'fixed')
+                                                    {{ number_format($item->price, 2) }} RSD
+                                                @elseif($item->price_type === 'hourly')
+                                                    {{ number_format($item->price, 2) }} RSD/sat
+                                                @elseif($item->price_type === 'daily')
+                                                    {{ number_format($item->price, 2) }} RSD/dan
+                                                @elseif($item->price_type === 'per_m2')
+                                                    {{ number_format($item->price, 2) }} RSD/m²
+                                                @else
+                                                    Po dogovoru
+                                                @endif
                                             @else
-                                                Po dogovoru
+                                                {{ number_format($item->price, 2) }} RSD
                                             @endif
-                                        @else
-                                            {{ number_format($item->price, 2) }} RSD
-                                        @endif
-                                    </p>
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
 
@@ -323,7 +343,13 @@
 
                         <!-- Action Buttons -->
                         <div class="flex flex-wrap gap-2">
-                            @if($item->item_type === 'service')
+                            @if($item->item_type === 'business')
+                                <a href="{{ route('businesses.show', $item) }}"
+                                    class="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-medium rounded-lg hover:bg-purple-200 transition-colors">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    Pregled
+                                </a>
+                            @elseif($item->item_type === 'service')
                                 <a href="{{ route('services.show', $item) }}"
                                     class="inline-flex items-center px-3 py-1.5 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-medium rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
                                     <i class="fas fa-eye mr-1"></i>
@@ -338,7 +364,7 @@
                             @endif
 
                             <button
-                                onclick="shareItem('{{ $item->item_type === 'service' ? route('services.show', $item) : route('listings.show', $item) }}', '{{ addslashes($item->title) }}', '{{ $item->item_type }}')"
+                                onclick="shareItem('{{ $item->item_type === 'business' ? route('businesses.show', $item) : ($item->item_type === 'service' ? route('services.show', $item) : route('listings.show', $item)) }}', '{{ addslashes($item->title) }}', '{{ $item->item_type }}')"
                                 class="inline-flex items-center px-3 py-1.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-lg hover:bg-orange-200 transition-colors">
                                 <i class="fas fa-share-alt mr-1"></i>
                                 Podeli

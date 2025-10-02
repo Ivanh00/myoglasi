@@ -326,6 +326,36 @@ public function removeFromFavorites(Listing $listing)
         return $this->serviceFavorites()->detach($service->id);
     }
 
+    // Business favorites methods
+    public function businessFavorites()
+    {
+        return $this->hasMany(BusinessFavorite::class);
+    }
+
+    public function hasBusinessFavorited(Business $business)
+    {
+        return $this->businessFavorites()
+                    ->where('business_id', $business->id)
+                    ->exists();
+    }
+
+    public function addBusinessToFavorites(Business $business)
+    {
+        if (!$this->hasBusinessFavorited($business)) {
+            return $this->businessFavorites()->create([
+                'business_id' => $business->id
+            ]);
+        }
+        return false;
+    }
+
+    public function removeBusinessFromFavorites(Business $business)
+    {
+        return $this->businessFavorites()
+                    ->where('business_id', $business->id)
+                    ->delete();
+    }
+
     public function unreadMessages()
 {
     return $this->hasMany(Message::class, 'receiver_id')->where('is_read', false);
