@@ -142,6 +142,11 @@
                                             <i class="fas fa-gift text-green-600 mr-3"></i>
                                             Poklon
                                         </a>
+                                        <a href="{{ route('businesses.create') }}" @click="open = false"
+                                            class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                                            <i class="fas fa-briefcase text-purple-600 mr-3"></i>
+                                            Business
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -357,6 +362,11 @@
                                         class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors">
                                         <i class="fas fa-gift text-green-600 mr-3"></i>
                                         Poklon
+                                    </a>
+                                    <a href="{{ route('businesses.create') }}" @click="open = false"
+                                        class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                                        <i class="fas fa-briefcase text-purple-600 mr-3"></i>
+                                        Business
                                     </a>
                                 </div>
                             </div>
