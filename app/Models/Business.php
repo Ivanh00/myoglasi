@@ -13,6 +13,8 @@ class Business extends Model
         'description',
         'slogan',
         'location',
+        'address_1',
+        'address_2',
         'contact_phone',
         'contact_email',
         'contact_phone_2',
@@ -32,13 +34,17 @@ class Business extends Model
         'expires_at',
         'renewed_at',
         'renewal_count',
-        'views'
+        'views',
+        'is_from_business_plan',
+        'paid_until',
     ];
 
     protected $casts = [
         'expires_at' => 'datetime',
         'renewed_at' => 'datetime',
-        'established_year' => 'integer'
+        'paid_until' => 'datetime',
+        'established_year' => 'integer',
+        'is_from_business_plan' => 'boolean',
     ];
 
     // Relationships

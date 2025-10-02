@@ -72,21 +72,45 @@
                             </p>
                             <div class="mt-2 flex items-center">
                                 <div class="flex-1">
-                                    <div class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
-                                        <span>Aktivni biznisi: {{ $activeBusinessCount }} / {{ $businessPlanLimit }}</span>
-                                        <span class="font-semibold">{{ $businessPlanLimit - $activeBusinessCount }} slobodnih</span>
-                                    </div>
-                                    <div class="w-full bg-purple-300/50 dark:bg-purple-600/50 rounded-full h-2">
-                                        <div class="bg-purple-600 dark:bg-purple-200 h-2 rounded-full transition-all"
-                                            style="width: {{ $businessPlanLimit > 0 ? ($activeBusinessCount / $businessPlanLimit) * 100 : 0 }}%">
+                                    @if ($activeBusinessCount < $businessPlanLimit)
+                                        <div class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
+                                            <span>Aktivni biznisi: {{ $activeBusinessCount }} / {{ $businessPlanLimit }}</span>
+                                            <span class="font-semibold">{{ $businessPlanLimit - $activeBusinessCount }} slobodnih</span>
                                         </div>
-                                    </div>
+                                        <div class="w-full bg-purple-300/50 dark:bg-purple-600/50 rounded-full h-2">
+                                            <div class="bg-purple-600 dark:bg-purple-200 h-2 rounded-full transition-all"
+                                                style="width: {{ $businessPlanLimit > 0 ? ($activeBusinessCount / $businessPlanLimit) * 100 : 0 }}%">
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
+                                            <span>Aktivni biznisi: {{ $activeBusinessCount }} / {{ $businessPlanLimit }}</span>
+                                            <span class="font-semibold text-orange-600 dark:text-orange-400">Plan popunjen</span>
+                                        </div>
+                                        <div class="w-full bg-purple-300/50 dark:bg-purple-600/50 rounded-full h-2">
+                                            <div class="bg-purple-600 dark:bg-purple-200 h-2 rounded-full transition-all"
+                                                style="width: 100%">
+                                            </div>
+                                        </div>
+                                        @if ($businessFeeEnabled)
+                                            <p class="text-xs text-orange-700 dark:text-orange-300 mt-2">
+                                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                                Svaki sledeći biznis se naplaćuje: <strong>{{ number_format($businessFeeAmount, 0, ',', '.') }} RSD</strong>
+                                            </p>
+                                        @endif
+                                    @endif
                                 </div>
                             </div>
-                            <p class="text-xs text-purple-700 dark:text-purple-200 mt-2">
-                                <i class="fas fa-calendar-alt mr-1"></i>
-                                Važi do: <strong>{{ $user->plan_expires_at->format('d.m.Y') }}</strong>
-                            </p>
+                            <div class="mt-2 flex justify-between items-center text-xs text-purple-700 dark:text-purple-200">
+                                <span>
+                                    <i class="fas fa-calendar-alt mr-1"></i>
+                                    Važi do: <strong>{{ $user->plan_expires_at->format('d.m.Y') }}</strong>
+                                </span>
+                                <span>
+                                    <i class="fas fa-wallet mr-1"></i>
+                                    Kredit: <strong>{{ number_format($user->balance, 0, ',', '.') }} RSD</strong>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -131,6 +131,8 @@ class Create extends Component
             && $user->business_plan_total > 0;
 
         $fee = 0;
+        $isFromBusinessPlan = false;
+        $paidUntil = null;
 
         if ($hasActiveBusinessPlan) {
             // Check how many active businesses user currently has
@@ -139,6 +141,8 @@ class Create extends Component
 
             if ($activeBusinessCount < $businessLimit) {
                 // User has business plan and hasn't reached limit - no fee
+                $isFromBusinessPlan = true;
+
                 \App\Models\Transaction::create([
                     'user_id' => $user->id,
                     'type' => 'business_plan_usage',
@@ -161,6 +165,10 @@ class Create extends Component
                     // Charge fee
                     if ($fee > 0) {
                         $user->decrement('balance', $fee);
+
+                        // Set paid_until for paid businesses
+                        $businessDuration = \App\Models\Setting::get('business_auto_expire_days', 365);
+                        $paidUntil = now()->addDays($businessDuration);
 
                         \App\Models\Transaction::create([
                             'user_id' => $user->id,
@@ -192,6 +200,10 @@ class Create extends Component
             // Charge fee if required
             if ($fee > 0) {
                 $user->decrement('balance', $fee);
+
+                // Set paid_until for paid businesses
+                $businessDuration = \App\Models\Setting::get('business_auto_expire_days', 365);
+                $paidUntil = now()->addDays($businessDuration);
 
                 \App\Models\Transaction::create([
                     'user_id' => $user->id,
@@ -260,6 +272,8 @@ class Create extends Component
             'slug' => Str::slug($this->name) . '-' . Str::random(6),
             'status' => 'active',
             'expires_at' => now()->addDays($expiryDays),
+            'is_from_business_plan' => $isFromBusinessPlan,
+            'paid_until' => $paidUntil,
         ]);
 
         // Save images to database

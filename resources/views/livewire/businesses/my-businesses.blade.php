@@ -153,6 +153,9 @@
                                             @endif
                                         </span>
                                     @endif
+                                @elseif ($business->status == 'inactive')
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 w-fit">Neaktivan</span>
                                 @else
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 w-fit">{{ ucfirst($business->status) }}</span>
@@ -187,7 +190,12 @@
                                 <i class="fas fa-edit mr-1"></i> Izmeni
                             </a>
 
-                            @if ($business->isExpired())
+                            @if ($business->status == 'inactive')
+                                <button wire:click="openActivateModal({{ $business->id }})"
+                                    class="inline-flex items-center px-2 py-1 text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 rounded">
+                                    <i class="fas fa-power-off mr-1"></i> Aktiviraj
+                                </button>
+                            @elseif ($business->isExpired())
                                 <button wire:click="renewBusiness({{ $business->id }})"
                                     class="inline-flex items-center px-2 py-1 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 rounded">
                                     <i class="fas fa-redo mr-1"></i> Obnovi
@@ -288,6 +296,9 @@
                                             @endif
                                         </span>
                                     @endif
+                                @elseif ($business->status == 'inactive')
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 w-fit">Neaktivan</span>
                                 @else
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 w-fit">{{ ucfirst($business->status) }}</span>
@@ -342,7 +353,13 @@
                                 Izmeni
                             </a>
 
-                            @if ($business->isExpired())
+                            @if ($business->status == 'inactive')
+                                <button wire:click="openActivateModal({{ $business->id }})"
+                                    class="inline-flex items-center px-3 py-1.5 bg-purple-100 dark:bg-purple-800 text-purple-700 dark:text-purple-200 text-xs font-medium rounded-lg hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors">
+                                    <i class="fas fa-power-off mr-1"></i>
+                                    Aktiviraj
+                                </button>
+                            @elseif ($business->isExpired())
                                 <button wire:click="renewBusiness({{ $business->id }})"
                                     class="inline-flex items-center px-3 py-1.5 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200 text-xs font-medium rounded-lg hover:bg-green-200 dark:hover:bg-green-700 transition-colors">
                                     <i class="fas fa-redo mr-1"></i>
