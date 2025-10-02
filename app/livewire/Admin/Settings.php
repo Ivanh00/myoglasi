@@ -23,9 +23,16 @@ class Settings extends Component
     public $monthlyPlanPrice;
     public $yearlyPlanEnabled;
     public $yearlyPlanPrice;
+    public $freeListingsPerMonth;
+
+    // Business Settings
+    public $businessFeeEnabled;
+    public $businessFeeAmount;
+    public $businessAutoExpireDays;
     public $businessPlanEnabled;
     public $businessPlanPrice;
-    public $freeListingsPerMonth;
+    public $businessPlanLimit;
+    public $businessPlanDuration;
     
     // General Settings
     public $siteName;
@@ -112,9 +119,15 @@ class Settings extends Component
         'monthlyPlanPrice' => 'required|integer|min:100|max:50000',
         'yearlyPlanEnabled' => 'required|boolean',
         'yearlyPlanPrice' => 'required|integer|min:1000|max:500000',
+        'freeListingsPerMonth' => 'required|integer|min:0|max:100',
+        // Business Settings
+        'businessFeeEnabled' => 'required|boolean',
+        'businessFeeAmount' => 'required|integer|min:1|max:100000',
+        'businessAutoExpireDays' => 'required|integer|min:1|max:3650',
         'businessPlanEnabled' => 'required|boolean',
         'businessPlanPrice' => 'required|integer|min:100|max:100000',
-        'freeListingsPerMonth' => 'required|integer|min:0|max:100',
+        'businessPlanLimit' => 'required|integer|min:1|max:1000',
+        'businessPlanDuration' => 'required|integer|min:1|max:3650',
         'siteName' => 'required|string|max:100',
         'maxImagesPerListing' => 'required|integer|min:1|max:50',
         'listingAutoExpireDays' => 'required|integer|min:7|max:365',
@@ -193,9 +206,16 @@ class Settings extends Component
         $this->monthlyPlanPrice = Setting::get('monthly_plan_price', 500);
         $this->yearlyPlanEnabled = Setting::get('yearly_plan_enabled', false);
         $this->yearlyPlanPrice = Setting::get('yearly_plan_price', 5000);
-        $this->businessPlanEnabled = Setting::get('business_plan_enabled', false);
-        $this->businessPlanPrice = Setting::get('business_plan_price', 2000);
         $this->freeListingsPerMonth = Setting::get('free_listings_per_month', 0);
+
+        // Business Settings
+        $this->businessFeeEnabled = Setting::get('business_fee_enabled', false);
+        $this->businessFeeAmount = Setting::get('business_fee_amount', 2000);
+        $this->businessAutoExpireDays = Setting::get('business_auto_expire_days', 365);
+        $this->businessPlanEnabled = Setting::get('business_plan_enabled', false);
+        $this->businessPlanPrice = Setting::get('business_plan_price', 10000);
+        $this->businessPlanLimit = Setting::get('business_plan_limit', 10);
+        $this->businessPlanDuration = Setting::get('business_plan_duration', 365);
         
         // General Settings
         $this->siteName = Setting::get('site_name', 'PazAriO');
@@ -286,8 +306,6 @@ class Settings extends Component
             'monthlyPlanPrice' => 'required|integer|min:100|max:50000',
             'yearlyPlanEnabled' => 'required|boolean',
             'yearlyPlanPrice' => 'required|integer|min:1000|max:500000',
-            'businessPlanEnabled' => 'required|boolean',
-            'businessPlanPrice' => 'required|integer|min:100|max:100000',
             'freeListingsPerMonth' => 'required|integer|min:0|max:100',
         ]);
 
@@ -297,11 +315,32 @@ class Settings extends Component
         Setting::set('monthly_plan_price', $this->monthlyPlanPrice, 'integer', 'payments');
         Setting::set('yearly_plan_enabled', $this->yearlyPlanEnabled, 'boolean', 'payments');
         Setting::set('yearly_plan_price', $this->yearlyPlanPrice, 'integer', 'payments');
-        Setting::set('business_plan_enabled', $this->businessPlanEnabled, 'boolean', 'payments');
-        Setting::set('business_plan_price', $this->businessPlanPrice, 'integer', 'payments');
         Setting::set('free_listings_per_month', $this->freeListingsPerMonth, 'integer', 'payments');
 
         session()->flash('success', 'Podešavanja plaćanja su uspešno sačuvana.');
+    }
+
+    public function saveBusinessSettings()
+    {
+        $this->validate([
+            'businessFeeEnabled' => 'required|boolean',
+            'businessFeeAmount' => 'required|integer|min:1|max:100000',
+            'businessAutoExpireDays' => 'required|integer|min:1|max:3650',
+            'businessPlanEnabled' => 'required|boolean',
+            'businessPlanPrice' => 'required|integer|min:100|max:100000',
+            'businessPlanLimit' => 'required|integer|min:1|max:1000',
+            'businessPlanDuration' => 'required|integer|min:1|max:3650',
+        ]);
+
+        Setting::set('business_fee_enabled', $this->businessFeeEnabled, 'boolean', 'business');
+        Setting::set('business_fee_amount', $this->businessFeeAmount, 'integer', 'business');
+        Setting::set('business_auto_expire_days', $this->businessAutoExpireDays, 'integer', 'business');
+        Setting::set('business_plan_enabled', $this->businessPlanEnabled, 'boolean', 'business');
+        Setting::set('business_plan_price', $this->businessPlanPrice, 'integer', 'business');
+        Setting::set('business_plan_limit', $this->businessPlanLimit, 'integer', 'business');
+        Setting::set('business_plan_duration', $this->businessPlanDuration, 'integer', 'business');
+
+        session()->flash('success', 'Podešavanja biznis-a su uspešno sačuvana.');
     }
 
     public function saveGeneralSettings()

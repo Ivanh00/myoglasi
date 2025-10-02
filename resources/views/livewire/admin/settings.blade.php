@@ -39,6 +39,11 @@
                     <i class="fas fa-bullhorn mr-1"></i>
                     Promocije
                 </button>
+                <button wire:click="switchTab('business')"
+                    class="py-2 px-1 border-b-2 font-medium text-sm {{ $activeTab === 'business' ? 'border-sky-500 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
+                    <i class="fas fa-briefcase mr-1"></i>
+                    Biznis
+                </button>
                 <button wire:click="switchTab('data')"
                     class="py-2 px-1 border-b-2 font-medium text-sm {{ $activeTab === 'data' ? 'border-sky-500 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
                     <i class="fas fa-database mr-1"></i>
@@ -164,40 +169,6 @@
                         </div>
                     </div>
 
-                    <!-- Business Plan -->
-                    <div class="border border-slate-200 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                            <i class="fas fa-briefcase mr-2 text-orange-600"></i>
-                            Biznis plan
-                        </h3>
-
-                        <div class="space-y-4">
-                            <div class="flex items-center">
-                                <input type="checkbox" id="business_plan_enabled" wire:model="businessPlanEnabled"
-                                    class="h-4 w-4 text-orange-600 focus:ring-orange-500 border-slate-300 rounded">
-                                <label for="business_plan_enabled"
-                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
-                                    Uključi biznis plan
-                                </label>
-                            </div>
-
-                            @if ($businessPlanEnabled)
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
-                                        biznis plana
-                                        (RSD)</label>
-                                    <input type="number" wire:model="businessPlanPrice" min="100" max="100000"
-                                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
-                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Cena po jednom
-                                        postavljenom business-u godišnje</p>
-                                    @error('businessPlanPrice')
-                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
                     <!-- Payment Summary -->
                     <div class="border border-slate-200 rounded-lg p-4 bg-sky-50">
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">
@@ -226,14 +197,6 @@
                                 <div class="flex justify-between">
                                     <span>Godišnji plan:</span>
                                     <span class="font-semibold">{{ number_format($yearlyPlanPrice, 0, ',', '.') }}
-                                        RSD</span>
-                                </div>
-                            @endif
-
-                            @if ($businessPlanEnabled)
-                                <div class="flex justify-between">
-                                    <span>Biznis plan:</span>
-                                    <span class="font-semibold">{{ number_format($businessPlanPrice, 0, ',', '.') }}
                                         RSD</span>
                                 </div>
                             @endif
@@ -1309,6 +1272,156 @@
                     class="px-6 py-3 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition-colors">
                     <i class="fas fa-save mr-2"></i>
                     Sačuvaj podešavanja promocija
+                </button>
+            </div>
+        </div>
+    @endif
+
+    <!-- Business Settings Tab -->
+    @if ($activeTab === 'business')
+        <div class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Business Fee per Posting -->
+                <div class="border border-slate-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">
+                        <i class="fas fa-receipt mr-2 text-orange-600"></i>
+                        Plaćanje po business-u
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="business_fee_enabled" wire:model="businessFeeEnabled"
+                                class="h-4 w-4 text-orange-600 focus:ring-orange-500 border-slate-300 rounded">
+                            <label for="business_fee_enabled"
+                                class="ml-2 text-sm text-slate-700 dark:text-slate-200">
+                                Naplati postavljanje business-a
+                            </label>
+                        </div>
+
+                        @if ($businessFeeEnabled)
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena po
+                                    business-u (RSD)</label>
+                                <input type="number" wire:model="businessFeeAmount" min="1" max="100000"
+                                    class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                                <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Korisnik plaća svaki put
+                                    kada postavi business</p>
+                                @error('businessFeeAmount')
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Auto-istek
+                                    business-a (dana)</label>
+                                <input type="number" wire:model="businessAutoExpireDays" min="1" max="3650"
+                                    class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                                <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Nakon koliko dana business
+                                    automatski ističe</p>
+                                @error('businessAutoExpireDays')
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Business Plan (Subscription) -->
+                <div class="border border-slate-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">
+                        <i class="fas fa-briefcase mr-2 text-purple-600"></i>
+                        Biznis plan (Pretplata)
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="business_plan_enabled" wire:model="businessPlanEnabled"
+                                class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-slate-300 rounded">
+                            <label for="business_plan_enabled"
+                                class="ml-2 text-sm text-slate-700 dark:text-slate-200">
+                                Uključi biznis plan
+                            </label>
+                        </div>
+
+                        @if ($businessPlanEnabled)
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena
+                                    biznis plana (RSD)</label>
+                                <input type="number" wire:model="businessPlanPrice" min="100" max="100000"
+                                    class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                                <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Jednokratna pretplata za
+                                    više business-a</p>
+                                @error('businessPlanPrice')
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Broj
+                                    dozvoljenih business-a</label>
+                                <input type="number" wire:model="businessPlanLimit" min="1" max="1000"
+                                    class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                                <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Koliko business-a korisnik
+                                    može postaviti sa ovim planom</p>
+                                @error('businessPlanLimit')
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Trajanje
+                                    plana (dana)</label>
+                                <input type="number" wire:model="businessPlanDuration" min="1" max="3650"
+                                    class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                                <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Koliko dana važi pretplata
+                                    (365 = godina)</p>
+                                @error('businessPlanDuration')
+                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Business Summary -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-orange-50 lg:col-span-2">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">
+                        <i class="fas fa-info-circle mr-2 text-orange-600"></i>
+                        Pregled podešavanja biznis-a
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <h4 class="font-semibold text-orange-800 mb-2">Plaćanje po business-u:</h4>
+                            @if ($businessFeeEnabled)
+                                <p class="text-slate-700">✓ Uključeno - {{ number_format($businessFeeAmount, 0, ',', '.') }}
+                                    RSD po business-u</p>
+                                <p class="text-slate-600">Ističe nakon: {{ $businessAutoExpireDays }} dana</p>
+                            @else
+                                <p class="text-slate-500">✗ Isključeno - Besplatno postavljanje</p>
+                            @endif
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-purple-800 mb-2">Biznis plan (Pretplata):</h4>
+                            @if ($businessPlanEnabled)
+                                <p class="text-slate-700">✓ Uključeno - {{ number_format($businessPlanPrice, 0, ',', '.') }}
+                                    RSD</p>
+                                <p class="text-slate-600">Dozvoljeno: {{ $businessPlanLimit }} business-a</p>
+                                <p class="text-slate-600">Trajanje: {{ $businessPlanDuration }} dana</p>
+                            @else
+                                <p class="text-slate-500">✗ Isključeno</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button wire:click="saveBusinessSettings"
+                    class="px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors">
+                    <i class="fas fa-save mr-2"></i>
+                    Sačuvaj podešavanja biznis-a
                 </button>
             </div>
         </div>

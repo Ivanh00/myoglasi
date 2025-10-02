@@ -126,8 +126,8 @@ class Create extends Component
 
         // Calculate business fee
         $fee = 0;
-        if (\App\Models\Setting::get('business_plan_enabled', false)) {
-            $fee = \App\Models\Setting::get('business_plan_price', 2000);
+        if (\App\Models\Setting::get('business_fee_enabled', false)) {
+            $fee = \App\Models\Setting::get('business_fee_amount', 2000);
         }
 
         // Check balance if fee is required
