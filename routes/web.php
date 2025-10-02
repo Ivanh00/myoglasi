@@ -310,6 +310,13 @@ Route::get('/services/{service}', \App\Livewire\Services\Show::class)->name('ser
 Route::get('/giveaways', \App\Livewire\Giveaways\Index::class)->name('giveaways.index');
 Route::get('/giveaways/{listing}', \App\Livewire\Listings\Show::class)->name('giveaways.show');
 
+// Business Routes
+Route::get('/businesses', \App\Livewire\Businesses\Index::class)->name('businesses.index');
+Route::get('/businesses/create', \App\Livewire\Businesses\Create::class)->middleware('auth')->name('businesses.create');
+Route::get('/my-businesses', \App\Livewire\Businesses\MyBusinesses::class)->middleware('auth')->name('businesses.my');
+Route::get('/businesses/{business}/edit', \App\Livewire\Businesses\Edit::class)->middleware('auth')->name('businesses.edit');
+Route::get('/businesses/{business}', \App\Livewire\Businesses\Show::class)->name('businesses.show');
+
 // Earn Credits Routes
 Route::middleware(['auth', 'conditional.verified'])->get('/earn-credits', \App\Livewire\EarnCredits::class)->name('earn-credits.index');
 

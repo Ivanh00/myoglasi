@@ -293,6 +293,77 @@ $categoryTree = isset($categoryTree)
             </div>
         </div>
 
+        <!-- Business -->
+        <div class="mb-2">
+            <div
+                class="flex items-center bg-purple-600 rounded-lg {{ request()->routeIs('businesses.*') ? 'bg-purple-700' : '' }}">
+                <a href="{{ route('businesses.index') }}"
+                    class="flex-1 flex items-center px-4 py-3 text-white hover:bg-purple-700 transition-colors rounded-l-lg">
+                    <i class="fas fa-briefcase mr-3"></i>
+                    Business
+                </a>
+                <button @click="openSection = openSection === 'businesses' ? null : 'businesses'"
+                    :class="openSection === 'businesses' ? 'bg-purple-700 ring-2 ring-purple-400' : ''"
+                    class="px-3 py-3 text-white hover:bg-purple-700 transition-colors rounded-r-lg border-l border-purple-700">
+                    <svg class="w-4 h-4 transition-transform duration-200"
+                        :class="{ 'transform rotate-90': openSection === 'businesses' }" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Business categories dropdown -->
+            <div class="mt-1 overflow-hidden transition-all duration-200 max-h-0" x-data="{ openBusinessCategory: null }"
+                :class="{ 'max-h-0': openSection !== 'businesses', 'max-h-none': openSection === 'businesses' }">
+
+                @php
+                    $businessCategories = \App\Models\BusinessCategory::with([
+                        'children' => function ($query) {
+                            $query->where('is_active', true)->orderBy('sort_order');
+                        },
+                    ])
+                        ->whereNull('parent_id')
+                        ->where('is_active', true)
+                        ->orderBy('sort_order')
+                        ->get();
+                @endphp
+
+                @foreach ($businessCategories as $businessCategory)
+                    <div class="mt-1">
+                        <a href="{{ route('businesses.index', ['selectedCategory' => $businessCategory->id]) }}"
+                            class="flex items-center px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-purple-50 dark:hover:bg-purple-900/20 {{ request()->get('selectedCategory') == $businessCategory->id ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-300' : '' }}">
+                            @if ($businessCategory->icon)
+                                <i class="{{ $businessCategory->icon }} text-purple-600 dark:text-purple-400 mr-2 w-4"></i>
+                            @else
+                                <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 mr-2 w-4"></i>
+                            @endif
+                            <span class="flex-1">{{ $businessCategory->name }}</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-300">
+                                @php
+                                    $businessCount = \App\Models\Business::where('status', 'active')
+                                        ->where(function ($q) use ($businessCategory) {
+                                            $categoryIds = [$businessCategory->id];
+                                            if ($businessCategory->children) {
+                                                $categoryIds = array_merge(
+                                                    $categoryIds,
+                                                    $businessCategory->children->pluck('id')->toArray(),
+                                                );
+                                            }
+                                            $q->whereIn('business_category_id', $categoryIds)->orWhereIn(
+                                                'subcategory_id',
+                                                $categoryIds,
+                                            );
+                                        })
+                                        ->count();
+                                @endphp
+                                ({{ $businessCount }})
+                            </span>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
     </div>
 
     @auth
