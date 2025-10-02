@@ -42,36 +42,86 @@
         <div class="mb-6 border-b border-purple-200 dark:border-purple-700 pb-4">
             <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Dodaj novi Business</h1>
             <p class="text-slate-600 dark:text-slate-400 mt-2">Popunite sva polja i dodajte informacije o vašem business-u</p>
-            <div class="mt-2 p-3 bg-purple-50 dark:bg-purple-900 border border-purple-200 dark:border-purple-700 rounded">
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-2" fill="currentColor"
-                        viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-sm font-medium text-purple-800 dark:text-purple-200">
-                        @php
-                            $user = auth()->user();
-                            $hasBusinessPlan = $user->payment_plan === 'business'
-                                && $user->plan_expires_at
-                                && $user->plan_expires_at->isFuture()
-                                && $user->business_plan_remaining > 0;
-                        @endphp
+            @php
+                $user = auth()->user();
+                $hasBusinessPlan = $user->payment_plan === 'business'
+                    && $user->plan_expires_at
+                    && $user->plan_expires_at->isFuture()
+                    && $user->business_plan_remaining > 0;
 
-                        @if ($hasBusinessPlan)
-                            <strong>Biznis plan aktivan!</strong>
-                            Preostalo business-a: <strong>{{ $user->business_plan_remaining }}</strong>
-                            | Važi do: <strong>{{ $user->plan_expires_at->format('d.m.Y') }}</strong>
-                        @else
-                            Vaš trenutni balans: <strong>{{ number_format($user->balance, 2) }} RSD</strong>
-                            | Cena objave: <strong>
-                                {{ \App\Models\Setting::get('business_fee_enabled', true) ? number_format(\App\Models\Setting::get('business_fee_amount', 200), 2) . ' RSD' : 'Besplatno' }}
-                            </strong>
-                        @endif
-                    </span>
+                $businessFeeEnabled = \App\Models\Setting::get('business_fee_enabled', false);
+                $businessFeeAmount = \App\Models\Setting::get('business_fee_amount', 2000);
+                $businessPlanLimit = \App\Models\Setting::get('business_plan_limit', 10);
+            @endphp
+
+            <!-- Business Plan Status Box -->
+            @if ($hasBusinessPlan)
+                <div class="mt-2 p-4 bg-purple-50 dark:bg-purple-900 border border-purple-300 dark:border-purple-700 rounded-lg">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-3 mt-0.5" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold text-purple-800 dark:text-purple-200">
+                                <i class="fas fa-briefcase mr-1"></i>
+                                Biznis plan aktivan!
+                            </p>
+                            <div class="mt-2 flex items-center">
+                                <div class="flex-1">
+                                    <div class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
+                                        <span>Iskorišćeno: {{ $businessPlanLimit - $user->business_plan_remaining }} / {{ $businessPlanLimit }}</span>
+                                        <span class="font-semibold">{{ $user->business_plan_remaining }} preostalo</span>
+                                    </div>
+                                    <div class="w-full bg-purple-300/50 dark:bg-purple-600/50 rounded-full h-2">
+                                        <div class="bg-purple-600 dark:bg-purple-200 h-2 rounded-full transition-all"
+                                            style="width: {{ (($businessPlanLimit - $user->business_plan_remaining) / $businessPlanLimit) * 100 }}%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-purple-700 dark:text-purple-200 mt-2">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                Važi do: <strong>{{ $user->plan_expires_at->format('d.m.Y') }}</strong>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @else
+                <div class="mt-2 p-3 bg-purple-50 dark:bg-purple-900 border border-purple-200 dark:border-purple-700 rounded">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-2" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-purple-800 dark:text-purple-200">
+                                Vaš trenutni balans: <strong>{{ number_format($user->balance, 2) }} RSD</strong>
+                            </p>
+                            @if ($businessFeeEnabled)
+                                <p class="text-xs text-purple-700 dark:text-purple-300 mt-1">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Cena postavljanja: <strong>{{ number_format($businessFeeAmount, 2) }} RSD</strong>
+                                </p>
+                            @else
+                                <p class="text-xs text-purple-700 dark:text-purple-300 mt-1">
+                                    <i class="fas fa-check-circle mr-1"></i>
+                                    Postavljanje je <strong>besplatno</strong>
+                                </p>
+                            @endif
+                            @if (\App\Models\Setting::get('business_plan_enabled', false))
+                                <p class="text-xs text-purple-600 dark:text-purple-300 mt-2">
+                                    💡 <a href="{{ route('balance.plan-selection') }}" class="underline font-semibold">Kupite Biznis plan</a> za {{ number_format(\App\Models\Setting::get('business_plan_price', 10000), 0, ',', '.') }} RSD i dobijte {{ \App\Models\Setting::get('business_plan_limit', 10) }} business-a!
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
 
         <!-- Messages -->

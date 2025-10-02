@@ -111,18 +111,19 @@ class PlanSelection extends Component
             $expiryDate = Carbon::now()->addYear();
         }
 
-        $user->update([
+        // Prepare update data
+        $updateData = [
             'payment_plan' => $this->selectedPlan,
             'plan_expires_at' => $expiryDate,
-        ]);
+        ];
 
         // For business plan, also set the business limit
         if ($this->selectedPlan === 'business') {
             $businessLimit = Setting::get('business_plan_limit', 10);
-            $user->update([
-                'business_plan_remaining' => $businessLimit,
-            ]);
+            $updateData['business_plan_remaining'] = $businessLimit;
         }
+
+        $user->update($updateData);
 
         // Create transaction record
         Transaction::create([
