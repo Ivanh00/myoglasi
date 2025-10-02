@@ -461,7 +461,8 @@
                             && $user->plan_expires_at
                             && $user->plan_expires_at->isFuture()
                             && $user->business_plan_total > 0;
-                        $activeBusinessCount = $user->businesses()->where('status', 'active')->count();
+                        // Count only businesses from business plan
+                        $activeBusinessCount = $user->businesses()->where('status', 'active')->where('is_from_business_plan', true)->count();
                         $businessLimit = $user->business_plan_total;
                         $hasAvailableSlots = $hasActiveBusinessPlan && $activeBusinessCount < $businessLimit;
                         $businessFeeEnabled = \App\Models\Setting::get('business_fee_enabled', false);

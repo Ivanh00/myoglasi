@@ -52,7 +52,8 @@
                 $businessFeeEnabled = \App\Models\Setting::get('business_fee_enabled', false);
                 $businessFeeAmount = \App\Models\Setting::get('business_fee_amount', 2000);
                 $businessPlanLimit = $user->business_plan_total;
-                $activeBusinessCount = $user->businesses()->where('status', 'active')->count();
+                // Count only businesses created from business plan
+                $activeBusinessCount = $user->businesses()->where('status', 'active')->where('is_from_business_plan', true)->count();
             @endphp
 
             <!-- Business Plan Status Box -->

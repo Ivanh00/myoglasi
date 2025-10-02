@@ -135,8 +135,8 @@ class Create extends Component
         $paidUntil = null;
 
         if ($hasActiveBusinessPlan) {
-            // Check how many active businesses user currently has
-            $activeBusinessCount = $user->businesses()->where('status', 'active')->count();
+            // Check how many active businesses from business plan user currently has
+            $activeBusinessCount = $user->businesses()->where('status', 'active')->where('is_from_business_plan', true)->count();
             $businessLimit = $user->business_plan_total;
 
             if ($activeBusinessCount < $businessLimit) {

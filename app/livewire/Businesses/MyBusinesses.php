@@ -80,7 +80,8 @@ class MyBusinesses extends Component
             return;
         }
 
-        $activeBusinessCount = $user->businesses()->where('status', 'active')->count();
+        // Count only businesses from business plan
+        $activeBusinessCount = $user->businesses()->where('status', 'active')->where('is_from_business_plan', true)->count();
         $businessLimit = $user->business_plan_total;
 
         if ($activeBusinessCount >= $businessLimit) {
