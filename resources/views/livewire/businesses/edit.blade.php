@@ -154,9 +154,10 @@
                 <div>
                     <label for="location" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Lokacija <span class="text-red-500">*</span>
+                        <span class="text-xs text-slate-500">(iz profila)</span>
                     </label>
-                    <input type="text" wire:model="location" id="location"
-                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('location') border-red-500 @enderror">
+                    <input type="text" wire:model="location" id="location" readonly
+                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-600 text-slate-900 dark:text-slate-100 rounded-lg cursor-not-allowed @error('location') border-red-500 @enderror">
                     @error('location')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -186,9 +187,10 @@
                         <label for="contact_phone"
                             class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                             Kontakt telefon
+                            <span class="text-xs text-slate-500">(iz profila)</span>
                         </label>
-                        <input type="text" wire:model="contact_phone" id="contact_phone"
-                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('contact_phone') border-red-500 @enderror">
+                        <input type="text" wire:model="contact_phone" id="contact_phone" readonly
+                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-600 text-slate-900 dark:text-slate-100 rounded-lg cursor-not-allowed @error('contact_phone') border-red-500 @enderror">
                         @error('contact_phone')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -198,9 +200,10 @@
                         <label for="contact_email"
                             class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                             Kontakt email
+                            <span class="text-xs text-slate-500">(iz profila)</span>
                         </label>
-                        <input type="email" wire:model="contact_email" id="contact_email"
-                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('contact_email') border-red-500 @enderror">
+                        <input type="email" wire:model="contact_email" id="contact_email" readonly
+                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-600 text-slate-900 dark:text-slate-100 rounded-lg cursor-not-allowed @error('contact_email') border-red-500 @enderror">
                         @error('contact_email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
