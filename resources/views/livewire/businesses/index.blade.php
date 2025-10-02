@@ -161,46 +161,29 @@
                 </div>
             </div>
 
-            <!-- Per page and View mode (mobile) -->
-            <div class="flex gap-2">
-                <!-- Per page dropdown (mobile) -->
-                <div class="flex-1" x-data="{ open: false }" x-init="open = false">
-                    <div class="relative">
-                        <button @click="open = !open" type="button"
-                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-purple-400 focus:outline-none focus:border-purple-500 transition-colors flex items-center justify-between">
-                            <span>{{ $perPage }} po strani</span>
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
+            <!-- Per page (mobile) -->
+            <div class="relative" x-data="{ open: false }" x-init="open = false">
+                <button @click="open = !open" type="button"
+                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-purple-400 focus:outline-none focus:border-purple-500 transition-colors flex items-center justify-between">
+                    <span>{{ $perPage }} po strani</span>
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
 
-                        <div x-show="open" x-cloak @click.away="open = false" x-transition
-                            class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-lg">
-                            <button @click="$wire.set('perPage', '20'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-t-lg">
-                                20 po strani
-                            </button>
-                            <button @click="$wire.set('perPage', '50'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/20">
-                                50 po strani
-                            </button>
-                            <button @click="$wire.set('perPage', '100'); open = false" type="button"
-                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-b-lg">
-                                100 po strani
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- View mode toggle (mobile) -->
-                <div class="flex bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-sm">
-                    <button wire:click="setViewMode('list')"
-                        class="px-3 py-2 {{ $viewMode === 'list' ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300' : 'text-slate-600 dark:text-slate-300 hover:bg-purple-50 dark:hover:bg-purple-900/20' }} rounded-l-lg transition-colors">
-                        <i class="fas fa-list"></i>
+                <div x-show="open" x-cloak @click.away="open = false" x-transition
+                    class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-lg">
+                    <button @click="$wire.set('perPage', '20'); open = false" type="button"
+                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-t-lg">
+                        20 po strani
                     </button>
-                    <button wire:click="setViewMode('grid')"
-                        class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300' : 'text-slate-600 dark:text-slate-300 hover:bg-purple-50 dark:hover:bg-purple-900/20' }} rounded-r-lg transition-colors">
-                        <i class="fas fa-th"></i>
+                    <button @click="$wire.set('perPage', '50'); open = false" type="button"
+                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                        50 po strani
+                    </button>
+                    <button @click="$wire.set('perPage', '100'); open = false" type="button"
+                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-b-lg">
+                        100 po strani
                     </button>
                 </div>
             </div>
