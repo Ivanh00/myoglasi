@@ -43,6 +43,22 @@ class QuickListing extends Component
     public $startDate = ''; // For scheduled auctions
     public $startTime = ''; // For scheduled auctions
 
+    // Business specific fields
+    public $slogan = '';
+    public $established_year = '';
+    public $address_1 = '';
+    public $address_2 = '';
+    public $contact_email = '';
+    public $contact_phone_2 = '';
+    public $contact_name_2 = '';
+    public $contact_phone_3 = '';
+    public $contact_name_3 = '';
+    public $website_url = '';
+    public $facebook_url = '';
+    public $youtube_url = '';
+    public $instagram_url = '';
+    public $logo;
+
     // Step 4: Description
     public $description = '';
 
@@ -61,11 +77,11 @@ class QuickListing extends Component
     protected function rules()
     {
         return [
-            'listingType' => 'required|in:listing,auction,service,giveaway',
+            'listingType' => 'required|in:listing,auction,service,giveaway,business',
             'title' => 'required|string|max:255',
             'category_id' => 'required',
             'description' => 'required|string|min:10',
-            'price' => 'required_unless:listingType,giveaway,auction|numeric|min:0',
+            'price' => 'required_unless:listingType,giveaway,auction,business|numeric|min:0',
         ];
     }
 
@@ -83,6 +99,11 @@ class QuickListing extends Component
     {
         if ($this->listingType === 'service') {
             $this->categories = ServiceCategory::whereNull('parent_id')
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        } elseif ($this->listingType === 'business') {
+            $this->categories = \App\Models\BusinessCategory::whereNull('parent_id')
                 ->where('is_active', true)
                 ->orderBy('sort_order')
                 ->get();
@@ -105,6 +126,11 @@ class QuickListing extends Component
     {
         if ($this->listingType === 'service') {
             $this->subcategories = ServiceCategory::where('parent_id', $this->category_id)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        } elseif ($this->listingType === 'business') {
+            $this->subcategories = \App\Models\BusinessCategory::where('parent_id', $this->category_id)
                 ->where('is_active', true)
                 ->orderBy('sort_order')
                 ->get();
@@ -196,6 +222,11 @@ class QuickListing extends Component
                 }
 
                 $this->validate($rules);
+            } elseif ($this->listingType === 'business') {
+                // Validate description for business in Step 3
+                $this->validate([
+                    'description' => 'required|string|min:10|max:2000',
+                ]);
             } elseif ($this->listingType !== 'giveaway') {
                 $this->validate([
                     'price' => 'required|numeric|min:1',
@@ -204,9 +235,12 @@ class QuickListing extends Component
         }
 
         if ($this->step === 4) {
-            $this->validate([
-                'description' => 'required|string|min:10|max:2000',
-            ]);
+            // Description validation only for non-business types (business validates in Step 3)
+            if ($this->listingType !== 'business') {
+                $this->validate([
+                    'description' => 'required|string|min:10|max:2000',
+                ]);
+            }
         }
 
         $this->step++;
@@ -226,7 +260,189 @@ class QuickListing extends Component
         try {
             DB::beginTransaction();
 
-            if ($this->listingType === 'service') {
+            if ($this->listingType === 'business') {
+                $user = auth()->user();
+
+                // Check if user has active business plan
+                $hasActiveBusinessPlan = $user->payment_plan === 'business'
+                    && $user->plan_expires_at
+                    && $user->plan_expires_at->isFuture()
+                    && $user->business_plan_total > 0;
+
+                $fee = 0;
+                $isFromBusinessPlan = false;
+                $paidUntil = null;
+
+                if ($hasActiveBusinessPlan) {
+                    // Count only businesses from business plan
+                    $activeBusinessCount = $user->businesses()->where('status', 'active')->where('is_from_business_plan', true)->count();
+                    $businessLimit = $user->business_plan_total;
+
+                    if ($activeBusinessCount < $businessLimit) {
+                        // User has business plan and hasn't reached limit - no fee
+                        $isFromBusinessPlan = true;
+
+                        \App\Models\Transaction::create([
+                            'user_id' => $user->id,
+                            'type' => 'business_plan_usage',
+                            'amount' => 0,
+                            'status' => 'completed',
+                            'description' => 'Korišćenje biznis plana za business: ' . $this->title . ' (' . ($activeBusinessCount + 1) . '/' . $businessLimit . ' aktivnih)',
+                            'reference_number' => 'BUSINESS-PLAN-' . now()->timestamp,
+                        ]);
+                    } else {
+                        // User reached business plan limit - charge per-business fee
+                        if (\App\Models\Setting::get('business_fee_enabled', false)) {
+                            $fee = \App\Models\Setting::get('business_fee_amount', 2000);
+
+                            // Check balance if fee is required
+                            if ($fee > 0 && $user->balance < $fee) {
+                                session()->flash('error', 'Dostigli ste limit biznis plana (' . $businessLimit . ' aktivnih). Za dodatne biznise potrebno je: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+                                DB::rollBack();
+                                $this->closeModal();
+                                return redirect()->route('balance.payment-options');
+                            }
+
+                            // Charge fee
+                            if ($fee > 0) {
+                                $user->decrement('balance', $fee);
+
+                                // Set paid_until for paid businesses
+                                $businessDuration = \App\Models\Setting::get('business_auto_expire_days', 365);
+                                $paidUntil = now()->addDays($businessDuration);
+
+                                \App\Models\Transaction::create([
+                                    'user_id' => $user->id,
+                                    'type' => 'business_fee',
+                                    'amount' => $fee,
+                                    'status' => 'completed',
+                                    'description' => 'Naplaćivanje za objavljivanje business-a (preko limita plana): ' . $this->title,
+                                    'reference_number' => 'BUSINESS-FEE-' . now()->timestamp,
+                                ]);
+                            }
+                        } else {
+                            // Business fee is disabled - can't post more
+                            session()->flash('error', 'Dostigli ste limit od ' . $businessLimit . ' aktivnih biznisa. Obrišite postojeći biznis da biste dodali novi.');
+                            DB::rollBack();
+                            $this->closeModal();
+                            return redirect()->route('businesses.index');
+                        }
+                    }
+                } else {
+                    // No business plan - calculate business fee
+                    if (\App\Models\Setting::get('business_fee_enabled', false)) {
+                        $fee = \App\Models\Setting::get('business_fee_amount', 2000);
+                    }
+
+                    // Check balance if fee is required
+                    if ($fee > 0 && $user->balance < $fee) {
+                        session()->flash('error', 'Nemate dovoljno kredita za postavljanje business-a. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+                        DB::rollBack();
+                        $this->closeModal();
+                        return redirect()->route('balance.payment-options');
+                    }
+
+                    // Charge fee if required
+                    if ($fee > 0) {
+                        $user->decrement('balance', $fee);
+
+                        // Set paid_until for paid businesses
+                        $businessDuration = \App\Models\Setting::get('business_auto_expire_days', 365);
+                        $paidUntil = now()->addDays($businessDuration);
+
+                        \App\Models\Transaction::create([
+                            'user_id' => $user->id,
+                            'type' => 'business_fee',
+                            'amount' => $fee,
+                            'status' => 'completed',
+                            'description' => 'Naplaćivanje za objavljivanje business-a: ' . $this->title,
+                            'reference_number' => 'BUSINESS-FEE-' . now()->timestamp,
+                        ]);
+                    }
+                }
+
+                // Save and optimize logo
+                $logoPath = null;
+                $imageService = new ImageOptimizationService();
+                if ($this->logo) {
+                    $filename = Str::random(40) . '.jpg';
+                    $optimizedPaths = $imageService->processImage(
+                        $this->logo,
+                        'businesses/logos',
+                        $filename
+                    );
+                    $logoPath = $optimizedPaths['original'];
+                }
+
+                // Save and optimize images
+                $imagePaths = [];
+                if (!empty($this->images)) {
+                    foreach ($this->images as $image) {
+                        $filename = Str::random(40) . '.jpg';
+                        $optimizedPaths = $imageService->processImage(
+                            $image,
+                            'businesses',
+                            $filename
+                        );
+                        $imagePaths[] = $optimizedPaths['original'];
+                    }
+                }
+
+                // Determine expiry date based on how business was created
+                if ($isFromBusinessPlan) {
+                    // Business from plan expires when the plan expires
+                    $expiresAt = $user->plan_expires_at;
+                } else {
+                    // Paid business expires after the configured days
+                    $expiryDays = \App\Models\Setting::get('business_auto_expire_days', 365);
+                    $expiresAt = now()->addDays($expiryDays);
+                }
+
+                $business = \App\Models\Business::create([
+                    'user_id' => auth()->id(),
+                    'name' => $this->title,
+                    'description' => $this->description,
+                    'slogan' => $this->slogan,
+                    'business_category_id' => $this->category_id,
+                    'subcategory_id' => $this->subcategory_id,
+                    'location' => $this->location,
+                    'address_1' => $this->address_1,
+                    'address_2' => $this->address_2,
+                    'contact_phone' => $this->contact_phone,
+                    'contact_email' => $user->email, // Use email from user profile
+                    'contact_phone_2' => $this->contact_phone_2,
+                    'contact_name_2' => $this->contact_name_2,
+                    'contact_phone_3' => $this->contact_phone_3,
+                    'contact_name_3' => $this->contact_name_3,
+                    'website_url' => $this->website_url,
+                    'facebook_url' => $this->facebook_url,
+                    'youtube_url' => $this->youtube_url,
+                    'instagram_url' => $this->instagram_url,
+                    'logo' => $logoPath,
+                    'established_year' => $this->established_year,
+                    'slug' => Str::slug($this->title) . '-' . Str::random(6),
+                    'status' => 'active',
+                    'expires_at' => $expiresAt,
+                    'is_from_business_plan' => $isFromBusinessPlan,
+                    'paid_until' => $paidUntil,
+                ]);
+
+                // Save images to database
+                foreach ($imagePaths as $order => $path) {
+                    $business->images()->create([
+                        'path' => $path,
+                        'filename' => basename($path),
+                        'order' => $order
+                    ]);
+                }
+
+                DB::commit();
+                $this->closeModal();
+
+                session()->flash('success', 'Business je uspešno kreiran!');
+                return redirect()->route('businesses.show', $business->slug);
+
+            } elseif ($this->listingType === 'service') {
                 // Handle images for service
                 $imagePaths = [];
                 $imageService = new ImageOptimizationService();

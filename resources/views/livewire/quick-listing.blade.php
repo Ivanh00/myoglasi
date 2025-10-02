@@ -84,6 +84,13 @@
                                         <div class="font-semibold text-slate-900 dark:text-slate-100">Usluga</div>
                                     </button>
 
+                                    <!-- Biznis -->
+                                    <button wire:click="$set('listingType', 'business')" type="button"
+                                        class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'business' ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-purple-300' }}">
+                                        <i class="fas fa-briefcase text-3xl mb-2 text-purple-600"></i>
+                                        <div class="font-semibold text-slate-900 dark:text-slate-100">Biznis</div>
+                                    </button>
+
                                     <!-- Poklon -->
                                     <button wire:click="$set('listingType', 'giveaway')" type="button"
                                         class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'giveaway' ? 'border-green-500 bg-green-50 dark:bg-green-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-green-300' }}">
@@ -103,10 +110,16 @@
                                 <!-- Title -->
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                        Naslov <span class="text-red-500">*</span>
+                                        @if ($listingType === 'business')
+                                            Naziv Business-a
+                                        @else
+                                            Naslov
+                                        @endif
+                                        <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" wire:model="title"
-                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                        placeholder="@if ($listingType === 'business') Unesite naziv business-a @else Unesite naslov @endif">
                                 </div>
 
                                 <!-- Category -->
@@ -192,14 +205,66 @@
                             </div>
                         @endif
 
-                        <!-- Step 3: Condition, Price, Auction Options -->
+                        <!-- Step 3: Condition, Price, Auction Options, or Business Details -->
                         @if ($step === 3)
                             <div class="space-y-4">
-                                <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Cena i stanje
-                                </h4>
+                                @if ($listingType === 'business')
+                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Opis i dodatne informacije</h4>
 
-                                <!-- Condition (not for giveaway or service) -->
-                                @if ($listingType !== 'giveaway' && $listingType !== 'service')
+                                    <!-- Slogan -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                            Slogan
+                                        </label>
+                                        <input type="text" wire:model="slogan"
+                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                            placeholder="Kratak slogan vašeg business-a">
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                            Opis business-a <span class="text-red-500">*</span>
+                                        </label>
+                                        <textarea wire:model="description" rows="6"
+                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                            placeholder="Unesite detaljan opis..."></textarea>
+                                    </div>
+
+                                    <!-- Established Year -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                            Godina osnivanja
+                                        </label>
+                                        <input type="number" wire:model="established_year" min="1800" max="{{ date('Y') }}"
+                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                            placeholder="{{ date('Y') }}">
+                                    </div>
+
+                                    <!-- Adresa 1 -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                            Adresa 1
+                                        </label>
+                                        <input type="text" wire:model="address_1"
+                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                            placeholder="Ulica i broj">
+                                    </div>
+
+                                    <!-- Adresa 2 -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                            Adresa 2
+                                        </label>
+                                        <input type="text" wire:model="address_2"
+                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                            placeholder="Dodatne informacije o adresi">
+                                    </div>
+                                @else
+                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Cena i stanje</h4>
+
+                                    <!-- Condition (not for giveaway or service) -->
+                                    @if ($listingType !== 'giveaway' && $listingType !== 'service')
                                     <div>
                                         <label
                                             class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
@@ -438,44 +503,171 @@
                                     </div>
                                 @endif
 
-                                <!-- Giveaway Message -->
-                                @if ($listingType === 'giveaway')
-                                    <div class="p-4 bg-green-50 dark:bg-green-900/30 rounded-lg">
-                                        <p class="text-sm text-green-700 dark:text-green-200">
-                                            <i class="fas fa-gift mr-2"></i>
-                                            Pokloni su besplatni i ne zahtevaju cenu.
-                                        </p>
+                                    <!-- Giveaway Message -->
+                                    @if ($listingType === 'giveaway')
+                                        <div class="p-4 bg-green-50 dark:bg-green-900/30 rounded-lg">
+                                            <p class="text-sm text-green-700 dark:text-green-200">
+                                                <i class="fas fa-gift mr-2"></i>
+                                                Pokloni su besplatni i ne zahtevaju cenu.
+                                            </p>
+                                        </div>
+                                    @endif
+                                @endif
+                            </div>
+                        @endif
+
+                        <!-- Step 4: Description and Business Contacts/Social -->
+                        @if ($step === 4)
+                            <div class="space-y-4">
+                                @if ($listingType === 'business')
+                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Kontakti i društvene mreže</h4>
+                                @else
+                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Opis</h4>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                            Opis oglasa <span class="text-red-500">*</span>
+                                        </label>
+                                        <textarea wire:model="description" rows="6"
+                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                            placeholder="Unesite detaljan opis..."></textarea>
+                                    </div>
+                                @endif
+
+                                @if ($listingType === 'business')
+                                    <!-- Additional Contact 2 -->
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Ime kontakt osobe 2
+                                            </label>
+                                            <input type="text" wire:model="contact_name_2"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="Ime i prezime">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Telefon 2
+                                            </label>
+                                            <input type="text" wire:model="contact_phone_2"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="+381 60 123 4567">
+                                        </div>
+                                    </div>
+
+                                    <!-- Additional Contact 3 -->
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Ime kontakt osobe 3
+                                            </label>
+                                            <input type="text" wire:model="contact_name_3"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="Ime i prezime">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Telefon 3
+                                            </label>
+                                            <input type="text" wire:model="contact_phone_3"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="+381 60 123 4567">
+                                        </div>
+                                    </div>
+
+                                    <!-- Social Links -->
+                                    <div class="border-t border-slate-200 dark:border-slate-600 pt-4 mt-4">
+                                        <h5 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Društvene mreže</h5>
+                                        <div class="space-y-3">
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    <i class="fas fa-globe mr-1"></i> Website URL
+                                                </label>
+                                                <input type="url" wire:model="website_url"
+                                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                    placeholder="https://www.example.com">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    <i class="fab fa-facebook mr-1"></i> Facebook URL
+                                                </label>
+                                                <input type="url" wire:model="facebook_url"
+                                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                    placeholder="https://www.facebook.com/...">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    <i class="fab fa-instagram mr-1"></i> Instagram URL
+                                                </label>
+                                                <input type="url" wire:model="instagram_url"
+                                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                    placeholder="https://www.instagram.com/...">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    <i class="fab fa-youtube mr-1"></i> YouTube URL
+                                                </label>
+                                                <input type="url" wire:model="youtube_url"
+                                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                    placeholder="https://www.youtube.com/...">
+                                            </div>
+                                        </div>
                                     </div>
                                 @endif
                             </div>
                         @endif
 
-                        <!-- Step 4: Description -->
-                        @if ($step === 4)
-                            <div class="space-y-4">
-                                <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Opis</h4>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                        Opis oglasa <span class="text-red-500">*</span>
-                                    </label>
-                                    <textarea wire:model="description" rows="8"
-                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                        placeholder="Unesite detaljan opis..."></textarea>
-                                </div>
-                            </div>
-                        @endif
-
-                        <!-- Step 5: Images -->
+                        <!-- Step 5: Images and Logo -->
                         @if ($step === 5)
                             <div class="space-y-4">
-                                <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Slike</h4>
+                                @if ($listingType === 'business')
+                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Logo i slike</h4>
 
-                                @include('livewire.components.image-upload', [
-                                    'images' => $images,
-                                    'maxImages' => \App\Models\Setting::get('max_images_per_listing', 10),
-                                    'wireModel' => 'tempImages'
-                                ])
+                                    <!-- Logo Upload -->
+                                    <div class="mb-6">
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                            Logo business-a
+                                        </label>
+                                        <div class="flex items-center space-x-4">
+                                            @if ($logo)
+                                                <div class="relative">
+                                                    <img src="{{ $logo->temporaryUrl() }}" class="h-24 w-24 object-cover rounded-lg">
+                                                    <button type="button" wire:click="$set('logo', null)"
+                                                        class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            @else
+                                                <label class="flex items-center justify-center w-24 h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg cursor-pointer hover:border-purple-500 transition-colors">
+                                                    <input type="file" wire:model="logo" accept="image/*" class="hidden">
+                                                    <i class="fas fa-image text-2xl text-slate-400"></i>
+                                                </label>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <!-- Business Images -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                            Slike business-a
+                                        </label>
+                                        @include('livewire.components.image-upload', [
+                                            'images' => $images,
+                                            'maxImages' => \App\Models\Setting::get('max_images_per_business', 10),
+                                            'wireModel' => 'tempImages'
+                                        ])
+                                    </div>
+                                @else
+                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Slike</h4>
+
+                                    @include('livewire.components.image-upload', [
+                                        'images' => $images,
+                                        'maxImages' => \App\Models\Setting::get('max_images_per_listing', 10),
+                                        'wireModel' => 'tempImages'
+                                    ])
+                                @endif
                             </div>
                         @endif
                         </div>
