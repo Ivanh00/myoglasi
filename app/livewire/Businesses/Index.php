@@ -51,6 +51,23 @@ class Index extends Component
         }
     }
 
+    public function updatedSelectedCategory()
+    {
+        $this->selectedSubcategory = null; // Reset subcategory when category changes
+
+        // Load subcategories for the selected category
+        if ($this->selectedCategory) {
+            $this->subcategories = BusinessCategory::where('parent_id', $this->selectedCategory)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        } else {
+            $this->subcategories = [];
+        }
+
+        $this->resetPage();
+    }
+
     public function setCategory($categoryId)
     {
         $this->selectedCategory = $categoryId;
