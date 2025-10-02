@@ -155,10 +155,10 @@
                 <div>
                     <label for="location" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                         Lokacija <span class="text-red-500">*</span>
+                        <span class="text-xs text-slate-500">(iz profila)</span>
                     </label>
-                    <input type="text" wire:model="location" id="location"
-                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('location') border-red-500 @enderror"
-                        placeholder="Grad">
+                    <input type="text" wire:model="location" id="location" readonly
+                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-600 text-slate-900 dark:text-slate-100 rounded-lg cursor-not-allowed @error('location') border-red-500 @enderror">
                     @error('location')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -178,29 +178,90 @@
             </div>
 
             <!-- Contact Info -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="contact_phone" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                        Kontakt telefon
-                    </label>
-                    <input type="text" wire:model="contact_phone" id="contact_phone"
-                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('contact_phone') border-red-500 @enderror"
-                        placeholder="+381 60 123 4567">
-                    @error('contact_phone')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Kontakt informacije</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="contact_phone" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                            Kontakt telefon
+                            <span class="text-xs text-slate-500">(iz profila)</span>
+                        </label>
+                        <input type="text" wire:model="contact_phone" id="contact_phone" readonly
+                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-600 text-slate-900 dark:text-slate-100 rounded-lg cursor-not-allowed @error('contact_phone') border-red-500 @enderror">
+                        @error('contact_phone')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="contact_email" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                            Kontakt email
+                            <span class="text-xs text-slate-500">(iz profila)</span>
+                        </label>
+                        <input type="email" wire:model="contact_email" id="contact_email" readonly
+                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-600 text-slate-900 dark:text-slate-100 rounded-lg cursor-not-allowed @error('contact_email') border-red-500 @enderror">
+                        @error('contact_email')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
 
-                <div>
-                    <label for="contact_email" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                        Kontakt email
-                    </label>
-                    <input type="email" wire:model="contact_email" id="contact_email"
-                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('contact_email') border-red-500 @enderror"
-                        placeholder="email@example.com">
-                    @error('contact_email')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                <!-- Additional Contacts -->
+                <div class="border-t border-slate-200 dark:border-slate-600 pt-4">
+                    <h4 class="text-md font-medium text-slate-700 dark:text-slate-200 mb-3">Dodatni kontakti (opciono)</h4>
+
+                    <!-- Contact 2 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="contact_name_2" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                Ime kontakt osobe 2
+                            </label>
+                            <input type="text" wire:model="contact_name_2" id="contact_name_2"
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('contact_name_2') border-red-500 @enderror"
+                                placeholder="Ime i prezime">
+                            @error('contact_name_2')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="contact_phone_2" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                Telefon 2
+                            </label>
+                            <input type="text" wire:model="contact_phone_2" id="contact_phone_2"
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('contact_phone_2') border-red-500 @enderror"
+                                placeholder="+381 60 123 4567">
+                            @error('contact_phone_2')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Contact 3 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="contact_name_3" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                Ime kontakt osobe 3
+                            </label>
+                            <input type="text" wire:model="contact_name_3" id="contact_name_3"
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('contact_name_3') border-red-500 @enderror"
+                                placeholder="Ime i prezime">
+                            @error('contact_name_3')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="contact_phone_3" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                Telefon 3
+                            </label>
+                            <input type="text" wire:model="contact_phone_3" id="contact_phone_3"
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('contact_phone_3') border-red-500 @enderror"
+                                placeholder="+381 60 123 4567">
+                            @error('contact_phone_3')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -278,24 +339,52 @@
             <div>
                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Slike (maksimalno {{ \App\Models\Setting::get('max_images_per_business', 10) }})
+                    @if (!empty($images))
+                        <span class="text-purple-600 dark:text-purple-400">({{ count($images) }}/{{ \App\Models\Setting::get('max_images_per_business', 10) }})</span>
+                    @endif
                 </label>
-                <input type="file" wire:model="tempImages" multiple accept="image/*"
-                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg @error('images.*') border-red-500 @enderror">
+
+                <!-- Upload Area -->
+                @php $maxImages = \App\Models\Setting::get('max_images_per_business', 10); @endphp
+                @if (count($images ?? []) < $maxImages)
+                    <div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center hover:border-purple-400 transition-colors">
+                        <svg class="w-12 h-12 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                            </path>
+                        </svg>
+                        <input type="file" wire:model="tempImages" multiple accept="image/*" class="hidden" id="business-images">
+                        <label for="business-images" class="cursor-pointer">
+                            <span class="text-purple-600 hover:text-purple-500 font-medium">Kliknite za dodavanje slika</span>
+                            <span class="text-slate-500 dark:text-slate-300"> ili prevucite ovde</span>
+                        </label>
+                        <p class="text-slate-400 text-sm mt-2">PNG, JPG, JPEG do 5MB po slici</p>
+                    </div>
+                @else
+                    <div class="border-2 border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-800">
+                        <i class="fas fa-images text-slate-400 text-4xl mb-2"></i>
+                        <p class="text-slate-600 dark:text-slate-400 font-medium">Dostigli ste maksimum od {{ $maxImages }} slika</p>
+                        <p class="text-slate-500 dark:text-slate-300 text-sm">Obrišite neku sliku da biste dodali novu</p>
+                    </div>
+                @endif
+
+                @error('images')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
                 @error('images.*')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
 
-                <!-- Image Preview -->
+                <!-- Image Previews -->
                 @if (!empty($images))
-                    <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                         @foreach ($images as $index => $image)
-                            <div class="relative">
-                                <img src="{{ $image->temporaryUrl() }}" class="w-full h-32 object-cover rounded-lg">
+                            <div class="relative group">
+                                <img src="{{ $image->temporaryUrl() }}" alt="Preview"
+                                    class="w-full h-24 object-cover rounded-lg border border-slate-300 dark:border-slate-600">
                                 <button type="button" wire:click="removeImage({{ $index }})"
-                                    class="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
+                                    class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    ×
                                 </button>
                             </div>
                         @endforeach

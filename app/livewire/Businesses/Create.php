@@ -20,6 +20,10 @@ class Create extends Component
     public $location;
     public $contact_phone;
     public $contact_email;
+    public $contact_phone_2;
+    public $contact_name_2;
+    public $contact_phone_3;
+    public $contact_name_3;
     public $website_url;
     public $facebook_url;
     public $youtube_url;
@@ -97,6 +101,10 @@ class Create extends Component
             'location' => 'required|string|max:255',
             'contact_phone' => 'nullable|string|max:20',
             'contact_email' => 'nullable|email|max:255',
+            'contact_phone_2' => 'nullable|string|max:20',
+            'contact_name_2' => 'nullable|string|max:100',
+            'contact_phone_3' => 'nullable|string|max:20',
+            'contact_name_3' => 'nullable|string|max:100',
             'website_url' => 'nullable|url|max:255',
             'facebook_url' => 'nullable|url|max:255',
             'youtube_url' => 'nullable|url|max:255',
@@ -179,6 +187,10 @@ class Create extends Component
             'location' => $this->location,
             'contact_phone' => $this->contact_phone,
             'contact_email' => $this->contact_email,
+            'contact_phone_2' => $this->contact_phone_2,
+            'contact_name_2' => $this->contact_name_2,
+            'contact_phone_3' => $this->contact_phone_3,
+            'contact_name_3' => $this->contact_name_3,
             'website_url' => $this->website_url,
             'facebook_url' => $this->facebook_url,
             'youtube_url' => $this->youtube_url,
