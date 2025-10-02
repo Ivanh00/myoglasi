@@ -249,6 +249,24 @@
                                                 @endif
                                             @break
 
+                                            @case('business')
+                                                <span
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                    <i class="fas fa-briefcase mr-1"></i>
+                                                    Biznis
+                                                </span>
+                                                @if ($user->plan_expires_at)
+                                                    <span class="text-xs text-slate-500 dark:text-slate-300">
+                                                        {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
+                                                    </span>
+                                                @endif
+                                                @if ($user->business_plan_remaining > 0)
+                                                    <span class="text-xs text-purple-600 font-medium">
+                                                        ({{ $user->business_plan_remaining }} preostalo)
+                                                    </span>
+                                                @endif
+                                            @break
+
                                             @case('free')
                                                 <span
                                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
@@ -450,6 +468,24 @@
                                     @if ($user->plan_expires_at)
                                         <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
                                             {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
+                                        </div>
+                                    @endif
+                                @break
+
+                                @case('business')
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                        <i class="fas fa-briefcase mr-1"></i>
+                                        Biznis
+                                    </span>
+                                    @if ($user->plan_expires_at)
+                                        <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
+                                            {{ $user->plan_expires_at->isPast() ? 'Istekao' : 'Do ' . $user->plan_expires_at->format('d.m.Y') }}
+                                        </div>
+                                    @endif
+                                    @if ($user->business_plan_remaining > 0)
+                                        <div class="text-xs text-purple-600 font-medium mt-1">
+                                            {{ $user->business_plan_remaining }} preostalo
                                         </div>
                                     @endif
                                 @break
@@ -916,12 +952,13 @@
                                                         <option value="per_listing">Plaćanje po oglasu</option>
                                                         <option value="monthly">Mesečni plan</option>
                                                         <option value="yearly">Godišnji plan</option>
+                                                        <option value="business">Biznis plan</option>
                                                         <option value="free">Besplatan plan</option>
                                                     </select>
                                                 </div>
 
                                                 <!-- Expiry Date for Plans -->
-                                                @if (in_array($paymentState['payment_plan'], ['monthly', 'yearly']))
+                                                @if (in_array($paymentState['payment_plan'], ['monthly', 'yearly', 'business']))
                                                     <div>
                                                         <label
                                                             class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">

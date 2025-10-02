@@ -334,7 +334,7 @@ class UserManagement extends Component
     public function updateUserPayment()
     {
         $this->validate([
-            'paymentState.payment_plan' => 'required|in:per_listing,monthly,yearly,free',
+            'paymentState.payment_plan' => 'required|in:per_listing,monthly,yearly,business,free',
             'paymentState.payment_enabled' => 'required|boolean',
             'paymentState.plan_expires_at' => 'nullable|date|after:today',
         ]);

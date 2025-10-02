@@ -121,9 +121,11 @@ class PlanSelection extends Component
         if ($this->selectedPlan === 'business') {
             $businessLimit = Setting::get('business_plan_limit', 10);
             $updateData['business_plan_remaining'] = $businessLimit;
+            $updateData['business_plan_total'] = $businessLimit;
         }
 
         $user->update($updateData);
+        $user->refresh();
 
         // Create transaction record
         Transaction::create([
