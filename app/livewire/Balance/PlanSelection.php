@@ -120,8 +120,10 @@ class PlanSelection extends Component
         // For business plan, also set the business limit
         if ($this->selectedPlan === 'business') {
             $businessLimit = Setting::get('business_plan_limit', 10);
-            $updateData['business_plan_remaining'] = $businessLimit;
             $updateData['business_plan_total'] = $businessLimit;
+        } else {
+            // For other plans, reset business_plan_total to 0
+            $updateData['business_plan_total'] = 0;
         }
 
         $user->update($updateData);
