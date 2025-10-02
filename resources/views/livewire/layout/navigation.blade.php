@@ -145,7 +145,7 @@
                                         <a href="{{ route('businesses.create') }}" @click="open = false"
                                             class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                                             <i class="fas fa-briefcase text-purple-600 mr-3"></i>
-                                            Business
+                                            Biznis
                                         </a>
                                     </div>
                                 </div>
@@ -247,7 +247,7 @@
                                             <x-dropdown-link href="{{ route('businesses.my') }}"
                                                 class="!bg-purple-50 !text-purple-700 hover:!bg-purple-100 dark:!bg-purple-900/50 dark:!text-purple-300 dark:hover:!bg-purple-900/30">
                                                 <i class="fas fa-briefcase mr-2"></i>
-                                                Moji Business
+                                                Moji biznisi
                                             </x-dropdown-link>
                                             <x-dropdown-link href="{{ route('favorites.index') }}">
                                                 Omiljeni
@@ -371,7 +371,7 @@
                                     <a href="{{ route('businesses.create') }}" @click="open = false"
                                         class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                                         <i class="fas fa-briefcase text-purple-600 mr-3"></i>
-                                        Business
+                                        Biznis
                                     </a>
                                 </div>
                             </div>
@@ -479,7 +479,7 @@
                         <a href="{{ route('businesses.my') }}"
                             class="!bg-purple-50 !text-purple-700 hover:!bg-purple-100 dark:!bg-purple-900/50 dark:!text-purple-300 dark:hover:!bg-purple-900/30 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                             <i class="fas fa-briefcase mr-2"></i>
-                            Moji Business
+                            Moji biznisi
                         </a>
                         <a href="{{ route('favorites.index') }}"
                             class="text-slate-700 dark:text-slate-200 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">

@@ -293,14 +293,14 @@ $categoryTree = isset($categoryTree)
             </div>
         </div>
 
-        <!-- Business -->
+        <!-- Biznis -->
         <div class="mb-2">
             <div
                 class="flex items-center bg-purple-600 rounded-lg {{ request()->routeIs('businesses.*') ? 'bg-purple-700' : '' }}">
                 <a href="{{ route('businesses.index') }}"
                     class="flex-1 flex items-center px-4 py-3 text-white hover:bg-purple-700 transition-colors rounded-l-lg">
                     <i class="fas fa-briefcase mr-3"></i>
-                    Business
+                    Biznis
                 </a>
                 <button @click="openSection = openSection === 'businesses' ? null : 'businesses'"
                     :class="openSection === 'businesses' ? 'bg-purple-700 ring-2 ring-purple-400' : ''"

@@ -1136,7 +1136,7 @@
                         <a href="{{ route('admin.businesses.index') }}"
                             class="flex items-center px-4 py-2 text-slate-700 rounded-lg hover:bg-slate-100 {{ request()->routeIs('admin.businesses.*') ? 'bg-sky-50 text-sky-700' : '' }}">
                             <i class="fas fa-briefcase w-5 h-5 mr-3"></i>
-                            Business
+                            Biznis
                         </a>
 
                         <a href="{{ route('admin.transactions.index') }}"
@@ -1168,7 +1168,7 @@
                         <a href="{{ route('admin.business-categories.index') }}"
                             class="flex items-center px-4 py-2 text-slate-700 rounded-lg hover:bg-slate-100 {{ request()->routeIs('admin.business-categories.*') ? 'bg-sky-50 text-sky-700' : '' }}">
                             <i class="fas fa-briefcase w-5 h-5 mr-3"></i>
-                            Kategorije Business
+                            Kategorije biznisa
                         </a>
 
                         <a href="{{ route('admin.messages.index') }}"
@@ -1302,7 +1302,7 @@
                         <a href="{{ route('admin.businesses.index') }}"
                             class="flex items-center px-4 py-2 text-slate-700 rounded-lg hover:bg-slate-100 {{ request()->routeIs('admin.businesses.*') ? 'bg-sky-50 text-sky-700' : '' }}">
                             <i class="fas fa-briefcase w-5 h-5 mr-3"></i>
-                            Business
+                            Biznis
                         </a>
 
                         <a href="{{ route('admin.transactions.index') }}"
@@ -1334,7 +1334,7 @@
                         <a href="{{ route('admin.business-categories.index') }}"
                             class="flex items-center px-4 py-2 text-slate-700 rounded-lg hover:bg-slate-100 {{ request()->routeIs('admin.business-categories.*') ? 'bg-sky-50 text-sky-700' : '' }}">
                             <i class="fas fa-briefcase w-5 h-5 mr-3"></i>
-                            Kategorije Business
+                            Kategorije biznisa
                         </a>
 
                         <a href="{{ route('admin.messages.index') }}"
