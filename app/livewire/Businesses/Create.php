@@ -137,22 +137,48 @@ class Create extends Component
             $activeBusinessCount = $user->businesses()->where('status', 'active')->count();
             $businessLimit = $user->business_plan_total;
 
-            if ($activeBusinessCount >= $businessLimit) {
-                session()->flash('error', 'Dostigli ste limit od ' . $businessLimit . ' aktivnih biznisa. Obrišite postojeći biznis da biste dodali novi.');
-                return redirect()->route('businesses.index');
-            }
+            if ($activeBusinessCount < $businessLimit) {
+                // User has business plan and hasn't reached limit - no fee
+                \App\Models\Transaction::create([
+                    'user_id' => $user->id,
+                    'type' => 'business_plan_usage',
+                    'amount' => 0,
+                    'status' => 'completed',
+                    'description' => 'Korišćenje biznis plana za business: ' . $this->name . ' (' . ($activeBusinessCount + 1) . '/' . $businessLimit . ' aktivnih)',
+                    'reference_number' => 'BUSINESS-PLAN-' . now()->timestamp,
+                ]);
+            } else {
+                // User reached business plan limit - charge per-business fee
+                if (\App\Models\Setting::get('business_fee_enabled', false)) {
+                    $fee = \App\Models\Setting::get('business_fee_amount', 2000);
 
-            // User has business plan and hasn't reached limit - no fee
-            \App\Models\Transaction::create([
-                'user_id' => $user->id,
-                'type' => 'business_plan_usage',
-                'amount' => 0,
-                'status' => 'completed',
-                'description' => 'Korišćenje biznis plana za business: ' . $this->name . ' (' . ($activeBusinessCount + 1) . '/' . $businessLimit . ' aktivnih)',
-                'reference_number' => 'BUSINESS-PLAN-' . now()->timestamp,
-            ]);
+                    // Check balance if fee is required
+                    if ($fee > 0 && $user->balance < $fee) {
+                        session()->flash('error', 'Dostigli ste limit biznis plana (' . $businessLimit . ' aktivnih). Za dodatne biznise potrebno je: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+                        return redirect()->route('balance.payment-options');
+                    }
+
+                    // Charge fee
+                    if ($fee > 0) {
+                        $user->decrement('balance', $fee);
+
+                        \App\Models\Transaction::create([
+                            'user_id' => $user->id,
+                            'type' => 'business_fee',
+                            'amount' => $fee,
+                            'status' => 'completed',
+                            'description' => 'Naplaćivanje za objavljivanje business-a (preko limita plana): ' . $this->name,
+                            'reference_number' => 'BUSINESS-FEE-' . now()->timestamp,
+                        ]);
+                    }
+                } else {
+                    // Business fee is disabled - can't post more
+                    session()->flash('error', 'Dostigli ste limit od ' . $businessLimit . ' aktivnih biznisa. Obrišite postojeći biznis da biste dodali novi.');
+                    return redirect()->route('businesses.index');
+                }
+            }
         } else {
-            // Calculate business fee
+            // No business plan - calculate business fee
             if (\App\Models\Setting::get('business_fee_enabled', false)) {
                 $fee = \App\Models\Setting::get('business_fee_amount', 2000);
             }
