@@ -21,6 +21,8 @@ class Edit extends Component
     public $description;
     public $slogan;
     public $location;
+    public $address_1;
+    public $address_2;
     public $contact_phone;
     public $contact_email;
     public $contact_phone_2;
@@ -117,6 +119,8 @@ class Edit extends Component
         $this->description = $business->description;
         $this->slogan = $business->slogan;
         $this->location = $business->location;
+        $this->address_1 = $business->address_1;
+        $this->address_2 = $business->address_2;
         $this->contact_phone = $business->contact_phone;
         $this->contact_email = $business->contact_email;
         $this->contact_phone_2 = $business->contact_phone_2;
@@ -174,6 +178,8 @@ class Edit extends Component
             'slogan' => 'nullable|string|max:200',
             'business_category_id' => 'required|exists:business_categories,id',
             'location' => 'required|string|max:255',
+            'address_1' => 'nullable|string|max:255',
+            'address_2' => 'nullable|string|max:255',
             'contact_phone' => 'nullable|string|max:20',
             'contact_email' => 'nullable|email|max:255',
             'contact_phone_2' => 'nullable|string|max:20',
@@ -244,6 +250,8 @@ class Edit extends Component
             'business_category_id' => $this->business_category_id,
             'subcategory_id' => $this->subcategory_id,
             'location' => $this->location,
+            'address_1' => $this->address_1,
+            'address_2' => $this->address_2,
             'contact_phone' => $this->contact_phone,
             'contact_email' => $this->contact_email,
             'contact_phone_2' => $this->contact_phone_2,

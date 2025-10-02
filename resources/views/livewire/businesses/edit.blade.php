@@ -178,6 +178,33 @@
                 </div>
             </div>
 
+            <!-- Addresses -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="address_1" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                        Adresa 1
+                    </label>
+                    <input type="text" wire:model="address_1" id="address_1"
+                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('address_1') border-red-500 @enderror"
+                        placeholder="Ulica i broj">
+                    @error('address_1')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="address_2" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                        Adresa 2
+                    </label>
+                    <input type="text" wire:model="address_2" id="address_2"
+                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('address_2') border-red-500 @enderror"
+                        placeholder="Dodatne informacije o adresi">
+                    @error('address_2')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
             <!-- Contact Info -->
             <div class="space-y-4">
                 <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Kontakt informacije</h3>

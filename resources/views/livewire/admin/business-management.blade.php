@@ -412,6 +412,26 @@
                                     @enderror
                                 </div>
 
+                                <!-- Adresa 1 -->
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Adresa 1</label>
+                                    <input type="text" wire:model="editState.address_1" placeholder="Ulica i broj"
+                                        class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
+                                    @error('editState.address_1')
+                                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <!-- Adresa 2 -->
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Adresa 2</label>
+                                    <input type="text" wire:model="editState.address_2" placeholder="Dodatne informacije o adresi"
+                                        class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
+                                    @error('editState.address_2')
+                                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
                                 <!-- Kontakt ime 2 -->
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt ime 2</label>
