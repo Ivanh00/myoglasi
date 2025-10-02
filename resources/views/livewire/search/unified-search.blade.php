@@ -63,6 +63,24 @@
                         'action' => "wire:click=\"\$set('service_subcategory', '')\"",
                     ]
                     : null,
+            'business_category' =>
+                $business_category && $content_type === 'businesses'
+                    ? [
+                        'label' =>
+                            'Kategorija biznisa: ' .
+                            ($businessCategories->firstWhere('id', $business_category)->name ?? 'N/A'),
+                        'action' => "wire:click=\"\$set('business_category', '')\"",
+                    ]
+                    : null,
+            'business_subcategory' =>
+                $business_subcategory && $content_type === 'businesses'
+                    ? [
+                        'label' =>
+                            'Podkategorija biznisa: ' .
+                            ($businessSubcategories->firstWhere('id', $business_subcategory)->name ?? 'N/A'),
+                        'action' => "wire:click=\"\$set('business_subcategory', '')\"",
+                    ]
+                    : null,
             'condition_id' => $condition_id
                 ? [
                     'label' => 'Stanje: ' . ($conditions->firstWhere('id', $condition_id)->name ?? 'N/A'),
@@ -104,6 +122,7 @@
             $city ||
             $search_category ||
             $service_category ||
+            $business_category ||
             $condition_id ||
             $auction_type ||
             $price_min ||

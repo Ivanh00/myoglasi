@@ -385,6 +385,10 @@ if (!empty($auctionType)) {
     getActiveFilterCount() {
         const count = (this.city ? 1 : 0) +
             (this.category ? 1 : 0) +
+            (this.serviceCategory ? 1 : 0) +
+            (this.serviceSubcategory ? 1 : 0) +
+            (this.businessCategory ? 1 : 0) +
+            (this.businessSubcategory ? 1 : 0) +
             (this.condition ? 1 : 0) +
             (this.auction_type ? 1 : 0) +
             (this.content_type !== 'all' ? 1 : 0) +
