@@ -7,13 +7,12 @@
              document.body.classList.remove('overflow-hidden');
              document.documentElement.classList.remove('overflow-hidden');
          }
-     })"
-     @keydown.escape.window="if (modalOpen) $wire.closeModal()">
+     })">
     <!-- Modal Overlay -->
     @if ($show)
         <div class="fixed inset-0 z-[100]">
             <!-- Backdrop -->
-            <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity" wire:click="closeModal"></div>
+            <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity"></div>
 
             <!-- Modal Container - Desktop: centered popup, Mobile: fullscreen -->
             <div class="flex min-h-full items-center justify-center p-0 md:p-4">
@@ -690,7 +689,18 @@
                             <button wire:click="createListing" type="button" wire:loading.attr="disabled"
                                 class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
                                 <span wire:loading.remove wire:target="createListing">
-                                    <i class="fas fa-check mr-2"></i>Kreiraj oglas
+                                    <i class="fas fa-check mr-2"></i>
+                                    @if ($listingType === 'business')
+                                        Kreiraj biznis
+                                    @elseif ($listingType === 'service')
+                                        Kreiraj uslugu
+                                    @elseif ($listingType === 'auction')
+                                        Kreiraj aukciju
+                                    @elseif ($listingType === 'giveaway')
+                                        Kreiraj poklon
+                                    @else
+                                        Kreiraj oglas
+                                    @endif
                                 </span>
                                 <span wire:loading wire:target="createListing" class="flex items-center">
                                     <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none"

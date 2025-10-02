@@ -419,7 +419,7 @@ class QuickListing extends Component
                     'youtube_url' => $this->youtube_url,
                     'instagram_url' => $this->instagram_url,
                     'logo' => $logoPath,
-                    'established_year' => $this->established_year,
+                    'established_year' => $this->established_year ?: null, // Convert empty string to null
                     'slug' => Str::slug($this->title) . '-' . Str::random(6),
                     'status' => 'active',
                     'expires_at' => $expiresAt,
