@@ -401,4 +401,119 @@
             </a>
         </div>
     @endif
+
+    <!-- Activation Modal -->
+    @if ($showActivateModal && $businessToActivate)
+        <div class="fixed inset-0 bg-slate-900 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+            wire:click="closeActivateModal">
+            <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-lg bg-white dark:bg-slate-800"
+                wire:click.stop>
+                <div class="mt-3">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                            <i class="fas fa-power-off mr-2 text-purple-600"></i>
+                            Aktivacija biznisa
+                        </h3>
+                        <button wire:click="closeActivateModal"
+                            class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Business Info -->
+                    <div class="mt-4 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                        <p class="text-sm text-slate-600 dark:text-slate-300">
+                            <strong>Biznis:</strong> {{ $businessToActivate->name }}
+                        </p>
+                    </div>
+
+                    <!-- Check if user has business plan -->
+                    @php
+                        $user = auth()->user();
+                        $hasActiveBusinessPlan = $user->payment_plan === 'business'
+                            && $user->plan_expires_at
+                            && $user->plan_expires_at->isFuture()
+                            && $user->business_plan_total > 0;
+                        $activeBusinessCount = $user->businesses()->where('status', 'active')->count();
+                        $businessLimit = $user->business_plan_total;
+                        $hasAvailableSlots = $hasActiveBusinessPlan && $activeBusinessCount < $businessLimit;
+                        $businessFeeEnabled = \App\Models\Setting::get('business_fee_enabled', false);
+                        $businessFeeAmount = \App\Models\Setting::get('business_fee_amount', 2000);
+                    @endphp
+
+                    <!-- Activation Options -->
+                    <div class="mt-4 space-y-3">
+                        @if ($hasAvailableSlots)
+                            <!-- Option 1: Activate with Business Plan -->
+                            <button wire:click="activateWithPlan"
+                                class="w-full p-4 bg-purple-100 dark:bg-purple-900 border-2 border-purple-300 dark:border-purple-700 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors text-left">
+                                <div class="flex items-start">
+                                    <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl mr-3 mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-purple-900 dark:text-purple-100">
+                                            Aktiviraj preko biznis plana (Besplatno)
+                                        </h4>
+                                        <p class="text-sm text-purple-700 dark:text-purple-300 mt-1">
+                                            Imate {{ $businessLimit - $activeBusinessCount }} slobodnih mesta u vašem biznis planu
+                                        </p>
+                                        <p class="text-xs text-purple-600 dark:text-purple-400 mt-1">
+                                            Plan važi do: {{ $user->plan_expires_at->format('d.m.Y') }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </button>
+                        @endif
+
+                        @if ($businessFeeEnabled)
+                            <!-- Option 2: Activate with Payment -->
+                            <button wire:click="activateWithPayment"
+                                class="w-full p-4 bg-orange-100 dark:bg-orange-900 border-2 border-orange-300 dark:border-orange-700 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-800 transition-colors text-left">
+                                <div class="flex items-start">
+                                    <i class="fas fa-credit-card text-orange-600 dark:text-orange-400 text-2xl mr-3 mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-orange-900 dark:text-orange-100">
+                                            Plati i aktiviraj
+                                        </h4>
+                                        <p class="text-sm text-orange-700 dark:text-orange-300 mt-1">
+                                            Cena: {{ number_format($businessFeeAmount, 0, ',', '.') }} RSD
+                                        </p>
+                                        <p class="text-xs text-orange-600 dark:text-orange-400 mt-1">
+                                            Vaš kredit: {{ number_format($user->balance, 0, ',', '.') }} RSD
+                                        </p>
+                                    </div>
+                                </div>
+                            </button>
+                        @endif
+
+                        @if (!$hasAvailableSlots && !$hasActiveBusinessPlan)
+                            <!-- Option 3: Buy Business Plan -->
+                            <a href="{{ route('balance.plan-selection') }}"
+                                class="block w-full p-4 bg-sky-100 dark:bg-sky-900 border-2 border-sky-300 dark:border-sky-700 rounded-lg hover:bg-sky-200 dark:hover:bg-sky-800 transition-colors text-left">
+                                <div class="flex items-start">
+                                    <i class="fas fa-shopping-cart text-sky-600 dark:text-sky-400 text-2xl mr-3 mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-sky-900 dark:text-sky-100">
+                                            Kupi biznis plan
+                                        </h4>
+                                        <p class="text-sm text-sky-700 dark:text-sky-300 mt-1">
+                                            Aktivirajte više biznisa sa biznis planom
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        @endif
+                    </div>
+
+                    <!-- Cancel Button -->
+                    <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700">
+                        <button wire:click="closeActivateModal"
+                            class="w-full px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">
+                            Otkaži
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

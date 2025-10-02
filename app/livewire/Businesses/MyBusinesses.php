@@ -11,6 +11,8 @@ class MyBusinesses extends Component
     use WithPagination;
 
     public $filter = 'all'; // all, active, expired
+    public $showActivateModal = false;
+    public $businessToActivate = null;
 
     public function deleteBusiness($id)
     {
@@ -42,6 +44,117 @@ class MyBusinesses extends Component
         ]);
 
         session()->flash('success', 'Business je uspešno obnovljen i važi narednih 60 dana!');
+    }
+
+    public function openActivateModal($id)
+    {
+        $this->businessToActivate = Business::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $this->showActivateModal = true;
+    }
+
+    public function closeActivateModal()
+    {
+        $this->showActivateModal = false;
+        $this->businessToActivate = null;
+    }
+
+    public function activateWithPlan()
+    {
+        if (!$this->businessToActivate) {
+            return;
+        }
+
+        $user = auth()->user();
+
+        // Check if user has active business plan with available slots
+        $hasActiveBusinessPlan = $user->payment_plan === 'business'
+            && $user->plan_expires_at
+            && $user->plan_expires_at->isFuture()
+            && $user->business_plan_total > 0;
+
+        if (!$hasActiveBusinessPlan) {
+            session()->flash('error', 'Nemate aktivan biznis plan.');
+            return;
+        }
+
+        $activeBusinessCount = $user->businesses()->where('status', 'active')->count();
+        $businessLimit = $user->business_plan_total;
+
+        if ($activeBusinessCount >= $businessLimit) {
+            session()->flash('error', 'Dostigli ste limit biznis plana (' . $businessLimit . ' aktivnih biznisa).');
+            return;
+        }
+
+        // Activate the business with business plan
+        $this->businessToActivate->update([
+            'status' => 'active',
+            'is_from_business_plan' => true,
+            'paid_until' => null,
+        ]);
+
+        \App\Models\Transaction::create([
+            'user_id' => $user->id,
+            'type' => 'business_plan_usage',
+            'amount' => 0,
+            'status' => 'completed',
+            'description' => 'Aktivacija biznisa preko biznis plana: ' . $this->businessToActivate->name,
+            'reference_number' => 'BUSINESS-ACTIVATION-' . now()->timestamp,
+        ]);
+
+        session()->flash('success', 'Business je uspešno aktiviran preko biznis plana!');
+        $this->closeActivateModal();
+    }
+
+    public function activateWithPayment()
+    {
+        if (!$this->businessToActivate) {
+            return;
+        }
+
+        $user = auth()->user();
+
+        // Check if business fee is enabled
+        if (!\App\Models\Setting::get('business_fee_enabled', false)) {
+            session()->flash('error', 'Plaćanje po biznisu nije omogućeno.');
+            return;
+        }
+
+        $fee = \App\Models\Setting::get('business_fee_amount', 2000);
+
+        // Check balance
+        if ($user->balance < $fee) {
+            session()->flash('error', 'Nemate dovoljno kredita. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD');
+            return redirect()->route('balance.payment-options');
+        }
+
+        // Charge fee
+        $user->decrement('balance', $fee);
+
+        // Set paid_until
+        $businessDuration = \App\Models\Setting::get('business_auto_expire_days', 365);
+        $paidUntil = now()->addDays($businessDuration);
+
+        // Activate the business
+        $this->businessToActivate->update([
+            'status' => 'active',
+            'is_from_business_plan' => false,
+            'paid_until' => $paidUntil,
+        ]);
+
+        \App\Models\Transaction::create([
+            'user_id' => $user->id,
+            'type' => 'business_fee',
+            'amount' => $fee,
+            'status' => 'completed',
+            'description' => 'Aktivacija biznisa plaćanjem: ' . $this->businessToActivate->name,
+            'reference_number' => 'BUSINESS-ACTIVATION-' . now()->timestamp,
+        ]);
+
+        session()->flash('success', 'Business je uspešno aktiviran! Važi do ' . $paidUntil->format('d.m.Y'));
+        $this->closeActivateModal();
     }
 
     public function render()
