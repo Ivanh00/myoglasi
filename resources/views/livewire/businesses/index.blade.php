@@ -191,7 +191,19 @@
     </div>
 
     <!-- Desktop view -->
-    <div class="bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-lg shadow-md p-4 mb-6 hidden md:block">
+    <div class="bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-lg shadow-md p-4 mb-6 hidden md:block" x-data="{
+        cityDropdownOpen: false,
+        citySearch: '',
+        get filteredCities() {
+            const normalize = (str) => {
+                const map = { 'š': 's', 'ć': 'c', 'č': 'c', 'ž': 'z', 'đ': 'dj' };
+                return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
+            };
+            return @js(config('cities', [])).filter(c =>
+                normalize(c).includes(normalize(this.citySearch || ''))
+            );
+        }
+    }">
         <!-- Desktop Layout -->
         <div class="hidden md:block">
             <!-- Results Info (Desktop - Left aligned) -->
@@ -211,7 +223,7 @@
             </div>
 
             <!-- Filter Controls -->
-            <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center justify-between gap-4 relative">
                 <!-- Left: Category dropdown -->
                 <div class="w-60" x-data="{ open: false }" x-init="open = false">
                     <div class="relative">
@@ -292,63 +304,19 @@
                 @endif
 
                 <!-- Center: Filters -->
-                <div class="flex items-center gap-3">
-                    <!-- City dropdown -->
-                    <div class="w-48" x-data="{
-                        open: false,
-                        citySearch: '',
-                        get filteredCities() {
-                            const normalize = (str) => {
-                                const map = { 'š': 's', 'ć': 'c', 'č': 'c', 'ž': 'z', 'đ': 'dj' };
-                                return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
-                            };
-                            return @js(config('cities', [])).filter(c =>
-                                normalize(c).includes(normalize(this.citySearch || ''))
-                            );
-                        }
-                    }" x-init="open = false">
-                        <div class="relative">
-                            <button @click="open = !open" type="button"
-                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-purple-400 focus:outline-none focus:border-purple-500 transition-colors flex items-center justify-between">
-                                <span x-text="$wire.selectedCity || 'Grad/Mesto'"
-                                    :class="$wire.selectedCity ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-300'"></span>
-                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
-
-                            <div x-show="open" x-cloak x-transition @click.away="open = false"
-                                class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                <div class="p-2 border-b">
-                                    <input type="text" x-model="citySearch" placeholder="Pretraži grad..."
-                                        class="w-full px-3 py-2 border border-purple-300 dark:border-purple-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-purple-500">
-                                </div>
-                                <div class="p-1">
-                                    <button type="button" @click="$wire.set('selectedCity', ''); open = false"
-                                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-purple-50 dark:hover:bg-purple-900/20 transition"
-                                        :class="!$wire.selectedCity ?
-                                            'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-medium' :
-                                            'text-slate-700 dark:text-slate-200'">
-                                        <span>Svi gradovi</span>
-                                    </button>
-                                    <template x-for="cityOption in filteredCities" :key="cityOption">
-                                        <button type="button" @click="$wire.set('selectedCity', cityOption); open = false"
-                                            class="w-full text-left px-3 py-2 text-sm rounded hover:bg-purple-50 dark:hover:bg-purple-900/20 transition"
-                                            :class="$wire.selectedCity === cityOption ?
-                                                'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-medium' :
-                                                'text-slate-700 dark:text-slate-200'">
-                                            <span x-text="cityOption"></span>
-                                        </button>
-                                    </template>
-                                    <div x-show="filteredCities.length === 0"
-                                        class="text-center text-slate-500 dark:text-slate-300 py-3 text-sm">
-                                        Nema rezultata
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="flex items-center gap-3 relative">
+                    <!-- City dropdown button -->
+                    <div class="w-48">
+                        <button @click="cityDropdownOpen = !cityDropdownOpen" type="button"
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-purple-400 focus:outline-none focus:border-purple-500 transition-colors flex items-center justify-between">
+                            <span x-text="$wire.selectedCity || 'Grad/Mesto'"
+                                :class="$wire.selectedCity ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-300'"></span>
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
                     </div>
 
                     <!-- Per page -->
@@ -394,6 +362,41 @@
                         class="px-3 py-2 {{ $viewMode === 'grid' ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300' : 'text-slate-600 dark:text-slate-300 hover:bg-purple-50 dark:hover:bg-purple-900/20' }} rounded-r-lg transition-colors">
                         <i class="fas fa-th"></i>
                     </button>
+                </div>
+
+                <!-- City Dropdown Panel (Positioned relative to filter controls) -->
+                <div x-show="cityDropdownOpen" x-cloak x-transition @click.away="cityDropdownOpen = false"
+                    class="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-slate-700 border border-purple-300 dark:border-purple-600 rounded-lg shadow-2xl max-h-[600px] overflow-y-auto z-50">
+            <div class="p-3 border-b sticky top-0 bg-white dark:bg-slate-700 z-10">
+                <input type="text" x-model="citySearch" placeholder="Pretraži grad..."
+                    class="w-full px-3 py-2 border border-purple-300 dark:border-purple-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+            </div>
+            <div class="p-3">
+                <button type="button" @click="$wire.set('selectedCity', ''); cityDropdownOpen = false"
+                    class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition mb-2"
+                    :class="!$wire.selectedCity ?
+                        'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-semibold' :
+                        'text-slate-700 dark:text-slate-200'">
+                    <i class="fas fa-globe mr-2"></i>
+                    <span>Svi gradovi</span>
+                </button>
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1.5">
+                    <template x-for="cityOption in filteredCities" :key="cityOption">
+                        <button type="button" @click="$wire.set('selectedCity', cityOption); cityDropdownOpen = false"
+                            class="text-left px-3 py-2 text-sm rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition"
+                            :class="$wire.selectedCity === cityOption ?
+                                'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-medium' :
+                                'text-slate-700 dark:text-slate-200'">
+                            <span x-text="cityOption"></span>
+                        </button>
+                    </template>
+                </div>
+                <div x-show="filteredCities.length === 0"
+                    class="text-center text-slate-500 dark:text-slate-300 py-6 text-sm">
+                    <i class="fas fa-search text-2xl mb-2 opacity-50"></i>
+                    <p>Nema rezultata</p>
+                </div>
+            </div>
                 </div>
             </div>
         </div>
