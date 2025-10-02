@@ -245,7 +245,15 @@ class Create extends Component
             }
         }
 
-        $expiryDays = \App\Models\Setting::get('business_auto_expire_days', 365);
+        // Determine expiry date based on how business was created
+        if ($isFromBusinessPlan) {
+            // Business from plan expires when the plan expires
+            $expiresAt = $user->plan_expires_at;
+        } else {
+            // Paid business expires after the configured days
+            $expiryDays = \App\Models\Setting::get('business_auto_expire_days', 365);
+            $expiresAt = now()->addDays($expiryDays);
+        }
 
         $business = Business::create([
             'user_id' => auth()->id(),
@@ -271,7 +279,7 @@ class Create extends Component
             'established_year' => $this->established_year,
             'slug' => Str::slug($this->name) . '-' . Str::random(6),
             'status' => 'active',
-            'expires_at' => now()->addDays($expiryDays),
+            'expires_at' => $expiresAt,
             'is_from_business_plan' => $isFromBusinessPlan,
             'paid_until' => $paidUntil,
         ]);

@@ -131,6 +131,19 @@
                                 @elseif ($business->status == 'active')
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 mb-1 w-fit">Aktivan</span>
+
+                                    @if ($business->is_from_business_plan)
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 mb-1 w-fit">
+                                            <i class="fas fa-briefcase mr-1"></i>Biznis plan
+                                        </span>
+                                    @else
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 mb-1 w-fit">
+                                            <i class="fas fa-credit-card mr-1"></i>Plaćen
+                                        </span>
+                                    @endif
+
                                     @if ($business->expires_at)
                                         @php
                                             $daysLeft = now()->diffInDays($business->expires_at, false);
@@ -274,6 +287,19 @@
                                 @elseif ($business->status == 'active')
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 w-fit">Aktivan</span>
+
+                                    @if ($business->is_from_business_plan)
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 w-fit">
+                                            <i class="fas fa-briefcase mr-1"></i>Biznis plan
+                                        </span>
+                                    @else
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 w-fit">
+                                            <i class="fas fa-credit-card mr-1"></i>Plaćen
+                                        </span>
+                                    @endif
+
                                     @if ($business->expires_at)
                                         @php
                                             $daysLeft = now()->diffInDays($business->expires_at, false);
@@ -465,8 +491,8 @@
                             </button>
                         @endif
 
-                        @if ($businessFeeEnabled)
-                            <!-- Option 2: Activate with Payment -->
+                        @if ($businessFeeEnabled && !$hasAvailableSlots)
+                            <!-- Option 2: Activate with Payment (only if no business plan slots available) -->
                             @php
                                 $hasEnoughBalance = $user->balance >= $businessFeeAmount;
                             @endphp

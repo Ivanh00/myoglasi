@@ -89,10 +89,12 @@ class MyBusinesses extends Component
         }
 
         // Activate the business with business plan
+        // Business from plan should expire when the plan expires
         $this->businessToActivate->update([
             'status' => 'active',
             'is_from_business_plan' => true,
             'paid_until' => null,
+            'expires_at' => $user->plan_expires_at,
         ]);
 
         \App\Models\Transaction::create([
@@ -133,7 +135,7 @@ class MyBusinesses extends Component
         // Charge fee
         $user->decrement('balance', $fee);
 
-        // Set paid_until
+        // Set paid_until and expires_at
         $businessDuration = \App\Models\Setting::get('business_auto_expire_days', 365);
         $paidUntil = now()->addDays($businessDuration);
 
@@ -142,6 +144,7 @@ class MyBusinesses extends Component
             'status' => 'active',
             'is_from_business_plan' => false,
             'paid_until' => $paidUntil,
+            'expires_at' => $paidUntil,
         ]);
 
         \App\Models\Transaction::create([
