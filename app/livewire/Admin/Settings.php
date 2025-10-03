@@ -340,7 +340,7 @@ class Settings extends Component
         Setting::set('business_plan_limit', $this->businessPlanLimit, 'integer', 'business');
         Setting::set('business_plan_duration', $this->businessPlanDuration, 'integer', 'business');
 
-        session()->flash('success', 'Podešavanja biznis-a su uspešno sačuvana.');
+        session()->flash('success', 'Podešavanja biznis kartice su uspešno sačuvana.');
     }
 
     public function saveGeneralSettings()

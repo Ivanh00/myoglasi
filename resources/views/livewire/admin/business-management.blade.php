@@ -1,8 +1,9 @@
 <div>
     <!-- Header -->
     <div class="mb-6">
-        <h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">Upravljanje biznisom</h1>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Pregled i upravljanje svim business oglasima u sistemu</p>
+        <h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">Upravljanje biznis karticaom</h1>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Pregled i upravljanje svim business oglasima u sistemu
+        </p>
     </div>
 
     <!-- Filters -->
@@ -76,13 +77,16 @@
                             <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
                         @endif
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <th
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Korisnik
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <th
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Kategorija
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <th
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Lokacija
                     </th>
                     <th wire:click="sortBy('views')"
@@ -99,14 +103,16 @@
                             <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
                         @endif
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <th
+                        class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Status
                     </th>
                 </tr>
             </thead>
             <tbody class="bg-white dark:bg-slate-800">
                 @forelse ($businesses as $business)
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-700 border-t border-slate-200 dark:border-slate-700">
+                    <tr
+                        class="hover:bg-slate-50 dark:hover:bg-slate-700 border-t border-slate-200 dark:border-slate-700">
                         <td class="px-6 py-4">
                             <div class="flex items-center">
                                 @if ($business->logo)
@@ -163,18 +169,21 @@
                                 @endif
 
                                 @if ($business->is_from_business_plan)
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 w-fit">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 w-fit">
                                         <i class="fas fa-briefcase mr-1"></i>Biznis plan
                                     </span>
                                 @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 w-fit">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 w-fit">
                                         <i class="fas fa-credit-card mr-1"></i>Plaćen
                                     </span>
                                 @endif
 
                                 @if ($business->expires_at)
                                     <span class="text-xs text-slate-600 dark:text-slate-400">
-                                        <i class="fas fa-calendar-times mr-1"></i>Ističe: {{ $business->expires_at->format('d.m.Y') }}
+                                        <i class="fas fa-calendar-times mr-1"></i>Ističe:
+                                        {{ $business->expires_at->format('d.m.Y') }}
                                     </span>
                                 @endif
                             </div>
@@ -235,7 +244,8 @@
                         </div>
                         <div class="flex items-center space-x-4 text-sm text-slate-500 dark:text-slate-300">
                             <span><i class="fas fa-folder mr-1"></i>{{ $business->category->name ?? 'N/A' }}</span>
-                            <span><i class="fas fa-map-marker-alt mr-1"></i>{{ Str::limit($business->location, 20) }}</span>
+                            <span><i
+                                    class="fas fa-map-marker-alt mr-1"></i>{{ Str::limit($business->location, 20) }}</span>
                         </div>
                     </div>
 
@@ -247,7 +257,8 @@
                         </div>
                     @else
                         <div class="flex-shrink-0 ml-4">
-                            <div class="h-16 w-16 rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                            <div
+                                class="h-16 w-16 rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
                                 <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 text-2xl"></i>
                             </div>
                         </div>
@@ -261,8 +272,8 @@
                     <div class="flex items-center">
                         <div class="flex-shrink-0 h-8 w-8">
                             @if ($business->user->avatar)
-                                <img class="h-8 w-8 rounded-full object-cover" src="{{ $business->user->avatar_url }}"
-                                    alt="{{ $business->user->name }}">
+                                <img class="h-8 w-8 rounded-full object-cover"
+                                    src="{{ $business->user->avatar_url }}" alt="{{ $business->user->name }}">
                             @else
                                 <div
                                     class="h-8 w-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-medium text-xs">
@@ -271,7 +282,8 @@
                             @endif
                         </div>
                         <div class="ml-3">
-                            <div class="text-sm font-medium text-slate-900 dark:text-slate-100">{{ $business->user->name }}</div>
+                            <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
+                                {{ $business->user->name }}</div>
                             <div class="text-xs text-slate-500 dark:text-slate-300">{{ $business->user->email }}</div>
                         </div>
                     </div>
@@ -280,7 +292,8 @@
                 <!-- Status and Date Info -->
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                        <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                        <div
+                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
                             Status</div>
                         <div class="flex flex-col space-y-1">
                             @if ($business->status === 'active')
@@ -296,25 +309,29 @@
                             @endif
 
                             @if ($business->is_from_business_plan)
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 w-fit">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 w-fit">
                                     <i class="fas fa-briefcase mr-1"></i>Biznis plan
                                 </span>
                             @else
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 w-fit">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 w-fit">
                                     <i class="fas fa-credit-card mr-1"></i>Plaćen
                                 </span>
                             @endif
 
                             @if ($business->expires_at)
                                 <span class="text-xs text-slate-600 dark:text-slate-400">
-                                    <i class="fas fa-calendar-times mr-1"></i>Ističe: {{ $business->expires_at->format('d.m.Y') }}
+                                    <i class="fas fa-calendar-times mr-1"></i>Ističe:
+                                    {{ $business->expires_at->format('d.m.Y') }}
                                 </span>
                             @endif
                         </div>
                     </div>
 
                     <div>
-                        <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
+                        <div
+                            class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
                             Pregledi</div>
                         <div class="text-sm text-slate-900 dark:text-slate-100">{{ $business->views }}</div>
                     </div>
@@ -323,7 +340,8 @@
                 <div class="mb-4">
                     <div class="text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
                         Datum</div>
-                    <div class="text-sm text-slate-900 dark:text-slate-100">{{ $business->created_at->format('d.m.Y H:i') }}</div>
+                    <div class="text-sm text-slate-900 dark:text-slate-100">
+                        {{ $business->created_at->format('d.m.Y H:i') }}</div>
                 </div>
 
                 <!-- Action Buttons -->
@@ -371,7 +389,8 @@
     <!-- Edit Modal -->
     @if ($showEditModal)
         <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-            <div class="relative top-20 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white dark:bg-slate-800">
+            <div
+                class="relative top-20 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white dark:bg-slate-800">
                 <div class="mt-3">
                     <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">
                         Uredi business: {{ $selectedBusiness->name ?? '' }}
@@ -382,7 +401,8 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <!-- Naziv -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Naziv *</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Naziv
+                                        *</label>
                                     <input type="text" wire:model="editState.name"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                     @error('editState.name')
@@ -392,14 +412,17 @@
 
                                 <!-- Slogan -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Slogan</label>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Slogan</label>
                                     <input type="text" wire:model="editState.slogan"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                 </div>
 
                                 <!-- Kategorija -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kategorija *</label>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kategorija
+                                        *</label>
                                     <select wire:model.live="editState.business_category_id"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                         <option value="">Izaberi kategoriju</option>
@@ -414,7 +437,8 @@
 
                                 <!-- Podkategorija -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Podkategorija</label>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Podkategorija</label>
                                     <select wire:model="editState.subcategory_id"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                         <option value="">Bez podkategorije</option>
@@ -426,7 +450,8 @@
 
                                 <!-- Status -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Status *</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Status
+                                        *</label>
                                     <select wire:model="editState.status"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                         <option value="active">Aktivan</option>
@@ -440,8 +465,10 @@
 
                                 <!-- Godina osnivanja -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Godina osnivanja</label>
-                                    <input type="number" wire:model="editState.established_year" min="1900" max="{{ date('Y') }}"
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Godina
+                                        osnivanja</label>
+                                    <input type="number" wire:model="editState.established_year" min="1900"
+                                        max="{{ date('Y') }}"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                     @error('editState.established_year')
                                         <span class="text-red-500 text-xs">{{ $message }}</span>
@@ -450,7 +477,8 @@
 
                                 <!-- Adresa 1 -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Adresa 1</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Adresa
+                                        1</label>
                                     <input type="text" wire:model="editState.address_1" placeholder="Ulica i broj"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                     @error('editState.address_1')
@@ -460,8 +488,10 @@
 
                                 <!-- Adresa 2 -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Adresa 2</label>
-                                    <input type="text" wire:model="editState.address_2" placeholder="Dodatne informacije o adresi"
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Adresa
+                                        2</label>
+                                    <input type="text" wire:model="editState.address_2"
+                                        placeholder="Dodatne informacije o adresi"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                     @error('editState.address_2')
                                         <span class="text-red-500 text-xs">{{ $message }}</span>
@@ -470,7 +500,8 @@
 
                                 <!-- Kontakt ime 2 -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt ime 2</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt
+                                        ime 2</label>
                                     <input type="text" wire:model="editState.contact_name_2"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                     @error('editState.contact_name_2')
@@ -480,7 +511,8 @@
 
                                 <!-- Kontakt telefon 2 -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt telefon 2</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt
+                                        telefon 2</label>
                                     <input type="text" wire:model="editState.contact_phone_2"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                     @error('editState.contact_phone_2')
@@ -490,7 +522,8 @@
 
                                 <!-- Kontakt ime 3 -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt ime 3</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt
+                                        ime 3</label>
                                     <input type="text" wire:model="editState.contact_name_3"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                     @error('editState.contact_name_3')
@@ -500,7 +533,8 @@
 
                                 <!-- Kontakt telefon 3 -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt telefon 3</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kontakt
+                                        telefon 3</label>
                                     <input type="text" wire:model="editState.contact_phone_3"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                     @error('editState.contact_phone_3')
@@ -510,28 +544,34 @@
 
                                 <!-- Website URL -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Website URL</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Website
+                                        URL</label>
                                     <input type="url" wire:model="editState.website_url"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                 </div>
 
                                 <!-- Facebook URL -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Facebook URL</label>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Facebook
+                                        URL</label>
                                     <input type="url" wire:model="editState.facebook_url"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                 </div>
 
                                 <!-- Instagram URL -->
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Instagram URL</label>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200">Instagram
+                                        URL</label>
                                     <input type="url" wire:model="editState.instagram_url"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200">
                                 </div>
 
                                 <!-- Opis - full width -->
                                 <div class="md:col-span-2">
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Opis *</label>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Opis
+                                        *</label>
                                     <textarea wire:model="editState.description" rows="4"
                                         class="mt-1 block w-full border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 dark:bg-slate-700 dark:text-slate-200"></textarea>
                                     @error('editState.description')

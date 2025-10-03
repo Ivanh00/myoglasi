@@ -1,5 +1,4 @@
-<div class="w-64 bg-white dark:bg-slate-800 overflow-y-auto sidebar-scroll"
-    x-data="{ openSection: null }" style="height: 100%;">
+<div class="w-64 bg-white dark:bg-slate-800 overflow-y-auto sidebar-scroll" x-data="{ openSection: null }" style="height: 100%;">
     <style>
         /* Hide scrollbar for Chrome, Safari and Opera */
         .sidebar-scroll::-webkit-scrollbar {
@@ -300,7 +299,7 @@ $categoryTree = isset($categoryTree)
                 <a href="{{ route('businesses.index') }}"
                     class="flex-1 flex items-center px-4 py-3 text-white hover:bg-purple-700 transition-colors rounded-l-lg">
                     <i class="fas fa-briefcase mr-3"></i>
-                    Biznis
+                    Biznis kartice
                 </a>
                 <button @click="openSection = openSection === 'businesses' ? null : 'businesses'"
                     :class="openSection === 'businesses' ? 'bg-purple-700 ring-2 ring-purple-400' : ''"
@@ -333,7 +332,8 @@ $categoryTree = isset($categoryTree)
                         <a href="{{ route('businesses.index', ['selectedCategory' => $businessCategory->id]) }}"
                             class="flex items-center px-3 py-2 text-sm text-slate-600 dark:text-slate-300 rounded hover:bg-purple-50 dark:hover:bg-purple-900/20 {{ request()->get('selectedCategory') == $businessCategory->id ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-300' : '' }}">
                             @if ($businessCategory->icon)
-                                <i class="{{ $businessCategory->icon }} text-purple-600 dark:text-purple-400 mr-2 w-4"></i>
+                                <i
+                                    class="{{ $businessCategory->icon }} text-purple-600 dark:text-purple-400 mr-2 w-4"></i>
                             @else
                                 <i class="fas fa-briefcase text-purple-600 dark:text-purple-400 mr-2 w-4"></i>
                             @endif
@@ -398,7 +398,8 @@ $categoryTree = isset($categoryTree)
                             ->count();
                     @endphp
                     @if ($unreadMessagesCount > 0)
-                        <span class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                        <span
+                            class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                             {{ $unreadMessagesCount }}
                         </span>
                     @endif
@@ -419,7 +420,8 @@ $categoryTree = isset($categoryTree)
                             ->count();
                     @endphp
                     @if ($unreadNotificationsCount > 0)
-                        <span class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                        <span
+                            class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                             {{ $unreadNotificationsCount }}
                         </span>
                     @endif
@@ -464,14 +466,15 @@ $categoryTree = isset($categoryTree)
                         ->count();
 
                     // Services are separate
-                    $myServicesCount = class_exists('\App\Models\Service') ?
-                        \App\Models\Service::where('user_id', auth()->id())->count() : 0;
+                    $myServicesCount = class_exists('\App\Models\Service')
+                        ? \App\Models\Service::where('user_id', auth()->id())->count()
+                        : 0;
 
                     // Businesses count
                     $myBusinessesCount = \App\Models\Business::where('user_id', auth()->id())->count();
                 @endphp
 
-                @if($myListingsCount > 0)
+                @if ($myListingsCount > 0)
                     <a href="{{ route('listings.my') }}"
                         class="flex items-center px-3 py-2 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-50 dark:hover:bg-slate-700">
                         <i class="fas fa-list mr-3"></i>
@@ -480,7 +483,7 @@ $categoryTree = isset($categoryTree)
                     </a>
                 @endif
 
-                @if($myAuctionsCount > 0)
+                @if ($myAuctionsCount > 0)
                     <a href="{{ route('auctions.my') }}"
                         class="flex items-center px-3 py-2 text-amber-600 dark:text-amber-400 rounded-lg hover:bg-amber-50 dark:hover:bg-slate-700">
                         <i class="fas fa-gavel mr-3"></i>
@@ -489,7 +492,7 @@ $categoryTree = isset($categoryTree)
                     </a>
                 @endif
 
-                @if($myServicesCount > 0)
+                @if ($myServicesCount > 0)
                     <a href="{{ route('services.my') }}"
                         class="flex items-center px-3 py-2 text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700">
                         <i class="fas fa-tools mr-3"></i>
@@ -498,11 +501,11 @@ $categoryTree = isset($categoryTree)
                     </a>
                 @endif
 
-                @if($myBusinessesCount > 0)
+                @if ($myBusinessesCount > 0)
                     <a href="{{ route('businesses.my') }}"
                         class="flex items-center px-3 py-2 text-purple-600 dark:text-purple-400 rounded-lg hover:bg-purple-50 dark:hover:bg-slate-700">
                         <i class="fas fa-briefcase mr-3"></i>
-                        Moji biznisi
+                        Moje biznis kartice
                         <span class="ml-auto text-xs text-slate-500 dark:text-slate-400">({{ $myBusinessesCount }})</span>
                     </a>
                 @endif
@@ -524,7 +527,8 @@ $categoryTree = isset($categoryTree)
                                 ->count();
                         @endphp
                         @if ($unreadMessagesCount > 0)
-                            <span class="ml-2 bg-red-500 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                            <span
+                                class="ml-2 bg-red-500 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                 {{ $unreadMessagesCount }}
                             </span>
                         @endif
@@ -548,7 +552,8 @@ $categoryTree = isset($categoryTree)
                                 ->count();
                         @endphp
                         @if ($unreadNotificationsCount > 0)
-                            <span class="ml-2 bg-red-500 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                            <span
+                                class="ml-2 bg-red-500 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                 {{ $unreadNotificationsCount }}
                             </span>
                         @endif

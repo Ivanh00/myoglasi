@@ -25,7 +25,7 @@
         <div
             class="bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-lg shadow-md p-4">
             <div class="text-slate-600 dark:text-slate-300 mb-2">
-                Pronađeno biznisa: <span class="font-semibold">{{ $businesses->total() }}</span>
+                Pronađeno biznis kartica: <span class="font-semibold">{{ $businesses->total() }}</span>
                 @if ($selectedCategory)
                     @if ($currentCategory)
                         u kategoriji: <span class="font-semibold">
@@ -227,7 +227,7 @@
         <div class="hidden md:block">
             <!-- Results Info (Desktop - Left aligned) -->
             <div class="text-slate-600 dark:text-slate-300 mb-4">
-                Pronađeno biznisa: <span class="font-semibold">{{ $businesses->total() }}</span>
+                Pronađeno biznis kartica: <span class="font-semibold">{{ $businesses->total() }}</span>
                 @if ($selectedCategory)
                     @if ($currentCategory)
                         u kategoriji: <span class="font-semibold">
@@ -470,7 +470,8 @@
     @else
         <div class="bg-white dark:bg-slate-700 rounded-lg shadow-md p-12 text-center">
             <i class="fas fa-briefcase text-slate-400 text-6xl mb-4"></i>
-            <h3 class="text-xl font-semibold text-slate-700 dark:text-slate-200 mb-2">Nema pronađenih business-a</h3>
+            <h3 class="text-xl font-semibold text-slate-700 dark:text-slate-200 mb-2">Nema pronađenih biznis kartica
+            </h3>
             <p class="text-slate-600 dark:text-slate-300">
                 Pokušajte da promenite filtere ili kategoriju.
             </p>

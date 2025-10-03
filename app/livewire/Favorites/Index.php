@@ -39,7 +39,7 @@ class Index extends Component
             session()->flash('success', 'Usluga je uklonjena iz omiljenih.');
         } else if ($type === 'business') {
             Auth::user()->removeBusinessFromFavorites(\App\Models\Business::find($listingId));
-            session()->flash('success', 'Biznis je uklonjen iz omiljenih.');
+            session()->flash('success', 'Biznis kartica je uklonjena iz omiljenih.');
         }
 
         $this->dispatch('favoriteRemoved');

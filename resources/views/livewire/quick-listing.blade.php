@@ -1,13 +1,12 @@
-<div x-data="{ modalOpen: @entangle('show') }"
-     x-init="$watch('modalOpen', value => {
-         if (value) {
-             document.body.classList.add('overflow-hidden');
-             document.documentElement.classList.add('overflow-hidden');
-         } else {
-             document.body.classList.remove('overflow-hidden');
-             document.documentElement.classList.remove('overflow-hidden');
-         }
-     })">
+<div x-data="{ modalOpen: @entangle('show') }" x-init="$watch('modalOpen', value => {
+    if (value) {
+        document.body.classList.add('overflow-hidden');
+        document.documentElement.classList.add('overflow-hidden');
+    } else {
+        document.body.classList.remove('overflow-hidden');
+        document.documentElement.classList.remove('overflow-hidden');
+    }
+})">
     <!-- Modal Overlay -->
     @if ($show)
         <div class="fixed inset-0 z-[100]">
@@ -16,8 +15,7 @@
 
             <!-- Modal Container - Desktop: centered popup, Mobile: fullscreen -->
             <div class="flex min-h-full items-center justify-center p-0 md:p-4">
-                <div
-                    class="relative w-full h-screen md:h-auto md:max-w-2xl md:rounded-lg bg-white dark:bg-slate-800 shadow-xl flex flex-col"
+                <div class="relative w-full h-screen md:h-auto md:max-w-2xl md:rounded-lg bg-white dark:bg-slate-800 shadow-xl flex flex-col"
                     style="max-height: 100vh; height: 100vh;"
                     x-bind:style="window.innerWidth >= 768 ? 'max-height: 85vh; height: auto;' : 'max-height: 100vh; height: 100vh;'">
 
@@ -32,643 +30,718 @@
 
                     <!-- Progress Bar -->
                     <div class="flex-shrink-0 w-full bg-slate-200 dark:bg-slate-700 h-2">
-                        <div class="bg-sky-600 h-2 transition-all duration-300"
-                            style="width: {{ ($step / 5) * 100 }}%"></div>
+                        <div class="bg-sky-600 h-2 transition-all duration-300" style="width: {{ ($step / 5) * 100 }}%">
+                        </div>
                     </div>
 
                     <!-- Content -->
                     <div class="flex-1 overflow-y-auto" style="min-height: 0;">
                         <div class="p-4 md:p-6" style="padding-bottom: 300px;">
-                        @if (session()->has('error'))
-                            <div class="mb-4 p-3 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded">
-                                {{ session('error') }}
-                            </div>
-                        @endif
-
-                        @if ($errors->any())
-                            <div class="mb-4 p-3 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded">
-                                <ul class="list-disc list-inside">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-                        <!-- Step 1: Choose Type -->
-                        @if ($step === 1)
-                            <div class="space-y-4">
-                                <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Odaberite tip
-                                </h4>
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    <!-- Oglas -->
-                                    <button wire:click="$set('listingType', 'listing')" type="button"
-                                        class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'listing' ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-sky-300' }}">
-                                        <i class="fas fa-box text-3xl mb-2 text-sky-600"></i>
-                                        <div class="font-semibold text-slate-900 dark:text-slate-100">Oglas</div>
-                                    </button>
-
-                                    <!-- Aukcija -->
-                                    <button wire:click="$set('listingType', 'auction')" type="button"
-                                        class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'auction' ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-amber-300' }}">
-                                        <i class="fas fa-gavel text-3xl mb-2 text-amber-600"></i>
-                                        <div class="font-semibold text-slate-900 dark:text-slate-100">Aukcija</div>
-                                    </button>
-
-                                    <!-- Usluga -->
-                                    <button wire:click="$set('listingType', 'service')" type="button"
-                                        class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'service' ? 'border-slate-500 bg-slate-50 dark:bg-slate-700' : 'border-slate-300 dark:border-slate-600 hover:border-slate-400' }}">
-                                        <i class="fas fa-tools text-3xl mb-2 text-slate-600 dark:text-slate-400"></i>
-                                        <div class="font-semibold text-slate-900 dark:text-slate-100">Usluga</div>
-                                    </button>
-
-                                    <!-- Biznis -->
-                                    <button wire:click="$set('listingType', 'business')" type="button"
-                                        class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'business' ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-purple-300' }}">
-                                        <i class="fas fa-briefcase text-3xl mb-2 text-purple-600"></i>
-                                        <div class="font-semibold text-slate-900 dark:text-slate-100">Biznis</div>
-                                    </button>
-
-                                    <!-- Poklon -->
-                                    <button wire:click="$set('listingType', 'giveaway')" type="button"
-                                        class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'giveaway' ? 'border-green-500 bg-green-50 dark:bg-green-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-green-300' }}">
-                                        <i class="fas fa-gift text-3xl mb-2 text-green-600"></i>
-                                        <div class="font-semibold text-slate-900 dark:text-slate-100">Poklon</div>
-                                    </button>
+                            @if (session()->has('error'))
+                                <div
+                                    class="mb-4 p-3 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded">
+                                    {{ session('error') }}
                                 </div>
-                            </div>
-                        @endif
+                            @endif
 
-                        <!-- Step 2: Title, Category, Subcategory -->
-                        @if ($step === 2)
-                            <div class="space-y-4">
-                                <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Osnovne
-                                    informacije</h4>
-
-                                <!-- Title -->
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                        @if ($listingType === 'business')
-                                            Naziv Business-a
-                                        @else
-                                            Naslov
-                                        @endif
-                                        <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" wire:model="title"
-                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                        placeholder="@if ($listingType === 'business') Unesite naziv business-a @else Unesite naslov @endif">
+                            @if ($errors->any())
+                                <div
+                                    class="mb-4 p-3 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded">
+                                    <ul class="list-disc list-inside">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
+                            @endif
 
-                                <!-- Category -->
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                        Kategorija <span class="text-red-500">*</span>
-                                    </label>
-                                    <div x-data="{ open: false }" class="relative">
-                                        <button @click="open = !open" type="button"
-                                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
-                                            <span>
-                                                @if ($category_id && $categories)
-                                                    {{ collect($categories)->firstWhere('id', $category_id)->name ?? 'Izaberite kategoriju' }}
-                                                @else
-                                                    Izaberite kategoriju
-                                                @endif
-                                            </span>
-                                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 9l-7 7-7-7"></path>
-                                            </svg>
+                            <!-- Step 1: Choose Type -->
+                            @if ($step === 1)
+                                <div class="space-y-4">
+                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Odaberite
+                                        tip
+                                    </h4>
+
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <!-- Oglas -->
+                                        <button wire:click="$set('listingType', 'listing')" type="button"
+                                            class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'listing' ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-sky-300' }}">
+                                            <i class="fas fa-box text-3xl mb-2 text-sky-600"></i>
+                                            <div class="font-semibold text-slate-900 dark:text-slate-100">Oglas</div>
                                         </button>
 
-                                        <div x-show="open" @click.away="open = false" x-transition
-                                            class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                            <button @click="$wire.set('category_id', ''); open = false" type="button"
-                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                                Izaberite kategoriju
-                                            </button>
-                                            @foreach ($categories as $category)
-                                                <button @click="$wire.set('category_id', '{{ $category->id }}'); open = false"
-                                                    type="button"
-                                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
-                                                    {{ $category->name }}
-                                                </button>
-                                            @endforeach
-                                        </div>
+                                        <!-- Aukcija -->
+                                        <button wire:click="$set('listingType', 'auction')" type="button"
+                                            class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'auction' ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-amber-300' }}">
+                                            <i class="fas fa-gavel text-3xl mb-2 text-amber-600"></i>
+                                            <div class="font-semibold text-slate-900 dark:text-slate-100">Aukcija</div>
+                                        </button>
+
+                                        <!-- Usluga -->
+                                        <button wire:click="$set('listingType', 'service')" type="button"
+                                            class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'service' ? 'border-slate-500 bg-slate-50 dark:bg-slate-700' : 'border-slate-300 dark:border-slate-600 hover:border-slate-400' }}">
+                                            <i
+                                                class="fas fa-tools text-3xl mb-2 text-slate-600 dark:text-slate-400"></i>
+                                            <div class="font-semibold text-slate-900 dark:text-slate-100">Usluga</div>
+                                        </button>
+
+                                        <!-- Biznis -->
+                                        <button wire:click="$set('listingType', 'business')" type="button"
+                                            class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'business' ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-purple-300' }}">
+                                            <i class="fas fa-briefcase text-3xl mb-2 text-purple-600"></i>
+                                            <div class="font-semibold text-slate-900 dark:text-slate-100">Biznis kartice
+                                            </div>
+                                        </button>
+
+                                        <!-- Poklon -->
+                                        <button wire:click="$set('listingType', 'giveaway')" type="button"
+                                            class="p-6 border-2 rounded-lg transition-all {{ $listingType === 'giveaway' ? 'border-green-500 bg-green-50 dark:bg-green-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-green-300' }}">
+                                            <i class="fas fa-gift text-3xl mb-2 text-green-600"></i>
+                                            <div class="font-semibold text-slate-900 dark:text-slate-100">Poklon</div>
+                                        </button>
                                     </div>
                                 </div>
+                            @endif
 
-                                <!-- Subcategory -->
-                                @if (count($subcategories) > 0)
+                            <!-- Step 2: Title, Category, Subcategory -->
+                            @if ($step === 2)
+                                <div class="space-y-4">
+                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Osnovne
+                                        informacije</h4>
+
+                                    <!-- Title -->
                                     <div>
                                         <label
                                             class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Podkategorija
+                                            @if ($listingType === 'business')
+                                                Naziv Business-a
+                                            @else
+                                                Naslov
+                                            @endif
+                                            <span class="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" wire:model="title"
+                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                            placeholder="@if ($listingType === 'business') Unesite naziv business-a @else Unesite naslov @endif">
+                                    </div>
+
+                                    <!-- Category -->
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                            Kategorija <span class="text-red-500">*</span>
                                         </label>
                                         <div x-data="{ open: false }" class="relative">
                                             <button @click="open = !open" type="button"
                                                 class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
                                                 <span>
-                                                    @if ($subcategory_id && $subcategories)
-                                                        {{ collect($subcategories)->firstWhere('id', $subcategory_id)->name ?? 'Izaberite podkategoriju' }}
+                                                    @if ($category_id && $categories)
+                                                        {{ collect($categories)->firstWhere('id', $category_id)->name ?? 'Izaberite kategoriju' }}
                                                     @else
-                                                        Izaberite podkategoriju
+                                                        Izaberite kategoriju
                                                     @endif
                                                 </span>
                                                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 9l-7 7-7-7"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                                 </svg>
                                             </button>
 
                                             <div x-show="open" @click.away="open = false" x-transition
                                                 class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                                <button @click="$wire.set('subcategory_id', ''); open = false" type="button"
+                                                <button @click="$wire.set('category_id', ''); open = false"
+                                                    type="button"
                                                     class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                                    Izaberite podkategoriju
+                                                    Izaberite kategoriju
                                                 </button>
-                                                @foreach ($subcategories as $subcategory)
-                                                    <button @click="$wire.set('subcategory_id', '{{ $subcategory->id }}'); open = false"
+                                                @foreach ($categories as $category)
+                                                    <button
+                                                        @click="$wire.set('category_id', '{{ $category->id }}'); open = false"
                                                         type="button"
                                                         class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
-                                                        {{ $subcategory->name }}
+                                                        {{ $category->name }}
                                                     </button>
                                                 @endforeach
                                             </div>
                                         </div>
                                     </div>
-                                @endif
-                            </div>
-                        @endif
 
-                        <!-- Step 3: Condition, Price, Auction Options, or Business Details -->
-                        @if ($step === 3)
-                            <div class="space-y-4">
-                                @if ($listingType === 'business')
-                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Opis i dodatne informacije</h4>
-
-                                    <!-- Slogan -->
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Slogan
-                                        </label>
-                                        <input type="text" wire:model="slogan"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                            placeholder="Kratak slogan vašeg business-a">
-                                    </div>
-
-                                    <!-- Description -->
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Opis business-a <span class="text-red-500">*</span>
-                                        </label>
-                                        <textarea wire:model="description" rows="6"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                            placeholder="Unesite detaljan opis..."></textarea>
-                                    </div>
-
-                                    <!-- Established Year -->
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Godina osnivanja
-                                        </label>
-                                        <input type="number" wire:model="established_year" min="1800" max="{{ date('Y') }}"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                            placeholder="{{ date('Y') }}">
-                                    </div>
-
-                                    <!-- Adresa 1 -->
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Adresa 1
-                                        </label>
-                                        <input type="text" wire:model="address_1"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                            placeholder="Ulica i broj">
-                                    </div>
-
-                                    <!-- Adresa 2 -->
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Adresa 2
-                                        </label>
-                                        <input type="text" wire:model="address_2"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                            placeholder="Dodatne informacije o adresi">
-                                    </div>
-                                @else
-                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Cena i stanje</h4>
-
-                                    <!-- Condition (not for giveaway or service) -->
-                                    @if ($listingType !== 'giveaway' && $listingType !== 'service')
-                                    <div>
-                                        <label
-                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Stanje
-                                        </label>
-                                        <div x-data="{ open: false }" class="relative">
-                                            <button @click="open = !open" type="button"
-                                                class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
-                                                <span>
-                                                    @if ($condition_id && $conditions)
-                                                        {{ collect($conditions)->firstWhere('id', $condition_id)->name ?? 'Izaberite stanje' }}
-                                                    @else
-                                                        Izaberite stanje
-                                                    @endif
-                                                </span>
-                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 9l-7 7-7-7"></path>
-                                                </svg>
-                                            </button>
-
-                                            <div x-show="open" @click.away="open = false" x-transition
-                                                class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                                <button @click="$wire.set('condition_id', ''); open = false" type="button"
-                                                    class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                                    Izaberite stanje
-                                                </button>
-                                                @foreach ($conditions as $condition)
-                                                    <button @click="$wire.set('condition_id', '{{ $condition->id }}'); open = false"
-                                                        type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
-                                                        {{ $condition->name }}
-                                                    </button>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                <!-- Regular Price (not for auction or giveaway) -->
-                                @if ($listingType !== 'auction' && $listingType !== 'giveaway')
-                                    <div>
-                                        <label
-                                            class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Cena (RSD) <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="number" wire:model="price" step="0.01"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                    </div>
-
-                                    <!-- Price Type for Services -->
-                                    @if ($listingType === 'service')
+                                    <!-- Subcategory -->
+                                    @if (count($subcategories) > 0)
                                         <div>
                                             <label
                                                 class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Tip cene
+                                                Podkategorija
                                             </label>
                                             <div x-data="{ open: false }" class="relative">
                                                 <button @click="open = !open" type="button"
                                                     class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
                                                     <span>
-                                                        @if ($price_type === 'fixed') Fiksna cena
-                                                        @elseif ($price_type === 'hourly') Po satu
-                                                        @elseif ($price_type === 'daily') Po danu
-                                                        @elseif ($price_type === 'sqm') Po kvadratu
-                                                        @elseif ($price_type === 'negotiable') Po dogovoru
+                                                        @if ($subcategory_id && $subcategories)
+                                                            {{ collect($subcategories)->firstWhere('id', $subcategory_id)->name ?? 'Izaberite podkategoriju' }}
+                                                        @else
+                                                            Izaberite podkategoriju
                                                         @endif
                                                     </span>
-                                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M19 9l-7 7-7-7"></path>
+                                                    <svg class="w-4 h-4 text-slate-400" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                                     </svg>
                                                 </button>
 
                                                 <div x-show="open" @click.away="open = false" x-transition
                                                     class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                                    <button @click="$wire.set('price_type', 'fixed'); open = false" type="button"
+                                                    <button @click="$wire.set('subcategory_id', ''); open = false"
+                                                        type="button"
                                                         class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                                        Fiksna cena
+                                                        Izaberite podkategoriju
                                                     </button>
-                                                    <button @click="$wire.set('price_type', 'hourly'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                                        Po satu
-                                                    </button>
-                                                    <button @click="$wire.set('price_type', 'daily'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                                        Po danu
-                                                    </button>
-                                                    <button @click="$wire.set('price_type', 'sqm'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                                        Po kvadratu
-                                                    </button>
-                                                    <button @click="$wire.set('price_type', 'negotiable'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
-                                                        Po dogovoru
-                                                    </button>
+                                                    @foreach ($subcategories as $subcategory)
+                                                        <button
+                                                            @click="$wire.set('subcategory_id', '{{ $subcategory->id }}'); open = false"
+                                                            type="button"
+                                                            class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                                            {{ $subcategory->name }}
+                                                        </button>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
                                     @endif
-                                @endif
+                                </div>
+                            @endif
 
-                                <!-- Auction Options -->
-                                @if ($listingType === 'auction')
-                                    <div class="space-y-4">
-                                        <!-- Starting Price -->
+                            <!-- Step 3: Condition, Price, Auction Options, or Business Details -->
+                            @if ($step === 3)
+                                <div class="space-y-4">
+                                    @if ($listingType === 'business')
+                                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Opis
+                                            i dodatne informacije</h4>
+
+                                        <!-- Slogan -->
                                         <div>
                                             <label
                                                 class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Početna cena (RSD) <span class="text-red-500">*</span>
+                                                Slogan
                                             </label>
-                                            <input type="number" wire:model="starting_price" step="0.01"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
-                                        </div>
-
-                                        <!-- Buy Now Price -->
-                                        <div>
-                                            <label
-                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Kupi odmah cena (RSD)
-                                            </label>
-                                            <input type="number" wire:model="buy_now_price" step="0.01"
+                                            <input type="text" wire:model="slogan"
                                                 class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                placeholder="Opcionalno">
+                                                placeholder="Kratak slogan vašeg business-a">
                                         </div>
 
-                                        <!-- Start Type -->
+                                        <!-- Description -->
                                         <div>
                                             <label
                                                 class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Početak aukcije <span class="text-red-500">*</span>
+                                                Opis business-a <span class="text-red-500">*</span>
                                             </label>
-                                            <div x-data="{ open: false }" class="relative">
-                                                <button @click="open = !open" type="button"
-                                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
-                                                    <span>
-                                                        @if ($startType === 'immediately') Odmah
-                                                        @elseif ($startType === 'scheduled') Zakazano vreme
-                                                        @endif
-                                                    </span>
-                                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M19 9l-7 7-7-7"></path>
-                                                    </svg>
-                                                </button>
-
-                                                <div x-show="open" @click.away="open = false" x-transition
-                                                    class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                                    <button @click="$wire.set('startType', 'immediately'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                                        Odmah
-                                                    </button>
-                                                    <button @click="$wire.set('startType', 'scheduled'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
-                                                        Zakazano vreme
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            <textarea wire:model="description" rows="6"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="Unesite detaljan opis..."></textarea>
                                         </div>
 
-                                        <!-- Scheduled Start DateTime -->
-                                        @if ($startType === 'scheduled')
-                                            <div class="grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <label
-                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                        Datum početka <span class="text-red-500">*</span>
-                                                    </label>
-                                                    <input type="date" wire:model="startDate"
-                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                        min="{{ date('Y-m-d') }}">
-                                                </div>
-                                                <div>
-                                                    <label
-                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                        Vreme početka <span class="text-red-500">*</span>
-                                                    </label>
-                                                    <input type="time" wire:model="startTime"
-                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                        <!-- Established Year -->
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Godina osnivanja
+                                            </label>
+                                            <input type="number" wire:model="established_year" min="1800"
+                                                max="{{ date('Y') }}"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="{{ date('Y') }}">
+                                        </div>
+
+                                        <!-- Adresa 1 -->
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Adresa 1
+                                            </label>
+                                            <input type="text" wire:model="address_1"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="Ulica i broj">
+                                        </div>
+
+                                        <!-- Adresa 2 -->
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Adresa 2
+                                            </label>
+                                            <input type="text" wire:model="address_2"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="Dodatne informacije o adresi">
+                                        </div>
+                                    @else
+                                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Cena
+                                            i stanje</h4>
+
+                                        <!-- Condition (not for giveaway or service) -->
+                                        @if ($listingType !== 'giveaway' && $listingType !== 'service')
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    Stanje
+                                                </label>
+                                                <div x-data="{ open: false }" class="relative">
+                                                    <button @click="open = !open" type="button"
+                                                        class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                                        <span>
+                                                            @if ($condition_id && $conditions)
+                                                                {{ collect($conditions)->firstWhere('id', $condition_id)->name ?? 'Izaberite stanje' }}
+                                                            @else
+                                                                Izaberite stanje
+                                                            @endif
+                                                        </span>
+                                                        <svg class="w-4 h-4 text-slate-400" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                        </svg>
+                                                    </button>
+
+                                                    <div x-show="open" @click.away="open = false" x-transition
+                                                        class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                                        <button @click="$wire.set('condition_id', ''); open = false"
+                                                            type="button"
+                                                            class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                            Izaberite stanje
+                                                        </button>
+                                                        @foreach ($conditions as $condition)
+                                                            <button
+                                                                @click="$wire.set('condition_id', '{{ $condition->id }}'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                                                {{ $condition->name }}
+                                                            </button>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endif
 
-                                        <!-- Duration -->
+                                        <!-- Regular Price (not for auction or giveaway) -->
+                                        @if ($listingType !== 'auction' && $listingType !== 'giveaway')
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    Cena (RSD) <span class="text-red-500">*</span>
+                                                </label>
+                                                <input type="number" wire:model="price" step="0.01"
+                                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                            </div>
+
+                                            <!-- Price Type for Services -->
+                                            @if ($listingType === 'service')
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        Tip cene
+                                                    </label>
+                                                    <div x-data="{ open: false }" class="relative">
+                                                        <button @click="open = !open" type="button"
+                                                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                                            <span>
+                                                                @if ($price_type === 'fixed')
+                                                                    Fiksna cena
+                                                                @elseif ($price_type === 'hourly')
+                                                                    Po satu
+                                                                @elseif ($price_type === 'daily')
+                                                                    Po danu
+                                                                @elseif ($price_type === 'sqm')
+                                                                    Po kvadratu
+                                                                @elseif ($price_type === 'negotiable')
+                                                                    Po dogovoru
+                                                                @endif
+                                                            </span>
+                                                            <svg class="w-4 h-4 text-slate-400" fill="none"
+                                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                            </svg>
+                                                        </button>
+
+                                                        <div x-show="open" @click.away="open = false" x-transition
+                                                            class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                                            <button
+                                                                @click="$wire.set('price_type', 'fixed'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                                Fiksna cena
+                                                            </button>
+                                                            <button
+                                                                @click="$wire.set('price_type', 'hourly'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                                Po satu
+                                                            </button>
+                                                            <button
+                                                                @click="$wire.set('price_type', 'daily'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                                Po danu
+                                                            </button>
+                                                            <button
+                                                                @click="$wire.set('price_type', 'sqm'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                                Po kvadratu
+                                                            </button>
+                                                            <button
+                                                                @click="$wire.set('price_type', 'negotiable'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                                                Po dogovoru
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
+
+                                        <!-- Auction Options -->
+                                        @if ($listingType === 'auction')
+                                            <div class="space-y-4">
+                                                <!-- Starting Price -->
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        Početna cena (RSD) <span class="text-red-500">*</span>
+                                                    </label>
+                                                    <input type="number" wire:model="starting_price" step="0.01"
+                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                                </div>
+
+                                                <!-- Buy Now Price -->
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        Kupi odmah cena (RSD)
+                                                    </label>
+                                                    <input type="number" wire:model="buy_now_price" step="0.01"
+                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                        placeholder="Opcionalno">
+                                                </div>
+
+                                                <!-- Start Type -->
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        Početak aukcije <span class="text-red-500">*</span>
+                                                    </label>
+                                                    <div x-data="{ open: false }" class="relative">
+                                                        <button @click="open = !open" type="button"
+                                                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                                            <span>
+                                                                @if ($startType === 'immediately')
+                                                                    Odmah
+                                                                @elseif ($startType === 'scheduled')
+                                                                    Zakazano vreme
+                                                                @endif
+                                                            </span>
+                                                            <svg class="w-4 h-4 text-slate-400" fill="none"
+                                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                            </svg>
+                                                        </button>
+
+                                                        <div x-show="open" @click.away="open = false" x-transition
+                                                            class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                                            <button
+                                                                @click="$wire.set('startType', 'immediately'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                                Odmah
+                                                            </button>
+                                                            <button
+                                                                @click="$wire.set('startType', 'scheduled'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                                                Zakazano vreme
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Scheduled Start DateTime -->
+                                                @if ($startType === 'scheduled')
+                                                    <div class="grid grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label
+                                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                                Datum početka <span class="text-red-500">*</span>
+                                                            </label>
+                                                            <input type="date" wire:model="startDate"
+                                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                                min="{{ date('Y-m-d') }}">
+                                                        </div>
+                                                        <div>
+                                                            <label
+                                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                                Vreme početka <span class="text-red-500">*</span>
+                                                            </label>
+                                                            <input type="time" wire:model="startTime"
+                                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100">
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                <!-- Duration -->
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        Trajanje aukcije (dana) <span class="text-red-500">*</span>
+                                                    </label>
+                                                    <div x-data="{ open: false }" class="relative">
+                                                        <button @click="open = !open" type="button"
+                                                            class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
+                                                            <span>
+                                                                @if ($duration == '1')
+                                                                    1 dan
+                                                                @elseif ($duration == '3')
+                                                                    3 dana
+                                                                @elseif ($duration == '5')
+                                                                    5 dana
+                                                                @elseif ($duration == '7')
+                                                                    7 dana
+                                                                @elseif ($duration == '10')
+                                                                    10 dana
+                                                                @endif
+                                                            </span>
+                                                            <svg class="w-4 h-4 text-slate-400" fill="none"
+                                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                            </svg>
+                                                        </button>
+
+                                                        <div x-show="open" @click.away="open = false" x-transition
+                                                            class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                                            <button @click="$wire.set('duration', '1'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
+                                                                1 dan
+                                                            </button>
+                                                            <button @click="$wire.set('duration', '3'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                                3 dana
+                                                            </button>
+                                                            <button @click="$wire.set('duration', '5'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                                5 dana
+                                                            </button>
+                                                            <button @click="$wire.set('duration', '7'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
+                                                                7 dana
+                                                            </button>
+                                                            <button @click="$wire.set('duration', '10'); open = false"
+                                                                type="button"
+                                                                class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
+                                                                10 dana
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <!-- Giveaway Message -->
+                                        @if ($listingType === 'giveaway')
+                                            <div class="p-4 bg-green-50 dark:bg-green-900/30 rounded-lg">
+                                                <p class="text-sm text-green-700 dark:text-green-200">
+                                                    <i class="fas fa-gift mr-2"></i>
+                                                    Pokloni su besplatni i ne zahtevaju cenu.
+                                                </p>
+                                            </div>
+                                        @endif
+                                    @endif
+                                </div>
+                            @endif
+
+                            <!-- Step 4: Description and Business Contacts/Social -->
+                            @if ($step === 4)
+                                <div class="space-y-4">
+                                    @if ($listingType === 'business')
+                                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
+                                            Kontakti i društvene mreže</h4>
+                                    @else
+                                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Opis
+                                        </h4>
+
                                         <div>
                                             <label
                                                 class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Trajanje aukcije (dana) <span class="text-red-500">*</span>
+                                                Opis oglasa <span class="text-red-500">*</span>
                                             </label>
-                                            <div x-data="{ open: false }" class="relative">
-                                                <button @click="open = !open" type="button"
-                                                    class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-slate-700 dark:text-slate-200 text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-sky-400 transition-colors flex items-center justify-between">
-                                                    <span>
-                                                        @if ($duration == '1') 1 dan
-                                                        @elseif ($duration == '3') 3 dana
-                                                        @elseif ($duration == '5') 5 dana
-                                                        @elseif ($duration == '7') 7 dana
-                                                        @elseif ($duration == '10') 10 dana
-                                                        @endif
-                                                    </span>
-                                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M19 9l-7 7-7-7"></path>
-                                                    </svg>
-                                                </button>
-
-                                                <div x-show="open" @click.away="open = false" x-transition
-                                                    class="absolute z-[110] mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                                    <button @click="$wire.set('duration', '1'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg">
-                                                        1 dan
-                                                    </button>
-                                                    <button @click="$wire.set('duration', '3'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                                        3 dana
-                                                    </button>
-                                                    <button @click="$wire.set('duration', '5'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                                        5 dana
-                                                    </button>
-                                                    <button @click="$wire.set('duration', '7'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600">
-                                                        7 dana
-                                                    </button>
-                                                    <button @click="$wire.set('duration', '10'); open = false" type="button"
-                                                        class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-b-lg">
-                                                        10 dana
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                    <!-- Giveaway Message -->
-                                    @if ($listingType === 'giveaway')
-                                        <div class="p-4 bg-green-50 dark:bg-green-900/30 rounded-lg">
-                                            <p class="text-sm text-green-700 dark:text-green-200">
-                                                <i class="fas fa-gift mr-2"></i>
-                                                Pokloni su besplatni i ne zahtevaju cenu.
-                                            </p>
+                                            <textarea wire:model="description" rows="6"
+                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                placeholder="Unesite detaljan opis..."></textarea>
                                         </div>
                                     @endif
-                                @endif
-                            </div>
-                        @endif
 
-                        <!-- Step 4: Description and Business Contacts/Social -->
-                        @if ($step === 4)
-                            <div class="space-y-4">
-                                @if ($listingType === 'business')
-                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Kontakti i društvene mreže</h4>
-                                @else
-                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Opis</h4>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Opis oglasa <span class="text-red-500">*</span>
-                                        </label>
-                                        <textarea wire:model="description" rows="6"
-                                            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                            placeholder="Unesite detaljan opis..."></textarea>
-                                    </div>
-                                @endif
-
-                                @if ($listingType === 'business')
-                                    <!-- Additional Contact 2 -->
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Ime kontakt osobe 2
-                                            </label>
-                                            <input type="text" wire:model="contact_name_2"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                placeholder="Ime i prezime">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Telefon 2
-                                            </label>
-                                            <input type="text" wire:model="contact_phone_2"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                placeholder="+381 60 123 4567">
-                                        </div>
-                                    </div>
-
-                                    <!-- Additional Contact 3 -->
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Ime kontakt osobe 3
-                                            </label>
-                                            <input type="text" wire:model="contact_name_3"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                placeholder="Ime i prezime">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                Telefon 3
-                                            </label>
-                                            <input type="text" wire:model="contact_phone_3"
-                                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                placeholder="+381 60 123 4567">
-                                        </div>
-                                    </div>
-
-                                    <!-- Social Links -->
-                                    <div class="border-t border-slate-200 dark:border-slate-600 pt-4 mt-4">
-                                        <h5 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Društvene mreže</h5>
-                                        <div class="space-y-3">
+                                    @if ($listingType === 'business')
+                                        <!-- Additional Contact 2 -->
+                                        <div class="grid grid-cols-2 gap-3">
                                             <div>
-                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                    <i class="fas fa-globe mr-1"></i> Website URL
+                                                <label
+                                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    Ime kontakt osobe 2
                                                 </label>
-                                                <input type="url" wire:model="website_url"
+                                                <input type="text" wire:model="contact_name_2"
                                                     class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                    placeholder="https://www.example.com">
+                                                    placeholder="Ime i prezime">
                                             </div>
                                             <div>
-                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                    <i class="fab fa-facebook mr-1"></i> Facebook URL
+                                                <label
+                                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    Telefon 2
                                                 </label>
-                                                <input type="url" wire:model="facebook_url"
+                                                <input type="text" wire:model="contact_phone_2"
                                                     class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                    placeholder="https://www.facebook.com/...">
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                    <i class="fab fa-instagram mr-1"></i> Instagram URL
-                                                </label>
-                                                <input type="url" wire:model="instagram_url"
-                                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                    placeholder="https://www.instagram.com/...">
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                                    <i class="fab fa-youtube mr-1"></i> YouTube URL
-                                                </label>
-                                                <input type="url" wire:model="youtube_url"
-                                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                    placeholder="https://www.youtube.com/...">
+                                                    placeholder="+381 60 123 4567">
                                             </div>
                                         </div>
-                                    </div>
-                                @endif
-                            </div>
-                        @endif
 
-                        <!-- Step 5: Images and Logo -->
-                        @if ($step === 5)
-                            <div class="space-y-4">
-                                @if ($listingType === 'business')
-                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Logo i slike</h4>
+                                        <!-- Additional Contact 3 -->
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    Ime kontakt osobe 3
+                                                </label>
+                                                <input type="text" wire:model="contact_name_3"
+                                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                    placeholder="Ime i prezime">
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                    Telefon 3
+                                                </label>
+                                                <input type="text" wire:model="contact_phone_3"
+                                                    class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                    placeholder="+381 60 123 4567">
+                                            </div>
+                                        </div>
 
-                                    <!-- Logo Upload -->
-                                    <div class="mb-6">
-                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Logo business-a
-                                        </label>
-                                        <div class="flex items-center space-x-4">
-                                            @if ($logo)
-                                                <div class="relative">
-                                                    <img src="{{ $logo->temporaryUrl() }}" class="h-24 w-24 object-cover rounded-lg">
-                                                    <button type="button" wire:click="$set('logo', null)"
-                                                        class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                                        </svg>
-                                                    </button>
+                                        <!-- Social Links -->
+                                        <div class="border-t border-slate-200 dark:border-slate-600 pt-4 mt-4">
+                                            <h5 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">
+                                                Društvene mreže</h5>
+                                            <div class="space-y-3">
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        <i class="fas fa-globe mr-1"></i> Website URL
+                                                    </label>
+                                                    <input type="url" wire:model="website_url"
+                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                        placeholder="https://www.example.com">
                                                 </div>
-                                            @else
-                                                <label class="flex items-center justify-center w-24 h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg cursor-pointer hover:border-purple-500 transition-colors">
-                                                    <input type="file" wire:model="logo" accept="image/*" class="hidden">
-                                                    <i class="fas fa-image text-2xl text-slate-400"></i>
-                                                </label>
-                                            @endif
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        <i class="fab fa-facebook mr-1"></i> Facebook URL
+                                                    </label>
+                                                    <input type="url" wire:model="facebook_url"
+                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                        placeholder="https://www.facebook.com/...">
+                                                </div>
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        <i class="fab fa-instagram mr-1"></i> Instagram URL
+                                                    </label>
+                                                    <input type="url" wire:model="instagram_url"
+                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                        placeholder="https://www.instagram.com/...">
+                                                </div>
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                        <i class="fab fa-youtube mr-1"></i> YouTube URL
+                                                    </label>
+                                                    <input type="url" wire:model="youtube_url"
+                                                        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                                                        placeholder="https://www.youtube.com/...">
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
+                                </div>
+                            @endif
 
-                                    <!-- Business Images -->
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                                            Slike business-a
-                                        </label>
+                            <!-- Step 5: Images and Logo -->
+                            @if ($step === 5)
+                                <div class="space-y-4">
+                                    @if ($listingType === 'business')
+                                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Logo
+                                            i slike</h4>
+
+                                        <!-- Logo Upload -->
+                                        <div class="mb-6">
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Logo business-a
+                                            </label>
+                                            <div class="flex items-center space-x-4">
+                                                @if ($logo)
+                                                    <div class="relative">
+                                                        <img src="{{ $logo->temporaryUrl() }}"
+                                                            class="h-24 w-24 object-cover rounded-lg">
+                                                        <button type="button" wire:click="$set('logo', null)"
+                                                            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                @else
+                                                    <label
+                                                        class="flex items-center justify-center w-24 h-24 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg cursor-pointer hover:border-purple-500 transition-colors">
+                                                        <input type="file" wire:model="logo" accept="image/*"
+                                                            class="hidden">
+                                                        <i class="fas fa-image text-2xl text-slate-400"></i>
+                                                    </label>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <!-- Business Images -->
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
+                                                Slike business-a
+                                            </label>
+                                            @include('livewire.components.image-upload', [
+                                                'images' => $images,
+                                                'maxImages' => \App\Models\Setting::get(
+                                                    'max_images_per_business',
+                                                    10),
+                                                'wireModel' => 'tempImages',
+                                            ])
+                                        </div>
+                                    @else
+                                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Slike
+                                        </h4>
+
                                         @include('livewire.components.image-upload', [
                                             'images' => $images,
-                                            'maxImages' => \App\Models\Setting::get('max_images_per_business', 10),
-                                            'wireModel' => 'tempImages'
+                                            'maxImages' => \App\Models\Setting::get('max_images_per_listing', 10),
+                                            'wireModel' => 'tempImages',
                                         ])
-                                    </div>
-                                @else
-                                    <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Slike</h4>
-
-                                    @include('livewire.components.image-upload', [
-                                        'images' => $images,
-                                        'maxImages' => \App\Models\Setting::get('max_images_per_listing', 10),
-                                        'wireModel' => 'tempImages'
-                                    ])
-                                @endif
-                            </div>
-                        @endif
+                                    @endif
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -691,7 +764,7 @@
                                 <span wire:loading.remove wire:target="createListing">
                                     <i class="fas fa-check mr-2"></i>
                                     @if ($listingType === 'business')
-                                        Kreiraj biznis
+                                        Kreiraj biznis karticu
                                     @elseif ($listingType === 'service')
                                         Kreiraj uslugu
                                     @elseif ($listingType === 'auction')

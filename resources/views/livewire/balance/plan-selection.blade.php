@@ -3,7 +3,8 @@
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
             <div class="flex items-center justify-between mb-6">
                 <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Vaš plan</h1>
-                <a href="{{ route('balance.index') }}" class="text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 font-medium">
+                <a href="{{ route('balance.index') }}"
+                    class="text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 font-medium">
                     <i class="fas fa-arrow-left mr-1"></i>
                     Nazad na balans
                 </a>
@@ -37,9 +38,11 @@
 
             @if (!auth()->user()->payment_enabled)
                 <!-- Payment Disabled Notice -->
-                <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-600 rounded-lg p-6 text-center mb-6">
+                <div
+                    class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-600 rounded-lg p-6 text-center mb-6">
                     <i class="fas fa-gift text-green-600 text-4xl mb-4"></i>
-                    <h3 class="text-lg font-semibold text-green-900 dark:text-green-100 mb-2">Trenutno imate besplatan pristup</h3>
+                    <h3 class="text-lg font-semibold text-green-900 dark:text-green-100 mb-2">Trenutno imate besplatan
+                        pristup</h3>
                     <p class="text-green-800 dark:text-green-200 mb-4">
                         Možete postavljati oglase besplatno! Ako želite da aktivirate neki od plaćenih planova,
                         odaberite opciju ispod.
@@ -52,7 +55,7 @@
                 <form wire:submit.prevent="purchasePlan">
                     @php
                         $enabledPlansCount = collect($planPrices)->where('enabled', true)->count();
-                        $gridClass = match($enabledPlansCount) {
+                        $gridClass = match ($enabledPlansCount) {
                             1 => 'grid-cols-1',
                             2 => 'grid-cols-1 md:grid-cols-2',
                             3 => 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
@@ -199,88 +202,93 @@
 
                     <!-- Plan Comparison -->
                     @if (auth()->user()->payment_enabled)
-                    <div class="mb-8">
-                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Poređenje planova</h3>
-                        <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
-                            <div class="grid {{ $gridClass }} gap-4 text-sm">
-                                @if ($planPrices['per_listing']['enabled'])
-                                    <div class="text-center">
-                                        <h4 class="font-semibold text-sky-600 dark:text-sky-400 mb-2">Po oglasu</h4>
-                                        <p>{{ number_format($planPrices['per_listing']['price'], 0, ',', '.') }} RSD po
-                                            oglasu</p>
-                                        <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">Idealno za retko
-                                            postavljanje</p>
-                                    </div>
-                                @endif
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Poređenje planova
+                            </h3>
+                            <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
+                                <div class="grid {{ $gridClass }} gap-4 text-sm">
+                                    @if ($planPrices['per_listing']['enabled'])
+                                        <div class="text-center">
+                                            <h4 class="font-semibold text-sky-600 dark:text-sky-400 mb-2">Po oglasu</h4>
+                                            <p>{{ number_format($planPrices['per_listing']['price'], 0, ',', '.') }}
+                                                RSD po
+                                                oglasu</p>
+                                            <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">Idealno za retko
+                                                postavljanje</p>
+                                        </div>
+                                    @endif
 
-                                @if ($planPrices['monthly']['enabled'])
-                                    <div class="text-center">
-                                        <h4 class="font-semibold text-green-600 dark:text-green-400 mb-2">Mesečni</h4>
-                                        <p>{{ number_format($planPrices['monthly']['price'], 0, ',', '.') }} RSD
-                                            mesečno</p>
-                                        <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">
-                                            Isplativo od
-                                            {{ ceil($planPrices['monthly']['price'] / $planPrices['per_listing']['price']) }}
-                                            oglasa mesečno
-                                        </p>
-                                    </div>
-                                @endif
+                                    @if ($planPrices['monthly']['enabled'])
+                                        <div class="text-center">
+                                            <h4 class="font-semibold text-green-600 dark:text-green-400 mb-2">Mesečni
+                                            </h4>
+                                            <p>{{ number_format($planPrices['monthly']['price'], 0, ',', '.') }} RSD
+                                                mesečno</p>
+                                            <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">
+                                                Isplativo od
+                                                {{ ceil($planPrices['monthly']['price'] / $planPrices['per_listing']['price']) }}
+                                                oglasa mesečno
+                                            </p>
+                                        </div>
+                                    @endif
 
-                                @if ($planPrices['yearly']['enabled'])
-                                    <div class="text-center">
-                                        <h4 class="font-semibold text-purple-600 dark:text-purple-400 mb-2">Godišnji
-                                        </h4>
-                                        <p>{{ number_format($planPrices['yearly']['price'], 0, ',', '.') }} RSD
-                                            godišnje</p>
-                                        <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">
-                                            Isplativo od
-                                            {{ ceil($planPrices['yearly']['price'] / $planPrices['per_listing']['price']) }}
-                                            oglasa godišnje
-                                        </p>
-                                    </div>
-                                @endif
+                                    @if ($planPrices['yearly']['enabled'])
+                                        <div class="text-center">
+                                            <h4 class="font-semibold text-purple-600 dark:text-purple-400 mb-2">Godišnji
+                                            </h4>
+                                            <p>{{ number_format($planPrices['yearly']['price'], 0, ',', '.') }} RSD
+                                                godišnje</p>
+                                            <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">
+                                                Isplativo od
+                                                {{ ceil($planPrices['yearly']['price'] / $planPrices['per_listing']['price']) }}
+                                                oglasa godišnje
+                                            </p>
+                                        </div>
+                                    @endif
 
-                                @if ($planPrices['business']['enabled'])
-                                    <div class="text-center">
-                                        <h4 class="font-semibold text-orange-600 dark:text-orange-400 mb-2">Biznis
-                                        </h4>
-                                        <p>{{ number_format($planPrices['business']['price'], 0, ',', '.') }} RSD
-                                            po business-u</p>
-                                        <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">
-                                            Plaćanje po postavljenom business-u
-                                        </p>
-                                    </div>
-                                @endif
+                                    @if ($planPrices['business']['enabled'])
+                                        <div class="text-center">
+                                            <h4 class="font-semibold text-orange-600 dark:text-orange-400 mb-2">Biznis
+                                                kartice
+                                            </h4>
+                                            <p>{{ number_format($planPrices['business']['price'], 0, ',', '.') }} RSD
+                                                po business-u</p>
+                                            <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">
+                                                Plaćanje po postavljenom business-u
+                                            </p>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endif
 
                     <!-- Action Buttons -->
                     @if (auth()->user()->payment_enabled)
-                    <div class="flex justify-between items-center">
-                        <button type="button" wire:click="cancelPlanSelection"
-                            class="px-6 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors">
-                            <i class="fas fa-times mr-2"></i>
-                            Otkaži
-                        </button>
+                        <div class="flex justify-between items-center">
+                            <button type="button" wire:click="cancelPlanSelection"
+                                class="px-6 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors">
+                                <i class="fas fa-times mr-2"></i>
+                                Otkaži
+                            </button>
 
-                        <!-- Always show the button if a plan is selected -->
-                        <button type="submit"
-                            class="px-6 py-3 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition-colors">
-                            @if ($selectedPlan === 'per_listing')
-                                <i class="fas fa-check mr-2"></i>
-                                {{ !auth()->user()->payment_enabled ? 'Aktiviraj' : 'Promeni na' }} plaćanje po oglasu
-                            @else
-                                <i class="fas fa-shopping-cart mr-2"></i>
-                                {{ !auth()->user()->payment_enabled ? 'Aktiviraj' : 'Kupi' }}
-                                {{ $planPrices[$selectedPlan]['title'] ?? '' }}
-                                @if (isset($planPrices[$selectedPlan]['price']))
-                                    ({{ number_format($planPrices[$selectedPlan]['price'], 0, ',', '.') }} RSD)
+                            <!-- Always show the button if a plan is selected -->
+                            <button type="submit"
+                                class="px-6 py-3 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition-colors">
+                                @if ($selectedPlan === 'per_listing')
+                                    <i class="fas fa-check mr-2"></i>
+                                    {{ !auth()->user()->payment_enabled ? 'Aktiviraj' : 'Promeni na' }} plaćanje po
+                                    oglasu
+                                @else
+                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                    {{ !auth()->user()->payment_enabled ? 'Aktiviraj' : 'Kupi' }}
+                                    {{ $planPrices[$selectedPlan]['title'] ?? '' }}
+                                    @if (isset($planPrices[$selectedPlan]['price']))
+                                        ({{ number_format($planPrices[$selectedPlan]['price'], 0, ',', '.') }} RSD)
+                                    @endif
                                 @endif
-                            @endif
-                        </button>
-                    </div>
+                            </button>
+                        </div>
                     @endif
 
                     @error('selectedPlan')
@@ -292,7 +300,7 @@
                 <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-600">
                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Prednosti planova</h3>
                     @php
-                        $benefitsGridClass = match($enabledPlansCount) {
+                        $benefitsGridClass = match ($enabledPlansCount) {
                             1 => 'grid-cols-1',
                             2 => 'grid-cols-1 md:grid-cols-2',
                             3 => 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',

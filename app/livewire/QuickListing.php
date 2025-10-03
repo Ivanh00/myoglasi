@@ -287,7 +287,7 @@ class QuickListing extends Component
                             'type' => 'business_plan_usage',
                             'amount' => 0,
                             'status' => 'completed',
-                            'description' => 'Korišćenje biznis plana za business: ' . $this->title . ' (' . ($activeBusinessCount + 1) . '/' . $businessLimit . ' aktivnih)',
+                            'description' => 'Korišćenje biznis plana za biznis karticu: ' . $this->title . ' (' . ($activeBusinessCount + 1) . '/' . $businessLimit . ' aktivnih)',
                             'reference_number' => 'BUSINESS-PLAN-' . now()->timestamp,
                         ]);
                     } else {
@@ -297,7 +297,7 @@ class QuickListing extends Component
 
                             // Check balance if fee is required
                             if ($fee > 0 && $user->balance < $fee) {
-                                session()->flash('error', 'Dostigli ste limit biznis plana (' . $businessLimit . ' aktivnih). Za dodatne biznise potrebno je: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+                                session()->flash('error', 'Dostigli ste limit biznis plana (' . $businessLimit . ' aktivnih). Za dodatne biznis kartice potrebno je: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
                                 DB::rollBack();
                                 $this->closeModal();
                                 return redirect()->route('balance.payment-options');
@@ -322,7 +322,7 @@ class QuickListing extends Component
                             }
                         } else {
                             // Business fee is disabled - can't post more
-                            session()->flash('error', 'Dostigli ste limit od ' . $businessLimit . ' aktivnih biznisa. Obrišite postojeći biznis da biste dodali novi.');
+                            session()->flash('error', 'Dostigli ste limit od ' . $businessLimit . ' aktivnih biznis kartica. Obrišite postojeću biznis karticu da biste dodali novu.');
                             DB::rollBack();
                             $this->closeModal();
                             return redirect()->route('businesses.index');

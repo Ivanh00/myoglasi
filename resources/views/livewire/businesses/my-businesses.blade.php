@@ -5,7 +5,7 @@
             <h1 class="text-xl font-semibold text-purple-900 dark:text-purple-100">Moji Business</h1>
             <a href="{{ route('businesses.create') }}"
                 class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm">
-                <i class="fas fa-plus mr-2"></i> Dodaj novi biznis
+                <i class="fas fa-plus mr-2"></i> Dodaj novu biznis karticu
             </a>
         </div>
     </div>
@@ -454,7 +454,7 @@
                         class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
                             <i class="fas fa-power-off mr-2 text-purple-600"></i>
-                            Aktivacija biznisa
+                            Aktivacija biznis kartice
                         </h3>
                         <button wire:click="closeActivateModal"
                             class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
@@ -465,7 +465,7 @@
                     <!-- Business Info -->
                     <div class="mt-4 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
                         <p class="text-sm text-slate-600 dark:text-slate-300">
-                            <strong>Biznis:</strong> {{ $businessToActivate->name }}
+                            <strong>Biznis kartica:</strong> {{ $businessToActivate->name }}
                         </p>
                     </div>
 
@@ -562,7 +562,7 @@
                                             Kupi biznis plan
                                         </h4>
                                         <p class="text-sm text-sky-700 dark:text-sky-300 mt-1">
-                                            Aktivirajte više biznisa sa biznis planom
+                                            Aktivirajte više biznis kartica sa biznis planom
                                         </p>
                                     </div>
                                 </div>

@@ -17,7 +17,8 @@
                 class="px-4 py-2 flex items-center gap-2 transition-colors font-medium text-sm border-l border-slate-300 dark:border-slate-600
                 {{ $filterType === 'listings' ? 'bg-sky-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700' }}">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-8H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 11H5m14-8H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"></path>
                 </svg>
                 Oglasi
             </button>
@@ -31,7 +32,7 @@
                 class="px-4 py-2 flex items-center gap-2 transition-colors font-medium text-sm border-l border-slate-300 dark:border-slate-600
                 {{ $filterType === 'businesses' ? 'bg-purple-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700' }}">
                 <i class="fas fa-briefcase w-4"></i>
-                Biznisi
+                Biznis kartice
             </button>
         </div>
 
@@ -103,20 +104,25 @@
             <!-- Header -->
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
                 <div class="grid grid-cols-[35%_20%_20%_25%] bg-slate-50 dark:bg-slate-700">
-                    <div class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <div
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Stavka</div>
-                    <div class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <div
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Cena</div>
-                    <div class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <div
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Status</div>
-                    <div class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <div
+                        class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                         Dodato</div>
                 </div>
             </div>
 
             <!-- Data Rows -->
             @foreach ($favorites as $item)
-                <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 {{ $item->item_type === 'business' ? 'border-purple-500' : ($item->item_type === 'service' ? 'border-slate-500' : (method_exists($item, 'isGiveaway') && $item->isGiveaway() ? 'border-green-500' : 'border-sky-500')) }}">
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden border-l-4 {{ $item->item_type === 'business' ? 'border-purple-500' : ($item->item_type === 'service' ? 'border-slate-500' : (method_exists($item, 'isGiveaway') && $item->isGiveaway() ? 'border-green-500' : 'border-sky-500')) }}">
                     <div class="grid grid-cols-[35%_20%_20%_25%] hover:bg-slate-50 dark:hover:bg-slate-700">
                         <!-- Stavka Column -->
                         <div class="px-4 py-2">
@@ -127,7 +133,8 @@
                                             src="{{ $item->images->first()->url }}" alt="{{ $item->title }}">
                                     @else
                                         <div class="h-10 w-10 rounded-lg bg-slate-200 flex items-center justify-center">
-                                            <i class="fas {{ $item->item_type === 'service' ? 'fa-tools' : 'fa-image' }} text-slate-400"></i>
+                                            <i
+                                                class="fas {{ $item->item_type === 'service' ? 'fa-tools' : 'fa-image' }} text-slate-400"></i>
                                         </div>
                                     @endif
                                 </div>
@@ -135,16 +142,20 @@
                                     <div class="text-sm font-medium text-slate-900 dark:text-slate-100 break-words">
                                         {{ Str::limit($item->title, 40) }}</div>
                                     <div class="text-sm text-slate-500 dark:text-slate-300">
-                                        @if($item->item_type === 'business')
+                                        @if ($item->item_type === 'business')
                                             {{ $item->category->name ?? 'Biznis' }}
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 ml-1">BIZNIS</span>
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 ml-1">BIZNIS
+                                                KARTICA</span>
                                         @elseif($item->item_type === 'service')
                                             {{ $item->category->name ?? 'Usluga' }}
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-600 text-slate-800 dark:text-slate-200 ml-1">USLUGA</span>
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-600 text-slate-800 dark:text-slate-200 ml-1">USLUGA</span>
                                         @else
                                             {{ $item->category->name }}
-                                            @if(method_exists($item, 'isGiveaway') && $item->isGiveaway())
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 ml-1">POKLON</span>
+                                            @if (method_exists($item, 'isGiveaway') && $item->isGiveaway())
+                                                <span
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 ml-1">POKLON</span>
                                             @endif
                                         @endif
                                     </div>
@@ -154,11 +165,11 @@
                         <!-- Cena Column -->
                         <div class="px-4 py-2">
                             <div class="text-sm font-bold whitespace-nowrap">
-                                @if($item->item_type === 'business')
+                                @if ($item->item_type === 'business')
                                     <span class="text-slate-500 dark:text-slate-400">-</span>
                                 @elseif($item->item_type === 'service')
                                     <span class="text-slate-600 dark:text-slate-400">
-                                        @if($item->price_type === 'fixed')
+                                        @if ($item->price_type === 'fixed')
                                             {{ number_format($item->price, 2) }} RSD
                                         @elseif($item->price_type === 'hourly')
                                             {{ number_format($item->price, 2) }} RSD/sat
@@ -173,22 +184,26 @@
                                 @elseif(method_exists($item, 'isGiveaway') && $item->isGiveaway())
                                     <span class="text-green-600 dark:text-green-400">BESPLATNO</span>
                                 @else
-                                    <span class="text-sky-600 dark:text-sky-400">{{ number_format($item->price, 2) }} RSD</span>
+                                    <span class="text-sky-600 dark:text-sky-400">{{ number_format($item->price, 2) }}
+                                        RSD</span>
                                 @endif
                             </div>
                         </div>
                         <!-- Status Column -->
                         <div class="px-4 py-2">
                             @if ($item->status === 'active')
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">
                                     Aktivan
                                 </span>
                             @elseif($item->status === 'expired')
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200">
                                     Istekao
                                 </span>
                             @else
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
                                     {{ ucfirst($item->status) }}
                                 </span>
                             @endif
@@ -199,9 +214,10 @@
                         </div>
                     </div>
                     <!-- Actions Row -->
-                    <div class="border-t border-slate-200 dark:border-slate-600 px-4 py-2 bg-slate-50 dark:bg-slate-700/50">
+                    <div
+                        class="border-t border-slate-200 dark:border-slate-600 px-4 py-2 bg-slate-50 dark:bg-slate-700/50">
                         <div class="flex flex-wrap gap-2">
-                            @if($item->item_type === 'business')
+                            @if ($item->item_type === 'business')
                                 <a href="{{ route('businesses.show', $item) }}"
                                     class="inline-flex items-center px-2 py-1 text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 rounded">
                                     <i class="fas fa-eye mr-1"></i> Pregled
@@ -224,7 +240,8 @@
                                 <i class="fas fa-share-alt mr-1"></i> Podeli
                             </button>
 
-                            <button x-data @click="$dispatch('open-remove-modal', { itemId: {{ $item->id }}, itemType: '{{ $item->item_type }}' })"
+                            <button x-data
+                                @click="$dispatch('open-remove-modal', { itemId: {{ $item->id }}, itemType: '{{ $item->item_type }}' })"
                                 class="inline-flex items-center px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 rounded">
                                 <i class="fas fa-heart-broken mr-1"></i> Ukloni
                             </button>
@@ -253,8 +270,10 @@
                                         <img class="h-16 w-16 rounded-lg object-cover"
                                             src="{{ $item->images->first()->url }}" alt="{{ $item->title }}">
                                     @else
-                                        <div class="h-16 w-16 rounded-lg bg-slate-200 flex items-center justify-center">
-                                            <i class="fas {{ $item->item_type === 'service' ? 'fa-tools' : 'fa-image' }} text-slate-400"></i>
+                                        <div
+                                            class="h-16 w-16 rounded-lg bg-slate-200 flex items-center justify-center">
+                                            <i
+                                                class="fas {{ $item->item_type === 'service' ? 'fa-tools' : 'fa-image' }} text-slate-400"></i>
                                         </div>
                                     @endif
                                 </div>
@@ -264,7 +283,7 @@
                                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
                                         {{ $item->title }}</h3>
                                     <p class="text-sm text-slate-500 dark:text-slate-300 mb-1">
-                                        @if($item->item_type === 'business')
+                                        @if ($item->item_type === 'business')
                                             {{ $item->category->name ?? 'Biznis' }}
                                         @elseif($item->item_type === 'service')
                                             {{ $item->category->name ?? 'Usluga' }}
@@ -273,10 +292,11 @@
                                         @endif
                                     </p>
                                     <p class="text-xs text-slate-400 mb-2">{{ $item->location }}</p>
-                                    @if($item->item_type !== 'business')
-                                        <p class="text-xl font-bold {{ $item->item_type === 'service' ? 'text-slate-600 dark:text-slate-400' : 'text-sky-600 dark:text-sky-400' }}">
-                                            @if($item->item_type === 'service')
-                                                @if($item->price_type === 'fixed')
+                                    @if ($item->item_type !== 'business')
+                                        <p
+                                            class="text-xl font-bold {{ $item->item_type === 'service' ? 'text-slate-600 dark:text-slate-400' : 'text-sky-600 dark:text-sky-400' }}">
+                                            @if ($item->item_type === 'service')
+                                                @if ($item->price_type === 'fixed')
                                                     {{ number_format($item->price, 2) }} RSD
                                                 @elseif($item->price_type === 'hourly')
                                                     {{ number_format($item->price, 2) }} RSD/sat
@@ -343,7 +363,7 @@
 
                         <!-- Action Buttons -->
                         <div class="flex flex-wrap gap-2">
-                            @if($item->item_type === 'business')
+                            @if ($item->item_type === 'business')
                                 <a href="{{ route('businesses.show', $item) }}"
                                     class="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-medium rounded-lg hover:bg-purple-200 transition-colors">
                                     <i class="fas fa-eye mr-1"></i>
@@ -370,7 +390,8 @@
                                 Podeli
                             </button>
 
-                            <button x-data @click="$dispatch('open-remove-modal', { itemId: {{ $item->id }}, itemType: '{{ $item->item_type }}' })"
+                            <button x-data
+                                @click="$dispatch('open-remove-modal', { itemId: {{ $item->id }}, itemType: '{{ $item->item_type }}' })"
                                 class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 transition-colors">
                                 <i class="fas fa-heart-broken mr-1"></i>
                                 Ukloni
@@ -389,7 +410,8 @@
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-heart text-slate-400 text-5xl mb-4"></i>
             <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">Nemate omiljenih stavki</h3>
-            <p class="text-slate-600 dark:text-slate-300 mb-4">Počnite da čuvate oglase i usluge koje volite klikom na srce.</p>
+            <p class="text-slate-600 dark:text-slate-300 mb-4">Počnite da čuvate oglase i usluge koje volite klikom na
+                srce.</p>
             <a href="{{ route('home') }}"
                 class="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors">
                 Pretraži oglase i usluge
@@ -438,7 +460,8 @@
                 <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
+                            <div
+                                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-white bg-opacity-20">
                                 <i class="fas fa-heart-broken text-white text-xl"></i>
                             </div>
                             <h3 class="ml-3 text-xl font-bold text-white">Uklanjanje iz omiljenih</h3>
@@ -468,12 +491,14 @@
                             <div class="space-y-2">
                                 <div class="flex justify-between items-start">
                                     <span class="text-sm text-slate-600 dark:text-slate-300">Naziv:</span>
-                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100 text-right ml-2"
+                                    <span
+                                        class="text-sm font-medium text-slate-900 dark:text-slate-100 text-right ml-2"
                                         x-text="selectedItem?.data?.title || 'N/A'"></span>
                                 </div>
                                 <div class="flex justify-between items-start">
                                     <span class="text-sm text-slate-600 dark:text-slate-300">Kategorija:</span>
-                                    <span class="text-sm font-medium text-slate-900 dark:text-slate-100 text-right ml-2"
+                                    <span
+                                        class="text-sm font-medium text-slate-900 dark:text-slate-100 text-right ml-2"
                                         x-text="selectedItem?.data?.category?.name || 'N/A'"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -495,14 +520,16 @@
                     </template>
 
                     <!-- Info notice -->
-                    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
+                    <div
+                        class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
                         <div class="flex">
                             <div class="flex-shrink-0">
                                 <i class="fas fa-info-circle text-blue-600 dark:text-blue-500"></i>
                             </div>
                             <div class="ml-3">
                                 <p class="text-sm text-blue-800 dark:text-blue-200">
-                                    <strong>Napomena:</strong> Možete ponovo dodati ovu stavku u omiljene klikom na srce na stranici
+                                    <strong>Napomena:</strong> Možete ponovo dodati ovu stavku u omiljene klikom na srce
+                                    na stranici
                                     <span x-text="selectedItem?.type === 'service' ? 'usluge' : 'oglasa'"></span>.
                                 </p>
                             </div>
@@ -592,25 +619,30 @@
             const fbLink = document.createElement('a');
             fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
             fbLink.target = '_blank';
-            fbLink.className = 'flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
+            fbLink.className =
+            'flex items-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
             fbLink.innerHTML = '<i class="fab fa-facebook-f w-6"></i><span class="ml-3">Podeli na Facebook-u</span>';
 
             // WhatsApp
             const waLink = document.createElement('a');
             waLink.href = 'https://wa.me/?text=' + encodeURIComponent(text + ' ' + url);
             waLink.target = '_blank';
-            waLink.className = 'flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors';
+            waLink.className =
+                'flex items-center p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors';
             waLink.innerHTML = '<i class="fab fa-whatsapp w-6"></i><span class="ml-3">Podeli na WhatsApp-u</span>';
 
             // Email
             const emailLink = document.createElement('a');
-            emailLink.href = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(text + '\n\n' + url);
-            emailLink.className = 'flex items-center p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors';
+            emailLink.href = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(text + '\n\n' +
+                url);
+            emailLink.className =
+                'flex items-center p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors';
             emailLink.innerHTML = '<i class="fas fa-envelope w-6"></i><span class="ml-3">Pošalji Email</span>';
 
             // Copy link button
             const copyBtn = document.createElement('button');
-            copyBtn.className = 'w-full flex items-center p-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors';
+            copyBtn.className =
+                'w-full flex items-center p-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors';
             copyBtn.innerHTML = '<i class="fas fa-link w-6"></i><span class="ml-3">Kopiraj link</span>';
             copyBtn.onclick = () => {
                 copyToClipboard(url);
@@ -640,7 +672,8 @@
             navigator.clipboard.writeText(url).then(() => {
                 // Show success message
                 const message = document.createElement('div');
-                message.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
+                message.className =
+                    'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
 
                 const icon = document.createElement('i');
                 icon.className = 'fas fa-check mr-2';

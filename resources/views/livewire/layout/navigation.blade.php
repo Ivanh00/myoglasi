@@ -140,7 +140,7 @@
                                         <a href="{{ route('businesses.create') }}" @click="open = false"
                                             class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                                             <i class="fas fa-briefcase text-purple-600 mr-3"></i>
-                                            Biznis
+                                            Biznis kartica
                                         </a>
                                         <a href="{{ route('listings.create') }}?type=giveaway" @click="open = false"
                                             class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-600 dark:hover:text-green-400 transition-colors">
@@ -167,7 +167,8 @@
                                     <button
                                         class="flex items-center text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 border border-slate-300 dark:border-slate-600 rounded-md hover:border-slate-400 dark:hover:border-slate-500 bg-white dark:bg-slate-700">
                                         @if (auth()->user()->avatar)
-                                            <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-600 overflow-hidden">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-600 overflow-hidden">
                                                 <img src="{{ auth()->user()->avatar_url }}" alt=""
                                                     class="w-full h-full object-cover">
                                             </div>
@@ -196,9 +197,12 @@
                                             .scrollbar-hide::-webkit-scrollbar {
                                                 display: none;
                                             }
+
                                             .scrollbar-hide {
-                                                -ms-overflow-style: none;  /* IE and Edge */
-                                                scrollbar-width: none;  /* Firefox */
+                                                -ms-overflow-style: none;
+                                                /* IE and Edge */
+                                                scrollbar-width: none;
+                                                /* Firefox */
                                             }
                                         </style>
                                         @if (auth()->user()->is_admin)
@@ -247,7 +251,7 @@
                                             <x-dropdown-link href="{{ route('businesses.my') }}"
                                                 class="!bg-purple-50 !text-purple-700 hover:!bg-purple-100 dark:!bg-purple-900/50 dark:!text-purple-300 dark:hover:!bg-purple-900/30">
                                                 <i class="fas fa-briefcase mr-2"></i>
-                                                Moji biznisi
+                                                Moje biznis kartice
                                             </x-dropdown-link>
                                             <x-dropdown-link href="{{ route('favorites.index') }}">
                                                 Omiljeni
@@ -371,7 +375,7 @@
                                     <a href="{{ route('businesses.create') }}" @click="open = false"
                                         class="flex items-center justify-center px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                                         <i class="fas fa-briefcase text-purple-600 mr-3"></i>
-                                        Biznis
+                                        Biznis kartica
                                     </a>
                                 </div>
                             </div>
@@ -489,7 +493,8 @@
                             class="text-slate-700 dark:text-slate-200 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">
                             Poruke
                             @if ($this->unreadMessagesCount > 0)
-                                <span class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                                <span
+                                    class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                     {{ $this->unreadMessagesCount }}
                                 </span>
                             @endif
@@ -499,7 +504,8 @@
                             class="text-slate-700 dark:text-slate-200 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">
                             Obaveštenja
                             @if ($this->unreadNotificationsCount > 0)
-                                <span class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
+                                <span
+                                    class="ml-2 bg-red-600 dark:bg-red-800 text-white rounded px-1.5 py-0.5 text-sm font-semibold">
                                     {{ $this->unreadNotificationsCount }}
                                 </span>
                             @endif

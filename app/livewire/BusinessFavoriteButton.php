@@ -22,19 +22,19 @@ class BusinessFavoriteButton extends Component
     public function toggleFavorite()
     {
         if (!Auth::check()) {
-            session()->flash('error', 'Morate se prijaviti da biste dodali biznis u omiljene.');
+            session()->flash('error', 'Morate se prijaviti da biste dodali biznis karticu u omiljene.');
             return redirect()->route('login');
         }
 
         if (Auth::id() === $this->business->user_id) {
-            session()->flash('error', 'Ne možete dodati svoj biznis u omiljene.');
+            session()->flash('error', 'Ne možete dodati svoju biznis karticu u omiljene.');
             return;
         }
 
         if ($this->isFavorited) {
             // Ukloni iz omiljenih
             Auth::user()->removeBusinessFromFavorites($this->business);
-            session()->flash('success', 'Biznis je uklonjen iz omiljenih.');
+            session()->flash('success', 'Biznis kartica je uklonjena iz omiljenih.');
         } else {
             // Dodaj u omiljene
             Auth::user()->addBusinessToFavorites($this->business);
@@ -44,7 +44,7 @@ class BusinessFavoriteButton extends Component
                 $this->sendFavoriteNotification();
             }
 
-            session()->flash('success', 'Biznis je dodat u omiljene.');
+            session()->flash('success', 'Biznis kartica je dodata u omiljene.');
         }
 
         $this->updateFavoriteStatus();
@@ -68,7 +68,7 @@ class BusinessFavoriteButton extends Component
         Message::create([
             'sender_id' => Auth::id(),
             'receiver_id' => $this->business->user_id,
-            'message' => "Korisnik " . Auth::user()->name . " je dodao vaš biznis '" . $this->business->name . "' u omiljene.",
+            'message' => "Korisnik " . Auth::user()->name . " je dodao vašu biznis karticu '" . $this->business->name . "' u omiljene.",
             'is_system_message' => true,
             'is_read' => false,
         ]);

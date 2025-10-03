@@ -158,7 +158,7 @@ class Create extends Component
 
                     // Check balance if fee is required
                     if ($fee > 0 && $user->balance < $fee) {
-                        session()->flash('error', 'Dostigli ste limit biznis plana (' . $businessLimit . ' aktivnih). Za dodatne biznise potrebno je: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+                        session()->flash('error', 'Dostigli ste limit biznis plana (' . $businessLimit . ' aktivnih). Za dodatne biznis kartice potrebno je: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
                         return redirect()->route('balance.payment-options');
                     }
 
@@ -181,7 +181,7 @@ class Create extends Component
                     }
                 } else {
                     // Business fee is disabled - can't post more
-                    session()->flash('error', 'Dostigli ste limit od ' . $businessLimit . ' aktivnih biznisa. Obrišite postojeći biznis da biste dodali novi.');
+                    session()->flash('error', 'Dostigli ste limit od ' . $businessLimit . ' aktivnih biznis kartica. Obrišite postojeću biznis karticu da biste dodali novu.');
                     return redirect()->route('businesses.index');
                 }
             }

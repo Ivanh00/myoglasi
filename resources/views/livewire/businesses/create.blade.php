@@ -40,9 +40,9 @@
 
         <!-- Header -->
         <div class="mb-6 border-b border-purple-200 dark:border-purple-700 pb-4">
-            <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Dodaj novi Biznis</h1>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Dodaj novu Biznis karticu</h1>
             <p class="text-slate-600 dark:text-slate-400 mt-2">Popunite sva polja i dodajte informacije o vašem
-                business-u</p>
+                biznisu</p>
             @php
                 $user = auth()->user();
                 $hasBusinessPlan =
@@ -83,7 +83,7 @@
                                     @if ($activeBusinessCount < $businessPlanLimit)
                                         <div
                                             class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
-                                            <span>Aktivni biznisi: {{ $activeBusinessCount }} /
+                                            <span>Aktivne biznis kartice: {{ $activeBusinessCount }} /
                                                 {{ $businessPlanLimit }}</span>
                                             <span class="font-semibold">{{ $businessPlanLimit - $activeBusinessCount }}
                                                 slobodnih</span>
@@ -96,7 +96,7 @@
                                     @else
                                         <div
                                             class="flex justify-between text-xs text-purple-700 dark:text-purple-200 mb-1">
-                                            <span>Aktivni biznisi: {{ $activeBusinessCount }} /
+                                            <span>Aktivne biznis kartice: {{ $activeBusinessCount }} /
                                                 {{ $businessPlanLimit }}</span>
                                             <span class="font-semibold text-orange-600 dark:text-orange-400">Plan
                                                 popunjen</span>
@@ -109,7 +109,7 @@
                                         @if ($businessFeeEnabled)
                                             <p class="text-xs text-orange-700 dark:text-orange-300 mt-2">
                                                 <i class="fas fa-exclamation-circle mr-1"></i>
-                                                Svaki sledeći biznis se naplaćuje:
+                                                Svaka sledeća biznis kartica se naplaćuje:
                                                 <strong>{{ number_format($businessFeeAmount, 0, ',', '.') }}
                                                     RSD</strong>
                                             </p>

@@ -253,7 +253,7 @@
                                                 <span
                                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                                     <i class="fas fa-briefcase mr-1"></i>
-                                                    Biznis
+                                                    Biznis kartice
                                                 </span>
                                                 @if ($user->plan_expires_at)
                                                     <span class="text-xs text-slate-500 dark:text-slate-300">
@@ -262,7 +262,10 @@
                                                 @endif
                                                 @if ($user->business_plan_total > 0)
                                                     @php
-                                                        $activeBusinesses = $user->businesses()->where('status', 'active')->count();
+                                                        $activeBusinesses = $user
+                                                            ->businesses()
+                                                            ->where('status', 'active')
+                                                            ->count();
                                                     @endphp
                                                     <span class="text-xs text-purple-600 font-medium">
                                                         ({{ $activeBusinesses }}/{{ $user->business_plan_total }} aktivnih)
@@ -479,7 +482,7 @@
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                         <i class="fas fa-briefcase mr-1"></i>
-                                        Biznis
+                                        Biznis kartice
                                     </span>
                                     @if ($user->plan_expires_at)
                                         <div class="text-xs text-slate-500 dark:text-slate-300 mt-1">
@@ -488,7 +491,10 @@
                                     @endif
                                     @if ($user->business_plan_total > 0)
                                         @php
-                                            $activeBusinessesDetail = $user->businesses()->where('status', 'active')->count();
+                                            $activeBusinessesDetail = $user
+                                                ->businesses()
+                                                ->where('status', 'active')
+                                                ->count();
                                         @endphp
                                         <div class="text-xs text-purple-600 font-medium mt-1">
                                             {{ $activeBusinessesDetail }}/{{ $user->business_plan_total }} aktivnih

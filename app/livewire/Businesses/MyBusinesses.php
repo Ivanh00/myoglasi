@@ -85,7 +85,7 @@ class MyBusinesses extends Component
         $businessLimit = $user->business_plan_total;
 
         if ($activeBusinessCount >= $businessLimit) {
-            session()->flash('error', 'Dostigli ste limit biznis plana (' . $businessLimit . ' aktivnih biznisa).');
+            session()->flash('error', 'Dostigli ste limit biznis plana (' . $businessLimit . ' aktivnih biznis kartica).');
             return;
         }
 
@@ -103,11 +103,11 @@ class MyBusinesses extends Component
             'type' => 'business_plan_usage',
             'amount' => 0,
             'status' => 'completed',
-            'description' => 'Aktivacija biznisa preko biznis plana: ' . $this->businessToActivate->name,
+            'description' => 'Aktivacija biznis kartica preko biznis plana: ' . $this->businessToActivate->name,
             'reference_number' => 'BUSINESS-ACTIVATION-' . now()->timestamp,
         ]);
 
-        session()->flash('success', 'Business je uspešno aktiviran preko biznis plana!');
+        session()->flash('success', 'Biznis kartice su uspešno aktivirane preko biznis plana!');
         $this->closeActivateModal();
     }
 
@@ -121,7 +121,7 @@ class MyBusinesses extends Component
 
         // Check if business fee is enabled
         if (!\App\Models\Setting::get('business_fee_enabled', false)) {
-            session()->flash('error', 'Plaćanje po biznisu nije omogućeno.');
+            session()->flash('error', 'Plaćanje po biznis kartici nije omogućeno.');
             return;
         }
 
@@ -153,7 +153,7 @@ class MyBusinesses extends Component
             'type' => 'business_fee',
             'amount' => $fee,
             'status' => 'completed',
-            'description' => 'Aktivacija biznisa plaćanjem: ' . $this->businessToActivate->name,
+            'description' => 'Aktivacija biznis kartice plaćanjem: ' . $this->businessToActivate->name,
             'reference_number' => 'BUSINESS-ACTIVATION-' . now()->timestamp,
         ]);
 
