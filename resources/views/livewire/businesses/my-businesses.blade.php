@@ -2,7 +2,7 @@
     <!-- Header with background -->
     <div class="bg-purple-100 dark:bg-purple-900/50 rounded-t-lg px-4 py-4 mb-6">
         <div class="flex justify-between items-center">
-            <h1 class="text-xl font-semibold text-purple-900 dark:text-purple-100">Moji Business</h1>
+            <h1 class="text-xl font-semibold text-purple-900 dark:text-purple-100">Moje biznis kartice</h1>
             <a href="{{ route('businesses.create') }}"
                 class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm">
                 <i class="fas fa-plus mr-2"></i> Dodaj novu biznis karticu
@@ -14,7 +14,7 @@
     <div class="flex justify-end mb-6">
         <div class="flex items-center space-x-4">
             <label class="text-sm font-medium text-slate-700 dark:text-slate-200">Prikaži:</label>
-            <div class="w-60" x-data="{ open: false }" x-init="open = false">
+            <div class="w-60" x-data="{ open: false }">
                 <div class="relative">
                     <button @click="open = !open" type="button"
                         class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-200 text-sm text-left hover:border-slate-400 dark:hover:border-slate-500 focus:outline-none focus:border-purple-500 dark:focus:border-purple-400 transition-colors flex items-center justify-between">
@@ -39,7 +39,7 @@
                         </svg>
                     </button>
 
-                    <div x-show="open" @click.away="open = false" x-transition
+                    <div x-show="open" x-cloak @click.away="open = false" x-transition
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg">
                         <button @click="$wire.set('filter', 'all'); open = false" type="button"
                             class="w-full px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ $filter === 'all' ? 'bg-purple-50 dark:bg-slate-600 text-purple-700 dark:text-purple-300' : '' }}">
@@ -433,11 +433,12 @@
     @else
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-8 text-center">
             <i class="fas fa-briefcase text-slate-400 text-5xl mb-4"></i>
-            <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">Nemate nijedan business</h3>
+            <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">Nemate nijednu biznis karticu
+            </h3>
             <p class="text-slate-600 dark:text-slate-400 mb-4">Kreirajte svoj prvi business oglas.</p>
             <a href="{{ route('businesses.create') }}"
                 class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                Kreiraj prvi business
+                Kreiraj prvu biznis karticu
             </a>
         </div>
     @endif
