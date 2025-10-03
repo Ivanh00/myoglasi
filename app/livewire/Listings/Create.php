@@ -176,14 +176,30 @@ class Create extends Component
         
         // Calculate fee based on listing type
         $fee = 0;
-        if ($this->listingType === 'listing' && !$user->canCreateListingForFree() && $user->payment_plan === 'per_listing') {
-            $fee = \App\Models\Setting::get('listing_fee_amount', 10);
+        $feeType = '';
+        $feeDescription = '';
+
+        if ($this->listingType === 'auction' && !$user->canCreateListingForFree() && $user->payment_plan === 'per_listing') {
+            // Auction fee
+            if (\App\Models\Setting::get('auction_fee_enabled', false)) {
+                $fee = \App\Models\Setting::get('auction_fee_amount', 50);
+                $feeType = 'auction_fee';
+                $feeDescription = 'Naplaćivanje za objavljivanje aukcije: ' . $this->title;
+            }
+        } elseif ($this->listingType === 'listing' && !$user->canCreateListingForFree() && $user->payment_plan === 'per_listing') {
+            // Regular listing fee
+            if (\App\Models\Setting::get('listing_fee_enabled', false)) {
+                $fee = \App\Models\Setting::get('listing_fee_amount', 10);
+                $feeType = 'listing_fee';
+                $feeDescription = 'Naplaćivanje za objavljivanje oglasa: ' . $this->title;
+            }
         }
         // Giveaways are always free
-        
+
         // Check balance if fee is required
         if ($fee > 0 && $user->balance < $fee) {
-            session()->flash('error', 'Nemate dovoljno kredita za postavljanje oglasa. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
+            $itemType = $this->listingType === 'auction' ? 'aukcije' : 'oglasa';
+            session()->flash('error', 'Nemate dovoljno kredita za postavljanje ' . $itemType . '. Potrebno: ' . number_format($fee, 0, ',', '.') . ' RSD, a imate: ' . number_format($user->balance, 0, ',', '.') . ' RSD');
             return $this->redirect(route('balance.payment-options'), navigate: true);
         }
 
@@ -194,11 +210,11 @@ class Create extends Component
             // Create transaction record
             \App\Models\Transaction::create([
                 'user_id' => $user->id,
-                'type' => 'listing_fee',
+                'type' => $feeType,
                 'amount' => $fee,
                 'status' => 'completed',
-                'description' => 'Naplaćivanje za objavljivanje oglasa: ' . $this->title,
-                'reference_number' => 'LISTING-FEE-' . now()->timestamp,
+                'description' => $feeDescription,
+                'reference_number' => strtoupper($feeType) . '-' . now()->timestamp,
             ]);
         }
 

@@ -71,6 +71,8 @@
                         | Cena objave: <strong>
                             @if ($listingType === 'giveaway')
                                 Besplatno
+                            @elseif ($listingType === 'auction')
+                                {{ \App\Models\Setting::get('auction_fee_enabled') ? number_format(\App\Models\Setting::get('auction_fee_amount', 50), 2) . ' RSD' : 'Besplatno' }}
                             @else
                                 {{ \App\Models\Setting::get('listing_fee_enabled') ? number_format(\App\Models\Setting::get('listing_fee_amount', 10), 2) . ' RSD' : 'Besplatno' }}
                             @endif
@@ -127,7 +129,7 @@
                                 <span class="text-sm font-medium text-slate-900 dark:text-slate-100">Aukcija</span>
                             </div>
                             <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">Licitiranje
-                                ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})
+                                ({{ \App\Models\Setting::get('auction_fee_enabled') ? \App\Models\Setting::get('auction_fee_amount', 50) . ' RSD' : 'Besplatno' }})
                             </p>
                         </div>
                     </label>
@@ -685,7 +687,7 @@
                                 Objavi poklon (Besplatno)
                             @elseif($listingType === 'auction')
                                 Kreiraj aukciju
-                                ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})
+                                ({{ \App\Models\Setting::get('auction_fee_enabled') ? \App\Models\Setting::get('auction_fee_amount', 50) . ' RSD' : 'Besplatno' }})
                             @else
                                 Objavi oglas
                                 ({{ \App\Models\Setting::get('listing_fee_enabled') ? \App\Models\Setting::get('listing_fee_amount', 10) . ' RSD' : 'Besplatno' }})
