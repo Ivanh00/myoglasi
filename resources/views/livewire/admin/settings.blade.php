@@ -55,12 +55,23 @@
         <!-- Payment Settings Tab -->
         @if ($activeTab === 'payments')
             <div class="space-y-6">
+                <!-- Planovi pretplate (Oglasi) -->
+                <div class="bg-gradient-to-r from-sky-50 to-sky-100 dark:from-slate-800 dark:to-slate-700 p-4 rounded-lg border-2 border-sky-300 dark:border-sky-600">
+                    <h2 class="text-xl font-bold text-sky-900 dark:text-sky-100 mb-2">
+                        <i class="fas fa-list-alt mr-2"></i>
+                        Planovi pretplate (Oglasi)
+                    </h2>
+                    <p class="text-sm text-sky-700 dark:text-sky-300 mb-4">
+                        Opcije plaćanja za postavljanje oglasa - po komadu, mesečno ili godišnje
+                    </p>
+                </div>
+
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Listing Fees -->
                     <div class="border border-slate-200 rounded-lg p-4">
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">
                             <i class="fas fa-list-alt mr-2 text-sky-600 dark:text-sky-400"></i>
-                            Naplaćivanje oglasa
+                            Naplaćivanje po oglasu
                         </h3>
 
                         <div class="space-y-4">
@@ -95,42 +106,6 @@
                                 @error('freeListingsPerMonth')
                                     <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
                                 @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Fees -->
-                    <div class="border border-slate-200 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold text-slate-900 mb-4">
-                            <i class="fas fa-tools mr-2 text-slate-600 dark:text-slate-400"></i>
-                            Naplaćivanje usluga
-                        </h3>
-
-                        <div class="space-y-4">
-                            <div class="flex items-center">
-                                <input type="checkbox" id="service_fee_enabled_payment" wire:model="serviceFeeEnabled"
-                                    class="h-4 w-4 text-slate-600 focus:ring-slate-500 border-slate-300 rounded">
-                                <label for="service_fee_enabled_payment"
-                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
-                                    Uključi naplaćivanje po usluzi
-                                </label>
-                            </div>
-
-                            @if ($serviceFeeEnabled)
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena po
-                                        usluzi (RSD)</label>
-                                    <input type="number" wire:model="serviceFeeAmount" min="1" max="10000"
-                                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-slate-500 focus:border-slate-500">
-                                    @error('serviceFeeAmount')
-                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            @endif
-
-                            <div class="text-xs text-sky-600 mt-2 p-2 bg-sky-50 border border-sky-200 rounded">
-                                💡 <strong>Napomena:</strong> Pokloni su uvek besplatni za objavljivanje. Ova naknada se
-                                odnosi samo na komercijalne usluge.
                             </div>
                         </div>
                     </div>
@@ -209,7 +184,7 @@
                     <div class="border border-slate-200 rounded-lg p-4 bg-sky-50">
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">
                             <i class="fas fa-info-circle mr-2 text-sky-600 dark:text-sky-400"></i>
-                            Pregled planiranih cena
+                            Pregled planova za oglase
                         </h3>
 
                         <div class="space-y-2 text-sm">
@@ -242,6 +217,120 @@
                                     <span>Besplatno mesečno:</span>
                                     <span class="font-semibold">{{ $freeListingsPerMonth }} oglasa</span>
                                 </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dodatne naknade -->
+                <div class="bg-gradient-to-r from-amber-50 to-orange-100 dark:from-slate-800 dark:to-slate-700 p-4 rounded-lg border-2 border-amber-300 dark:border-amber-600 mt-8">
+                    <h2 class="text-xl font-bold text-amber-900 dark:text-amber-100 mb-2">
+                        <i class="fas fa-coins mr-2"></i>
+                        Dodatne naknade
+                    </h2>
+                    <p class="text-sm text-amber-700 dark:text-amber-300 mb-4">
+                        Kontrola cena za specifične tipove sadržaja - aukcije (deo oglasa) i usluge
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Auction Fees -->
+                    <div class="border border-slate-200 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">
+                            <i class="fas fa-gavel mr-2 text-amber-600 dark:text-amber-400"></i>
+                            Naplaćivanje aukcija
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="auction_fee_enabled_payment" wire:model="auctionFeeEnabled"
+                                    class="h-4 w-4 text-amber-600 focus:ring-amber-500 border-slate-300 rounded">
+                                <label for="auction_fee_enabled_payment"
+                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
+                                    Uključi naplaćivanje po aukciji
+                                </label>
+                            </div>
+
+                            @if ($auctionFeeEnabled)
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena po
+                                        aukciji (RSD)</label>
+                                    <input type="number" wire:model="auctionFeeAmount" min="1" max="10000"
+                                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                                    @error('auctionFeeAmount')
+                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            @endif
+
+                            <div class="text-xs text-amber-700 mt-2 p-2 bg-amber-50 border border-amber-200 rounded">
+                                💡 <strong>Napomena:</strong> Aukcije su deo oglasa, ali mogu imati posebnu cenu za postavljanje. Ova cena se primenjuje samo na oglase sa aukcijom.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Fees -->
+                    <div class="border border-slate-200 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">
+                            <i class="fas fa-tools mr-2 text-slate-600 dark:text-slate-400"></i>
+                            Naplaćivanje usluga
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="service_fee_enabled_payment" wire:model="serviceFeeEnabled"
+                                    class="h-4 w-4 text-slate-600 focus:ring-slate-500 border-slate-300 rounded">
+                                <label for="service_fee_enabled_payment"
+                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
+                                    Uključi naplaćivanje po usluzi
+                                </label>
+                            </div>
+
+                            @if ($serviceFeeEnabled)
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena po
+                                        usluzi (RSD)</label>
+                                    <input type="number" wire:model="serviceFeeAmount" min="1" max="10000"
+                                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-slate-500 focus:border-slate-500">
+                                    @error('serviceFeeAmount')
+                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            @endif
+
+                            <div class="text-xs text-slate-700 mt-2 p-2 bg-slate-50 border border-slate-200 rounded">
+                                💡 <strong>Napomena:</strong> Pokloni su uvek besplatni za objavljivanje. Ova naknada se
+                                odnosi samo na komercijalne usluge.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Fees Summary -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-amber-50 lg:col-span-2">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">
+                            <i class="fas fa-info-circle mr-2 text-amber-600 dark:text-amber-400"></i>
+                            Pregled dodatnih naknada
+                        </h3>
+
+                        <div class="space-y-2 text-sm">
+                            @if ($auctionFeeEnabled)
+                                <div class="flex justify-between">
+                                    <span>Po aukciji:</span>
+                                    <span class="font-semibold">{{ number_format($auctionFeeAmount, 0, ',', '.') }}
+                                        RSD</span>
+                                </div>
+                            @endif
+
+                            @if ($serviceFeeEnabled)
+                                <div class="flex justify-between">
+                                    <span>Po usluzi:</span>
+                                    <span class="font-semibold">{{ number_format($serviceFeeAmount, 0, ',', '.') }}
+                                        RSD</span>
+                                </div>
+                            @endif
+
+                            @if (!$auctionFeeEnabled && !$serviceFeeEnabled)
+                                <p class="text-slate-500 text-center">Nema aktivnih dodatnih naknada</p>
                             @endif
                         </div>
                     </div>

@@ -19,6 +19,8 @@ class Settings extends Component
     // Payment Settings
     public $listingFeeEnabled;
     public $listingFeeAmount;
+    public $auctionFeeEnabled;
+    public $auctionFeeAmount;
     public $monthlyPlanEnabled;
     public $monthlyPlanPrice;
     public $yearlyPlanEnabled;
@@ -202,6 +204,8 @@ class Settings extends Component
         // Payment Settings
         $this->listingFeeEnabled = Setting::get('listing_fee_enabled', true);
         $this->listingFeeAmount = Setting::get('listing_fee_amount', 10);
+        $this->auctionFeeEnabled = Setting::get('auction_fee_enabled', false);
+        $this->auctionFeeAmount = Setting::get('auction_fee_amount', 50);
         $this->monthlyPlanEnabled = Setting::get('monthly_plan_enabled', false);
         $this->monthlyPlanPrice = Setting::get('monthly_plan_price', 500);
         $this->yearlyPlanEnabled = Setting::get('yearly_plan_enabled', false);
@@ -302,6 +306,10 @@ class Settings extends Component
         $this->validate([
             'listingFeeEnabled' => 'required|boolean',
             'listingFeeAmount' => 'required|integer|min:1|max:10000',
+            'auctionFeeEnabled' => 'required|boolean',
+            'auctionFeeAmount' => 'required|integer|min:1|max:10000',
+            'serviceFeeEnabled' => 'required|boolean',
+            'serviceFeeAmount' => 'required|integer|min:1|max:10000',
             'monthlyPlanEnabled' => 'required|boolean',
             'monthlyPlanPrice' => 'required|integer|min:100|max:50000',
             'yearlyPlanEnabled' => 'required|boolean',
@@ -311,6 +319,10 @@ class Settings extends Component
 
         Setting::set('listing_fee_enabled', $this->listingFeeEnabled, 'boolean', 'payments');
         Setting::set('listing_fee_amount', $this->listingFeeAmount, 'integer', 'payments');
+        Setting::set('auction_fee_enabled', $this->auctionFeeEnabled, 'boolean', 'payments');
+        Setting::set('auction_fee_amount', $this->auctionFeeAmount, 'integer', 'payments');
+        Setting::set('service_fee_enabled', $this->serviceFeeEnabled, 'boolean', 'payments');
+        Setting::set('service_fee_amount', $this->serviceFeeAmount, 'integer', 'payments');
         Setting::set('monthly_plan_enabled', $this->monthlyPlanEnabled, 'boolean', 'payments');
         Setting::set('monthly_plan_price', $this->monthlyPlanPrice, 'integer', 'payments');
         Setting::set('yearly_plan_enabled', $this->yearlyPlanEnabled, 'boolean', 'payments');
