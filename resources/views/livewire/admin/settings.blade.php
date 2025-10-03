@@ -99,6 +99,42 @@
                         </div>
                     </div>
 
+                    <!-- Service Fees -->
+                    <div class="border border-slate-200 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">
+                            <i class="fas fa-tools mr-2 text-slate-600 dark:text-slate-400"></i>
+                            Naplaćivanje usluga
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="service_fee_enabled_payment" wire:model="serviceFeeEnabled"
+                                    class="h-4 w-4 text-slate-600 focus:ring-slate-500 border-slate-300 rounded">
+                                <label for="service_fee_enabled_payment"
+                                    class="ml-2 text-sm text-slate-700 dark:text-slate-200">
+                                    Uključi naplaćivanje po usluzi
+                                </label>
+                            </div>
+
+                            @if ($serviceFeeEnabled)
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena po
+                                        usluzi (RSD)</label>
+                                    <input type="number" wire:model="serviceFeeAmount" min="1" max="10000"
+                                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-slate-500 focus:border-slate-500">
+                                    @error('serviceFeeAmount')
+                                        <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            @endif
+
+                            <div class="text-xs text-sky-600 mt-2 p-2 bg-sky-50 border border-sky-200 rounded">
+                                💡 <strong>Napomena:</strong> Pokloni su uvek besplatni za objavljivanje. Ova naknada se
+                                odnosi samo na komercijalne usluge.
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Monthly Plan -->
                     <div class="border border-slate-200 rounded-lg p-4">
                         <h3 class="text-lg font-semibold text-slate-900 mb-4">
@@ -310,83 +346,6 @@
                         @enderror
                     </div>
 
-                    <!-- Pricing Settings -->
-                    <div
-                        class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
-                        <h4 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
-                            <i class="fas fa-money-bill-wave text-green-600 mr-2"></i>
-                            Podešavanje cena
-                        </h4>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Listing Fee -->
-                            <div>
-                                <div class="flex items-center mb-2">
-                                    <input type="checkbox" id="listing_fee_enabled" wire:model="listingFeeEnabled"
-                                        class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 dark:border-slate-600 rounded">
-                                    <label for="listing_fee_enabled"
-                                        class="ml-2 text-sm font-medium text-slate-700 dark:text-slate-200">
-                                        Naplaćivanje oglasa
-                                    </label>
-                                </div>
-                                @if ($listingFeeEnabled)
-                                    <input type="number" wire:model="listingFeeAmount" min="1"
-                                        max="1000"
-                                        class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
-                                        Cena za postavljanje oglasa:
-                                        {{ number_format($listingFeeAmount, 0, ',', '.') }} RSD
-                                    </p>
-                                @else
-                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
-                                        Oglasi su besplatni
-                                    </p>
-                                @endif
-                                @error('listingFeeAmount')
-                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <!-- Service Fee -->
-                            <div>
-                                <div class="flex items-center mb-2">
-                                    <input type="checkbox" id="service_fee_enabled" wire:model="serviceFeeEnabled"
-                                        class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 dark:border-slate-600 rounded">
-                                    <label for="service_fee_enabled"
-                                        class="ml-2 text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Naplaćivanje usluga
-                                    </label>
-                                </div>
-                                @if ($serviceFeeEnabled)
-                                    <input type="number" wire:model="serviceFeeAmount" min="1"
-                                        max="1000"
-                                        class="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
-                                        Cena za postavljanje usluge:
-                                        {{ number_format($serviceFeeAmount, 0, ',', '.') }} RSD
-                                    </p>
-                                @else
-                                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
-                                        Usluge su besplatne
-                                    </p>
-                                @endif
-                                @error('serviceFeeAmount')
-                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div
-                            class="mt-4 p-3 bg-sky-50 dark:bg-sky-900 border border-sky-200 dark:border-sky-700 rounded-lg">
-                            <div class="text-sm text-sky-800 dark:text-sky-200">
-                                <i class="fas fa-info-circle mr-1"></i>
-                                <strong>Napomena:</strong> Ove cene se naplaćuju korisnicima koji imaju omogućeno
-                                plaćanje "po oglasu/usluzi".
-                                Korisnici sa mesečnim/godišnjim planovima postavljaju neograničeno.
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="space-y-4">
                         <div class="flex items-center">
                             <input type="checkbox" id="maintenance_mode" wire:model="maintenanceMode"
@@ -406,36 +365,6 @@
                         <div class="text-xs text-sky-600 mt-2 p-2 bg-sky-50 border border-sky-200 rounded">
                             💡 <strong>Napomena:</strong> Kada je uključeno, pored imena korisnika će pisati kada je
                             poslednji put bio aktivan (npr. "Online", "Pre 5 min", "Pre 2 sata").
-                        </div>
-
-                        <div class="flex items-center mt-4">
-                            <input type="checkbox" id="service_fee_enabled" wire:model="serviceFeeEnabled"
-                                class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-300 rounded">
-                            <label for="service_fee_enabled" class="ml-2 text-sm text-slate-700 dark:text-slate-200">
-                                Naplaćuj objavljivanje usluga
-                            </label>
-                        </div>
-
-                        @if ($serviceFeeEnabled)
-                            <div class="mt-4">
-                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Cena za
-                                    objavljivanje usluge
-                                    (RSD)</label>
-                                <input type="number" wire:model="serviceFeeAmount" min="1" max="10000"
-                                    class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500">
-                                <p class="text-xs text-slate-500 dark:text-slate-300 mt-1">
-                                    Koliko košta objavljivanje jedne usluge (trenutno:
-                                    {{ number_format($serviceFeeAmount, 0, ',', '.') }} RSD)
-                                </p>
-                                @error('serviceFeeAmount')
-                                    <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        @endif
-
-                        <div class="text-xs text-sky-600 mt-2 p-2 bg-sky-50 border border-sky-200 rounded">
-                            💡 <strong>Napomena:</strong> Pokloni su uvek besplatni za objavljivanje. Ova naknada se
-                            odnosi samo na komercijalne usluge.
                         </div>
 
                         <!-- Credit Earning Settings -->

@@ -188,11 +188,11 @@
             <!-- Business Name -->
             <div>
                 <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
-                    Naziv Business-a <span class="text-red-500">*</span>
+                    Naziv Biznis kartice <span class="text-red-500">*</span>
                 </label>
                 <input type="text" wire:model="name" id="name"
                     class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('name') border-red-500 @enderror"
-                    placeholder="Unesite naziv business-a">
+                    placeholder="Unesite naziv biznis kartice">
                 @error('name')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -205,7 +205,7 @@
                 </label>
                 <input type="text" wire:model="slogan" id="slogan"
                     class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 @error('slogan') border-red-500 @enderror"
-                    placeholder="Kratak slogan vašeg business-a">
+                    placeholder="Kratak slogan vašeg biznisa">
                 @error('slogan')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror

@@ -122,7 +122,7 @@
                                         </label>
                                         <input type="text" wire:model="title"
                                             class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                            placeholder="@if ($listingType === 'business') Unesite naziv business-a @else Unesite naslov @endif">
+                                            placeholder="@if ($listingType === 'business') Unesite naziv biznis kartice @else Unesite naslov @endif">
                                     </div>
 
                                     <!-- Category -->
@@ -228,7 +228,7 @@
                                             </label>
                                             <input type="text" wire:model="slogan"
                                                 class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-                                                placeholder="Kratak slogan vašeg business-a">
+                                                placeholder="Kratak slogan vašeg biznisa">
                                         </div>
 
                                         <!-- Description -->
