@@ -67,7 +67,7 @@
                 $business_category && $content_type === 'businesses'
                     ? [
                         'label' =>
-                            'Kategorija biznisa: ' .
+                            'Kategorija biznis kartica: ' .
                             ($businessCategories->firstWhere('id', $business_category)->name ?? 'N/A'),
                         'action' => "wire:click=\"\$set('business_category', '')\"",
                     ]
@@ -76,7 +76,7 @@
                 $business_subcategory && $content_type === 'businesses'
                     ? [
                         'label' =>
-                            'Podkategorija biznisa: ' .
+                            'Podkategorija biznis kartica: ' .
                             ($businessSubcategories->firstWhere('id', $business_subcategory)->name ?? 'N/A'),
                         'action' => "wire:click=\"\$set('business_subcategory', '')\"",
                     ]
@@ -222,7 +222,7 @@
             <button wire:click="$set('content_type', 'businesses')"
                 class="filter-btn-businesses px-2 py-1 rounded-md text-xs font-medium transition-colors {{ $content_type === 'businesses' ? 'active bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300' : 'text-slate-600 dark:text-slate-300' }}">
                 <i class="fas fa-briefcase mr-1"></i>
-                Biznisi
+                Biznis kartice
             </button>
         </div>
 
@@ -401,7 +401,8 @@
                                 Sve kategorije
                             @endif
                         </span>
-                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
                             </path>
                         </svg>
@@ -499,14 +500,16 @@
                 class="w-full flex items-center justify-center px-4 py-3 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors">
                 <i class="fas mr-2" :class="showAdditionalFilters ? 'fa-eye-slash' : 'fa-filter'"></i>
                 <span x-text="showAdditionalFilters ? 'Sakrij dodatne filtere' : 'Prikaži dodatne filtere'"></span>
-                <svg class="ml-2 w-4 h-4 transition-transform" :class="showAdditionalFilters ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="ml-2 w-4 h-4 transition-transform" :class="showAdditionalFilters ? 'rotate-180' : ''"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
             </button>
         </div>
 
         <!-- Mobile Additional Filters -->
-        <div x-show="showAdditionalFilters" x-cloak x-transition class="md:hidden mt-4 bg-white dark:bg-slate-700 rounded-lg shadow-md p-4">
+        <div x-show="showAdditionalFilters" x-cloak x-transition
+            class="md:hidden mt-4 bg-white dark:bg-slate-700 rounded-lg shadow-md p-4">
             <div class="grid grid-cols-1 gap-4">
                 @include('livewire.components.search-filters')
             </div>
@@ -689,7 +692,8 @@
                     class="hidden md:flex items-center px-4 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors">
                     <i class="fas mr-2" :class="showAdditionalFilters ? 'fa-eye-slash' : 'fa-filter'"></i>
                     <span x-text="showAdditionalFilters ? 'Sakrij dodatne filtere' : 'Prikaži dodatne filtere'"></span>
-                    <svg class="ml-2 w-4 h-4 transition-transform" :class="showAdditionalFilters ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="ml-2 w-4 h-4 transition-transform" :class="showAdditionalFilters ? 'rotate-180' : ''"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
@@ -729,7 +733,8 @@
             </div>
 
             <!-- Desktop Additional Filters (inside controls section) -->
-            <div x-show="showAdditionalFilters" x-cloak x-transition class="hidden md:block pt-4 border-t border-slate-200 dark:border-slate-600">
+            <div x-show="showAdditionalFilters" x-cloak x-transition
+                class="hidden md:block pt-4 border-t border-slate-200 dark:border-slate-600">
                 <div class="grid grid-cols-4 gap-4">
                     @include('livewire.components.search-filters')
                 </div>
@@ -855,11 +860,13 @@
                                         Sve kategorije
                                     </button>
                                     @foreach ($businessCategories as $category)
-                                        <button @click="$wire.set('business_category', '{{ $category->id }}'); open = false"
+                                        <button
+                                            @click="$wire.set('business_category', '{{ $category->id }}'); open = false"
                                             type="button"
                                             class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 flex items-center {{ $business_category == $category->id ? 'bg-purple-50 dark:bg-slate-600 text-purple-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                             @if ($category->icon)
-                                                <i class="{{ $category->icon }} text-purple-600 dark:text-purple-400 mr-2"></i>
+                                                <i
+                                                    class="{{ $category->icon }} text-purple-600 dark:text-purple-400 mr-2"></i>
                                             @endif
                                             {{ $category->name }}
                                         </button>
@@ -891,7 +898,8 @@
 
                                     <div x-show="open" x-cloak @click.away="open = false" x-transition
                                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                        <button @click="$wire.set('business_subcategory', ''); open = false" type="button"
+                                        <button @click="$wire.set('business_subcategory', ''); open = false"
+                                            type="button"
                                             class="w-full px-3 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-600 rounded-t-lg {{ !$business_subcategory ? 'bg-purple-50 dark:bg-slate-600 text-purple-700 dark:text-slate-200' : 'text-slate-700 dark:text-slate-200' }}">
                                             Sve podkategorije
                                         </button>

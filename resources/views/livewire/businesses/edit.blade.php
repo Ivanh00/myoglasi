@@ -2,7 +2,7 @@
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 md:p-6">
         <!-- Header -->
         <div class="mb-6 border-b border-purple-200 dark:border-purple-700 pb-4">
-            <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Izmeni Biznis</h1>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Izmeni Biznis karticu</h1>
             <p class="text-slate-600 dark:text-slate-400 mt-2">Ažurirajte informacije o vašem business-u</p>
         </div>
 

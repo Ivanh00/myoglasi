@@ -409,39 +409,37 @@ if (!empty($auctionType)) {
             Alpine.store('searchFilters').updateCount(count);
         }
     }
-}" x-init="
+}" x-init="syncFromUrl();
+
+// Watch for filter changes and update store
+$watch('city', () => updateFilterCount());
+$watch('category', () => updateFilterCount());
+$watch('serviceCategory', () => updateFilterCount());
+$watch('businessCategory', () => updateFilterCount());
+$watch('condition', () => updateFilterCount());
+$watch('auction_type', () => updateFilterCount());
+$watch('content_type', () => updateFilterCount());
+$watch('price_min', () => updateFilterCount());
+$watch('price_max', () => updateFilterCount());
+
+// Initial count update
+updateFilterCount();
+
+// Listen for browser back/forward navigation
+window.addEventListener('popstate', () => {
     syncFromUrl();
-
-    // Watch for filter changes and update store
-    $watch('city', () => updateFilterCount());
-    $watch('category', () => updateFilterCount());
-    $watch('serviceCategory', () => updateFilterCount());
-    $watch('businessCategory', () => updateFilterCount());
-    $watch('condition', () => updateFilterCount());
-    $watch('auction_type', () => updateFilterCount());
-    $watch('content_type', () => updateFilterCount());
-    $watch('price_min', () => updateFilterCount());
-    $watch('price_max', () => updateFilterCount());
-
-    // Initial count update
     updateFilterCount();
+});
 
-    // Listen for browser back/forward navigation
-    window.addEventListener('popstate', () => {
+// Listen for URL changes from Livewire (when filters change on unified-search page)
+let lastUrl = window.location.href;
+const urlObserver = setInterval(() => {
+    if (window.location.href !== lastUrl) {
+        lastUrl = window.location.href;
         syncFromUrl();
         updateFilterCount();
-    });
-
-    // Listen for URL changes from Livewire (when filters change on unified-search page)
-    let lastUrl = window.location.href;
-    const urlObserver = setInterval(() => {
-        if (window.location.href !== lastUrl) {
-            lastUrl = window.location.href;
-            syncFromUrl();
-            updateFilterCount();
-        }
-    }, 500);
-">
+    }
+}, 500);">
     <!-- Main Search Bar -->
     <div
         class="bg-white dark:bg-slate-700 dark:bg-slate-800 rounded-lg shadow-sm border border-slate-300 dark:border-slate-600 dark:border-slate-600 overflow-hidden">
@@ -471,7 +469,8 @@ if (!empty($auctionType)) {
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
-                        <span x-show="$store.searchFilters.activeCount > 0" class="ml-2 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
+                        <span x-show="$store.searchFilters.activeCount > 0"
+                            class="ml-2 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
                             x-text="$store.searchFilters.activeCount"></span>
                     </button>
                 </div>
@@ -551,7 +550,7 @@ if (!empty($auctionType)) {
                         class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-500 dark:checked:bg-purple-500">
                     <span class="ml-2 text-sm text-purple-700 dark:text-purple-200">
                         <i class="fas fa-briefcase mr-1"></i>
-                        Biznisi
+                        Biznis kartice
                     </span>
                 </label>
             </div>
@@ -602,7 +601,8 @@ if (!empty($auctionType)) {
                 </div>
 
                 <!-- Category (full width) -->
-                <div x-data="{ categoryOpen: false }" class="relative" x-show="content_type !== 'services' && content_type !== 'businesses'">
+                <div x-data="{ categoryOpen: false }" class="relative"
+                    x-show="content_type !== 'services' && content_type !== 'businesses'">
                     <label class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Kategorija</label>
                     <button type="button" @click="categoryOpen = !categoryOpen"
                         class="w-full flex justify-between items-center border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-left text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
@@ -651,7 +651,8 @@ if (!empty($auctionType)) {
                 </div>
 
                 <!-- Subcategory (full width) -->
-                <div x-data="{ subcategoryOpen: false }" class="relative" x-show="content_type !== 'services' && content_type !== 'businesses' && category">
+                <div x-data="{ subcategoryOpen: false }" class="relative"
+                    x-show="content_type !== 'services' && content_type !== 'businesses' && category">
                     <label
                         class="block text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">Podkategorija</label>
                     <button type="button" @click="subcategoryOpen = !subcategoryOpen"
@@ -769,7 +770,8 @@ if (!empty($auctionType)) {
                         </svg>
                     </button>
 
-                    <div x-show="serviceSubcategoryOpen" x-cloak x-transition @click.away="serviceSubcategoryOpen = false"
+                    <div x-show="serviceSubcategoryOpen" x-cloak x-transition
+                        @click.away="serviceSubcategoryOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button"
@@ -828,7 +830,8 @@ if (!empty($auctionType)) {
                     <div x-show="businessCategoryOpen" x-cloak x-transition @click.away="businessCategoryOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
-                            <button type="button" @click="selectBusinessCategory('', ''); businessCategoryOpen = false"
+                            <button type="button"
+                                @click="selectBusinessCategory('', ''); businessCategoryOpen = false"
                                 class="w-full text-left px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-600 transition flex items-center"
                                 :class="!businessCategory ?
                                     'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300 font-medium' :
@@ -873,7 +876,8 @@ if (!empty($auctionType)) {
                         </svg>
                     </button>
 
-                    <div x-show="businessSubcategoryOpen" x-cloak x-transition @click.away="businessSubcategoryOpen = false"
+                    <div x-show="businessSubcategoryOpen" x-cloak x-transition
+                        @click.away="businessSubcategoryOpen = false"
                         class="absolute z-10 mt-1 w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div class="p-1">
                             <button type="button"
@@ -1092,7 +1096,8 @@ if (!empty($auctionType)) {
                     class="w-full md:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-sky-600 dark:bg-sky-600 hover:bg-sky-700 dark:hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-500 transition-colors">
                     <i class="fas fa-search mr-2"></i>
                     <span>Primeni filtere</span>
-                    <span x-show="$store.searchFilters.activeCount > 0" class="ml-1 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
+                    <span x-show="$store.searchFilters.activeCount > 0"
+                        class="ml-1 px-1.5 py-0.5 bg-white dark:bg-slate-200 text-sky-600 dark:text-sky-700 rounded-full text-xs font-bold min-w-[20px] h-5 flex items-center justify-center"
                         x-text="$store.searchFilters.activeCount"></span>
                 </button>
             </div>
