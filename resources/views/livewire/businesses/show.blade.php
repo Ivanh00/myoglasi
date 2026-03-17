@@ -122,14 +122,49 @@
             @if ($business->images->count() > 0)
                 <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 md:p-6">
                     <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Galerija</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        @foreach ($business->images as $image)
-                            <div class="aspect-square overflow-hidden rounded-lg">
-                                <img src="{{ Storage::url($image->path) }}" alt="{{ $business->name }}"
-                                    class="w-full h-full object-cover hover:scale-110 transition-transform duration-300 cursor-pointer">
+                    @php
+                        $imageArray = $business->images
+                            ->map(function ($img) use ($business) {
+                                return ['url' => Storage::url($img->path), 'alt' => $business->name];
+                            })
+                            ->toArray();
+                    @endphp
+                    <x-image-lightbox :images="$imageArray" :title="$business->name">
+                        <div class="relative">
+                            <!-- Glavna slika -->
+                            <div class="mb-4 rounded-lg overflow-hidden relative">
+                                <img id="mainBusinessImage" src="{{ Storage::url($business->images->first()->path) }}"
+                                    alt="{{ $business->name }}"
+                                    class="w-full h-80 object-cover rounded-lg cursor-pointer hover:opacity-95 transition-opacity"
+                                    @click="openLightbox(0)">
+
+                                <!-- Zoom icon overlay -->
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-20"
+                                    @click="openLightbox(0)">
+                                    <div class="bg-white bg-opacity-90 rounded-full p-3">
+                                        <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
-                        @endforeach
-                    </div>
+
+                            <!-- Mala galerija -->
+                            <div class="grid grid-cols-4 gap-2">
+                                @foreach ($business->images as $index => $image)
+                                    <div
+                                        class="cursor-pointer border-2 rounded-lg overflow-hidden {{ $index === 0 ? 'border-purple-500' : 'border-slate-200 dark:border-slate-600' }}">
+                                        <img src="{{ Storage::url($image->path) }}"
+                                            alt="{{ $business->name }} - slika {{ $index + 1 }}"
+                                            class="w-full h-20 object-cover"
+                                            @click="currentIndex = {{ $index }}; changeMainBusinessImage('{{ Storage::url($image->path) }}', $el)">
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </x-image-lightbox>
                 </div>
             @endif
         </div>
@@ -282,3 +317,22 @@
 </div>
 
 @include('livewire.components.share-popup')
+
+<script>
+    function changeMainBusinessImage(src, element) {
+        // Postavi glavnu sliku
+        document.getElementById('mainBusinessImage').src = src;
+
+        // Ukloni prethodni border
+        document.querySelectorAll('.border-purple-500').forEach(item => {
+            item.classList.remove('border-purple-500');
+            item.classList.add('border-slate-200', 'dark:border-slate-600');
+        });
+
+        // Dodaj border na selektovanu sliku
+        if (element && element.parentElement) {
+            element.parentElement.classList.remove('border-slate-200', 'dark:border-slate-600');
+            element.parentElement.classList.add('border-purple-500');
+        }
+    }
+</script>
