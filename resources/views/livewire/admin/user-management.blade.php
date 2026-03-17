@@ -1040,7 +1040,7 @@
             <!-- Verification Modal -->
             @if ($showVerificationModal && $selectedUser)
                 <div class="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-                    <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+                    <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
                         <div class="mt-3">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="text-lg font-medium text-slate-900">
@@ -1086,6 +1086,53 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <!-- Verification Documents -->
+                            @if ($selectedUser->verificationDocument)
+                                <div class="bg-sky-50 p-4 rounded-lg mb-4">
+                                    <h4 class="text-sm font-semibold text-slate-700 mb-3">
+                                        <i class="fas fa-file-alt text-sky-600 mr-1"></i> Podneti dokumenti
+                                    </h4>
+                                    <div class="grid grid-cols-2 gap-3 mb-3">
+                                        <div>
+                                            <p class="text-xs text-slate-500 mb-1">Prednja strana LK</p>
+                                            <a href="{{ Storage::url($selectedUser->verificationDocument->id_front_path) }}"
+                                                target="_blank" class="block">
+                                                <img src="{{ Storage::url($selectedUser->verificationDocument->id_front_path) }}"
+                                                    alt="Prednja strana LK" class="w-full rounded border border-slate-200 hover:opacity-80 transition">
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500 mb-1">Zadnja strana LK</p>
+                                            <a href="{{ Storage::url($selectedUser->verificationDocument->id_back_path) }}"
+                                                target="_blank" class="block">
+                                                <img src="{{ Storage::url($selectedUser->verificationDocument->id_back_path) }}"
+                                                    alt="Zadnja strana LK" class="w-full rounded border border-slate-200 hover:opacity-80 transition">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2 text-sm">
+                                        <div>
+                                            <p class="text-xs text-slate-500">Ulica</p>
+                                            <p class="font-medium text-slate-800">{{ $selectedUser->verificationDocument->street_address }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500">Broj</p>
+                                            <p class="font-medium text-slate-800">{{ $selectedUser->verificationDocument->street_number }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500">Grad</p>
+                                            <p class="font-medium text-slate-800">{{ $selectedUser->verificationDocument->city }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="bg-slate-50 p-3 rounded-lg mb-4 text-center">
+                                    <p class="text-sm text-slate-500">
+                                        <i class="fas fa-info-circle mr-1"></i> Korisnik nije podneo dokumente za verifikaciju.
+                                    </p>
+                                </div>
+                            @endif
 
                             <!-- Comment Field -->
                             <div class="mb-4">

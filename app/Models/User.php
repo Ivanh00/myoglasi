@@ -89,6 +89,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(User::class, 'verified_by');
     }
 
+    public function verificationDocument()
+    {
+        return $this->hasOne(VerificationDocument::class);
+    }
+
     // Verification helper methods
     public function isVerified()
     {

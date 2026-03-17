@@ -287,6 +287,17 @@
                                                 Balans
                                             </x-dropdown-link>
 
+                                            <x-dropdown-link href="{{ route('verification.request') }}"
+                                                class="{{ auth()->user()->isVerified() ? '!bg-green-50 !text-green-700 dark:!bg-green-900/50 dark:!text-green-300' : (auth()->user()->isPendingVerification() ? '!bg-amber-50 !text-amber-700 dark:!bg-amber-900/50 dark:!text-amber-300' : '') }}">
+                                                @if(auth()->user()->isVerified())
+                                                    <i class="fas fa-check-circle text-green-600 mr-2"></i> Verifikovan
+                                                @elseif(auth()->user()->isPendingVerification())
+                                                    <i class="fas fa-clock text-amber-600 mr-2"></i> Verifikacija (na čekanju)
+                                                @else
+                                                    <i class="fas fa-user-shield mr-2"></i> Verifikuj nalog
+                                                @endif
+                                            </x-dropdown-link>
+
                                             <x-dropdown-link href="{{ route('admin.contact') }}">
                                                 Piši Adminu
                                             </x-dropdown-link>
@@ -528,6 +539,16 @@
                         <a href="{{ route('balance.index') }}"
                             class="text-slate-700 dark:text-slate-200 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-medium">
                             Balans
+                        </a>
+                        <a href="{{ route('verification.request') }}"
+                            class="{{ auth()->user()->isVerified() ? '!bg-green-50 !text-green-700 dark:!bg-green-900/50 dark:!text-green-300' : (auth()->user()->isPendingVerification() ? '!bg-amber-50 !text-amber-700 dark:!bg-amber-900/50 dark:!text-amber-300' : 'text-slate-700 dark:text-slate-200 hover:text-slate-900') }} block px-3 py-2 rounded-md text-base font-medium">
+                            @if(auth()->user()->isVerified())
+                                <i class="fas fa-check-circle text-green-600 mr-2"></i> Verifikovan
+                            @elseif(auth()->user()->isPendingVerification())
+                                <i class="fas fa-clock text-amber-600 mr-2"></i> Verifikacija (na čekanju)
+                            @else
+                                <i class="fas fa-user-shield mr-2"></i> Verifikuj nalog
+                            @endif
                         </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

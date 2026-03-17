@@ -298,6 +298,9 @@ Route::middleware('auth')->get('/poruke/{slug}/system', [ConversationComponent::
     // Obaveštenja
 Route::middleware(['auth', 'conditional.verified'])->get('/obavestenja', Notifications::class)->name('notifications.index');
 
+// Verifikacija naloga
+Route::middleware(['auth'])->get('/verifikacija-naloga', \App\Livewire\VerificationRequest::class)->name('verification.request');
+
 
 // Services Routes
 Route::get('/services', \App\Livewire\Services\Index::class)->name('services.index');

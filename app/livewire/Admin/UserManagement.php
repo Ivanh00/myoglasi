@@ -430,7 +430,7 @@ class UserManagement extends Component
     public function openVerificationModal($userId)
     {
         $this->resetModals();
-        $this->selectedUser = User::findOrFail($userId);
+        $this->selectedUser = User::with('verificationDocument')->findOrFail($userId);
         $this->verificationComment = '';
         $this->showVerificationModal = true;
     }
