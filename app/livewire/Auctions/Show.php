@@ -366,10 +366,10 @@ class Show extends Component
 
         if ($previousWinningBid) {
             Message::create([
-                'sender_id' => 1, // System
+                'sender_id' => auth()->id(),
                 'receiver_id' => $previousWinningBid->user_id,
                 'listing_id' => $this->auction->listing_id,
-                'message' => "Vaša ponuda za '{$this->auction->listing->title}' je nadmašena. Nova najviša ponuda: " . 
+                'message' => "Vaša ponuda za '{$this->auction->listing->title}' je nadmašena. Nova najviša ponuda: " .
                             number_format($this->bidAmount, 0, ',', '.') . ' RSD.',
                 'subject' => 'Ponuda nadmašena - ' . $this->auction->listing->title,
                 'is_system_message' => true,
@@ -400,10 +400,10 @@ class Show extends Component
         }
 
         Message::create([
-            'sender_id' => 1, // System
+            'sender_id' => auth()->id(),
             'receiver_id' => $this->auction->user_id,
             'listing_id' => $this->auction->listing_id,
-            'message' => "Nova ponuda na vašoj aukciji '{$this->auction->listing->title}'. " . 
+            'message' => "Nova ponuda na vašoj aukciji '{$this->auction->listing->title}'. " .
                         "Ponuda: " . number_format($this->bidAmount, 0, ',', '.') . ' RSD od korisnika ' . auth()->user()->name . '.',
             'subject' => 'Nova ponuda - ' . $this->auction->listing->title,
             'is_system_message' => true,
@@ -450,7 +450,7 @@ class Show extends Component
 
         foreach ($bidders as $bid) {
             Message::create([
-                'sender_id' => 1, // System
+                'sender_id' => auth()->id(),
                 'receiver_id' => $bid->user_id,
                 'listing_id' => $auction->listing_id,
                 'message' => "Aukcija za '{$auction->listing->title}' je otkazana od strane vlasnika oglasa. " .

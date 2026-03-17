@@ -1,5 +1,5 @@
 <!-- resources/views/livewire/notifications.blade.php -->
-<div class="messages-container bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="messages-container bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
     <style>
         /* Dark mode hover fixes for notifications - scoped to messages-container to avoid debugbar conflicts */
         .dark .messages-container .conversation-item:hover {
@@ -141,6 +141,17 @@
                                 <div class="full-date">
                                     {{ $notification->created_at->format('d.m.Y. H:i') }}
                                 </div>
+                                <!-- Mark as read button -->
+                                @if (!$notification->is_read)
+                                    <button wire:click="markAsRead({{ $notification->id }})"
+                                        onclick="event.stopPropagation()"
+                                        style="padding: 4px; color: #0ea5e9; border: none; background: none; border-radius: 4px; cursor: pointer;"
+                                        onmouseover="this.style.backgroundColor='#e0f2fe'"
+                                        onmouseout="this.style.backgroundColor='transparent'"
+                                        title="Označi kao pročitano">
+                                        <i class="fas fa-check" style="font-size: 12px;"></i>
+                                    </button>
+                                @endif
                                 <!-- Delete button -->
                                 <button wire:click="deleteNotification({{ $notification->id }})"
                                     wire:confirm="Da li ste sigurni da želite da obrišete ovo obaveštenje? Biće sakriveno samo vama."
@@ -322,7 +333,7 @@
                                 </div>
 
                                 <!-- User information card if exists -->
-                                @if ($selectedNotification->sender && $selectedNotification->sender->id !== auth()->id())
+                                @if ($selectedNotification->sender && $selectedNotification->sender->id !== auth()->id() && !$selectedNotification->sender->is_admin)
                                     <div class="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4">
                                         <div class="flex items-start">
                                             <div class="flex-shrink-0 mr-3">
