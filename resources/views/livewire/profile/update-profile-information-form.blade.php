@@ -340,7 +340,7 @@ $removeAvatar = function () {
 
         <!-- Avatar -->
         <div>
-            <x-input-label for="avatar" :value="__('Profile Picture')" />
+            <x-input-label for="avatar" :value="__('Profilna slika')" />
 
             @if (auth()->user()->avatar && !$remove_avatar)
                 <div class="mt-2 mb-2 flex items-center">
@@ -354,8 +354,14 @@ $removeAvatar = function () {
             @endif
 
             @if (!$remove_avatar)
-                <x-text-input wire:model="avatar" id="avatar" name="avatar" type="file"
-                    class="mt-1 block w-full" />
+                <div class="mt-1">
+                    <input wire:model="avatar" id="avatar" name="avatar" type="file"
+                        class="hidden" x-ref="fileInput" />
+                    <button type="button" x-on:click="$refs.fileInput.click()"
+                        class="px-4 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors cursor-pointer">
+                        Izmeni sliku
+                    </button>
+                </div>
                 <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
 
                 @if ($avatar)
@@ -372,10 +378,10 @@ $removeAvatar = function () {
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('Sačuvaj') }}</x-primary-button>
 
             <x-action-message class="me-3" on="profile-updated">
-                {{ __('Saved.') }}
+                {{ __('Sačuvano.') }}
             </x-action-message>
         </div>
     </form>

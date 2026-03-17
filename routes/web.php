@@ -110,7 +110,7 @@ Route::middleware(['auth'])->group(function () {
         return redirect('/');
     })->name('logout');
 });
-Route::get('/profile', function () {
+Route::get('/profil', function () {
     $user = auth()->user();
 
     $cities = [
@@ -210,7 +210,7 @@ Route::get('/listings/{listing}/edit', \App\Livewire\Listings\Edit::class)
     // Route::get('/listings/{listing:slug}/edit', \App\Livewire\Listings\Edit::class)
     // ->middleware('auth')
     // ->name('listings.edit');
-    Route::view('/profile', 'profile')
+    Route::view('/profil', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
