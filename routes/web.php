@@ -300,6 +300,9 @@ Route::middleware(['auth', 'conditional.verified'])->get('/obavestenja', Notific
 
 // Verifikacija naloga
 Route::middleware(['auth'])->get('/verifikacija-naloga', \App\Livewire\VerificationRequest::class)->name('verification.request');
+Route::middleware(['auth'])->get('/admin/verification-document/{path}', [\App\Http\Controllers\VerificationDocumentController::class, 'show'])
+    ->where('path', '.*')
+    ->name('verification.document');
 
 
 // Services Routes

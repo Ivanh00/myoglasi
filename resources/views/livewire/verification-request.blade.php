@@ -64,34 +64,22 @@
             </div>
         </div>
 
-        {{-- Pending: show submitted documents --}}
+        {{-- Pending: show submitted info (without images for security) --}}
         @if ($status === 'pending' && $existingDocument)
             <div class="mx-4 sm:mx-0 p-4 sm:p-8 bg-white dark:bg-slate-800 shadow sm:rounded-lg">
-                <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">Podneti dokumenti</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">Podneti podaci</h3>
+                <div class="space-y-3">
                     <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Prednja strana LK</p>
-                        <img src="{{ Storage::url($existingDocument->id_front_path) }}" alt="Prednja strana LK"
-                            class="w-full rounded-lg border border-slate-200 dark:border-slate-600">
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Ime i prezime</p>
+                        <p class="text-slate-900 dark:text-slate-100">{{ $existingDocument->first_name }} {{ $existingDocument->last_name }}</p>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Zadnja strana LK</p>
-                        <img src="{{ Storage::url($existingDocument->id_back_path) }}" alt="Zadnja strana LK"
-                            class="w-full rounded-lg border border-slate-200 dark:border-slate-600">
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Adresa</p>
+                        <p class="text-slate-900 dark:text-slate-100">{{ $existingDocument->street_address }} {{ $existingDocument->street_number }}, {{ $existingDocument->city }}</p>
                     </div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Ulica</p>
-                        <p class="text-slate-900 dark:text-slate-100">{{ $existingDocument->street_address }}</p>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Broj</p>
-                        <p class="text-slate-900 dark:text-slate-100">{{ $existingDocument->street_number }}</p>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Grad</p>
-                        <p class="text-slate-900 dark:text-slate-100">{{ $existingDocument->city }}</p>
+                    <div class="flex items-center text-sm text-green-600 dark:text-green-400">
+                        <i class="fas fa-check mr-2"></i>
+                        Slike lične karte su uspešno podnete
                     </div>
                 </div>
             </div>
@@ -101,9 +89,29 @@
         @if (in_array($status, ['unverified', 'rejected']))
             <div class="mx-4 sm:mx-0 p-4 sm:p-8 bg-white dark:bg-slate-800 shadow sm:rounded-lg">
                 <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-1">Podnesite zahtev za verifikaciju</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Priložite slike lične karte (prednja i zadnja strana) i unesite adresu prebivališta.</p>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Unesite vaše ime i prezime, priložite slike lične karte (prednja i zadnja strana) i unesite adresu prebivališta.</p>
 
                 <form wire:submit="submit" class="space-y-6">
+                    {{-- Name fields --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                                Ime <span class="text-red-500">*</span>
+                            </label>
+                            <input wire:model="firstName" type="text" id="firstName"
+                                class="w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
+                            @error('firstName') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                                Prezime <span class="text-red-500">*</span>
+                            </label>
+                            <input wire:model="lastName" type="text" id="lastName"
+                                class="w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
+                            @error('lastName') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
+
                     {{-- ID Front --}}
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -113,12 +121,6 @@
                             <div class="mb-2">
                                 <img src="{{ $idFront->temporaryUrl() }}" alt="Preview prednja strana"
                                     class="max-h-48 rounded-lg border border-slate-200 dark:border-slate-600">
-                            </div>
-                        @elseif ($existingDocument && $status === 'rejected')
-                            <div class="mb-2">
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Prethodna slika:</p>
-                                <img src="{{ Storage::url($existingDocument->id_front_path) }}" alt="Prethodna prednja strana"
-                                    class="max-h-48 rounded-lg border border-slate-200 dark:border-slate-600 opacity-60">
                             </div>
                         @endif
                         <input wire:model="idFront" type="file" accept="image/*"
@@ -142,12 +144,6 @@
                             <div class="mb-2">
                                 <img src="{{ $idBack->temporaryUrl() }}" alt="Preview zadnja strana"
                                     class="max-h-48 rounded-lg border border-slate-200 dark:border-slate-600">
-                            </div>
-                        @elseif ($existingDocument && $status === 'rejected')
-                            <div class="mb-2">
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Prethodna slika:</p>
-                                <img src="{{ Storage::url($existingDocument->id_back_path) }}" alt="Prethodna zadnja strana"
-                                    class="max-h-48 rounded-lg border border-slate-200 dark:border-slate-600 opacity-60">
                             </div>
                         @endif
                         <input wire:model="idBack" type="file" accept="image/*"

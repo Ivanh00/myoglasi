@@ -8,6 +8,8 @@ class VerificationDocument extends Model
 {
     protected $fillable = [
         'user_id',
+        'first_name',
+        'last_name',
         'id_front_path',
         'id_back_path',
         'street_address',

@@ -1089,40 +1089,51 @@
 
                             <!-- Verification Documents -->
                             @if ($selectedUser->verificationDocument)
+                                @php $doc = $selectedUser->verificationDocument; @endphp
                                 <div class="bg-sky-50 p-4 rounded-lg mb-4">
                                     <h4 class="text-sm font-semibold text-slate-700 mb-3">
                                         <i class="fas fa-file-alt text-sky-600 mr-1"></i> Podneti dokumenti
                                     </h4>
+
+                                    {{-- Name --}}
+                                    <div class="mb-3 p-2 bg-white rounded">
+                                        <p class="text-xs text-slate-500">Ime i prezime</p>
+                                        <p class="font-semibold text-slate-800">{{ $doc->first_name }} {{ $doc->last_name }}</p>
+                                    </div>
+
+                                    {{-- ID Images --}}
                                     <div class="grid grid-cols-2 gap-3 mb-3">
                                         <div>
                                             <p class="text-xs text-slate-500 mb-1">Prednja strana LK</p>
-                                            <a href="{{ Storage::url($selectedUser->verificationDocument->id_front_path) }}"
+                                            <a href="{{ route('verification.document', str_replace('verification_documents/', '', $doc->id_front_path)) }}"
                                                 target="_blank" class="block">
-                                                <img src="{{ Storage::url($selectedUser->verificationDocument->id_front_path) }}"
+                                                <img src="{{ route('verification.document', str_replace('verification_documents/', '', $doc->id_front_path)) }}"
                                                     alt="Prednja strana LK" class="w-full rounded border border-slate-200 hover:opacity-80 transition">
                                             </a>
                                         </div>
                                         <div>
                                             <p class="text-xs text-slate-500 mb-1">Zadnja strana LK</p>
-                                            <a href="{{ Storage::url($selectedUser->verificationDocument->id_back_path) }}"
+                                            <a href="{{ route('verification.document', str_replace('verification_documents/', '', $doc->id_back_path)) }}"
                                                 target="_blank" class="block">
-                                                <img src="{{ Storage::url($selectedUser->verificationDocument->id_back_path) }}"
+                                                <img src="{{ route('verification.document', str_replace('verification_documents/', '', $doc->id_back_path)) }}"
                                                     alt="Zadnja strana LK" class="w-full rounded border border-slate-200 hover:opacity-80 transition">
                                             </a>
                                         </div>
                                     </div>
+
+                                    {{-- Address --}}
                                     <div class="grid grid-cols-3 gap-2 text-sm">
                                         <div>
                                             <p class="text-xs text-slate-500">Ulica</p>
-                                            <p class="font-medium text-slate-800">{{ $selectedUser->verificationDocument->street_address }}</p>
+                                            <p class="font-medium text-slate-800">{{ $doc->street_address }}</p>
                                         </div>
                                         <div>
                                             <p class="text-xs text-slate-500">Broj</p>
-                                            <p class="font-medium text-slate-800">{{ $selectedUser->verificationDocument->street_number }}</p>
+                                            <p class="font-medium text-slate-800">{{ $doc->street_number }}</p>
                                         </div>
                                         <div>
                                             <p class="text-xs text-slate-500">Grad</p>
-                                            <p class="font-medium text-slate-800">{{ $selectedUser->verificationDocument->city }}</p>
+                                            <p class="font-medium text-slate-800">{{ $doc->city }}</p>
                                         </div>
                                     </div>
                                 </div>

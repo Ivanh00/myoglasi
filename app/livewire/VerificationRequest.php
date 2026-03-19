@@ -15,6 +15,8 @@ class VerificationRequest extends Component
 
     public $idFront;
     public $idBack;
+    public $firstName = '';
+    public $lastName = '';
     public $streetAddress = '';
     public $streetNumber = '';
     public $city = '';
@@ -30,19 +32,16 @@ class VerificationRequest extends Component
         $this->city = $user->city ?? '';
         $this->existingDocument = $user->verificationDocument;
 
-        if ($this->status === 'rejected') {
-            $this->rejectionComment = $user->verification_comment;
-            if ($this->existingDocument) {
-                $this->streetAddress = $this->existingDocument->street_address;
-                $this->streetNumber = $this->existingDocument->street_number;
-                $this->city = $this->existingDocument->city;
-            }
-        }
-
-        if ($this->existingDocument && in_array($this->status, ['pending', 'verified'])) {
+        if ($this->existingDocument) {
+            $this->firstName = $this->existingDocument->first_name;
+            $this->lastName = $this->existingDocument->last_name;
             $this->streetAddress = $this->existingDocument->street_address;
             $this->streetNumber = $this->existingDocument->street_number;
             $this->city = $this->existingDocument->city;
+        }
+
+        if ($this->status === 'rejected') {
+            $this->rejectionComment = $user->verification_comment;
         }
     }
 
@@ -56,12 +55,16 @@ class VerificationRequest extends Component
         }
 
         $this->validate([
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
             'idFront' => ['required', 'image', 'max:5120'],
             'idBack' => ['required', 'image', 'max:5120'],
             'streetAddress' => ['required', 'string', 'max:255'],
             'streetNumber' => ['required', 'string', 'max:20'],
             'city' => ['required', 'string', 'max:255'],
         ], [
+            'firstName.required' => 'Ime je obavezno.',
+            'lastName.required' => 'Prezime je obavezno.',
             'idFront.required' => 'Slika prednje strane lične karte je obavezna.',
             'idFront.image' => 'Fajl mora biti slika.',
             'idFront.max' => 'Slika ne sme biti veća od 5MB.',
@@ -76,17 +79,19 @@ class VerificationRequest extends Component
         // Delete old files if re-submitting
         $existing = $user->verificationDocument;
         if ($existing) {
-            Storage::disk('public')->delete($existing->id_front_path);
-            Storage::disk('public')->delete($existing->id_back_path);
+            Storage::disk('local')->delete($existing->id_front_path);
+            Storage::disk('local')->delete($existing->id_back_path);
         }
 
         $dir = 'verification_documents/' . $user->id;
-        $frontPath = $this->idFront->store($dir, 'public');
-        $backPath = $this->idBack->store($dir, 'public');
+        $frontPath = $this->idFront->store($dir, 'local');
+        $backPath = $this->idBack->store($dir, 'local');
 
         VerificationDocument::updateOrCreate(
             ['user_id' => $user->id],
             [
+                'first_name' => $this->firstName,
+                'last_name' => $this->lastName,
                 'id_front_path' => $frontPath,
                 'id_back_path' => $backPath,
                 'street_address' => $this->streetAddress,
@@ -101,8 +106,8 @@ class VerificationRequest extends Component
         Message::create([
             'sender_id' => $user->id,
             'receiver_id' => 1,
-            'message' => "Korisnik {$user->name} ({$user->email}) je zatražio verifikaciju naloga.",
-            'subject' => 'Zahtev za verifikaciju - ' . $user->name,
+            'message' => "Korisnik {$this->firstName} {$this->lastName} ({$user->email}) je zatražio verifikaciju naloga.",
+            'subject' => 'Zahtev za verifikaciju - ' . $this->firstName . ' ' . $this->lastName,
             'is_system_message' => true,
             'is_read' => false,
         ]);
